@@ -1,0 +1,42 @@
+name: Testing
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          node-version: 18
+      - run: yarn install
+      - run: yarn run nx run-many --target=lint --projects=akreditasi,akreditasi-api,evaluasi,evaluasi-api,auth-api,keuangan,keuangan-api,neo-feeder, neo-feeder-api,pegawai,pegawai-api,pmb,pmb-api,siakad,siakad-api,smart-dashboard,smart-dashboard-api,tata-usaha,tata-usaha-api,tracer,tracer-api
+
+  format-write:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          node-version: 18
+      - run: yarn install
+      - run: yarn run nx format:write
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          node-version: 18
+      - run: yarn install
+      - run: yarn run nx run-many --target=build --projects=akreditasi,akreditasi-api,evaluasi,evaluasi-api,auth-api,keuangan,keuangan-api,neo-feeder, neo-feeder-api,pegawai,pegawai-api,pmb,pmb-api,siakad,siakad-api,smart-dashboard,smart-dashboard-api,tata-usaha,tata-usaha-api,tracer,tracer-api
+
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          node-version: 18
+      - run: yarn install
+      - run: yarn run nx reset
