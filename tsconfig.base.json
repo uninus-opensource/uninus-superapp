@@ -14,7 +14,18 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@uninus/components": ["libs/components/src/index.ts"],
+      "@uninus/components/server": ["libs/components/src/server.ts"],
+      "@uninus/controllers": ["libs/controllers/src/index.ts"],
+      "@uninus/entities": ["libs/entities/src/index.ts"],
+      "@uninus/modules": ["libs/modules/src/index.ts"],
+      "@uninus/modules/server": ["libs/modules/src/server.ts"],
+      "@uninus/providers": ["libs/providers/src/index.ts"],
+      "@uninus/providers/server": ["libs/providers/src/server.ts"],
+      "@uninus/services": ["libs/services/src/index.ts"],
+      "@uninus/services/server": ["libs/services/src/server.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
