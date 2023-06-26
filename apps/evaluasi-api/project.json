@@ -1,0 +1,64 @@
+{
+  "name": "evaluasi-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/evaluasi-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/evaluasi-api",
+        "main": "apps/evaluasi-api/src/main.ts",
+        "tsConfig": "apps/evaluasi-api/tsconfig.app.json",
+        "assets": ["apps/evaluasi-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/evaluasi-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "evaluasi-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "evaluasi-api:build:development"
+        },
+        "production": {
+          "buildTarget": "evaluasi-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/evaluasi-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/evaluasi-api/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

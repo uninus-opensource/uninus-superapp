@@ -1,0 +1,64 @@
+{
+  "name": "smart-dashboard-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/smart-dashboard-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/smart-dashboard-api",
+        "main": "apps/smart-dashboard-api/src/main.ts",
+        "tsConfig": "apps/smart-dashboard-api/tsconfig.app.json",
+        "assets": ["apps/smart-dashboard-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/smart-dashboard-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "smart-dashboard-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "smart-dashboard-api:build:development"
+        },
+        "production": {
+          "buildTarget": "smart-dashboard-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/smart-dashboard-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/smart-dashboard-api/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
