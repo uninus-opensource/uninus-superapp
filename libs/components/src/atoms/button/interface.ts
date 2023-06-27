@@ -6,4 +6,6 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: BUTTON_VARIANT;
   loading?: boolean;
   href?: string;
+  width?: string;
+  height?: string;
 }
