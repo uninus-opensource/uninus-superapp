@@ -1,11 +1,7 @@
+import { PaginateFunction } from '@uninus/entities';
+import { paginator } from './paginator';
+
 export const MetaPrefix = (data: unknown) => {
-  return {
-    message: 'Welcome to auth-api!',
-    data,
-    meta: {
-      page: 1,
-      per_page: 1,
-      total_page: 1,
-    },
-  };
+  const paginate: PaginateFunction = paginator({ perPage: 10 });
+  return paginate(data);
 };

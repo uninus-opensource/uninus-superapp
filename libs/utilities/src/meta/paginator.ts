@@ -9,8 +9,8 @@ export const paginator = (
 
     const skip = page > 0 ? perPage * (page - 1) : 0;
     const [total, data] = await Promise.all([
-      model.count({ where: args.where }),
-      model.findMany({
+      model?.count({ where: args.where }),
+      model?.findMany({
         ...args,
         take: perPage,
         skip,
@@ -31,3 +31,5 @@ export const paginator = (
     };
   };
 };
+
+export const paginate: PaginateFunction = paginator({ perPage: 10 });
