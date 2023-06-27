@@ -9,12 +9,14 @@ export const Button: FC<IButtonProps> = ({
   loading = false,
   size = BUTTON_SIZE.SM,
   variant = BUTTON_VARIANT.PRIMARY,
+  width = 'w-auto',
+  height = 'h-auto',
   ...props
 }): ReactElement => {
-  const buttonSize = clsx('w-full text-center hover:opacity-75', {
-    'p-2 h-10 text-sm': size === BUTTON_SIZE.SM,
-    'p-4 h-14 text-md': size === BUTTON_SIZE.MD,
-    'p-6 h-18 text-lg': size === BUTTON_SIZE.LG,
+  const buttonSize = clsx(`text-center hover:opacity-75 ${width} ${height}`, {
+    'p-2 text-sm': size === BUTTON_SIZE.SM,
+    'p-4 text-md': size === BUTTON_SIZE.MD,
+    'p-6 text-lg': size === BUTTON_SIZE.LG,
   });
 
   const buttonVariant = clsx(
@@ -35,7 +37,7 @@ export const Button: FC<IButtonProps> = ({
     }
   );
 
-  const className = [...buttonVariant, ...buttonSize].join('');
+  const className = [...buttonVariant, ...buttonSize, width].join('');
 
   return (
     <Fragment>
