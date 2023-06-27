@@ -21,7 +21,8 @@
       "@uninus/models": ["libs/models/src/index.ts"],
       "@uninus/modules": ["libs/modules/src/index.ts"],
       "@uninus/providers": ["libs/providers/src/index.ts"],
-      "@uninus/services": ["libs/services/src/index.ts"]
+      "@uninus/services": ["libs/services/src/index.ts"],
+      "@uninus/utilities": ["libs/utilities/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

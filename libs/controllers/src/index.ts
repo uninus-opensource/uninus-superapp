@@ -1,1 +1,1 @@
-export * from './lib/controllers.module';
+export * from './auth';

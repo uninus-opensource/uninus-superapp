@@ -14,7 +14,6 @@
         "outputPath": "dist/apps/auth-api",
         "main": "apps/auth-api/src/main.ts",
         "tsConfig": "apps/auth-api/tsconfig.app.json",
-        "assets": ["apps/auth-api/src/assets"],
         "isolatedConfig": true,
         "webpackConfig": "apps/auth-api/webpack.config.js"
       },
