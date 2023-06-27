@@ -18,6 +18,7 @@
       "@uninus/components": ["libs/components/src/index.ts"],
       "@uninus/controllers": ["libs/controllers/src/index.ts"],
       "@uninus/entities": ["libs/entities/src/index.ts"],
+      "@uninus/models": ["libs/models/src/index.ts"],
       "@uninus/modules": ["libs/modules/src/index.ts"],
       "@uninus/providers": ["libs/providers/src/index.ts"],
       "@uninus/services": ["libs/services/src/index.ts"]
