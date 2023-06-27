@@ -9,11 +9,7 @@ import { Fragment, ReactElement } from 'react';
 const LandingPage: NextPage = (): ReactElement => {
   return (
     <Fragment>
-      <Button
-        href="https://litera.uninus.ac.id/uninus/login.jsp "
-        width="w-[10vw]"
-        height="h-[10vh]"
-      >
+      <Button href="https://litera.uninus.ac.id/uninus/login.jsp">
         LITERA
       </Button>
       <Button variant={BUTTON_VARIANT.ERROR}>Waduh</Button>
