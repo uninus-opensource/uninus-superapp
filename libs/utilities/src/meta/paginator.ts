@@ -32,4 +32,4 @@ export const paginator = (
   };
 };
 
-export const paginate: PaginateFunction = paginator({ perPage: 10 });
+export const paginate: PaginateFunction = paginator({});

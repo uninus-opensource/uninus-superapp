@@ -13,6 +13,8 @@ model Users {
   nik                 String   @unique
   email               String   @unique 
   fullname            String?
+  password            String
+  refresh_token       String?
   role_id             Int?
   role                Roles?   @relation(fields: [role_id], references: [id])
   students            Students?

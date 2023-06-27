@@ -5,6 +5,7 @@
   "scripts": {},
   "private": true,
   "dependencies": {
+    "@mobily/ts-belt": "^3.13.1",
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
@@ -18,7 +19,8 @@
     "react-hook-form": "^7.45.0",
     "react-icons": "^4.10.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "ts-pattern": "^5.0.1"
   },
   "prisma": {
     "schema": "libs/models/src/prisma/schema.prisma"

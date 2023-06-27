@@ -1,5 +1,4 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { AuthService } from '@uninus/services';
 
 @Controller()
@@ -8,13 +7,33 @@ export class AuthController {
   @Get('/')
   getData(
     @Query('page') page: number,
-    @Query('orderBy') orderBy: Prisma.UsersOrderByWithRelationInput,
-    @Query('where') where: Prisma.UsersWhereInput
+    @Query('per_page') perPage: number,
+    @Query('order_by') orderBy: 'asc' | 'desc',
+    @Query('filter_by') filterBy: string,
+    @Query('search') search: string
   ) {
     return this.appService.getUser({
-      where,
-      orderBy,
+      where: {
+        OR: [
+          {
+            fullname: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            email: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+      orderBy: {
+        [filterBy]: orderBy,
+      },
       page,
+      perPage,
     });
   }
 }

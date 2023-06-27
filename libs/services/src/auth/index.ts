@@ -6,8 +6,7 @@ import { paginate } from '@uninus/utilities';
 @Injectable()
 export class AuthService {
   constructor(private prisma: PrismaService) {}
-
-  async getUser({ where, orderBy, page }: TPaginationArgs) {
+  async getUser({ where, orderBy, page, perPage }: TPaginationArgs) {
     return paginate(
       this.prisma.users,
       {
@@ -16,6 +15,7 @@ export class AuthService {
       },
       {
         page,
+        perPage,
       }
     );
   }
