@@ -1,64 +1,59 @@
 'use client';
 import { Fragment, ReactElement } from 'react';
-import { TextField, Button } from '@uninus/components';
-import { BUTTON_VARIANT } from 'libs/components/src/atoms/button/enums';
 import { useForm } from 'react-hook-form';
+import {
+  CheckBox,
+  CHECKBOX_VARIANT,
+  CHECKBOX_SIZE,
+  LABEL_SIZE,
+  STATUS_MESSAGE,
+} from '@uninus/components';
 
 const LandingPage = (): ReactElement => {
   const { control } = useForm({
     defaultValues: {
-      name: 'text field',
+      checkboxField: false,
     },
   });
+
   return (
-    <Fragment>
-      <Button href="https://litera.uninus.ac.id/uninus/login.jsp">
-        LITERA
-      </Button>
-      <Button variant={BUTTON_VARIANT.ERROR}>Waduh</Button>
-      <TextField
-        required
+    <div className="flex flex-col justify-center items-center h-screen gap-4">
+      <CheckBox
         control={control}
-        name={'name'}
-        label="Nama Lengkap"
-        placeholder="Masukkan Nama Anda"
-        variant="lg"
-        message="Berhasil Memvalidasi"
-        status="success"
-      />
-      <TextField
+        name={'checkboxField'}
         required
-        control={control}
-        name={'name'}
-        label="Nama Lengkap"
-        placeholder="Masukkan Nama Anda"
-        variant="md"
-        message="Gagal tidak valid"
-        status="error"
+        variant={CHECKBOX_VARIANT.PRIMARY}
+        size={CHECKBOX_SIZE.SM}
+        labelSize={LABEL_SIZE.SM}
+        label="Setuju"
+        message="Valid"
+        messageStatus={STATUS_MESSAGE.SUCCESS}
       />
-      <TextField
+
+      <CheckBox
+        control={control}
+        name={'checkboxField'}
         required
-        control={control}
-        name={'name'}
-        label="Nama Lengkap"
-        placeholder="Masukkan Nama Anda"
-        variant="sm"
-        message="Kurang banyak"
-        status="warning"
+        variant={CHECKBOX_VARIANT.ERROR}
+        size={CHECKBOX_SIZE.SM}
+        labelSize={LABEL_SIZE.SM}
+        label="Setuju"
+        message="Valid"
+        messageStatus={STATUS_MESSAGE.ERROR}
       />
-      <TextField
+
+      <CheckBox
+        control={control}
+        name={'checkboxField'}
         required
-        type="password"
-        control={control}
-        name={'name'}
-        label="Kata Sandi"
-        placeholder="Masukkan Nama Anda"
-        variant="lg"
-        message="Berhasil Memvalidasi"
-        status="none"
-        hint="Password setidaknya ada 8 karakter"
+        variant={CHECKBOX_VARIANT.WARNING}
+        size={CHECKBOX_SIZE.SM}
+        labelSize={LABEL_SIZE.SM}
+        label="Setuju"
+        message="Valid"
+        messageStatus={STATUS_MESSAGE.WARNING}
       />
-    </Fragment>
+    </div>
   );
 };
 
