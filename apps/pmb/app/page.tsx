@@ -1,14 +1,7 @@
 'use client';
 import { Fragment, ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  CheckBox,
-  CHECKBOX_VARIANT,
-  CHECKBOX_SIZE,
-  LABEL_SIZE,
-  STATUS_MESSAGE,
-  SelectField,
-} from '@uninus/components';
+import { Button, CheckBox, SelectField } from '@uninus/components';
 
 const LandingPage = (): ReactElement => {
   const { control } = useForm({
@@ -23,36 +16,33 @@ const LandingPage = (): ReactElement => {
         control={control}
         name={'checkboxField'}
         required
-        variant={CHECKBOX_VARIANT.PRIMARY}
-        size={CHECKBOX_SIZE.SM}
-        labelSize={LABEL_SIZE.SM}
+        variant="primary"
+        size="sm"
+        labelSize="sm"
         label="Setuju"
         message="Valid"
-        messageStatus={STATUS_MESSAGE.SUCCESS}
       />
 
       <CheckBox
         control={control}
         name={'checkboxField'}
         required
-        variant={CHECKBOX_VARIANT.ERROR}
-        size={CHECKBOX_SIZE.SM}
-        labelSize={LABEL_SIZE.SM}
+        variant="error"
+        size="md"
+        labelSize="md"
         label="Setuju"
         message="Valid"
-        messageStatus={STATUS_MESSAGE.ERROR}
       />
 
       <CheckBox
         control={control}
         name={'checkboxField'}
         required
-        variant={CHECKBOX_VARIANT.WARNING}
-        size={CHECKBOX_SIZE.SM}
-        labelSize={LABEL_SIZE.SM}
+        variant="warning"
+        size="lg"
+        labelSize="lg"
         label="Setuju"
         message="Valid"
-        messageStatus={STATUS_MESSAGE.WARNING}
       />
       <div className="flex gap-2">
         <div className="mb-2">
@@ -83,6 +73,17 @@ const LandingPage = (): ReactElement => {
           options={['Mahasiswa', 'Dosen', 'Staff']}
           message="success sample"
         />
+      </div>
+      <div className="flex gap-4">
+        <Button variant="primary" size="sm" width="w-28" height="h-8">
+          Test
+        </Button>
+        <Button variant="error" size="sm" width="w-28" height="h-8">
+          Test
+        </Button>
+        <Button variant="warning" size="sm" width="w-28" height="h-8">
+          Test
+        </Button>
       </div>
     </div>
   );
