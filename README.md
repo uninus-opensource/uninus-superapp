@@ -12,6 +12,7 @@
 - PMB
 - SIAKAD (Litera)
 - SmartDashboard
+- LMS
 
 ## Demo Aplikasi
 
