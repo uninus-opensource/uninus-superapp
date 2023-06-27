@@ -27,4 +27,5 @@ export type TPaginationArgs = {
   where?: Prisma.UsersWhereInput;
   orderBy?: Prisma.UsersOrderByWithRelationInput;
   page?: number;
+  perPage?: number;
 };
