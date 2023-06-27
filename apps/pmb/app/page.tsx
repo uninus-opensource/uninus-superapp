@@ -7,6 +7,7 @@ import {
   CHECKBOX_SIZE,
   LABEL_SIZE,
   STATUS_MESSAGE,
+  SelectField,
 } from '@uninus/components';
 
 const LandingPage = (): ReactElement => {
@@ -53,6 +54,36 @@ const LandingPage = (): ReactElement => {
         message="Valid"
         messageStatus={STATUS_MESSAGE.WARNING}
       />
+      <div className="flex gap-2">
+        <div className="mb-2">
+          <SelectField
+            name="peran"
+            label="Peran"
+            size="md"
+            placeholder="pilih peran"
+            status="none"
+            options={['Mahasiswa', 'Dosen', 'Staff']}
+          />
+        </div>
+        <SelectField
+          name="peran"
+          label="Peran"
+          size="md"
+          placeholder="pilih peran"
+          status="error"
+          options={['Mahasiswa', 'Dosen', 'Staff']}
+          message="error sample"
+        />
+        <SelectField
+          name="peran"
+          label="Peran"
+          size="md"
+          placeholder="pilih peran"
+          status="success"
+          options={['Mahasiswa', 'Dosen', 'Staff']}
+          message="success sample"
+        />
+      </div>
     </div>
   );
 };
