@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@uninus/services';
+import { MetaPrefix } from '@uninus/utilities';
 
 @Injectable()
 export class AppService {
@@ -7,6 +8,7 @@ export class AppService {
 
   async getUser() {
     const userData = this.prisma.users.findMany();
-    return userData;
+    const data = await userData;
+    return MetaPrefix(data);
   }
 }
