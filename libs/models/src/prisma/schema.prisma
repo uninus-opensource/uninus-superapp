@@ -9,67 +9,67 @@ generator client {
 }
 
 model Users {
-  id                  String   @unique @default(uuid())
-  nik                 String   @unique
-  email               String   @unique 
-  fullname            String?
-  password            String
-  refresh_token       String?
-  role_id             Int?
-  role                Roles?   @relation(fields: [role_id], references: [id])
-  students            Students?
-  lecturers           Lecturers?
-  employees           Employees?
-  createdAt           DateTime @default(now())
+  id            String     @unique @default(uuid())
+  nik           String     @unique
+  email         String     @unique
+  fullname      String?
+  password      String
+  refresh_token String?
+  role_id       Int?
+  role          Roles?     @relation(fields: [role_id], references: [id])
+  students      Students?
+  lecturers     Lecturers?
+  employees     Employees?
+  createdAt     DateTime   @default(now())
+  photo         String?    @default(dbgenerated("null"))
 }
 
 model Students {
-  id                  String   @unique @default(uuid())
-  nim                 String   @unique
-  user_id             String @unique
-  user                Users    @relation(fields: [user_id], references: [id])
-  createdAt           DateTime @default(now())
+  id        String   @unique @default(uuid())
+  nim       String   @unique
+  user_id   String   @unique
+  user      Users    @relation(fields: [user_id], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Lecturers {
-  id                  String   @unique @default(uuid())
-  nip                 String   @unique
-  user_id             String @unique
-  user                Users    @relation(fields: [user_id], references: [id])
-  createdAt           DateTime @default(now())
+  id        String   @unique @default(uuid())
+  nip       String   @unique
+  user_id   String   @unique
+  user      Users    @relation(fields: [user_id], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Employees {
-  id                  String   @unique @default(uuid())
-  nim                 String   @unique
-  user_id             String @unique
-  user                Users    @relation(fields: [user_id], references: [id])
-  createdAt           DateTime @default(now())
+  id        String   @unique @default(uuid())
+  nim       String   @unique
+  user_id   String   @unique
+  user      Users    @relation(fields: [user_id], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Roles {
-  id                  Int      @id @default(autoincrement())
-  name                String
-  users               Users[]
-  permissions         Permissions[]
-  roles_permissions   RolesPermissions[]
-  createdAt           DateTime @default(now())
+  id                Int                @id @default(autoincrement())
+  name              String
+  users             Users[]
+  permissions       Permissions[]
+  roles_permissions RolesPermissions[]
+  createdAt         DateTime           @default(now())
 }
 
 model Permissions {
-  id                  Int      @id @default(1)
-  name                String
-  roles               Roles[]
-  roles_permissions   RolesPermissions[]
-  createdAt           DateTime @default(now())
+  id                Int                @id @default(1)
+  name              String
+  roles             Roles[]
+  roles_permissions RolesPermissions[]
+  createdAt         DateTime           @default(now())
 }
 
 model RolesPermissions {
-  id                  Int      @id @default(autoincrement())
-  role_id             Int
-  permission_id       Int
-  role                Roles    @relation(fields: [role_id], references: [id])
-  permission          Permissions @relation(fields: [permission_id], references: [id])
-  createdAt           DateTime @default(now())
+  id            Int         @id @default(autoincrement())
+  role_id       Int
+  permission_id Int
+  role          Roles       @relation(fields: [role_id], references: [id])
+  permission    Permissions @relation(fields: [permission_id], references: [id])
+  createdAt     DateTime    @default(now())
 }
-
