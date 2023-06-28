@@ -1,5 +1,6 @@
 export type TSelectType = {
     label: string,
+    value: string,
     size: "sm" | "md",
     name: string,
     options: string[],

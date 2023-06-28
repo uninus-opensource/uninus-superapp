@@ -55,6 +55,7 @@ const LandingPage = (): ReactElement => {
               placeholder="pilih peran"
               status="none"
               options={['Mahasiswa', 'Dosen', 'Staff']}
+              value="Dosen"
             />
           </div>
           <SelectField
@@ -65,6 +66,7 @@ const LandingPage = (): ReactElement => {
             status="error"
             options={['Mahasiswa', 'Dosen', 'Staff']}
             message="error sample"
+            value="Mahasiswa"
           />
           <SelectField
             name="peran"
@@ -74,6 +76,7 @@ const LandingPage = (): ReactElement => {
             status="success"
             options={['Mahasiswa', 'Dosen', 'Staff']}
             message="success sample"
+            value="Staff"
           />
         </div>
         <div className="flex gap-4">

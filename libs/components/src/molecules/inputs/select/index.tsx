@@ -20,9 +20,7 @@ export const SelectField: FC<TSelectType> = (props): ReactElement => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-1">
-      <label htmlFor={props.name} className={labelClassName}>
-        {props.label}
-      </label>
+      <label htmlFor={props.name}>{props.label}</label>
       <select name={props.name} className={selectClassName} defaultValue="">
         <option value="" disabled>
           {props.placeholder}
