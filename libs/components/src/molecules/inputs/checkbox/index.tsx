@@ -1,19 +1,14 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { FieldValues, useController } from 'react-hook-form';
 import { TCheckBoxProps } from './type';
-import {
-  CHECKBOX_SIZE,
-  CHECKBOX_VARIANT,
-  LABEL_SIZE,
-  STATUS_MESSAGE,
-} from './enum';
+import { CHECKBOX_SIZE, CHECKBOX_VARIANT, LABEL_SIZE } from './enum';
 import clsx from 'clsx';
 
 export const CheckBox = <T extends FieldValues>({
   variant = CHECKBOX_VARIANT.PRIMARY,
   size = CHECKBOX_SIZE.SM,
   labelSize = LABEL_SIZE.SM,
-  messageStatus,
+
   ...props
 }: TCheckBoxProps<T>): ReactElement => {
   const checkboxSize = clsx('rounded-sm p-2', {
@@ -23,12 +18,12 @@ export const CheckBox = <T extends FieldValues>({
   });
 
   const checkboxVariant = clsx(
-    'bg-gray-300 border-gray-300 appearance-none checked:scale-110 duration-300',
+    'bg-gray-300 border-gray-300 checked:scale-110 duration-300',
     {
-      'checked:bg-green-400 text-green-600':
+      'accent-green-300 focus:accent-green-400':
         variant === CHECKBOX_VARIANT.PRIMARY,
-      'checked:bg-red-400 text-red-600': variant === CHECKBOX_VARIANT.ERROR,
-      'checked:bg-yellow-400 text-yellow-600':
+      'accent-red-300 focus:accent-red-400': variant === CHECKBOX_VARIANT.ERROR,
+      'accent-yellow-300 focus:accent-yellow-400':
         variant === CHECKBOX_VARIANT.WARNING,
     }
   );
@@ -39,18 +34,9 @@ export const CheckBox = <T extends FieldValues>({
     'text-lg': labelSize === LABEL_SIZE.LG,
   });
 
-  const statusMessage = clsx('text-sm font-semibold', {
-    'text-green-500': messageStatus === STATUS_MESSAGE.SUCCESS,
-    'text-red-500': messageStatus === STATUS_MESSAGE.ERROR,
-    'text-yellow-500': messageStatus === STATUS_MESSAGE.WARNING,
-  });
-
   const className = `${checkboxSize} ${checkboxVariant}`;
 
-  const {
-    field,
-    fieldState: { invalid, error },
-  } = useController({
+  const { field } = useController({
     ...props,
     rules: {
       required: props.required,
@@ -69,7 +55,6 @@ export const CheckBox = <T extends FieldValues>({
           {props.label}
         </label>
       </div>
-      {invalid && <span className={statusMessage}>{error?.message}</span>}
     </section>
   );
 };

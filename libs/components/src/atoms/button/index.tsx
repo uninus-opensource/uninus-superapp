@@ -20,17 +20,17 @@ export const Button: FC<IButtonProps> = ({
   });
 
   const buttonVariant = clsx(
-    'rounded-lg font-medium disabled:bg-gray-400 disabled:text-gray-50 disabled:border-gray-400 appearance-none',
+    'rounded-lg font-medium disabled:bg-gray-400 disabled:text-gray-50 disabled:border-gray-400 flex items-center justify-center',
     {
       'bg-green-500 text-white border border-green-500 ':
         variant === BUTTON_VARIANT.PRIMARY,
       'bg-white text-green-500 border border-green-500 ':
         variant === BUTTON_VARIANT.PRIMARY_OUTLINE,
-      'bg-red-600 text-white border border-red-600 ':
+      'bg-red-500 text-white border border-red-500 ':
         variant === BUTTON_VARIANT.ERROR,
       'bg-white text-red-600 border border-red-600 ':
         variant === BUTTON_VARIANT.ERROR_OUTLINE,
-      'bg-yellow-600 text-white border border-yellow-600 ':
+      'bg-yellow-500 text-white border border-yellow-500 ':
         variant === BUTTON_VARIANT.WARNING,
       'bg-white text-yellow-600 border border-yellow-600 ':
         variant === BUTTON_VARIANT.WARNING_OUTLINE,
