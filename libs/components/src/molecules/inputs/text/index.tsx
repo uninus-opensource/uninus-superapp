@@ -4,7 +4,7 @@ import { FieldValues, useController } from 'react-hook-form';
 import { TTextFieldProps } from './types';
 import clsx from 'clsx';
 import { MdCheck } from 'react-icons/md';
-import { EyeOpen, EyeSlash } from 'libs/components/src/atoms';
+import { EyeOpen, EyeSlash } from '../../../atoms/';
 
 export const TextField = <T extends FieldValues>({
   variant = 'md',

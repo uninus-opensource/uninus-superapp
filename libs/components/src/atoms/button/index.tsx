@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FC, Fragment, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { IButtonProps } from './interface';
 import { BUTTON_SIZE, BUTTON_VARIANT } from './enums';
 import Link from 'next/link';
@@ -13,45 +13,44 @@ export const Button: FC<IButtonProps> = ({
   height = 'h-auto',
   ...props
 }): ReactElement => {
-  const buttonSize = clsx(`text-center hover:opacity-75 ${width} ${height}`, {
+  const buttonSize = clsx(`text-center  ${width} ${height} `, {
     'p-2 text-sm': size === BUTTON_SIZE.SM,
-    'p-4 text-md': size === BUTTON_SIZE.MD,
+    'p-5 text-md': size === BUTTON_SIZE.MD,
     'p-6 text-lg': size === BUTTON_SIZE.LG,
   });
 
   const buttonVariant = clsx(
-    'rounded-lg font-medium disabled:bg-gray-400 disabled:text-gray-50 disabled:border-gray-400 flex items-center justify-center',
+    'font-medium disabled:bg-gray-400 disabled:text-gray-50 disabled:border-gray-400 flex items-center justify-center duration-200',
     {
-      'bg-green-500 text-white border border-green-500 ':
+      'bg-green-500 text-white border border-green-500 rounded-lg hover:opacity-75 ':
         variant === BUTTON_VARIANT.PRIMARY,
-      'bg-white text-green-500 border border-green-500 ':
+      'bg-white text-green-500 border border-green-500 rounded-lg hover:opacity-75 ':
         variant === BUTTON_VARIANT.PRIMARY_OUTLINE,
-      'bg-red-500 text-white border border-red-500 ':
+      'bg-red-500 text-white border border-red-500 rounded-lg hover:opacity-75 ':
         variant === BUTTON_VARIANT.ERROR,
-      'bg-white text-red-600 border border-red-600 ':
+      'bg-white text-red-600 border border-red-600 rounded-lg hover:opacity-75 ':
         variant === BUTTON_VARIANT.ERROR_OUTLINE,
-      'bg-yellow-500 text-white border border-yellow-500 ':
+      'bg-yellow-500 text-white border border-yellow-500 rounded-lg hover:opacity-75 ':
         variant === BUTTON_VARIANT.WARNING,
-      'bg-white text-yellow-600 border border-yellow-600 ':
+      'bg-white text-yellow-600 border border-yellow-600 rounded-lg hover:opacity-75 ':
         variant === BUTTON_VARIANT.WARNING_OUTLINE,
+      'text-white uppercase bg-none border-b border-[#1c532a] hover:border-white rounded-none hover:opacity-100 ':
+        variant === BUTTON_VARIANT.NAVLIST,
+      'rounded-lg hover:bg-green-800 ': variant === BUTTON_VARIANT.HAMBURGER,
     }
   );
 
-  const className = [...buttonVariant, ...buttonSize, width].join('');
+  const className = [...buttonVariant, ...buttonSize].join('');
 
-  return (
-    <Fragment>
-      {props?.href ? (
-        <Link role="link" href={`${props?.href}`}>
-          <button role="button" {...props} className={className}>
-            {loading ? <LoadingSpinner /> : props.children}
-          </button>
-        </Link>
-      ) : (
-        <button role="button" {...props} className={className}>
-          {loading ? <LoadingSpinner /> : props.children}
-        </button>
-      )}
-    </Fragment>
+  return props?.href ? (
+    <Link role="link" href={`${props?.href}`}>
+      <button {...props} className={className}>
+        {loading ? <LoadingSpinner /> : props.children}
+      </button>
+    </Link>
+  ) : (
+    <button {...props} className={className}>
+      {loading ? <LoadingSpinner /> : props.children}
+    </button>
   );
 };
