@@ -1,5 +1,5 @@
 'use client';
-import { Fragment, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, CheckBox, SelectField } from '@uninus/components';
 
@@ -75,14 +75,32 @@ const LandingPage = (): ReactElement => {
         />
       </div>
       <div className="flex gap-4">
-        <Button variant="primary" size="sm" width="w-28" height="h-8">
-          Test
+        <Button
+          href="https://litera.uninus.ac.id/uninus/login.jsp"
+          variant="primary"
+          size="sm"
+          width="w-28"
+          height="h-8"
+        >
+          Litera
         </Button>
-        <Button variant="error" size="sm" width="w-28" height="h-8">
-          Test
+        <Button
+          href="https://www.facebook.com/"
+          variant="error"
+          size="md"
+          width="w-28"
+          height="h-8"
+        >
+          Facebook
         </Button>
-        <Button variant="warning" size="sm" width="w-28" height="h-8">
-          Test
+        <Button
+          href="https://www.google.com/"
+          variant="warning"
+          size="lg"
+          width="w-28"
+          height="h-8"
+        >
+          Google
         </Button>
       </div>
     </div>

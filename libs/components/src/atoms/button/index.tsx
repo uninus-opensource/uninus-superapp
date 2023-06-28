@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FC, Fragment, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { IButtonProps } from './interface';
 import { BUTTON_SIZE, BUTTON_VARIANT } from './enums';
 import Link from 'next/link';
@@ -15,7 +15,7 @@ export const Button: FC<IButtonProps> = ({
 }): ReactElement => {
   const buttonSize = clsx(`text-center hover:opacity-75 ${width} ${height}`, {
     'p-2 text-sm': size === BUTTON_SIZE.SM,
-    'p-4 text-md': size === BUTTON_SIZE.MD,
+    'p-5 text-md': size === BUTTON_SIZE.MD,
     'p-6 text-lg': size === BUTTON_SIZE.LG,
   });
 
@@ -37,21 +37,17 @@ export const Button: FC<IButtonProps> = ({
     }
   );
 
-  const className = [...buttonVariant, ...buttonSize, width].join('');
+  const className = [...buttonVariant, ...buttonSize].join('');
 
-  return (
-    <Fragment>
-      {props?.href ? (
-        <Link role="link" href={`${props?.href}`}>
-          <button role="button" {...props} className={className}>
-            {loading ? <LoadingSpinner /> : props.children}
-          </button>
-        </Link>
-      ) : (
-        <button role="button" {...props} className={className}>
-          {loading ? <LoadingSpinner /> : props.children}
-        </button>
-      )}
-    </Fragment>
+  return props?.href ? (
+    <Link role="link" href={`${props?.href}`}>
+      <button {...props} className={className}>
+        {loading ? <LoadingSpinner /> : props.children}
+      </button>
+    </Link>
+  ) : (
+    <button {...props} className={className}>
+      {loading ? <LoadingSpinner /> : props.children}
+    </button>
   );
 };
