@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { TPaginationArgs } from '@uninus/entities';
 import { TRegisterResponse } from '@uninus/entities';
 import { PrismaService } from '../prisma/index';
@@ -47,19 +47,32 @@ export class AuthService {
     });
   }
 
-  async signup(data: Prisma.UsersCreateInput): Promise<TRegisterResponse> {
-    const exist = await this.prisma.users.findFirst({
+  async register(data: Prisma.UsersCreateInput): Promise<TRegisterResponse> {
+    const isEmailExist = await this.prisma.users.findUnique({
       where: {
-        nik: data.nik,
         email: data.email.toLowerCase(),
       },
     });
 
-    if (exist) {
-      throw new HttpException('User Already Exist', HttpStatus.CONFLICT);
+    if (isEmailExist) {
+      throw new BadRequestException('Email sudah terdaftar', {
+        cause: new Error(),
+      });
     }
 
-    const salt = await bcrypt.genSalt();
+    const isNikExist = await this.prisma.users.findUnique({
+      where: {
+        nik: data.nik,
+      },
+    });
+
+    if (isNikExist) {
+      throw new BadRequestException('Nik sudah terdaftar', {
+        cause: new Error(),
+      })
+    }
+
+    const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(data.password, salt);
 
     const createdUser = await this.prisma.users.create({
@@ -74,7 +87,8 @@ export class AuthService {
 
     return {
       ...createdUser,
-      role_id: 1, // Menambahkan properti 'role' dengan nilai yang sesuai
+      role_id: 1, 
+      message: 'Akun Berhasil dibuat!',
     };
   }
 }

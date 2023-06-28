@@ -39,21 +39,10 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Post('signup')
-  async signup(@Body() registerDto: RegisterDto) {
-    const result = this.appService.signup({
-      fullname: registerDto.fullname,
-      nik: registerDto.nik,
-      email: registerDto.email,
-      password: registerDto.password,
-    })
-
-    const user = await result;
-    return {
-      fullname: user.fullname,
-      nik: user.nik,
-      email: user.email,
-      role: user.role_id,
-    };
+  @Post('register')
+  async register(@Body() registerDto: RegisterDto) {
+    const user = await this.appService.register(registerDto);
+    return user;
   }
+
 }

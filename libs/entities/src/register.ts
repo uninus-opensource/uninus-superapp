@@ -8,6 +8,7 @@ export type TRegisterResponse = {
   role_id?: 1;
   createdAt: Date;
   photo: string | null;
+  message: string;
 };
 
 
