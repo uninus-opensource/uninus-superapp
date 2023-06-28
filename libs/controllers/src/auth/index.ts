@@ -1,4 +1,5 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query } from '@nestjs/common';
+import { RegisterDto } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
 
 @Controller()
@@ -35,5 +36,24 @@ export class AuthController {
       page,
       perPage,
     });
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('signup')
+  async signup(@Body() registerDto: RegisterDto) {
+    const result = this.appService.signup({
+      fullname: registerDto.fullname,
+      nik: registerDto.nik,
+      email: registerDto.email,
+      password: registerDto.password,
+    })
+
+    const user = await result;
+    return {
+      fullname: user.fullname,
+      nik: user.nik,
+      email: user.email,
+      role: user.role_id,
+    };
   }
 }
