@@ -6,10 +6,10 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import { AuthModule, UserModule } from '@uninus/modules';
+import { AuthModule } from '@uninus/modules';
 
 async function bootstrap() {
-  const app = await NestFactory.create([AuthModule, UserModule]);
+  const app = await NestFactory.create(AuthModule);
   const globalPrefix = 'api/auth';
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;

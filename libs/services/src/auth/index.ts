@@ -87,7 +87,6 @@ export class AuthService {
 
     return {
       ...createdUser,
-      role_id: 1, 
       message: 'Akun Berhasil dibuat!',
     };
   }

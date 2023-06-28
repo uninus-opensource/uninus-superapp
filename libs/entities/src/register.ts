@@ -5,7 +5,7 @@ export type TRegisterResponse = {
   fullname: string | null;
   password: string;
   refresh_token: string | null;
-  role_id?: 1;
+  role_id?: number | null;
   createdAt: Date;
   photo: string | null;
   message: string;
