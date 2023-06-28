@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { TPaginationArgs } from '@uninus/entities';
-import { Prisma, Users } from '@uninus/models';
+import { Prisma } from '@uninus/models';
 import { paginate } from '@uninus/utilities';
 import { PrismaService } from '../prisma/index';
 
@@ -45,7 +45,6 @@ export class UserService {
       data: payload,
     });
     return {
-      statusCode: 200,
       data: user,
     };
   }
@@ -62,7 +61,6 @@ export class UserService {
       });
     }
     return {
-      statusCode: 200,
       data: user,
     };
   }
@@ -81,7 +79,6 @@ export class UserService {
     }
 
     return {
-      statusCode: 200,
       data: user,
       message: `Berhasil update user`,
     };
@@ -106,7 +103,6 @@ export class UserService {
     }
 
     return {
-      statusCode: 200,
       data: user,
       message: `Berhasil delete user`,
     };

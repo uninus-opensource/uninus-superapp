@@ -9,7 +9,7 @@ import { PmbModule } from '@uninus/modules';
 
 async function bootstrap() {
   const app = await NestFactory.create(PmbModule);
-  const globalPrefix = 'api';
+  const globalPrefix = 'api/pmb';
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;
   await app.listen(port);
