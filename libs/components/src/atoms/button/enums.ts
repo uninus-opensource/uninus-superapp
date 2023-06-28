@@ -5,6 +5,8 @@ export enum BUTTON_VARIANT {
   ERROR_OUTLINE = 'error-outline',
   WARNING = 'warning',
   WARNING_OUTLINE = 'warning-outline',
+  NAVLIST = 'nav',
+  HAMBURGER = 'hamburger',
 }
 
 export enum BUTTON_SIZE {
