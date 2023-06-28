@@ -9,7 +9,10 @@ export const metadata = {
 const RootLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <div id="modal"></div>
+      </body>
     </html>
   );
 };
