@@ -1,18 +1,21 @@
 'use client';
-import { Fragment, ReactElement, useState } from 'react';
+import { FC, Fragment, ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Button,
   CheckBox,
   Navbar,
+  Footer,
   SelectField,
   Modal,
+  UploadField,
 } from '@uninus/components';
 
-const LandingPage = (): ReactElement => {
+const LandingPage: FC = (): ReactElement => {
   const { control } = useForm({
     defaultValues: {
       checkboxField: false,
+      uploadField: '',
     },
   });
 
@@ -138,7 +141,34 @@ const LandingPage = (): ReactElement => {
           submitText="Save"
           closeText="Cancel"
         />
+        <div className="flex gap-2">
+          <UploadField
+            control={control}
+            label="Upload"
+            variant="lg"
+            name="uploadField"
+            required
+            accept="application/pdf"
+          />
+          <UploadField
+            control={control}
+            label="Upload"
+            variant="md"
+            name="uploadField"
+            required
+            accept="application/pdf"
+          />
+          <UploadField
+            control={control}
+            label="Upload"
+            variant="sm"
+            name="uploadField"
+            required
+            accept="application/pdf"
+          />
+        </div>
       </div>
+      <Footer />
     </Fragment>
   );
 };

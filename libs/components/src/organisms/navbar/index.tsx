@@ -29,7 +29,7 @@ export const Navbar: FC = (): ReactElement => {
   ];
 
   return (
-    <header className="px-5 lg:px-14 flex justify-between items-center h-[17vh] sm:h-[15vh] lg:h-[12vh] w-full bg-[#1c532a] fixed">
+    <header className="px-5 z-50 lg:px-14 flex justify-between items-center h-[17vh] sm:h-[15vh] lg:h-[12vh] w-full bg-green-930 fixed">
       <motion.figure
         style={{
           y: -200,

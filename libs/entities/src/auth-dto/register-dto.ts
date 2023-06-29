@@ -12,7 +12,7 @@ export class RegisterDto {
     minUppercase: 1,
     minNumbers: 1,
     minSymbols: 0,
-  })
+  }, {message : 'Password kurang dari 8 dan harus mengandung Kapital & Angka'})
   public password: string;
 
   @IsString()

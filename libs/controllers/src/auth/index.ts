@@ -1,6 +1,7 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query } from '@nestjs/common';
-import { RegisterDto } from '@uninus/entities';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, UseGuards, Request } from '@nestjs/common';
+import { RegisterDto, TRegisterRequest } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
+import { JwtAuthGuard  } from '@uninus/entities'
 
 @Controller()
 export class AuthController {
@@ -45,4 +46,10 @@ export class AuthController {
     return user;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  getDetail(@Request() req: TRegisterRequest) {
+    const user = req
+    return this.appService.profile(user.email, user.nik)
+  }
 }
