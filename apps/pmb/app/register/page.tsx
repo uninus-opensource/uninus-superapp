@@ -1,5 +1,5 @@
 'use client';
-import { Navbar, TextField, Button } from '@uninus/components';
+import { Navbar, TextField, Button, CheckBox } from '@uninus/components';
 import { FC, ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -10,18 +10,19 @@ const Register: FC = (): ReactElement => {
       NamaLengkap: '',
       email: '',
       password: '',
+      agreement: false,
     },
   });
 
   return (
     <div>
       <Navbar />
-      <div className="h-[13.5rem] w-full flex items-end justify-center font-bold text-[1.8rem] md:h-[17rem] lg:h-[10rem]">
-        <h1 className="text-center 2xl:text-red-500">
+      <div className="h-[15rem] w-full flex items-end justify-center font-bold text-[1.8rem] md:h-[17rem] lg:h-[10rem]">
+        <h1 className="text-center 2xl:text-red-500 w-[80vw]">
           Pendaftaran Mahasiswa Baru
         </h1>
       </div>
-      <div className="flex justify-center gap-5 md:mt-[2rem]">
+      <div className="flex justify-center gap-5 mt-[2rem] md:mt-[3rem]">
         <div className="w-[80vw] md:w-[60vw] lg:w-[40vw] xl:w-[30vw]">
           <TextField
             name="NIK"
@@ -55,8 +56,30 @@ const Register: FC = (): ReactElement => {
             placeholder="Masukan password"
             required
           />
+          <div className="lg:mt-2">
+            <CheckBox
+              name="agreement"
+              control={control}
+              required
+              size="lg"
+              label="Dengan mendaftar saya menyetujui syarat dan ketentuan yang berlaku"
+            />
+          </div>
           <div className="flex justify-center mt-[1.5rem]">
-            <Button size="sm">Daftar</Button>
+            <Button size="sm" width="w-[30vw] md:w-[18vw] lg:w-[10vw]">
+              Daftar
+            </Button>
+          </div>
+          <div className="flex justify-center mt-[1rem]">
+            <p>
+              Sudah memiliki akun?{' '}
+              <span
+                className="underline text-bold cursor-pointer"
+                onClick={() => alert('nanti loginnya belum ada ~')}
+              >
+                Login
+              </span>
+            </p>
           </div>
         </div>
       </div>
