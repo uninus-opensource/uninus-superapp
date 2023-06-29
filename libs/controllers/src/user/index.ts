@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
+import { CreateUserDto, UpdateUserDto } from '@uninus/entities';
 import { UserService } from '@uninus/services';
 
 @Controller()
@@ -35,5 +45,25 @@ export class UserController {
       page,
       perPage,
     });
+  }
+
+  @Get('/user/:id')
+  getDataById(@Param('id') id: string) {
+    return this.appService.getUserById(id);
+  }
+
+  @Post('/user')
+  createData(@Body() createUserDto: CreateUserDto) {
+    return this.appService.createUser(createUserDto);
+  }
+
+  @Delete('/user/:id')
+  deleteData(@Param('id') id: string) {
+    return this.appService.deleteUser(id);
+  }
+
+  @Put('/user/:id')
+  updateData(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.appService.updateUser(id, updateUserDto);
   }
 }

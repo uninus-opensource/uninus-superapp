@@ -15,7 +15,7 @@ model Users {
   fullname      String?
   password      String
   refresh_token String?
-  role_id       Int?
+  role_id       Int?       @default(1)
   role          Roles?     @relation(fields: [role_id], references: [id])
   students      Students?
   lecturers     Lecturers?
