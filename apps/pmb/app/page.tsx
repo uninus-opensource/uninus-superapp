@@ -8,12 +8,14 @@ import {
   Footer,
   SelectField,
   Modal,
+  UploadField,
 } from '@uninus/components';
 
 const LandingPage: FC = (): ReactElement => {
   const { control } = useForm({
     defaultValues: {
       checkboxField: false,
+      uploadField: '',
     },
   });
 
@@ -63,16 +65,27 @@ const LandingPage: FC = (): ReactElement => {
           message="Valid"
         />
         <div className="flex gap-2">
-          <div className="mb-2">
-            <SelectField
-              name="peran"
-              label="Peran"
-              size="md"
-              placeholder="pilih peran"
-              status="none"
-              options={['Mahasiswa', 'Dosen', 'Staff']}
-            />
-          </div>
+          <SelectField
+            name="peran"
+            label="Peran"
+            size="sm"
+            placeholder="pilih peran"
+            status="none"
+            options={['Mahasiswa', 'Dosen', 'Staff']}
+            value="Dosen"
+          />
+          <SelectField
+            name="peran"
+            label="Peran"
+            size="sm"
+            placeholder="pilih peran"
+            status="warning"
+            options={['Mahasiswa', 'Dosen', 'Staff']}
+            message="warning sample"
+            value="Mahasiswa"
+          />
+        </div>
+        <div className="flex gap-2">
           <SelectField
             name="peran"
             label="Peran"
@@ -81,6 +94,7 @@ const LandingPage: FC = (): ReactElement => {
             status="error"
             options={['Mahasiswa', 'Dosen', 'Staff']}
             message="error sample"
+            value="Mahasiswa"
           />
           <SelectField
             name="peran"
@@ -90,8 +104,10 @@ const LandingPage: FC = (): ReactElement => {
             status="success"
             options={['Mahasiswa', 'Dosen', 'Staff']}
             message="success sample"
+            value="Staff"
           />
         </div>
+
         <div className="flex gap-4">
           <Button
             href="https://litera.uninus.ac.id/uninus/login.jsp"
@@ -139,6 +155,32 @@ const LandingPage: FC = (): ReactElement => {
           submitText="Save"
           closeText="Cancel"
         />
+        <div className="flex gap-2">
+          <UploadField
+            control={control}
+            label="Upload"
+            variant="lg"
+            name="uploadField"
+            required
+            accept="application/pdf"
+          />
+          <UploadField
+            control={control}
+            label="Upload"
+            variant="md"
+            name="uploadField"
+            required
+            accept="application/pdf"
+          />
+          <UploadField
+            control={control}
+            label="Upload"
+            variant="sm"
+            name="uploadField"
+            required
+            accept="application/pdf"
+          />
+        </div>
       </div>
       <Footer />
     </Fragment>
