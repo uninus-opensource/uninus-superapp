@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, UseGuards, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, UseGuards } from '@nestjs/common';
 import { RegisterDto, LoginDto } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
 import { JwtAuthGuard  } from '@uninus/entities';
@@ -55,8 +55,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post ('login')
-  async login(@Body() dto: LoginDto, @Req() req: any , @Res() res: any) {
-    const login = await this.appService.login(dto, req, res)
+  async login(@Body() dto: LoginDto) {
+    const login = await this.appService.login(dto)
     return login
   }
 }

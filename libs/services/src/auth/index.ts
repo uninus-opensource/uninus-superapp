@@ -6,7 +6,6 @@ import { paginate } from '@uninus/utilities';
 import { Prisma, Users } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { Request, Response } from 'express'
 
 @Injectable()
 export class AuthService {
@@ -94,7 +93,7 @@ export class AuthService {
     };
   }
 
-  async login(dto: LoginDto, req: Request, res: Response) {
+  async login(dto: LoginDto) {
     const {email, password} = dto
 
     const User = await this.prisma.users.findUnique({
@@ -142,7 +141,7 @@ export class AuthService {
       },
     })
 
-    return res.send({message: 'Berhasil Login', 
+    return ({message: 'Berhasil Login', 
     token:{
       access_token:aToken,
       refresh_token:rToken,
@@ -170,6 +169,6 @@ export class AuthService {
     async refreshToken(args: {id: string, email: string}) {
       const payLoad = args;
 
-      return this.jwt.signAsync(payLoad, {secret: process.env.REFRESH_SECRET, expiresIn:"30d"})
+      return this.jwt.signAsync(payLoad, {secret: process.env.REFRESH_SECRET, expiresIn:"2h"})
   }
 }
