@@ -8,12 +8,14 @@ import {
   Footer,
   SelectField,
   Modal,
+  UploadField,
 } from '@uninus/components';
 
 const LandingPage: FC = (): ReactElement => {
   const { control } = useForm({
     defaultValues: {
       checkboxField: false,
+      uploadField: '',
     },
   });
 
@@ -139,6 +141,32 @@ const LandingPage: FC = (): ReactElement => {
           submitText="Save"
           closeText="Cancel"
         />
+        <div className="flex gap-2">
+          <UploadField
+            control={control}
+            label="Upload"
+            variant="lg"
+            name="uploadField"
+            required
+            accept="application/pdf"
+          />
+          <UploadField
+            control={control}
+            label="Upload"
+            variant="md"
+            name="uploadField"
+            required
+            accept="application/pdf"
+          />
+          <UploadField
+            control={control}
+            label="Upload"
+            variant="sm"
+            name="uploadField"
+            required
+            accept="application/pdf"
+          />
+        </div>
       </div>
       <Footer />
     </Fragment>
