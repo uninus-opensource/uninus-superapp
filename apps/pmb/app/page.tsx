@@ -1,15 +1,16 @@
 'use client';
-import { Fragment, ReactElement, useState } from 'react';
+import { FC, Fragment, ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Button,
   CheckBox,
   Navbar,
+  Footer,
   SelectField,
   Modal,
 } from '@uninus/components';
 
-const LandingPage = (): ReactElement => {
+const LandingPage: FC = (): ReactElement => {
   const { control } = useForm({
     defaultValues: {
       checkboxField: false,
@@ -139,6 +140,7 @@ const LandingPage = (): ReactElement => {
           closeText="Cancel"
         />
       </div>
+      <Footer />
     </Fragment>
   );
 };
