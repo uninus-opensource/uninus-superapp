@@ -19,7 +19,7 @@ const LandingPage: FC = (): ReactElement => {
     },
   });
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleOpenModal = () => {
     setShowModal(!showModal);
