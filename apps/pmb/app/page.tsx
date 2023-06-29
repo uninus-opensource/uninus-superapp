@@ -47,17 +47,27 @@ const LandingPage = (): ReactElement => {
           message="Valid"
         />
         <div className="flex gap-2">
-          <div className="mb-2">
-            <SelectField
-              name="peran"
-              label="Peran"
-              size="md"
-              placeholder="pilih peran"
-              status="none"
-              options={['Mahasiswa', 'Dosen', 'Staff']}
-              value="Dosen"
-            />
-          </div>
+          <SelectField
+            name="peran"
+            label="Peran"
+            size="sm"
+            placeholder="pilih peran"
+            status="none"
+            options={['Mahasiswa', 'Dosen', 'Staff']}
+            value="Dosen"
+          />
+          <SelectField
+            name="peran"
+            label="Peran"
+            size="sm"
+            placeholder="pilih peran"
+            status="warning"
+            options={['Mahasiswa', 'Dosen', 'Staff']}
+            message="warning sample"
+            value="Mahasiswa"
+          />
+        </div>
+        <div className="flex gap-2">
           <SelectField
             name="peran"
             label="Peran"
@@ -79,6 +89,7 @@ const LandingPage = (): ReactElement => {
             value="Staff"
           />
         </div>
+
         <div className="flex gap-4">
           <Button
             href="https://litera.uninus.ac.id/uninus/login.jsp"
