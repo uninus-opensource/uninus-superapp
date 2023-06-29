@@ -3,3 +3,4 @@ export * from './lib/entities';
 export * from './pagination';
 export * from './register';
 export * from './user-dto';
+export * from './guards'
