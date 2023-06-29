@@ -1,14 +1,16 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { TPaginationArgs } from '@uninus/entities';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { LoginDto, TPaginationArgs } from '@uninus/entities';
 import { TRegisterResponse } from '@uninus/entities';
 import { PrismaService } from '../prisma/index';
 import { paginate } from '@uninus/utilities';
 import { Prisma, Users } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { Request, Response } from 'express'
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private jwt: JwtService) {}
 
   async getUser({ where, orderBy, page, perPage }: TPaginationArgs) {
     return paginate(this.prisma.users, {
@@ -28,6 +30,7 @@ export class AuthService {
       },
     }) as Promise<Users | undefined>;
   }
+
 
   async profile(nik: string, email: string): Promise<Omit<Users, 'password' | 'refresh_token'> | null> {
     return this.prisma.users.findUnique({
@@ -89,5 +92,84 @@ export class AuthService {
       ...createdUser,
       message: 'Akun Berhasil dibuat!',
     };
+  }
+
+  async login(dto: LoginDto, req: Request, res: Response) {
+    const {email, password} = dto
+
+    const User = await this.prisma.users.findUnique({
+        where: {
+            email
+        },
+        select: {
+          id: true,
+          email: true,
+          fullname: true,
+          password: true,
+        }
+    })
+
+    if (!User) {
+        throw new BadRequestException('Akun tidak ditemukan')
+    }
+
+    const isMatch = await this.comparePasswords({password, hash: User.password})
+
+    if (!isMatch) {
+        throw new BadRequestException('Password salah');
+    }
+
+    const aToken = await this.signToken({
+        id: User.id,
+        email: User.email
+    })
+
+    const rToken = await this.refreshToken({
+      id: User.id,
+      email: User.email
+  })
+
+    if (!aToken) {
+        throw new ForbiddenException()
+    }
+
+    await this.prisma.users.update({
+      where: {
+        email: User.email,
+      },
+      data: {
+        refresh_token: rToken,
+      },
+    })
+
+    return res.send({message: 'Berhasil Login', 
+    token:{
+      access_token:aToken,
+      refresh_token:rToken,
+    },
+    User,
+  })
+}
+
+  async getUsers() {
+    return await this.prisma.users.findMany({
+      select: {id: true, email: true}
+    });
+  }
+
+  async comparePasswords(args: {password: string; hash: string}) {
+        return await bcrypt.compare(args.password, args.hash);
+    }
+    
+    async signToken(args: {id: string, email: string}) {
+        const payLoad = args;
+
+        return this.jwt.signAsync(payLoad, {secret: process.env.ACCESS_SECRET, expiresIn:"1h"})
+    }
+
+    async refreshToken(args: {id: string, email: string}) {
+      const payLoad = args;
+
+      return this.jwt.signAsync(payLoad, {secret: process.env.REFRESH_SECRET, expiresIn:"30d"})
   }
 }
