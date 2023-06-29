@@ -53,7 +53,7 @@ export class AuthService {
         role_id: true,
         createdAt: true,
         nik: true,
-        photo: true,
+        avatar: true,
       },
     });
   }

@@ -21,7 +21,7 @@ model Users {
   lecturers     Lecturers?
   employees     Employees?
   createdAt     DateTime   @default(now())
-  photo         String?    @default(dbgenerated("null"))
+  avatar        String?    @default(dbgenerated("null"))
 }
 
 model Students {

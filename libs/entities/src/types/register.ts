@@ -7,14 +7,12 @@ export type TRegisterResponse = {
   refresh_token: string | null;
   role_id?: number | null;
   createdAt: Date;
-  avatar: string | null;
   message: string;
 };
 
-
 export type TRegisterRequest = {
-    nik: string,
-    fullname: string,
-    email: string,
-    password: string,
-}
+  nik: string;
+  fullname: string;
+  email: string;
+  password: string;
+};
