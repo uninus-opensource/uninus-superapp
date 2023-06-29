@@ -148,7 +148,18 @@ export class AuthService {
     },
     User,
   })
-}
+  }
+
+  async logout(email: string) {
+    await this.prisma.users.update({
+      where: {
+        email: email.toLowerCase(),
+      },
+      data: {
+        refresh_token: null
+      }
+    })
+  }
 
   async getUsers() {
     return await this.prisma.users.findMany({
@@ -157,18 +168,18 @@ export class AuthService {
   }
 
   async comparePasswords(args: {password: string; hash: string}) {
-        return await bcrypt.compare(args.password, args.hash);
-    }
+    return await bcrypt.compare(args.password, args.hash);
+  }
     
-    async signToken(args: {id: string, email: string}) {
-        const payLoad = args;
+  async signToken(args: {id: string, email: string}) {
+    const payLoad = args;
 
-        return this.jwt.signAsync(payLoad, {secret: process.env.ACCESS_SECRET, expiresIn:"1h"})
-    }
+    return this.jwt.signAsync(payLoad, {secret: process.env.ACCESS_SECRET, expiresIn:"1h"})
+  }
 
-    async refreshToken(args: {id: string, email: string}) {
-      const payLoad = args;
+  async refreshToken(args: {id: string, email: string}) {
+    const payLoad = args;
 
-      return this.jwt.signAsync(payLoad, {secret: process.env.REFRESH_SECRET, expiresIn:"2h"})
+    return this.jwt.signAsync(payLoad, {secret: process.env.REFRESH_SECRET, expiresIn:"2h"})
   }
 }

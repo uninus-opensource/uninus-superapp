@@ -59,4 +59,12 @@ export class AuthController {
     const login = await this.appService.login(dto)
     return login
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  async logout(@Body() body: {email: string}) {
+    const {email} = body;
+    await this.appService.logout(email)
+    return{ message: 'logout berhasil'}
+  }
 }
