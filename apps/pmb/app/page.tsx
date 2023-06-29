@@ -1,7 +1,13 @@
 'use client';
 import { Fragment, ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, CheckBox, Navbar, SelectField } from '@uninus/components';
+import {
+  Button,
+  CheckBox,
+  Footer,
+  Navbar,
+  SelectField,
+} from '@uninus/components';
 
 const LandingPage = (): ReactElement => {
   const { control } = useForm({
@@ -106,6 +112,7 @@ const LandingPage = (): ReactElement => {
           </Button>
         </div>
       </div>
+      <Footer />
     </Fragment>
   );
 };
