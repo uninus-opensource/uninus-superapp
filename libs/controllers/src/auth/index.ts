@@ -65,6 +65,6 @@ export class AuthController {
   async logout(@Body() body: {email: string}) {
     const {email} = body;
     await this.appService.logout(email)
-    return{ message: 'logout berhasil'}
+    return{ message: 'logout telah berhasil'}
   }
 }
