@@ -1,10 +1,10 @@
-// import { createPortal } from 'react-dom';
 import { Button } from '../../atoms';
 import { ModalProps } from './interface';
 import { IoCloseSharp } from 'react-icons/io5';
 import { createPortal } from 'react-dom';
+import { FC, ReactElement } from 'react';
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal: FC<ModalProps> = ({
   showModal,
   onClose,
   onSubmit,
@@ -12,7 +12,10 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   submitText = 'Submit',
   closeText = 'Cancel',
-}) => {
+}): ReactElement | null => {
+  if (!showModal) {
+    return null;
+  }
   return (
     showModal &&
     createPortal(
