@@ -1,12 +1,12 @@
 'use client';
-import { Fragment, ReactElement } from 'react';
+import { Fragment, ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Button,
   CheckBox,
-  Footer,
   Navbar,
   SelectField,
+  Modal,
 } from '@uninus/components';
 
 const LandingPage = (): ReactElement => {
@@ -15,6 +15,15 @@ const LandingPage = (): ReactElement => {
       checkboxField: false,
     },
   });
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(!showModal);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <Fragment>
@@ -111,8 +120,25 @@ const LandingPage = (): ReactElement => {
             Google
           </Button>
         </div>
+        <Button
+          onClick={handleOpenModal}
+          variant="primary"
+          size="sm"
+          width="w-28"
+          height="h-8"
+        >
+          Modal
+        </Button>
+
+        <Modal
+          showModal={showModal}
+          modalTitle="INI CERITANYA MODAL"
+          onClose={handleCloseModal}
+          onSubmit={() => alert('Submit Succes')}
+          submitText="Save"
+          closeText="Cancel"
+        />
       </div>
-      <Footer />
     </Fragment>
   );
 };
