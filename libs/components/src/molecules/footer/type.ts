@@ -1,6 +1,6 @@
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 
 export type FooterList = {
-  icon?: ReactElement;
+  icon?: ReactNode;
   item: string;
 };

@@ -21,10 +21,10 @@ export const Footer: FC = (): ReactElement => {
   ];
 
   return (
-    <footer className="bg-[#1c532a] w-full h-[40vh] lg:h-[25vh] flex flex-col justify-between items-center text-white ">
+    <footer className="bg-green-930 w-full h-[40vh] lg:h-[25vh] flex flex-col justify-between items-center text-white ">
       <section className="flex flex-col lg:flex-row lg:mt-6 w-full h-full lg:h-auto justify-around items-center lg:justify-between px-10">
         <ul>
-          {footList.map((foot, idx) => (
+          {footList?.map((foot, idx) => (
             <li key={idx} className="flex items-center gap-4 mt-1">
               <figure className="mt-0.5">{foot.icon}</figure>
               {foot.item}
