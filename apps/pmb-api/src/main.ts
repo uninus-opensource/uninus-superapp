@@ -5,11 +5,11 @@
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { UserModule } from '@uninus/modules';
+import { PmbModule } from '@uninus/modules';
 
 async function bootstrap() {
-  const app = await NestFactory.create(UserModule);
-  const globalPrefix = 'api';
+  const app = await NestFactory.create(PmbModule);
+  const globalPrefix = 'api/pmb';
   app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || 3000;
   await app.listen(port);
