@@ -18,9 +18,7 @@ const Register: FC = (): ReactElement => {
     <div>
       <Navbar />
       <div className="h-[15rem] w-full flex items-end justify-center font-bold text-[1.8rem] md:h-[17rem] lg:h-[10rem]">
-        <h1 className="text-center 2xl:text-red-500 w-[80vw]">
-          Pendaftaran Mahasiswa Baru
-        </h1>
+        <h1 className="text-center w-[80vw]">Pendaftaran Mahasiswa Baru</h1>
       </div>
       <div className="flex justify-center gap-5 mt-[2rem] md:mt-[3rem]">
         <div className="w-[80vw] md:w-[60vw] lg:w-[40vw] xl:w-[30vw]">
@@ -56,7 +54,7 @@ const Register: FC = (): ReactElement => {
             placeholder="Masukan password"
             required
           />
-          <div className="lg:mt-2">
+          <div className="lg:mt-2 flex justify-start">
             <CheckBox
               name="agreement"
               control={control}
@@ -66,7 +64,7 @@ const Register: FC = (): ReactElement => {
             />
           </div>
           <div className="flex justify-center mt-[1.5rem]">
-            <Button size="sm" width="w-[30vw] md:w-[18vw] lg:w-[10vw]">
+            <Button size="sm" width="w-full">
               Daftar
             </Button>
           </div>
