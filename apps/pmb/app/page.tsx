@@ -4,8 +4,6 @@ import { useForm } from 'react-hook-form';
 import {
   Button,
   CheckBox,
-  Navbar,
-  Footer,
   SelectField,
   Modal,
   UploadField,
@@ -30,7 +28,6 @@ const LandingPage: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      <Navbar />
       <div className="flex flex-col justify-center items-center h-screen gap-4">
         <CheckBox
           control={control}
@@ -182,7 +179,6 @@ const LandingPage: FC = (): ReactElement => {
           />
         </div>
       </div>
-      <Footer />
     </Fragment>
   );
 };
