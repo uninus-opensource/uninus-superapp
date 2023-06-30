@@ -12,7 +12,7 @@ export const dataSarjana: tableSarjana[] = [
     ukt: '7.200.000',
   },
   {
-    fakultas: 'fakultas Perhutanan',
+    fakultas: 'Fakultas Perhutanan',
     program_studi: 'Sawit',
     ukt: '7.000.000',
   },
