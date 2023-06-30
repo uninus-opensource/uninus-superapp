@@ -1,5 +1,6 @@
 'use client';
 import { Navbar, TextField, Button, CheckBox } from '@uninus/components';
+import { useRouter } from 'next/navigation';
 import { FC, ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -13,6 +14,8 @@ const Register: FC = (): ReactElement => {
       agreement: false,
     },
   });
+
+  const router = useRouter();
 
   return (
     <div>
@@ -68,14 +71,14 @@ const Register: FC = (): ReactElement => {
               Daftar
             </Button>
           </div>
-          <div className="flex justify-center mt-[1rem]">
+          <div className="flex justify-center mt-[1rem] mb-[1rem]">
             <p>
               Sudah memiliki akun?{' '}
               <span
                 className="underline text-bold cursor-pointer"
-                onClick={() => alert('nanti loginnya belum ada ~')}
+                onClick={() => router.push('/login')}
               >
-                Login
+                Masuk
               </span>
             </p>
           </div>
