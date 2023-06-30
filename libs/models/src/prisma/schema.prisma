@@ -21,7 +21,7 @@ model Users {
   lecturers     Lecturers?
   employees     Employees?
   createdAt     DateTime   @default(now())
-  photo         String?    @default(dbgenerated("null"))
+  avatar        String?    @default(dbgenerated("null"))
 }
 
 model Students {
@@ -66,12 +66,12 @@ model Students {
   registration_wave     String
   user_id               String             @unique
   user                  Users              @relation(fields: [user_id], references: [id])
-  profile               Profile?           @relation(fields: [profile_id], references: [id])
+  profile               Profiles?          @relation(fields: [profile_id], references: [id])
   profile_id            String?            @unique
   createdAt             DateTime           @default(now())
 }
 
-model Profile {
+model Profiles {
   id             String      @unique @default(uuid())
   place_of_birth String
   date_of_birth  DateTime
@@ -94,23 +94,23 @@ model Profile {
 }
 
 model Lecturers {
-  id         String   @unique @default(uuid())
-  nip        String   @unique
-  user_id    String   @unique
-  user       Users    @relation(fields: [user_id], references: [id])
-  createdAt  DateTime @default(now())
-  profile    Profile? @relation(fields: [profile_id], references: [id])
-  profile_id String?  @unique
+  id         String    @unique @default(uuid())
+  nip        String    @unique
+  user_id    String    @unique
+  user       Users     @relation(fields: [user_id], references: [id])
+  createdAt  DateTime  @default(now())
+  profile    Profiles? @relation(fields: [profile_id], references: [id])
+  profile_id String?   @unique
 }
 
 model Employees {
-  id         String   @unique @default(uuid())
-  nim        String   @unique
-  user_id    String   @unique
-  user       Users    @relation(fields: [user_id], references: [id])
-  createdAt  DateTime @default(now())
-  profile    Profile? @relation(fields: [profile_id], references: [id])
-  profile_id String?  @unique
+  id         String    @unique @default(uuid())
+  nim        String    @unique
+  user_id    String    @unique
+  user       Users     @relation(fields: [user_id], references: [id])
+  createdAt  DateTime  @default(now())
+  profile    Profiles? @relation(fields: [profile_id], references: [id])
+  profile_id String?   @unique
 }
 
 model Roles {
@@ -161,5 +161,5 @@ enum Citizenship {
 enum IdentificationType {
   KTP
   SIM
-  KartuPelajar
+  KARTU_PELAJAR
 }
