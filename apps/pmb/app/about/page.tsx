@@ -1,9 +1,10 @@
 'use client';
-import { FC, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Navbar, Button, Reveal } from '@uninus/components';
 import Image from 'next/image';
+import type { NextPage } from "next";
 
-const About: FC = (): ReactElement => {
+const About: NextPage = (): ReactElement => {
   return (
     <section className="w-full min-h-screen">
       <Navbar />
