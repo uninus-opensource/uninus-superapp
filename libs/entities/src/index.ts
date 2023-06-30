@@ -8,3 +8,4 @@ export * from './guards';
 export * from './login';
 export * from './jwt.payload';
 export * from './token';
+export * from './strategies'

@@ -6,10 +6,19 @@ import {
   HttpStatus,
   Post,
   Query,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard, LoginDto, RegisterDto } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
+
+
+type TRequestAuth = {
+  user: {
+    nik: string;
+    email: string;
+  }
+}
 
 @Controller()
 export class AuthController {
@@ -56,8 +65,9 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  getUsers() {
-    return this.appService.profile;
+  async getUsers(@Request() req: TRequestAuth) {
+    const { nik, email } = req.user;
+    return await this.appService.profile(nik, email);
   }
 
   @HttpCode(HttpStatus.OK)
