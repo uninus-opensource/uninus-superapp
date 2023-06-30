@@ -1,10 +1,11 @@
 'use client';
-import { Navbar, TextField, Button } from '@uninus/components';
-import { FC, ReactElement } from 'react';
+import { TextField, Button } from '@uninus/components';
+import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { NextPage } from 'next';
 
-const Login: FC = (): ReactElement => {
+const Login: NextPage = (): ReactElement => {
   const { control } = useForm({
     defaultValues: {
       email: '',
@@ -16,7 +17,6 @@ const Login: FC = (): ReactElement => {
 
   return (
     <div>
-      <Navbar />
       <div className="h-[15rem] w-full flex items-end justify-center font-bold text-[1.8rem] md:h-[17rem] lg:h-[10rem]">
         <h1 className="text-center w-[80vw]">Masuk</h1>
       </div>
@@ -44,7 +44,7 @@ const Login: FC = (): ReactElement => {
               Masuk
             </Button>
           </div>
-          <div className="flex justify-center mt-[1rem]">
+          <div className="flex justify-center mt-[1rem] mb-[3rem]">
             <p>
               Belum mempunyai akun ? {''}
               <span

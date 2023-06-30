@@ -1,10 +1,11 @@
 'use client';
-import { Navbar, TextField, Button, CheckBox } from '@uninus/components';
+import { TextField, Button, CheckBox } from '@uninus/components';
 import { useRouter } from 'next/navigation';
-import { FC, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
+import { NextPage } from 'next';
 
-const Register: FC = (): ReactElement => {
+const Register: NextPage = (): ReactElement => {
   const { control } = useForm({
     defaultValues: {
       NIK: '',
@@ -19,7 +20,6 @@ const Register: FC = (): ReactElement => {
 
   return (
     <div>
-      <Navbar />
       <div className="h-[15rem] w-full flex items-end justify-center font-bold text-[1.8rem] md:h-[17rem] lg:h-[10rem]">
         <h1 className="text-center w-[80vw]">Pendaftaran Mahasiswa Baru</h1>
       </div>
