@@ -19,15 +19,15 @@ export const Navbar: FC = (): ReactElement => {
   const navList: NavbarList[] = [
     {
       item: 'home',
-      link: 'https://uninus.ac.id/',
+      link: '/',
     },
     {
       item: 'about',
       link: 'https://www.google.com/',
     },
     {
-      item: 'contact',
-      link: 'https://github.com/',
+      item: 'biaya kuliah',
+      link: '/tuition-fee',
     },
   ];
 
