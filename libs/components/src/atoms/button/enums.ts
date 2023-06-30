@@ -7,6 +7,7 @@ export enum BUTTON_VARIANT {
   WARNING_OUTLINE = 'warning-outline',
   NAVLIST = 'nav',
   HAMBURGER = 'hamburger',
+  SIDEBARLIST = 'sidebarlist',
 }
 
 export enum BUTTON_SIZE {
