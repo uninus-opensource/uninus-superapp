@@ -4,23 +4,50 @@ import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { NextPage } from 'next';
+import { signIn, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 const Login: NextPage = (): ReactElement => {
-  const { control } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
+  const onSubmit = handleSubmit((data) => {
+    signIn('login', {
+      email: data?.email,
+      password: data?.password,
+    });
+  });
+
   const router = useRouter();
+
+  const session = useSession();
 
   return (
     <div>
       <div className="h-[15rem] w-full flex items-end justify-center font-bold text-[1.8rem] md:h-[17rem] lg:h-[10rem]">
-        <h1 className="text-center w-[80vw]">Masuk</h1>
+        <h1 className="text-center w-[80vw]">
+          Masuk {session?.data?.user?.name}
+        </h1>
+        {session.data && (
+          <span
+            onClick={() =>
+              signOut({
+                redirect: true,
+              })
+            }
+          >
+            Keluar
+          </span>
+        )}
       </div>
-      <form className="flex justify-center gap-5 mt-[2rem] md:mt-[3rem]">
+      <form
+        onSubmit={onSubmit}
+        className="flex justify-center gap-5 mt-[2rem] md:mt-[3rem]"
+      >
         <div className="w-[80vw] md:w-[60vw] lg:w-[40vw] xl:w-[30vw]">
           <TextField
             name="email"
