@@ -8,7 +8,7 @@ CREATE TYPE "Religion" AS ENUM ('ISLAM', 'KRISTEN', 'KATHOLIK', 'KONGHUCU', 'HIN
 CREATE TYPE "Citizenship" AS ENUM ('WNI', 'WNA');
 
 -- CreateEnum
-CREATE TYPE "IdentificationType" AS ENUM ('KTP', 'SIM', 'KartuPelajar');
+CREATE TYPE "IdentificationType" AS ENUM ('KTP', 'SIM', 'KARTU_PELAJAR');
 
 -- CreateTable
 CREATE TABLE "Users" (
@@ -20,7 +20,7 @@ CREATE TABLE "Users" (
     "refresh_token" TEXT,
     "role_id" INTEGER DEFAULT 1,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "photo" TEXT DEFAULT null
+    "avatar" TEXT DEFAULT null
 );
 
 -- CreateTable
@@ -70,7 +70,7 @@ CREATE TABLE "Students" (
 );
 
 -- CreateTable
-CREATE TABLE "Profile" (
+CREATE TABLE "Profiles" (
     "id" TEXT NOT NULL,
     "place_of_birth" TEXT NOT NULL,
     "date_of_birth" TIMESTAMP(3) NOT NULL,
@@ -163,7 +163,7 @@ CREATE UNIQUE INDEX "Students_user_id_key" ON "Students"("user_id");
 CREATE UNIQUE INDEX "Students_profile_id_key" ON "Students"("profile_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Profile_id_key" ON "Profile"("id");
+CREATE UNIQUE INDEX "Profiles_id_key" ON "Profiles"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Lecturers_id_key" ON "Lecturers"("id");
@@ -202,19 +202,19 @@ ALTER TABLE "Users" ADD CONSTRAINT "Users_role_id_fkey" FOREIGN KEY ("role_id") 
 ALTER TABLE "Students" ADD CONSTRAINT "Students_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Students" ADD CONSTRAINT "Students_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Students" ADD CONSTRAINT "Students_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "Profiles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Lecturers" ADD CONSTRAINT "Lecturers_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Lecturers" ADD CONSTRAINT "Lecturers_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Lecturers" ADD CONSTRAINT "Lecturers_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "Profiles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Employees" ADD CONSTRAINT "Employees_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Employees" ADD CONSTRAINT "Employees_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "Profile"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Employees" ADD CONSTRAINT "Employees_profile_id_fkey" FOREIGN KEY ("profile_id") REFERENCES "Profiles"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "RolesPermissions" ADD CONSTRAINT "RolesPermissions_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "Roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

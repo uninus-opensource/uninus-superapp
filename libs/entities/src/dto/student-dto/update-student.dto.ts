@@ -15,7 +15,7 @@ export class UpdateStudentDto {
   nisn!: string;
 
   @IsOptional()
-  identification_type!: 'KTP' | 'SIM' | 'Kartu_Pelajar';
+  identification_type!: 'KTP' | 'SIM' | 'KARTU_PELAJAR';
 
   @IsOptional()
   @IsString()

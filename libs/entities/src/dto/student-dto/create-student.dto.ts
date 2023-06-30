@@ -17,9 +17,9 @@ export class CreateStudentDto {
 
   @IsNotEmpty({ each: true, message: 'Jenis Kartu tidak boleh kosong' })
   @IsIn(['KTP', 'SIM', 'Kartu Pelajar'], {
-    message: 'Jenis Kartu harus salah satu dari KTP, SIM atau Kartu_Pelajar',
+    message: 'Jenis Kartu harus salah satu dari KTP, SIM atau KARTU_PELAJAR',
   })
-  identification_type!: 'KTP' | 'SIM' | 'Kartu_Pelajar';
+  identification_type!: 'KTP' | 'SIM' | 'KARTU_PELAJAR';
 
   @IsNotEmpty({ each: true, message: 'Nomor Kartu tidak boleh kosong' })
   @IsString({ each: true, message: 'Nomor Kartu harus bertipe string' })
@@ -43,7 +43,7 @@ export class CreateStudentDto {
   gender!: 'Male' | 'Female';
 
   @IsNotEmpty({ each: true, message: 'Agama tidak boleh kosong' })
-  @IsIn(['Islam', 'Kristen', "Katholik", "Konghucu"], {
+  @IsIn(['Islam', 'Kristen', 'Katholik', 'Konghucu'], {
     message:
       'Agama harus salah satu dari Islam, Kristen, Katholik, Konghucu, Hindu atau Budha',
   })

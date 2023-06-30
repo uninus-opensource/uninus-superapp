@@ -15,7 +15,7 @@ export class StudentService {
       include: {
         students: {
           include: {
-            profiles: true,
+            profile: true,
           },
         },
       },
@@ -52,14 +52,14 @@ export class StudentService {
       data: {
         ...parseRequest(studentProperties, payload),
         user_id: id,
-        profiles: {
+        profile: {
           create: {
             ...parseRequest(profileProperties, payload),
           },
         },
       },
       include: {
-        profiles: true,
+        profile: true,
       },
     });
 
@@ -78,7 +78,7 @@ export class StudentService {
         students: {
           update: {
             ...parseRequest(studentProperties, payload),
-            profiles: {
+            profile: {
               update: { ...parseRequest(profileProperties, payload) },
             },
           },
@@ -87,7 +87,7 @@ export class StudentService {
       include: {
         students: {
           include: {
-            profiles: true,
+            profile: true,
           },
         },
       },
@@ -108,7 +108,7 @@ export class StudentService {
         user_id: id,
       },
       include: {
-        profiles: true,
+        profile: true,
       },
     });
     if (!student) {
