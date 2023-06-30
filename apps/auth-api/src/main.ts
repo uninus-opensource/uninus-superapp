@@ -13,7 +13,11 @@ async function bootstrap() {
   const globalPrefix = 'api/auth';
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors();
+  app.enableCors({
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
   const port = process.env.PORT || 3001;
   await app.listen(port);
   Logger.log(
