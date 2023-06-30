@@ -41,7 +41,7 @@ const Login: FC = (): ReactElement => {
           <div className="lg:mt-2 flex justify-start"></div>
           <div className="flex justify-center mt-[1.5rem]">
             <Button size="sm" width="w-full">
-              Daftar
+              Masuk
             </Button>
           </div>
           <div className="flex justify-center mt-[1rem]">
