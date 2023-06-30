@@ -162,10 +162,10 @@ export class AuthService {
     };
   }
 
-  async logout(email: string) {
-    await this.prisma.users.update({
+  async logout(refreshToken: string) {
+    await this.prisma.users.updateMany({
       where: {
-        email: email.toLowerCase(),
+        refresh_token: refreshToken,
       },
       data: {
         refresh_token: null,

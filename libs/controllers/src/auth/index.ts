@@ -69,9 +69,9 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('logout')
-  async logout(@Body() body: { email: string }) {
-    const { email } = body;
-    await this.appService.logout(email);
+  async logout(@Body() body: { refresh_token: string }) {
+    const { refresh_token } = body;
+    await this.appService.logout(refresh_token);
     return { message: 'logout telah berhasil' };
   }
 }
