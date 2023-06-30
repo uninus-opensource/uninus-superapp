@@ -73,7 +73,7 @@ const TuitionFee: FC = (): ReactElement => {
         <h1 className="text-2xl py-4">
           Satuan Dana Pendidikan Program Sarjana
         </h1>
-
+        <SearchInput value={value} onChange={(e) => setValue(e.target.value)} />
         <DataTable
           columns={columns}
           data={data}
