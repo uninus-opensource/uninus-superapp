@@ -1,18 +1,15 @@
 'use client';
-import { TextField, Button, CheckBox } from '@uninus/components';
-import { useRouter } from 'next/navigation';
+import { TextField, Button } from '@uninus/components';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { NextPage } from 'next';
 
-const Register: NextPage = (): ReactElement => {
+const Login: NextPage = (): ReactElement => {
   const { control } = useForm({
     defaultValues: {
-      NIK: '',
-      NamaLengkap: '',
       email: '',
       password: '',
-      agreement: false,
     },
   });
 
@@ -21,32 +18,16 @@ const Register: NextPage = (): ReactElement => {
   return (
     <div>
       <div className="h-[15rem] w-full flex items-end justify-center font-bold text-[1.8rem] md:h-[17rem] lg:h-[10rem]">
-        <h1 className="text-center w-[80vw]">Pendaftaran Mahasiswa Baru</h1>
+        <h1 className="text-center w-[80vw]">Masuk</h1>
       </div>
       <form className="flex justify-center gap-5 mt-[2rem] md:mt-[3rem]">
         <div className="w-[80vw] md:w-[60vw] lg:w-[40vw] xl:w-[30vw]">
-          <TextField
-            name="NIK"
-            variant="md"
-            control={control}
-            label="NIK"
-            placeholder="Masukan NIK"
-            required
-          />
-          <TextField
-            name="NamaLengkap"
-            variant="md"
-            control={control}
-            label="Nama Lengkap"
-            placeholder="Masukan nama lengkap"
-            required
-          />
           <TextField
             name="email"
             variant="md"
             control={control}
             label="Email"
-            placeholder="Masukan email"
+            placeholder="Masukan email yang sudah terdaftar"
             required
           />
           <TextField
@@ -57,28 +38,20 @@ const Register: NextPage = (): ReactElement => {
             placeholder="Masukan password"
             required
           />
-          <div className="lg:mt-2 flex justify-start">
-            <CheckBox
-              name="agreement"
-              control={control}
-              required
-              size="lg"
-              label="Dengan mendaftar saya menyetujui syarat dan ketentuan yang berlaku"
-            />
-          </div>
+          <div className="lg:mt-2 flex justify-start"></div>
           <div className="flex justify-center mt-[1.5rem]">
             <Button size="sm" width="w-full">
-              Daftar
+              Masuk
             </Button>
           </div>
-          <div className="flex justify-center mt-[1rem] mb-[1rem]">
+          <div className="flex justify-center mt-[1rem] mb-[3rem]">
             <p>
-              Sudah memiliki akun?{' '}
+              Belum mempunyai akun ? {''}
               <span
                 className="underline text-bold cursor-pointer"
-                onClick={() => router.push('/login')}
+                onClick={() => router.push('/register')}
               >
-                Masuk
+                Daftar
               </span>
             </p>
           </div>
@@ -88,4 +61,4 @@ const Register: NextPage = (): ReactElement => {
   );
 };
 
-export default Register;
+export default Login;
