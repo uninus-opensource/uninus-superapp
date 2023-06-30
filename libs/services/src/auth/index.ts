@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, Users } from '@prisma/client';
@@ -163,15 +164,33 @@ export class AuthService {
   }
 
   async logout(refreshToken: string) {
-    await this.prisma.users.updateMany({
+    const user = await this.prisma.users.findFirst({
       where: {
         refresh_token: refreshToken,
+      },
+    });
+  
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+  
+    await this.prisma.users.update({
+      where: {
+        id: user.id,
       },
       data: {
         refresh_token: null,
       },
     });
+  
+    return { message: 'Logout berhasil' };
   }
+  
+  
+  
+  
+  
+  
 
   async getUsers() {
     return await this.prisma.users.findMany({

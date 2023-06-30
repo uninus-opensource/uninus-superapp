@@ -11,14 +11,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard, LoginDto, RegisterDto } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
-
-
-type TRequestAuth = {
-  user: {
-    nik: string;
-    email: string;
-  }
-}
+import { TRequestAuth } from '@uninus/entities'
 
 @Controller()
 export class AuthController {
@@ -81,7 +74,6 @@ export class AuthController {
   @Post('logout')
   async logout(@Body() body: { refresh_token: string }) {
     const { refresh_token } = body;
-    await this.appService.logout(refresh_token);
-    return { message: 'logout telah berhasil' };
+    return await this.appService.logout(refresh_token);
   }
 }
