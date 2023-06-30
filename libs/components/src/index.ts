@@ -1,3 +1,3 @@
 export * from './atoms';
 export * from './molecules';
-export * from './organisms/table';
+export * from './organisms/table/data-table';
