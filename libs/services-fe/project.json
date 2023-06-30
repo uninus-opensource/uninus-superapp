@@ -1,0 +1,16 @@
+{
+  "name": "services-fe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/services-fe/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/services-fe/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

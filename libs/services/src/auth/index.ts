@@ -158,7 +158,11 @@ export class AuthService {
         access_token: aToken,
         refresh_token: rToken,
       },
-      User,
+      user: {
+        id: User.id,
+        email: User.email,
+        fullname: User.fullname,
+      },
     };
   }
 
