@@ -6,9 +6,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, Users } from '@prisma/client';
 import { LoginDto, TPaginationArgs, TRegisterResponse } from '@uninus/entities';
+import { PrismaService } from '@uninus/models';
 import { paginate } from '@uninus/utilities';
 import * as bcrypt from 'bcrypt';
-import { PrismaService } from '../prisma/index';
 
 @Injectable()
 export class AuthService {

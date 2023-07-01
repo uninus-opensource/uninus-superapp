@@ -1,8 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { profileProperties, studentProperties } from '@uninus/entities';
-import { Prisma } from '@uninus/models';
+import { Prisma, PrismaService } from '@uninus/models';
 import { parseRequest } from '@uninus/utilities';
-import { PrismaService } from '../prisma/index';
 
 @Injectable()
 export class StudentService {

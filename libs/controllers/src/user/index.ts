@@ -11,7 +11,7 @@ import {
 import { CreateUserDto, UpdateUserDto } from '@uninus/entities';
 import { UserService } from '@uninus/services';
 
-@Controller()
+@Controller('user')
 export class UserController {
   constructor(private readonly appService: UserService) {}
   @Get('/user')
