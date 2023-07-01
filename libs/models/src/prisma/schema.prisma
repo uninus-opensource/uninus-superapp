@@ -1,11 +1,11 @@
-datasource db {
-  url      = env("DATABASE_URL")
-  provider = "postgres"
-}
-
 generator client {
   provider = "prisma-client-js"
   output   = "../../../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
 }
 
 model Users {
@@ -16,12 +16,12 @@ model Users {
   password      String
   refresh_token String?
   role_id       Int?       @default(1)
-  role          Roles?     @relation(fields: [role_id], references: [id])
-  students      Students?
-  lecturers     Lecturers?
-  employees     Employees?
   createdAt     DateTime   @default(now())
-  avatar        String?    @default(dbgenerated("null"))
+  avatar        String?
+  employees     Employees?
+  lecturers     Lecturers?
+  students      Students?
+  role          Roles?     @relation(fields: [role_id], references: [id])
 }
 
 model Students {
@@ -65,10 +65,10 @@ model Students {
   academic_year         String
   registration_wave     String
   user_id               String             @unique
-  user                  Users              @relation(fields: [user_id], references: [id])
-  profile               Profiles?          @relation(fields: [profile_id], references: [id])
   profile_id            String?            @unique
   createdAt             DateTime           @default(now())
+  profile               Profiles?          @relation(fields: [profile_id], references: [id])
+  user                  Users              @relation(fields: [user_id], references: [id])
 }
 
 model Profiles {
@@ -88,55 +88,55 @@ model Profiles {
   province       String
   city           String
   phone_number   String
-  students       Students?
-  lecturers      Lecturers?
   employees      Employees?
+  lecturers      Lecturers?
+  students       Students?
 }
 
 model Lecturers {
   id         String    @unique @default(uuid())
   nip        String    @unique
   user_id    String    @unique
-  user       Users     @relation(fields: [user_id], references: [id])
   createdAt  DateTime  @default(now())
-  profile    Profiles? @relation(fields: [profile_id], references: [id])
   profile_id String?   @unique
+  profile    Profiles? @relation(fields: [profile_id], references: [id])
+  user       Users     @relation(fields: [user_id], references: [id])
 }
 
 model Employees {
   id         String    @unique @default(uuid())
   nim        String    @unique
   user_id    String    @unique
-  user       Users     @relation(fields: [user_id], references: [id])
   createdAt  DateTime  @default(now())
-  profile    Profiles? @relation(fields: [profile_id], references: [id])
   profile_id String?   @unique
+  profile    Profiles? @relation(fields: [profile_id], references: [id])
+  user       Users     @relation(fields: [user_id], references: [id])
 }
 
 model Roles {
   id                Int                @id @default(autoincrement())
   name              String
-  users             Users[]
-  permissions       Permissions[]
-  roles_permissions RolesPermissions[]
   createdAt         DateTime           @default(now())
+  roles_permissions RolesPermissions[]
+  users             Users[]
+  permissions       Permissions[]      @relation("PermissionsToRoles")
 }
 
 model Permissions {
   id                Int                @id @default(1)
   name              String
-  roles             Roles[]
-  roles_permissions RolesPermissions[]
   createdAt         DateTime           @default(now())
+  roles_permissions RolesPermissions[]
+  roles             Roles[]            @relation("PermissionsToRoles")
 }
 
 model RolesPermissions {
   id            Int         @id @default(autoincrement())
   role_id       Int
   permission_id Int
-  role          Roles       @relation(fields: [role_id], references: [id])
-  permission    Permissions @relation(fields: [permission_id], references: [id])
   createdAt     DateTime    @default(now())
+  permission    Permissions @relation(fields: [permission_id], references: [id])
+  role          Roles       @relation(fields: [role_id], references: [id])
 }
 
 enum Gender {

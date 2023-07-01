@@ -3,11 +3,15 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "api:serve": "dotenv -e ./apps/api/.env -- yarn nx serve api",
     "pmb:serve": "yarn nx serve pmb",
-    "api:build": "yarn nx build api",
     "pmb:build": "yarn nx build pmb",
+    "api:serve": "dotenv -e ./apps/api/.env -- yarn nx serve api",
+    "api:studio": "dotenv -e ./apps/api/.env -- yarn prisma studio",
+    "api:build": "dotenv -e ./apps/api/.env -- yarn nx build api",
     "api:migrate": "dotenv -e ./apps/api/.env -- yarn prisma migrate dev",
+    "api:migrate:reset": "dotenv -e ./apps/api/.env -- yarn prisma migrate reset",
+    "api:db:push": "dotenv -e ./apps/api/.env -- yarn prisma db push",
+    "api:db:pull": "dotenv -e ./apps/api/.env -- yarn prisma db pull",
     "api:serve:prod": "dotenv -e ./apps/api/.env -- node dist/apps/api/main.js"
   },
   "browser": {
