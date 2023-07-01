@@ -27,7 +27,7 @@ const Login: NextPage = (): ReactElement => {
   const session = useSession();
 
   return (
-    <div>
+    <section className="h-screen">
       <div className="h-[15rem] w-full flex items-end justify-center font-bold text-[1.8rem] md:h-[17rem] lg:h-[10rem]">
         <h1 className="text-center w-[80vw]">
           Masuk {session?.data?.user?.name}
@@ -65,7 +65,12 @@ const Login: NextPage = (): ReactElement => {
             placeholder="Masukan password"
             required
           />
-          <div className="lg:mt-2 flex justify-start"></div>
+          <p
+            className="text-green-700 underline cursor-pointer text-sm"
+            onClick={() => router.push('/login/forgot-password')}
+          >
+            Lupa password ?
+          </p>
           <div className="flex justify-center mt-[1.5rem]">
             <Button size="sm" width="w-full">
               Masuk
@@ -84,7 +89,7 @@ const Login: NextPage = (): ReactElement => {
           </div>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 
