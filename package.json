@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "api:serve": "yarn nx serve api",
+    "api:serve": "dotenv -e ./apps/api/.env -- yarn nx serve api",
     "pmb:serve": "yarn nx serve pmb",
     "api:build": "yarn nx build api",
     "pmb:build": "yarn nx build pmb",
