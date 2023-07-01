@@ -1,8 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { TPaginationArgs } from '@uninus/entities';
-import { Prisma } from '@uninus/models';
+import { Prisma, PrismaService } from '@uninus/models';
 import { paginate } from '@uninus/utilities';
-import { PrismaService } from '../prisma/index';
 
 @Injectable()
 export class UserService {

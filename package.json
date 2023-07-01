@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "auth-api:serve": "yarn nx serve auth-api",
-    "pmb-api:serve": "yarn nx serve pmb-api",
-    "pmb:serve": "yarn nx serve pmb"
+    "api:serve": "yarn nx serve api",
+    "pmb:serve": "yarn nx serve pmb",
+    "api:build": "yarn nx build api",
+    "pmb:build": "yarn nx build pmb"
   },
   "browser": {
     "fs": false,

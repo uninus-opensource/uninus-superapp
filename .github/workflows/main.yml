@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: 18
       - run: yarn install
-      - run: yarn run nx run-many --target=lint --projects=akreditasi,akreditasi-api,evaluasi,evaluasi-api,auth-api,keuangan,keuangan-api,neo-feeder, neo-feeder-api,pegawai,pegawai-api,pmb,pmb-api,siakad,siakad-api,smart-dashboard,smart-dashboard-api,tata-usaha,tata-usaha-api,tracer,tracer-api,lms,lms-api
+      - run: yarn run nx run-many --target=lint --projects=akreditasi,evaluasi,keuangan,neo-feeder,pegawai,pmb,siakad,smart-dashboard,tata-usaha,tracer,lms,api,components,contollers,entities,master-api,models,modules,models,providers,services,services-fe,utilities
 
   format-write:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: 18
       - run: yarn install
-      - run: yarn run nx run-many --target=build --projects=akreditasi,akreditasi-api,evaluasi,evaluasi-api,auth-api,keuangan,keuangan-api,neo-feeder, neo-feeder-api,pegawai,pegawai-api,pmb,pmb-api,siakad,siakad-api,smart-dashboard,smart-dashboard-api,tata-usaha,tata-usaha-api,tracer,tracer-api,lms,lms-api
+      - run: yarn run nx run-many --target=build --projects=akreditasi,evaluasi,keuangan,neo-feeder,pegawai,pmb,siakad,smart-dashboard,tata-usaha,tracer,lms,api,components,contollers,entities,master-api,models,modules,models,providers,services,services-fe,utilities
 
   clean:
     runs-on: ubuntu-latest
