@@ -48,6 +48,8 @@ export const TextField = <T extends FieldValues>({
     'py-4 rounded-lg placeholder:text-md text-md': variant === 'lg',
     'py-3 rounded-md placeholder:text-sm text-sm': variant === 'md',
     'py-2 rounded-md placeholder:text-xs text-xs': variant === 'sm',
+    'p-5 text-center rounded-2xl placeholder:text-xs placeholder:text-slate-300 text-xl':
+      variant === 'otp',
   });
 
   const inputExtras = clsx({
