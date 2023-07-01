@@ -11,7 +11,7 @@ import {
 import { JwtAuthGuard, LoginDto, RegisterDto } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
 
-@Controller()
+@Controller('auth')
 export class AuthController {
   constructor(private readonly appService: AuthService) {}
   @Get('/')

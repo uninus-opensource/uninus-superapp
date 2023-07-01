@@ -3,4 +3,5 @@
 export * from './auth';
 export * from './pmb';
 export * from './prisma';
+export * from './student';
 export * from './user';

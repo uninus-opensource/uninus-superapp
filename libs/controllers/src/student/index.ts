@@ -10,7 +10,7 @@ import {
 import { CreateStudentDto, UpdateStudentDto } from '@uninus/entities';
 import { StudentService } from '@uninus/services';
 
-@Controller()
+@Controller('student')
 export class StudentController {
   constructor(private readonly appService: StudentService) {}
 
