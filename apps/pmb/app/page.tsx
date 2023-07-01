@@ -1,5 +1,5 @@
 'use client';
-import { FC, Fragment, ReactElement, useState } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Button,
@@ -27,7 +27,7 @@ const LandingPage: FC = (): ReactElement => {
   };
 
   return (
-    <Fragment>
+    <section className="px-6 py-12">
       <div className="flex flex-col justify-center items-center h-screen gap-4">
         <CheckBox
           control={control}
@@ -152,7 +152,7 @@ const LandingPage: FC = (): ReactElement => {
           submitText="Save"
           closeText="Cancel"
         />
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-auto">
           <UploadField
             control={control}
             label="Upload"
@@ -179,7 +179,7 @@ const LandingPage: FC = (): ReactElement => {
           />
         </div>
       </div>
-    </Fragment>
+    </section>
   );
 };
 

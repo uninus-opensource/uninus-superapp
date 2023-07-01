@@ -34,11 +34,11 @@ export const Button: FC<IButtonProps> = ({
         variant === BUTTON_VARIANT.WARNING,
       'bg-white text-yellow-600 border border-yellow-600 rounded-lg hover:opacity-75 ':
         variant === BUTTON_VARIANT.WARNING_OUTLINE,
-      'text-white uppercase bg-none border-b border-green-930 hover:border-white rounded-none hover:opacity-100 ':
+      'text-white uppercase bg-none border-b border-green-930 hover:border-white font-semibold rounded-none hover:opacity-100 ':
         variant === BUTTON_VARIANT.NAVLIST,
       'rounded-lg hover:bg-green-800 ': variant === BUTTON_VARIANT.HAMBURGER,
 
-      'text-white uppercase bg-none hover:bg-green-800 rounded-none hover:opacity-100 w-full ':
+      'text-white uppercase bg-none hover:bg-green-800 rounded-none font-semibold hover:opacity-100 w-full ':
         variant === BUTTON_VARIANT.SIDEBARLIST,
     }
   );
