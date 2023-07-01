@@ -6,7 +6,9 @@
     "api:serve": "yarn nx serve api",
     "pmb:serve": "yarn nx serve pmb",
     "api:build": "yarn nx build api",
-    "pmb:build": "yarn nx build pmb"
+    "pmb:build": "yarn nx build pmb",
+    "api:migrate": "dotenv -e ./apps/api/.env -- yarn prisma migrate dev",
+    "api:serve:prod": "dotenv -e ./apps/api/.env -- node dist/apps/api/main.js"
   },
   "browser": {
     "fs": false,
@@ -88,6 +90,8 @@
     "babel-preset": "^1.1.7",
     "css-loader": "^6.8.1",
     "cypress": "^12.16.0",
+    "dotenv": "^16.3.1",
+    "dotenv-cli": "^7.2.1",
     "eslint": "~8.43.0",
     "eslint-config-next": "13.4.7",
     "eslint-config-prettier": "8.8.0",
