@@ -22,7 +22,6 @@ const ResetPassword: FC = (): ReactElement => {
               variant="sm"
               type="password"
               label="Password baru"
-              placeholder="********"
               control={control}
               required
             />
@@ -32,7 +31,6 @@ const ResetPassword: FC = (): ReactElement => {
             variant="sm"
             type="password"
             label="Konfirmasi password"
-            placeholder="********"
             control={control}
             required
           />
