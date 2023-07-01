@@ -21,7 +21,7 @@ export const Footer: FC = (): ReactElement => {
   ];
 
   return (
-    <footer className="absolute bottom-0 bg-green-930 w-full h-[40vh] -z-50 lg:h-[25vh] text-sm font-semibold flex flex-col justify-between items-center text-white ">
+    <footer className="bottom-0 bg-green-930 w-full h-[40vh] z-30 lg:h-[25vh] text-sm font-semibold flex flex-col justify-between items-center text-white ">
       <section className="flex flex-col lg:flex-row lg:mt-6 w-full h-full lg:h-auto justify-around items-center lg:justify-between px-10">
         <ul>
           {footList?.map((foot, idx) => (

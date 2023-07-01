@@ -71,7 +71,7 @@ export const Navbar: FC = (): ReactElement => {
         <ul className="mt-6 flex flex-col gap-6">
           {navList.map((nav, idx) => (
             <li key={idx}>
-              <Button variant="sidebarlist" height="h-8" href={nav.link}>
+              <Button variant="sidebarlist" height="h-8" href={nav.link} onClick={closeSidebar}>
                 {nav.item}
               </Button>
             </li>
