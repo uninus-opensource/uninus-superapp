@@ -100,7 +100,7 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Post('resetpassword')
+  @Post('reset-password')
   async resetPassword(
     @Body(new ValidationPipe()) resetPasswordDto: ResetPasswordDto
   ): Promise<{ message: string }> {
