@@ -14,22 +14,22 @@ import { StudentService } from '@uninus/services';
 export class StudentController {
   constructor(private readonly appService: StudentService) {}
 
-  @Post('/student/:id')
+  @Post('/:id')
   createData(@Param('id') id: string, @Body('') studentData: CreateStudentDto) {
     return this.appService.createStudent(id, studentData);
   }
 
-  @Get('/student/:id')
+  @Get('/:id')
   getData(@Param('id') id: string) {
     return this.appService.getStudent(id);
   }
 
-  @Put('/student/:id')
+  @Put('/:id')
   updateData(@Param('id') id: string, @Body('') studentData: UpdateStudentDto) {
     return this.appService.updateStudent(id, studentData);
   }
 
-  @Delete('/student/:id')
+  @Delete('/:id')
   deleteData(@Param('id') id: string) {
     return this.appService.deleteStudent(id);
   }

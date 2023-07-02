@@ -1,13 +1,4 @@
 export type TRegisterResponse = {
-  id: string;
-  nik: string;
-  email: string;
-  fullname: string | null;
-  password: string;
-  refresh_token: string | null;
-  role_id?: number | null;
-  createdAt: Date;
-  avatar: string | null;
   message: string;
 };
 
@@ -17,4 +8,19 @@ export type TRegisterRequest = {
     fullname: string,
     email: string,
     password: string,
+}
+
+export type TLResponse = {
+  message: string,
+  token: {
+    access_token: string;
+    refresh_token: string;
+  }
+  User: {
+    id: string;
+    email: string;
+    fullname: string | null;
+    password: string;
+  }
+  
 }
