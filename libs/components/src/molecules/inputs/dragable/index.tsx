@@ -6,6 +6,7 @@ import {
   useController,
   UseControllerProps,
 } from 'react-hook-form';
+import { FcDocument } from 'react-icons/fc';
 
 interface TUploadFieldProps<T> extends UseControllerProps<FieldValues, string> {
   className?: string;
@@ -42,13 +43,14 @@ export const DraggableComponent = <T extends FieldValues>(
   ];
 
   const ACCEPTED_VIDEO_TYPES = ['video/ogg', 'video/webm', 'video/mp4'];
+  const ACCEPTED_DOCUMENT_TYPES = ['application/pdf', 'application/msword'];
 
   return (
     <div
       {...getRootProps()}
       className={`flex items-center h-auto bg-neutral-100 justify-center relative w-auto p-2 border-2 border-dashed rounded-lg border-neutral-300 hover:text-white ${props.className}`}
     >
-      {fileType && fileName && (
+      {fileType && (
         <span
           onClick={() => {
             setFileType('');
@@ -73,15 +75,18 @@ export const DraggableComponent = <T extends FieldValues>(
           height={400}
           src={URL.createObjectURL(field.value)}
         />
-      ) : field.value && fileType === 'application/pdf' ? (
-        <span className="text-black">{fileName}</span>
+      ) : field.value && ACCEPTED_DOCUMENT_TYPES.includes(fileType) ? (
+        <span className="flex flex-col text-black">
+          <FcDocument />
+          {fileName}
+        </span>
       ) : (
         <label className="flex flex-col items-center w-full px-4 py-6 bg-[#F5F5F5] dark:bg-transparent rounded-lg cursor-pointer hover:text-white">
           <span className="mt-2 text-[14px] text-black dark:text-white">
-            Drop the files here
+            Click to Upload files
           </span>
           <span className="mt-2 text-[12px] text-[#737373] dark:text-white">
-            Drag 'n' drop some files here
+            Or Drag 'n' drop some files here
           </span>
           <input
             {...getInputProps()}
