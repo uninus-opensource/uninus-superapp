@@ -1,16 +1,9 @@
 import { ReactElement, useCallback, useState } from 'react';
 import { useDropzone, FileWithPath } from 'react-dropzone';
 import Image from 'next/image';
-import {
-  FieldValues,
-  useController,
-  UseControllerProps,
-} from 'react-hook-form';
+import { FieldValues, useController } from 'react-hook-form';
 import { FcDocument } from 'react-icons/fc';
-
-interface TUploadFieldProps<T> extends UseControllerProps<FieldValues, string> {
-  className?: string;
-}
+import { TUploadFieldProps } from './types';
 
 export const DraggableComponent = <T extends FieldValues>(
   props: TUploadFieldProps<T>
