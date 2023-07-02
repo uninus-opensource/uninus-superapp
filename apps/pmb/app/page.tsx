@@ -73,62 +73,6 @@ const LandingPage: NextPage = (): ReactElement => {
                       Angkatan sebelumnya
                     </li>
 
-<<<<<<< Updated upstream
-        <CheckBox
-          control={control}
-          name={'checkboxField'}
-          required
-          variant="warning"
-          size="lg"
-          labelSize="lg"
-          label="Setuju"
-          message="Valid"
-        />
-        <h1 className="text-[2rem] font-bold">Tes Monserrat</h1>
-        <div className="flex gap-2">
-          <SelectField
-            name="peran"
-            label="Peran"
-            size="sm"
-            placeholder="pilih peran"
-            status="none"
-            options={['Mahasiswa', 'Dosen', 'Staff']}
-            value="Dosen"
-          />
-          <SelectField
-            name="peran"
-            label="Peran"
-            size="sm"
-            placeholder="pilih peran"
-            status="warning"
-            options={['Mahasiswa', 'Dosen', 'Staff']}
-            message="warning sample"
-            value="Mahasiswa"
-          />
-        </div>
-        <div className="flex gap-2">
-          <SelectField
-            name="peran"
-            label="Peran"
-            size="md"
-            placeholder="pilih peran"
-            status="error"
-            options={['Mahasiswa', 'Dosen', 'Staff']}
-            message="error sample"
-            value="Mahasiswa"
-          />
-          <SelectField
-            name="peran"
-            label="Peran"
-            size="md"
-            placeholder="pilih peran"
-            status="success"
-            options={['Mahasiswa', 'Dosen', 'Staff']}
-            message="success sample"
-            value="Staff"
-          />
-        </div>
-=======
                     <li>Nilai UTBK atau hasil SBMPTN/SNBT Rata-rata ≥ 450</li>
                   </ol>
                 </div>
@@ -158,7 +102,6 @@ const LandingPage: NextPage = (): ReactElement => {
           </div>
         </section>
         {/* end jalur seleksi */}
->>>>>>> Stashed changes
 
         {/* start sesi Pendidikan  */}
         <section className="text-center w-full flex flex-col gap-y-14 px-5 ">
