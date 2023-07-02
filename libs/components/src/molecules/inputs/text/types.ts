@@ -24,4 +24,5 @@ export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   hint?: string;
   isTextArea?: boolean;
   textAreaRow?: number;
+  maxlenght?: number;
 };
