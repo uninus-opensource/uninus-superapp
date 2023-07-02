@@ -8,8 +8,15 @@ import {
   Query,
   Request,
   UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
-import { JwtAuthGuard, LoginDto, RegisterDto, otpDto, TLoginAuth } from '@uninus/entities';
+import {
+  JwtAuthGuard,
+  LoginDto,
+  RegisterDto,
+  TLoginAuth,
+  ResetPasswordDto,
+} from '@uninus/entities';
 import { AuthService } from '@uninus/services';
 
 @Controller('auth')
@@ -58,7 +65,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('user/me')
   async getUsers(@Request() req: TLoginAuth) {
-    const { email , nik } = req.user;
+    const { email, nik } = req.user;
     return await this.appService.profile(nik, email);
   }
 
@@ -78,17 +85,25 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('send')
   sendMail(@Body('email') email: string) {
-    return this.appService.sendOtp(email)
+    return this.appService.sendOtp(email);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('verif')
   async verifOtp(@Body('email') email: string, @Body('otp') otp: string) {
-    const isValid = this.appService.verifyOtp(email,otp)
-    if (await isValid){
-      return {message: 'Kode otp valid, email telah diverifikasi'}
-    }else {
-      return {message: 'Kode otp tidak valid'}
+    const isValid = this.appService.verifyOtp(email, otp);
+    if (await isValid) {
+      return { message: 'Kode otp valid, email telah diverifikasi' };
+    } else {
+      return { message: 'Kode otp tidak valid' };
     }
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('reset-password')
+  async resetPassword(
+    @Body(new ValidationPipe()) resetPasswordDto: ResetPasswordDto
+  ): Promise<{ message: string }> {
+    return this.appService.resetPassword(resetPasswordDto);
   }
 }

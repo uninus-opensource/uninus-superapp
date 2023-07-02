@@ -6,6 +6,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, Users } from '@prisma/client';
 import {
+  ResetPasswordDto,
   TJwtPayload,
   TLoginResponse,
   TPaginationArgs,
@@ -305,5 +306,63 @@ export class AuthService {
       access_token: at,
       refresh_token: rt,
     };
+  }
+
+  async updatePassword(userId: string, newPassword: string): Promise<void> {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await this.prisma.users.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+  }
+
+  async resetPassword(
+    resetPasswordDto: ResetPasswordDto
+  ): Promise<{ message: string }> {
+    const { email, newPassword, confirmPassword } = resetPasswordDto;
+
+    if (newPassword !== confirmPassword) {
+      throw new BadRequestException(
+        'Password baru dengan konfirmasi password tidak sama'
+      );
+    }
+
+    const user = await this.findOne(email.toLowerCase());
+    if (!user) {
+      throw new BadRequestException('Email tidak ditemukan');
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    await this.prisma.users.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+    await this.sendPasswordResetEmail(user.email, newPassword);
+
+    return { message: 'Password berhasil dirubah' };
+  }
+
+  async sendPasswordResetEmail(
+    email: string,
+    newPassword: string
+  ): Promise<void> {
+    const text = `Password telah di reset jangan lupa lagi ya, ini password kamu yang baru: ${newPassword}`;
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Password Reset',
+      text,
+    });
   }
 }
