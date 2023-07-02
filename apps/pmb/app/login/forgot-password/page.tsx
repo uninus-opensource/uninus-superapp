@@ -17,7 +17,7 @@ const ForgotPassword: NextPage = (): ReactElement => {
   return (
     <section className="h-screen flex flex-col justify-center items-center">
       <div className="w-[60vw] md:w-[45vw] lg:w-[40vw] xl:w-[30vw]">
-        <h1 className="font-bold text-[2rem]">Lupa password ?</h1>
+        <h1 className="font-bold text-[2rem]">Lupa kata sandi ?</h1>
         <p className="mt-2 text-[0.9rem]">
           Ketik email anda di kolom bawah ini dan kami akan mengirimkan kode
           untuk mengatur ulang kata sandi anda
