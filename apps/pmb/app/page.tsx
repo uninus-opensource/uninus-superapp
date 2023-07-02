@@ -1,19 +1,21 @@
 'use client';
 import { FC, ReactElement, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import {
   Button,
   CheckBox,
   SelectField,
   Modal,
   UploadField,
+  DraggableComponent,
 } from '@uninus/components';
 
 const LandingPage: FC = (): ReactElement => {
-  const { control } = useForm({
+  const { control } = useForm<FieldValues>({
     defaultValues: {
       checkboxField: false,
       uploadField: '',
+      draggableComponent: '',
     },
   });
 
@@ -178,6 +180,7 @@ const LandingPage: FC = (): ReactElement => {
             accept="application/pdf"
           />
         </div>
+        <DraggableComponent control={control} name="draggableComponent" />
       </div>
     </section>
   );
