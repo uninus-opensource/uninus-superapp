@@ -14,7 +14,7 @@ import { UserService } from '@uninus/services';
 @Controller('user')
 export class UserController {
   constructor(private readonly appService: UserService) {}
-  @Get('/user')
+  @Get()
   getData(
     @Query('page') page: number,
     @Query('per_page') perPage: number,
@@ -47,22 +47,22 @@ export class UserController {
     });
   }
 
-  @Get('/user/:id')
+  @Get('/:id')
   getDataById(@Param('id') id: string) {
     return this.appService.getUserById(id);
   }
 
-  @Post('/user')
+  @Post()
   createData(@Body() createUserDto: CreateUserDto) {
     return this.appService.createUser(createUserDto);
   }
 
-  @Delete('/user/:id')
+  @Delete('/:id')
   deleteData(@Param('id') id: string) {
     return this.appService.deleteUser(id);
   }
 
-  @Put('/user/:id')
+  @Put('/:id')
   updateData(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.appService.updateUser(id, updateUserDto);
   }
