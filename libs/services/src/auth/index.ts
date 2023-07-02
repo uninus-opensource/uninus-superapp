@@ -2,23 +2,29 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, Users } from '@prisma/client';
-import { LoginDto, TJwtPayload, TLoginResponse, TPaginationArgs, TRegisterResponse, otpDto, TToken, } from '@uninus/entities';
+import {
+  TJwtPayload,
+  TLoginResponse,
+  TPaginationArgs,
+  TRegisterResponse,
+  TToken,
+} from '@uninus/entities';
 import { PrismaService } from '@uninus/models';
 import { paginate } from '@uninus/utilities';
 import * as bcrypt from 'bcrypt';
-import { MailerService} from '@nestjs-modules/mailer'
-import { error } from 'console';
-
-
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwt: JwtService, private mailerService: MailerService) {}
-  private otpMap: Map <string, string> = new Map();
+  constructor(
+    private prisma: PrismaService,
+    private jwt: JwtService,
+    private mailerService: MailerService
+  ) {}
+  private otpMap: Map<string, string> = new Map();
 
   async getUser({ where, orderBy, page, perPage }: TPaginationArgs) {
     return paginate(
@@ -57,7 +63,6 @@ export class AuthService {
       },
     });
   }
-  
 
   async profile(
     nik: string,
@@ -126,28 +131,28 @@ export class AuthService {
   }
 
   // Login Service
-  async login(email: string, password:string): Promise<TLoginResponse>{
+  async login(email: string, password: string): Promise<TLoginResponse> {
     const User = await this.findOne(email.toLowerCase());
     if (!User) {
-        throw new BadRequestException('Akun tidak ditemukan')
+      throw new BadRequestException('Akun tidak ditemukan');
     }
-    const isMatch = await this.comparePasswords(password, User.password)
+    const isMatch = await this.comparePasswords(password, User.password);
 
     if (!isMatch) {
-        throw new BadRequestException('Password salah');
+      throw new BadRequestException('Password salah');
     }
     const aToken = await this.signToken({
-        id: User.id,
-        email: User.email
-    })
+      id: User.id,
+      email: User.email,
+    });
 
     const rToken = await this.refreshToken({
       id: User.id,
-      email: User.email
-  })
+      email: User.email,
+    });
 
     if (!aToken) {
-        throw new ForbiddenException()
+      throw new ForbiddenException();
     }
 
     await this.prisma.users.update({
@@ -157,27 +162,27 @@ export class AuthService {
       data: {
         refresh_token: rToken,
       },
-    })
+    });
 
-    const roleName = User.role?.name || ""; 
-    return ({
-      message: 'Berhasil Login', 
+    const roleName = User.role?.name || '';
+    return {
+      message: 'Berhasil Login',
       token: {
         access_token: aToken,
         refresh_token: rToken,
       },
       id: User.id,
-      user:{
-      id: User.id,
-      nik: User.nik,
-      email: User.email,
-      fullname: User.fullname,
-      role: roleName,
-      createdAt: User.createdAt,
-      avatar: User.avatar,
-      }
-    })
-}
+      user: {
+        id: User.id,
+        nik: User.nik,
+        email: User.email,
+        fullname: User.fullname,
+        role: roleName,
+        createdAt: User.createdAt,
+        avatar: User.avatar,
+      },
+    };
+  }
 
   async logout(refresh_token: string) {
     const result = await this.prisma.users.updateMany({
@@ -188,17 +193,15 @@ export class AuthService {
         refresh_token: null,
       },
     });
-  
+
     if (result.count > 0) {
       return {
         message: 'Berhasil logout',
       };
     } else {
-        throw new BadRequestException('Gagal logout');
+      throw new BadRequestException('Gagal logout');
     }
-    
   }
-  
 
   async getUsers() {
     return await this.prisma.users.findMany({
@@ -227,30 +230,30 @@ export class AuthService {
       expiresIn: '2h',
     });
   }
-  
+
   async sendOtp(email: string) {
     const otp = await this.generatorOtp();
     const user = await this.prisma.users.findUnique({
       where: {
-        email
-      }
+        email,
+      },
     });
 
-    if(!user) {
-      return {message: 'Email tidak ditemukan!'}
+    if (!user) {
+      return { message: 'Email tidak ditemukan!' };
     }
-    
-    const store = await this.storeOtp(email, otp)
+
+    const store = await this.storeOtp(email, otp);
     const receipt = await this.emailTemplates(email, otp);
 
-    return {message: 'Kode verifikasi telah terkirim', receipt, store};
+    return { message: 'Kode verifikasi telah terkirim', receipt, store };
   }
-  
+
   async emailTemplates(email: string, otp: string) {
     this.mailerService.sendMail({
       to: email,
       subject: 'OTP Verification',
-      text: `Your OTP for Verification is: ${otp}`
+      text: `Your OTP for Verification is: ${otp}`,
     });
   }
 
@@ -260,10 +263,10 @@ export class AuthService {
   }
 
   async storeOtp(email: string, otp: string) {
-    this.otpMap.set(email, otp)
+    this.otpMap.set(email, otp);
   }
 
-  async verifyOtp(email: string, otpProvided: string){
+  async verifyOtp(email: string, otpProvided: string) {
     const storedOtp = this.otpMap.get(email);
     return otpProvided === storedOtp;
   }
