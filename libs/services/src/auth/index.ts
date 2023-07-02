@@ -1,11 +1,11 @@
 import {
   BadRequestException,
-  ForbiddenException,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, Users } from '@prisma/client';
-import { LoginDto, TPaginationArgs, TRegisterResponse, otpDto } from '@uninus/entities';
+import { LoginDto, TJwtPayload, TLoginResponse, TPaginationArgs, TRegisterResponse, otpDto, TToken } from '@uninus/entities';
 import { PrismaService } from '@uninus/models';
 import { paginate } from '@uninus/utilities';
 import * as bcrypt from 'bcrypt';
@@ -32,10 +32,9 @@ export class AuthService {
     );
   }
 
-  async findOne(nik: string, email: string): Promise<Users | undefined> {
+  async findOne(email: string): Promise<Users | undefined> {
     return this.prisma.users.findUnique({
       where: {
-        nik,
         email,
       },
     }) as Promise<Users | undefined>;
@@ -99,87 +98,61 @@ export class AuthService {
       },
     });
 
+    if (!createdUser) {
+      throw new BadRequestException('Gagal Mendaftar');
+    }
     return {
-      ...createdUser,
       message: 'Akun Berhasil dibuat!',
     };
   }
 
-  async login(dto: LoginDto) {
-    const { email, password } = dto;
-
-    const User = await this.prisma.users.findUnique({
-      where: {
-        email,
-      },
-      select: {
-        id: true,
-        email: true,
-        fullname: true,
-        password: true,
-      },
-    });
-
-    if (!User) {
-      throw new BadRequestException('Akun tidak ditemukan');
+  async login(email: string, pass: string,): Promise<TLoginResponse> {
+    const user = await this.findOne(email.toLowerCase());
+    if (!user) {
+      throw new UnauthorizedException();
     }
 
-    const isMatch = await this.comparePasswords({
-      password,
-      hash: User.password,
-    });
+    const isMatch = await bcrypt.compare(pass, user.password);
 
     if (!isMatch) {
-      throw new BadRequestException('Password salah');
+      throw new UnauthorizedException();
     }
 
-    const aToken = await this.signToken({
-      id: User.id,
-      email: User.email,
-    });
-
-    const rToken = await this.refreshToken({
-      id: User.id,
-      email: User.email,
-    });
-
-    if (!aToken) {
-      throw new ForbiddenException();
-    }
-
-    await this.prisma.users.update({
-      where: {
-        email: User.email,
-      },
-      data: {
-        refresh_token: rToken,
-      },
-    });
+    const token = await this.getTokens(user.id, user.email);
+    await this.updateRtHash(user.id, token.refresh_token);
 
     return {
-      message: 'Berhasil Login',
-      token: {
-        access_token: aToken,
-        refresh_token: rToken,
-      },
+      token,
+      id: user.id,
       user: {
-        id: User.id,
-        email: User.email,
-        fullname: User.fullname,
+        fullname: user.fullname,
+        email: user.email,
+        nik: user.nik,
+        role_id: user.role_id,
+        avatar: user.avatar,
       },
     };
   }
 
-  async logout(email: string) {
-    await this.prisma.users.update({
+  async logout(refresh_token: string) {
+    const result = await this.prisma.users.updateMany({
       where: {
-        email: email.toLowerCase(),
+        refresh_token: refresh_token,
       },
       data: {
         refresh_token: null,
       },
     });
+  
+    if (result.count > 0) {
+      return {
+        message: 'Berhasil logout',
+      };
+    } else {
+      throw new BadRequestException('Gagal logout');
+    }
   }
+  
 
   async getUsers() {
     return await this.prisma.users.findMany({
@@ -247,5 +220,41 @@ export class AuthService {
   async verifyOtp(email: string, otpProvided: string){
     const storedOtp = this.otpMap.get(email);
     return otpProvided === storedOtp;
+  }
+
+  async updateRtHash(userId: string, rt: string): Promise<void> {
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(rt, salt);
+    await this.prisma.users.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        refresh_token: hash,
+      },
+    });
+  }
+
+  async getTokens(userId: string, email: string): Promise<TToken> {
+    const jwtPayload: TJwtPayload = {
+      id: userId,
+      email: email,
+    };
+
+    const [at, rt] = await Promise.all([
+      this.jwt.signAsync(jwtPayload, {
+        secret: process.env.ACCESS_SECRET,
+        expiresIn: '15m',
+      }),
+      this.jwt.signAsync(jwtPayload, {
+        secret: process.env.REFRESH_SECRET,
+        expiresIn: '7d',
+      }),
+    ]);
+
+    return {
+      access_token: at,
+      refresh_token: rt,
+    };
   }
 }

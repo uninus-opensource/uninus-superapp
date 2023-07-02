@@ -6,9 +6,15 @@ import { PrismaModule } from '@uninus/models';
 import { AuthService } from '@uninus/services';
 import { PmbModule } from '../pmb';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { JwtStrategy, RtStrategy } from '@uninus/entities';
 
 @Module({
-  imports: [PrismaModule, JwtModule, PassportModule, PmbModule,
+  imports: [PrismaModule, JwtModule.register({
+    secret: process.env.ACCESS_SECRET,
+    signOptions: { expiresIn: '1h'}
+  }), PassportModule.register({
+    defaultStrategy: 'jwt'
+  }), PmbModule,
   MailerModule.forRoot({
     transport: {
       service: 'gmail',
@@ -24,6 +30,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
     }
   })],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, JwtStrategy, RtStrategy],
 })
 export class AuthModule {}

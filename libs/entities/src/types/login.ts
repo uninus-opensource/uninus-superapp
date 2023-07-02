@@ -1,10 +1,16 @@
-import { Users } from '@prisma/client';
+
 import { TToken } from './token';
 
 export type TLoginResponse = {
   id: string;
   token: TToken;
-  user: Users;
+  user: {
+    nik: string;
+    fullname: string | null;
+    email: string;
+    avatar: string | null;
+    role_id: number | null;
+  }
 };
 
 export type TLoginRequest = {
