@@ -9,7 +9,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard, LoginDto, RegisterDto, otpDto, TRequestAuth } from '@uninus/entities';
+import { JwtAuthGuard, LoginDto, RegisterDto, otpDto, TLoginAuth } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
 
 @Controller('auth')
@@ -56,8 +56,8 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('me')
-  async getUsers(@Request() req: TRequestAuth) {
+  @Get('user/me')
+  async getUsers(@Request() req: TLoginAuth) {
     const { email , nik } = req.user;
     return await this.appService.profile(nik, email);
   }
@@ -70,9 +70,9 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('logout')
-  async logout(@Body() body: { email: string }) {
-    const { email } = body;
-    return await this.appService.logout(email);
+  async logout(@Body() body: { refresh_token: string }) {
+    const { refresh_token } = body;
+    return await this.appService.logout(refresh_token);
   }
 
   @HttpCode(HttpStatus.OK)
