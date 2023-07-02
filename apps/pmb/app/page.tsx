@@ -63,6 +63,7 @@ const LandingPage: FC = (): ReactElement => {
           label="Setuju"
           message="Valid"
         />
+        <h1 className="text-[2rem] font-bold">Tes Monserrat</h1>
         <div className="flex gap-2">
           <SelectField
             name="peran"
