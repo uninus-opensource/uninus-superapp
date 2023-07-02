@@ -14,9 +14,9 @@ export const SearchInput: FC<SearchProps> = ({
           placeholder="Cari"
           value={value}
           onChange={onChange}
-          className="bg-neutral-100 w-full text-sm "
+          className="bg-neutral-100 w-full outline-none text-sm "
         />
-        <AiOutlineSearch className="text-[18px]  text-neutral-900 hover:text-version3-500 transition-colors ease-in-out duration-300 cursor-pointer" />
+        <AiOutlineSearch className="text-[18px]  text-neutral-900 transition-colors ease-in-out duration-300 cursor-pointer" />
       </div>
     </div>
   );
