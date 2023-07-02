@@ -5,14 +5,18 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, Users } from '@prisma/client';
-import { LoginDto, TPaginationArgs, TRegisterResponse } from '@uninus/entities';
+import { LoginDto, TPaginationArgs, TRegisterResponse, otpDto } from '@uninus/entities';
 import { PrismaService } from '@uninus/models';
 import { paginate } from '@uninus/utilities';
 import * as bcrypt from 'bcrypt';
+import { MailerService} from '@nestjs-modules/mailer'
+
+
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwt: JwtService) {}
+  constructor(private prisma: PrismaService, private jwt: JwtService, private mailerService: MailerService) {}
+  private otpMap: Map <string, string> = new Map();
 
   async getUser({ where, orderBy, page, perPage }: TPaginationArgs) {
     return paginate(
@@ -203,5 +207,45 @@ export class AuthService {
       secret: process.env.REFRESH_SECRET,
       expiresIn: '2h',
     });
+  }
+  
+  async sendOtp(email: string) {
+    const otp = await this.generatorOtp();
+    const user = await this.prisma.users.findUnique({
+      where: {
+        email
+      }
+    });
+
+    if(!user) {
+      return {message: 'Email tidak ditemukan!'}
+    }
+    
+    const store = await this.storeOtp(email, otp)
+    const receipt = await this.emailTemplates(email, otp);
+
+    return {message: 'Kode verifikasi telah terkirim', receipt, store};
+  }
+  
+  async emailTemplates(email: string, otp: string) {
+    this.mailerService.sendMail({
+      to: email,
+      subject: 'OTP Verification',
+      text: `Your OTP for Verification is: ${otp}`
+    });
+  }
+
+  async generatorOtp() {
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    return otp;
+  }
+
+  async storeOtp(email: string, otp: string) {
+    this.otpMap.set(email, otp)
+  }
+
+  async verifyOtp(email: string, otpProvided: string){
+    const storedOtp = this.otpMap.get(email);
+    return otpProvided === storedOtp;
   }
 }
