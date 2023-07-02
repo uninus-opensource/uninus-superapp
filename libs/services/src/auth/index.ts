@@ -6,7 +6,10 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, Users } from '@prisma/client';
 import {
+<<<<<<< HEAD
   ResetPasswordDto,
+=======
+>>>>>>> origin
   TJwtPayload,
   TLoginResponse,
   TPaginationArgs,
