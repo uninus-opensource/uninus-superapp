@@ -126,55 +126,27 @@ Visual Studio Code
 
   > `yarn akreditasi:serve`
 
-- Untuk menjalankan Project _Backend API Akreditasi_ dengan mode **Development** ketik perintah berikut
-
-  > `yarn akreditasi-api:serve`
-
 - Untuk menjalankan Project _Frontend Akreditasi_ dengan mode **Production** ketik perintah berikut
 
   > `yarn akreditasi:serve:prod`
-
-- Untuk menjalankan Project _Backend API Akreditasi_ dengan mode **Production** ketik perintah berikut
-
-  > `yarn akreditasi-api:serve:prod`
 
 - Untuk menjalankan Project _Frontend Evaluasi_ dengan mode **Development** ketik perintah berikut
 
   > `yarn evaluasi:serve`
 
-- Untuk menjalankan Project _Backend API Evaluasi_ dengan mode **Development** ketik perintah berikut
-
-  > `yarn evaluasi-api:serve`
-
 - Untuk menjalankan Project _Frontend Evaluasi_ dengan mode **Production** ketik perintah berikut
 
   > `yarn evaluasi:serve:prod`
-
-- Untuk menjalankan Project _Backend API Evaluasi_ dengan mode **Production** ketik perintah berikut
-
-  > `yarn evaluasi-api:serve:prod`
 
 - Untuk menjalankan Project _Frontend Management Keuangan_ dengan mode **Development** ketik perintah berikut
 
   > `yarn keuangan:serve`
 
-- Untuk menjalankan Project _Backend API Management Keuangan_ dengan mode **Development** ketik perintah berikut
-
-  > `yarn keuangan-api:serve`
-
 - Untuk menjalankan Project _Frontend Management Keuangan_ dengan mode **Production** ketik perintah berikut
 
   > `yarn keuangan:serve:prod`
 
-- Untuk menjalankan Project _Backend API Management Keuangan_ dengan mode **Production** ketik perintah berikut
-
-  > `yarn keuangan-api:serve:prod`
-
 - Untuk menjalankan Project _Frontend PDDIKTI NeoFeeder_ dengan mode **Development** ketik perintah berikut
-
-  > `yarn neo-feeder:serve`
-
-- Untuk menjalankan Project _Backend API PDDIKTI NeoFeeder_ dengan mode **Development** ketik perintah berikut
 
   > `yarn neo-feeder:serve`
 
@@ -182,31 +154,15 @@ Visual Studio Code
 
   > `yarn neo-feeder:serve:prod`
 
-- Untuk menjalankan Project _Backend API PDDIKTI NeoFeeder_ dengan mode **Production** ketik perintah berikut
-
-  > `yarn neo-feeder:serve:prod`
-
 - Untuk menjalankan Project _Frontend Management Pegawai_ dengan mode **Development** ketik perintah berikut
 
   > `yarn pegawai:serve`
-
-- Untuk menjalankan Project _Backend API Management Pegawai_ dengan mode **Development** ketik perintah berikut
-
-  > `yarn pegawai-api:serve`
 
 - Untuk menjalankan Project _Frontend Management Pegawai_ dengan mode **Production** ketik perintah berikut
 
   > `yarn pegawai:serve:prod`
 
-- Untuk menjalankan Project _Backend API Management Pegawai_ dengan mode **Production** ketik perintah berikut
-
-  > `yarn pegawai-api:serve:prod`
-
 - Untuk menjalankan Project _Frontend PMB_ dengan mode **Development** ketik perintah berikut
-
-  > `yarn pmb:serve`
-
-- Untuk menjalankan Project _Backend API PMB_ dengan mode **Development** ketik perintah berikut
 
   > `yarn pmb:serve`
 
@@ -214,15 +170,7 @@ Visual Studio Code
 
   > `yarn pmb:serve:prod`
 
-- Untuk menjalankan Project _Backend API PMB_ dengan mode **Production** ketik perintah berikut
-
-  > `yarn pmb:serve:prod`
-
 - Untuk menjalankan Project _Frontend SIAKAD (Litera)_ dengan mode **Development** ketik perintah berikut
-
-  > `yarn siakad:serve`
-
-- Untuk menjalankan Project _Backend API SIAKAD (Litera)_ dengan mode **Development** ketik perintah berikut
 
   > `yarn siakad:serve`
 
@@ -230,15 +178,7 @@ Visual Studio Code
 
   > `yarn siakad:serve:prod`
 
-- Untuk menjalankan Project _Backend API SIAKAD (Litera)_ dengan mode **Production** ketik perintah berikut
-
-  > `yarn siakad:serve:prod`
-
 - Untuk menjalankan Project _Frontend SmartDashboard_ dengan mode **Development** ketik perintah berikut
-
-  > `yarn smart-dashboard:serve`
-
-- Untuk menjalankan Project _Backend API SmartDashboard_ dengan mode **Development** ketik perintah berikut
 
   > `yarn smart-dashboard:serve`
 
@@ -246,15 +186,7 @@ Visual Studio Code
 
   > `yarn smart-dashboard:serve:prod`
 
-- Untuk menjalankan Project _Backend API SmartDashboard_ dengan mode **Production** ketik perintah berikut
-
-  > `yarn smart-dashbaord:serve:prod`
-
 - Untuk menjalankan Project _Frontend Management Management Tata Usaha_ dengan mode **Development** ketik perintah berikut
-
-  > `yarn tata-usaha:serve`
-
-- Untuk menjalankan Project _Backend API Management Tata Usaha_ dengan mode **Development** ketik perintah berikut
 
   > `yarn tata-usaha:serve`
 
@@ -262,15 +194,7 @@ Visual Studio Code
 
   > `yarn tata-usaha:serve:prod`
 
-- Untuk menjalankan Project _Backend API Management Tata Usaha_ dengan mode **Production** ketik perintah berikut
-
-  > `yarn tata-usaha:serve:prod`
-
 - Untuk menjalankan Project _Frontend Tracer Alumni_ dengan mode **Development** ketik perintah berikut
-
-  > `yarn tracer:serve`
-
-- Untuk menjalankan Project _Backend API Tracer Alumni_ dengan mode **Development** ketik perintah berikut
 
   > `yarn tracer:serve`
 
@@ -278,9 +202,33 @@ Visual Studio Code
 
   > `yarn tracer:serve:prod`
 
-- Untuk menjalankan Project _Backend API Tracer Alumni_ dengan mode **Production** ketik perintah berikut
+- Untuk melakukan Migrate Database **Development** ketik perintah berikut
 
-  > `yarn tracer:serve:prod`
+  > `yarn api:migrate`
+
+- Untuk melakukan Rollback Database ketik perintah berikut
+
+  > `yarn api:migrate:reset`
+
+- Untuk menerapkan perubahan skema ke database ketik perintah berikut
+
+  > `yarn api:db:push`
+
+- Untuk menarik skema dari database yang ada dan perbarui skema Prisma ketik perintah berikut
+
+  > `yarn api:db:pull`
+
+- Untuk menjalankan Prisma Studio ketik perintah berikut
+
+  > `yarn api:studio`
+
+- Untuk menjalankan Project _API_ dengan mode **Development** ketik perintah berikut
+
+  > `yarn api:serve`
+
+- Untuk menjalankan Project _API_ dengan mode **Production** ketik perintah berikut
+
+  > `yarn api:serve:prod`
 
 ## Membuild Aplikasi ke Production
 
@@ -288,25 +236,45 @@ Visual Studio Code
 
   > `yarn akreditasi:build`
 
-- Untuk membuild Project _Akreditasi API_ ketik perintah berikut
-
-  > `yarn akreditasi-api:build`
-
-- Untuk membuild Project _Evaluasi_ ketik perintah berikut
+- Untuk menjalankan Project _Frontend Evaluasi_ dengan mode **Development** ketik perintah berikut
 
   > `yarn evaluasi:build`
 
-- Untuk membuild Project _Evaluasi API_ ketik perintah berikut
-
-  > `yarn evaluasi-api:build`
-
-- Untuk membuild Project _Keuangan_ ketik perintah berikut
+- Untuk menjalankan Project _Frontend Management Keuangan_ dengan mode **Development** ketik perintah berikut
 
   > `yarn keuangan:build`
 
-- Untuk membuild Project _Keuangan API_ ketik perintah berikut
+- Untuk menjalankan Project _Frontend PDDIKTI NeoFeeder_ dengan mode **Development** ketik perintah berikut
 
-  > `yarn keuangan-api:build`
+  > `yarn neo-feeder:build`
+
+- Untuk menjalankan Project _Frontend Management Pegawai_ dengan mode **Development** ketik perintah berikut
+
+  > `yarn pegawai:build`
+
+- Untuk menjalankan Project _Frontend PMB_ dengan mode **Development** ketik perintah berikut
+
+  > `yarn pmb:build`
+
+- Untuk menjalankan Project _Frontend SIAKAD (Litera)_ dengan mode **Development** ketik perintah berikut
+
+  > `yarn siakad:build`
+
+- Untuk menjalankan Project _Frontend SmartDashboard_ dengan mode **Development** ketik perintah berikut
+
+  > `yarn smart-dashboard:build`
+
+- Untuk menjalankan Project _Frontend Management Management Tata Usaha_ dengan mode **Development** ketik perintah berikut
+
+  > `yarn tata-usaha:build`
+
+- Untuk menjalankan Project _Frontend Tracer Alumni_ dengan mode **Development** ketik perintah berikut
+
+  > `yarn tracer:build`
+
+- Untuk menjalankan Project _API_ dengan mode **Development** ketik perintah berikut
+
+  > `yarn api:build`
 
 ## Development With Nix
 
