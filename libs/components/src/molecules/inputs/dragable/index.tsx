@@ -18,6 +18,11 @@ export const DraggableComponent = <T extends FieldValues>(
   const { field } = useController(props);
   const [fileType, setFileType] = useState('');
   const [fileName, setFileName] = useState('');
+  const handleRemoveFile = () => {
+    field.onChange(null);
+    setFileType('');
+    setFileName('');
+  };
 
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[]) => {
@@ -50,17 +55,6 @@ export const DraggableComponent = <T extends FieldValues>(
       {...getRootProps()}
       className={`flex items-center h-auto bg-neutral-100 justify-center relative w-auto p-2 border-2 border-dashed rounded-lg border-neutral-300 hover:text-white ${props.className}`}
     >
-      {fileType && (
-        <span
-          onClick={() => {
-            setFileType('');
-            setFileName('');
-          }}
-          className="text-error-600 right-10 shadow-sm bg-white rounded-full p-4 w-[30px] h-[30px] items-center flex justify-center font-bold  absolute top-10"
-        >
-          x
-        </span>
-      )}
       {field.value && ACCEPTED_IMAGE_TYPES.includes(fileType) ? (
         <Image
           src={URL.createObjectURL(field.value)}
@@ -83,10 +77,10 @@ export const DraggableComponent = <T extends FieldValues>(
       ) : (
         <label className="flex flex-col items-center w-full px-4 py-6 bg-[#F5F5F5] dark:bg-transparent rounded-lg cursor-pointer hover:text-white">
           <span className="mt-2 text-[14px] text-black dark:text-white">
-            Click to Upload files
+            Upload files
           </span>
           <span className="mt-2 text-[12px] text-[#737373] dark:text-white">
-            Or Drag 'n' drop some files here
+            Drag & drop some files here
           </span>
           <input
             {...getInputProps()}
@@ -97,6 +91,14 @@ export const DraggableComponent = <T extends FieldValues>(
             type="file"
           />
         </label>
+      )}
+      {field.value && (
+        <span
+          onClick={handleRemoveFile}
+          className="text-red-600 cursor-pointer shadow-sm bg-neutral-100 p-4 w-full h-[30px] items-center flex justify-center absolute bottom-0"
+        >
+          Change File
+        </span>
       )}
     </div>
   );
