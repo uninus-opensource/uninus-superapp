@@ -3,10 +3,15 @@ import { Footer, Navbar } from '@uninus/components';
 import './global.css';
 import { FC, PropsWithChildren, ReactElement } from 'react';
 import { AuthProvider, QueryProvider, RecoilProvider } from '@uninus/providers';
-import { Montserrat } from 'next/font/google';
+import { Montserrat, Bebas_Neue } from 'next/font/google';
 
 const monserrat = Montserrat({
   subsets: ['latin'],
+});
+
+const bebasNeue = Bebas_Neue({
+  subsets: ['latin'],
+  weight: '400',
 });
 
 const RootLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
