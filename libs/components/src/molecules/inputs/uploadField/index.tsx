@@ -1,91 +1,82 @@
-import { ReactElement, useState } from 'react';
-import { FieldValues, useController } from 'react-hook-form';
-import { TUploadFieldProps } from './types';
+import { FC, ReactElement, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import clsx from 'clsx';
+import { FormData, TUploadFile } from './types';
 
-export const UploadField = <T extends FieldValues>(
-  props: TUploadFieldProps<T>
-): ReactElement => {
-  const { field } = useController(props);
-  const [getName, setName] = useState('');
+export const UploadField: FC<TUploadFile> = ({
+  variant,
+  className,
+  required,
+}): ReactElement => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const labelVariant = clsx('text-gray-500 font-medium ', {
+    'text-lg ': variant === 'lg',
+    'text-md ': variant === 'md',
+    'text-sm ': variant === 'sm',
+  });
+
+  const [fileUrl, setFileUrl] = useState('');
+  const [uploaded, setUploaded] = useState(false);
+  const [fileName, setFileName] = useState('');
+  const onSubmit = handleSubmit((data) => {
+    const file = data.file[0];
+    const fileReader = new FileReader();
+
+    fileReader.onload = () => {
+      setFileUrl(fileReader.result as string);
+      setUploaded(true); // Set uploaded to true
+
+      // Set file name if file is a document
+      if (file.type.includes('application/')) {
+        setFileName(file.name);
+      }
+    };
+
+    fileReader.readAsDataURL(file);
+  });
+
+  const handleCancel = () => {
+    setFileUrl('');
+    setUploaded(false);
+  };
+
   return (
-    <section className="flex flex-col w-auto my-1 gap-y-2 ">
-      {props.label && (
-        <label
-          htmlFor={props.name}
-          className={`text-[#000] ${
-            props.variant === 'lg'
-              ? 'text-[18px] font-bold'
-              : props.variant === 'md'
-              ? 'text-[16px] font-bold'
-              : props.variant === 'sm'
-              ? 'text-[14px] font-bold'
-              : ''
-          } `}
-        >
-          {props.label}
-          {props.required && (
-            <span className="ml-1 font-bold  text-error-600">*</span>
-          )}
-        </label>
-      )}
-
-      <label className="mb-2" htmlFor={props.name}>
-        <section
-          className={`${
-            props.status === 'error' && ' border-error-400'
-          } flex overflow-hidden border mb-1 rounded-lg ${props.className}`}
-        >
-          <div className="w-full flex items-center ">
-            <h1 className="bg-primary-400 w-fit text-white py-2 cursor-pointer hover:bg-primary-600 transition-colors ease-in-out duration-300 px-4 rounded-l-lg">
-              Pilih File
-            </h1>
-            <p
-              className={`${
-                props.status === 'error' ? 'text-error-500 italic' : ''
-              } px-4 text-xs`}
-            >
-              {getName || props.files ? (
-                <span>
-                  {getName || props.files}
-                  {props.status === 'error' && `(${props.message})`}
-                </span>
-              ) : (
-                'Tidak ada file yang dipilih'
-              )}
-            </p>
-          </div>
-          <div className="min-w-[120px] lg:min-w-[150px]">
-            <p className="px-4 py-3 lg:py-2 bg-[#E9F6FD] text-neutral-600 text-xs lg:text-sm">
-              {props.accepted}
-            </p>
-          </div>
-        </section>
-        <span
-          className={`${
-            props.status === 'error'
-              ? 'text-error-base'
-              : props.status === 'success'
-              ? 'text-success-base'
-              : props.status === 'warning'
-              ? 'text-warning-base'
-              : ''
-          } text-xs`}
-        >
-          {props.message}
-        </span>
-      </label>
-
+    <form onSubmit={onSubmit}>
       <input
-        {...props}
-        onChange={(event) => {
-          field.onChange(event.target.files);
-          setName(event.target?.files?.[0]?.name as string);
-          props?.onChange?.(event);
-        }}
-        id={props.name}
+        className={`file:rounded-lg file:border-0 file:text-center file:font-semibold file:bg-green-100 file:text-green-700 hover:file:bg-green-200 border rounded-md text-gray-500 ${labelVariant} my-4 ${className}`}
         type="file"
-        hidden
+        {...register('file', { required })}
       />
-    </section>
+      {errors.file && <span>This field is required</span>}
+      {uploaded && (
+        <button
+          type="button"
+          className="bg-red-400 text-white font-bold rounded-md p-1 px-2 mx-2 text-sm"
+          onClick={handleCancel}
+        >
+          Cancel
+        </button>
+      )}
+      <button
+        type="submit"
+        className="bg-green-400 text-white font-bold rounded-md p-1 px-2 mx-2 text-sm"
+      >
+        Submit
+      </button>
+      {fileUrl && (
+        <span>
+          {fileUrl.includes('data:application/') ? (
+            <span>{fileName}</span>
+          ) : (
+            <img src={fileUrl} alt="Uploaded file" />
+          )}
+        </span>
+      )}
+    </form>
   );
 };
