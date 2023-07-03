@@ -1,24 +1,19 @@
 'use client';
 import { ReactElement } from 'react';
-import { Navbar, Button, Reveal } from '@uninus/components';
+import { Button, Reveal, HeroBanner } from '@uninus/components';
 import Image from 'next/image';
-import type { NextPage } from "next";
+import type { NextPage } from 'next';
 
 const About: NextPage = (): ReactElement => {
   return (
     <section className="w-full min-h-screen">
-      <Navbar />
       {/*start jumbotron*/}
-      <header className="bg-center after flex justify-center items-center relative bg-fixed object-center bg-cover w-full h-screen bg-no-repeat bg-[url('https://images.unsplash.com/photo-1576495199011-eb94736d05d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=872&q=80')] bg-gray-700 bg-blend-multiply">
-        <section className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
-          <Reveal>
-            <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
-              Tentang <br />
-              Universitas Islam Nusantara
-            </h1>
-          </Reveal>
-        </section>
-      </header>
+      <HeroBanner
+        heroTitles="TENTANG UNIVERSITAS ISLAM NUSANTARA"
+        heroImages="https://images.unsplash.com/photo-1576495199011-eb94736d05d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=872&q=80"
+        backgrounColor="bg-gray-800"
+        isDownload
+      />
       {/*end jumbotron*/}
 
       <section className="w-full px-6 md:px-16 flex flex-col md:gap-y-6 gap-y-12">
@@ -164,9 +159,9 @@ const About: NextPage = (): ReactElement => {
         </div>
         {/* end logo detail*/}
       </section>
-      <Reveal>
+      <Reveal w="w-full">
         <div className="w-full bg-yellow-500 md:h-32 px-16 py-4 grid md:grid-cols-3 grid-cols-1 md:gap-x-4 gap-y-1">
-          <Reveal>
+          <Reveal w="w-full">
             <div className=" bg-yellow-400 flex gap-y-2 flex-col p-2 rounded items-center ">
               <h1 className="font-bold text-xl">Struktur Organisasi</h1>
               <Button
@@ -180,7 +175,7 @@ const About: NextPage = (): ReactElement => {
               </Button>
             </div>
           </Reveal>
-          <Reveal>
+          <Reveal w="w-full">
             <div className=" bg-yellow-400 flex gap-y-2 flex-col p-2 rounded items-center ">
               <h1 className="font-bold text-xl">Sejarah </h1>
               <Button
@@ -194,7 +189,7 @@ const About: NextPage = (): ReactElement => {
               </Button>
             </div>
           </Reveal>
-          <Reveal>
+          <Reveal w="w-full">
             <div className=" bg-yellow-400 flex gap-y-2 flex-col p-2 rounded items-center">
               <h1 className="font-bold text-xl">Unit </h1>
               <Button

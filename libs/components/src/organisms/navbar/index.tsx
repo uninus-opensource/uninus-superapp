@@ -33,7 +33,7 @@ export const Navbar: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      <header className="px-5 z-50 lg:px-14 flex justify-between items-center h-[17vh] sm:h-[15vh] lg:h-[12vh] w-full bg-green-930 fixed">
+      <header className="px-5 z-50 lg:px-14 flex justify-between items-center h-[17vh] sm:h-[15vh] lg:h-[12vh] w-full bg-green-930 sticky top-0">
         <figure>
           <Image
             src={NeoUninusIcon}
