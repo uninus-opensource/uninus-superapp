@@ -1,15 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeEventHandler } from 'react';
 import { FieldValues, UseControllerProps } from 'react-hook-form';
 
 export type TUploadFieldProps<T extends FieldValues> = UseControllerProps<T> & {
-  variant: 'lg' | 'md' | 'sm';
-  label?: string;
-  disabled?: boolean;
-  className?: string;
+  multiple?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
-  required?: boolean;
-  status?: 'success' | 'error' | 'warning' | 'none';
   name: string;
-  labelClassName?: string;
-  accept?: string;
+  className?: string;
+  disabled?: boolean;
+  required?: boolean;
+  label?: string;
+  files?: string;
+  value?: string;
+  accepted?: string;
+  onDrop?: (acceptedFiles: any) => void;
+  path?: File;
+  type?: string;
+  variant: 'sm' | 'md' | 'lg';
+  status?: 'error' | 'success' | 'warning' | 'none';
+  message?: string;
 };
