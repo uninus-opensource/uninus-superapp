@@ -136,7 +136,12 @@ const LandingPage: FC = (): ReactElement => {
           <Button variant="text-icon" size="sm" disabled>
             Text/Icon Only
           </Button>
-          <Button variant="filled-tonal" size="sm" width="w-10" height="h-10">
+          <Button
+            variant="float-bottom-right"
+            size="sm"
+            width="w-10"
+            height="h-10"
+          >
             <PlusOutlined />
           </Button>
         </div>
