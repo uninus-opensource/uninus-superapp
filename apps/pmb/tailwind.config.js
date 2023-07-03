@@ -11,35 +11,43 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        primary: {
-          green: '#009647',
-          yellow: '#F8BF02',
-        },
-        secondary: {
-          green: {
-            1: '#3EA136',
-            2: '#7CAB25',
-            3: '#BAB514',
-            4: '#175349',
-          },
-        },
-        grayscale: {
-          0: '#000000',
-          10: '#141414',
-          20: '#292929',
-          30: '#3D3D3D',
-          40: '#525252',
-          50: '#666666',
-          60: '#7A7A7A',
-          70: '#9E9E9E',
-          80: '#B3B3B3',
-          90: '#C7C7C7',
-          100: '#FFFFFF',
-        },
+      boxShadow: {
+        inset: '0px 2px 6px 0px rgba(0, 0, 0, 0.25) inset',
+      },
+    },
+    colors: {
+      primary: {
+        green: '#009647',
+        yellow: '#F8BF02',
+        white: '#FFFFFF',
+      },
+      secondary: {
         green: {
-          930: '#1c532a',
+          1: '#3EA136',
+          2: '#7CAB25',
+          3: '#BAB514',
+          4: '#175349',
+          5: '#113C35',
         },
+        sky: {
+          1: '#1678682E',
+          2: '#B9DEDA',
+        },
+      },
+      grayscale: {
+        10: '#141414',
+        9: '#292929',
+        8: '#3D3D3D',
+        7: '#525252',
+        6: '#666666',
+        5: '#7A7A7A',
+        4: '#9E9E9E',
+        3: '#B3B3B3',
+        2: '#C7C7C7',
+        1: '#FFFFFF',
+      },
+      disable: {
+        state: '#BDBDBD',
       },
     },
   },
