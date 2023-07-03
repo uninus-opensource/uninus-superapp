@@ -6,6 +6,7 @@ import {
   Post,
   Request,
   UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
 import {
   LoginDto,
@@ -58,4 +59,5 @@ export class AuthController {
   async resetPassword(@Body() newPasswordDto: newPasswordDto) {
     return this.appService.resetPassword(newPasswordDto);
   }
+
 }
