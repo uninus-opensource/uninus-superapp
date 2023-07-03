@@ -9,6 +9,7 @@ import {
   UploadField,
   DraggableComponent,
 } from '@uninus/components';
+import { PlusOutlined } from '@ant-design/icons';
 
 const LandingPage: FC = (): ReactElement => {
   const { control } = useForm<FieldValues>({
@@ -108,32 +109,35 @@ const LandingPage: FC = (): ReactElement => {
         </div>
 
         <div className="flex gap-4">
-          <Button
-            href="https://litera.uninus.ac.id/uninus/login.jsp"
-            variant="primary"
-            size="sm"
-            width="w-28"
-            height="h-8"
-          >
-            Litera
+          <Button variant="elevated" size="sm">
+            Elevated
           </Button>
-          <Button
-            href="https://www.facebook.com/"
-            variant="error"
-            size="md"
-            width="w-28"
-            height="h-8"
-          >
-            Facebook
+          <Button variant="elevated" size="sm" disabled>
+            Elevated
           </Button>
-          <Button
-            href="https://www.google.com/"
-            variant="warning"
-            size="lg"
-            width="w-28"
-            height="h-8"
-          >
-            Google
+          <Button variant="filled" size="sm">
+            Filled
+          </Button>
+          <Button variant="filled" size="sm" disabled>
+            Filled
+          </Button>
+          <Button variant="filled-tonal" size="sm">
+            Filled Tonal
+          </Button>
+          <Button variant="filled-tonal" size="sm" disabled>
+            Filled Tonal
+          </Button>
+          <Button variant="outlined" size="sm">
+            Outlined
+          </Button>
+          <Button variant="text-icon" size="sm">
+            Text/Icon Only
+          </Button>
+          <Button variant="text-icon" size="sm" disabled>
+            Text/Icon Only
+          </Button>
+          <Button variant="filled-tonal" size="sm" width="w-10" height="h-10">
+            <PlusOutlined />
           </Button>
         </div>
         <Button

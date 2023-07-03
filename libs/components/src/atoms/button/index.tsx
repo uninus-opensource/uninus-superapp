@@ -8,37 +8,35 @@ import { LoadingSpinner } from '../loadings';
 export const Button: FC<IButtonProps> = ({
   loading = false,
   size = BUTTON_SIZE.SM,
-  variant = BUTTON_VARIANT.PRIMARY,
-  width = 'w-auto',
-  height = 'h-auto',
+  variant = BUTTON_VARIANT.FILLED,
+  width = 'w-22',
+  height = 'h-11',
   ...props
 }): ReactElement => {
-  const buttonSize = clsx(`text-center  ${width} ${height} `, {
-    'p-2 text-sm': size === BUTTON_SIZE.SM,
-    'p-5 text-md': size === BUTTON_SIZE.MD,
-    'p-6 text-lg': size === BUTTON_SIZE.LG,
+  const buttonSize = clsx(`text-center text-base  ${width} ${height} `, {
+    'p-4': size === BUTTON_SIZE.SM,
+    'p-5': size === BUTTON_SIZE.MD,
+    'p-6': size === BUTTON_SIZE.LG,
   });
 
   const buttonVariant = clsx(
-    'font-medium disabled:bg-gray-400 disabled:text-gray-50 disabled:border-gray-400 flex items-center justify-center duration-200',
+    'font-medium flex items-center justify-center duration-200 rounded-lg',
     {
-      'bg-green-500 text-white border border-green-500 rounded-lg hover:opacity-75 ':
-        variant === BUTTON_VARIANT.PRIMARY,
-      'bg-white text-green-500 border border-green-500 rounded-lg hover:opacity-75 ':
-        variant === BUTTON_VARIANT.PRIMARY_OUTLINE,
-      'bg-red-500 text-white border border-red-500 rounded-lg hover:opacity-75 ':
-        variant === BUTTON_VARIANT.ERROR,
-      'bg-white text-red-600 border border-red-600 rounded-lg hover:opacity-75 ':
-        variant === BUTTON_VARIANT.ERROR_OUTLINE,
-      'bg-yellow-500 text-white border border-yellow-500 rounded-lg hover:opacity-75 ':
-        variant === BUTTON_VARIANT.WARNING,
-      'bg-white text-yellow-600 border border-yellow-600 rounded-lg hover:opacity-75 ':
-        variant === BUTTON_VARIANT.WARNING_OUTLINE,
-      'text-white uppercase bg-none border-b border-green-930 hover:border-white font-semibold rounded-none hover:opacity-100 ':
+      'bg-primary-green text-primary-white shadow-sm shadow-grayscale-6 disabled:bg-disable-state disabled:text-grayscale-4 disabled:cursor-not-allowed hover:bg-secondary-green-1 focus:bg-secondary-green-1 active:shadow-none active:scale-95 ':
+        variant === BUTTON_VARIANT.ELEVATED,
+      'bg-primary-green text-primary-white disabled:bg-disable-state disabled:text-grayscale-4 disabled:cursor-not-allowed hover:bg-secondary-green-1 focus:bg-secondary-green-1 active:shadow-inset ':
+        variant === BUTTON_VARIANT.FILLED,
+      'bg-secondary-green-4 text-primary-white disabled:bg-disable-state disabled:text-grayscale-4 disabled:cursor-not-allowed hover:bg-secondary-green-5 focus:bg-secondary-green-5 active:shadow-inset ':
+        variant === BUTTON_VARIANT.FILLED_TONAL,
+      'text-secondary-green-4 border-2 border-secondary-green-4':
+        variant === BUTTON_VARIANT.OUTLINED,
+      'text-sceondary-green-4 disabled:text-grayscale-4 disabled:cursor-not-allowed hover:bg-secondary-sky-1 focus:bg-secondary-sky-2 active:bg-secondary-sky-2 ':
+        variant === BUTTON_VARIANT.TEXT_ICON,
+      'text-white uppercase bg-none border-b border-green-930 hover:border-white font-semibold hover:opacity-100 ':
         variant === BUTTON_VARIANT.NAVLIST,
-      'rounded-lg hover:bg-green-800 ': variant === BUTTON_VARIANT.HAMBURGER,
+      'hover:bg-green-800 ': variant === BUTTON_VARIANT.HAMBURGER,
 
-      'text-white uppercase bg-none hover:bg-green-800 rounded-none font-semibold hover:opacity-100 w-full ':
+      'text-white uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full ':
         variant === BUTTON_VARIANT.SIDEBARLIST,
     }
   );
