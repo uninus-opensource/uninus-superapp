@@ -164,30 +164,9 @@ const LandingPage: FC = (): ReactElement => {
           closeText="Cancel"
         />
         <div className="flex gap-2 w-auto">
-          <UploadField
-            control={control}
-            label="Upload"
-            variant="lg"
-            name="uploadField"
-            required
-            accept="application/pdf"
-          />
-          <UploadField
-            control={control}
-            label="Upload"
-            variant="md"
-            name="uploadField"
-            required
-            accept="application/pdf"
-          />
-          <UploadField
-            control={control}
-            label="Upload"
-            variant="sm"
-            name="uploadField"
-            required
-            accept="application/pdf"
-          />
+          <UploadField variant="sm" required />
+          <UploadField variant="md" required />
+          <UploadField variant="lg" required />
         </div>
         <DraggableComponent control={control} name="draggableComponent" />
       </div>
