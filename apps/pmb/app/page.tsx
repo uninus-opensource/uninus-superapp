@@ -198,7 +198,8 @@ const LandingPage: NextPage = (): ReactElement => {
               </h4>
               <p className="leading-relaxed">
                 Seluruh Program Studi di UNINUS yang Terakreditasi BAN - PT
-                mendapatkan Rata - rata Penilaian "Baik Sekali"
+                mendapatkan Rata - rata Penilaian{' '}
+                <span className="font-bold">Baik Sekali</span>
               </p>
             </div>
 
