@@ -1,20 +1,18 @@
-
-
 export type TLoginResponse = {
   id: string;
   user: {
     id: string;
     nik: string;
     email: string;
-    fullname: string | null;
-    role: string
+    fullname: string;
+    role: string;
     createdAt: Date;
     avatar: string | null;
-  },
-  token : {
+  };
+  token: {
     access_token: string;
     refresh_token: string;
-  },
+  };
   message: string;
 };
 
@@ -25,7 +23,7 @@ export type TLoginRequest = {
 
 export type TLoginAuth = {
   user: {
-    nik: string,
-    email: string
-  }
-}
+    nik: string;
+    email: string;
+  };
+};

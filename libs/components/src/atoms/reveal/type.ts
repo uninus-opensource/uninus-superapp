@@ -1,6 +1,6 @@
 export type TRevealProps = {
   children: JSX.Element;
-  w?: 'fit' | 'full';
+   w?: 'w-fit' | 'w-full';
   variantX?: boolean;
   variantY?: boolean;
   initial?: string;

@@ -15,7 +15,7 @@ export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
     });
   }
 
-  validate(req: Request, payload: TJwtPayload): TRefreshTokenPayload {
+  async validate(req: Request, payload: TJwtPayload) {
     const refreshToken = req
       ?.get('Authorization')
       ?.replace('Bearer', '')
@@ -23,9 +23,6 @@ export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
 
     if (!refreshToken) throw new ForbiddenException('Refresh token malformed');
 
-    return {
-      ...payload,
-      refreshToken,
-    };
+    return { userId: payload.id, email: payload.email, role: payload.role };
   }
 }

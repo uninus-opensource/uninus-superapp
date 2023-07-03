@@ -4,7 +4,7 @@ import { TRevealProps } from './type';
 
 export const Reveal: FC<TRevealProps> = ({
   children,
-  w = 'fit',
+  w = 'w-fit',
   variantX = false,
   variantY = true,
   initial = 'hidden',
@@ -12,6 +12,8 @@ export const Reveal: FC<TRevealProps> = ({
   delay = 0.25,
   customX = -100,
   customY = 75,
+    
+
 }): ReactElement => {
   const ref = useRef(null);
   const isViewed = useInView(ref, { once: true });
