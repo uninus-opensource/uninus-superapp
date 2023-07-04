@@ -35,7 +35,7 @@ const LandingPage: NextPage = (): ReactElement => {
           <div className="flex justify-center w-full ">
             <Button
               href="#"
-              variant="primary"
+              variant="filled"
               size="md"
               width="w-full"
               height="h-8"

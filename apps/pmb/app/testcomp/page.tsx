@@ -147,7 +147,7 @@ const LandingPage: FC = (): ReactElement => {
         </div>
         <Button
           onClick={handleOpenModal}
-          variant="primary"
+          variant="filled"
           size="sm"
           width="w-28"
           height="h-8"
