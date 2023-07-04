@@ -26,7 +26,7 @@ export const HeroBanner: FC<TbannerProps> = ({
             {!isDownload ? (
               <Button
                 href="#"
-                variant="primary"
+                variant="filled"
                 size="lg"
                 width="w-full"
                 height="h-8"
