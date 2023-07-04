@@ -1,7 +1,7 @@
 'use client';
 import { ReactElement } from 'react';
 import { FaGraduationCap, FaAward, FaHandshake, FaAccessibleIcon } from 'react-icons/fa';
-import { Navbar, Reveal, AccordionTab} from '@uninus/components';
+import { Reveal, AccordionTab} from '@uninus/components';
 // import AccordionTab from './AccordionTab';
 
 
@@ -47,55 +47,28 @@ const Beasiswa: NextPage = (): ReactElement => {
   
   return (
     <section className="w-full flex flex-col min-h-screen bg-no-repeat md:bg-[url('https://pmb.uninus.ac.id/wp-content/uploads/2023/02/home-bg1-1.jpg')]">
-      <Navbar />
+      {/* <Navbar /> */}
       {/*Hero Start*/}
       <header className="bg-center after flex justify-center items-center lg:top-[220px] md:top-[270px] top-[300px] relative object-center  w-full h-screen">
         <section className="px-4 mb-9 mx-auto max-w-screen-xl text-center  -translate-y-14">
 
-          <Reveal variantX={true} customX={'100%'} delay={0.5} duration={2}>
-            <div className='py-[10px] w-full box-border flex justify-center'>
-              <span className='h-[2px] bg-[#1C532A]  md:-translate-x-16 -translate-x-10 w-[25%] md:w-[10%] block' ></span>
-            </div>
+            <div className='py-[10px] w-full  flex justify-center'>
+          <Reveal variantX={true} customX={'-100%'} delay={1} duration={2}>
+              <span className='h-[2px] bg-[#1C532A]  md:-translate-x-16 -translate-x-10 w-[25%] md:w-[10%]' ></span>
           </Reveal>
-
+            </div>
 
           <Reveal duration={1} delay={1}>
-            <h1 className="mb-2  text-xl font-semibold tracking-tight leading-none md:text-3xl lg:text-3xl">
-              PILIHAN BERBAGAI BEASISWA TERSEDIA <br />
-=======
-    <section className="w-full min-h-screen bg-no-repeat md:bg-[url('https://pmb.uninus.ac.id/wp-content/uploads/2023/02/home-bg1-1.jpg')]">
-      <Navbar />
-      {/*Hero Start*/}
-      <header className="bg-center after  justify-center items-center md:top-56 top-[300px] relative object-center  w-full h-screen">
-        <section className="px-4 mx-auto max-w-screen-xl text-center  -translate-y-14">
-      {/*Hero Start*/}
-      <header className="bg-center after flex justify-center items-center lg:top-[220px] md:top-[270px] top-[300px] relative object-center  w-full h-screen">
-        <section className="px-4 mb-9 mx-auto max-w-screen-xl text-center  -translate-y-14">
-
-        <Reveal variantX={true} customX={'100%'} delay={0.5} duration={2}>
-          <div className='py-[10px] w-full box-border flex justify-center'>
-          <span className='h-[2px] bg-[#1C532A]  md:-translate-x-16 -translate-x-10 w-[25%] md:w-[10%] block' ></span>
-          </div>
-</Reveal>
-
-          <Reveal variantX={true} customX={'100%'} delay={0.5} duration={2}>
-            <div className='py-[10px] w-full box-border flex justify-center'>
-              <span className='h-[2px] bg-[#1C532A]  md:-translate-x-16 -translate-x-10 w-[25%] md:w-[10%] block' ></span>
-            </div>
-          </Reveal>
-
-
-          <Reveal duration={1} delay={1}>
-            <h1 className="mb-2 py-1 text-xl font-semibold tracking-tight leading-none md:text-5xl lg:text-3xl">
+            <h1 className="mb-2 py-1 text-xl text-center font-semibold tracking-tight leading-none md:text-5xl lg:text-3xl">
               PILIHAN BERBAGAI BEASISWA TERSEDIA <br/>
               DI UNIVERSITAS ISLAM NUSANTARA
             </h1>
           </Reveal>
-          <Reveal variantX={true} customX={'-100%'} duration={2} >
             <div className='pb-[10px] w-full box-border flex justify-center'>
+          <Reveal variantX={true} customX={'-100%'} duration={2} >
               <span className='h-[2px] bg-[#1C532A] w-[34%] md:w-[17%] block' ></span>
-            </div>
           </Reveal>
+            </div>
           <div className='text-center mb-5 flex md:px-[20px] lg:px-[290px] sm:px-20 md:py-[10px] justify-center md:text-center leading-none'>
             <article >
               <Reveal>
@@ -118,7 +91,7 @@ const Beasiswa: NextPage = (): ReactElement => {
                 </div>
               </Reveal>
             </div>
-              </Reveal>
+              {/* </Reveal> */}
             {/* Nusantara Unggul End  */}
 
             {/* Nusantara Berprestasi Start  */}
@@ -133,7 +106,7 @@ const Beasiswa: NextPage = (): ReactElement => {
                 </div>
               </Reveal>
             </div>
-              </Reveal>
+              {/* </Reveal> */}
             {/* Nusantara Berprestasi End  */}
 
             {/* Mitra Nusantara Start  */}
@@ -148,7 +121,7 @@ const Beasiswa: NextPage = (): ReactElement => {
                 </div>
               </Reveal>
             </div>
-              </Reveal>
+              {/* </Reveal> */}
             {/* Mitra Nusantara End  */}
           </section>
 
@@ -208,7 +181,7 @@ const Beasiswa: NextPage = (): ReactElement => {
         </section>
 
       </section>
-    </main>
+    </section>
   );
 };
 
