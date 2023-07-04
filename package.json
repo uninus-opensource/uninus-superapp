@@ -49,7 +49,7 @@
     "class-validator": "^0.14.0",
     "clsx": "^1.2.1",
     "cookie": "^0.5.0",
-    "framer-motion": "^10.12.17",
+    "framer-motion": "^10.12.18",
     "install": "^0.13.0",
     "next": "13.4.8",
     "next-auth": "^4.22.1",
