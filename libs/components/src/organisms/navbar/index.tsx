@@ -48,7 +48,12 @@ export const Navbar: FC = (): ReactElement => {
             <ul className="flex gap-4">
               {navList.map((nav, idx) => (
                 <li key={idx}>
-                  <Button variant="text-icon" href={nav.link} uppercase>
+                  <Button
+                    variant="text-icon"
+                    styling="font-bebasNeue font-semibold text-sm"
+                    href={nav.link}
+                    uppercase
+                  >
                     {nav.item}
                   </Button>
                 </li>
@@ -59,6 +64,7 @@ export const Navbar: FC = (): ReactElement => {
         <Button
           variant="custom"
           styling="bg-grayscale-1 text-secondary-green-4 font-semibold"
+          height="h-9"
         >
           Pendaftaran PMB
         </Button>

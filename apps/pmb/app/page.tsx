@@ -24,7 +24,7 @@ const LandingPage: NextPage = (): ReactElement => {
           <h1 className="text-5xl font-medium underline underline-offset-8 decoration-2 decoration-green-600">
             Selamat datang
           </h1>
-          <p className="leading-loose px-4">
+          <p className="leading-loose px-4 font-bebasNeue">
             Selamat datang calon mahasiswa baru di Universitas Islam Nusantara
             Kami sangat senang Anda bergabung dengan kami dan yakin Anda akan
             menemukan banyak peluang belajar, berkembang, dan berkontribusi.
@@ -35,7 +35,7 @@ const LandingPage: NextPage = (): ReactElement => {
           <div className="flex justify-center w-full ">
             <Button
               href="#"
-              variant="primary"
+              variant="filled"
               size="md"
               width="w-full"
               height="h-8"

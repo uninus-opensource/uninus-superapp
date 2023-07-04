@@ -17,6 +17,9 @@ module.exports = {
       height: {
         navbarlg: '120px',
       },
+      fontFamily: {
+        bebasNeue: ['Bebas Neue', 'sans-serif'],
+      },
     },
     colors: {
       primary: {
