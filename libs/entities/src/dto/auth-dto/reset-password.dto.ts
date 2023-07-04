@@ -1,16 +1,16 @@
 import {
-  IsEmail,
   IsNotEmpty,
   IsString,
   IsStrongPassword,
+  MinLength,
 } from 'class-validator';
 
-export class LoginDto {
-  @IsEmail()
+export class ResetPasswordDto {
   @IsNotEmpty()
   @IsString()
   public email!: string;
 
+  @IsNotEmpty()
   @IsString()
   @IsStrongPassword(
     {
@@ -22,5 +22,10 @@ export class LoginDto {
     },
     { message: 'Password kurang dari 8 dan harus mengandung Kapital & Angka' }
   )
-  public password!: string;
+  public newPassword!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(6)
+  public confirmPassword!: string;
 }
