@@ -166,7 +166,7 @@ const About: NextPage = (): ReactElement => {
               <h1 className="font-bold text-xl">Struktur Organisasi</h1>
               <Button
                 href="#"
-                variant="primary"
+                variant="filled"
                 size="sm"
                 width="w-24"
                 height="h-8"
@@ -180,7 +180,7 @@ const About: NextPage = (): ReactElement => {
               <h1 className="font-bold text-xl">Sejarah </h1>
               <Button
                 href="#"
-                variant="primary"
+                variant="filled"
                 size="sm"
                 width="w-24"
                 height="h-8"
@@ -194,7 +194,7 @@ const About: NextPage = (): ReactElement => {
               <h1 className="font-bold text-xl">Unit </h1>
               <Button
                 href="#"
-                variant="primary"
+                variant="filled"
                 size="sm"
                 width="w-24"
                 height="h-8"
