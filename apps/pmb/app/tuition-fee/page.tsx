@@ -1,11 +1,12 @@
 'use client';
-import { FC, ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { SearchInput } from '@uninus/components';
 import DataTable, { TableColumn } from 'react-data-table-component';
+import { NextPage } from 'next';
 import { dataSarjana, dataMagister } from './store';
 import { tableMagister, tableSarjana } from './types';
 
-const TuitionFee: FC = (): ReactElement => {
+const TuitionFee: NextPage = (): ReactElement => {
   const [value, setValue] = useState('');
 
   const columns: TableColumn<tableSarjana>[] = [

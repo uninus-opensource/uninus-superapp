@@ -23,7 +23,7 @@ export const Navbar: FC = (): ReactElement => {
     },
     {
       item: 'about',
-      link: 'https://www.google.com/',
+      link: '/about',
     },
     {
       item: 'biaya kuliah',
@@ -33,7 +33,7 @@ export const Navbar: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      <header className="px-5 z-50 lg:px-14 flex justify-between items-center h-[17vh] sm:h-[15vh] lg:h-[12vh] w-full bg-green-930 fixed">
+      <header className="px-5 z-50 lg:px-14 flex justify-between items-center h-[17vh] sm:h-[15vh] lg:h-[12vh] w-full bg-green-930 sticky top-0">
         <figure>
           <Image
             src={NeoUninusIcon}
@@ -71,7 +71,12 @@ export const Navbar: FC = (): ReactElement => {
         <ul className="mt-6 flex flex-col gap-6">
           {navList.map((nav, idx) => (
             <li key={idx}>
-              <Button variant="sidebarlist" height="h-8" href={nav.link} onClick={closeSidebar}>
+              <Button
+                variant="sidebarlist"
+                height="h-8"
+                href={nav.link}
+                onClick={closeSidebar}
+              >
                 {nav.item}
               </Button>
             </li>

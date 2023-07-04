@@ -12,15 +12,16 @@ model Users {
   id            String     @unique @default(uuid())
   nik           String     @unique
   email         String     @unique
-  fullname      String?
+  fullname      String
   password      String
-  refresh_token String?
+  refresh_token String?    @unique
   role_id       Int?       @default(1)
   createdAt     DateTime   @default(now())
   avatar        String?
   employees     Employees?
   lecturers     Lecturers?
   students      Students?
+  isVerified    Boolean?   @default(false)
   role          Roles?     @relation(fields: [role_id], references: [id])
 }
 
