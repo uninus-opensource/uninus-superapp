@@ -16,6 +16,7 @@ module.exports = {
       },
       height: {
         navbarlg: '120px',
+        footerHeight: '360px',
       },
       fontFamily: {
         bebasNeue: ['Bebas Neue', 'sans-serif'],
