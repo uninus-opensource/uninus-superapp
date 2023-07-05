@@ -54,7 +54,7 @@ export const Footer: NextPage = (): ReactElement => {
             {/* Unduh Brosur */}
             <div className="group hover:cursor-pointer">
               <div
-                className="flex items-center ml-[18%] gap-3 group-hover:scale-95 duration-300 ease-in-out"
+                className="flex items-center ml-[17.7%] gap-3 group-hover:scale-95 duration-300 ease-in-out"
                 onClick={() => alert('Brosurnya belum ada')}
               >
                 <FileTextOutlined style={{ fontSize: 25, color: 'white' }} />
@@ -70,7 +70,7 @@ export const Footer: NextPage = (): ReactElement => {
                 href="https://goo.gl/maps/pdvgVFaFmzLhUeSs5"
                 target="_blank"
               >
-                <div className="flex items-center ml-[18%] gap-3 group-hover:scale-95 duration-300 ease-in-out">
+                <div className="flex items-center ml-[17.7%] gap-3 group-hover:scale-95 duration-300 ease-in-out">
                   <EnvironmentOutlined
                     style={{ fontSize: 25, color: 'white' }}
                   />
@@ -84,7 +84,7 @@ export const Footer: NextPage = (): ReactElement => {
             {/* Hubungi Kami */}
             <div className="group hover:cursor-pointer">
               <Link href="tel:+628112161530" target="_blank">
-                <div className="flex items-center ml-[18%] gap-3 group-hover:scale-95 duration-300 ease-in-out">
+                <div className="flex items-center ml-[17.7%] gap-3 group-hover:scale-95 duration-300 ease-in-out">
                   <PhoneOutlined style={{ fontSize: 25, color: 'white' }} />
                   <h3 className="font-bebasNeue font-bold text-2xl text-primary-white">
                     HUBUNGI KAMI
@@ -114,7 +114,7 @@ export const Footer: NextPage = (): ReactElement => {
                 href="https://goo.gl/maps/pdvgVFaFmzLhUeSs5"
                 target="_blank"
               >
-                <div className="flex items-center ml-[18%] gap-3 group-hover:scale-95 duration-300 ease-in-out">
+                <div className="flex items-center ml-[18.7%] gap-3 group-hover:scale-95 duration-300 ease-in-out">
                   <EnvironmentFilled style={{ fontSize: 25, color: 'white' }} />
                   <h3 className="text-xs text-primary-white w-[178px] h-[45px]">
                     Jl. Soekarno Hatta No.530, Sekejati, Kec. Buahbatu, Kota
@@ -127,7 +127,7 @@ export const Footer: NextPage = (): ReactElement => {
             {/* Kontak */}
             <div className="group hover:cursor-pointer">
               <Link href="tel:+628112161530" target="_blank">
-                <div className="flex items-center ml-[18%] gap-3 group-hover:scale-95 duration-300 ease-in-out">
+                <div className="flex items-center ml-[18.7%] gap-3 group-hover:scale-95 duration-300 ease-in-out">
                   <ContactsFilled style={{ fontSize: 25, color: 'white' }} />
                   <h3 className="text-xs text-primary-white">0811-2161-530</h3>
                 </div>
@@ -137,7 +137,7 @@ export const Footer: NextPage = (): ReactElement => {
             {/* Email */}
             <div className="group hover:cursor-pointer">
               <Link href="mailto:humas@uninus.ac.id" target="_blank">
-                <div className="flex items-center ml-[18%] gap-3 group-hover:scale-95 duration-300 ease-in-out">
+                <div className="flex items-center ml-[18.7%] gap-3 group-hover:scale-95 duration-300 ease-in-out">
                   <MailFilled style={{ fontSize: 25, color: 'white' }} />
                   <h3 className="text-xs text-primary-white">
                     humas@uninus.ac.id
