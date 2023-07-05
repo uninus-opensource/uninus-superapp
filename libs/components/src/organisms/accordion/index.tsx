@@ -1,10 +1,12 @@
-import { useState, FC } from 'react';
+import { useState, FC, ReactElement } from 'react';
 import { HiChevronDown } from 'react-icons/hi';
 import { AccordionItem } from './type';
 
-export const AccordionTab: FC<AccordionItem> = ({ 
-  titles, 
-  contents }) => {
+export const AccordionTab: FC<AccordionItem> = ({
+  header,
+  titles,
+  contents
+}): ReactElement => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const toggleItem = (index: number) => {
@@ -12,9 +14,10 @@ export const AccordionTab: FC<AccordionItem> = ({
   };
 
   return (
-    <div>
+    <div className="w-full">
+      <h1 className='p-2 md:text-3xl lg:text-4xl text-2xl'>{header}</h1>
       {titles.map((title, index) => (
-        <div key={index} className="w-full">
+        <div key={index}>
           <button
             type="button"
             className="w-full flex items-center gap-2 p-2 md:p-4 bg-[#1C532A] text-white hover:bg-[#FECD42] hover:text-black focus:outline-none"

@@ -7,6 +7,7 @@ import {
   SelectField,
   Modal,
   UploadField,
+  AccordionTab,
 } from '@uninus/components';
 
 const LandingPage: FC = (): ReactElement => {
@@ -16,7 +17,14 @@ const LandingPage: FC = (): ReactElement => {
       uploadField: '',
     },
   });
-
+  const titles = ['Potongan', 'Metode Seleksi', 'Persyaratan Umum', 'Persyaratan Khusus', 'Periode'];
+  const nusantaraUnggul = [
+    ['50 % UKT Semester 1'],
+    ['UTBK ( Ujian Tulis Berbasis Komputer) Nilai Rapot'],
+    ['Siswa Lulusan 2021, 2022 dan 2023'],
+    ['Rata - rata > 575', 'Rata - Rata > 85', 'Total 3 Mata Pelajaran :', 'Matematika, Bahasa Inggris dan Bahasa Indonesia'],
+    ['Januari 2023 s.d Maret 2023'],
+];
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleOpenModal = () => {
@@ -179,6 +187,10 @@ const LandingPage: FC = (): ReactElement => {
           />
         </div>
       </div>
+        <div className='flex relative md:flex-row flex-col gap-4 w-full'>
+        <AccordionTab header='Nusantara Unggul' contents={nusantaraUnggul} titles={titles} />
+        <AccordionTab header='Nusantara Unggul' contents={nusantaraUnggul} titles={titles} />
+        </div>
     </section>
   );
 };
