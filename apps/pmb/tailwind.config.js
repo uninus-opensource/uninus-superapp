@@ -14,8 +14,22 @@ module.exports = {
       boxShadow: {
         inset: '0px 2px 6px 0px rgba(0, 0, 0, 0.25) inset',
       },
+      width: {
+        18: '72px',
+        26: '105px',
+      },
+      height: {
+        18: '72px',
+        26: '105px',
+        navbarlg: '120px',
+        footerHeight: '360px',
+        bannerLg: '520px',
+      },
       fontFamily: {
         bebasNeue: ['Bebas Neue', 'sans-serif'],
+      },
+      fontWeight: {
+        extramedium: '550',
       },
     },
     colors: {
@@ -31,6 +45,7 @@ module.exports = {
           3: '#BAB514',
           4: '#175349',
           5: '#113C35',
+          6: '#162000',
         },
         sky: {
           1: '#1678682E',

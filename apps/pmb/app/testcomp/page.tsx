@@ -8,6 +8,7 @@ import {
   Modal,
   UploadField,
   DraggableComponent,
+  TabJalurSeleksi,
 } from '@uninus/components';
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -30,7 +31,7 @@ const LandingPage: FC = (): ReactElement => {
   };
 
   return (
-    <section className="px-6 py-12">
+    <section className="px-6 py-12 my-36">
       <div className="flex flex-col justify-center items-center h-screen gap-4">
         <CheckBox
           control={control}
@@ -147,7 +148,7 @@ const LandingPage: FC = (): ReactElement => {
         </div>
         <Button
           onClick={handleOpenModal}
-          variant="primary"
+          variant="filled"
           size="sm"
           width="w-28"
           height="h-8"
@@ -169,6 +170,7 @@ const LandingPage: FC = (): ReactElement => {
           <UploadField variant="lg" required />
         </div>
         <DraggableComponent control={control} name="draggableComponent" />
+        <TabJalurSeleksi />
       </div>
     </section>
   );

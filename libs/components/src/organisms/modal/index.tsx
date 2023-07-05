@@ -29,7 +29,7 @@ export const Modal: FC<ModalProps> = ({
               <h3 className="text-xl font-semibold text-gray-900">
                 {modalTitle}
               </h3>
-              <Button onClick={onClose} variant="icon-close" size="sm">
+              <Button onClick={onClose} variant="text-icon" size="sm">
                 <IoCloseSharp size={25} />
               </Button>
             </div>
@@ -37,7 +37,7 @@ export const Modal: FC<ModalProps> = ({
             <div className="flex items-center p-6 space-x-2 rounded-lg">
               <Button
                 type="submit"
-                variant="primary"
+                variant="filled"
                 size="sm"
                 width="w-16"
                 height="h-8"
@@ -45,7 +45,7 @@ export const Modal: FC<ModalProps> = ({
                 {submitText}
               </Button>
               <Button
-                variant="error"
+                variant="filled-tonal"
                 size="sm"
                 width="w-16"
                 height="h-8"

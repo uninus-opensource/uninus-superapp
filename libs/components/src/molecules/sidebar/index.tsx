@@ -19,7 +19,7 @@ export const Sidebar: FC<TSidebarProps> = ({
           showSidebar ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <Button variant="hamburger" size="sm" onClick={closeSidebar}>
+        <Button variant="text-icon" size="sm" onClick={closeSidebar}>
           <XIcon />
         </Button>
         <nav>{props.children}</nav>
