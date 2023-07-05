@@ -9,7 +9,7 @@ const About: NextPage = (): ReactElement => {
     <section className="w-full min-h-screen">
       {/*start jumbotron*/}
       <HeroBanner
-        heroTitles="TENTANG UNIVERSITAS ISLAM NUSANTARA"
+        heroTitle="TENTANG UNIVERSITAS ISLAM NUSANTARA"
         heroImages="https://images.unsplash.com/photo-1576495199011-eb94736d05d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=872&q=80"
         backgrounColor="bg-gray-800"
         isDownload
