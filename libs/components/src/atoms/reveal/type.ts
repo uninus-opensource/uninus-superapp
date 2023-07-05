@@ -6,6 +6,6 @@ export type TRevealProps = {
   initial?: string;
   duration?: number;
   delay?: number;
-  customX?: string;
+  customX?: number;
   customY?: string;
 };

@@ -47,26 +47,29 @@ const Beasiswa: NextPage = (): ReactElement => {
   
   return (
     <section className="w-full flex flex-col min-h-screen bg-no-repeat md:bg-[url('https://pmb.uninus.ac.id/wp-content/uploads/2023/02/home-bg1-1.jpg')]">
-      {/* <Navbar /> */}
       {/*Hero Start*/}
       <header className="bg-center after flex justify-center items-center lg:top-[220px] md:top-[270px] top-[300px] relative object-center  w-full h-screen">
         <section className="px-4 mb-9 mx-auto max-w-screen-xl text-center  -translate-y-14">
 
             <div className='py-[10px] w-full  flex justify-center'>
-          <Reveal variantX={true} customX={'-100%'} delay={1} duration={2}>
-              <span className='h-[2px] bg-[#1C532A]  md:-translate-x-16 -translate-x-10 w-[25%] md:w-[10%]' ></span>
-          </Reveal>
+          <Reveal variantX={true} customX={100} delay={1} duration={2}>
+<div className='bg-[#1C532A] md:-translate-x-16 -translate-x-10 w-[25%]'>
+              {/* <span className='h-2 bg-[#1C532A]  md:-translate-x-16 -translate-x-10 w-[25%]' ></span> */}
             </div>
+          </Reveal>
+</div>
 
+            <div className='w-full flex mx-auto items-center justify-center'>
           <Reveal duration={1} delay={1}>
-            <h1 className="mb-2 py-1 text-xl text-center font-semibold tracking-tight leading-none md:text-5xl lg:text-3xl">
+            <h1 className="mb-2 py-1 text-xl text-center w-full font-semibold tracking-tight md:text-5xl lg:text-3xl">
               PILIHAN BERBAGAI BEASISWA TERSEDIA <br/>
               DI UNIVERSITAS ISLAM NUSANTARA
             </h1>
           </Reveal>
+            </div>
             <div className='pb-[10px] w-full box-border flex justify-center'>
-          <Reveal variantX={true} customX={'-100%'} duration={2} >
-              <span className='h-[2px] bg-[#1C532A] w-[34%] md:w-[17%] block' ></span>
+          <Reveal variantX={true} customX={100} duration={2} >
+              <span className='h-[200px] bg-[#1C532A] w-[34%] md:w-[17%]'></span>
           </Reveal>
             </div>
           <div className='text-center mb-5 flex md:px-[20px] lg:px-[290px] sm:px-20 md:py-[10px] justify-center md:text-center leading-none'>
@@ -96,7 +99,7 @@ const Beasiswa: NextPage = (): ReactElement => {
 
             {/* Nusantara Berprestasi Start  */}
             <div className='py-5 flex justify-center'>
-              <Reveal variantX={true} customX={'100%'} duration={1} delay={1}>
+              <Reveal variantX={true} customX={100} duration={1} delay={1}>
                 <div className='flex gap-10 justify-between'>
                   <i>
                     <h1 className='md:text-2xl text-xl font-bold'>Nusantara Berprestasi</h1>
@@ -127,7 +130,7 @@ const Beasiswa: NextPage = (): ReactElement => {
 
           {/* Nusantara Peduli Difabel Start  */}
           <div className='py-5 flex justify-center'>
-            <Reveal variantX={true} customX={'100%'} duration={1} >
+            <Reveal variantX={true} customX={100} duration={1} >
               <div className='flex gap-10 justify-around'>
                 <i>
                   <h1 className='md:text-2xl text-xl font-bold'>Nusantara Peduli Difabel</h1>
