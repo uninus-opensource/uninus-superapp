@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { Button } from '../../atoms';
 import { TButtonSection } from './type';
 
@@ -19,6 +19,18 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
       item: 'Jalur Seleksi Test (JST)',
     },
   ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (isActive <= 3) {
+        setIsActive(isActive + 1);
+      }
+    }, 2400);
+    if (isActive > 3) {
+      setIsActive(1);
+    }
+    return () => clearInterval(timer);
+  }, [isActive]);
 
   return (
     <section className="flex flex-col gap-6 p-6 w-8/12 items-center">
