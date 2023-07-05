@@ -19,10 +19,10 @@ import hybridUniversity from '../../atoms/illustrations/hybriduniversity/hybrid-
 
 export const Footer: NextPage = (): ReactElement => {
   return (
-    <footer className="h-footerHeight">
+    <footer className="w-full h-footerHeight">
       {/* frame1 */}
       <section>
-        <div className="bg-secondary-green-4 z-10 absolute w-screen h-[300px] opacity-95 flex">
+        <div className="bg-secondary-green-4 z-10 absolute w-full h-[300px] opacity-95 flex">
           <section className="w-[33.3%] flex justify-center items-center">
             <Image
               src={NeoUninusIcon}
@@ -107,7 +107,7 @@ export const Footer: NextPage = (): ReactElement => {
 
       {/* frame2 */}
       <section>
-        <div className="w-screen h-[60px] bg-primary-green flex items-center justify-between px-[52px]">
+        <div className="w-full h-[60px] bg-primary-green flex items-center justify-between px-[52px]">
           <p className="font-bebasNeue text-xl leading-6 text-grayscale-1 font-extrabold">
             © NEO UNIVERSITAS ISLAM NUSANTARA 2023
           </p>
