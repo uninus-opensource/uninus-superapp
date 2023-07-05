@@ -6,7 +6,7 @@ import { TRevealProps } from './type';
 
 export const Reveal: FC<TRevealProps> = ({
   children,
-  w = 'fit',
+  w = 'w-fit',
 }): ReactElement => {
   const ref = useRef(null);
   const isViewed = useInView(ref, { once: true });
@@ -16,7 +16,7 @@ export const Reveal: FC<TRevealProps> = ({
     if (isViewed) {
       animateControllers.start('visible');
     }
-  }, [isViewed]);
+  }, [animateControllers, isViewed]);
   return (
     <div ref={ref} className={`relative ${w} overflow-hidden `}>
       <motion.div

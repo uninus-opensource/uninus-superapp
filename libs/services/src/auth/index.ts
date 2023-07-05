@@ -1,41 +1,117 @@
 import {
   BadRequestException,
-  ForbiddenException,
+  ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { Prisma, Users } from '@prisma/client';
-import { LoginDto, TJwtPayload, TLoginResponse, TPaginationArgs, TRegisterResponse, otpDto, TToken, } from '@uninus/entities';
+import { Prisma } from '@prisma/client';
+import {
+  TLoginResponse,
+  TProfileRequest,
+  TProfileResponse,
+  TRegisterResponse,
+  TReqToken,
+} from '@uninus/entities';
 import { PrismaService } from '@uninus/models';
-import { paginate } from '@uninus/utilities';
-import * as bcrypt from 'bcrypt';
-import { MailerService} from '@nestjs-modules/mailer'
-import { error } from 'console';
+import {
+  compareOtp,
+  comparePassword,
+  encryptPassword,
+  generateAccessToken,
+  generateOtp,
+  generateToken,
+} from '@uninus/utilities';
 
-
+import { EmailService } from '../email';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwt: JwtService, private mailerService: MailerService) {}
-  private otpMap: Map <string, string> = new Map();
+  constructor(
+    private prisma: PrismaService,
+    private readonly emailService: EmailService
+  ) {}
 
-  async getUser({ where, orderBy, page, perPage }: TPaginationArgs) {
-    return paginate(
-      this.prisma.users,
-      {
-        where,
-        orderBy,
+  async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
+    const { email, nik } = reqUser;
+
+    const profile = await this.prisma.users.findUnique({
+      where: {
+        nik,
+        email,
       },
-      {
-        page,
-        perPage,
-      }
-    );
+      select: {
+        id: true,
+        email: true,
+        fullname: true,
+        role_id: true,
+        createdAt: true,
+        nik: true,
+        avatar: true,
+      },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Profil tidak ditemukan');
+    }
+
+    return profile;
   }
 
-  async findOne(email: string) {
-    return this.prisma.users.findUnique({
+  async register(data: Prisma.UsersCreateInput): Promise<TRegisterResponse> {
+    const isEmailExist = await this.prisma.users.findUnique({
+      where: {
+        email: data.email.toLowerCase(),
+      },
+    });
+
+    if (isEmailExist) {
+      throw new ConflictException('Email sudah terdaftar');
+    }
+
+    const isNikExist = await this.prisma.users.findUnique({
+      where: {
+        nik: data.nik,
+      },
+    });
+
+    if (isNikExist) {
+      throw new ConflictException('Nik sudah terdaftar');
+    }
+
+    const password = await encryptPassword(data.password);
+
+    const createdUser = await this.prisma.users.create({
+      data: {
+        ...data,
+        email: data.email.toLowerCase(),
+        password,
+        role: data.role,
+      },
+    });
+
+    if (!createdUser) {
+      throw new BadRequestException('Gagal Mendaftar');
+    }
+    const otp = await generateOtp(data.email);
+
+    const sendEmail = this.emailService.sendEmail(
+      data.email.toLowerCase(),
+      'Verifikasi Email',
+      `Kode OTP anda adalah ${otp}`
+    );
+
+    if (!sendEmail) {
+      throw new BadRequestException('Gagal mengirimkan kode verifikasi');
+    }
+
+    return {
+      message: 'Akun Berhasil dibuat!, check email untuk verifikasi',
+    };
+  }
+
+  async login(email: string, password: string): Promise<TLoginResponse> {
+    const user = await this.prisma.users.findUnique({
       where: {
         email: email.toLowerCase(),
       },
@@ -56,131 +132,41 @@ export class AuthService {
         },
       },
     });
-  }
-  
-
-  async profile(
-    nik: string,
-    email: string
-  ): Promise<Omit<Users, 'password' | 'refresh_token'> | null> {
-    return this.prisma.users.findUnique({
-      where: {
-        nik,
-        email,
-      },
-      select: {
-        id: true,
-        email: true,
-        fullname: true,
-        role_id: true,
-        createdAt: true,
-        nik: true,
-        avatar: true,
-      },
-    });
-  }
-
-  async register(data: Prisma.UsersCreateInput): Promise<TRegisterResponse> {
-    const isEmailExist = await this.prisma.users.findUnique({
-      where: {
-        email: data.email.toLowerCase(),
-      },
-    });
-
-    if (isEmailExist) {
-      throw new BadRequestException('Email sudah terdaftar', {
-        cause: new Error(),
-      });
+    if (!user) {
+      throw new NotFoundException('Akun tidak ditemukan');
     }
+    const isMatch = await comparePassword(password, user.password);
 
-    const isNikExist = await this.prisma.users.findUnique({
-      where: {
-        nik: data.nik,
-      },
+    if (!isMatch) {
+      throw new UnauthorizedException('Password salah');
+    }
+    const { access_token, refresh_token } = await generateToken({
+      userId: user.id,
+      email: user.email,
+      role: user.role?.name || '',
     });
 
-    if (isNikExist) {
-      throw new BadRequestException('Nik sudah terdaftar', {
-        cause: new Error(),
-      });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hashed = await bcrypt.hash(data.password, salt);
-
-    const createdUser = await this.prisma.users.create({
-      data: {
-        ...data,
-        email: data.email.toLowerCase(),
-        password: hashed,
-        role: data.role,
-      },
-    });
-
-    if (!createdUser) {
-      throw new BadRequestException('Gagal Mendaftar');
-    }
     return {
-      message: 'Akun Berhasil dibuat!',
+      message: 'Berhasil Login',
+      token: {
+        access_token,
+        refresh_token,
+      },
+      id: user.id,
+      user: {
+        id: user.id,
+        nik: user.nik,
+        email: user.email,
+        fullname: user.fullname,
+        role: user.role?.name || '',
+        createdAt: user.createdAt,
+        avatar: user.avatar,
+      },
     };
   }
 
-  // Login Service
-  async login(email: string, password:string): Promise<TLoginResponse>{
-    const User = await this.findOne(email.toLowerCase());
-    if (!User) {
-        throw new BadRequestException('Akun tidak ditemukan')
-    }
-    const isMatch = await this.comparePasswords(password, User.password)
-
-    if (!isMatch) {
-        throw new BadRequestException('Password salah');
-    }
-    const aToken = await this.signToken({
-        id: User.id,
-        email: User.email
-    })
-
-    const rToken = await this.refreshToken({
-      id: User.id,
-      email: User.email
-  })
-
-    if (!aToken) {
-        throw new ForbiddenException()
-    }
-
-    await this.prisma.users.update({
-      where: {
-        email: User.email,
-      },
-      data: {
-        refresh_token: rToken,
-      },
-    })
-
-    const roleName = User.role?.name || ""; 
-    return ({
-      message: 'Berhasil Login', 
-      token: {
-        access_token: aToken,
-        refresh_token: rToken,
-      },
-      id: User.id,
-      user:{
-      id: User.id,
-      nik: User.nik,
-      email: User.email,
-      fullname: User.fullname,
-      role: roleName,
-      createdAt: User.createdAt,
-      avatar: User.avatar,
-      }
-    })
-}
-
-  async logout(refresh_token: string) {
-    const result = await this.prisma.users.updateMany({
+  async logout(refresh_token: string): Promise<{ message: string }> {
+    const result = await this.prisma.users.update({
       where: {
         refresh_token: refresh_token,
       },
@@ -188,119 +174,81 @@ export class AuthService {
         refresh_token: null,
       },
     });
-  
-    if (result.count > 0) {
-      return {
-        message: 'Berhasil logout',
-      };
-    } else {
-        throw new BadRequestException('Gagal logout');
+    if (!result) {
+      throw new UnauthorizedException('Gagal logout');
     }
-    
-  }
-  
-
-  async getUsers() {
-    return await this.prisma.users.findMany({
-      select: { id: true, email: true },
-    });
-  }
-
-  async comparePasswords(password: string, hash: string) {
-    return await bcrypt.compare(password, hash);
-  }
-
-  async signToken(args: { id: string; email: string }) {
-    const payLoad = args;
-
-    return this.jwt.signAsync(payLoad, {
-      secret: process.env.ACCESS_SECRET,
-      expiresIn: '1h',
-    });
-  }
-
-  async refreshToken(args: { id: string; email: string }) {
-    const payLoad = args;
-
-    return this.jwt.signAsync(payLoad, {
-      secret: process.env.REFRESH_SECRET,
-      expiresIn: '2h',
-    });
-  }
-  
-  async sendOtp(email: string) {
-    const otp = await this.generatorOtp();
-    const user = await this.prisma.users.findUnique({
-      where: {
-        email
-      }
-    });
-
-    if(!user) {
-      return {message: 'Email tidak ditemukan!'}
-    }
-    
-    const store = await this.storeOtp(email, otp)
-    const receipt = await this.emailTemplates(email, otp);
-
-    return {message: 'Kode verifikasi telah terkirim', receipt, store};
-  }
-  
-  async emailTemplates(email: string, otp: string) {
-    this.mailerService.sendMail({
-      to: email,
-      subject: 'OTP Verification',
-      text: `Your OTP for Verification is: ${otp}`
-    });
-  }
-
-  async generatorOtp() {
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    return otp;
-  }
-
-  async storeOtp(email: string, otp: string) {
-    this.otpMap.set(email, otp)
-  }
-
-  async verifyOtp(email: string, otpProvided: string){
-    const storedOtp = this.otpMap.get(email);
-    return otpProvided === storedOtp;
-  }
-
-  async updateRtHash(userId: string, rt: string): Promise<void> {
-    const salt = await bcrypt.genSalt();
-    const hash = await bcrypt.hash(rt, salt);
-    await this.prisma.users.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        refresh_token: hash,
-      },
-    });
-  }
-
-  async getTokens(userId: string, email: string): Promise<TToken> {
-    const jwtPayload: TJwtPayload = {
-      id: userId,
-      email: email,
-    };
-
-    const [at, rt] = await Promise.all([
-      this.jwt.signAsync(jwtPayload, {
-        secret: process.env.ACCESS_SECRET,
-        expiresIn: '15m',
-      }),
-      this.jwt.signAsync(jwtPayload, {
-        secret: process.env.REFRESH_SECRET,
-        expiresIn: '7d',
-      }),
-    ]);
 
     return {
-      access_token: at,
-      refresh_token: rt,
+      message: 'Berhasil logout',
+    };
+  }
+
+  async refreshToken(reqToken: TReqToken): Promise<{ access_token: string }> {
+    const access_token = await generateAccessToken(reqToken.user);
+
+    return {
+      access_token,
+    };
+  }
+
+  async verifyOtp(email: string, otp: string) {
+    const isVerified = await compareOtp(email, otp);
+    if (!isVerified) {
+      throw new NotFoundException('Email atau OTP tidak valid');
+    }
+
+    const user = await this.prisma.users.update({
+      where: {
+        email,
+      },
+      data: {
+        isVerified: true,
+      },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Gagal verifikasi OTP');
+    }
+    return {
+      message: 'Berhasil verifikasi OTP',
+    };
+  }
+
+  async forgotPassword(email: string) {
+    const otp = await generateOtp(email);
+    const sendEmail = this.emailService.sendEmail(
+      email.toLowerCase(),
+      'Reset Password',
+      `Kode OTP anda adalah ${otp}`
+    );
+    if (!sendEmail) {
+      throw new BadRequestException('Gagal mengirimkan kode verifikasi');
+    }
+    return {
+      message: 'Berhasil kirim OTP',
+    };
+  }
+
+  async resetPassword(args: { email: string; otp: string; password: string }) {
+    const isVerified = await compareOtp(args.email, args.otp);
+    if (!isVerified) {
+      throw new NotFoundException('Email atau OTP tidak valid');
+    }
+    const newPassword = await encryptPassword(args.password);
+
+    const user = await this.prisma.users.update({
+      where: {
+        email: args.email,
+      },
+      data: {
+        password: newPassword,
+      },
+    });
+    if (!user) {
+      throw new BadRequestException('Gagal mengganti password');
+    }
+    return {
+      message: 'Berhasil mengganti password',
     };
   }
 }
