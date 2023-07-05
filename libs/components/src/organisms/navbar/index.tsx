@@ -23,7 +23,7 @@ export const Navbar: FC = (): ReactElement => {
     },
     {
       item: 'beasiswa',
-      link: '/about',
+      link: '/beasiswa',
     },
     {
       item: 'biaya kuliah',
