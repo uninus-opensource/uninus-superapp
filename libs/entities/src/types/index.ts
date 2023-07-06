@@ -5,3 +5,4 @@ export * from './register';
 export * from './req-user';
 export * from './rt-payload';
 export * from './token';
+export * from './cloudinary';
