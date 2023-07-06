@@ -89,12 +89,15 @@ const LandingPage: NextPage = (): ReactElement => {
               </h1>
               <p className="text-left text-base xl:text-lg font-medium xl:font-normal lg:leading-6 text-grayscale-9 mt-16 xl:w-4/5">
                 Selamat datang calon mahasiswa baru di Universitas Islam
-                Nusantara Kami sangat senang Anda bergabung dengan kami dan
-                yakin Anda akan menemukan banyak peluang belajar, berkembang,
-                dan berkontribusi. Kami memiliki fasilitas pendidikan terbaik,
-                dosen berkualitas, dan komunitas mahasiswa inklusif. Kami sangat
-                menantikan kerjasama kita dan membantu Anda mencapai impian
-                Anda.
+                Nusantara.
+                <br />
+                Kami sangat senang Anda bergabung dengan kami dan yakin Anda
+                akan menemukan banyak peluang belajar, berkembang, dan
+                berkontribusi.
+                <br />
+                Kami memiliki fasilitas pendidikan terbaik, dosen berkualitas,
+                dan komunitas mahasiswa inklusif. Kami sangat menantikan
+                kerjasama kita dan membantu Anda mencapai impian Anda.
               </p>
             </div>
           </section>
