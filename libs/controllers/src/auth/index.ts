@@ -6,14 +6,15 @@ import {
   Post,
   Request,
   UseGuards,
-  ValidationPipe,
 } from '@nestjs/common';
 import {
   LoginDto,
   RegisterDto,
   RtGuard,
   TReqToken,
+  forgotPasswordDto,
   newPasswordDto,
+  verifyOtpDto,
 } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
 
@@ -46,18 +47,17 @@ export class AuthController {
   }
 
   @Post('verify')
-  async verifyOtp(@Body('email') email: string, @Body('otp') otp: string) {
-    return this.appService.verifyOtp(email, otp);
+  async verifyOtp(@Body() verifyOtp: verifyOtpDto) {
+    return this.appService.verifyOtp(verifyOtp.email, verifyOtp.otp);
   }
 
   @Post('forgot-password')
-  async forgotPassword(@Body('email') email: string) {
-    return this.appService.forgotPassword(email);
+  async forgotPassword(@Body() forgotPassword: forgotPasswordDto) {
+    return this.appService.forgotPassword(forgotPassword.email);
   }
 
   @Post('reset-password')
   async resetPassword(@Body() newPasswordDto: newPasswordDto) {
     return this.appService.resetPassword(newPasswordDto);
   }
-
 }
