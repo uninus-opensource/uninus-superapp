@@ -24,7 +24,7 @@ export const Button: FC<IButtonProps> = ({
   );
 
   const buttonVariant = clsx(
-    'font-medium flex items-center duration-200 rounded-lg',
+    'font-medium flex items-center justify-center duration-200 rounded-lg',
     {
       'bg-primary-green text-primary-white shadow-sm shadow-grayscale-6 disabled:bg-disable-state disabled:text-grayscale-4 disabled:cursor-not-allowed hover:bg-secondary-green-1 focus:bg-secondary-green-1 active:shadow-none active:scale-95 ':
         variant === 'elevated',
