@@ -10,13 +10,18 @@ export const HeroBanner: FC<TbannerProps> = ({
   subTitle,
   subTitle2,
   isDownload = false,
+  blur = false,
 }): ReactElement => {
   return (
     <header
-      className={`bg-center ${backgrounColor} flex justify-center items-center relative bg-fixed object-center bg-cover w-full h-screen bg-no-repeat bg-blend-overlay`}
+      className={`bg-center ${backgrounColor} flex justify-center items-center relative bg-fixed object-center bg-cover w-full h-full bg-no-repeat bg-blend-overlay`}
       style={{ backgroundImage: `url(${heroImages})` }}
     >
-      <section className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-52">
+      <section
+        className={`px-4 mx-auto w-full h-full ${
+          blur ? 'backdrop-blur-sm' : ''
+        } text-center py-24 lg:py-52`}
+      >
         <Reveal w="w-full">
           <div className="flex items-center flex-col w-full">
             <div className="text-xl md:text-4xl font-bebasNeue py-4 font-normal text-primary-white leading-normal uppercase">

@@ -46,7 +46,7 @@ const LandingPage: NextPage = (): ReactElement => {
   ];
 
   return (
-    <section className="w-full min-h-screen">
+    <section className="w-full min-h-screen bg-slate-2">
       <HeroBanner
         subTitle={
           <p className="tracking-tighter">
@@ -58,18 +58,19 @@ const LandingPage: NextPage = (): ReactElement => {
         heroTitle2="UNIVERSITAS ISLAM NUSANTARA"
         subTitle2="Tahun Akademik 2023/2024"
         heroImages="https://kelaskaryawan.org/wp-content/uploads/2023/02/2021-03-05-2-678x381.jpg"
-        backgrounColor="bg-secondary-green-6"
+        backgrounColor="bg-grayscale-9"
         isDownload
+        blur
       />
 
-      <figure className="-z-10 absolute left-0">
+      <figure className="absolute left-0">
         <Ellipse />
       </figure>
 
       <section className="px-16 w-full flex flex-col items-center mt-32 h-auto">
         {/* start welcome */}
         <Reveal>
-          <section className="text-center w-full flex justify-between xl:justify-evenly ">
+          <section className="text-center w-full flex justify-between xl:justify-evenly xl:ml-10 ">
             <figure className="rounded-lg bg-secondary-green-4">
               <Image
                 src={figure1}
@@ -79,12 +80,14 @@ const LandingPage: NextPage = (): ReactElement => {
                 className="rounded-lg bg-primary-white opacity-70"
               />
             </figure>
-            <div className="flex flex-col items-start justify-center w-7/12 leading-normal font-bebasNeue pl-6">
-              <h1 className="text-3xl text-left uppercase font-bebasNeue font-semibold text-secondary-green-4">
-                SELAMAT DATANG calon mahasiswa/mahasiswi{' '}
-                <span className="text-primary-green">baru</span>
+            <div className="flex flex-col items-start w-7/12 leading-normal font-bebasNeue pl-6">
+              <h1 className="text-3xl text-left font-bebasNeue font-semibold text-secondary-green-4 mt-6">
+                Selamat Datang
+                <br />
+                Calon Mahasiswa/Mahasiswi{' '}
+                <span className="text-primary-green">Baru</span>
               </h1>
-              <p className="text-left text-sm font-medium xl:font-extramedium leading-4 text-grayscale-9 mt-6">
+              <p className="text-left text-base xl:text-lg font-medium xl:font-normal lg:leading-6 text-grayscale-9 mt-16 xl:w-4/5">
                 Selamat datang calon mahasiswa baru di Universitas Islam
                 Nusantara Kami sangat senang Anda bergabung dengan kami dan
                 yakin Anda akan menemukan banyak peluang belajar, berkembang,
@@ -211,10 +214,10 @@ const LandingPage: NextPage = (): ReactElement => {
 
       {/* start program pendidikan section */}
       <section className="my-32 h-auto w-full gap-4 px-16 py-2 flex flex-col">
-        <h1 className="uppercase text-3xl text-secondary-green-4 font-extramedium ">
+        <h1 className="uppercase text-center text-3xl text-secondary-green-4 font-extramedium ">
           program <span className="text-primary-green">pendidikan</span>
         </h1>
-        <section className="flex items-center justify-center gap-10 xl:gap-16 mt-6">
+        <section className="flex items-center justify-center gap-10 xl:gap-16 mt-10">
           {programPendidikanList.map((list, idx) => (
             <Card key={idx} iconText={list.iconText} cardTitle={list.title}>
               {list.item}
@@ -225,7 +228,7 @@ const LandingPage: NextPage = (): ReactElement => {
       {/* end program pendidikan section */}
 
       {/* start tentang uninus */}
-      <section className="my-32 h-auto w-full gap-4 px-16 py-2 flex justify-between xl:justify-evenly items-center">
+      <section className=" h-auto w-full gap-4 px-16 py-2 flex justify-between xl:justify-evenly items-center ">
         {/* Gambar */}
         <figure>
           <div className="w-18 h-18 rounded-lg bg-primary-green relative top-12 right-7"></div>
