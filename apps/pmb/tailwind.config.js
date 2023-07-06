@@ -37,6 +37,7 @@ module.exports = {
         green: '#009647',
         yellow: '#F8BF02',
         white: '#FFFFFF',
+        black: '#000000',
       },
       secondary: {
         green: {
@@ -66,6 +67,13 @@ module.exports = {
       },
       disable: {
         state: '#BDBDBD',
+      },
+      slate: {
+        1: 'rgb(248 250 252)',
+        2: 'rgb(241 245 249)',
+        3: 'rgb(226 232 240)',
+        4: 'rgb(203 213 225)',
+        5: 'rgb(148 163 184)',
       },
     },
   },

@@ -8,4 +8,5 @@ export type TbannerProps = {
   subTitle?: string | ReactNode;
   subTitle2?: string;
   isDownload?: boolean;
+  blur?: boolean;
 };

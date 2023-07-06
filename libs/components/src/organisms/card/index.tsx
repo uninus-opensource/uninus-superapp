@@ -8,7 +8,7 @@ export const Card: FC<TCardProps> = ({
   children,
 }): ReactElement => {
   return (
-    <section className="flex flex-col gap-4 w-72 justify-between p-8 h-72 rounded-xl shadow-md shadow-grayscale-2 relative">
+    <section className="flex flex-col w-72 justify-around p-8 h-72 rounded-xl shadow-md bg-primary-white shadow-grayscale-2 relative">
       <figure
         className={`w-14 h-14 p-2 flex justify-center items-center bg-secondary-green-4 text-primary-white rounded-md 
       ${iconText ? 'text-3xl font-bebasNeue' : 'text-5xl'}`}
