@@ -30,7 +30,7 @@ export const TextField = <T extends FieldValues>({
   const labelVariant = clsx('text-black font-medium', {
     'text-md': variant === 'lg',
     'text-sm': variant === 'md',
-    'text-xs': variant === 'sm',
+    'text-md ': variant === 'sm',
   });
 
   const inputStatus = clsx('outline-none w-full ', {
@@ -40,14 +40,14 @@ export const TextField = <T extends FieldValues>({
       status === 'success',
     'ring-1 ring-yellow-400 bg-yellow-100 placeholder:text-yellow-400':
       status === 'warning',
-    'ring-1 ring-gray-400 bg-gray-100 placeholder:text-gray-400':
+    'ring-0  bg-gray-100 placeholder:text-gray-400':
       status === 'none' || status === undefined,
   });
 
-  const inputVariant = clsx({
+  const inputVariant = clsx('bg-grayscale-2 bg-opacity-30', {
     'py-4 rounded-lg placeholder:text-md text-md': variant === 'lg',
     'py-3 rounded-md placeholder:text-sm text-sm': variant === 'md',
-    'py-2 rounded-md placeholder:text-xs text-xs': variant === 'sm',
+    'py-2 rounded-sm placeholder:text-xs text-xs': variant === 'sm',
     'p-5 text-center rounded-2xl placeholder:text-xs placeholder:text-slate-300 text-md md:text-xl appearance-none':
       variant === 'otp',
   });
