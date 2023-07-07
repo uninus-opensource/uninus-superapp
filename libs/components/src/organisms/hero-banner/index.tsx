@@ -5,6 +5,7 @@ import { Reveal, Button } from '../../atoms';
 export const HeroBanner: FC<TbannerProps> = ({
   heroTitle,
   heroTitle2,
+  heroTitleBottomRight,
   heroImages,
   backgrounColor,
   subTitle,
@@ -35,6 +36,10 @@ export const HeroBanner: FC<TbannerProps> = ({
             </h1>
             <p className="text-2xl md:text-3xl text-primary-white font-medium">
               {subTitle2}
+            </p>
+            <p className="flex flex-col text-2xl md:text-4xl text-primary-white absolute left-24 bottom-0 gap-2 font-extramedium font-bebasNeue">
+              {heroTitleBottomRight}
+              <div className="border-2 border-primary-green w-26"></div>
             </p>
             {isDownload ? (
               <section className="flex mt-12 gap-8">
