@@ -230,11 +230,7 @@ export class AuthService {
     };
   }
 
-  async resetPassword(args: { email: string; otp: string; password: string }) {
-    const isVerified = await compareOtp(args.email, args.otp);
-    if (!isVerified) {
-      throw new NotFoundException('Email atau OTP tidak valid');
-    }
+  async resetPassword(args: { email: string; password: string }) {
     const newPassword = await encryptPassword(args.password);
 
     const user = await this.prisma.users.update({
