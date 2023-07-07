@@ -1,5 +1,4 @@
-import { NextPage } from 'next';
-import { ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import Image from 'next/image';
 import uninusImage from '../../atoms/illustrations/uninus/uninus.png';
 import {
@@ -18,7 +17,7 @@ import NeoUninusIcon from '../../atoms/illustrations/neouninus/Neo-Uninus.png';
 import hybridUniversity from '../../atoms/illustrations/hybriduniversity/hybrid-university.png';
 import Link from 'next/link';
 
-export const Footer: NextPage = (): ReactElement => {
+export const Footer: FC = (): ReactElement => {
   return (
     <footer className="w-full h-footerHeight">
       {/* frame1 */}
