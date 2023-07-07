@@ -1,12 +1,16 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { TPaginationArgs } from '@uninus/entities';
 import { Prisma, PrismaService } from '@uninus/models';
-import { paginate } from '@uninus/utilities';
+import { generateOtp, paginate } from '@uninus/utilities';
+import { EmailService } from '../email';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
-  async getUser({ where, orderBy, page, perPage }: TPaginationArgs) {
+  constructor(
+    private prisma: PrismaService,
+    private readonly emailService: EmailService
+  ) {}
+  async getUsers({ where, orderBy, page, perPage }: TPaginationArgs) {
     return paginate(
       this.prisma.users,
       {
@@ -40,18 +44,34 @@ export class UserService {
         cause: new Error(),
       });
     }
+    const otp = await generateOtp(payload.email);
     const user = await this.prisma.users.create({
       data: payload,
     });
+    const sendEmail = this.emailService.sendEmail(
+      payload.email.toLowerCase(),
+      'Verifikasi Email',
+      `Kode OTP anda adalah ${otp}`
+    );
+    if (!sendEmail) {
+      throw new BadRequestException('Gagal mengirimkan kode verifikasi');
+    }
     return {
       data: user,
     };
   }
 
-  async getUserById(id: string) {
+  async getUser(id: string) {
     const user = await this.prisma.users.findUnique({
       where: {
         id,
+      },
+      select: {
+        id: true,
+        fullname: true,
+        email: true,
+        avatar: true,
+        students: true,
       },
     });
     if (!user) {
@@ -64,7 +84,7 @@ export class UserService {
     };
   }
 
-  async updateUser(id: string, payload: any) {
+  async updateUser(id: string, payload: Prisma.UsersUpdateInput) {
     const user = await this.prisma.users.update({
       where: {
         id,

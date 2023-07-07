@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { UserController } from '@uninus/controllers';
 import { PrismaModule } from '@uninus/models';
-import { UserService } from '@uninus/services';
+import { CloudinaryService, EmailService, UserService } from '@uninus/services';
+import { CloudinaryModule } from '../cloudinary';
+import { EmailModule } from '../email';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, EmailModule, CloudinaryModule],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, EmailService, CloudinaryService],
 })
 export class PmbModule {}

@@ -141,7 +141,7 @@ export class AuthService {
       throw new UnauthorizedException('Password salah');
     }
     const { access_token, refresh_token } = await generateToken({
-      userId: user.id,
+      sub: user.id,
       email: user.email,
       role: user.role?.name || '',
     });
@@ -165,15 +165,16 @@ export class AuthService {
     };
   }
 
-  async logout(refresh_token: string): Promise<{ message: string }> {
+  async logout(userId: string): Promise<{ message: string }> {
     const result = await this.prisma.users.update({
       where: {
-        refresh_token: refresh_token,
+        id: userId,
       },
       data: {
         refresh_token: null,
       },
     });
+
     if (!result) {
       throw new UnauthorizedException('Gagal logout');
     }
