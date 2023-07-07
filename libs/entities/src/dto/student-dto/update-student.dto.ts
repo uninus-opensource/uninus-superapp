@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsISO8601, IsIn, IsOptional, IsString } from 'class-validator';
 
 export class UpdateStudentDto {
   @IsOptional()
@@ -10,6 +10,10 @@ export class UpdateStudentDto {
   nisn!: string;
 
   @IsOptional()
+  @IsString()
+  @IsIn(['KTP', 'SIM', 'KARTU_PELAJAR'], {
+    message: 'Card Type must be one of KTP, SIM atau KARTU_PELAJAR',
+  })
   identification_type!: 'KTP' | 'SIM' | 'KARTU_PELAJAR';
 
   @IsOptional()
@@ -21,16 +25,26 @@ export class UpdateStudentDto {
   birth_place!: string;
 
   @IsOptional()
-  @IsString()
+  @IsISO8601()
   birth_date!: string;
 
   @IsOptional()
-  gender!: 'Male' | 'Female';
+  @IsIn(['MALE', 'FEMALE'], {
+    message: 'Gender must be one Male atau Female',
+  })
+  gender!: 'MALE' | 'FEMALE';
 
   @IsOptional()
-  religion!: 'Islam' | 'Kristen' | 'Katholik' | 'Konghucu' | 'Hindu' | 'Budha';
+  @IsIn(['ISLAM', 'KRISTEN', 'KATOLIK', 'KONGHUCU', 'HINDU', 'BUDHA'], {
+    message:
+      'Religion must be one of Islam, Kristen, Katolik, Konghucu, Hindu, Budha',
+  })
+  religion!: 'ISLAM' | 'KRISTEN' | 'KATOLIK' | 'KONGHUCU' | 'HINDU' | 'BUDHA';
 
   @IsOptional()
+  @IsIn(['WNI', 'WNA'], {
+    message: 'Citizenship must be one of WNI or WNA',
+  })
   citizenship!: 'WNI' | 'WNA';
 
   @IsOptional()
@@ -72,10 +86,6 @@ export class UpdateStudentDto {
   @IsOptional()
   @IsString()
   phone_number!: string;
-
-  @IsOptional()
-  @IsString()
-  photo!: string;
 
   @IsOptional()
   @IsString()
@@ -171,7 +181,7 @@ export class UpdateStudentDto {
 
   @IsOptional()
   @IsString()
-  guardian_education!: string;
+  guardian_education?: string;
 
   @IsOptional()
   @IsString()
@@ -183,7 +193,7 @@ export class UpdateStudentDto {
 
   @IsOptional()
   @IsString()
-  guardian_occupation!: string;
+  guardian_occupation?: string;
 
   @IsOptional()
   @IsString()
@@ -195,7 +205,7 @@ export class UpdateStudentDto {
 
   @IsOptional()
   @IsString()
-  guardian_income!: string;
+  guardian_income?: string;
 
   @IsOptional()
   @IsString()

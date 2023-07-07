@@ -7,22 +7,37 @@ import {
   Post,
   Put,
   Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from '@uninus/entities';
+import {
+  CreateUserDto,
+  JwtAuthGuard,
+  TReqToken,
+  UpdateUserDto,
+} from '@uninus/entities';
 import { UserService } from '@uninus/services';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly appService: UserService) {}
+
+  @Get('/me')
+  @UseGuards(JwtAuthGuard)
+  getUser(@Request() reqToken: TReqToken) {
+    const { sub } = reqToken.user;
+    return this.appService.getUser(sub);
+  }
+
   @Get()
-  getData(
+  getAllData(
     @Query('page') page: number,
     @Query('per_page') perPage: number,
     @Query('order_by') orderBy: 'asc' | 'desc',
     @Query('filter_by') filterBy: string,
     @Query('search') search: string
   ) {
-    return this.appService.getUser({
+    return this.appService.getUsers({
       where: {
         OR: [
           {
@@ -47,11 +62,6 @@ export class UserController {
     });
   }
 
-  @Get('/:id')
-  getDataById(@Param('id') id: string) {
-    return this.appService.getUserById(id);
-  }
-
   @Post()
   createData(@Body() createUserDto: CreateUserDto) {
     return this.appService.createUser(createUserDto);
@@ -60,6 +70,11 @@ export class UserController {
   @Delete('/:id')
   deleteData(@Param('id') id: string) {
     return this.appService.deleteUser(id);
+  }
+
+  @Get('/:id')
+  getData(@Param('id') id: string) {
+    return this.appService.getUser(id);
   }
 
   @Put('/:id')

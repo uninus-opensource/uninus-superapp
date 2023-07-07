@@ -1,22 +1,20 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { profileProperties, studentProperties } from '@uninus/entities';
 import { Prisma, PrismaService } from '@uninus/models';
-import { parseRequest } from '@uninus/utilities';
+import { CloudinaryService } from '../cloudinary';
 
 @Injectable()
 export class StudentService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private cloudinaryService: CloudinaryService
+  ) {}
   async getStudent(id: string) {
     const student = await this.prisma.users.findUnique({
       where: {
         id,
       },
-      include: {
-        students: {
-          include: {
-            profile: true,
-          },
-        },
+      select: {
+        students: true,
       },
     });
 
@@ -25,14 +23,13 @@ export class StudentService {
         cause: new Error(),
       });
     }
-    const { password, refresh_token, role_id, createdAt, ...studentCleanData } =
-      student;
 
-    return studentCleanData;
+    return student;
   }
 
   async createStudent(
     id: string,
+    file: Express.Multer.File,
     payload: Prisma.StudentsCreateWithoutUserInput
   ) {
     const user = await this.prisma.users.findUnique({
@@ -46,27 +43,29 @@ export class StudentService {
         cause: new Error(),
       });
     }
+    const avatar = await this.cloudinaryService.uploadImage(file);
 
+    await this.prisma.users.update({
+      where: {
+        id,
+      },
+      data: {
+        avatar: avatar?.secure_url,
+      },
+    });
     const student = await this.prisma.students.create({
       data: {
-        ...parseRequest(studentProperties, payload),
+        ...payload,
         user_id: id,
-        profile: {
-          create: {
-            ...parseRequest(profileProperties, payload),
-          },
-        },
-      },
-      include: {
-        profile: true,
       },
     });
 
-    return student;
+    return { ...student };
   }
 
   async updateStudent(
     id: string,
+    file: Express.Multer.File,
     payload: Prisma.StudentsUpdateWithoutUserInput
   ) {
     const student = await this.prisma.users.update({
@@ -76,28 +75,32 @@ export class StudentService {
       data: {
         students: {
           update: {
-            ...parseRequest(studentProperties, payload),
-            profile: {
-              update: { ...parseRequest(profileProperties, payload) },
-            },
+            ...payload,
           },
         },
       },
-      include: {
-        students: {
-          include: {
-            profile: true,
-          },
-        },
+      select: {
+        students: true,
       },
     });
+
     if (!student) {
       throw new BadRequestException('User tidak ditemukan', {
         cause: new Error(),
       });
     }
+    const avatar = await this.cloudinaryService.uploadImage(file);
+
+    await this.prisma.users.update({
+      where: {
+        id,
+      },
+      data: {
+        avatar: avatar?.secure_url,
+      },
+    });
     return {
-      student,
+      ...student,
     };
   }
 
@@ -106,9 +109,6 @@ export class StudentService {
       where: {
         user_id: id,
       },
-      include: {
-        profile: true,
-      },
     });
     if (!student) {
       throw new BadRequestException('User tidak ditemukan', {
@@ -116,7 +116,7 @@ export class StudentService {
       });
     }
     return {
-      student,
+      ...student,
     };
   }
 }

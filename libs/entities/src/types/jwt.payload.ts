@@ -1,5 +1,5 @@
 export type TJwtPayload = {
   email: string;
-  id: string;
+  sub: string;
   role: string;
 };

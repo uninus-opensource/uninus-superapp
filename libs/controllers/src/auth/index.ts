@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import {
   LoginDto,
+  LogoutDto,
   RegisterDto,
   RtGuard,
   TReqToken,
@@ -30,14 +31,16 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  async login(@Body() dto: LoginDto) {
-    return await this.appService.login(dto.email, dto.password);
+  async login(@Body() loginDto: LoginDto) {
+    return await this.appService.login(loginDto.email, loginDto.password);
   }
 
   @HttpCode(HttpStatus.OK)
+  @UseGuards(RtGuard)
   @Post('logout')
-  async logout(@Body('refresh_token') refresh_token: string) {
-    return await this.appService.logout(refresh_token);
+  async logout(@Request() LogoutDto: LogoutDto) {
+    const { sub } = LogoutDto.user;
+    return await this.appService.logout(sub);
   }
 
   @UseGuards(RtGuard)
@@ -52,8 +55,8 @@ export class AuthController {
   }
 
   @Post('forgot-password')
-  async forgotPassword(@Body() forgotPassword: forgotPasswordDto) {
-    return this.appService.forgotPassword(forgotPassword.email);
+  async forgotPassword(@Body() forgotPasswordDto: forgotPasswordDto) {
+    return this.appService.forgotPassword(forgotPasswordDto.email);
   }
 
   @Post('reset-password')

@@ -4,11 +4,11 @@ export type TGenerateTokenResponse = {
 };
 
 export type TReqToken = {
-  user: { userId: string; email: string; role: string };
+  user: { sub: string; email: string; role: string };
 };
 
 export type TGenerateToken = {
-  userId: string;
+  sub: string;
   email: string;
   role: string;
 };
