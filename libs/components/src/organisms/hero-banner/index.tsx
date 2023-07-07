@@ -39,14 +39,14 @@ export const HeroBanner: FC<TbannerProps> = ({
             {isDownload ? (
               <section className="flex mt-12 gap-8">
                 <Button
-                  href="#"
+                  href="https://pmb.uninus.ac.id/wp-content/uploads/2023/03/Brosur-Program-Sarjana.pdf"
                   variant="outlined"
                   styling="border-primary-white "
                   size="lg"
                 >
                   Unduh Brosur
                 </Button>
-                <Button href="#" variant="filled" size="lg">
+                <Button href="/register" variant="filled" size="lg">
                   Daftar Sekarang
                 </Button>
               </section>

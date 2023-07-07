@@ -1,14 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import {
-  ConfigOptions,
-  UploadApiErrorResponse,
-  UploadApiResponse,
-  v2,
-} from 'cloudinary';
-import 'multer';
-import toStream from 'buffer-to-stream';
-import { CLOUDINARY } from './constans';
 import { CloudinaryResponse } from '@uninus/entities';
+import toStream from 'buffer-to-stream';
+import { ConfigOptions, v2 } from 'cloudinary';
+import 'multer';
+import { CLOUDINARY } from './constans';
 
 @Injectable()
 export class CloudinaryService {

@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsEmail,
   IsNotEmpty,
   IsString,
-  IsEmail,
   IsStrongPassword,
+  MinLength,
 } from 'class-validator';
 
 export class RegisterDto {
@@ -12,42 +13,33 @@ export class RegisterDto {
   })
   @IsEmail()
   @IsNotEmpty()
-  public email: string;
+  public email!: string;
 
   @ApiProperty({
     example: 'Didadejan123',
   })
   @IsString()
-  @IsStrongPassword(
-    {
-      minLength: 8,
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 0,
-    },
-    { message: 'Password kurang dari 8 dan harus mengandung Kapital & Angka' }
-  )
-  public password: string;
+  @IsStrongPassword({
+    minLength: 8,
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1,
+    minSymbols: 0,
+  })
+  public password!: string;
 
   @ApiProperty({
     example: 'Dida Dejan Golfantara',
   })
   @IsString()
   @IsNotEmpty()
-  public fullname: string;
+  public fullname!: string;
 
   @ApiProperty({
     example: '41037006211190',
   })
   @IsString()
   @IsNotEmpty()
-  public nik: string;
-
-  constructor(email: string, password: string, fullname: string, nik: string) {
-    this.email = email;
-    this.password = password;
-    this.fullname = fullname;
-    this.nik = nik;
-  }
+  @MinLength(8)
+  public nik!: string;
 }

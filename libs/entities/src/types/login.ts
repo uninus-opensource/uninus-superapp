@@ -5,7 +5,7 @@ export type TLoginResponse = {
     nik: string;
     email: string;
     fullname: string;
-    role: string;
+    role: string | null;
     createdAt: Date;
     avatar: string | null;
   };

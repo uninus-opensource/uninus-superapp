@@ -14,7 +14,7 @@ model Users {
   email         String     @unique
   fullname      String
   password      String
-  refresh_token String?    @unique
+  refresh_token String?
   role_id       Int?       @default(1)
   createdAt     DateTime   @default(now())
   avatar        String?
@@ -28,9 +28,24 @@ model Users {
 model Students {
   id                    String             @unique @default(uuid())
   nim                   String             @unique
-  nisn                  String
+  nisn                  String             @unique
   identification_type   IdentificationType
   identification_number String
+  birth_place           String
+  birth_date            String
+  gender                Gender
+  religion              Religion
+  citizenship           Citizenship
+  marital_status        String
+  country               String
+  address               String
+  rt                    String
+  rw                    String
+  postal_code           String
+  subdistrict           String
+  province              String
+  city                  String
+  phone_number          String
   kk_number             String
   school_type           String
   school_major          String
@@ -66,52 +81,24 @@ model Students {
   academic_year         String
   registration_wave     String
   user_id               String             @unique
-  profile_id            String?            @unique
   createdAt             DateTime           @default(now())
-  profile               Profiles?          @relation(fields: [profile_id], references: [id])
   user                  Users              @relation(fields: [user_id], references: [id])
 }
 
-model Profiles {
-  id             String      @unique @default(uuid())
-  place_of_birth String
-  date_of_birth  DateTime
-  gender         Gender
-  religion       Religion
-  citizenship    Citizenship
-  marital_status String
-  country        String
-  address        String
-  rt             String
-  rw             String
-  postal_code    String
-  subdistrict    String
-  province       String
-  city           String
-  phone_number   String
-  employees      Employees?
-  lecturers      Lecturers?
-  students       Students?
-}
-
 model Lecturers {
-  id         String    @unique @default(uuid())
-  nip        String    @unique
-  user_id    String    @unique
-  createdAt  DateTime  @default(now())
-  profile_id String?   @unique
-  profile    Profiles? @relation(fields: [profile_id], references: [id])
-  user       Users     @relation(fields: [user_id], references: [id])
+  id        String   @unique @default(uuid())
+  nip       String   @unique
+  createdAt DateTime @default(now())
+  user_id   String   @unique
+  user      Users    @relation(fields: [user_id], references: [id])
 }
 
 model Employees {
-  id         String    @unique @default(uuid())
-  nim        String    @unique
-  user_id    String    @unique
-  createdAt  DateTime  @default(now())
-  profile_id String?   @unique
-  profile    Profiles? @relation(fields: [profile_id], references: [id])
-  user       Users     @relation(fields: [user_id], references: [id])
+  id        String   @unique @default(uuid())
+  nim       String   @unique
+  createdAt DateTime @default(now())
+  user_id   String   @unique
+  user      Users    @relation(fields: [user_id], references: [id])
 }
 
 model Roles {
@@ -141,17 +128,17 @@ model RolesPermissions {
 }
 
 enum Gender {
-  MALE
-  FEMALE
+  MALE   @map("Male")
+  FEMALE @map("Female")
 }
 
 enum Religion {
-  ISLAM
-  KRISTEN
-  KATHOLIK
-  KONGHUCU
-  HINDU
-  BUDHA
+  ISLAM    @map("Islam")
+  KRISTEN  @map("Kristen")
+  KATOLIK  @map("Katolik")
+  KONGHUCU @map("Konghucu")
+  HINDU    @map("Hindu")
+  BUDHA    @map("Budha")
 }
 
 enum Citizenship {
@@ -162,5 +149,5 @@ enum Citizenship {
 enum IdentificationType {
   KTP
   SIM
-  KARTU_PELAJAR
+  KARTU_PELAJAR @map("Kartu Pelajar")
 }

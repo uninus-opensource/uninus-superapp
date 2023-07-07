@@ -1,5 +1,5 @@
 import {
-  IsDate,
+  IsISO8601,
   IsIn,
   IsNotEmpty,
   IsOptional,
@@ -7,52 +7,56 @@ import {
 } from 'class-validator';
 
 export class CreateStudentDto {
-  @IsNotEmpty({ each: true, message: 'NIM tidak boleh kosong' })
-  @IsString({ each: true, message: 'NIM harus bertipe string' })
+  @IsOptional()
+  avatar!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  user_id!: string;
+
+  @IsNotEmpty()
+  @IsString()
   nim!: string;
 
-  @IsNotEmpty({ each: true, message: 'NISN tidak boleh kosong' })
-  @IsString({ each: true, message: 'NISN harus bertipe string' })
+  @IsNotEmpty()
+  @IsString()
   nisn!: string;
 
-  @IsNotEmpty({ each: true, message: 'Jenis Kartu tidak boleh kosong' })
-  @IsIn(['KTP', 'SIM', 'Kartu Pelajar'], {
-    message: 'Jenis Kartu harus salah satu dari KTP, SIM atau KARTU_PELAJAR',
+  @IsNotEmpty()
+  @IsString()
+  @IsIn(['KTP', 'SIM', 'KARTU_PELAJAR'], {
+    message: 'Card Type must be one of KTP, SIM atau KARTU_PELAJAR',
   })
   identification_type!: 'KTP' | 'SIM' | 'KARTU_PELAJAR';
 
-  @IsNotEmpty({ each: true, message: 'Nomor Kartu tidak boleh kosong' })
-  @IsString({ each: true, message: 'Nomor Kartu harus bertipe string' })
+  @IsNotEmpty()
+  @IsString()
   identification_number!: string;
 
-  @IsNotEmpty({ each: true, message: 'Tempat lahir tidak boleh kosong' })
-  @IsString({ each: true, message: 'Tempat lahir harus bertipe string' })
+  @IsNotEmpty()
+  @IsString()
   birth_place!: string;
 
-  @IsNotEmpty({ each: true, message: 'Tanggal lahir tidak boleh kosong' })
-  @IsDate({
-    each: true,
-    message: 'Tanggal lahir harus berupa format tanggal yang valid',
-  })
-  birth_date!: Date;
+  @IsNotEmpty()
+  @IsISO8601()
+  birth_date!: string;
 
-  @IsNotEmpty({ each: true, message: 'Gender tidak boleh kosong' })
-  @IsIn(['Male', 'Female'], {
-    message: 'Gender harus salah satu dari Male atau Female',
+  @IsNotEmpty()
+  @IsIn(['MALE', 'FEMALE'], {
+    message: 'Gender must be one MALE atau FEMALE',
   })
-  gender!: 'Male' | 'Female';
+  gender!: 'MALE' | 'FEMALE';
 
-  @IsNotEmpty({ each: true, message: 'Agama tidak boleh kosong' })
-  @IsIn(['Islam', 'Kristen', 'Katholik', 'Konghucu'], {
+  @IsNotEmpty()
+  @IsIn(['ISLAM', 'KRISTEN', 'KATOLIK', 'KONGHUCU', 'HINDU', 'BUDHA'], {
     message:
-      'Agama harus salah satu dari Islam, Kristen, Katholik, Konghucu, Hindu atau Budha',
+      'Religion must be one of ISLAM, KRISTEN, KATOLIK, KONGHUCU, HINDU, BUDHA',
   })
-  religion!: 'Islam' | 'Kristen' | 'Katholik' | 'Konghucu' | 'Hindu' | 'Budha';
+  religion!: 'ISLAM' | 'KRISTEN' | 'KATOLIK' | 'KONGHUCU' | 'HINDU' | 'BUDHA';
 
-  @IsNotEmpty({ each: true, message: 'Kewarganegaraan tidak boleh kosong' })
+  @IsNotEmpty()
   @IsIn(['WNI', 'WNA'], {
-    message:
-      'Kewagar harus Islam, Kristen, Katholik, Konghucu, Hindu atau Budha',
+    message: 'Citizenship must be one of WNI or WNA',
   })
   citizenship!: 'WNI' | 'WNA';
 
@@ -95,10 +99,6 @@ export class CreateStudentDto {
   @IsNotEmpty()
   @IsString()
   phone_number!: string;
-
-  @IsOptional()
-  @IsString()
-  photo?: string;
 
   @IsNotEmpty()
   @IsString()

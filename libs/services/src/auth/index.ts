@@ -12,6 +12,7 @@ import {
   TProfileResponse,
   TRegisterResponse,
   TReqToken,
+  getEmailMessageTemplate,
 } from '@uninus/entities';
 import { PrismaService } from '@uninus/models';
 import {
@@ -61,7 +62,7 @@ export class AuthService {
   async register(data: Prisma.UsersCreateInput): Promise<TRegisterResponse> {
     const isEmailExist = await this.prisma.users.findUnique({
       where: {
-        email: data.email.toLowerCase(),
+        email: data.email.toLowerCase()
       },
     });
 
@@ -94,11 +95,20 @@ export class AuthService {
       throw new BadRequestException('Gagal Mendaftar');
     }
     const otp = await generateOtp(data.email);
+    await this.prisma.users.findFirst({
+      where: {
+        fullname: data.fullname
+      }
+    })
+    const obj = 'verifikasi akun anda'
+
+    const html = getEmailMessageTemplate(data.fullname,otp, obj);
 
     const sendEmail = this.emailService.sendEmail(
       data.email.toLowerCase(),
       'Verifikasi Email',
-      `Kode OTP anda adalah ${otp}`
+      html,
+
     );
 
     if (!sendEmail) {
@@ -141,7 +151,7 @@ export class AuthService {
       throw new UnauthorizedException('Password salah');
     }
     const { access_token, refresh_token } = await generateToken({
-      userId: user.id,
+      sub: user.id,
       email: user.email,
       role: user.role?.name || '',
     });
@@ -165,15 +175,16 @@ export class AuthService {
     };
   }
 
-  async logout(refresh_token: string): Promise<{ message: string }> {
+  async logout(userId: string): Promise<{ message: string }> {
     const result = await this.prisma.users.update({
       where: {
-        refresh_token: refresh_token,
+        id: userId,
       },
       data: {
         refresh_token: null,
       },
     });
+
     if (!result) {
       throw new UnauthorizedException('Gagal logout');
     }
@@ -215,11 +226,23 @@ export class AuthService {
   }
 
   async forgotPassword(email: string) {
+    const user = await this.prisma.users.findUnique({
+      where: {
+        email,
+      }, 
+      select: {
+        fullname: true
+      }
+    })
+    const obj = 'memperbarui kata sandi anda'
+
     const otp = await generateOtp(email);
+    const html = getEmailMessageTemplate(user?.fullname ?? '', otp, obj)
+
     const sendEmail = this.emailService.sendEmail(
       email.toLowerCase(),
       'Reset Password',
-      `Kode OTP anda adalah ${otp}`
+      html
     );
     if (!sendEmail) {
       throw new BadRequestException('Gagal mengirimkan kode verifikasi');
