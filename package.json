@@ -85,7 +85,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.8",
     "@nestjs/schematics": "^10.0.1",
-    "@nestjs/testing": "^10.0.2",
+    "@nestjs/testing": "^10.0.5",
     "@nx/cypress": "16.4.0",
     "@nx/eslint-plugin": "16.4.2",
     "@nx/jest": "16.5.0",
