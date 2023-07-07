@@ -4,7 +4,6 @@ import {
   IsNotEmpty,
   IsString,
   IsStrongPassword,
-  MaxLength,
 } from 'class-validator';
 
 export class newPasswordDto {
@@ -31,12 +30,4 @@ export class newPasswordDto {
     { message: 'Password kurang dari 8 dan harus mengandung Kapital & Angka' }
   )
   public password!: string;
-
-  @ApiProperty({
-    example: '123456',
-  })
-  @IsNotEmpty()
-  @IsString()
-  @MaxLength(6)
-  public otp!: string;
 }
