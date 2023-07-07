@@ -10,5 +10,6 @@ export class UserDto {
 }
 
 export class LogoutDto {
-  user!: UserDto;
+  @ApiProperty()
+  public refresh_token!: string;
 }

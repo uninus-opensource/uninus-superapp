@@ -25,6 +25,7 @@ export class UserController {
   constructor(private readonly appService: UserService) {}
 
   @Get('/me')
+  @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
   @UseGuards(JwtAuthGuard)
   getUser(@Request() reqToken: TReqToken) {
     const { sub } = reqToken.user;

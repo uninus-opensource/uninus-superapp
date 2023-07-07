@@ -10,7 +10,6 @@ import {
 import {
   LoginDto,
   LogoutDto,
-  LogoutDto,
   RegisterDto,
   RtGuard,
   TReqToken,
