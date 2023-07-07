@@ -9,8 +9,10 @@ import {
 } from '@nestjs/common';
 import { CreateStudentDto, UpdateStudentDto } from '@uninus/entities';
 import { StudentService } from '@uninus/services';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('student')
+@ApiTags('Student')
 export class StudentController {
   constructor(private readonly appService: StudentService) {}
 
