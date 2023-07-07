@@ -204,7 +204,7 @@ export const Footer: NextPage = (): ReactElement => {
             </div>
 
             {/* Line */}
-            <div className="md:w-[0.5%] lg:w-[0.3%] md:h-[47%] lg:h-[75%] hidden md:flex md:bg-primary-white md:rounded-md md:mt-[3rem] lg:mt-[1.8rem]"></div>
+            <div className="md:w-[0.5%] lg:w-[0.3%] md:h-[47%] lg:h-[75%] hidden md:hidden md:bg-primary-white md:rounded-md md:mt-[3rem] lg:mt-[1.8rem]"></div>
 
             <div className="h-[75%] md:w-[50%] lg:w-[32.5%] lg:h-full lg:flex lg:flex-col lg:justify-center lg:gap-6 hidden">
               <div className="lg:ml-[4vw] lg:flex lg:flex-col lg:gap-6">
