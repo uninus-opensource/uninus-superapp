@@ -62,6 +62,7 @@ export const Navbar: FC = (): ReactElement => {
           </div>
         </nav>
         <Button
+          href="/register"
           variant="custom"
           styling="bg-grayscale-1 text-secondary-green-4 font-semibold"
           height="h-9"

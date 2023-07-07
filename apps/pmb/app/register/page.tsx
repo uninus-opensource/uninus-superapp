@@ -3,24 +3,45 @@ import { TextField, Button } from '@uninus/components';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { NextPage } from 'next';
-import { TRegisterRequest } from '@uninus/entities';
 import { useRegister } from '@uninus/modules-fe';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import neoLogo from '../illustrations/Neo-Uninus2.png';
 import hybridLogo from '../illustrations/hybrid-university.png';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const Register: NextPage = (): ReactElement => {
-  const { control, handleSubmit } = useForm<
-    TRegisterRequest & { aggrement?: boolean }
-  >({
+  const registerValidation = z.object({
+    nik: z.string().length(16, { message: 'NIK harus diisi 16 karakter' }),
+    fullname: z
+      .string()
+      .min(1, { message: 'Nama lengkap harus tidak boleh kosong' }),
+    email: z.string().email({ message: 'Masukkan email yang valid' }),
+    password: z
+      .string()
+      .min(8, { message: 'Password harus memiliki minimal 8 karakter' })
+      .regex(/[A-Z]/, {
+        message: 'Password harus mengandung huruf besar (uppercase)',
+      })
+      .regex(/[0-9]/, { message: 'Password harus mengandung angka' }),
+  });
+
+  type registerValidation = z.infer<typeof registerValidation>;
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<registerValidation>({
+    resolver: zodResolver(registerValidation),
+    mode: 'all',
     defaultValues: {
       nik: '',
       fullname: '',
       email: '',
       password: '',
-      aggrement: false,
     },
   });
 
@@ -40,6 +61,7 @@ const Register: NextPage = (): ReactElement => {
         onSuccess: () => push('/login'),
       }
     );
+    console.log(data);
   });
 
   return (
@@ -78,6 +100,8 @@ const Register: NextPage = (): ReactElement => {
                   control={control}
                   label="Nama Lengkap"
                   placeholder="Masukan nama lengkap"
+                  status={errors.fullname ? 'error' : 'none'}
+                  message={errors.fullname?.message}
                 />
                 <TextField
                   name="email"
@@ -86,16 +110,21 @@ const Register: NextPage = (): ReactElement => {
                   control={control}
                   label="Email Aktif"
                   placeholder="Masukan Email Aktif"
+                  status={errors.email ? 'error' : 'none'}
+                  message={errors.email?.message}
                 />
               </div>
 
               <div className="flex flex-col w-full gap-x-5 gap-y-4">
                 <TextField
                   name="nik"
+                  type="number"
                   variant="sm"
                   control={control}
                   label="Nomor Induk Keluarga"
                   placeholder="Masukan NIK"
+                  status={errors.nik ? 'error' : 'none'}
+                  message={errors.nik?.message}
                 />
                 <TextField
                   name="password"
@@ -104,6 +133,8 @@ const Register: NextPage = (): ReactElement => {
                   label="Password"
                   type="password"
                   placeholder="Masukkan Password"
+                  status={errors.password ? 'error' : 'none'}
+                  message={errors.password?.message}
                 />
               </div>
             </div>
@@ -122,6 +153,7 @@ const Register: NextPage = (): ReactElement => {
                 loading={isLoading}
                 size="sm"
                 width="w-full"
+                disabled={!isValid}
               >
                 Lakukan Registrasi
               </Button>
