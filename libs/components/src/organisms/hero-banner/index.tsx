@@ -16,7 +16,9 @@ export const HeroBanner: FC<TbannerProps> = ({
   return (
     <header
       className={`bg-center ${backgrounColor} flex justify-center items-center relative bg-fixed object-center bg-cover w-full h-full bg-no-repeat bg-blend-overlay`}
-      style={{ backgroundImage: `url(${heroImages})` }}
+      style={{
+        backgroundImage: `url(${heroImages})`,
+      }}
     >
       <section
         className={`px-4 mx-auto w-full h-full ${
