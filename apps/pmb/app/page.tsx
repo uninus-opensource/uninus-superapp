@@ -217,7 +217,7 @@ const LandingPage: NextPage = (): ReactElement => {
           <h1 className="uppercase text-center text-3xl text-secondary-green-4 font-extramedium ">
             program <span className="text-primary-green">pendidikan</span>
           </h1>
-          <section className="grid lg:grid-cols-3 grid-cols-1 gap-10 xl:gap-8 px-8 mt-10">
+          <section className="grid lg:grid-cols-3 grid-cols-1 gap-10 xl:gap-8 px-8 mt-10 place-items-center">
             {programPendidikanList.map((list, idx) => (
               <Card key={idx} iconText={list.iconText} cardTitle={list.title}>
                 {list.item}

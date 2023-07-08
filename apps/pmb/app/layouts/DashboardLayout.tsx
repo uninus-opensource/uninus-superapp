@@ -1,23 +1,15 @@
 'use client';
 import { FC, PropsWithChildren, ReactElement } from 'react';
-
+import { SideBar } from '@uninus/components';
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   return (
     <html lang="en">
       <body className="flex">
-        <aside>
-          <div className="h-screen text-white w-[300px] text-primary-white bg-primary-green p-20">
-            <ul>
-              <li>
-                <a>Home</a>
-              </li>
-              <li>
-                <a>Biodata</a>
-              </li>
-            </ul>
-          </div>
-        </aside>
-        {/* Nunggu Sidebar */}
+        <SideBar
+          profilePicture="/illustrations/dummy-avatar.jpg"
+          profileName="mawar saidah"
+          profileEmail="mwrsdh@gmail.com"
+        />
         <div className="w-full bg-gray-100 p-10 bg-slate-2">{children}</div>
       </body>
     </html>

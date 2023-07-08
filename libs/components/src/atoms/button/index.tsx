@@ -34,7 +34,7 @@ export const Button: FC<IButtonProps> = ({
         variant === 'filled-tonal',
       'text-primary-white border-2 border-secondary-green-4':
         variant === 'outlined',
-      'text-sceondary-green-4 disabled:text-grayscale-4 disabled:cursor-not-allowed hover:bg-secondary-sky-1 focus:bg-secondary-sky-2 active:bg-secondary-sky-2 ':
+      'text-sceondary-green-4 disabled:text-grayscale-4 disabled:cursor-not-allowed hover:bg-transparent focus:bg-secondary-sky-2 active:bg-secondary-sky-2 ':
         variant === 'text-icon',
       'fixed bottom-4 right-4 bg-secondary-green-4 text-primary-white hover:bg-secondary-green-5 focus:bg-secondary-green-5 ':
         variant === 'float-bottom-right',
