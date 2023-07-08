@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma, PrismaService } from '@uninus/models';
 import { CloudinaryService } from '../cloudinary';
+import { CreateStudentDto } from '@uninus/entities';
 
 @Injectable()
 export class StudentService {
@@ -55,7 +56,7 @@ export class StudentService {
     });
     const student = await this.prisma.students.create({
       data: {
-        ...payload,
+        ...(payload as CreateStudentDto),
         user_id: id,
       },
     });
