@@ -64,6 +64,7 @@ export const Navbar: FC = (): ReactElement => {
         <section className="flex items-center">
           <div className="hidden lg:block rounded-xl">
             <Button
+              href="/auth/register"
               variant="custom"
               styling="bg-grayscale-1 text-secondary-green-4 font-semibold"
               height="h-9"

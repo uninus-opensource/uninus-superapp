@@ -5,4 +5,4 @@ export * from './checkbox/enum';
 export * from './select';
 export * from './radio';
 export * from './dragable';
-export * from './uploadField';
+export * from './upload-field';

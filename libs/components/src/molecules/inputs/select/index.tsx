@@ -12,7 +12,7 @@ export const SelectField: FC<TSelectType> = (props): ReactElement => {
       'border-green-300 bg-green-100': props.status === 'success',
       'border-amber-300 bg-amber-100': props.status === 'warning',
       'border-red-300 bg-red-100': props.status === 'error',
-      'border-slate-300 bg-slate-100': props.status === 'none',
+      'border-slate-300 bg-slate-2': props.status === 'none',
     },
     {
       'p-1 text-sm': props.size === 'sm',
@@ -22,16 +22,16 @@ export const SelectField: FC<TSelectType> = (props): ReactElement => {
 
   const labelClassName = clsx('ml-2', {
     'text-sm': props.size === 'sm',
-    'text-md': props.size === 'md',
+    'text-md font-bold': props.size === 'md',
   });
 
   const messageClassName = clsx(
     'ml-2',
     {
-      'text-green-400': props.status === 'success',
-      'text-amber-300': props.status === 'warning',
-      'text-red-400': props.status === 'error',
-      'text-slate-400': props.status === 'none',
+      'text-green-4': props.status === 'success',
+      'text-amber-3': props.status === 'warning',
+      'text-red-4': props.status === 'error',
+      'text-slate-4': props.status === 'none',
     },
     {
       'text-sm': props.size === 'sm',
@@ -40,7 +40,7 @@ export const SelectField: FC<TSelectType> = (props): ReactElement => {
   );
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 ">
       <label htmlFor={props.name} className={labelClassName}>
         {props.label}
       </label>

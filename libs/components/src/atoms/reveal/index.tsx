@@ -7,6 +7,7 @@ import { TRevealProps } from './type';
 export const Reveal: FC<TRevealProps> = ({
   children,
   w = 'w-fit',
+  blur = false,
 }): ReactElement => {
   const ref = useRef(null);
   const isViewed = useInView(ref, { once: true });
@@ -18,7 +19,12 @@ export const Reveal: FC<TRevealProps> = ({
     }
   }, [animateControllers, isViewed]);
   return (
-    <div ref={ref} className={`relative ${w} overflow-hidden `}>
+    <div
+      ref={ref}
+      className={`relative ${w} overflow-hidden ${
+        blur ? 'backdrop-blur-sm' : ''
+      } `}
+    >
       <motion.div
         variants={{
           hidden: { opacity: 0, y: 75 },

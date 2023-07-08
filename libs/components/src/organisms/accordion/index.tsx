@@ -1,3 +1,4 @@
+"use client";
 import { useState, FC, ReactElement } from 'react';
 import { HiChevronDown } from 'react-icons/hi';
 import { AccordionItem } from './type';
