@@ -119,7 +119,7 @@ const LandingPage: NextPage = (): ReactElement => {
         <h1 className="p-5 uppercase font-bebasNeue text-3xl font-extramedium text-secondary-green-4">
           Kenapa harus kuliah di uninus?
         </h1>
-        <section className="grid grid-cols-3 gap-10 xl:gap-16">
+        <section className="grid lg:grid-cols-3 grid-cols-1 gap-10 xl:gap-16">
           {/* Card 1 */}
           <Card icon={<AiFillStar />} cardTitle="Kampus pilihan">
             <span className="text-secondary-green-4 font-extramedium">

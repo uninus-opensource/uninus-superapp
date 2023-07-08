@@ -51,7 +51,7 @@ const TuitionFee: NextPage = (): ReactElement => {
     <main className="w-full bg-slate-2">
       <HeroBanner
         heroImages="./foto-mahasiswa-bareng-2.jpg"
-        heroTitleBottomRight="RINCIAN BIAYA KULIAH"
+        heroTitleBottomRight="Rincian Biaya Kuliah"
         backgrounColor="bg-grayscale-8"
         blur
       />

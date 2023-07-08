@@ -15,7 +15,7 @@ export const HeroBanner: FC<TbannerProps> = ({
 }): ReactElement => {
   return (
     <header
-      className={`bg-center ${backgrounColor} flex justify-center items-center relative bg-fixed object-center lg:bg-cover bg-fit lg:w-full bg-[length:200px_100px] h-auto bg-no-repeat bg-blend-overlay`}
+      className={`bg-center ${backgrounColor} flex justify-center items-center relative bg-fixed object-center bg-cover lg:w-full lg:h-auto h-screen bg-no-repeat bg-blend-overlay`}
       style={{
         backgroundImage: `url(${heroImages})`,
       }}
@@ -27,13 +27,13 @@ export const HeroBanner: FC<TbannerProps> = ({
       >
         <Reveal w="w-full">
           <div className="flex items-center flex-col w-full">
-            <div className="text-xl md:text-4xl font-bebasNeue py-4 font-normal text-primary-white leading-normal uppercase">
+            <div className="text-5xl lg:text-4xl font-bebasNeue lg:py-4 pt-16 font-normal text-primary-white leading-normal uppercase">
               {subTitle}
             </div>
-            <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-primary-white md:text-3xl">
+            <h2 className="mb-4 lg:text-4xl text-5xl font-extrabold tracking-tight text-primary-white md:text-3xl lg:pt-20 pt-20">
               {heroTitle}
             </h2>
-            <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-primary-white md:text-5xl relative bottom-4">
+            <h1 className="mb-4 lg:text-4xl text-5xl font-extrabold tracking-tight text-primary-white md:text-5xl relative bottom-4">
               {heroTitle2}
             </h1>
             <p className="text-2xl md:text-3xl text-primary-white font-medium">
