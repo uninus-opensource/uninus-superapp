@@ -15,7 +15,7 @@ export const HeroBanner: FC<TbannerProps> = ({
 }): ReactElement => {
   return (
     <header
-      className={`bg-center ${backgrounColor} flex justify-center items-center relative bg-fixed object-center lg:bg-cover bg-fit lg:w-full bg-[length:200px_100px] h-auto bg-no-repeat bg-blend-overlay pt-20`}
+      className={`bg-center ${backgrounColor} flex justify-center items-center relative bg-fixed object-center lg:bg-cover bg-fit lg:w-full bg-[length:200px_100px] h-auto bg-no-repeat bg-blend-overlay lg:pt-20`}
       style={{
         backgroundImage: `url(${heroImages})`,
       }}
@@ -25,7 +25,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           blur ? 'backdrop-blur-sm' : ''
         } text-center py-24 lg:py-52`}
       >
-        <Reveal w="w-full">
+        <Reveal w="w-full" blur={blur}>
           <div className="flex items-center flex-col w-full">
             <div className="text-xl md:text-4xl font-bebasNeue py-4 font-normal text-primary-white leading-normal uppercase">
               {subTitle}
