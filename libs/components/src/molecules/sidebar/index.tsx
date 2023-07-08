@@ -15,14 +15,14 @@ export const Sidebar: FC<TSidebarProps> = ({
       } lg:hidden`}
     >
       <section
-        className={`w-5/6 h-full bg-primary-green fixed z-50 delay-100 transition-transform py-7 px-5  ${
+        className={`w-5/6 h-full bg-primary-green text-primary-white fixed z-50 delay-100 transition-transform py-7 px-5  ${
           showSidebar ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <Button variant="text-icon" size="sm" onClick={closeSidebar}>
           <XIcon />
         </Button>
-        <nav>{props.children}</nav>
+        <nav className="text-primary-white">{props.children}</nav>
       </section>
     </div>
   );
