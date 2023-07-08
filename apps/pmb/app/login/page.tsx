@@ -26,7 +26,45 @@ const Login: NextPage = (): ReactElement => {
   const session = useSession();
 
   return (
-    <section className="h-[38rem] lg:h-[43rem] flex justify-center items-center bg-primary-green mt-[5rem] lg:mt-[2rem]">
+    <section className="h-[42rem] md:h-screen lg:h-[45rem] flex flex-col items-center bg-primary-green">
+      <div className="w-full h-[6rem] flex justify-between">
+        <div className="w-[40%] lg:w-[47%] flex justify-center md:justify-end lg:justify-start md:pr-[3vw] items-center lg:gap-5 lg:pl-[7vw]">
+          <Image
+            src="/illustrations/Neo-Uninus.png"
+            alt="Neo Uninus"
+            width={130}
+            height={130}
+            className="object-cover"
+          />
+          <div className="w-[2px] h-[3rem] bg-primary-white hidden lg:flex"></div>
+          <div className="hidden lg:flex">
+            <Image
+              src="/illustrations/nu-white.png"
+              alt="Neo Uninus"
+              width={70}
+              height={70}
+              className="object-cover"
+            />
+          </div>
+          <div className="hidden lg:flex">
+            <Image
+              src="/illustrations/kampus-merdeka-white.png"
+              alt="Neo Uninus"
+              width={70}
+              height={70}
+              className="object-cover"
+            />
+          </div>
+        </div>
+        <div className="w-[40%] lg:w-[27%] md:justify-start lg:justify-end lg:pr-[7vw] md:pl-[5vw] flex justify-center items-center">
+          <Image
+            src="/illustrations/hybrid-university.png"
+            alt="Hybrid University"
+            width={100}
+            height={100}
+          />
+        </div>
+      </div>
       <form
         onSubmit={onSubmit}
         className="w-[80vw] md:w-[60vw] lg:w-[70vw] lg:flex h-[27rem] lg:h-[32rem] rounded-lg bg-primary-white"
@@ -61,7 +99,7 @@ const Login: NextPage = (): ReactElement => {
         </div>
         <div className="w-full lg:w-[50%] h-full">
           <div className="h-[25%] lg:h-[28%] flex">
-            <div className="flex flex-col gap-2 lg:gap-0 ml-[8vw] lg:ml-[4.5vw] justify-end lg:justify-end lg:mb-[1rem]">
+            <div className="flex flex-col gap-2 lg:gap-0 ml-[8vw] md:ml-[7.5vw] lg:ml-[4.5vw] justify-end lg:justify-end lg:mb-[1rem]">
               <h1 className="font-bold text-[1.5rem]">
                 LOGIN {session?.data?.user?.name}
               </h1>
