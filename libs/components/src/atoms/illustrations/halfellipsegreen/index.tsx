@@ -15,7 +15,7 @@ export const HalfEllipseGreen: FC = (): ReactElement => {
         r="118.5"
         transform="rotate(20.0052 128.707 128.707)"
         stroke="#009647"
-        stroke-width="20"
+        strokeWidth="20"
       />
     </svg>
   );

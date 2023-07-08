@@ -25,7 +25,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
       if (isActive <= 3) {
         setIsActive(isActive + 1);
       }
-    }, 10000);
+    }, 9000);
     if (isActive > 3) {
       setIsActive(1);
     }

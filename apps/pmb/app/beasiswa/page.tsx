@@ -2,33 +2,30 @@
 import { ReactElement } from 'react';
 import { NextPage } from 'next';
 import { HeroBanner } from '@uninus/components';
-import beasiswa1 from '../illustrations/beasiswaunggul.svg';
-import beasiswa2 from '../illustrations/beasiswa2.svg';
-import beasiswa3 from '../illustrations/beasiswa3.svg';
 import Image from 'next/image';
 import Link from 'next/link';
 const Beasiswa: NextPage = (): ReactElement => {
   const beasiswaList: { name: string; img: string; link: string }[] = [
     {
       name: 'beasiswa unggul',
-      img: beasiswa1,
+      img: '/illustrations/beasiswaunggul.svg',
       link: '/beasiswa/beasiswaunggul ',
     },
     {
       name: 'beasiswa berprestasi',
-      img: beasiswa2,
+      img: '/illustrations/beasiswa2.svg',
       link: '/beasiswa/beasiswaprestasi ',
     },
     {
       name: 'beasiswa mitra nusantara',
-      img: beasiswa3,
+      img: '/illustrations/beasiswa3.svg',
       link: '/beasiswa/beasiswamitra',
     },
   ];
 
   return (
     <section className="w-full min-h-screen">
-      <HeroBanner heroImages="./foto-mahasiswa-bareng-2.jpg" />
+      <HeroBanner heroImages="/illustrations/foto-mahasiswa-bareng-2.jpg" />
       <div className="lg:w-full w-auto h-full lg:p-16 py-16 px-8 text-center flex justify-center font-bebasNeue">
         <div className="flex flex-col lg:gap-y-16 lg:w-5/6 w-full gap-y-8">
           <div className="lg:w-4/5 w-full lg:mx-auto ">
@@ -56,7 +53,13 @@ const Beasiswa: NextPage = (): ReactElement => {
           {beasiswaList.map((item, idx) => (
             <Link href={item.link} key={idx} className="w-5/6">
               <div className="hover:-translate-y-4 duration-75  aspect-auto">
-                <Image className="w-full " src={item.img} alt={item.name} />
+                <Image
+                  className="w-full "
+                  src={item.img}
+                  alt={item.name}
+                  width={400}
+                  height={400}
+                />
               </div>
             </Link>
           ))}
