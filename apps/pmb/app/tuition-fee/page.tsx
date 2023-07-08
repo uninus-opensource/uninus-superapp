@@ -1,6 +1,6 @@
 'use client';
 import { ReactElement } from 'react';
-import { HeroBanner, Reveal } from '@uninus/components';
+import { HeroBanner } from '@uninus/components';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { NextPage } from 'next';
 import { dataSarjana, dataMagister } from './store';
