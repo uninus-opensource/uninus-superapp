@@ -45,7 +45,6 @@ export const HeroBanner: FC<TbannerProps> = ({
                 }`}
               ></div>
             </div>
-
             {isDownload ? (
               <section className="flex mt-12 gap-8">
                 <Button

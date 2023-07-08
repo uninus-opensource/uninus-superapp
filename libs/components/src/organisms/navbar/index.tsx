@@ -3,14 +3,14 @@ import { FC, ReactElement, Fragment, useState } from 'react';
 import Image from 'next/image';
 import NeoUninusIcon from '../../atoms/illustrations/neouninus/Neo-Uninus.png';
 import { NavbarList } from './type';
-import { Button } from '../../atoms';
+import { Button, HamburgerIcon } from '../../atoms';
 import { Sidebar } from '../../molecules';
 
 export const Navbar: FC = (): ReactElement => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // const toggle = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
 
   const closeSidebar = () => {
     setIsOpen(false);
@@ -33,7 +33,7 @@ export const Navbar: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      <header className="z-50 lg:px-14 flex justify-between items-center lg:h-navbarlg text-grayscale-1 w-full font-normal bg-primary-green sticky top-0 leading-normal">
+      <header className="z-50 px-8 lg:px-14 flex justify-between items-center h-navbar-mobile lg:h-navbarlg text-grayscale-1 w-full font-normal bg-primary-green fixed top-0 leading-normal">
         <figure>
           <Image
             src={NeoUninusIcon}
@@ -61,13 +61,26 @@ export const Navbar: FC = (): ReactElement => {
             </ul>
           </div>
         </nav>
-        <Button
-          variant="custom"
-          styling="bg-grayscale-1 text-secondary-green-4 font-semibold"
-          height="h-9"
-        >
-          Pendaftaran PMB
-        </Button>
+        <section className="flex items-center">
+          <div className="hidden lg:block rounded-xl">
+            <Button
+              variant="custom"
+              styling="bg-grayscale-1 text-secondary-green-4 font-semibold"
+              height="h-9"
+            >
+              Pendaftaran PMB
+            </Button>
+          </div>
+          <div className="block lg:hidden">
+            <Button variant="text-icon" onClick={toggle}>
+              <HamburgerIcon
+                className={`fill-primary-white duration-200 ${
+                  isOpen ? 'rotate-90' : ''
+                }`}
+              />
+            </Button>
+          </div>
+        </section>
       </header>
       <Sidebar showSidebar={isOpen} closeSidebar={closeSidebar}>
         <ul className="mt-6 flex flex-col gap-6">
