@@ -7,22 +7,24 @@ import Image from 'next/image';
 
 const BeasiswaUnggul: NextPage = (): ReactElement => {
   return (
-    <section className="w-full min-h-screen">
+    <section className="w-full min-h-full">
       <HeroBanner heroImages="../beasiswaunggul.svg" />
-
-      <section className="w-full px-16 py-8 flex flex-col gap-y-14">
+      <section className="w-full lg:px-16 px-8 lg:py-8 py-4 flex flex-col gap-y-14">
         <div className="text-center flex flex-col gap-y-8">
-          <h1 className="text-3xl font-bold text-secondary-green-4 uppercase">
+          <h1 className="lg:text-3xl text-2xl font-bold text-secondary-green-4 uppercase">
             beasiswa nusantara unggul
           </h1>
-          <p className="text-lg w-4/5 mx-auto px-16">
+          <p className="lg:text-lg text-sm lg:w-4/5 w-full mx-auto lg:px-16 px-4">
             Beasiswa ini diperuntukan untuk Siswa Berprestasi di Bidang Akademik
             maupun Non Akademik
           </p>
         </div>
 
-        <div className="w-full flex justify-between h-full">
-          <div className="pl-16 flex flex-wrap flex-col gap-y-6 h-screen">
+        <div className="w-full flex lg:flex-row flex-col justify-between h-auto py-8">
+          <figure className="lg:absolute flex px-6 right-12">
+            <Image src={beasiswa1} alt="Beasiswa Unggul" width={400} />
+          </figure>
+          <div className="flex flex-wrap flex-col w-full justify-center lg:text-left text-center py-16 lg:pl-16 pl-0 gap-y-6 h-full">
             <div className="">
               <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">
                 Persyaratan Umum
@@ -35,26 +37,23 @@ const BeasiswaUnggul: NextPage = (): ReactElement => {
               </ul>
             </div>
             <div>
-              <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">
+              <h2 className="text-secondary-green-1 text-lg font-semibold mb-2">
                 Benefit
               </h2>
               <p>Potongan 50% UKT Semester 1</p>
             </div>
             <div>
-              <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">
+              <h2 className="text-secondary-green-1 text-lg font-semibold mb-2">
                 Periode Pendaftaran
               </h2>
               <p>1 Januari - 31 Maret 2023</p>
             </div>
-            <div className="w-48">
-              <Button variant="elevated" size="sm" width="w-full" height="h-12">
+            <div className="flex lg:justify-start justify-center">
+              <Button variant="elevated" size="sm" width="w-48" height="h-12">
                 Daftar
               </Button>
             </div>
           </div>
-          <figure className="">
-            <Image src={beasiswa1} alt="Beasiswa Unggul" width={400} />
-          </figure>
         </div>
       </section>
     </section>

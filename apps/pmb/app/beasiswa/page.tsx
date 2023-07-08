@@ -29,15 +29,15 @@ const Beasiswa: NextPage = (): ReactElement => {
   return (
     <section className="w-full min-h-screen">
       <HeroBanner heroImages="./foto-mahasiswa-bareng-2.jpg" />
-      <div className="w-full h-full p-16 text-center flex justify-center font-bebasNeue">
-        <div className="flex flex-col gap-y-16 w-5/6">
-          <div className="w-4/5 mx-auto">
-            <h1 className="text-center text-secondary-green-5 text-3xl font-bold">
+      <div className="lg:w-full w-auto h-full lg:p-16 py-16 px-8 text-center flex justify-center font-bebasNeue">
+        <div className="flex flex-col lg:gap-y-16 lg:w-5/6 w-full gap-y-8">
+          <div className="lg:w-4/5 w-full lg:mx-auto ">
+            <h1 className="text-center text-secondary-green-5 lg:text-3xl text-lg font-bold">
               PILIHAN BERBAGAI BEASISWA TERSEDIA DI UNIVERSITAS ISLAM NUSANTARA
             </h1>
           </div>
-          <div className="w-4/5 mx-auto">
-            <p className="px-16 text-lg ">
+          <div className="lg:w-4/5 w-full mx-auto">
+            <p className="lg:px-16 lg:text-lg text-sm  ">
               Beasiswa Nusantara adalah sebuah program beasiswa yang ditawarkan
               oleh Universitas Islam Nusantara untuk membantu mahasiswa
               berprestasi untuk melanjutkan studi ke jenjang yang lebih tinggi.
@@ -52,7 +52,7 @@ const Beasiswa: NextPage = (): ReactElement => {
         <div className="h-1 w-28 mt-1 bg-primary-yellow rounded"></div>
       </div>
       <section className="w-full h-full py-16 px-4">
-        <div className="grid grid-cols-3 place-items-center">
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-y-8 place-items-center">
           {beasiswaList.map((item, idx) => (
             <Link href={item.link} key={idx} className="w-5/6">
               <div className="hover:-translate-y-4 duration-75  aspect-auto">

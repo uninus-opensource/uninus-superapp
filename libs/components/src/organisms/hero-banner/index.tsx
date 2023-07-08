@@ -15,8 +15,10 @@ export const HeroBanner: FC<TbannerProps> = ({
 }): ReactElement => {
   return (
     <header
-      className={`bg-center ${backgrounColor} flex justify-center items-center relative bg-fixed object-center bg-cover w-full h-full bg-no-repeat bg-blend-overlay`}
-      style={{ backgroundImage: `url(${heroImages})` }}
+      className={`bg-center ${backgrounColor} flex justify-center items-center relative bg-fixed object-center lg:bg-cover bg-fit lg:w-full bg-[length:200px_100px] h-auto bg-no-repeat bg-blend-overlay`}
+      style={{
+        backgroundImage: `url(${heroImages})`,
+      }}
     >
       <section
         className={`px-4 mx-auto w-full h-full ${
