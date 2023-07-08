@@ -25,7 +25,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           blur ? 'backdrop-blur-sm' : ''
         } text-center py-24 lg:py-52`}
       >
-        <Reveal w="w-full">
+        <Reveal w="w-full" blur={blur}>
           <div className="flex items-center flex-col w-full">
             <div className="text-xl md:text-4xl font-bebasNeue py-4 font-normal text-primary-white leading-normal uppercase pt-40">
               {subTitle}
@@ -39,10 +39,10 @@ export const HeroBanner: FC<TbannerProps> = ({
             <p className="text-2xl md:text-3xl text-primary-white font-medium">
               {subTitle2}
             </p>
-            <div className="flex flex-col text-2xl md:text-4xl text-primary-white absolute left-24 bottom-0 gap-2 font-extramedium font-bebasNeue">
+            <div className="flex flex-col text-2xl md:text-5xl text-primary-white absolute left-24 bottom-0 gap-2 font-extramedium font-bebasNeue">
               {heroTitleBottomRight}
               <div
-                className={`border-2 border-primary-green w-26 ${
+                className={`border-2 border-primary-green w-36 ${
                   heroTitleBottomRight ? 'block' : 'hidden'
                 }`}
               ></div>
