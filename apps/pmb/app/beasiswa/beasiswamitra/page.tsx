@@ -12,7 +12,7 @@ const BeasiswaMitra: NextPage = (): ReactElement => {
 
       <section className="w-full px-16 py-8 flex flex-col gap-y-14">
         <div className="text-center flex flex-col gap-y-8">
-          <h1 className="text-3xl font-bold text-secondary-green-4 uppercase">
+          <h1 className="lg:text-3xl text-lg font-bold text-secondary-green-4 uppercase">
             beasiswa nusantara unggul
           </h1>
           <p className="text-lg w-4/5 mx-auto px-16">
