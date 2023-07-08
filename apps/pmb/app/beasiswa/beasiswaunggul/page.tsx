@@ -9,7 +9,6 @@ const BeasiswaUnggul: NextPage = (): ReactElement => {
   return (
     <section className="w-full min-h-full">
       <HeroBanner heroImages="../beasiswaunggul.svg" />
-
       <section className="w-full lg:px-16 px-8 lg:py-8 py-4 flex flex-col gap-y-14">
         <div className="text-center flex flex-col gap-y-8">
           <h1 className="lg:text-3xl text-2xl font-bold text-secondary-green-4 uppercase">
@@ -21,11 +20,11 @@ const BeasiswaUnggul: NextPage = (): ReactElement => {
           </p>
         </div>
 
-        <div className="w-full flex lg:flex-row flex-col justify-between h-auto">
+        <div className="w-full flex lg:flex-row flex-col justify-between h-auto py-8">
           <figure className="lg:absolute flex px-6 right-12">
             <Image src={beasiswa1} alt="Beasiswa Unggul" width={400} />
           </figure>
-          <div className="pl-16 flex flex-wrap flex-col gap-y-6 h-full py-12">
+          <div className="flex flex-wrap flex-col w-full justify-center lg:text-left text-center py-16 lg:pl-16 pl-0 gap-y-6 h-full">
             <div className="">
               <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">
                 Persyaratan Umum
@@ -38,19 +37,19 @@ const BeasiswaUnggul: NextPage = (): ReactElement => {
               </ul>
             </div>
             <div>
-              <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">
+              <h2 className="text-secondary-green-1 text-lg font-semibold mb-2">
                 Benefit
               </h2>
               <p>Potongan 50% UKT Semester 1</p>
             </div>
             <div>
-              <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">
+              <h2 className="text-secondary-green-1 text-lg font-semibold mb-2">
                 Periode Pendaftaran
               </h2>
               <p>1 Januari - 31 Maret 2023</p>
             </div>
-            <div className="w-48">
-              <Button variant="elevated" size="sm" width="w-full" height="h-12">
+            <div className="flex lg:justify-start justify-center">
+              <Button variant="elevated" size="sm" width="w-48" height="h-12">
                 Daftar
               </Button>
             </div>
