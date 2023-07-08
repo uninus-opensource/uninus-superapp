@@ -25,7 +25,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
       if (isActive <= 3) {
         setIsActive(isActive + 1);
       }
-    }, 2400);
+    }, 10000);
     if (isActive > 3) {
       setIsActive(1);
     }
@@ -64,6 +64,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
             1. Nilai Rapor Rata-rata ≥ 70 untuk 3 Mata Pelajaran (Matematika,
             Bahasa Inggris & Bahasa Indonesia) semester 1 s.d semester 4 bagi
             siswa kelas XII Siswa Angkatan 2022/2023 dan semester 1 s.d semester
+            6 bagi siswa Angkatan sebelumnya
             <br />
             <br />
             2. Nilai UTBK atau hasil SBMPTN/SNBT Rata-rata ≥ 450

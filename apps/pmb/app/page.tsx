@@ -46,7 +46,7 @@ const LandingPage: NextPage = (): ReactElement => {
   ];
 
   return (
-    <section className="w-full min-h-screen bg-slate-2">
+    <main className="w-full min-h-screen bg-slate-2">
       <HeroBanner
         subTitle={
           <p className="tracking-tighter">
@@ -272,7 +272,7 @@ const LandingPage: NextPage = (): ReactElement => {
           </div>
         </section>
       </section>
-    </section>
+    </main>
   );
 };
 
