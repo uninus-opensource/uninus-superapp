@@ -17,7 +17,7 @@ export type TTextFieldTwo = {
 };
 
 export type TTextFieldThree = {
-  name: 'rt' | 'rw';
+  name: 'rtOrtu' | 'rwOrtu';
   item: string;
   type: 'text' | 'number';
 };
