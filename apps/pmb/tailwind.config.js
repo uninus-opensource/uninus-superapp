@@ -75,7 +75,14 @@ module.exports = {
         4: 'rgb(203 213 225)',
         5: 'rgb(148 163 184)',
       },
+      red: {
+        1: '#ffbaba',
+        2: '#ff7b7b',
+        3: '#ff5252',
+        4: '#ff0000',
+        5: '#a70000',
+      },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 };

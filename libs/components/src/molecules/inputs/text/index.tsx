@@ -30,27 +30,30 @@ export const TextField = <T extends FieldValues>({
   const labelVariant = clsx('text-black font-medium', {
     'text-md': variant === 'lg',
     'text-sm': variant === 'md',
-    'text-xs': variant === 'sm',
+    'text-md ': variant === 'sm',
   });
 
   const inputStatus = clsx('outline-none w-full ', {
-    'ring-1 ring-red-400 bg-red-100 placeholder:text-red-400':
+    'ring-1 ring-red-4 bg-red-100 placeholder:text-red-3 border-none focus:border-grayscale-2 focus:ring-red-4':
       status === 'error',
-    'ring-1 ring-green-400 bg-green-100 placeholder:text-green-400':
+    'ring-1 ring-secondary-green-1 bg-green-100 placeholder:text-secondary-green-1':
       status === 'success',
-    'ring-1 ring-yellow-400 bg-yellow-100 placeholder:text-yellow-400':
+    'ring-1 ring-primary-yellow bg-yellow-100 placeholder:text-primary-yellow':
       status === 'warning',
-    'ring-1 ring-gray-400 bg-gray-100 placeholder:text-gray-400':
+    'ring-0  bg-grayscale-2 placeholder:text-grayscale-3 focus:ring-0 focus:border-grayscale-2 border-none':
       status === 'none' || status === undefined,
   });
 
-  const inputVariant = clsx({
-    'py-4 rounded-lg placeholder:text-md text-md': variant === 'lg',
-    'py-3 rounded-md placeholder:text-sm text-sm': variant === 'md',
-    'py-2 rounded-md placeholder:text-xs text-xs': variant === 'sm',
-    'p-5 text-center rounded-2xl placeholder:text-xs placeholder:text-slate-300 text-md md:text-xl appearance-none':
-      variant === 'otp',
-  });
+  const inputVariant = clsx(
+    'bg-grayscale-2 bg-opacity-30 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
+    {
+      'py-4 rounded-lg placeholder:text-md text-md': variant === 'lg',
+      'py-3 rounded-md placeholder:text-sm text-sm': variant === 'md',
+      'py-2 rounded-sm placeholder:text-xs text-xs': variant === 'sm',
+      'p-5 text-center rounded-2xl placeholder:text-xs placeholder:text-slate-300 text-md md:text-xl appearance-none':
+        variant === 'otp',
+    }
+  );
 
   const inputExtras = clsx({
     'pl-[40px]': props.prepend,
@@ -59,9 +62,9 @@ export const TextField = <T extends FieldValues>({
   });
 
   const messageStatus = clsx({
-    'text-red-400': status === 'error',
-    'text-yellow-400': status === 'warning',
-    'text-green-400': status === 'success',
+    'text-red-3': status === 'error',
+    'text-primary-yellow': status === 'warning',
+    'text-secondary-green-1': status === 'success',
     hidden: status === 'none',
   });
 
@@ -74,7 +77,7 @@ export const TextField = <T extends FieldValues>({
         >
           {props.label}
           {props.required && (
-            <span className="ml-1 font-bold text-red-600">*</span>
+            <span className="ml-1 font-bold text-red-4">*</span>
           )}
         </label>
       )}
