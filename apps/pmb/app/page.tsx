@@ -192,7 +192,7 @@ const LandingPage: NextPage = (): ReactElement => {
       {/* end card section */}
 
       {/* start jalur seleksi section */}
-      <section className="my-32 h-auto w-full gap-4  px-16 py-2 flex justify-between xl:justify-evenly items-center ">
+      <section className="my-32 h-auto w-full gap-4  lg:px-16 py-2 flex justify-between xl:justify-evenly items-center ">
         {/* gambar mahsiswi */}
         <figure className="mt-4">
           <Image
@@ -211,7 +211,7 @@ const LandingPage: NextPage = (): ReactElement => {
       {/* end jalur seleksi section */}
 
       {/* start program pendidikan section */}
-      <section className="my-32 h-auto lg:w-full w-auto gap-4 px-16 py-2 flex flex-col">
+      <section className="my-32 h-auto lg:w-full w-auto gap-4 lg:px-16 px-8 py-2 flex flex-col">
         <h1 className="uppercase text-center text-3xl text-secondary-green-4 font-extramedium ">
           program <span className="text-primary-green">pendidikan</span>
         </h1>
@@ -226,7 +226,7 @@ const LandingPage: NextPage = (): ReactElement => {
       {/* end program pendidikan section */}
 
       {/* start tentang uninus */}
-      <section className=" h-auto w-full gap-4 px-16 py-2 flex justify-between xl:justify-evenly items-center ">
+      <section className=" h-auto w-full gap-4 px-16 py-2 flex flex-col lg:flex-row justify-between xl:justify-evenly items-center ">
         {/* Gambar */}
         <figure>
           <div className="w-18 h-18 rounded-lg bg-primary-green relative top-12 right-7"></div>
@@ -243,7 +243,7 @@ const LandingPage: NextPage = (): ReactElement => {
         </figure>
 
         {/* sesi text */}
-        <section className="flex flex-col w-2/4 gap-4 xl:gap-8 mb-8">
+        <section className="flex flex-col lg:w-2/4 w-full gap-4 xl:gap-8 mb-8">
           <h1 className="uppercase text-primary-green text-3xl font-semibold ">
             tentang <span className="text-secondary-green-4">uninus</span>
           </h1>
