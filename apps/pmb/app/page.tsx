@@ -7,15 +7,11 @@ import {
   HalfEllipseGreen,
   HeroBanner,
   Card,
-  Rectangle,
   TabJalurSeleksi,
   Button,
   Reveal,
 } from '@uninus/components';
 import { NextPage } from 'next';
-import figure1 from './illustrations/DJI_0609-scaled 2.png';
-import talent1 from './illustrations/talent1.png';
-import talent2 from './illustrations/foto-mahasiswa-bareng.png';
 import {
   AiFillStar,
   AiFillSafetyCertificate,
@@ -57,7 +53,7 @@ const LandingPage: NextPage = (): ReactElement => {
         heroTitle="PENERIMAAN MAHASISWA BARU"
         heroTitle2="UNIVERSITAS ISLAM NUSANTARA"
         subTitle2="Tahun Akademik 2023/2024"
-        heroImages="https://kelaskaryawan.org/wp-content/uploads/2023/02/2021-03-05-2-678x381.jpg"
+        heroImages="/illustrations/gedung.png"
         backgrounColor="bg-grayscale-9"
         isDownload
         blur
@@ -73,10 +69,12 @@ const LandingPage: NextPage = (): ReactElement => {
           <section className="text-center w-full flex justify-between xl:justify-evenly xl:ml-10 ">
             <figure className="rounded-lg bg-secondary-green-4">
               <Image
-                src={figure1}
+                src={'/illustrations/gerbang-uninus.png'}
                 priority
                 alt="gedung1"
                 quality={100}
+                width={400}
+                height={400}
                 className="rounded-lg bg-primary-white opacity-70"
               />
             </figure>
@@ -196,18 +194,15 @@ const LandingPage: NextPage = (): ReactElement => {
       {/* start jalur seleksi section */}
       <section className="my-32 h-auto w-full gap-4  px-16 py-2 flex justify-between xl:justify-evenly items-center ">
         {/* gambar mahsiswi */}
-        <figure className="flex w-auto h-auto absolute left-13 xl:left-0 xl:ml-20 mt-20 -z-30">
-          <Rectangle
-            fill="fill-secondary-green-4"
-            className="relative left-7"
-          />
-          <Rectangle
-            fill="fill-primary-green"
-            className="mt-24 relative right-6"
-          />
-        </figure>
         <figure className="mt-4">
-          <Image src={talent1} priority alt="mahasiswi-1" quality={100} />
+          <Image
+            src={'/illustrations/talent11.png'}
+            priority
+            alt="mahasiswi-1"
+            width={400}
+            height={400}
+            quality={100}
+          />
         </figure>
 
         {/* section tabs */}
@@ -236,7 +231,13 @@ const LandingPage: NextPage = (): ReactElement => {
         <figure>
           <div className="w-18 h-18 rounded-lg bg-primary-green relative top-12 right-7"></div>
           <figure>
-            <Image src={talent2} quality={100} priority alt="talent" />
+            <Image
+              src={'/illustrations/foto-mahasiswa-bareng.png'}
+              width={400}
+              height={400}
+              priority
+              alt="talent"
+            />
           </figure>
           <div className="w-26 h-26 rounded-lg bg-primary-yellow relative bottom-20 right-12 "></div>
         </figure>

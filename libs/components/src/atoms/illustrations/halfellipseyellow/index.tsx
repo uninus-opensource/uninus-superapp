@@ -3,9 +3,9 @@ import { FC, ReactElement } from 'react';
 export const HalfEllipseYellow: FC = (): ReactElement => {
   return (
     <svg
-      width="91"
-      height="210"
-      viewBox="0 0 91 210"
+      width="85"
+      height="258"
+      viewBox="0 0 85 258"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

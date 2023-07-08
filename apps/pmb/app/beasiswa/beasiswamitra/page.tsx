@@ -2,13 +2,12 @@
 import { ReactElement } from 'react';
 import { NextPage } from 'next';
 import { Button, HeroBanner } from '@uninus/components';
-import beasiswa3 from '../../illustrations/beasiswa3.svg';
 import Image from 'next/image';
 
 const BeasiswaMitra: NextPage = (): ReactElement => {
   return (
     <section className="w-full min-h-screen">
-      <HeroBanner heroImages="../beasiswa3.svg" />
+      <HeroBanner heroImages="/illustrations/beasiswa3.svg" />
       <section className="w-full lg:px-16 px-8 lg:py-8 py-4 flex flex-col gap-y-14">
         <div className="text-center flex flex-col gap-y-8">
           <h1 className="lg:text-3xl text-lg font-bold text-secondary-green-4 uppercase">
@@ -22,7 +21,13 @@ const BeasiswaMitra: NextPage = (): ReactElement => {
 
         <div className="w-full flex lg:flex-row flex-col justify-between h-auto">
           <figure className="lg:absolute flex px-6 right-12">
-            <Image src={beasiswa3} alt="Beasiswa Mitra" width={400} />
+            <Image
+              src={'/illustrations/beasiswa3.svg'}
+              alt="Beasiswa Mitra"
+              width={400}
+              height={400}
+              priority
+            />
           </figure>
           <div className="flex flex-wrap flex-col w-full justify-center lg:text-left text-center py-16 lg:pl-16 pl-0 gap-y-6 h-full">
             <div className="pt-8">

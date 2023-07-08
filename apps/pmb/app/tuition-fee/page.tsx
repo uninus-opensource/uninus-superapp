@@ -50,7 +50,7 @@ const TuitionFee: NextPage = (): ReactElement => {
   return (
     <main className="w-full bg-slate-2">
       <HeroBanner
-        heroImages="./foto-mahasiswa-bareng-2.jpg"
+        heroImages="/illustrations/foto-mahasiswa-bareng-2.jpg"
         heroTitleBottomRight="RINCIAN BIAYA KULIAH"
         backgrounColor="bg-grayscale-8"
         blur
@@ -92,22 +92,6 @@ const TuitionFee: NextPage = (): ReactElement => {
           />
         </section>
       </section>
-      {/* <div className="flex flex-col  w-full h-full pt-20 gap-2 items-center px-20">
-        <h1 className="text-2xl py-4">
-          Satuan Dana Pendidikan Program Sarjana
-        </h1>
-        <div>
-          <SearchInput
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-        </div>
-        <DataTable
-          columns={columns}
-          data={dataSarjana}
-          customStyles={customStyles}
-        />
-      </div> */}
     </main>
   );
 };
