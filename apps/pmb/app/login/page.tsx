@@ -35,7 +35,7 @@ const Login: NextPage = (): ReactElement => {
           <Image
             src="/illustrations/talent-focus.png"
             alt="talent"
-            className="object-cover rounded-l-lg opacity-[.28]"
+            className="object-cover rounded-l-lg opacity-[.28] w-full"
             width={500}
             height={100}
           />
