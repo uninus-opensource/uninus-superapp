@@ -85,7 +85,8 @@
   "devDependencies": {
     "@babel/core": "^7.22.8",
     "@nestjs/schematics": "^10.0.1",
-    "@nestjs/testing": "^10.0.5",
+    "@nestjs/testing": "^10.0.2",
+    "@nx-extend/strapi": "^6.1.1",
     "@nx/cypress": "16.4.0",
     "@nx/eslint-plugin": "16.4.2",
     "@nx/jest": "16.5.0",
@@ -110,6 +111,7 @@
     "autoprefixer": "^10.4.14",
     "babel-jest": "^29.4.1",
     "babel-preset": "^1.1.7",
+    "crypto": "^1.0.1",
     "css-loader": "^6.8.1",
     "cypress": "^12.16.0",
     "dotenv": "^16.3.1",
