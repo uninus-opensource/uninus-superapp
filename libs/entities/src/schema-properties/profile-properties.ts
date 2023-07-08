@@ -1,0 +1,17 @@
+export const profileProperties = [
+  'birth_place',
+  'birth_date',
+  'gender',
+  'religion',
+  'citizenship',
+  'marital_status',
+  'country',
+  'address',
+  'rt',
+  'rw',
+  'postal_code',
+  'subdistrict',
+  'province',
+  'city',
+  'phone_number',
+];

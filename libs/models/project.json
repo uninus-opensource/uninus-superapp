@@ -1,0 +1,54 @@
+{
+  "name": "models",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/models/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/models/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/models/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "migrate-save": {
+        "executor": "@nrwl/workspace:run-commands",
+        "outputs": [],
+        "options": {
+          "command": "yarn prisma migrate save --experimental --schema ./src/prisma/schema.prisma",
+          "cwd": "libs/models"
+        }
+      },
+      "migrate-up": {
+        "builder": "@nrwl/workspace:run-commands",
+        "outputs": [],
+        "options": {
+          "command": "yarn prisma migrate up --experimental --schema ./src/prisma/schema.prisma",
+          "cwd": "libs/models"
+        }
+      },
+      "gen-client": {
+        "builder": "@nrwl/workspace:run-commands",
+        "outputs": [],
+        "options": {
+          "command": "yarn prisma generate --schema ./src/prisma/schema.prisma",
+          "cwd": "libs/models"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
