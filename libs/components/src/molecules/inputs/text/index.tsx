@@ -12,6 +12,9 @@ export const TextField = <T extends FieldValues>({
   status = 'none',
   isTextArea = false,
   textAreaRow = 12,
+  textAreaCols = 26,
+  inputWidth = 'w-full',
+  inputHeight = 'h-auto',
   ...props
 }: TTextFieldProps<T>): ReactElement => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,13 +31,13 @@ export const TextField = <T extends FieldValues>({
   });
 
   const labelVariant = clsx('text-black font-medium', {
-    'text-md': variant === 'lg',
+    'text-base': variant === 'lg',
     'text-sm': variant === 'md',
-    'text-xs': variant === 'sm',
+    'text-xs ': variant === 'sm',
   });
 
-  const inputStatus = clsx('outline-none w-full ', {
-    'ring-1 ring-red-4 bg-red-1 placeholder:text-red-3 border-none focus:border-grayscale-2 focus:ring-red-4':
+  const inputStatus = clsx(`outline-none ${inputWidth} ${inputHeight} `, {
+    'ring-1 ring-red-4 bg-red-100 placeholder:text-red-3 border-none focus:border-grayscale-2 focus:ring-red-4':
       status === 'error',
     'ring-1 ring-secondary-green-1 bg-green-100 placeholder:text-secondary-green-1':
       status === 'success',
@@ -47,7 +50,7 @@ export const TextField = <T extends FieldValues>({
   const inputVariant = clsx(
     'bg-grayscale-2 bg-opacity-30 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
     {
-      'py-4 rounded-lg placeholder:text-md text-md': variant === 'lg',
+      'py-4 rounded-lg placeholder:text-base text-base': variant === 'lg',
       'py-3 rounded-md placeholder:text-sm text-sm': variant === 'md',
       'py-2 rounded-sm placeholder:text-xs text-xs': variant === 'sm',
       'p-5 text-center rounded-2xl placeholder:text-xs placeholder:text-slate-300 text-md md:text-xl appearance-none':
@@ -73,7 +76,7 @@ export const TextField = <T extends FieldValues>({
       {props.label && (
         <label
           htmlFor={props.name}
-          className={`${labelVariant} ${props.labelClassName}`}
+          className={`${labelVariant} ${props.labelclassname}`}
         >
           {props.label}
           {props.required && (
@@ -102,7 +105,8 @@ export const TextField = <T extends FieldValues>({
           <textarea
             rows={textAreaRow}
             {...{ ...props, ...field }}
-            className={`w-full ${inputStatus}  ${props.className}`}
+            className={`bg-opacity-30 w-full ${inputStatus} ${props.className}`}
+            cols={textAreaCols}
           />
         )}
 
