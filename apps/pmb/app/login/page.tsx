@@ -6,7 +6,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import talent from '../../public/talent-focus.png';
-import neoUninus from '../../public/Neo-uninus-2.png';
+import neoUninus from '../../public/neo-uninus-2.png';
 import hybridUniversity from '../../public/hybrid-university.png';
 
 const Login: NextPage = (): ReactElement => {
