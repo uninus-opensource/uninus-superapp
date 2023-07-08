@@ -14,7 +14,7 @@ import {
 } from '@uninus/components';
 import { NextPage } from 'next';
 import figure1 from './illustrations/DJI_0609-scaled 2.png';
-import talent1 from './illustrations/talent1.png';
+import talent1 from './illustrations/talent11.png';
 import talent2 from './illustrations/foto-mahasiswa-bareng.png';
 import {
   AiFillStar,
@@ -186,6 +186,16 @@ const LandingPage: NextPage = (): ReactElement => {
             <span className="text-secondary-green-4 font-extramedium">
               Indonesia & Mancanegara
             </span>{' '}
+            <figure className="flex w-auto h-auto absolute left-13 xl:left-0 xl:ml-20 mt-20 -z-30">
+              <Rectangle
+                fill="fill-secondary-green-4"
+                className="relative left-7"
+              />
+              <Rectangle
+                fill="fill-primary-green"
+                className="mt-24 relative right-6"
+              />
+            </figure>
             yang sangat berpengalaman dalam bidangnya.
           </Card>
         </section>
@@ -196,16 +206,6 @@ const LandingPage: NextPage = (): ReactElement => {
       {/* start jalur seleksi section */}
       <section className="my-32 h-auto w-full gap-4  px-16 py-2 flex justify-between xl:justify-evenly items-center ">
         {/* gambar mahsiswi */}
-        <figure className="flex w-auto h-auto absolute left-13 xl:left-0 xl:ml-20 mt-20 -z-30">
-          <Rectangle
-            fill="fill-secondary-green-4"
-            className="relative left-7"
-          />
-          <Rectangle
-            fill="fill-primary-green"
-            className="mt-24 relative right-6"
-          />
-        </figure>
         <figure className="mt-4">
           <Image src={talent1} priority alt="mahasiswi-1" quality={100} />
         </figure>
