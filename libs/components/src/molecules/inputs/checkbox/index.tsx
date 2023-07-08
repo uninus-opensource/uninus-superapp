@@ -11,16 +11,16 @@ export const CheckBox = <T extends FieldValues>({
 
   ...props
 }: TCheckBoxProps<T>): ReactElement => {
-  const checkboxSize = clsx('rounded-sm p-2', {
+  const checkboxSize = clsx('p-2', {
     'w-3 h-3': size === CHECKBOX_SIZE.SM,
     'w-4 h-4': size === CHECKBOX_SIZE.MD,
     'w-5 h-5': size === CHECKBOX_SIZE.LG,
   });
 
   const checkboxVariant = clsx(
-    'bg-gray-300 border-gray-300 checked:scale-110 duration-300',
+    'bg-gray-300 border-gray-300 checked:scale-110 duration-300 rounded-full',
     {
-      'accent-green-300 focus:accent-green-400':
+      'accent-primary-green focus:accent-green-400 rounded-full text-primary-green focus:ring-0 ring-0 ring-primary-white':
         variant === CHECKBOX_VARIANT.PRIMARY,
       'accent-red-300 focus:accent-red-400': variant === CHECKBOX_VARIANT.ERROR,
       'accent-yellow-300 focus:accent-yellow-400':
