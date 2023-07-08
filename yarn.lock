@@ -2015,12 +2015,12 @@
     path-to-regexp "3.2.0"
     swagger-ui-dist "5.1.0"
 
-"@nestjs/testing@^10.0.2":
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/@nestjs/testing/-/testing-10.0.3.tgz"
-  integrity sha512-Rhm+E7yr499DIOuYbqskdNVo/NJjLKDS7Wp6NWl37woef4u7eVsSKN8VUCXKxNlYUrSw2Nu2AekpLzvl169SXg==
+"@nestjs/testing@^10.0.5":
+  version "10.0.5"
+  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-10.0.5.tgz#31cac7b9816351dff7706b3ff9af0387cf608f4b"
+  integrity sha512-TQcFOxR+kIibMbYg71yajic3289/Iw7B5LliYiZ4Pz36BZvU0TRMYqpxaGAlX/Srk0BCpP99ZHoofm8dqZKmxw==
   dependencies:
-    tslib "2.5.3"
+    tslib "2.6.0"
 
 "@next/env@13.4.8":
   version "13.4.8"
@@ -14540,11 +14540,6 @@ tsconfig-paths@^4.0.0, tsconfig-paths@^4.1.2:
     json5 "^2.2.2"
     minimist "^1.2.6"
     strip-bom "^3.0.0"
-
-tslib@2.5.3:
-  version "2.5.3"
-  resolved "https://registry.npmjs.org/tslib/-/tslib-2.5.3.tgz"
-  integrity sha512-mSxlJJwl3BMEQCUNnxXBU9jP4JBktcEGhURcPR6VQVlnP0FdDEsIaz0C35dXNGLyRfrATNofF0F5p2KPxQgB+w==
 
 tslib@2.6.0, tslib@^2.0.1, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.4.0, tslib@^2.5.0, tslib@^2.6.0:
   version "2.6.0"
