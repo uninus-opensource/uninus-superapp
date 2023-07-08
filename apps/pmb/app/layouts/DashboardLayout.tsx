@@ -6,7 +6,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     <html lang="en">
       <body className="flex">
         <aside>
-          <div className="h-screen bg-gray-800 text-white w-[300px] text-primary-white bg-primary-green p-20">
+          <div className="h-screen text-white w-[300px] text-primary-white bg-primary-green p-20">
             <ul>
               <li>
                 <a>Home</a>
