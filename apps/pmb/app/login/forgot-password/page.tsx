@@ -84,7 +84,7 @@ const ForgotPassword: NextPage = (): ReactElement => {
         <div className="w-full lg:w-[50%] h-full flex flex-col justify-center items-center gap-3">
           <div className="lg:flex w-[80%] flex justify-center lg:justify-start">
             <div className="w-full md:flex md:w-full lg:w-[290px] md:justify-start">
-              <h1 className="font-bold text-[1.9rem] lg:text-[2.5rem] text-primary-black tracking-normal lg:tracking-tighter">
+              <h1 className="font-bold text-[1.9rem] lg:text-[2.5rem] text-primary-black tracking-normal lg:tracking-tighter font-bebasNeue">
                 LUPA PASSWORD ?
               </h1>
             </div>
