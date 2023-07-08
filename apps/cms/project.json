@@ -1,0 +1,25 @@
+{
+  "name": "cms",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/cms/src",
+  "targets": {
+    "serve": {
+      "executor": "@nx-extend/strapi:serve",
+      "options": {}
+    },
+    "build": {
+      "executor": "@nx-extend/strapi:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/cms"
+      },
+      "configurations": {
+        "production": {
+          "production": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
