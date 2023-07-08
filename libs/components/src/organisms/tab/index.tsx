@@ -1,3 +1,4 @@
+"use client";
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { Button } from '../../atoms';
 import { TButtonSection } from './type';
@@ -35,7 +36,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
   return (
     <section className="flex flex-col gap-6 lg:p-6 lg:w-8/12 w-auto items-center">
       <h1
-        className=" border-black uppercase font-bebasNeue text-primary-white bg-secondary-green-4 rounded-lg 
+        className=" border-black uppercase font-bebasNeue text-primary-white bg-secondary-green-4 rounded-lg
           text-2xl font-extramedium p-4 text-center w-5/6"
       >
         jalur seleksi pmb uninus

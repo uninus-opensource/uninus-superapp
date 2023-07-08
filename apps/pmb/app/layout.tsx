@@ -5,6 +5,7 @@ import './global.css';
 
 const monserrat = Montserrat({
   subsets: ['latin'],
+  weight: "400"
 });
 
 export default function RootLayout({
@@ -17,7 +18,10 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <QueryProvider>
-            <RecoilProvider>{children}</RecoilProvider>
+            <RecoilProvider>
+              {children}
+              <div id="modal" />
+            </RecoilProvider>
           </QueryProvider>
         </AuthProvider>
       </body>

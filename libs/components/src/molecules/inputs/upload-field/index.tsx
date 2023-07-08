@@ -1,3 +1,4 @@
+'use client';
 import { FC, ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import clsx from 'clsx';
@@ -29,9 +30,8 @@ export const UploadField: FC<TUploadFile> = ({
 
     fileReader.onload = () => {
       setFileUrl(fileReader.result as string);
-      setUploaded(true); // Set uploaded to true
+      setUploaded(true);
 
-      // Set file name if file is a document
       if (file.type.includes('application/')) {
         setFileName(file.name);
       }

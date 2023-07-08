@@ -21,7 +21,7 @@ import {
 } from 'react-icons/ai';
 import { BiSolidUser } from 'react-icons/bi';
 import { ProgramPendidikanProps } from './type';
-import MainLayout from './layouts/MainLayout';
+import { MainLayout } from '@uninus/modules-fe';
 
 const LandingPage: NextPage = (): ReactElement => {
   const programPendidikanList: ProgramPendidikanProps[] = [
@@ -66,7 +66,6 @@ const LandingPage: NextPage = (): ReactElement => {
         </figure>
 
         <section className="px-16 w-full flex flex-col items-center mt-32 h-auto">
-          {/* start welcome */}
           <Reveal>
             <section className="text-center w-full flex justify-between xl:justify-evenly xl:ml-10 ">
               <figure className="rounded-lg bg-secondary-green-4">
@@ -103,7 +102,6 @@ const LandingPage: NextPage = (): ReactElement => {
             </section>
           </Reveal>
 
-          {/* 2 lingkaran */}
           <figure className="absolute z-30 mt-64 right-0">
             <HalfEllipseYellow />
           </figure>
@@ -112,9 +110,7 @@ const LandingPage: NextPage = (): ReactElement => {
           <HalfEllipseGreen />
         </figure>
 
-        {/* end welcome  */}
 
-        {/* start card section */}
         <section className="mt-40 h-auto w-full gap-4 my-16 px-16 py-2 flex flex-col items-center ">
           <h1 className="p-5 uppercase font-bebasNeue text-3xl font-extramedium text-secondary-green-4">
             Kenapa harus kuliah di uninus?

@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 import { NextPage } from 'next';
 import { Button, HeroBanner } from '@uninus/components';
 import Image from 'next/image';
-import MainLayout from '../../layouts/MainLayout';
+import { MainLayout } from '@uninus/modules-fe';
 
 const BeasiswaPrestasi: NextPage = (): ReactElement => {
   return (

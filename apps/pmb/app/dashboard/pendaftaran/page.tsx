@@ -1,8 +1,8 @@
 'use client';
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
-import DashboardLayout from '../../layouts/DashboardLayout';
 import { Button, SelectField } from '@uninus/components';
+import { DashboardLayout } from '@uninus/modules-fe';
 
 const DashboardPendaftaran: NextPage = (): ReactElement => {
   return (
