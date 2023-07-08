@@ -57,7 +57,7 @@ export const HeroBanner: FC<TbannerProps> = ({
                 >
                   Unduh Brosur
                 </Button>
-                <Button href="/register" variant="filled" size="lg">
+                <Button href="/auth/register" variant="filled" size="lg">
                   Daftar Sekarang
                 </Button>
               </section>

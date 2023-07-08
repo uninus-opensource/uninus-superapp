@@ -23,6 +23,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
+    "@hookform/resolvers": "^3.1.1",
     "@mobily/ts-belt": "^3.13.1",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/common": "^10.0.5",
@@ -78,6 +79,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "styled-components": "^6.0.2",
+    "tozod": "^3.0.0",
     "ts-pattern": "^5.0.1"
   },
   "prisma": {

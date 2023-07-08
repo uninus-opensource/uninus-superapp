@@ -30,11 +30,11 @@ export const TextField = <T extends FieldValues>({
   const labelVariant = clsx('text-black font-medium', {
     'text-md': variant === 'lg',
     'text-sm': variant === 'md',
-    'text-md ': variant === 'sm',
+    'text-xs': variant === 'sm',
   });
 
   const inputStatus = clsx('outline-none w-full ', {
-    'ring-1 ring-red-4 bg-red-100 placeholder:text-red-3 border-none focus:border-grayscale-2 focus:ring-red-4':
+    'ring-1 ring-red-4 bg-red-1 placeholder:text-red-3 border-none focus:border-grayscale-2 focus:ring-red-4':
       status === 'error',
     'ring-1 ring-secondary-green-1 bg-green-100 placeholder:text-secondary-green-1':
       status === 'success',

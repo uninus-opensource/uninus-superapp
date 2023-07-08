@@ -2,8 +2,8 @@
 import { ReactElement } from 'react';
 import { NextPage } from 'next';
 import { Button, HeroBanner } from '@uninus/components';
-import MainLayout from '../../layouts/MainLayout';
 import Image from 'next/image';
+import { MainLayout } from '@uninus/modules-fe';
 
 const BeasiswaMitra: NextPage = (): ReactElement => {
   return (

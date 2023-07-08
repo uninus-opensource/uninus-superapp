@@ -4,7 +4,7 @@ import { NextPage } from 'next';
 import { HeroBanner } from '@uninus/components';
 import Image from 'next/image';
 import Link from 'next/link';
-import MainLayout from '../layouts/MainLayout';
+import { MainLayout } from '@uninus/modules-fe';
 const Beasiswa: NextPage = (): ReactElement => {
   const beasiswaList: { name: string; img: string; link: string }[] = [
     {

@@ -1,7 +1,7 @@
 'use client';
 import { FC, PropsWithChildren, ReactElement } from 'react';
 
-const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
+export const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   return (
     <html lang="en">
       <body className="flex">
@@ -23,5 +23,3 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     </html>
   );
 };
-
-export default DashboardLayout;
