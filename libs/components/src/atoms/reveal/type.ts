@@ -1,4 +1,7 @@
+import { ReactNode } from 'react';
+
 export type TRevealProps = {
-  children: JSX.Element;
+  children: ReactNode;
   w?: 'w-fit' | 'w-full';
+  blur?: boolean;
 };
