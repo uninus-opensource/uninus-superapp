@@ -1,6 +1,6 @@
-import { tableMagister, tableSarjana } from './types';
+import { TTableMagister, TTableSarjana } from './types';
 
-export const dataSarjana: tableSarjana[] = [
+export const dataSarjana: TTableSarjana[] = [
   // Fakultas Agama Islam
   {
     fakultas: 'Fakultas Agama Islam (FAI)',
@@ -121,7 +121,7 @@ export const dataSarjana: tableSarjana[] = [
   },
 ];
 
-export const dataMagister: tableMagister[] = [
+export const dataMagister: TTableMagister[] = [
   {
     program_studi: 'Magister Administrasi Pendidikan (S2)',
     ukt: 'Rp. 7.900.000',
