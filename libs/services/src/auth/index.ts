@@ -148,7 +148,7 @@ export class AuthService {
       throw new NotFoundException('Akun tidak ditemukan');
     }
 
-    if (!!!user.isVerified) {
+    if (!user.isVerified) {
       throw new UnauthorizedException('Email belum terverifikasi');
     }
 
