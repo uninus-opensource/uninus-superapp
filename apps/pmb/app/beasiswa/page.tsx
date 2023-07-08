@@ -25,7 +25,11 @@ const Beasiswa: NextPage = (): ReactElement => {
 
   return (
     <section className="w-full min-h-screen">
-      <HeroBanner heroImages="/illustrations/foto-mahasiswa-bareng-2.jpg" />
+      <HeroBanner
+        heroImages="/illustrations/foto-mahasiswa-bareng-2.jpg"
+        heroTitleBottomRight="BEASISWA"
+        blur
+      />
       <div className="lg:w-full w-auto h-full lg:p-16 py-16 px-8 text-center flex justify-center font-bebasNeue">
         <div className="flex flex-col lg:gap-y-16 lg:w-5/6 w-full gap-y-8">
           <div className="lg:w-4/5 w-full lg:mx-auto ">
