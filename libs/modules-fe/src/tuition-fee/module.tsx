@@ -4,11 +4,10 @@ import { HeroBanner } from '@uninus/components';
 import { NextPage } from 'next';
 import { dataSarjana, dataMagister } from './store';
 import { TTableMagister, TTableSarjana } from './types';
-import { MainLayout } from '@uninus/modules-fe';
 import DataTable, { TableColumn } from 'react-data-table-component';
+import { MainLayout } from '../layouts';
 
 export const TuitionFeeModule: NextPage = (): ReactElement => {
-
   const columns: TableColumn<TTableSarjana>[] = [
     { name: 'Fakultas', selector: (row) => row.fakultas },
     {

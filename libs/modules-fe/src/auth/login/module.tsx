@@ -32,10 +32,14 @@ export const LoginModule: FC = (): ReactElement => {
   });
 
   return (
-    <form onSubmit={onSubmit} className="w-full h-full px-12 py-4 flex flex-col gap-y-3">
+    <form
+      onSubmit={onSubmit}
+      className="w-full h-full px-12 py-4 flex flex-col gap-y-3"
+    >
       <div className="flex">
-        <div className="flex flex-col gap-2 justify-end">
-          <h1 className="font-bold text-[1.5rem]">Masuk Sekarang</h1>
+        <div className="flex flex-col  justify-end">
+          <h1 className="font-bold text-[1.5rem]">Login</h1>
+          <div className="border-2 border-primary-green w-36"></div>
           <p className="text-grayscale-5 w-[60vw] text-[12px] lg:text-[13px] lg:w-[30vw]">
             Selamat Datang Calon Mahasiswa Uninus
           </p>
