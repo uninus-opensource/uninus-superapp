@@ -36,7 +36,7 @@ export const Button: FC<IButtonProps> = ({
         variant === 'outlined',
       'text-sceondary-green-4 hover:bg-secondary-sky-1 focus:bg-secondary-sky-2 active:bg-secondary-sky-2 ':
         variant === 'text-icon',
-      'fixed bottom-4 right-4 bg-secondary-green-4 text-primary-white hover:bg-secondary-green-5 focus:bg-secondary-green-5 ':
+      'fixed bottom-4 right-4 bg-secondary-green-4 text-primary-white hover:bg-transparent focus:bg-secondary-green-5 ':
         variant === 'float-bottom-right',
       'active:shadow-inset ': variant === 'custom',
       'text-white uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full ':
