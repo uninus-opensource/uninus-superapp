@@ -19,7 +19,7 @@ import {
   UpdateStudentDto,
 } from '@uninus/entities';
 import { StudentService } from '@uninus/services';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 @Controller('student')
 @ApiTags('Student')
@@ -30,6 +30,9 @@ export class StudentController {
   @ApiResponse({
     status: 400,
     description: 'User tidak ditemukan',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
   })
   @UseInterceptors(FileInterceptor('image'))
   @UseGuards(JwtAuthGuard)
@@ -47,6 +50,9 @@ export class StudentController {
     status: 400,
     description: 'Data tidak ditemukan',
   })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+  })
   @UseGuards(JwtAuthGuard)
   getData(@Request() reqToken: TReqToken) {
     const { sub } = reqToken.user;
@@ -57,6 +63,9 @@ export class StudentController {
   @ApiResponse({
     status: 400,
     description: 'User tidak ditemukan',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
   })
   @UseInterceptors(FileInterceptor('image'))
   @UseGuards(JwtAuthGuard)
