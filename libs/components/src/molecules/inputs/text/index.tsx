@@ -32,7 +32,7 @@ export const TextField = <T extends FieldValues>({
 
   const labelVariant = clsx('text-black font-medium', {
     'text-base': variant === 'lg',
-    'text-sm': variant === 'md',
+    'text-sm font-semibold': variant === 'md',
     'text-xs ': variant === 'sm',
   });
 

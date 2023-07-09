@@ -9,7 +9,7 @@ import { useRegister } from './hook';
 import { useRouter } from 'next/navigation';
 
 export const RegisterModule: FC = (): ReactElement => {
-  const router = useRouter()
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -21,7 +21,7 @@ export const RegisterModule: FC = (): ReactElement => {
       email: '',
       password: '',
       nik: '',
-      fullname: ""
+      fullname: '',
     },
   });
 
@@ -42,16 +42,14 @@ export const RegisterModule: FC = (): ReactElement => {
   });
 
   return (
-    <form onSubmit={onSubmit} className="w-full h-full px-12 py-4 flex flex-col gap-y-3 items-between">
+    <form
+      onSubmit={onSubmit}
+      className="w-full h-auto px-12 py-4 flex flex-col gap-y-3 items-between"
+    >
       <div className="w-full justify-start flex">
-        <div className="flex flex-col justify-end ">
-          <h1 className="font-bold text-[1.5rem]">Daftar Sekarang</h1>
-          <p className="text-grayscale-5 w-[60vw] text-[12px] lg:text-[13px] lg:w-[30vw]">
-            Mari bergabung!
-          </p>
-          <p className="text-grayscale-5 w-[60vw] text-[12px] lg:text-[13px] lg:w-[30vw]">
-            Silahkan Lengkapi form dibawah untuk melanjutkan pendaftaran
-          </p>
+        <div className="flex flex-col justify-end py-2">
+          <h1 className="font-bold text-[1.5rem]">Registrasi</h1>
+          <div className="border-2 border-primary-green w-36"></div>
         </div>
       </div>
       <div className="h-auto w-full">
@@ -102,7 +100,7 @@ export const RegisterModule: FC = (): ReactElement => {
           />
         </div>
       </div>
-      <div className="h-[33%] md:h-[36%] lg:h-[33%] flex flex-col gap-3 lg:mt-[0.5rem]">
+      <div className="h-[33%] md:h-[36%] lg:h-[31%] flex flex-col gap-3 lg:mt-[0.5rem]">
         <div className="flex justify-center">
           <div className="w-full">
             <Button loading={isLoading} disabled={!isValid} width="w-full">

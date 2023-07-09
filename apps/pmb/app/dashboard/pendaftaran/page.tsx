@@ -28,16 +28,50 @@ const DashboardPendaftaran: NextPage = (): ReactElement => {
             size="md"
             placeholder="Pilih Jalur Seleksi"
             status="none"
-            options={['Beasiswa KIP', 'Mandiri']}
+            options={[
+              'Beasiswa Nusantara Berprestasi (BNP)',
+              'Seleksi Prestasi Akademik',
+              'Seleksi Prestasi Non Akademik',
+              'Kerjasama Banom',
+              'KIP - KULIAH',
+            ]}
             value="Jalur Seleksi"
           />
           <SelectField
-            name="pembayaran"
-            label="Metode Pembayaran"
+            name="fakultas"
+            label="Pilih Fakultas"
             size="md"
-            placeholder="Pilih Metode Pembayaran"
+            placeholder="Pilih Fakultas"
             status="none"
-            options={['Transfer Antar Bank', 'Datang Langsung']}
+            options={[
+              'Fakultas Agama Islam',
+              'Faklutas Keguruan dan Ilmu Pendidikan (FKIP)',
+              'Faklutas Teknik (FTEK)',
+              'Faklutas Ilmu Komunikasi (FIKOM)',
+              'Faklutas Ekonomi (FKON)',
+              'Faklutas Hukum (FHUM)',
+              'Faklutas Pertanian (FAPERTA)',
+            ]}
+            value="Metode Pembayaran"
+          />
+          <SelectField
+            name="prodi"
+            label="Pilih Program Studi"
+            size="md"
+            placeholder="Pilih Program Studi"
+            status="none"
+            options={[
+              'Pendidikan Agama Islam',
+              'Perbankan Syariah',
+              'Pendidikan Guru Madrasah ibtidaiyah',
+              'Komunikasi Penyiaran Islam',
+              'Pendidikan Luar Biasa (PLB)',
+              'Pendidikan Luar Sekolah (PLS)',
+              'Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)',
+              'Teknik Elektronika',
+              'Teknik Informatika',
+              'Teknik Industri',
+            ]}
             value="Metode Pembayaran"
           />
           <Button variant="elevated" size="sm" width="w-48" height="h-12">
@@ -45,6 +79,7 @@ const DashboardPendaftaran: NextPage = (): ReactElement => {
           </Button>
         </div>
       </section>
+      <h1 className="text-4xl font-bold py-12">Status Pendaftaran</h1>
     </DashboardLayout>
   );
 };
