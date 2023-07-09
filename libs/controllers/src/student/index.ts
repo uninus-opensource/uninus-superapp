@@ -19,7 +19,7 @@ import {
   UpdateStudentDto,
 } from '@uninus/entities';
 import { StudentService } from '@uninus/services';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 @Controller('student')
 @ApiTags('Student')
@@ -27,6 +27,13 @@ export class StudentController {
   constructor(private readonly appService: StudentService) {}
 
   @Post()
+  @ApiResponse({
+    status: 400,
+    description: 'User tidak ditemukan',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+  })
   @UseInterceptors(FileInterceptor('image'))
   @UseGuards(JwtAuthGuard)
   createData(
@@ -39,6 +46,13 @@ export class StudentController {
   }
 
   @Get()
+  @ApiResponse({
+    status: 400,
+    description: 'Data tidak ditemukan',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+  })
   @UseGuards(JwtAuthGuard)
   getData(@Request() reqToken: TReqToken) {
     const { sub } = reqToken.user;
@@ -46,6 +60,13 @@ export class StudentController {
   }
 
   @Put()
+  @ApiResponse({
+    status: 400,
+    description: 'User tidak ditemukan',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+  })
   @UseInterceptors(FileInterceptor('image'))
   @UseGuards(JwtAuthGuard)
   updateData(
@@ -58,6 +79,10 @@ export class StudentController {
   }
 
   @Delete('/:id')
+  @ApiResponse({
+    status: 400,
+    description: 'User tidak ditemukan',
+  })
   deleteData(@Param('id') id: string) {
     return this.appService.deleteStudent(id);
   }

@@ -24,7 +24,7 @@ export class StudentService {
     });
 
     if (!student) {
-      throw new BadRequestException('data tidak ditemukan', {
+      throw new BadRequestException('Data tidak ditemukan', {
         cause: new Error(),
       });
     }
