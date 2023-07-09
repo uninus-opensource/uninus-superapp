@@ -1,11 +1,15 @@
 import { FC, ReactElement } from 'react';
-import { TSelectType } from './types';
+import { TSelectProps } from './types';
 import clsx from 'clsx';
 import { AiFillWarning } from 'react-icons/ai';
 import { BiSolidErrorCircle } from 'react-icons/bi';
 import { AiFillCheckCircle } from 'react-icons/ai';
+import { FieldValues, useController } from 'react-hook-form';
 
-export const SelectField: FC<TSelectType> = (props): ReactElement => {
+export const SelectField = <T extends FieldValues>({
+  size = 'sm',
+  ...props
+}: TSelectProps<T>): ReactElement => {
   const selectClassName = clsx(
     `border rounded-md outline-none  ${props.width}`,
     {
@@ -15,14 +19,14 @@ export const SelectField: FC<TSelectType> = (props): ReactElement => {
       'border-slate-300 bg-slate-2': props.status === 'none',
     },
     {
-      'p-1.5 text-sm': props.size === 'sm',
-      'p-2 text-base': props.size === 'md',
+      'p-1.5 text-sm': size === 'sm',
+      'p-2 text-base': size === 'md',
     }
   );
 
   const labelClassName = clsx('mt-1', {
-    'text-xs font-semibold': props.size === 'sm',
-    'text-base font-bold': props.size === 'md',
+    'text-xs font-semibold': size === 'sm',
+    'text-base font-bold': size === 'md',
   });
 
   const messageClassName = clsx(
@@ -34,22 +38,29 @@ export const SelectField: FC<TSelectType> = (props): ReactElement => {
       'text-slate-4': props.status === 'none',
     },
     {
-      'text-sm': props.size === 'sm',
-      'text-base': props.size === 'md',
+      'text-sm': size === 'sm',
+      'text-base': size === 'md',
     }
   );
+
+  const { field } = useController({
+    ...props,
+    rules: {
+      required: props.required,
+    },
+  });
 
   return (
     <div className="flex flex-col gap-2 ">
       <label htmlFor={props.name} className={labelClassName}>
         {props.label}
       </label>
-      <select name={props.name} className={selectClassName} defaultValue="">
-        <option value="" disabled>
+      <select className={selectClassName} {...{ ...props, ...field }}>
+        <option selected disabled>
           {props.placeholder}
         </option>
-        {props.options.map((option) => (
-          <option key={option} value={option}>
+        {props?.options?.map((option, idx) => (
+          <option key={idx} value={option}>
             {option}
           </option>
         ))}
