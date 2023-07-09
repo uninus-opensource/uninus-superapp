@@ -5,13 +5,15 @@ import { StaticImageData } from 'next/image';
 export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   type?: 'text' | 'password' | 'email' | 'number' | 'date';
   label?: string;
+  inputWidth?: string;
+  inputHeight?: string;
   name: string;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
   value?: string;
   className?: string;
-  labelClassName?: string;
+  labelclassname?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   status?: 'success' | 'error' | 'warning' | 'none';
   message?: string;
@@ -24,5 +26,6 @@ export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   hint?: string;
   isTextArea?: boolean;
   textAreaRow?: number;
+  textAreaCols?: number;
   maxlenght?: number;
 };

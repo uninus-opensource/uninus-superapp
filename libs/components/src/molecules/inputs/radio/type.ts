@@ -1,14 +1,16 @@
 import { FieldValues, UseControllerProps } from 'react-hook-form';
 import { ChangeEventHandler } from 'react';
-import { RADIO_BUTTON_SIZE, RADIO_BUTTON_VARIANT, LABEL_SIZE } from './enum';
 
 export type TRadioButtonProps<T extends FieldValues> = UseControllerProps<T> & {
-  variant?: RADIO_BUTTON_VARIANT | string;
-  size?: RADIO_BUTTON_SIZE | string;
-  labelSize?: LABEL_SIZE | string;
+  variant?: 'primary' | 'error' | 'warning';
+  size?: 'sm' | 'md' | 'lg';
+  labelSize?: 'sm' | 'md' | 'lg';
   label?: string;
   name?: string;
+  inputname?: string;
   required?: boolean;
-  message?: string;
+  message?: 'primary' | 'error' | 'warning';
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  value: string;
+  id: string;
 };
