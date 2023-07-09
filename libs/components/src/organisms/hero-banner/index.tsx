@@ -27,7 +27,7 @@ export const HeroBanner: FC<TbannerProps> = ({
       >
         <Reveal w="w-full" blur={blur}>
           <div className="flex items-center flex-col w-full">
-            <div className="text-xl md:text-4xl font-bebasNeue py-4 font-normal text-primary-white leading-normal uppercase pt-40">
+            <div className="text-xl md:text-4xl font-bebasNeue py-4 font-normal text-primary-white leading-normal uppercase lg:pt-10 pt-40">
               {subTitle}
             </div>
             <h2 className="mb-4 text-4xl font-extrabold tracking-tight text-primary-white md:text-3xl">
