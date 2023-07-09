@@ -16,6 +16,10 @@ export class StudentService {
       },
       select: {
         students: true,
+        nik: true,
+        email: true,
+        avatar: true,
+        fullname: true,
       },
     });
 
@@ -25,7 +29,13 @@ export class StudentService {
       });
     }
 
-    return student;
+    return {
+      nik: student.nik,
+      fullname: student.fullname,
+      email: student.email,
+      avatar: student.avatar,
+      ...student.students,
+    };
   }
 
   async createStudent(

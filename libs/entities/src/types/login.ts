@@ -8,6 +8,7 @@ export type TLoginResponse = {
     role: string | null;
     createdAt: Date;
     avatar: string | null;
+    isVerified: boolean | null;
   };
   token: {
     access_token: string;

@@ -12,10 +12,6 @@ export class CreateStudentDto {
 
   @IsNotEmpty()
   @IsString()
-  user_id!: string;
-
-  @IsNotEmpty()
-  @IsString()
   nim!: string;
 
   @IsNotEmpty()

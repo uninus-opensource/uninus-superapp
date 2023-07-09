@@ -62,7 +62,7 @@ export class AuthService {
   async register(data: Prisma.UsersCreateInput): Promise<TRegisterResponse> {
     const isEmailExist = await this.prisma.users.findUnique({
       where: {
-        email: data.email.toLowerCase()
+        email: data.email.toLowerCase(),
       },
     });
 
@@ -88,6 +88,8 @@ export class AuthService {
         email: data.email.toLowerCase(),
         password,
         role: data.role,
+        avatar:
+          'https://res.cloudinary.com/dyominih0/image/upload/v1688846789/MaleProfileDefault_hxtqcy.png',
       },
     });
 
@@ -97,18 +99,17 @@ export class AuthService {
     const otp = await generateOtp(data.email);
     await this.prisma.users.findFirst({
       where: {
-        fullname: data.fullname
-      }
-    })
-    const obj = 'verifikasi akun anda'
+        fullname: data.fullname,
+      },
+    });
+    const obj = 'verifikasi akun anda';
 
-    const html = getEmailMessageTemplate(data.fullname,otp, obj);
+    const html = getEmailMessageTemplate(data.fullname, otp, obj);
 
     const sendEmail = this.emailService.sendEmail(
       data.email.toLowerCase(),
       'Verifikasi Email',
-      html,
-
+      html
     );
 
     if (!sendEmail) {
@@ -135,6 +136,7 @@ export class AuthService {
         role_id: true,
         createdAt: true,
         avatar: true,
+        isVerified: true,
         role: {
           select: {
             name: true,
@@ -145,6 +147,11 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('Akun tidak ditemukan');
     }
+
+    if (!user.isVerified) {
+      throw new UnauthorizedException('Email belum terverifikasi');
+    }
+
     const isMatch = await comparePassword(password, user.password);
 
     if (!isMatch) {
@@ -171,6 +178,7 @@ export class AuthService {
         role: user.role?.name || '',
         createdAt: user.createdAt,
         avatar: user.avatar,
+        isVerified: user.isVerified,
       },
     };
   }
@@ -229,15 +237,15 @@ export class AuthService {
     const user = await this.prisma.users.findUnique({
       where: {
         email,
-      }, 
+      },
       select: {
-        fullname: true
-      }
-    })
-    const obj = 'memperbarui kata sandi anda'
+        fullname: true,
+      },
+    });
+    const obj = 'memperbarui kata sandi anda';
 
     const otp = await generateOtp(email);
-    const html = getEmailMessageTemplate(user?.fullname ?? '', otp, obj)
+    const html = getEmailMessageTemplate(user?.fullname ?? '', otp, obj);
 
     const sendEmail = this.emailService.sendEmail(
       email.toLowerCase(),
