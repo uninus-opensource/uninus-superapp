@@ -23,25 +23,42 @@ const DashboardBiodata: NextPage = (): ReactElement => {
       nomorKartuIdentitas: '',
       nisn: '',
       noWA: '',
+      tempatLahir: '',
       tanggalLahir: '',
       laki: '',
       perempuan: '',
-      wna: '',
+      agama: '',
+      statusMenikah: '',
       wni: '',
+      wna: '',
+      asalNegara: '',
+      provinsi: '',
+      kotaKabupaten: '',
+      kecamatan: '',
       alamat: '',
       rt: '',
       rw: '',
       kodepos: '',
+      jenisPendidikanAsal: '',
+      jurusanPendidikanAsal: '',
       lainnya: '',
       instansiPendidikan: '',
       alamatInstansi: '',
+      provinsiInstansi: '',
+      kotaKabupatenInstansi: '',
+      kecamatanInstansi: '',
       kodeposInstansi: '',
       kontakInstansi: '',
+      tahunLulus: '',
       ibuKandung: '',
       ayahKandung: '',
       alamatOrtu: '',
       rtOrtu: '',
       rwOrtu: '',
+      kodeposOrtu: '',
+      provinsiOrtu: '',
+      kotaKabupatenOrtu: '',
+      kecamatanOrtu: '',
       alamatSamaOrtu: false,
       pendidikanAyah: '',
       pekerjaanAyah: '',
@@ -168,6 +185,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['Kota Bandung', 'Kota Jakarta', 'Kota Denpasar']}
                 value="Tempat Lahir"
                 width="lg:w-25% xl:w-20%"
+                control={control}
               />
               <TextField
                 name="tanggalLahir"
@@ -222,6 +240,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 ]}
                 value="Agama"
                 width="lg:w-15% xl:w-10%"
+                control={control}
               />
               <SelectField
                 name="statusMenikah"
@@ -232,6 +251,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['Menikah', 'Belum menikah']}
                 value="Status Menikah"
                 width="lg:w-20% xl:w-15%"
+                control={control}
               />
             </section>
 
@@ -270,6 +290,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['Indonesia', 'Malaysia', 'Singapura', 'Kamboja']}
                 value="Asal Negara"
                 width="lg:w-20% xl:w-15%"
+                control={control}
               />
             </section>
 
@@ -283,6 +304,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
                 value="Provinsi"
                 width="lg:w-15% xl:w-15%"
+                control={control}
               />
               <SelectField
                 name="kotaKabupaten"
@@ -298,6 +320,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 ]}
                 value="Kota/Kabupaten"
                 width="lg:w-20% xl:w-15%"
+                control={control}
               />
               <SelectField
                 name="kecamatan"
@@ -308,6 +331,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['Sumur Bandung', 'Batununggal']}
                 value="Kecamatan"
                 width="w-15%"
+                control={control}
               />
             </section>
 
@@ -378,6 +402,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['SMA', 'SMK', 'MA']}
                 value="Pendidikan Asal"
                 width="lg:w-20% xl:w-15%"
+                control={control}
               />
               <SelectField
                 name="jurusanPendidikanAsal"
@@ -388,6 +413,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['Saintek', 'Soshum', 'Lainnya']}
                 value="Jurusan Asal"
                 width="lg:w-20% xl:w-15%"
+                control={control}
               />
             </section>
 
@@ -442,6 +468,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
                 value="Provinsi Instansi"
                 width="lg:w-15% xl:w-15%"
+                control={control}
               />
               <SelectField
                 name="kotaKabupatenInstansi"
@@ -457,6 +484,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 ]}
                 value="Kota/Kabupaten Instansi"
                 width="lg:w-20% xl:w-15%"
+                control={control}
               />
               <SelectField
                 name="kecamatanInstansi"
@@ -467,6 +495,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['Sumur Bandung', 'Batununggal']}
                 value="Kecamatan Instansi"
                 width="w-15%"
+                control={control}
               />
             </section>
 
@@ -500,6 +529,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['2023', '2022']}
                 value="Tahun Lulus"
                 width="w-15%"
+                control={control}
               />
             </section>
 
@@ -571,7 +601,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                   />
                 ))}
                 <TextField
-                  name="kodepos"
+                  name="kodeposOrtu"
                   variant="md"
                   type="number"
                   labelclassname="text-sm font-semibold"
@@ -594,6 +624,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
                 value="Provinsi Ortu"
                 width="lg:w-15% xl:w-15%"
+                control={control}
               />
               <SelectField
                 name="kotaKabupatenOrtu"
@@ -609,6 +640,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 ]}
                 value="Kota/Kabupaten Ortu"
                 width="lg:w-20% xl:w-15%"
+                control={control}
               />
               <SelectField
                 name="kecamatanOrtu"
@@ -619,6 +651,7 @@ const DashboardBiodata: NextPage = (): ReactElement => {
                 options={['Sumur Bandung', 'Batununggal']}
                 value="Kecamatan Ortu"
                 width="w-15%"
+                control={control}
               />
             </section>
             <CheckBox
