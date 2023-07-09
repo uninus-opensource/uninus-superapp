@@ -1,12 +1,14 @@
 'use client';
 import { FC, PropsWithChildren, ReactElement } from 'react';
 
-export const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
+export const DashboardLayout: FC<PropsWithChildren> = ({
+  children,
+}): ReactElement => {
   return (
     <html lang="en">
       <body className="flex">
         <aside>
-          <div className="h-screen text-white w-[300px] text-primary-white bg-primary-green p-20">
+          <div className="h-full text-white w-[300px] text-primary-white bg-primary-green p-20">
             <ul>
               <li>
                 <a>Home</a>
