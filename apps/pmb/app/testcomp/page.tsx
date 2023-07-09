@@ -65,49 +65,6 @@ const LandingPage: FC = (): ReactElement => {
           label="Setuju"
           message="Valid"
         />
-        <div className="flex gap-2">
-          <SelectField
-            name="peran"
-            label="Peran"
-            size="sm"
-            placeholder="pilih peran"
-            status="none"
-            options={['Mahasiswa', 'Dosen', 'Staff']}
-            value="Dosen"
-          />
-          <SelectField
-            name="peran"
-            label="Peran"
-            size="sm"
-            placeholder="pilih peran"
-            status="warning"
-            options={['Mahasiswa', 'Dosen', 'Staff']}
-            message="warning sample"
-            value="Mahasiswa"
-          />
-        </div>
-        <div className="flex gap-2">
-          <SelectField
-            name="peran"
-            label="Peran"
-            size="md"
-            placeholder="pilih peran"
-            status="error"
-            options={['Mahasiswa', 'Dosen', 'Staff']}
-            message="error sample"
-            value="Mahasiswa"
-          />
-          <SelectField
-            name="peran"
-            label="Peran"
-            size="md"
-            placeholder="pilih peran"
-            status="success"
-            options={['Mahasiswa', 'Dosen', 'Staff']}
-            message="success sample"
-            value="Staff"
-          />
-        </div>
 
         <div className="flex gap-4">
           <Button variant="elevated" size="sm">

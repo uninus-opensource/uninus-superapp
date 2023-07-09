@@ -1,4 +1,7 @@
-export type TSelectType = {
+import { ChangeEventHandler } from 'react';
+import { FieldValues, UseControllerProps } from 'react-hook-form';
+
+export type TSelectProps<T extends FieldValues> = UseControllerProps<T> & {
   label: string;
   value: string;
   width?: string;
@@ -8,4 +11,6 @@ export type TSelectType = {
   placeholder: string;
   message?: string;
   status?: 'success' | 'error' | 'warning' | 'none';
+  required?: boolean;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 };
