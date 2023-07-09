@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   return (
-    <main className="h-screen justify-start w-full flex flex-col gap-y-32 bg-primary-green">
-      <header className="w-full flex justify-between h-auto px-[52px] py-[28px]">
+    <main className="h-screen justify-start w-full flex flex-col bg-primary-green">
+      <header className="w-full flex justify-between h-auto px-[52px] py-[10px]">
         <figure className="flex w-full gap-x-4">
           <Image
             src={'/illustrations/neo-uninus.svg'}
@@ -35,7 +35,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
           />
         </figure>
       </header>
-      <section className="h-fit flex justify-center items-center">
+      <section className="h-full my-14 flex justify-center items-center">
         <div className="w-1/4 hidden lg:flex bg-grayscale-9 rounded-l-lg">
           <Image
             src="/illustrations/talent-focus.png"
@@ -62,7 +62,9 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
             />
           </div>
         </div>
-        <div className="w-1/2 flex h-full rounded-tr-lg rounded-br-lg bg-primary-white">{children}</div>
+        <div className="w-1/2 flex h-full rounded-tr-lg rounded-br-lg bg-primary-white">
+          {children}
+        </div>
       </section>
     </main>
   );
