@@ -10,6 +10,8 @@ const DashboardPendaftaran: NextPage = (): ReactElement => {
     defaultValues: {
       program: '',
       seleksi: '',
+      prodi: '',
+      fakultas: '',
       pembayaran: '',
     },
   });
@@ -64,6 +66,7 @@ const DashboardPendaftaran: NextPage = (): ReactElement => {
               'Faklutas Pertanian (FAPERTA)',
             ]}
             value="Metode Pembayaran"
+            control={control}
           />
           <SelectField
             name="prodi"
