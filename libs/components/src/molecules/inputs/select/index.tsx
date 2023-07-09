@@ -7,7 +7,7 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 
 export const SelectField: FC<TSelectType> = (props): ReactElement => {
   const selectClassName = clsx(
-    'border rounded-md outline-none ml-1',
+    `border rounded-md outline-none  ${props.width}`,
     {
       'border-green-300 bg-green-100': props.status === 'success',
       'border-amber-300 bg-amber-100': props.status === 'warning',
@@ -15,14 +15,14 @@ export const SelectField: FC<TSelectType> = (props): ReactElement => {
       'border-slate-300 bg-slate-2': props.status === 'none',
     },
     {
-      'p-1 text-sm': props.size === 'sm',
-      'p-2 text-md': props.size === 'md',
+      'p-1.5 text-sm': props.size === 'sm',
+      'p-2 text-base': props.size === 'md',
     }
   );
 
-  const labelClassName = clsx('ml-2', {
-    'text-sm': props.size === 'sm',
-    'text-md font-bold': props.size === 'md',
+  const labelClassName = clsx('mt-1', {
+    'text-xs font-semibold': props.size === 'sm',
+    'text-base font-bold': props.size === 'md',
   });
 
   const messageClassName = clsx(
@@ -35,12 +35,12 @@ export const SelectField: FC<TSelectType> = (props): ReactElement => {
     },
     {
       'text-sm': props.size === 'sm',
-      'text-md': props.size === 'md',
+      'text-base': props.size === 'md',
     }
   );
 
   return (
-    <div className="flex flex-col gap-1 ">
+    <div className="flex flex-col gap-2 ">
       <label htmlFor={props.name} className={labelClassName}>
         {props.label}
       </label>
