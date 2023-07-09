@@ -1,225 +1,297 @@
-import { IsISO8601, IsIn, IsOptional, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsISO8601,
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class UpdateStudentDto {
+  @ApiProperty()
   @IsOptional()
+  avatar!: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   nim!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   nisn!: string;
 
-  @IsOptional()
+  @ApiProperty({
+    example: 'KTP | SIM | KARTU_PELAJAR',
+  })
+  @IsNotEmpty()
   @IsString()
   @IsIn(['KTP', 'SIM', 'KARTU_PELAJAR'], {
     message: 'Card Type must be one of KTP, SIM atau KARTU_PELAJAR',
   })
   identification_type!: 'KTP' | 'SIM' | 'KARTU_PELAJAR';
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   identification_number!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   birth_place!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsISO8601()
   birth_date!: string;
 
-  @IsOptional()
+  @ApiProperty({
+    example: 'MALE | FEMALE',
+  })
+  @IsNotEmpty()
   @IsIn(['MALE', 'FEMALE'], {
-    message: 'Gender must be one Male atau Female',
+    message: 'Gender must be one MALE atau FEMALE',
   })
   gender!: 'MALE' | 'FEMALE';
 
-  @IsOptional()
+  @ApiProperty({
+    example: 'ISLAM | KRISTEN | KATOLIK | KONGHUCU | HINDU | BUDHA',
+  })
+  @IsNotEmpty()
   @IsIn(['ISLAM', 'KRISTEN', 'KATOLIK', 'KONGHUCU', 'HINDU', 'BUDHA'], {
     message:
-      'Religion must be one of Islam, Kristen, Katolik, Konghucu, Hindu, Budha',
+      'Religion must be one of ISLAM, KRISTEN, KATOLIK, KONGHUCU, HINDU, BUDHA',
   })
   religion!: 'ISLAM' | 'KRISTEN' | 'KATOLIK' | 'KONGHUCU' | 'HINDU' | 'BUDHA';
 
-  @IsOptional()
+  @ApiProperty({
+    example: 'WNI | WNA',
+  })
+  @IsNotEmpty()
   @IsIn(['WNI', 'WNA'], {
     message: 'Citizenship must be one of WNI or WNA',
   })
   citizenship!: 'WNI' | 'WNA';
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   marital_status!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   country!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   address!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   rt!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   rw!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   postal_code!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   subdistrict!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   province!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   city!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   phone_number!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   kk_number!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   school_type!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   school_major!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   school_name!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   school_address!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   school_postal_code!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   school_subdistrict!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   school_province!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   school_city!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   school_phone_number!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   graduation_year!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   father_name!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   mother_name!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   guardian_name!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   parent_address!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   parent_rt!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   parent_rw!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   parent_postal_code!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   parent_subdistrict!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   parent_province!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   parent_phone_number!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   father_education!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   mother_education!: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   guardian_education?: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   father_occupation!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   mother_occupation!: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   guardian_occupation?: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   father_income!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   mother_income!: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   guardian_income?: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   selection_type!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   program!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   academic_year!: string;
 
-  @IsOptional()
+  @ApiProperty()
+  @IsNotEmpty()
   @IsString()
   registration_wave!: string;
 }
