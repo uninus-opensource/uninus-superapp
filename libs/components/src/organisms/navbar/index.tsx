@@ -27,7 +27,7 @@ export const Navbar: FC = (): ReactElement => {
     },
     {
       item: 'biaya kuliah',
-      link: '/tuition-fee',
+      link: '/biaya-kuliah',
     },
   ];
 
