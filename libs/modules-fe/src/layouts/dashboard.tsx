@@ -6,10 +6,11 @@ export const DashboardLayout: FC<PropsWithChildren> = ({
 }): ReactElement => {
   return (
     <html lang="en">
-      <body className="flex">
-        <SideBar profileName="mawar saidah" profileEmail="mwrsdh@gmail.com" />
-
-        <div className="w-full bg-gray-100 p-10 bg-slate-2">{children}</div>
+      <body>
+        <main className="flex w-full min-h-screen ">
+          <SideBar profileName="mawar saidah" profileEmail="mwrsdh@gmail.com" />
+          <div className="w-full bg-gray-100 p-10 bg-slate-2">{children}</div>
+        </main>
       </body>
     </html>
   );
