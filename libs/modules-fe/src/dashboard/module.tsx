@@ -6,13 +6,13 @@ import Image from 'next/image';
 export const DashboardModule: FC = (): ReactElement => {
   return (
     <DashboardLayout>
-      <section className="flex flex-col gap-4 px-10">
+      <section className="flex flex-col gap-4 lg:px-10 lg:ml-[18%] ml-0 text-center lg:text-start">
         <h1 className="text-4xl font-semibold">Hallo, Mawar Saidah</h1>
-        <p className="text-lg font-normal w-2/3">
+        <p className="text-lg font-normal lg:w-2/3">
           Selamat Datang Di Aplikasi Penerimaan Mahasiswa Baru Universitas Islam
           Nusantara
         </p>
-        <p className="text-lg pr-16">
+        <p className="text-lg lg:pr-16">
           Calon mahasiswa yang ingin mendaftarkan diri di Universitas Islam
           Nusantara, dapat mengisi kelengkapan seluruh data yang diperlukan
           dalam dashboard ini. Kemudian lakukan pendaftaran PMB Uninus pada menu
