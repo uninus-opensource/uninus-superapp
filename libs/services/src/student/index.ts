@@ -54,16 +54,18 @@ export class StudentService {
         cause: new Error(),
       });
     }
-    const avatar = await this.cloudinaryService.uploadImage(file);
+    if (file) {
+      const avatar = await this.cloudinaryService.uploadImage(file);
 
-    await this.prisma.users.update({
-      where: {
-        id,
-      },
-      data: {
-        avatar: avatar?.secure_url,
-      },
-    });
+      await this.prisma.users.update({
+        where: {
+          id,
+        },
+        data: {
+          avatar: avatar?.secure_url,
+        },
+      });
+    }
     const student = await this.prisma.students.create({
       data: {
         ...(payload as CreateStudentDto),
@@ -100,16 +102,18 @@ export class StudentService {
         cause: new Error(),
       });
     }
-    const avatar = await this.cloudinaryService.uploadImage(file);
+    if (file) {
+      const avatar = await this.cloudinaryService.uploadImage(file);
 
-    await this.prisma.users.update({
-      where: {
-        id,
-      },
-      data: {
-        avatar: avatar?.secure_url,
-      },
-    });
+      await this.prisma.users.update({
+        where: {
+          id,
+        },
+        data: {
+          avatar: avatar?.secure_url,
+        },
+      });
+    }
     return {
       ...student,
     };
