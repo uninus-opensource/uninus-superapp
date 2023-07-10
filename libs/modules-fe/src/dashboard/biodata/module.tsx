@@ -137,17 +137,15 @@ export const ModuleBiodata: FC = (): ReactElement => {
         <div className="flex flex-col gap-7 ">
           <h3 className="text-2xl font-semibold">Upload Foto</h3>
           <div className="flex items-center gap-14">
-            <figure className="w-fit rounded-full relative overflow-hidden ">
-              <Image
-                src={'/illustrations/foto-cewe.png'}
-                alt="profil"
-                width={200}
-                height={200}
-                quality={100}
-                priority
-                className="inline h-full scale-110 top-2 left-2 relative"
-              />
-            </figure>
+            <Image
+              className="rounded-full"
+              src={'/illustrations/dummy-avatar.jpg'}
+              alt="profile picture"
+              width={200}
+              height={200}
+              priority={true}
+            />
+
             <UploadField variant="md" />
           </div>
         </div>
