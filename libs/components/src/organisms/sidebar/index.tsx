@@ -12,13 +12,14 @@ import Link from 'next/link';
 import { Button } from '../../atoms';
 import dummyImage from '../../atoms/illustrations/dummy/dummy-avatar.jpg';
 import { motion } from 'framer-motion';
+import { useSession } from 'next-auth/react';
 
 export const SideBar: FC<TSideBarProps> = ({
   profileName = '',
   profileEmail = '',
 }): ReactElement => {
   const [onToogle, setOnToogle] = useState<boolean>(false);
-
+  const { data: session } = useSession();
   const sideLists: TSideBarList[] = [
     { label: 'home', link: '/dashboard', icon: <AiOutlineHome /> },
     { label: 'biodata', link: '/dashboard/biodata', icon: <FaRegUser /> },
@@ -33,7 +34,7 @@ export const SideBar: FC<TSideBarProps> = ({
       {/* Desktop */}
       <div className="min-h-screen fixed z-[99999]">
         <aside
-          className={` sm:hidden h-full top-0 left-0 absolute z-50 lg:relative transition-transform -translate-x-full lg:sm:translate-x-0 w-64 md:flex  bg-primary-green py-10 font-bebasNeue`}
+          className={` sm:hidden h-full top-0 left-0 flex z-50 lg:relative transition-transform -translate-x-full lg:sm:translate-x-0 w-64 md:flex  bg-primary-green py-10 font-bebasNeue`}
         >
           <section className={` w-full flex flex-col items-center gap-y-6`}>
             <div className="flex flex-col gap-y-4 items-center">
@@ -51,8 +52,10 @@ export const SideBar: FC<TSideBarProps> = ({
                     <h3>Calon Mahasiswa Baru</h3>
                   </div>
                   <div>
-                    <h1 className="font-semibold capitalize">{profileName}</h1>
-                    <p className="font-base text-sm">{profileEmail}</p>
+                    <h1 className="font-semibold capitalize">
+                      {session?.user?.name}
+                    </h1>
+                    <p className="font-base text-sm">{session?.user?.email}</p>
                   </div>
                 </figcaption>
               </figure>
@@ -132,9 +135,11 @@ export const SideBar: FC<TSideBarProps> = ({
                     </div>
                     <div>
                       <h1 className="font-semibold capitalize">
-                        {profileName}
+                        {session?.user?.name}
                       </h1>
-                      <p className="font-base text-sm">{profileEmail}</p>
+                      <p className="font-base text-sm">
+                        {session?.user?.email}
+                      </p>
                     </div>
                   </figcaption>
                 </figure>
