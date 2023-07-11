@@ -21,7 +21,7 @@ export const ModulePrestasi: FC = (): ReactElement => {
             </p>
           </div>
 
-          <div className="w-full flex lg:flex-row flex-col justify-between h-auto py-8">
+          <div className="w-full flex lg:flex-row md:flex-row flex-col justify-between h-auto py-8">
             <figure className="lg:absolute flex px-6 right-12">
               <Image
                 src={'/illustrations/beasiswa2.svg'}

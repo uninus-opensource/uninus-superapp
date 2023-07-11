@@ -20,7 +20,7 @@ export const ModuleMitra: FC = (): ReactElement => {
             </p>
           </div>
 
-          <div className="w-full flex lg:flex-row flex-col justify-between h-auto">
+          <div className="w-full flex lg:flex-row md:flex-row flex-col justify-between h-auto">
             <figure className="lg:absolute flex px-6 right-12">
               <Image
                 src={'/illustrations/beasiswa3.svg'}
