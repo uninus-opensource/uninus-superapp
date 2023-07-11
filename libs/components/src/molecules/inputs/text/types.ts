@@ -28,4 +28,13 @@ export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   textAreaRow?: number;
   textAreaCols?: number;
   maxlenght?: number;
+  inputMode?:
+    | 'text'
+    | 'numeric'
+    | 'search'
+    | 'tel'
+    | 'url'
+    | 'decimal'
+    | 'none'
+    | 'email';
 };
