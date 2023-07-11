@@ -3,6 +3,7 @@ import { Button, TextField } from '@uninus/components';
 import { FC, ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { useForgot } from './hook';
+import { useRouter } from 'next/navigation';
 
 export const ForgotModule: FC = (): ReactElement => {
   const { control, handleSubmit } = useForm({
@@ -13,10 +14,12 @@ export const ForgotModule: FC = (): ReactElement => {
   });
 
   const { mutate: forgotPassword } = useForgot();
+  const router = useRouter();
 
   const onSubmit = handleSubmit((data) => {
     try {
       forgotPassword(data);
+      router.push('/auth/opt');
     } catch (error) {
       console.log(error);
     }
