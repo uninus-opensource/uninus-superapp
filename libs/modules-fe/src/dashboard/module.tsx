@@ -8,7 +8,7 @@ export const DashboardModule: FC = (): ReactElement => {
   const { data: session } = useSession();
   return (
     <DashboardLayout>
-      <section className="flex flex-col gap-4 lg:px-10 lg:ml-[18%] ml-0 text-center lg:text-start">
+      <section className="flex flex-col gap-4  text-center lg:text-start">
         <h1 className="text-4xl font-semibold uppercase">
           Hallo, {session?.user?.name}
         </h1>

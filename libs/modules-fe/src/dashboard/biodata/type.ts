@@ -1,23 +1,21 @@
 export type TTextFieldOne = {
   name:
-    | 'namaLengkap'
-    | 'email'
-    | 'kartuIdentitas'
-    | 'nomorKartuIdentitas'
+    | 'identification_type'
+    | 'identification_number'
     | 'nisn'
-    | 'noWA';
+    | 'phone_number';
   item: string;
-  type: 'text' | 'email';
+  type: 'text';
 };
 
 export type TTextFieldTwo = {
   name: 'rt' | 'rw';
   item: string;
-  type: 'text' | 'number';
+  type: 'text';
 };
 
 export type TTextFieldThree = {
-  name: 'rtOrtu' | 'rwOrtu';
+  name: 'parent_rt' | 'parent_rw';
   item: string;
-  type: 'text' | 'number';
+  type: 'text';
 };
