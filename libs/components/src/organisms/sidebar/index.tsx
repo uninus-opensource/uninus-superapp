@@ -1,3 +1,4 @@
+'use client';
 import { FC, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import { TSideBarProps, TSideBarList } from './type';
