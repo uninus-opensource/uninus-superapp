@@ -58,7 +58,7 @@ export const ModulBeasiswa: FC = (): ReactElement => {
           <div className="h-1 w-28 mt-1 bg-primary-yellow rounded"></div>
         </div>
         <section className="w-full h-full py-16 px-4">
-          <div className="grid lg:grid-cols-3 grid-cols-1 gap-y-8 place-items-center">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-y-8 place-items-center">
             {beasiswaList.map((item, idx) => (
               <Link href={item.link} key={idx} className="w-5/6">
                 <div className="hover:-translate-y-4 duration-75  aspect-auto">
