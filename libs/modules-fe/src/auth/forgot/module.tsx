@@ -2,17 +2,31 @@
 import { Button, TextField } from '@uninus/components';
 import { FC, ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
+import { useForgot } from './hook';
 
 export const ForgotModule: FC = (): ReactElement => {
   const { control, handleSubmit } = useForm({
+    mode: 'all',
     defaultValues: {
       email: '',
-      password: '',
-      aggreement: false,
     },
   });
+
+  const { mutate: forgotPassword } = useForgot();
+
+  const onSubmit = handleSubmit((data) => {
+    try {
+      forgotPassword(data);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   return (
-    <form className="w-full h-full flex flex-col justify-center items-center">
+    <form
+      onSubmit={onSubmit}
+      className="w-full h-full flex flex-col justify-center items-center"
+    >
       <div className="w-[70%] flex flex-col gap-2">
         <div className="w-[18vw]">
           <h1 className="text-[2rem] font-bold text-primary-black font-bebasNeue">
