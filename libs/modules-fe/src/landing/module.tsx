@@ -64,56 +64,52 @@ export const LandingModule: FC = (): ReactElement => {
           <Ellipse />
         </figure>
 
-        <section className="px-16 w-full flex flex-col items-center mt-32 h-auto">
-          <Reveal>
-            <section className="text-center w-full flex justify-between xl:justify-evenly xl:ml-10 ">
-              <figure className="rounded-lg bg-secondary-green-4">
-                <Image
-                  src={'/illustrations/gerbang-uninus.png'}
-                  priority
-                  alt="gedung1"
-                  quality={100}
-                  width={400}
-                  height={400}
-                  className="rounded-lg bg-primary-white opacity-70"
-                />
-              </figure>
-              <div className="flex flex-col items-start w-7/12 leading-normal font-bebasNeue pl-6">
-                <h1 className="text-3xl text-left font-bebasNeue font-semibold text-secondary-green-4 mt-6">
-                  Selamat Datang
-                  <br />
-                  Calon Mahasiswa/Mahasiswi{' '}
-                  <span className="text-primary-green">Baru</span>
-                </h1>
-                <p className="text-left text-base xl:text-lg font-medium xl:font-normal lg:leading-6 text-grayscale-9 mt-16 xl:w-4/5">
-                  Selamat datang calon mahasiswa baru di Universitas Islam
-                  Nusantara.
-                  <br />
-                  Kami sangat senang Anda bergabung dengan kami dan yakin Anda
-                  akan menemukan banyak peluang belajar, berkembang, dan
-                  berkontribusi.
-                  <br />
-                  Kami memiliki fasilitas pendidikan terbaik, dosen berkualitas,
-                  dan komunitas mahasiswa inklusif. Kami sangat menantikan
-                  kerjasama kita dan membantu Anda mencapai impian Anda.
-                </p>
-              </div>
-            </section>
-          </Reveal>
+        <Reveal>
+          <section className="lg:mx-24 px-8 w-full flex lg:flex-row flex-col gap-8 items-center mt-32 h-auto">
+            <Image
+              src={'/illustrations/gerbang-uninus.png'}
+              priority
+              alt="gedung1"
+              quality={100}
+              width={400}
+              height={400}
+              className="rounded-lg bg-primary-white "
+            />
+            <div className="flex flex-col items-start lg:w-7/12 w-full leading-normal font-bebasNeue pl-6">
+              <h1 className="text-4xl text-left font-bebasNeue font-semibold text-secondary-green-4 mt-6">
+                Selamat Datang Calon
+                <br />
+                Mahasiswa/Mahasiswi{' '}
+                <span className="text-primary-green">Baru</span>
+              </h1>
+              <p className="text-left text-base xl:text-lg font-medium xl:font-normal lg:leading-6 text-grayscale-9 mt-12 xl:w-4/5">
+                Selamat datang calon mahasiswa baru di Universitas Islam
+                Nusantara.
+                <br />
+                Kami sangat senang Anda bergabung dengan kami dan yakin Anda
+                akan menemukan banyak peluang belajar, berkembang, dan
+                berkontribusi.
+                <br />
+                Kami memiliki fasilitas pendidikan terbaik, dosen berkualitas,
+                dan komunitas mahasiswa inklusif. Kami sangat menantikan
+                kerjasama kita dan membantu Anda mencapai impian Anda.
+              </p>
+            </div>
+            <figure className="absolute lg:flex hidden z-50 mt-[300px] pt-10 right-0">
+              <HalfEllipseYellow />
+            </figure>
+          </section>
+        </Reveal>
 
-          <figure className="absolute z-30 mt-64 right-0">
-            <HalfEllipseYellow />
-          </figure>
-        </section>
-        <figure className="absolute right-0 mt-0.5">
+        <figure className="absolute right-0 lg:flex hidden mt-0.5">
           <HalfEllipseGreen />
         </figure>
 
-        <section className="mt-40 h-auto w-full gap-4 my-16 px-16 py-2 flex flex-col items-center ">
+        <section className="mt-40 h-auto w-full gap-4 my-16 lg:px-16 px-8 py-2 flex flex-col items-center ">
           <h1 className="p-5 uppercase font-bebasNeue text-3xl font-extramedium text-secondary-green-4">
             Kenapa harus kuliah di uninus?
           </h1>
-          <section className="grid lg:grid-cols-3 grid-cols-1 gap-10 xl:gap-16">
+          <section className="grid lg:grid-cols-3 grid-cols-2 gap-10 xl:gap-16">
             {/* Card 1 */}
             <Card icon={<AiFillStar />} cardTitle="Kampus pilihan">
               <span className="text-secondary-green-4 font-extramedium">
@@ -188,7 +184,7 @@ export const LandingModule: FC = (): ReactElement => {
         {/* end card section */}
 
         {/* start jalur seleksi section */}
-        <section className="my-32 h-auto w-full gap-4  lg:px-16 py-2 flex justify-between xl:justify-evenly items-center ">
+        <section className="my-32 h-auto w-full gap-4 lg:px-16 px-8 py-2 flex lg:flex-row flex-col justify-between xl:justify-evenly items-center ">
           {/* gambar mahsiswi */}
           <figure className="mt-4">
             <Image

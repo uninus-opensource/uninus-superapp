@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { Button } from '../../atoms';
 import { TButtonSection } from './type';
@@ -9,15 +9,15 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
   const buttonList: TButtonSection[] = [
     {
       no: 1,
-      item: 'Jalur Seleksi Prestasi Akademik (JSPA)',
+      item: ' JSPA',
     },
     {
       no: 2,
-      item: 'Jalur Seleksi Prestasi Non-Akademik (JSPNA)',
+      item: 'JSPNA',
     },
     {
       no: 3,
-      item: 'Jalur Seleksi Test (JST)',
+      item: 'JST',
     },
   ];
 
@@ -42,7 +42,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
         jalur seleksi pmb uninus
       </h1>
       <div className="flex flex-col gap-4 border-2 border-secondary-green-4 rounded-lg h-80 w-full p-5 ">
-        <div className="border-2 border-secondary-green-4 rounded-lg h-24 p-2 flex gap-2">
+        <div className="border-2 border-secondary-green-4 rounded-lg h-auto px-8 p-2 flex justify-between">
           {buttonList.map((list, idx) => (
             <Button
               key={idx}
