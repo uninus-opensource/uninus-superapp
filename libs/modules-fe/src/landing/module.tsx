@@ -65,7 +65,7 @@ export const LandingModule: FC = (): ReactElement => {
         </figure>
 
         <Reveal>
-          <section className="lg:mx-24 px-8 w-full flex lg:flex-row flex-col gap-8 items-center mt-32 h-auto">
+          <section className="lg:mx-24 px-8 w-full flex lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
             <Image
               src={'/illustrations/gerbang-uninus.png'}
               priority
@@ -184,7 +184,7 @@ export const LandingModule: FC = (): ReactElement => {
         {/* end card section */}
 
         {/* start jalur seleksi section */}
-        <section className="my-32 h-auto w-full gap-4 lg:px-16 px-8 py-2 flex lg:flex-row flex-col justify-between xl:justify-evenly items-center ">
+        <section className="my-32 h-auto w-full gap-4 lg:px-16 px-8 py-2 flex lg:flex-row  flex-col justify-between xl:justify-evenly items-center ">
           {/* gambar mahsiswi */}
           <figure className="mt-4 mx-8 lg:mx-0">
             <Image
@@ -207,7 +207,7 @@ export const LandingModule: FC = (): ReactElement => {
           <h1 className="uppercase text-center text-3xl text-secondary-green-4 font-extramedium ">
             program <span className="text-primary-green">pendidikan</span>
           </h1>
-          <section className="grid lg:grid-cols-3 grid-cols-1 gap-10 xl:gap-8 px-8 mt-10">
+          <section className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 xl:gap-8 px-8 mt-10">
             {programPendidikanList.map((list, idx) => (
               <Card key={idx} iconText={list.iconText} cardTitle={list.title}>
                 {list.item}
