@@ -186,7 +186,7 @@ export const LandingModule: FC = (): ReactElement => {
         {/* start jalur seleksi section */}
         <section className="my-32 h-auto w-full gap-4 lg:px-16 px-8 py-2 flex lg:flex-row flex-col justify-between xl:justify-evenly items-center ">
           {/* gambar mahsiswi */}
-          <figure className="mt-4">
+          <figure className="mt-4 mx-8 lg:mx-0">
             <Image
               src={'/illustrations/talent11.png'}
               priority

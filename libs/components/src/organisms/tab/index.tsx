@@ -48,6 +48,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
               key={idx}
               size="sm"
               styling="text-left leading-4"
+              width="lg:w-[600px] w-[100px]"
               height="h-full"
               onClick={() => setIsActive(list.no)}
               variant={isActive === list.no ? 'filled' : 'text-icon'}
