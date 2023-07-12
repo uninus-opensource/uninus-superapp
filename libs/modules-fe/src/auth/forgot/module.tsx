@@ -12,13 +12,11 @@ export const ForgotModule: FC = (): ReactElement => {
     },
   });
   return (
-    <form className="w-full h-full flex flex-col justify-center items-center">
-      <div className="w-[70%] flex flex-col gap-2">
-        <div className="w-[18vw]">
-          <h1 className="text-[2rem] font-bold text-primary-black font-bebasNeue">
-            LUPA PASSWORD ?
-          </h1>
-        </div>
+    <form className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col justify-center items-center">
+      <div className="w-full flex flex-col gap-6">
+        <h1 className="text-2xl font-bold text-primary-black font-bebasNeue w-50%">
+          LUPA PASSWORD ?
+        </h1>
         <p className="text-grayscale-5 text-sm">
           Masukkan email yang didaftarkan oleh akun anda
         </p>
@@ -30,7 +28,7 @@ export const ForgotModule: FC = (): ReactElement => {
           control={control}
           required
         />
-        <Button width="w-full">Lanjutkan</Button>
+        <Button>Lanjutkan</Button>
       </div>
     </form>
   );
