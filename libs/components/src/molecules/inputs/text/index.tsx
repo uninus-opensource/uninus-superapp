@@ -15,6 +15,7 @@ export const TextField = <T extends FieldValues>({
   textAreaCols = 26,
   inputWidth = 'w-full',
   inputHeight = 'h-auto',
+
   ...props
 }: TTextFieldProps<T>): ReactElement => {
   const [showPassword, setShowPassword] = useState(false);
@@ -100,6 +101,7 @@ export const TextField = <T extends FieldValues>({
             {...{ ...props, ...field }}
             className={`${inputStatus} ${inputVariant} ${inputExtras}`}
             maxLength={props.maxlenght}
+            inputMode={props.inputMode}
           />
         ) : (
           <textarea

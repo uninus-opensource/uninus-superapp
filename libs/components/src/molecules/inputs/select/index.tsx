@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { TSelectProps } from './types';
 import clsx from 'clsx';
 import { AiFillWarning } from 'react-icons/ai';
@@ -56,9 +56,7 @@ export const SelectField = <T extends FieldValues>({
         {props.label}
       </label>
       <select className={selectClassName} {...{ ...props, ...field }}>
-        <option selected disabled>
-          {props.placeholder}
-        </option>
+        <option disabled>{props.placeholder}</option>
         {props?.options?.map((option, idx) => (
           <option key={idx} value={option}>
             {option}

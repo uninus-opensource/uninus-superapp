@@ -121,9 +121,9 @@ const LandingPage: FC = (): ReactElement => {
           closeText="Cancel"
         />
         <div className="flex gap-2 w-auto">
-          <UploadField variant="sm" required />
-          <UploadField variant="md" required />
-          <UploadField variant="lg" required />
+          <UploadField required />
+          <UploadField required />
+          <UploadField required />
         </div>
         <DraggableComponent control={control} name="draggableComponent" />
         <TabJalurSeleksi />
