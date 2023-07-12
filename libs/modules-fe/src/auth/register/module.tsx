@@ -44,7 +44,7 @@ export const RegisterModule: FC = (): ReactElement => {
   return (
     <form
       onSubmit={onSubmit}
-      className="w-full h-auto px-5 lg:px-12 py-5 flex flex-col gap-y-6 lg:gap-y-3"
+      className="w-full h-auto px-5 lg:px-12 py-5 flex flex-col gap-y-6"
     >
       <div className="w-full justify-start flex">
         <div className="flex flex-col justify-end lg:gap-2 py-2">
