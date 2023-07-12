@@ -7,7 +7,7 @@ import DataTable, { TableColumn } from 'react-data-table-component';
 import { MainLayout } from '../layouts';
 
 export const TuitionFeeModule: FC = (): ReactElement => {
-  const columns: TableColumn<TTableSarjana>[] = [
+  const columnsSarjana: TableColumn<TTableSarjana>[] = [
     { name: 'Fakultas', selector: (row) => row.fakultas },
     {
       name: 'Program Studi',
@@ -56,30 +56,32 @@ export const TuitionFeeModule: FC = (): ReactElement => {
           backgrounColor="bg-grayscale-8"
           blur
         />
-        <section className="px-16 py-12 flex flex-col justify-center items-center ">
-          <div className="w-full rounded-lg flex justify-between mb-10 items-center p-6 font-bebasNeue bg-primary-green">
-            <figure className="flex items-center justify-center text-5xl p-6 font-extramedium rounded-lg bg-primary-white text-primary-green">
+        <section className="px-2 lg:px-16 py-12 flex flex-col justify-center items-center ">
+          <div className="w-full rounded-lg flex gap-10 justify-between mb-10 items-center p-2 lg:p-6 font-bebasNeue bg-primary-green">
+            <figure className="flex items-center justify-center text-2xl lg:text-5xl p-2 lg:p-6 font-extramedium rounded-lg bg-primary-white text-primary-green">
               S1
             </figure>
-            <h1 className="w-full flex justify-center uppercase text-2xl xl:text-3xl xl:mr-14 font-extramedium text-primary-white">
+            <h1 className="w-full flex justify-center uppercase text-base lg:text-2xl xl:text-3xl xl:mr-14 font-extramedium text-primary-white">
               satuan dana pendidikan program sarjana
             </h1>
           </div>
 
           <section className="rounded-lg w-full">
             <DataTable
-              columns={columns}
+              columns={columnsSarjana}
               data={dataSarjana}
               customStyles={customStyles}
               striped
+              fixedHeader
+              fixedHeaderScrollHeight="400px"
             />
           </section>
 
-          <div className="w-full  rounded-lg flex justify-between mt-20 mb-10 items-center p-6 font-bebasNeue bg-primary-green">
-            <figure className="flex w-64 items-center justify-center text-4xl p-4  font-extramedium rounded-lg bg-primary-white text-primary-green">
+          <div className="w-full rounded-lg flex justify-between gap-5 mt-20 mb-10 items-center p-2 lg:p-6 font-bebasNeue bg-primary-green">
+            <figure className="flex w-36 lg:w-64 items-center justify-center text-xl lg:text-4xl p-2 lg:p-4  font-extramedium rounded-lg bg-primary-white text-primary-green">
               S2 & S3
             </figure>
-            <h1 className="w-full flex justify-center uppercase text-xl xl:text-2xl  font-extramedium text-primary-white">
+            <h1 className="w-full flex justify-center uppercase text-xs lg:text-xl xl:text-2xl  font-extramedium text-primary-white">
               satuan dana pendidikan program magister dan doktor
             </h1>
           </div>

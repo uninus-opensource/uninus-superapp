@@ -203,7 +203,7 @@ export const LandingModule: FC = (): ReactElement => {
         {/* end jalur seleksi section */}
 
         {/* start program pendidikan section */}
-        <section className="my-32 h-auto lg:w-full w-auto gap-4 lg:px-16 px-8 py-2 flex flex-col">
+        <section className="mt-32 mb-20 h-auto lg:w-full w-auto gap-4 lg:px-16 px-8 py-2 flex flex-col">
           <h1 className="uppercase text-left lg:ml-8 ml-4 w-full text-3xl text-secondary-green-4 font-extramedium ">
             program <span className="text-primary-green">pendidikan</span>
           </h1>
@@ -219,25 +219,22 @@ export const LandingModule: FC = (): ReactElement => {
 
         {/* start tentang uninus */}
 
-        <section className="flex flex-col lg:flex-row h-auto w-full justify-center items-center">
-          <section className="h-auto  gap-4 px-16 py-2  ">
+        <section className="flex flex-col lg:flex-row h-auto w-full gap-14 lg:gap-0 justify-center items-center mb-24">
+          <section className="h-auto gap-4 px-16 py-2">
             {/* Gambar */}
             <figure>
-              <div className="w-18 h-18 rounded-lg bg-primary-green relative top-12 right-7"></div>
-              <figure>
-                <Image
-                  src={'/illustrations/foto-mahasiswa-bareng.png'}
-                  width={400}
-                  height={400}
-                  priority
-                  alt="talent"
-                />
-              </figure>
-              <div className="w-26 h-26 rounded-lg bg-primary-yellow relative bottom-20 right-12 "></div>
+              <Image
+                src={'/illustrations/foto-mahasiswa-bareng-reactangle.png'}
+                width={500}
+                height={500}
+                quality={100}
+                priority
+                alt="talent"
+              />
             </figure>
           </section>
           {/* sesi text */}
-          <section className="flex flex-col lg:w-2/4 w-full px-6 gap-4 xl:gap-8 mb-8">
+          <section className="flex flex-col lg:w-2/4 w-full px-6 gap-4 xl:gap-8">
             <h1 className="uppercase text-primary-green text-3xl font-extramedium ">
               tentang <span className="text-secondary-green-4">uninus</span>
             </h1>
