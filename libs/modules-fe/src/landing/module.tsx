@@ -65,7 +65,7 @@ export const LandingModule: FC = (): ReactElement => {
         </figure>
 
         <Reveal>
-          <section className="lg:mx-24 px-4 lg:w-full md:w-full w-[384px] flex lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
+          <section className="lg:mx-24 px-4 lg:w-full md:w-full w-auto flex lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
             <Image
               src={'/illustrations/gerbang-uninus.png'}
               priority
