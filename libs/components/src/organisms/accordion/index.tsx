@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState, FC, ReactElement } from 'react';
 import { HiChevronDown } from 'react-icons/hi';
 import { AccordionItem } from './type';
@@ -6,7 +6,7 @@ import { AccordionItem } from './type';
 export const AccordionTab: FC<AccordionItem> = ({
   header,
   titles,
-  contents
+  contents,
 }): ReactElement => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
@@ -16,7 +16,7 @@ export const AccordionTab: FC<AccordionItem> = ({
 
   return (
     <div className="w-full">
-      <h1 className='p-2 md:text-3xl lg:text-4xl text-2xl'>{header}</h1>
+      <h1 className="p-2 md:text-3xl lg:text-4xl text-2xl">{header}</h1>
       {titles.map((title, index) => (
         <div key={index}>
           <button
@@ -43,4 +43,3 @@ export const AccordionTab: FC<AccordionItem> = ({
     </div>
   );
 };
-

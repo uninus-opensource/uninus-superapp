@@ -15,7 +15,7 @@ export const Card: FC<TCardProps> = ({
       >
         {iconText ? iconText : icon}
       </figure>
-      <h1 className="lg:text-2xl text-lg font-bebasNeue font-extramedium text-secondary-green-4 uppercase">
+      <h1 className="lg:text-2xl text-md font-bebasNeue font-extramedium text-secondary-green-4 uppercase">
         {cardTitle}
       </h1>
       <p className="text-xs">{children}</p>

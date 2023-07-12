@@ -41,7 +41,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
       >
         jalur seleksi pmb uninus
       </h1>
-      <div className="flex flex-col gap-4 border-2 border-secondary-green-4 rounded-lg h-80 w-full p-5 ">
+      <div className="flex flex-col gap-4 border-2 border-secondary-green-4 rounded-lg lg:h-80 h-auto lg:w-full md:w-full w-[350px] p-5 ">
         <div className="border-2 border-secondary-green-4 rounded-lg h-auto px-8 p-2 flex justify-between">
           {buttonList.map((list, idx) => (
             <Button
