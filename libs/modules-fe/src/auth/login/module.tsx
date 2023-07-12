@@ -34,16 +34,13 @@ export const LoginModule: FC = (): ReactElement => {
   return (
     <form
       onSubmit={onSubmit}
-      className="w-full h-full px-12 py-4 flex flex-col gap-y-3"
+      className="w-full h-auto px-5 lg:px-12 py-4 lg:py-6 flex flex-col gap-y-4"
     >
-      <div className="flex">
-        <div className="flex flex-col  justify-end">
-          <h1 className="font-bold text-[1.5rem]">Login</h1>
-          <div className="border-2 border-primary-green w-36"></div>
-          <p className="text-grayscale-5 w-[60vw] text-[12px] lg:text-[13px] lg:w-[30vw]">
-            Selamat Datang Calon Mahasiswa Uninus
-          </p>
-        </div>
+      <div className="flex flex-col gap-2">
+        <h1 className="font-bold text-base lg:text-[1.5rem]">Login</h1>
+        <p className="text-grayscale-5 w-[60vw] text-xs lg:text-sm lg:w-[30vw]">
+          Selamat Datang Calon Mahasiswa Uninus
+        </p>
       </div>
       <div className="flex flex-col w-full justify-center items-center">
         <div className="justify-center w-full flex flex-col">
@@ -71,8 +68,8 @@ export const LoginModule: FC = (): ReactElement => {
           />
         </div>
       </div>
-      <div className="flex flex-col gap-3">
-        <div className="flex justify-evenly md:justify-around lg:justify-between">
+      <div className="flex flex-col gap-6">
+        <div className="flex justify-between md:justify-around lg:justify-between">
           <CheckBox
             name="aggreement"
             control={control}
