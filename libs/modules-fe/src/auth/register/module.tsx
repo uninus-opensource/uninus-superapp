@@ -37,23 +37,23 @@ export const RegisterModule: FC = (): ReactElement => {
       },
       {
         onSuccess: () => router.push(`/auth/verif-email?email=${data?.email}`),
-      }
+      },
     );
   });
 
   return (
     <form
       onSubmit={onSubmit}
-      className="w-full h-auto px-12 py-4 flex flex-col gap-y-3 items-between"
+      className="w-full h-auto px-5 lg:px-12 py-5 flex flex-col gap-y-6 lg:gap-y-3"
     >
       <div className="w-full justify-start flex">
-        <div className="flex flex-col justify-end py-2">
-          <h1 className="font-bold text-[1.5rem]">Registrasi</h1>
-          <div className="border-2 border-primary-green w-36"></div>
+        <div className="flex flex-col justify-end lg:gap-2 py-2">
+          <h1 className="font-bold text-base lg:text-[1.5rem]">Registrasi</h1>
+          <div className="border-2 border-primary-green w-24 lg:w-36"></div>
         </div>
       </div>
       <div className="h-auto w-full">
-        <div className="grid gap-x-4 w-full grid-cols-2 grid-rows-2">
+        <div className="grid gap-x-4 w-full grid-cols-1 md:grid-cols-2 grid-rows-2">
           <TextField
             name="fullname"
             type="text"
