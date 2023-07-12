@@ -30,23 +30,23 @@ export const VerifEmailModule: FC = (): ReactElement => {
             setOtp('');
             setIsError(true);
           },
-        },
+        }
       );
     }
   }, [email, otp, push, verify]);
   const inputStyle = clsx(
-    '!w-full text-black focus:outline-none outline-none placeholder:text-black placeholder:p-2 !h-[64px] text-[28px] p-2 rounded-lg w-full [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none  shadow-sm ',
+    '!w-full text-black border-2 border-grayscale-3 focus:outline-none outline-none placeholder:text-black placeholder:p-2 lg:!h-[64px] h-10 text-[28px] p-2 rounded-lg shadow-sm',
     {
-      'border border-secodary-green-1 bg-sky-2': !isError,
-      'border border-red-4 bg-red-1': isError,
-    },
+      'border border-secodary-green-1 ': !isError,
+      'border border-red-4 ': isError,
+    }
   );
-  const containerStyle = clsx('flex gap-x-3 justify-center ');
+  const containerStyle = clsx('flex lg:gap-x-3 gap-x-1 justify-center w-full ');
 
   return (
-    <form className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col justify-center items-center">
+    <form className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col  justify-center items-center">
       <div className="w-full flex flex-col gap-y-6 ">
-        <h1 className="text-2xl font-bold text-primary-black font-bebasNeue w-50%">
+        <h1 className="text-3xl font-bold text-primary-black font-bebasNeue w-60%">
           LUPA PASSWORD ?
         </h1>
 
