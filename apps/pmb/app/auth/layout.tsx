@@ -58,7 +58,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
           />
         </figure>
       </header>
-      <section className="h-fit flex justify-center items-center">
+      <section className="h-fit flex justify-center items-center lg:my-0 my-auto">
         <div className="lg:w-1/4 hidden lg:h-full lg:flex lg:justify-center lg:items-center bg-grayscale-9 rounded-l-lg">
           <Image
             src="/illustrations/talent-focus.png"
