@@ -204,7 +204,7 @@ export const LandingModule: FC = (): ReactElement => {
 
         {/* start program pendidikan section */}
         <section className="my-32 h-auto lg:w-full w-auto gap-4 lg:px-16 px-8 py-2 flex flex-col">
-          <h1 className="uppercase text-center text-3xl text-secondary-green-4 font-extramedium ">
+          <h1 className="uppercase text-left lg:ml-8 ml-4 w-full text-3xl text-secondary-green-4 font-extramedium ">
             program <span className="text-primary-green">pendidikan</span>
           </h1>
           <section className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 xl:gap-8 px-8 mt-10">
@@ -238,7 +238,7 @@ export const LandingModule: FC = (): ReactElement => {
           </section>
           {/* sesi text */}
           <section className="flex flex-col lg:w-2/4 w-full px-6 gap-4 xl:gap-8 mb-8">
-            <h1 className="uppercase text-primary-green text-3xl ">
+            <h1 className="uppercase text-primary-green text-3xl font-extramedium ">
               tentang <span className="text-secondary-green-4">uninus</span>
             </h1>
             <div className="flex flex-col gap-4 font-medium">
