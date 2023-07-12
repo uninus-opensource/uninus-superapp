@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { ReactElement, useCallback, useState } from 'react';
 import { useDropzone, FileWithPath } from 'react-dropzone';
 import Image from 'next/image';

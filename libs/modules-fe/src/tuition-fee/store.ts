@@ -1,4 +1,3 @@
-
 import { TTableMagister, TTableSarjana } from './types';
 
 export const dataSarjana: TTableSarjana[] = [

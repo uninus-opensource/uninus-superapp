@@ -1,2 +1,2 @@
-export * from "./EyeOpen";
-export * from "./EyeSlash"
+export * from './EyeOpen';
+export * from './EyeSlash';
