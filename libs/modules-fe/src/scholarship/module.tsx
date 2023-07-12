@@ -29,7 +29,7 @@ export const ModulBeasiswa: FC = (): ReactElement => {
       <section className="w-full min-h-screen">
         <HeroBanner
           heroImages="/illustrations/foto-mahasiswa-bareng-2.jpg"
-          heroTitleBottomRight="BEASISWA"
+          heroTitleBottomLeft="BEASISWA"
           backgrounColor="bg-grayscale-8"
           blur
         />

@@ -52,7 +52,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
       <main className="w-full bg-slate-2">
         <HeroBanner
           heroImages="/illustrations/foto-mahasiswa-bareng-2.jpg"
-          heroTitleBottomRight="RINCIAN BIAYA KULIAH"
+          heroTitleBottomLeft="RINCIAN BIAYA KULIAH"
           backgrounColor="bg-grayscale-8"
           blur
         />
