@@ -34,7 +34,7 @@ export const LoginModule: FC = (): ReactElement => {
   return (
     <form
       onSubmit={onSubmit}
-      className="w-full h-auto px-5 lg:px-12 py-4 lg:py-6 flex flex-col gap-y-4"
+      className="w-full h-auto px-5 lg:px-12 py-4 lg:py-6 flex flex-col gap-y-2"
     >
       <div className="flex flex-col gap-2">
         <h1 className="font-bold text-base lg:text-[1.5rem]">Login</h1>
@@ -78,7 +78,7 @@ export const LoginModule: FC = (): ReactElement => {
             size="md"
           />
           <Link
-            href="/forgot-password"
+            href="/auth/forgot-password"
             className="text-grayscale-4 hover:text-grayscale-6 duration-300 text-[12px]"
           >
             Lupa password ?
