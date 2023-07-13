@@ -2864,13 +2864,6 @@
   dependencies:
     "@nx/node" "16.5.1"
 
-"@nrwl/react@16.4.0":
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/@nrwl/react/-/react-16.4.0.tgz#e2a60e40dda37cd93e64a915e0830e5008bac5f8"
-  integrity sha512-qDMxBEdYjpHmARIDsz370vqChBLZCsppva59v0wOTNvv6AD2OdgwnGbO72JrsA8xqjFpDjXyaaGQPDLZzxP58A==
-  dependencies:
-    "@nx/react" "16.4.0"
-
 "@nrwl/react@16.5.1":
   version "16.5.1"
   resolved "https://registry.yarnpkg.com/@nrwl/react/-/react-16.5.1.tgz#9c52bf5d2de1d74b1e168ac1813655fdbbb47d60"
@@ -2912,13 +2905,6 @@
   integrity sha512-x+gi/fKdM6uQNIti9exFlm3V5LBP3Y8vOEziO42HdOigyrXa0S0HD2WMpccmp6PclYKhwEDUjKJ39xh5sdh4Ig==
   dependencies:
     nx "16.5.1"
-
-"@nrwl/web@16.4.0":
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/@nrwl/web/-/web-16.4.0.tgz#bd518e1e1d80832ff0d1f32bbd113358f1ab46d6"
-  integrity sha512-Eb4LRlRObMaQlgPkK5qCVzyIxuH+4XyPP+kkwE6WmtO0Wozse0Z5hbZAIj7kzo1f8xr5FbCX7Do6yK2ILSItEA==
-  dependencies:
-    "@nx/web" "16.4.0"
 
 "@nrwl/web@16.5.1":
   version "16.5.1"
@@ -3622,22 +3608,6 @@
   resolved "https://registry.yarnpkg.com/@nx/nx-win32-x64-msvc/-/nx-win32-x64-msvc-16.5.1.tgz#d2f4a1b2bf675bceb6fb16174b836438293f9dca"
   integrity sha512-kUJBLakK7iyA9WfsGGQBVennA4jwf5XIgm0lu35oMOphtZIluvzItMt0EYBmylEROpmpEIhHq0P6J9FA+WH0Rg==
 
-"@nx/react@16.4.0":
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/@nx/react/-/react-16.4.0.tgz#97e9ffff026c9794ef674d28af61961af6846f0f"
-  integrity sha512-R+kNYfFRn2b4UJ4aM6irs/DRVP1T3wSH/DyCUqmjFcQt8SZqQwdqxXmt6RGzMm/Se8nO7RAoV8wcm4dU2GWwSg==
-  dependencies:
-    "@nrwl/react" "16.4.0"
-    "@nx/devkit" "16.4.0"
-    "@nx/js" "16.4.0"
-    "@nx/linter" "16.4.0"
-    "@nx/web" "16.4.0"
-    "@phenomnomnominal/tsquery" "~5.0.1"
-    "@svgr/webpack" "^8.0.1"
-    chalk "^4.1.0"
-    file-loader "^6.2.0"
-    minimatch "3.0.5"
-
 "@nx/react@16.5.1":
   version "16.5.1"
   resolved "https://registry.yarnpkg.com/@nx/react/-/react-16.5.1.tgz#25702851887cca557ed1db04807b5bd3af2ec1c0"
@@ -3653,21 +3623,6 @@
     chalk "^4.1.0"
     file-loader "^6.2.0"
     minimatch "3.0.5"
-
-"@nx/web@16.4.0":
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/@nx/web/-/web-16.4.0.tgz#1d60098e516fe6b5908eeb0664812454d186c669"
-  integrity sha512-CS5wAppKFwX658sf1q4v34PtYiybrZFhue+BHEtmod1V1AdRahypGQYkIZtxd33O8WOpPWX4S5Rv7XWfLdaSTg==
-  dependencies:
-    "@nrwl/web" "16.4.0"
-    "@nx/devkit" "16.4.0"
-    "@nx/js" "16.4.0"
-    chalk "^4.1.0"
-    chokidar "^3.5.1"
-    detect-port "^1.5.1"
-    http-server "^14.1.0"
-    ignore "^5.0.4"
-    tslib "^2.3.0"
 
 "@nx/web@16.5.1":
   version "16.5.1"
