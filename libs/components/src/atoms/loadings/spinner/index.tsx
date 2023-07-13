@@ -5,7 +5,7 @@ export const LoadingSpinner: FC = (): ReactElement => {
     <div role="status">
       <svg
         aria-hidden="true"
-        className="w-20 h-20 mr-2 text-slate-3 animate-spin  fill-primary-green"
+        className="w-10 h-10 md:w-20 md:h-20 mr-2 text-slate-3 animate-spin  fill-primary-green"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
