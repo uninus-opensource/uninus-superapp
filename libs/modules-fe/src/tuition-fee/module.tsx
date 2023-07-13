@@ -114,7 +114,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
 
           <section className="rounded-lg w-full">
             <DataTable
-              columns={columnsMagister}
+              columns={columsTwo}
               data={dataMagister}
               customStyles={customStyles}
               striped
