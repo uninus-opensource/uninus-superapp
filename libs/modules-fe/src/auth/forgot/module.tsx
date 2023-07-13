@@ -4,10 +4,17 @@ import { FC, ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { useForgot } from './hook';
 import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { TVSForgot, VSForgot } from './schema';
 
 export const ForgotModule: FC = (): ReactElement => {
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<TVSForgot>({
     mode: 'all',
+    resolver: zodResolver(VSForgot),
     defaultValues: {
       email: '',
     },
@@ -43,8 +50,10 @@ export const ForgotModule: FC = (): ReactElement => {
           placeholder="Masukan email"
           control={control}
           required
+          status={errors?.email ? 'error' : undefined}
+          message={errors?.email?.message}
         />
-        <Button>Lanjutkan</Button>
+        <Button disabled={!isValid}>Lanjutkan</Button>
       </div>
     </form>
   );
