@@ -1,34 +1,49 @@
 'use client';
-import { ReactElement, FC } from 'react';
-import { HeroBanner } from '@uninus/components';
+import { ReactElement, FC, useState, useEffect, useMemo } from 'react';
+import { HeroBanner, LoadingSpinner } from '@uninus/components';
 import { dataSarjana, dataMagister } from './store';
 import { TTableMagister, TTableSarjana } from './types';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { MainLayout } from '../layouts';
 
 export const TuitionFeeModule: FC = (): ReactElement => {
-  const columnsSarjana: TableColumn<TTableSarjana>[] = [
-    { name: 'Fakultas', selector: (row) => row.fakultas },
-    {
-      name: 'Program Studi',
-      selector: (row) => row.program_studi,
-    },
-    { name: 'UKT/Semester', selector: (row) => row.ukt, sortable: true },
-  ];
+  const [columsOne, setColumsOne] = useState([{}]);
+  const [columsTwo, setColumsTwo] = useState([{}]);
+  const [pending, setPending] = useState<boolean>(true);
 
-  const columnsMagister: TableColumn<TTableMagister>[] = [
-    {
-      name: 'Program Magister(S2) dan Doktor(S3)',
-      selector: (row) => row.program_studi,
-      width: '60%',
-      sortable: true,
-    },
-    { name: 'UKT/Semester', selector: (row) => row.ukt, sortable: true },
-  ];
+  const columnsSarjana: TableColumn<TTableSarjana>[] = useMemo(
+    () => [
+      { name: 'Fakultas', selector: (row) => row.fakultas, minWidth: '280px' },
+      {
+        name: 'Program Studi',
+        selector: (row) => row.program_studi,
+        minWidth: '400px',
+      },
+      { name: 'UKT/Semester', selector: (row) => row.ukt },
+    ],
+    []
+  );
+
+  const columnsMagister: TableColumn<TTableMagister>[] = useMemo(
+    () => [
+      {
+        name: 'Program Magister(S2) dan Doktor(S3)',
+        selector: (row) => row.program_studi,
+        sortable: true,
+        minWidth: '400px',
+      },
+      {
+        name: 'UKT/Semester',
+        selector: (row) => row.ukt,
+      },
+    ],
+    []
+  );
 
   const customStyles = {
     rows: {
       style: {
+        width: '100%',
         minHeight: '38px',
         fontSize: '13px',
         background: '#F1FFF0',
@@ -46,6 +61,15 @@ export const TuitionFeeModule: FC = (): ReactElement => {
       },
     },
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setColumsOne(columnsSarjana);
+      setColumsTwo(columnsMagister);
+      setPending(false);
+    }, 1500);
+    return () => clearTimeout(timeout);
+  }, [columnsSarjana, columnsMagister]);
 
   return (
     <MainLayout>
@@ -68,12 +92,14 @@ export const TuitionFeeModule: FC = (): ReactElement => {
 
           <section className="rounded-lg w-full">
             <DataTable
-              columns={columnsSarjana}
+              columns={columsOne}
               data={dataSarjana}
               customStyles={customStyles}
               striped
               fixedHeader
               fixedHeaderScrollHeight="400px"
+              progressPending={pending}
+              progressComponent={<LoadingSpinner />}
             />
           </section>
 
@@ -88,10 +114,12 @@ export const TuitionFeeModule: FC = (): ReactElement => {
 
           <section className="rounded-lg w-full">
             <DataTable
-              columns={columnsMagister}
+              columns={columsTwo}
               data={dataMagister}
               customStyles={customStyles}
               striped
+              progressPending={pending}
+              progressComponent={<LoadingSpinner />}
             />
           </section>
         </section>
