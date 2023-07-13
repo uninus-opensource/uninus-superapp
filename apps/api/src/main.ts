@@ -21,8 +21,8 @@ async function bootstrap() {
 
   // Swagger config
   const config = new DocumentBuilder()
-    .setTitle('PMB UNINUS API')
-    .setDescription('PMB API description')
+    .setTitle('UNINUS API')
+    .setDescription('API description')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

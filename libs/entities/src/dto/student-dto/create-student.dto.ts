@@ -24,6 +24,7 @@ export class CreateStudentDto {
 
   @ApiProperty({
     example: 'KTP | SIM | KARTU_PELAJAR',
+    description: 'string',
   })
   @IsNotEmpty()
   @IsString()
@@ -240,7 +241,9 @@ export class CreateStudentDto {
   @IsString()
   mother_education!: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Optional',
+  })
   @IsOptional()
   @IsString()
   guardian_education?: string;
@@ -255,7 +258,9 @@ export class CreateStudentDto {
   @IsString()
   mother_occupation!: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Optional',
+  })
   @IsOptional()
   @IsString()
   guardian_occupation?: string;
@@ -270,7 +275,9 @@ export class CreateStudentDto {
   @IsString()
   mother_income!: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Optional',
+  })
   @IsOptional()
   @IsString()
   guardian_income?: string;
