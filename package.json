@@ -110,7 +110,7 @@
     "@types/jest": "^29.4.0",
     "@types/node": "20.4.1",
     "@types/react": "18.2.14",
-    "@types/react-dom": "18.2.6",
+    "@types/react-dom": "18.2.7",
     "@types/react-table": "^7.7.14",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.61.0",
