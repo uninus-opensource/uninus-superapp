@@ -2,18 +2,43 @@
 import { Button, TextField } from '@uninus/components';
 import { FC, ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
+import { useReset } from './hook';
+import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { TVSReset, VSReset } from './schema';
 
 export const ResetModule: FC = (): ReactElement => {
-  const { control, handleSubmit } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<TVSReset>({
+    mode: 'all',
+    resolver: zodResolver(VSReset),
     defaultValues: {
       email: '',
       password: '',
-      confirmPassword: '',
-      aggreement: false,
+      cpassword: '',
     },
   });
+
+  const { mutate: reset } = useReset();
+  const router = useRouter();
+
+  const onSubmit = handleSubmit((data) => {
+    try {
+      reset(data);
+      router.push('/auth/login');
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
   return (
-    <form className="w-full h-full p-12 lg:px-12 lg:py-6 flex flex-col justify-center items-center">
+    <form
+      className="w-full h-full p-12 lg:px-12 lg:py-6 flex flex-col justify-center items-center"
+      onSubmit={onSubmit}
+    >
       <div className="w-full flex flex-col gap-y-6 ">
         <h1 className="text-2xl font-bold text-primary-black font-bebasNeue w-50%">
           LUPA PASSWORD ?
@@ -29,6 +54,8 @@ export const ResetModule: FC = (): ReactElement => {
             placeholder="Masukan email"
             control={control}
             required
+            status={errors?.email ? 'error' : undefined}
+            message={errors?.email?.message}
           />
           <TextField
             name="password"
@@ -37,18 +64,24 @@ export const ResetModule: FC = (): ReactElement => {
             placeholder="Masukan password"
             control={control}
             required
+            status={errors?.password ? 'error' : undefined}
+            message={errors?.password?.message}
           />
           <TextField
-            name="confirmPassword"
+            name="cpassword"
             type="password"
             variant="sm"
             placeholder="Masukan ulang password"
             control={control}
             required
+            status={errors?.cpassword ? 'error' : undefined}
+            message={errors?.cpassword?.message}
           />
         </div>
 
-        <Button width="w-full">Atur Ulang Password</Button>
+        <Button width="w-full" disabled={!isValid}>
+          Atur Ulang Password
+        </Button>
       </div>
     </form>
   );

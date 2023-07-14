@@ -8,7 +8,7 @@ import {
 
 export class newPasswordDto {
   @ApiProperty({
-    example: 'dida@gmail.com',
+    example: '',
   })
   @IsEmail()
   @IsNotEmpty()
@@ -16,12 +16,12 @@ export class newPasswordDto {
   public email!: string;
 
   @ApiProperty({
-    example: 'Didadejan123',
+    example: 'min length 6, upper case 1, numbers 1',
   })
   @IsString()
   @IsStrongPassword(
     {
-      minLength: 8,
+      minLength: 6,
       minLowercase: 1,
       minUppercase: 1,
       minNumbers: 1,

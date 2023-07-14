@@ -19,7 +19,12 @@ import {
   UpdateStudentDto,
 } from '@uninus/entities';
 import { StudentService } from '@uninus/services';
-import { ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+  ApiOperation,
+} from '@nestjs/swagger';
 
 @Controller('student')
 @ApiTags('Student')
@@ -27,6 +32,7 @@ export class StudentController {
   constructor(private readonly appService: StudentService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create Data Student' })
   @ApiResponse({
     status: 400,
     description: 'User tidak ditemukan',
@@ -46,6 +52,7 @@ export class StudentController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get Data Student' })
   @ApiResponse({
     status: 400,
     description: 'Data tidak ditemukan',
@@ -60,6 +67,7 @@ export class StudentController {
   }
 
   @Put()
+  @ApiOperation({ summary: 'Update Data Student' })
   @ApiResponse({
     status: 400,
     description: 'User tidak ditemukan',
@@ -79,6 +87,7 @@ export class StudentController {
   }
 
   @Delete('/:id')
+  @ApiOperation({ summary: 'Delete By Id' })
   @ApiResponse({
     status: 400,
     description: 'User tidak ditemukan',

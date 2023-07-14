@@ -9,18 +9,18 @@ import {
 
 export class RegisterDto {
   @ApiProperty({
-    example: 'dida@gmail.com',
+    example: '',
   })
   @IsEmail()
   @IsNotEmpty()
   public email!: string;
 
   @ApiProperty({
-    example: 'Didadejan123',
+    example: 'min length 6, upper case 1, numbers 1',
   })
   @IsString()
   @IsStrongPassword({
-    minLength: 8,
+    minLength: 6,
     minLowercase: 1,
     minUppercase: 1,
     minNumbers: 1,
@@ -29,14 +29,14 @@ export class RegisterDto {
   public password!: string;
 
   @ApiProperty({
-    example: 'Dida Dejan Golfantara',
+    example: '',
   })
   @IsString()
   @IsNotEmpty()
   public fullname!: string;
 
   @ApiProperty({
-    example: '41037006211190',
+    example: '',
   })
   @IsString()
   @IsNotEmpty()

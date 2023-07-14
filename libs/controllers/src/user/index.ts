@@ -17,7 +17,7 @@ import {
   UpdateUserDto,
 } from '@uninus/entities';
 import { UserService } from '@uninus/services';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
 
 @Controller('user')
 @ApiTags('User')
@@ -25,6 +25,7 @@ export class UserController {
   constructor(private readonly appService: UserService) {}
 
   @Get('/me')
+  @ApiOperation({ summary: 'Get Data' })
   @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
   @UseGuards(JwtAuthGuard)
   getUser(@Request() reqToken: TReqToken) {
@@ -33,6 +34,7 @@ export class UserController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Pagination List User' })
   getAllData(
     @Query('page') page: number,
     @Query('per_page') perPage: number,
@@ -66,12 +68,14 @@ export class UserController {
   }
 
   @Get('/:id')
+  @ApiOperation({ summary: 'Get Data User By Id' })
   @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
   getDataById(@Param('id') id: string) {
     return this.appService.getUser(id);
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create Data user' })
   @ApiResponse({
     status: 400,
     description: 'Email sudah digunakan, NIK sudah digunakan',
@@ -81,6 +85,7 @@ export class UserController {
   }
 
   @Delete('/:id')
+  @ApiOperation({ summary: 'Delete By Id' })
   @ApiResponse({ status: 201, description: 'Berhasil delete user' })
   @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
   deleteData(@Param('id') id: string) {
@@ -88,6 +93,7 @@ export class UserController {
   }
 
   @Put('/:id')
+  @ApiOperation({ summary: 'Edit User By Id' })
   @ApiResponse({ status: 201, description: 'Berhasil update user' })
   @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
   updateData(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

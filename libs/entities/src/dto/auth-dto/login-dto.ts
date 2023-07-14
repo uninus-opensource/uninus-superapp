@@ -8,7 +8,7 @@ import {
 
 export class LoginDto {
   @ApiProperty({
-    example: 'Dida123@gmail.com',
+    example: '',
   })
   @IsEmail()
   @IsNotEmpty()
@@ -16,7 +16,7 @@ export class LoginDto {
   public email!: string;
 
   @ApiProperty({
-    example: 'Didadejan123',
+    example: 'min length 6, upper case 1, numbers 1',
   })
   @IsString()
   @IsStrongPassword({
