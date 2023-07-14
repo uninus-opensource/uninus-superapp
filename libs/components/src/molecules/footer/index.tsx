@@ -66,7 +66,7 @@ export const Footer: FC = (): ReactElement => {
                       </div>
 
                       <div className="md:w-[25vw]">
-                        <h3 className="font-bebasNeue font-bold text-[10px] md:text-[15px] text-primary-white">
+                        <h3 className="font-bold text-[10px] md:text-[15px] text-primary-white">
                           SITUS RESMI UNINUS
                         </h3>
                       </div>
@@ -94,7 +94,7 @@ export const Footer: FC = (): ReactElement => {
                     </div>
 
                     <div className="md:w-[20vw]">
-                      <h3 className="font-bebasNeue font-bold text-[10px] md:text-[15px] text-primary-white">
+                      <h3 className="font-bold text-[10px] md:text-[15px] text-primary-white">
                         UNDUH BROSUR
                       </h3>
                     </div>
@@ -121,7 +121,7 @@ export const Footer: FC = (): ReactElement => {
                       </div>
 
                       <div className="md:w-[20vw]">
-                        <h3 className="font-bebasNeue font-bold text-[10px] md:text-[15px] text-primary-white">
+                        <h3 className="font-bold text-[10px] md:text-[15px] text-primary-white">
                           LOKASI KAMPUS
                         </h3>
                       </div>
@@ -146,7 +146,7 @@ export const Footer: FC = (): ReactElement => {
                       </div>
 
                       <div className="md:w-[20vw]">
-                        <h3 className="font-bebasNeue font-bold text-[10px] md:text-[15px] text-primary-white">
+                        <h3 className="font-bold text-[10px] md:text-[15px] text-primary-white">
                           HUBUNGI KAMI
                         </h3>
                       </div>
