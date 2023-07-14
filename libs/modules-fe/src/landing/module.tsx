@@ -46,7 +46,7 @@ export const LandingModule: FC = (): ReactElement => {
       <main className="w-full min-h-screen overflow-x-hidden bg-slate-2">
         <HeroBanner
           subTitle={
-            <p className="tracking-tighter">
+            <p>
               Get Your Future with{' '}
               <span className="text-primary-yellow">UNINUS</span>
             </p>
@@ -65,7 +65,7 @@ export const LandingModule: FC = (): ReactElement => {
         </figure>
 
         <Reveal>
-          <section className="lg:mx-24 px-4 lg:w-full md:w-full w-auto flex lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
+          <section className="xl:px-24 mx-auto px-4 lg:w-full md:w-full w-auto flex 2xl:justify-center xl:justify-evenly lg:justify-around lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
             <Image
               src={'/illustrations/gerbang-uninus.png'}
               priority
@@ -75,8 +75,8 @@ export const LandingModule: FC = (): ReactElement => {
               height={400}
               className="rounded-lg bg-primary-white "
             />
-            <div className="flex flex-col items-start lg:w-7/12 w-full px-2 leading-normal font-bebasNeue font-semibold lg:pl-6">
-              <h1 className="lg:text-4xl text-3xl text-left font-bebasNeue font-semibold text-secondary-green-4 mt-6">
+            <div className="flex flex-col items-start lg:w-7/12 w-full px-2 leading-normal font-semibold lg:pl-6">
+              <h1 className="lg:text-4xl text-3xl text-left font-semibold text-secondary-green-4 mt-6">
                 Selamat Datang Calon
                 <br />
                 Mahasiswa/Mahasiswi{' '}
@@ -95,21 +95,21 @@ export const LandingModule: FC = (): ReactElement => {
                 kerjasama kita dan membantu Anda mencapai impian Anda.
               </p>
             </div>
-            <figure className="absolute lg:flex hidden z-50 mt-[300px] pt-10 right-0">
-              <HalfEllipseYellow />
-            </figure>
           </section>
         </Reveal>
-
+        <figure className="absolute lg:flex hidden z-30 mt-16 right-0">
+          <HalfEllipseYellow />
+        </figure>
         <figure className="absolute right-0 lg:flex hidden mt-0.5">
           <HalfEllipseGreen />
         </figure>
 
         <section className="mt-40 h-auto w-full gap-4 my-16 lg:px-16 px-4 py-2 flex flex-col items-center ">
-          <h1 className="p-5 uppercase font-bebasNeue text-3xl font-extramedium text-secondary-green-4">
-            Kenapa harus kuliah di uninus?
+          <h1 className="p-5 text-2xl text-center lg:text-4xl text-secondary-green-4 font-bold">
+            Kenapa Harus Kuliah di{' '}
+            <span className="text-primary-yellow">UNINUS?</span>
           </h1>
-          <section className="grid lg:grid-cols-3 grid-cols-2 lg:gap-10 gap-4 xl:gap-16">
+          <section className="grid grid-cols-2 lg:grid-cols-3  lg:gap-10 gap-4 xl:gap-16">
             {/* Card 1 */}
             <Card icon={<AiFillStar />} cardTitle="Kampus pilihan">
               <span className="text-secondary-green-4 font-extramedium">
@@ -207,7 +207,7 @@ export const LandingModule: FC = (): ReactElement => {
           <h1 className="uppercase text-left lg:ml-8 ml-4 w-full text-3xl text-secondary-green-4 font-extramedium ">
             program <span className="text-primary-green">pendidikan</span>
           </h1>
-          <section className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 xl:gap-8 px-8 mt-10">
+          <section className="grid grid-cols-1 justify-center md:grid-cols-2 lg:grid-cols-3 items-center gap-10 xl:flex xl:justify-center xl:gap-8 px-8 mt-10">
             {programPendidikanList.map((list, idx) => (
               <Card key={idx} iconText={list.iconText} cardTitle={list.title}>
                 {list.item}
@@ -268,3 +268,6 @@ export const LandingModule: FC = (): ReactElement => {
     </MainLayout>
   );
 };
+function componentDidMount() {
+  throw new Error('Function not implemented.');
+}

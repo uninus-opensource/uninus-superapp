@@ -46,9 +46,6 @@ module.exports = {
         footerHeight: '360px',
         bannerLg: '520px',
       },
-      fontFamily: {
-        bebasNeue: ['Bebas Neue', 'sans-serif'],
-      },
       fontWeight: {
         extramedium: '550',
       },

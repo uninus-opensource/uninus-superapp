@@ -3,7 +3,7 @@ import { FC, ReactElement, Fragment, useState } from 'react';
 import Image from 'next/image';
 import NeoUninusIcon from '../../atoms/illustrations/neouninus/Neo-Uninus.png';
 import { NavbarList } from './type';
-import { Button, HamburgerIcon } from '../../atoms';
+import { Button, HamburgerIcon, XIcon } from '../../atoms';
 import { Sidebar } from '../../molecules';
 
 export const Navbar: FC = (): ReactElement => {
@@ -33,13 +33,14 @@ export const Navbar: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      <header className="z-50 px-8 lg:px-14 flex justify-between items-center h-[100px] lg:h-navbarlg text-grayscale-1 w-full font-normal bg-primary-green fixed top-0 leading-normal">
+      <header className="z-50 px-8 lg:px-14 flex justify-between items-center h-[100px] lg:h-navbarlg text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold">
         <figure>
           <Image
             src={NeoUninusIcon}
             alt="logo-uninus"
             priority
             className="w-44 sm:w-56 lg:w-52"
+            quality={100}
           />
         </figure>
         <nav>
@@ -50,7 +51,7 @@ export const Navbar: FC = (): ReactElement => {
                 <li key={idx}>
                   <Button
                     variant="text-icon"
-                    styling="font-bebasNeue font-semibold text-sm"
+                    styling="text-sm"
                     href={nav.link}
                     uppercase
                   >
@@ -66,7 +67,7 @@ export const Navbar: FC = (): ReactElement => {
             <Button
               href="/auth/register"
               variant="custom"
-              styling="bg-grayscale-1 text-secondary-green-4 font-semibold"
+              styling="bg-grayscale-1 text-secondary-green-4"
               height="h-9"
             >
               Pendaftaran PMB
@@ -74,11 +75,11 @@ export const Navbar: FC = (): ReactElement => {
           </div>
           <div className="block lg:hidden">
             <Button variant="text-icon" onClick={toggle}>
-              <HamburgerIcon
-                className={`fill-primary-white duration-200 ${
-                  isOpen ? 'rotate-90' : ''
-                }`}
-              />
+              {isOpen ? (
+                <XIcon />
+              ) : (
+                <HamburgerIcon className={`fill-primary-white duration-200`} />
+              )}
             </Button>
           </div>
         </section>

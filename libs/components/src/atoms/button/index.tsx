@@ -14,6 +14,14 @@ export const Button: FC<IButtonProps> = ({
   styling = '',
   ...props
 }): ReactElement => {
+  const scroll = () => {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
   const buttonSize = clsx(
     `${styling} text-sm ${width} ${height} ${uppercase ? 'uppercase' : ''}`,
     {
@@ -24,7 +32,7 @@ export const Button: FC<IButtonProps> = ({
   );
 
   const buttonVariant = clsx(
-    'font-medium flex items-center justify-center duration-200 rounded-lg disabled:bg-disable-state disabled:text-grayscale-4 disabled:cursor-not-allowed',
+    'font-black flex items-center justify-center duration-200 rounded-lg disabled:bg-disable-state disabled:text-grayscale-4 disabled:cursor-not-allowed',
     {
       'bg-primary-green text-primary-white shadow-sm shadow-grayscale-6  hover:bg-secondary-green-1 focus:bg-secondary-green-1 active:shadow-none active:scale-95 ':
         variant === 'elevated',
@@ -34,7 +42,7 @@ export const Button: FC<IButtonProps> = ({
         variant === 'filled-tonal',
       'text-primary-white border-2 border-secondary-green-4':
         variant === 'outlined',
-      'text-sceondary-green-4 hover:bg-secondary-sky-1 focus:bg-secondary-sky-2 active:bg-secondary-sky-2 ':
+      'text-sceondary-green-4 hover:bg-secondary-sky-1 active:bg-secondary-sky-2 ':
         variant === 'text-icon',
       'fixed bottom-4 right-4 bg-secondary-green-4 text-primary-white hover:bg-secondary-green-5 focus:bg-secondary-green-5 ':
         variant === 'float-bottom-right',
@@ -47,7 +55,7 @@ export const Button: FC<IButtonProps> = ({
   const className = [...buttonVariant, ...buttonSize].join('');
 
   return props?.href ? (
-    <Link role="link" href={`${props?.href}`}>
+    <Link role="link" href={`${props?.href}`} onClick={scroll}>
       <button {...props} className={className}>
         {loading ? <LoadingSpinner /> : props.children}
       </button>

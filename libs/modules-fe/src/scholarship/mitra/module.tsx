@@ -69,7 +69,13 @@ export const ModuleMitra: FC = (): ReactElement => {
                 <p>1 Januari - 31 Maret 2023</p>
               </div>
               <div className="flex w-full lg:justify-start justify-center">
-                <Button variant="elevated" size="sm" width="w-48" height="h-12">
+                <Button
+                  variant="elevated"
+                  size="sm"
+                  width="w-48"
+                  height="h-12"
+                  href="/auth/register"
+                >
                   Daftar
                 </Button>
               </div>

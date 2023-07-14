@@ -35,7 +35,7 @@ export const SideBar: FC<TSideBarProps> = ({
       {/* Desktop */}
       <div className="min-h-screen lg:relative fixed z-[99999]">
         <aside
-          className={` sm:hidden h-full top-0 left-0 flex z-50 lg:relative transition-transform -translate-x-full lg:sm:translate-x-0 w-64 md:flex  bg-primary-green py-10 font-bebasNeue`}
+          className={` sm:hidden h-full top-0 left-0 flex z-50 lg:relative transition-transform -translate-x-full lg:sm:translate-x-0 w-64 md:flex  bg-primary-green py-10`}
         >
           <section className={` w-full flex flex-col items-center gap-y-6`}>
             <div className="flex flex-col gap-y-4 items-center">
@@ -109,7 +109,7 @@ export const SideBar: FC<TSideBarProps> = ({
 
         {onToogle && (
           <motion.aside
-            className={` h-full top-0 w-60 left-0 absolute z-50 lg:relative duration-75  transition-transform lg:sm:translate-x-0 bg-primary-green py-10 font-bebasNeue`}
+            className={` h-full top-0 w-60 left-0 absolute z-50 lg:relative duration-75  transition-transform lg:sm:translate-x-0 bg-primary-green py-10`}
             aria-label="Sidebar"
             initial={
               onToogle
