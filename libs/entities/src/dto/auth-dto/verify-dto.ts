@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class verifyOtpDto {
   @ApiProperty({
-    example: 'dida123@gmail.com',
+    example: '',
   })
   @IsEmail()
   @IsNotEmpty()
@@ -11,7 +11,7 @@ export class verifyOtpDto {
   public email!: string;
 
   @ApiProperty({
-    example: '123456',
+    example: 'length 6',
   })
   @IsNotEmpty()
   @IsString()

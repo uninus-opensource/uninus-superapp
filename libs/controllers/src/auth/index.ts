@@ -18,7 +18,7 @@ import {
   verifyOtpDto,
 } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -27,6 +27,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('register')
+  @ApiOperation({ summary: 'Created Data' })
   @ApiResponse({
     status: 201,
     description: 'Akun Berhasil dibuat!, check email untuk verifikasi',
@@ -39,6 +40,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
+  @ApiOperation({ summary: 'Login' })
   @ApiResponse({
     status: 201,
     description: 'Berhasil Login',
@@ -51,6 +53,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('logout')
+  @ApiOperation({ summary: 'Logout' })
   @ApiResponse({ status: 201, description: 'Berhasil logout' })
   @ApiResponse({ status: 401, description: 'Gagal logout' })
   async logout(@Body() refreshDto: LogoutDto) {
@@ -59,11 +62,13 @@ export class AuthController {
 
   @UseGuards(RtGuard)
   @Post('refresh')
+  @ApiOperation({ summary: 'Refresh Token' })
   async refresh(@Request() reqToken: TReqToken) {
     return this.appService.refreshToken(reqToken);
   }
 
   @Post('verify')
+  @ApiOperation({ summary: 'Verify OTP' })
   @ApiResponse({ status: 201, description: 'Berhasil verifikasi OTP' })
   @ApiResponse({ status: 400, description: 'Gagal verifikasi OTP' })
   @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
@@ -72,6 +77,7 @@ export class AuthController {
   }
 
   @Post('forgot-password')
+  @ApiOperation({ summary: 'Forgot Password' })
   @ApiResponse({ status: 201, description: 'Berhasil kirim OTP' })
   @ApiResponse({
     status: 400,
@@ -82,6 +88,7 @@ export class AuthController {
   }
 
   @Post('reset-password')
+  @ApiOperation({ summary: 'Reset Password' })
   @ApiResponse({ status: 201, description: 'Berhasil mengganti password' })
   @ApiResponse({ status: 400, description: 'Gagal mengganti password' })
   async resetPassword(@Body() newPasswordDto: newPasswordDto) {
