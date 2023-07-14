@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren, ReactElement } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   return (
@@ -7,15 +8,17 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       <header className="w-full flex justify-between h-auto px-4 lg:px-8 mb-[7vh] sm:mb-[15vh] lg:-mb-2 ">
         <figure className="flex w-full gap-8 h-auto items-center ">
           <figure className="flex w-60 lg:w-56 h-auto justify-between items-center">
-            <Image
-              src={'/illustrations/neo-uninus.svg'}
-              width={200}
-              height={200}
-              priority
-              quality={100}
-              alt={'neo-uninus'}
-              className="w-32 sm:w-48"
-            />
+            <Link href="/">
+              <Image
+                src={'/illustrations/neo-uninus.svg'}
+                width={200}
+                height={200}
+                priority
+                quality={100}
+                alt={'neo-uninus'}
+                className="w-32 sm:w-48"
+              />
+            </Link>
             <div className="w-[1px] hidden sm:block h-16 text bg-primary-white"></div>
           </figure>
           <figure className="flex w-64 lg:w-60 justify-between items-center">

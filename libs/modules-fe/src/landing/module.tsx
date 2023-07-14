@@ -65,7 +65,7 @@ export const LandingModule: FC = (): ReactElement => {
         </figure>
 
         <Reveal>
-          <section className="lg:mx-24 px-4 lg:w-full md:w-full w-auto flex lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
+          <section className="xl:px-24 mx-auto px-4 lg:w-full md:w-full w-auto flex 2xl:justify-center xl:justify-evenly lg:justify-around lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
             <Image
               src={'/illustrations/gerbang-uninus.png'}
               priority
@@ -95,12 +95,11 @@ export const LandingModule: FC = (): ReactElement => {
                 kerjasama kita dan membantu Anda mencapai impian Anda.
               </p>
             </div>
-            <figure className="absolute lg:flex hidden z-50 mt-[300px] pt-10 right-0">
-              <HalfEllipseYellow />
-            </figure>
           </section>
         </Reveal>
-
+        <figure className="absolute lg:flex hidden z-30 mt-16 right-0">
+          <HalfEllipseYellow />
+        </figure>
         <figure className="absolute right-0 lg:flex hidden mt-0.5">
           <HalfEllipseGreen />
         </figure>
@@ -109,7 +108,7 @@ export const LandingModule: FC = (): ReactElement => {
           <h1 className="p-5 uppercase font-bebasNeue text-3xl font-extramedium text-secondary-green-4">
             Kenapa harus kuliah di uninus?
           </h1>
-          <section className="grid lg:grid-cols-3 grid-cols-2 lg:gap-10 gap-4 xl:gap-16">
+          <section className="grid lg:grid-cols-3 grid-cols-1 sm:grid-cols-2 lg:gap-10 gap-4 xl:gap-16">
             {/* Card 1 */}
             <Card icon={<AiFillStar />} cardTitle="Kampus pilihan">
               <span className="text-secondary-green-4 font-extramedium">
@@ -207,7 +206,7 @@ export const LandingModule: FC = (): ReactElement => {
           <h1 className="uppercase text-left lg:ml-8 ml-4 w-full text-3xl text-secondary-green-4 font-extramedium ">
             program <span className="text-primary-green">pendidikan</span>
           </h1>
-          <section className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 xl:gap-8 px-8 mt-10">
+          <section className="flex flex-col lg:flex-row justify-center items-center gap-10 xl:gap-8 px-8 mt-10">
             {programPendidikanList.map((list, idx) => (
               <Card key={idx} iconText={list.iconText} cardTitle={list.title}>
                 {list.item}

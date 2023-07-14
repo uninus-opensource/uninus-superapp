@@ -19,7 +19,7 @@ export default function RootLayout({
         <AuthProvider>
           <QueryProvider>
             <RecoilProvider>
-              {children}
+              <div>{children}</div>
               <div id="modal" />
             </RecoilProvider>
           </QueryProvider>
