@@ -27,7 +27,7 @@ export const VSReset = z
       }),
   })
   .refine((data) => data.password === data.cpassword, {
-    message: "Passwords don't match",
+    message: 'Passwords tidak sama',
     path: ['cpassword'],
   });
 
