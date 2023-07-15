@@ -6,3 +6,7 @@ export type TPayloadVerify = {
 export type TVerifyResponse = {
   message: string;
 };
+
+export type TNewOtpRequest = {
+  email: string;
+};

@@ -1,8 +1,8 @@
 'use client';
-import { Button } from '@uninus/components';
-import { FC, ReactElement, useState, useEffect } from 'react';
+
+import { FC, ReactElement, useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { useVerify } from './hook';
+import { useVerify, useNewOtpRequest } from './hook';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import OtpInput from 'react-otp-input';
@@ -11,9 +11,18 @@ export const VerifEmailModule: FC = (): ReactElement => {
   const searchParams = useSearchParams();
   const [isError, setIsError] = useState(false);
   const { mutate: verify } = useVerify();
+  const { mutate: request } = useNewOtpRequest();
   const email = searchParams.get('email') || '';
   const [otp, setOtp] = useState<string>('');
   const { push } = useRouter();
+  const [timer, setTimer] = useState(120);
+  const intervalRef = useRef<any>();
+
+  const countDownTimer = () => setTimer((prev) => prev - 1);
+  useEffect(() => {
+    intervalRef.current = setInterval(countDownTimer, 1000);
+    return () => clearInterval(intervalRef.current);
+  }, []);
 
   useEffect(() => {
     if (otp.length === 6) {
@@ -26,7 +35,7 @@ export const VerifEmailModule: FC = (): ReactElement => {
           onSuccess: () => {
             push('/auth/login');
           },
-          onError: (error) => {
+          onError: () => {
             setOtp('');
             setIsError(true);
           },
@@ -47,7 +56,7 @@ export const VerifEmailModule: FC = (): ReactElement => {
     <form className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col  justify-center items-center">
       <div className="w-full flex flex-col gap-y-6 ">
         <h1 className="text-3xl font-bold text-primary-black font-bebasNeue w-60%">
-          LUPA PASSWORD ?
+          Verifikasi Kode OTP
         </h1>
 
         <p className="text-grayscale-5 lg:text-sm w-60%">
@@ -66,10 +75,29 @@ export const VerifEmailModule: FC = (): ReactElement => {
             inputType="tel"
           />
         </div>
-
-        <Button type="submit" width="w-full">
-          Kirim ulang kode
-        </Button>
+        <div>
+          <small>
+            Belum menerima kode ?{' '}
+            <span>
+              <span className="text-secondary-green-1">
+                {timer < 0 ? (
+                  <span
+                    onClick={() => {
+                      setTimer(120);
+                      request({ email: email });
+                    }}
+                    ref={intervalRef}
+                    className="text-secondary-green-1 hover:underline underline-offset-4 font-semibold cursor-pointer"
+                  >
+                    Kirim Ulang
+                  </span>
+                ) : (
+                  timer
+                )}
+              </span>
+            </span>
+          </small>
+        </div>
       </div>
     </form>
   );
