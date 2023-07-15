@@ -53,10 +53,10 @@ export const ModulBeasiswa: FC = (): ReactElement => {
               <p className="lg:px-16 lg:text-lg text-sm  ">
                 Beasiswa Nusantara adalah sebuah program beasiswa yang
                 ditawarkan oleh Universitas Islam Nusantara untuk membantu
-                mahasiswa berprestasi untuk melanjutkan studi ke jenjang yang
-                lebih tinggi. Beasiswa ini bertujuan untuk memberikan kesempatan
-                bagi mahasiswa untuk mencapai potensinya dan mengembangkan bakat
-                dan minat mereka
+                mahasiswa melanjutkan studi ke jenjang yang lebih tinggi.
+                Beasiswa ini bertujuan untuk memberikan kesempatan bagi
+                mahasiswa untuk mencapai potensinya dan mengembangkan bakat dan
+                minat mereka
               </p>
             </div>
           </div>

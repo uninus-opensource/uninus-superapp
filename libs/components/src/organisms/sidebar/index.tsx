@@ -32,9 +32,9 @@ export const SideBar: FC<TSideBarProps> = ({
   return (
     <>
       {/* Desktop */}
-      <div className="min-h-screen lg:relative fixed z-[99999]">
+      <div className="min-h-full lg:relative fixed z-[99999] bg-sky-3 border border-slate-3 shadow-lg">
         <aside
-          className={` sm:hidden h-full top-0 left-0 flex z-50 lg:relative transition-transform -translate-x-full lg:sm:translate-x-0 w-72 md:flex  bg-primary-white py-10`}
+          className={` sm:hidden h-full top-0 left-0 flex z-50 lg:relative transition-transform -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex  bg-primary-white py-10`}
         >
           <section className={` w-full flex flex-col items-center gap-y-6`}>
             <h1 className="text-secondary-green-4 text-lg font-semibold">

@@ -13,17 +13,13 @@ export const DashboardLayout: FC<PropsWithChildren> = ({
     });
   };
   return (
-    <html lang="en">
-      <body>
-        <main className="flex w-full min-h-screen ">
-          <SideBar
-            profileName="mawar saidah"
-            profileEmail="mwrsdh@gmail.com"
-            onLogout={handleLogout}
-          />
-          <div className="w-full bg-gray-100 p-10 bg-slate-2">{children}</div>
-        </main>
-      </body>
-    </html>
+    <main className="flex w-full min-h-full">
+      <SideBar
+        profileName="mawar saidah"
+        profileEmail="mwrsdh@gmail.com"
+        onLogout={handleLogout}
+      />
+      <div className="w-full bg-gray-100 p-10 bg-primary-white">{children}</div>
+    </main>
   );
 };

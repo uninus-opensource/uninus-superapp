@@ -41,8 +41,7 @@ export const ModuleMitra: FC = (): ReactElement => {
                     Memenuhi salah satu kriteria dibawah ini :
                     <ul className="list-inside px-5">
                       <li>
-                        a. <b>Anak kandung guru</b> atau anggota NU Se-jawa
-                        barat{' '}
+                        a. <b>Anak guru</b> atau anggota NU Se-jawa barat{' '}
                       </li>
                       <li>
                         b. Rata-rata nilai 70 untuk tiga mata pelajaran yaitu :

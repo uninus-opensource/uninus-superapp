@@ -47,7 +47,7 @@ export const ModulePrestasi: FC = (): ReactElement => {
                         c. Minimal Juara 3 pada kejuaaraan tingkat nasional
                         (perorangan/tim){' '}
                       </li>
-                      <li>d. Tahfidz Quran minimal 3 juz </li>
+                      <li>d. Tahfidz Qur'an minimal 3 juz </li>
                     </ul>
                   </li>
                 </ul>
