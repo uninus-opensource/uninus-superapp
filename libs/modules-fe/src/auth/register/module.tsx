@@ -36,8 +36,9 @@ export const RegisterModule: FC = (): ReactElement => {
         fullname: data?.fullname,
       },
       {
-        onSuccess: () => router.push(`/auth/verif-email?email=${data?.email}`),
-      },
+        onSuccess: () =>
+          router.push(`/auth/verifikasi-otp?email=${data?.email}`),
+      }
     );
   });
 
