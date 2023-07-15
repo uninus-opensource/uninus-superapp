@@ -88,6 +88,26 @@ model Students {
   major_id              String?
   grades                Grade[]
   courses               Courses[]
+  students_courses      StudentsCourses[]
+}
+
+model Courses {
+  id               String            @id @default(uuid())
+  courses_name     String
+  credits_units    Int
+  lecturer_name    String
+  lecturer         Lecturers         @relation(fields: [lecturerId], references: [id])
+  lecturerId       String
+  students         Students[]
+  students_courses StudentsCourses[]
+}
+
+model StudentsCourses {
+  id        String   @id @default(uuid())
+  courseId  String
+  studentId String
+  course    Courses  @relation(fields: [courseId], references: [id])
+  student   Students @relation(fields: [studentId], references: [id])
 }
 
 model Major {
@@ -95,16 +115,6 @@ model Major {
   major_name String
   students   Students[]
   lecturers  Lecturers[]
-}
-
-model Courses {
-  id            String     @id @default(uuid())
-  courses_name  String
-  credits_units Int
-  lecturer_name String
-  lecturer      Lecturers  @relation(fields: [lecturerId], references: [id])
-  lecturerId    String
-  students      Students[]
 }
 
 model Grade {
