@@ -13,7 +13,6 @@ async function bootstrap() {
   const globalPrefix = 'api';
   const url = process.env.CORS_ORIGIN;
   const origin = url.includes(',') ? url.split(',') : url;
-  console.log(origin);
   app.enableCors({
     origin,
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
