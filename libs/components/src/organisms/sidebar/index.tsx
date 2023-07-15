@@ -2,12 +2,7 @@
 import { FC, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import { TSideBarProps, TSideBarList } from './type';
-import {
-  AiFillHome,
-  AiOutlineFileDone,
-  AiOutlineLogout,
-  AiOutlineHome,
-} from 'react-icons/ai';
+import { AiFillHome, AiOutlineFileDone, AiOutlineLogout } from 'react-icons/ai';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { FaRegUser } from 'react-icons/fa';
 import Link from 'next/link';
@@ -20,6 +15,7 @@ import { usePathname } from 'next/navigation';
 export const SideBar: FC<TSideBarProps> = ({
   profileName = '',
   profileEmail = '',
+  onLogout,
 }): ReactElement => {
   const [onToogle, setOnToogle] = useState<boolean>(false);
   const { data: session } = useSession();
@@ -94,7 +90,12 @@ export const SideBar: FC<TSideBarProps> = ({
               <div className="btn w-fit p-3 bg-primary-white drop-shadow-md rounded-lg">
                 <AiOutlineLogout className="text-xl" />
               </div>
-              <Button variant="sidebarbutton" size="sm" styling="text-xl mt-0 ">
+              <Button
+                variant="sidebarbutton"
+                size="sm"
+                styling="text-xl mt-0"
+                onClick={onLogout}
+              >
                 Log out
               </Button>
             </div>
