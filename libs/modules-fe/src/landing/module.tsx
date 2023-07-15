@@ -27,17 +27,17 @@ export const LandingModule: FC = (): ReactElement => {
     {
       iconText: 'S1',
       title: 'sarjana',
-      item: 'Bergabunglah dengan program sarjana di UNINUS Kami menawarkan pendidikan berkualitas, dosen berpengalaman Raih impianmu bersama kami.',
+      item: 'Bergabunglah dengan program sarjana di UNINUS. Kami menawarkan pendidikan berkualitas & dosen berpengalaman. Mari raih impianmu bersama kami.',
     },
     {
       iconText: 'S2',
       title: 'magister',
-      item: 'Program Pendidikan di UNINUS Pendidikan tinggi berkualitas, fleksibel, dikelola oleh dosen berpengalaman, tingkatkan karier dan wawasan dalam bakat minat anda.',
+      item: 'Program Pendidikan UNINUS Di Perguruan Tinggi berkualitas yang fleksibel, dikelola oleh dosen berpengalaman, menigkatkan jenjang karier dan wawasan bakat minat anda.',
     },
     {
       iconText: 'S3',
       title: 'doktor',
-      item: 'Program Pendidikan Doktor memberikan pengetahuan dan keterampilan dalam bidang minat, dikelola oleh dosen berpengalaman dan ahli. bergabunglah bersama kami.',
+      item: 'Program Pendidikan Doktor memberikan pengetahuan dan keterampilan yang luas, dikelola oleh dosen berpengalaman dan sudah ahli dibidangnya. Ayo bergabunglah bersama kami.',
     },
   ];
 
@@ -79,20 +79,17 @@ export const LandingModule: FC = (): ReactElement => {
               <h1 className="lg:text-4xl text-3xl text-left font-semibold text-secondary-green-4 mt-6">
                 Selamat Datang Calon
                 <br />
-                Mahasiswa/Mahasiswi{' '}
-                <span className="text-primary-green">Baru</span>
+                Nusantara
+                <span className="text-primary-green px-4">Muda</span>
               </h1>
-              <p className="text-left text-base xl:text-lg font-semibold xl:font-normal lg:leading-6 text-grayscale-9 lg:mt-12 mt-8 xl:w-4/5">
-                Selamat datang calon mahasiswa baru di Universitas Islam
-                Nusantara.
-                <br />
+              <p className="text-left text-base xl:text-lg font-semibold xl:font-normal lg:leading-6 text-grayscale-9 lg:mt-12 mt-8 w-full">
+                Selamat datang nusantara muda di Universitas Islam Nusantara.
                 Kami sangat senang Anda bergabung dengan kami dan yakin Anda
                 akan menemukan banyak peluang belajar, berkembang, dan
-                berkontribusi.
-                <br />
-                Kami memiliki fasilitas pendidikan terbaik, dosen berkualitas,
-                dan komunitas mahasiswa inklusif. Kami sangat menantikan
-                kerjasama kita dan membantu Anda mencapai impian Anda.
+                berkontribusi. Kami memiliki fasilitas pendidikan terbaik, dosen
+                berkualitas, dan komunitas mahasiswa inklusif. Kami sangat
+                menantikan kerjasama kita dan membantu Anda mencapai impian
+                Anda.
               </p>
             </div>
           </section>
@@ -162,7 +159,7 @@ export const LandingModule: FC = (): ReactElement => {
               <span className="text-secondary-green-4 font-extramedium">
                 Terdapat berbagai Beasiswa Pilihan
               </span>{' '}
-              Nusantara Unggul, Nusantara Beprestasi, Mitra Nusantara dan
+              Nusantara Unggul, Nusantara Berprestasi, Mitra Nusantara dan
               Nusantara Peduli Difabel
             </Card>
 
@@ -174,9 +171,9 @@ export const LandingModule: FC = (): ReactElement => {
               </span>{' '}
               di{' '}
               <span className="text-secondary-green-4 font-extramedium">
-                Indonesia & Mancanegara
+                Indonesia & Luar Negeri
               </span>{' '}
-              yang sangat berpengalaman dalam bidangnya.
+              yang berpengalaman dalam bidangnya.
             </Card>
           </section>
         </section>

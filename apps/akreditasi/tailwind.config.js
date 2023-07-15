@@ -40,6 +40,7 @@ module.exports = {
         sky: {
           1: '#1678682E',
           2: '#B9DEDA',
+          3: '#c6f5ff',
         },
       },
       grayscale: {

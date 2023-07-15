@@ -63,8 +63,8 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
           <p className={isActive === 1 ? 'block' : 'hidden'}>
             1. Nilai Rapor Rata-rata ≥ 70 untuk 3 Mata Pelajaran (Matematika,
             Bahasa Inggris & Bahasa Indonesia) semester 1 s.d semester 4 bagi
-            siswa kelas XII Siswa Angkatan 2022/2023 dan semester 1 s.d semester
-            6 bagi siswa Angkatan sebelumnya
+            siswa kelas XII Angkatan 2022/2023 dan semester 1 s.d semester 6
+            bagi siswa Angkatan sebelumnya
             <br />
             <br />
             2. Nilai UTBK atau hasil SBMPTN/SNBT Rata-rata ≥ 450
@@ -73,7 +73,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
             Prestasi/Juara lomba dibidang akademik atau non akademik yang pernah
             diraih oleh calon mahasiswa ketika duduk di bangku SMA/SMK/MA atau
             setelah lulus, dengan standar prestasi minimal Juara 3 di perlombaan
-            tingkat Kota/Kabupaten dan bagi penghapal alquran (Tahfidz)
+            tingkat Kota/Kabupaten dan bagi penghafal Qur'an (Tahfidz)
           </p>
           <p className={`mt-4 ${isActive === 3 ? 'block' : 'hidden'}`}>
             Jalur seleksi berdasarkan hasil test, dengan standar kelulusan

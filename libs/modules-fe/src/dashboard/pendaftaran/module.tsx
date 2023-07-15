@@ -24,7 +24,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
         <p className="text-lg font-bold text-secondary-green-4">
           Formulir Pendaftaran
         </p>
-        <div className="flex flex-col gap-4 w-full p-12 rounded-lg shadow-lg m-6">
+        <div className="flex flex-col gap-4 w-full p-12 rounded-lg border border-slate-3  shadow-lg m-6">
           <SelectField
             name="program"
             label="Program"
