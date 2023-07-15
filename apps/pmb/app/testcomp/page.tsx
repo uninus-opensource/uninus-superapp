@@ -8,6 +8,8 @@ import {
   UploadField,
   DraggableComponent,
   TabJalurSeleksi,
+  SelectField,
+  AccordionTab,
 } from '@uninus/components';
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -127,6 +129,17 @@ const LandingPage: FC = (): ReactElement => {
         </div>
         <DraggableComponent control={control} name="draggableComponent" />
         <TabJalurSeleksi />
+        <SelectField
+          name="nama"
+          label="Nama"
+          size="md"
+          options={['Rian', 'Dejan', 'Edo']}
+          placeholder="Pilih Nama"
+          control={control}
+          width="w-36"
+        />
+
+        <AccordionTab header="Halo" titles={['Halo']} contents={[['String']]} />
       </div>
     </section>
   );

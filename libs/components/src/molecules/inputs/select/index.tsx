@@ -55,7 +55,11 @@ export const SelectField = <T extends FieldValues>({
       <label htmlFor={props.name} className={labelClassName}>
         {props.label}
       </label>
-      <select className={selectClassName} {...{ ...props, ...field }}>
+      <select
+        className={selectClassName}
+        defaultValue={props.placeholder}
+        {...{ ...props, ...field }}
+      >
         <option disabled>{props.placeholder}</option>
         {props?.options?.map((option, idx) => (
           <option key={idx} value={option}>
