@@ -27,7 +27,7 @@ model Users {
 }
 
 model Students {
-  id                    String              @unique @default(uuid())
+  id                    String              @id @default(uuid())
   nim                   String?             @unique
   nisn                  String?             @unique
   identification_type   IdentificationType?
@@ -84,14 +84,49 @@ model Students {
   user_id               String              @unique
   createdAt             DateTime            @default(now())
   user                  Users               @relation(fields: [user_id], references: [id])
+  major                 Major?              @relation(fields: [major_id], references: [id])
+  major_id              String?
+  grades                Grade[]
+  courses               Courses[]
+}
+
+model Major {
+  id         String      @id @default(uuid())
+  major_name String
+  students   Students[]
+  lecturers  Lecturers[]
+}
+
+model Courses {
+  id            String     @id @default(uuid())
+  courses_name  String
+  credits_units Int
+  lecturer_name String
+  lecturer      Lecturers  @relation(fields: [lecturerId], references: [id])
+  lecturerId    String
+  students      Students[]
+}
+
+model Grade {
+  id                  String    @id @default(uuid())
+  task_score          Float
+  midterm_exams_score Float
+  final_exam_score    Float
+  student             Students  @relation(fields: [studentId], references: [id])
+  studentId           String
+  lecturer            Lecturers @relation(fields: [lecturerId], references: [id])
+  lecturerId          String
 }
 
 model Lecturers {
-  id        String   @unique @default(uuid())
-  nip       String   @unique
-  createdAt DateTime @default(now())
-  user_id   String   @unique
-  user      Users    @relation(fields: [user_id], references: [id])
+  id        String    @id @default(uuid())
+  nip       String    @unique
+  createdAt DateTime  @default(now())
+  userId    String    @unique
+  user      Users     @relation(fields: [userId], references: [id])
+  majors    Major[]
+  grades    Grade[]
+  courses   Courses[]
 }
 
 model Employees {
