@@ -11,8 +11,10 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(MasterApi);
   const globalPrefix = 'api';
+  const url = process.env.CORS_ORIGIN;
+  const origin = url.includes(',') ? url.split(',') : url;
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://pmb.votsu.co'],
+    origin,
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
     credentials: true,
   });
