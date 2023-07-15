@@ -27,13 +27,13 @@ export const HeroBanner: FC<TbannerProps> = ({
       >
         <Reveal w="w-full" blur={blur}>
           <div className="flex items-center flex-col w-full">
-            <div className="text-xl md:text-4xl xl:text-5xl py-4 font-black text-primary-white leading-normal uppercase lg:pt-10 pt-40">
+            <div className="text-lg sm:text-xl md:text-4xl xl:text-5xl py-4 font-black text-primary-white leading-normal uppercase lg:pt-10 pt-40">
               {subTitle}
             </div>
-            <h2 className="mb-4 text-xl md:text-4xl xl:text-5xl font-semibold text-primary-white">
+            <h2 className="mb-4 text-lg md:text-4xl xl:text-5xl font-semibold text-primary-white">
               {heroTitle}
             </h2>
-            <h1 className="mb-4 text-lg font-medium md:text-3xl xl:text-4xl text-primary-white relative bottom-4">
+            <h1 className="mb-4 text-lg sm:text-xl font-medium md:text-3xl xl:text-4xl text-primary-white relative bottom-4">
               {heroTitle2}
             </h1>
             <p className="text-lg md:text-3xl text-primary-white font-bold">

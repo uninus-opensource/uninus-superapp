@@ -3,8 +3,8 @@ import { FieldValues, UseControllerProps } from 'react-hook-form';
 
 export type TSelectProps<T extends FieldValues> = UseControllerProps<T> & {
   label: string;
-  value: string;
   width?: string;
+  value?: string;
   size: 'sm' | 'md';
   name: string;
   options: string[];

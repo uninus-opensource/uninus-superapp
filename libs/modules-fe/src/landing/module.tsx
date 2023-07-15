@@ -65,7 +65,7 @@ export const LandingModule: FC = (): ReactElement => {
         </figure>
 
         <Reveal>
-          <section className="xl:px-24 mx-auto px-4 lg:w-full md:w-full w-auto flex 2xl:justify-center xl:justify-evenly lg:justify-around lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
+          <section className="xl:px-[10vw] md:px-10 mx-auto lg:w-full md:w-full w-auto flex 2xl:justify-center xl:justify-evenly lg:justify-around lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
             <Image
               src={'/illustrations/gerbang-uninus.png'}
               priority
@@ -73,9 +73,9 @@ export const LandingModule: FC = (): ReactElement => {
               quality={100}
               width={400}
               height={400}
-              className="rounded-lg bg-primary-white "
+              className="rounded-lg bg-primary-white w-72 mr-4 md:mr-0 lg:w-96"
             />
-            <div className="flex flex-col items-start lg:w-7/12 w-full px-2 leading-normal font-semibold lg:pl-6">
+            <div className="flex flex-col lg:w-7/12 w-full px-6 leading-normal font-semibold lg:pl-6">
               <h1 className="lg:text-4xl text-3xl text-left font-semibold text-secondary-green-4 mt-6">
                 Selamat Datang Calon
                 <br />
@@ -268,6 +268,3 @@ export const LandingModule: FC = (): ReactElement => {
     </MainLayout>
   );
 };
-function componentDidMount() {
-  throw new Error('Function not implemented.');
-}
