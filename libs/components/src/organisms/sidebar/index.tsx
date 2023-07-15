@@ -3,9 +3,10 @@ import { FC, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import { TSideBarProps, TSideBarList } from './type';
 import {
-  AiOutlineHome,
+  AiFillHome,
   AiOutlineFileDone,
   AiOutlineLogout,
+  AiOutlineHome,
 } from 'react-icons/ai';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { FaRegUser } from 'react-icons/fa';
@@ -14,6 +15,7 @@ import { Button } from '../../atoms';
 import dummyImage from '../../atoms/illustrations/dummy/dummy-avatar.jpg';
 import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
 export const SideBar: FC<TSideBarProps> = ({
   profileName = '',
@@ -22,45 +24,44 @@ export const SideBar: FC<TSideBarProps> = ({
   const [onToogle, setOnToogle] = useState<boolean>(false);
   const { data: session } = useSession();
   const sideLists: TSideBarList[] = [
-    { label: 'home', link: '/dashboard', icon: <AiOutlineHome /> },
-    { label: 'biodata', link: '/dashboard/biodata', icon: <FaRegUser /> },
+    { label: 'homepage', link: '/dashboard', icon: <AiFillHome /> },
+    { label: 'data diri', link: '/dashboard/biodata', icon: <FaRegUser /> },
     {
       label: 'pendaftaran',
       link: '/dashboard/pendaftaran',
       icon: <AiOutlineFileDone />,
     },
   ];
+  const pathname = usePathname();
   return (
     <>
       {/* Desktop */}
       <div className="min-h-screen lg:relative fixed z-[99999]">
         <aside
-          className={` sm:hidden h-full top-0 left-0 flex z-50 lg:relative transition-transform -translate-x-full lg:sm:translate-x-0 w-64 md:flex  bg-primary-green py-10`}
+          className={` sm:hidden h-full top-0 left-0 flex z-50 lg:relative transition-transform -translate-x-full lg:sm:translate-x-0 w-72 md:flex  bg-primary-white py-10`}
         >
           <section className={` w-full flex flex-col items-center gap-y-6`}>
-            <div className="flex flex-col gap-y-4 items-center">
-              <figure>
+            <h1 className="text-secondary-green-4 text-lg font-semibold">
+              PMB UNINUS
+            </h1>
+            <div className="flex flex-row  items-center gap-x-6">
+              <figure className="flex flex-row">
                 <Image
-                  className="rounded-full mx-auto"
+                  className="rounded-full mx-2"
                   src={dummyImage}
                   alt="profile picture"
-                  width={100}
-                  height={100}
+                  width={50}
+                  height={50}
                   priority={true}
                 />
-                <figcaption className="text-center flex flex-col gap-y-2 mt-3 text-primary-white ">
-                  <div className="bg-grayscale-1 text-xs text-secondary-green-1 p-2 font-medium rounded-md">
-                    <h3>Calon Mahasiswa Baru</h3>
-                  </div>
-                  <div>
-                    <h1 className="font-semibold capitalize">
-                      {session?.user?.name}
-                    </h1>
-                    <p className="font-base text-sm">{session?.user?.email}</p>
+                <figcaption className="text-center flex flex-col gap-y-3 mt-3  ">
+                  <div className=" text-sm text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
+                    <h3>{session?.user?.name}</h3>
                   </div>
                 </figcaption>
               </figure>
             </div>
+            <div className="w-[60%]  px-3 h-[1px] my-6 bg-slate-4"></div>
             <nav>
               <ul className="flex flex-col gap-y-6">
                 {sideLists.map((sideList, idx, arr) => (
@@ -68,27 +69,32 @@ export const SideBar: FC<TSideBarProps> = ({
                     <Link
                       href={sideList.link}
                       role="link"
-                      className={`flex gap-x-3 text-lg capitalize hover:bg-primary-white hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                      className={`flex gap-x-3 text-lg capitalize ${
+                        pathname === sideList.link &&
+                        'bg-primary-white drop-shadow-md '
+                      }hover:bg-primary-white   hover:text-secondary-green-1 items-center p-2   rounded-md`}
                     >
-                      {sideList.icon}
-                      <p>{sideList.label}</p>
+                      <p
+                        className={`${
+                          pathname === sideList.link &&
+                          'bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white'
+                        } text-primary-green w-fit h-fit p-3 bg-primary-white drop-shadow-md rounded-lg`}
+                      >
+                        {sideList.icon}
+                      </p>
+                      <p className="text-primary-green text-md font-normal">
+                        {sideList.label}
+                      </p>
                     </Link>
-                    {idx + 1 !== arr.length ? (
-                      <div className="w-full h-[2px] bg-primary-black"></div>
-                    ) : (
-                      ''
-                    )}
                   </li>
                 ))}
               </ul>
             </nav>
-            <div className="flex text-2xl items-center my-8 group hover:bg-primary-white hover:text-secondary-green-1 p-2 rounded-md">
-              <AiOutlineLogout />
-              <Button
-                variant="text-icon"
-                size="sm"
-                styling="text-xl hover:bg-primary-white"
-              >
+            <div className="flex items-center justify-between mt-96  group text-primary-green font-normal p-2 rounded-md">
+              <div className="btn w-fit p-3 bg-primary-white drop-shadow-md rounded-lg">
+                <AiOutlineLogout className="text-xl" />
+              </div>
+              <Button variant="sidebarbutton" size="sm" styling="text-xl mt-0 ">
                 Log out
               </Button>
             </div>
@@ -109,7 +115,7 @@ export const SideBar: FC<TSideBarProps> = ({
 
         {onToogle && (
           <motion.aside
-            className={` h-full top-0 w-60 left-0 absolute z-50 lg:relative duration-75  transition-transform lg:sm:translate-x-0 bg-primary-green py-10`}
+            className={` h-full top-0 w-60 left-0 absolute z-50 lg:relative duration-75  transition-transform lg:sm:translate-x-0 bg-primary-white py-10`}
             aria-label="Sidebar"
             initial={
               onToogle
@@ -120,31 +126,35 @@ export const SideBar: FC<TSideBarProps> = ({
             transition={{ duration: 0.5 }}
           >
             <section className={` w-full flex flex-col items-center  gap-y-6`}>
-              <div className="flex flex-col gap-y-4 items-center">
-                <figure>
+              <h1 className="text-secondary-green-4 text-lg font-bold">
+                PMB UNINUS
+              </h1>
+              <div className="flex flex-row  items-center gap-x-6">
+                <figure className="flex flex-row">
                   <Image
                     className="rounded-full mx-auto"
                     src={dummyImage}
                     alt="profile picture"
-                    width={100}
-                    height={100}
+                    width={50}
+                    height={50}
                     priority={true}
                   />
-                  <figcaption className="text-center flex flex-col gap-y-2 mt-3 text-primary-white ">
-                    <div className="bg-grayscale-1 text-xs text-secondary-green-1 p-2 font-medium rounded-md">
-                      <h3>Calon Mahasiswa Baru</h3>
+                  <figcaption className="text-center flex flex-col gap-y-2 mt-3  ">
+                    <div className=" text-xs text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
+                      <h3>{session?.user?.name}</h3>
                     </div>
-                    <div>
+                    {/* <div>
                       <h1 className="font-semibold capitalize">
                         {session?.user?.name}
                       </h1>
                       <p className="font-base text-sm">
                         {session?.user?.email}
                       </p>
-                    </div>
+                    </div> */}
                   </figcaption>
                 </figure>
               </div>
+              <div className="w-[60%]  px-3 h-[1px] bg-slate-4"></div>
               <nav>
                 <ul className="flex flex-col gap-y-6">
                   {sideLists.map((sideList, idx, arr) => (
@@ -152,26 +162,35 @@ export const SideBar: FC<TSideBarProps> = ({
                       <Link
                         href={sideList.link}
                         role="link"
-                        className={`flex gap-x-3 text-lg capitalize hover:bg-primary-white hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                        className={`flex gap-x-3 text-lg capitalize ${
+                          pathname === sideList.link &&
+                          'bg-primary-white drop-shadow-md '
+                        }hover:bg-primary-white   hover:text-secondary-green-1 items-center p-2  rounded-md`}
                       >
-                        {sideList.icon}
-                        <p>{sideList.label}</p>
+                        <p
+                          className={`${
+                            pathname === sideList.link &&
+                            'bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white'
+                          } text-primary-green w-fit h-fit p-3 bg-primary-white drop-shadow-md rounded-lg`}
+                        >
+                          {sideList.icon}
+                        </p>
+                        <p className="text-primary-green text-sm font-normal">
+                          {sideList.label}
+                        </p>
                       </Link>
-                      {idx + 1 !== arr.length ? (
-                        <div className="w-full h-[2px] bg-primary-black"></div>
-                      ) : (
-                        ''
-                      )}
                     </li>
                   ))}
                 </ul>
               </nav>
-              <div className="flex text-2xl items-center my-8 group hover:bg-primary-white hover:text-secondary-green-1 p-2 rounded-md">
-                <AiOutlineLogout />
+              <div className="flex text-2xl items-center my-8 group  p-2 rounded-md">
+                <div className="icon text-primary-green w-fit p-2 drop-shadow-lg bg-primary-white rounded-lg">
+                  <AiOutlineLogout />
+                </div>
                 <Button
-                  variant="text-icon"
+                  variant="sidebarbutton"
                   size="sm"
-                  styling="text-xl hover:bg-primary-white"
+                  styling="text-sm font-normal  text-primary-green mt-0"
                 >
                   Log out
                 </Button>

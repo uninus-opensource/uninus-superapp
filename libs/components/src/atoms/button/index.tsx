@@ -49,6 +49,7 @@ export const Button: FC<IButtonProps> = ({
       'active:shadow-inset ': variant === 'custom',
       'text-white uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full ':
         variant === 'sidebarlist',
+      'text-primary-green font-normal ': variant === 'sidebarbutton',
     }
   );
 
