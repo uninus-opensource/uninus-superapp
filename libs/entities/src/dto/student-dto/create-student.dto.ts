@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsISO8601, IsEnum, IsOptional, IsString } from 'class-validator';
 import {
-  IsISO8601,
-  IsIn,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+  EIdentificationType,
+  EGender,
+  EReligion,
+  ECitizenship,
+} from '../../enum';
 
 export class CreateStudentDto {
   @ApiProperty()
@@ -23,15 +23,13 @@ export class CreateStudentDto {
   nisn!: string;
 
   @ApiProperty({
-    example: 'KTP | SIM | KARTU_PELAJAR',
+    example: Object.keys(EIdentificationType),
     description: 'string',
   })
   @IsOptional()
   @IsString()
-  @IsIn(['KTP', 'SIM', 'KARTU_PELAJAR'], {
-    message: 'Card Type must be one of KTP, SIM atau KARTU_PELAJAR',
-  })
-  identification_type!: 'KTP' | 'SIM' | 'KARTU_PELAJAR';
+  @IsEnum(EIdentificationType, { each: true })
+  identification_type!: EIdentificationType;
 
   @ApiProperty()
   @IsOptional()
@@ -49,32 +47,31 @@ export class CreateStudentDto {
   birth_date!: string;
 
   @ApiProperty({
-    example: 'MALE | FEMALE',
+    example: Object.keys(EGender),
+    description: 'string',
   })
   @IsOptional()
-  @IsIn(['MALE', 'FEMALE'], {
-    message: 'Gender must be one MALE atau FEMALE',
-  })
-  gender!: 'MALE' | 'FEMALE';
+  @IsString()
+  @IsEnum(EGender, { each: true })
+  EGender!: EGender;
 
   @ApiProperty({
-    example: 'ISLAM | KRISTEN | KATOLIK | KONGHUCU | HINDU | BUDHA',
+    example: Object.keys(EReligion),
+    description: 'string',
   })
   @IsOptional()
-  @IsIn(['ISLAM', 'KRISTEN', 'KATOLIK', 'KONGHUCU', 'HINDU', 'BUDHA'], {
-    message:
-      'Religion must be one of ISLAM, KRISTEN, KATOLIK, KONGHUCU, HINDU, BUDHA',
-  })
-  religion!: 'ISLAM' | 'KRISTEN' | 'KATOLIK' | 'KONGHUCU' | 'HINDU' | 'BUDHA';
+  @IsString()
+  @IsEnum(EReligion, { each: true })
+  EReligion!: EReligion;
 
   @ApiProperty({
-    example: 'WNI | WNA',
+    example: Object.keys(ECitizenship),
+    description: 'string',
   })
   @IsOptional()
-  @IsIn(['WNI', 'WNA'], {
-    message: 'Citizenship must be one of WNI or WNA',
-  })
-  citizenship!: 'WNI' | 'WNA';
+  @IsString()
+  @IsEnum(ECitizenship, { each: true })
+  ECitizenship!: ECitizenship;
 
   @ApiProperty()
   @IsOptional()
@@ -241,9 +238,7 @@ export class CreateStudentDto {
   @IsString()
   mother_education!: string;
 
-  @ApiProperty({
-    description: 'Optional',
-  })
+  @ApiProperty()
   @IsOptional()
   @IsString()
   guardian_education?: string;
@@ -258,9 +253,7 @@ export class CreateStudentDto {
   @IsString()
   mother_occupation!: string;
 
-  @ApiProperty({
-    description: 'Optional',
-  })
+  @ApiProperty()
   @IsOptional()
   @IsString()
   guardian_occupation?: string;
@@ -275,9 +268,7 @@ export class CreateStudentDto {
   @IsString()
   mother_income!: string;
 
-  @ApiProperty({
-    description: 'Optional',
-  })
+  @ApiProperty()
   @IsOptional()
   @IsString()
   guardian_income?: string;
