@@ -24,6 +24,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
   ApiOperation,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 
 @Controller('student')
@@ -32,6 +33,7 @@ export class StudentController {
   constructor(private readonly appService: StudentService) {}
 
   @Post()
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create Data Student' })
   @ApiResponse({
     status: 400,
@@ -52,6 +54,7 @@ export class StudentController {
   }
 
   @Get()
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get Data Student' })
   @ApiResponse({
     status: 400,
@@ -67,6 +70,7 @@ export class StudentController {
   }
 
   @Put()
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Update Data Student' })
   @ApiResponse({
     status: 400,
@@ -92,7 +96,21 @@ export class StudentController {
     status: 400,
     description: 'User tidak ditemukan',
   })
-  deleteData(@Param('id') id: string) {
+  deleteDataById(@Param('id') id: string) {
     return this.appService.deleteStudent(id);
+  }
+
+  @Put('/:id')
+  @ApiOperation({ summary: 'Update By Id' })
+  @ApiResponse({
+    status: 400,
+    description: 'User tidak ditemukan',
+  })
+  updateDataById(
+    @Param('id') id: string,
+    @UploadedFile() Image: Express.Multer.File,
+    @Body() studentData: UpdateStudentDto
+  ) {
+    return this.appService.updateStudent(id, Image, studentData);
   }
 }

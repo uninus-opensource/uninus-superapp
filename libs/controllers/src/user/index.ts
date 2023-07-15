@@ -17,7 +17,12 @@ import {
   UpdateUserDto,
 } from '@uninus/entities';
 import { UserService } from '@uninus/services';
-import { ApiResponse, ApiTags, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiResponse,
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 
 @Controller('user')
 @ApiTags('User')
@@ -25,6 +30,7 @@ export class UserController {
   constructor(private readonly appService: UserService) {}
 
   @Get('/me')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get Data' })
   @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
   @UseGuards(JwtAuthGuard)
