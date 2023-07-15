@@ -19,6 +19,7 @@ export class RegisterDto {
     example: 'min length 6, upper case 1, numbers 1',
   })
   @IsString()
+  @IsNotEmpty()
   @IsStrongPassword({
     minLength: 6,
     minLowercase: 1,
@@ -40,6 +41,6 @@ export class RegisterDto {
   })
   @IsString()
   @IsNotEmpty()
-  @MinLength(8)
+  @MinLength(16)
   public nik!: string;
 }

@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsISO8601, IsEnum, IsOptional, IsString } from 'class-validator';
 import {
-  IsISO8601,
-  IsIn,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+  EIdentificationType,
+  EGender,
+  EReligion,
+  ECitizenship,
+} from '../../enum';
 
 export class CreateStudentDto {
   @ApiProperty()
@@ -13,292 +13,283 @@ export class CreateStudentDto {
   avatar!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   nim!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   nisn!: string;
 
   @ApiProperty({
-    example: 'KTP | SIM | KARTU_PELAJAR',
+    example: Object.keys(EIdentificationType),
     description: 'string',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  @IsIn(['KTP', 'SIM', 'KARTU_PELAJAR'], {
-    message: 'Card Type must be one of KTP, SIM atau KARTU_PELAJAR',
-  })
-  identification_type!: 'KTP' | 'SIM' | 'KARTU_PELAJAR';
+  @IsEnum(EIdentificationType, { each: true })
+  identification_type!: EIdentificationType;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   identification_number!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   birth_place!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsISO8601()
   birth_date!: string;
 
   @ApiProperty({
-    example: 'MALE | FEMALE',
+    example: Object.keys(EGender),
+    description: 'string',
   })
-  @IsNotEmpty()
-  @IsIn(['MALE', 'FEMALE'], {
-    message: 'Gender must be one MALE atau FEMALE',
-  })
-  gender!: 'MALE' | 'FEMALE';
+  @IsOptional()
+  @IsString()
+  @IsEnum(EGender, { each: true })
+  EGender!: EGender;
 
   @ApiProperty({
-    example: 'ISLAM | KRISTEN | KATOLIK | KONGHUCU | HINDU | BUDHA',
+    example: Object.keys(EReligion),
+    description: 'string',
   })
-  @IsNotEmpty()
-  @IsIn(['ISLAM', 'KRISTEN', 'KATOLIK', 'KONGHUCU', 'HINDU', 'BUDHA'], {
-    message:
-      'Religion must be one of ISLAM, KRISTEN, KATOLIK, KONGHUCU, HINDU, BUDHA',
-  })
-  religion!: 'ISLAM' | 'KRISTEN' | 'KATOLIK' | 'KONGHUCU' | 'HINDU' | 'BUDHA';
+  @IsOptional()
+  @IsString()
+  @IsEnum(EReligion, { each: true })
+  EReligion!: EReligion;
 
   @ApiProperty({
-    example: 'WNI | WNA',
+    example: Object.keys(ECitizenship),
+    description: 'string',
   })
-  @IsNotEmpty()
-  @IsIn(['WNI', 'WNA'], {
-    message: 'Citizenship must be one of WNI or WNA',
-  })
-  citizenship!: 'WNI' | 'WNA';
+  @IsOptional()
+  @IsString()
+  @IsEnum(ECitizenship, { each: true })
+  ECitizenship!: ECitizenship;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   marital_status!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   country!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   address!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   rt!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   rw!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   postal_code!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   subdistrict!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   province!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   city!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   phone_number!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   kk_number!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_type!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_major!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_name!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_address!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_postal_code!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_subdistrict!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_province!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_city!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_phone_number!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   graduation_year!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   father_name!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   mother_name!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   guardian_name!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_address!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_rt!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_rw!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_postal_code!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_subdistrict!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_province!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_phone_number!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   father_education!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   mother_education!: string;
 
-  @ApiProperty({
-    description: 'Optional',
-  })
+  @ApiProperty()
   @IsOptional()
   @IsString()
   guardian_education?: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   father_occupation!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   mother_occupation!: string;
 
-  @ApiProperty({
-    description: 'Optional',
-  })
+  @ApiProperty()
   @IsOptional()
   @IsString()
   guardian_occupation?: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   father_income!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   mother_income!: string;
 
-  @ApiProperty({
-    description: 'Optional',
-  })
+  @ApiProperty()
   @IsOptional()
   @IsString()
   guardian_income?: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   selection_type!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   program!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   academic_year!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   registration_wave!: string;
 }

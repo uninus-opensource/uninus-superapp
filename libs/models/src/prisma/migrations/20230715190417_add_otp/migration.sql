@@ -1,0 +1,67 @@
+-- AlterTable
+ALTER TABLE "Students" ALTER COLUMN "nim" DROP NOT NULL,
+ALTER COLUMN "nisn" DROP NOT NULL,
+ALTER COLUMN "identification_type" DROP NOT NULL,
+ALTER COLUMN "identification_number" DROP NOT NULL,
+ALTER COLUMN "birth_place" DROP NOT NULL,
+ALTER COLUMN "birth_date" DROP NOT NULL,
+ALTER COLUMN "gender" DROP NOT NULL,
+ALTER COLUMN "religion" DROP NOT NULL,
+ALTER COLUMN "citizenship" DROP NOT NULL,
+ALTER COLUMN "marital_status" DROP NOT NULL,
+ALTER COLUMN "country" DROP NOT NULL,
+ALTER COLUMN "address" DROP NOT NULL,
+ALTER COLUMN "rt" DROP NOT NULL,
+ALTER COLUMN "rw" DROP NOT NULL,
+ALTER COLUMN "postal_code" DROP NOT NULL,
+ALTER COLUMN "subdistrict" DROP NOT NULL,
+ALTER COLUMN "province" DROP NOT NULL,
+ALTER COLUMN "city" DROP NOT NULL,
+ALTER COLUMN "phone_number" DROP NOT NULL,
+ALTER COLUMN "kk_number" DROP NOT NULL,
+ALTER COLUMN "school_type" DROP NOT NULL,
+ALTER COLUMN "school_major" DROP NOT NULL,
+ALTER COLUMN "school_name" DROP NOT NULL,
+ALTER COLUMN "school_address" DROP NOT NULL,
+ALTER COLUMN "school_postal_code" DROP NOT NULL,
+ALTER COLUMN "school_subdistrict" DROP NOT NULL,
+ALTER COLUMN "school_province" DROP NOT NULL,
+ALTER COLUMN "school_city" DROP NOT NULL,
+ALTER COLUMN "school_phone_number" DROP NOT NULL,
+ALTER COLUMN "graduation_year" DROP NOT NULL,
+ALTER COLUMN "father_name" DROP NOT NULL,
+ALTER COLUMN "mother_name" DROP NOT NULL,
+ALTER COLUMN "guardian_name" DROP NOT NULL,
+ALTER COLUMN "parent_address" DROP NOT NULL,
+ALTER COLUMN "parent_rt" DROP NOT NULL,
+ALTER COLUMN "parent_rw" DROP NOT NULL,
+ALTER COLUMN "parent_postal_code" DROP NOT NULL,
+ALTER COLUMN "parent_subdistrict" DROP NOT NULL,
+ALTER COLUMN "parent_province" DROP NOT NULL,
+ALTER COLUMN "parent_phone_number" DROP NOT NULL,
+ALTER COLUMN "father_education" DROP NOT NULL,
+ALTER COLUMN "mother_education" DROP NOT NULL,
+ALTER COLUMN "father_occupation" DROP NOT NULL,
+ALTER COLUMN "mother_occupation" DROP NOT NULL,
+ALTER COLUMN "father_income" DROP NOT NULL,
+ALTER COLUMN "mother_income" DROP NOT NULL,
+ALTER COLUMN "selection_type" DROP NOT NULL,
+ALTER COLUMN "program" DROP NOT NULL,
+ALTER COLUMN "academic_year" DROP NOT NULL,
+ALTER COLUMN "registration_wave" DROP NOT NULL;
+
+-- CreateTable
+CREATE TABLE "OTP" (
+    "id" SERIAL NOT NULL,
+    "token" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "expiredAt" INTEGER NOT NULL,
+
+    CONSTRAINT "OTP_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "OTP_user_id_key" ON "OTP"("user_id");
+
+-- AddForeignKey
+ALTER TABLE "OTP" ADD CONSTRAINT "OTP_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

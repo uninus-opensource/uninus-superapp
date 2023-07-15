@@ -16,6 +16,7 @@ import {
   forgotPasswordDto,
   newPasswordDto,
   verifyOtpDto,
+  resendOtpDto,
 } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
 import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
@@ -57,7 +58,7 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Berhasil logout' })
   @ApiResponse({ status: 401, description: 'Gagal logout' })
   async logout(@Body() refreshDto: LogoutDto) {
-    return await this.appService.logout(refreshDto.refresh_token);
+    return await this.appService.logout(refreshDto?.refresh_token);
   }
 
   @UseGuards(RtGuard)
@@ -74,6 +75,15 @@ export class AuthController {
   @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
   async verifyOtp(@Body() verifyOtp: verifyOtpDto) {
     return this.appService.verifyOtp(verifyOtp.email, verifyOtp.otp);
+  }
+
+  @Post('resend-otp')
+  @ApiOperation({ summary: 'Resend OTP' })
+  @ApiResponse({ status: 201, description: 'Berhasil kitim OTP' })
+  @ApiResponse({ status: 400, description: 'Gagal kirim OTP' })
+  @ApiResponse({ status: 404, description: 'Akun tidak ditemukan' })
+  async resendOtp(@Body() resendOtpDto: resendOtpDto) {
+    return this.appService.resendOtp(resendOtpDto.email);
   }
 
   @Post('forgot-password')

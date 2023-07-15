@@ -22,6 +22,7 @@ import {
   generateAccessToken,
   generateOtp,
   generateToken,
+  clearOtp,
 } from '@uninus/utilities';
 
 import { EmailService } from '../email';
@@ -96,15 +97,11 @@ export class AuthService {
     if (!createdUser) {
       throw new BadRequestException('Gagal Mendaftar');
     }
-    const otp = await generateOtp(data.email);
-    await this.prisma.users.findFirst({
-      where: {
-        fullname: data.fullname,
-      },
-    });
-    const obj = 'verifikasi akun anda';
+    const otp = await generateOtp(createdUser?.email);
 
-    const html = getEmailMessageTemplate(data.fullname, otp, obj);
+    const msg = 'verifikasi akun anda';
+
+    const html = getEmailMessageTemplate(data.fullname, otp, msg);
 
     const sendEmail = this.emailService.sendEmail(
       data.email.toLowerCase(),
@@ -183,10 +180,10 @@ export class AuthService {
     };
   }
 
-  async logout(userId: string): Promise<{ message: string }> {
-    const result = await this.prisma.users.update({
+  async logout(refreshToken: string): Promise<{ message: string }> {
+    const result = await this.prisma.users.updateMany({
       where: {
-        id: userId,
+        refresh_token: refreshToken,
       },
       data: {
         refresh_token: null,
@@ -211,6 +208,8 @@ export class AuthService {
   }
 
   async verifyOtp(email: string, otp: string) {
+    await clearOtp();
+
     const isVerified = await compareOtp(email, otp);
     if (!isVerified) {
       throw new NotFoundException('Email atau OTP tidak valid');
@@ -233,6 +232,38 @@ export class AuthService {
     };
   }
 
+  async resendOtp(email: string) {
+    await clearOtp();
+    const user = await this.prisma.users.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException('Akun tidak ditemukan');
+    }
+
+    const otp = await generateOtp(email);
+
+    const msg = 'verifikasi akun anda';
+
+    const html = getEmailMessageTemplate(user?.fullname, otp, msg);
+
+    const sendEmail = this.emailService.sendEmail(
+      email.toLowerCase(),
+      'Verifikasi Email',
+      html
+    );
+
+    if (!sendEmail) {
+      throw new BadRequestException('Gagal mengirimkan kode verifikasi');
+    }
+
+    return {
+      message: 'Berhasil kirim OTP',
+    };
+  }
+
   async forgotPassword(email: string) {
     const user = await this.prisma.users.findUnique({
       where: {
@@ -242,10 +273,10 @@ export class AuthService {
         fullname: true,
       },
     });
-    const obj = 'memperbarui kata sandi anda';
+    const msg = 'memperbarui kata sandi anda';
 
     const otp = await generateOtp(email);
-    const html = getEmailMessageTemplate(user?.fullname ?? '', otp, obj);
+    const html = getEmailMessageTemplate(user?.fullname ?? '', otp, msg);
 
     const sendEmail = this.emailService.sendEmail(
       email.toLowerCase(),

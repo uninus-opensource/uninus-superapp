@@ -19,12 +19,6 @@ export class LoginDto {
     example: 'min length 6, upper case 1, numbers 1',
   })
   @IsString()
-  @IsStrongPassword({
-    minLength: 8,
-    minLowercase: 1,
-    minUppercase: 1,
-    minNumbers: 1,
-    minSymbols: 0,
-  })
+  @IsNotEmpty()
   public password!: string;
 }

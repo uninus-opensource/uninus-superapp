@@ -21,68 +21,69 @@ model Users {
   employees     Employees?
   lecturers     Lecturers?
   students      Students?
+  otp           OTP?
   isVerified    Boolean?   @default(false)
   role          Roles?     @relation(fields: [role_id], references: [id])
 }
 
 model Students {
-  id                    String             @unique @default(uuid())
-  nim                   String             @unique
-  nisn                  String             @unique
-  identification_type   IdentificationType
-  identification_number String
-  birth_place           String
-  birth_date            String
-  gender                Gender
-  religion              Religion
-  citizenship           Citizenship
-  marital_status        String
-  country               String
-  address               String
-  rt                    String
-  rw                    String
-  postal_code           String
-  subdistrict           String
-  province              String
-  city                  String
-  phone_number          String
-  kk_number             String
-  school_type           String
-  school_major          String
-  school_name           String
-  school_address        String
-  school_postal_code    String
-  school_subdistrict    String
-  school_province       String
-  school_city           String
-  school_phone_number   String
-  graduation_year       String
-  father_name           String
-  mother_name           String
-  guardian_name         String
-  parent_address        String
-  parent_rt             String
-  parent_rw             String
-  parent_postal_code    String
-  parent_subdistrict    String
-  parent_province       String
-  parent_phone_number   String
-  father_education      String
-  mother_education      String
+  id                    String              @unique @default(uuid())
+  nim                   String?             @unique
+  nisn                  String?             @unique
+  identification_type   IdentificationType?
+  identification_number String?
+  birth_place           String?
+  birth_date            String?
+  gender                Gender?
+  religion              Religion?
+  citizenship           Citizenship?
+  marital_status        String?
+  country               String?
+  address               String?
+  rt                    String?
+  rw                    String?
+  postal_code           String?
+  subdistrict           String?
+  province              String?
+  city                  String?
+  phone_number          String?
+  kk_number             String?
+  school_type           String?
+  school_major          String?
+  school_name           String?
+  school_address        String?
+  school_postal_code    String?
+  school_subdistrict    String?
+  school_province       String?
+  school_city           String?
+  school_phone_number   String?
+  graduation_year       String?
+  father_name           String?
+  mother_name           String?
+  guardian_name         String?
+  parent_address        String?
+  parent_rt             String?
+  parent_rw             String?
+  parent_postal_code    String?
+  parent_subdistrict    String?
+  parent_province       String?
+  parent_phone_number   String?
+  father_education      String?
+  mother_education      String?
   guardian_education    String?
-  father_occupation     String
-  mother_occupation     String
+  father_occupation     String?
+  mother_occupation     String?
   guardian_occupation   String?
-  father_income         String
-  mother_income         String
+  father_income         String?
+  mother_income         String?
   guardian_income       String?
-  selection_type        String
-  program               String
-  academic_year         String
-  registration_wave     String
-  user_id               String             @unique
-  createdAt             DateTime           @default(now())
-  user                  Users              @relation(fields: [user_id], references: [id])
+  selection_type        String?
+  program               String?
+  academic_year         String?
+  registration_wave     String?
+  user_id               String              @unique
+  createdAt             DateTime            @default(now())
+  user                  Users               @relation(fields: [user_id], references: [id])
 }
 
 model Lecturers {
@@ -125,6 +126,14 @@ model RolesPermissions {
   createdAt     DateTime    @default(now())
   permission    Permissions @relation(fields: [permission_id], references: [id])
   role          Roles       @relation(fields: [role_id], references: [id])
+}
+
+model OTP {
+  id        Int    @id @default(autoincrement())
+  token     String
+  user_id   String @unique
+  user      Users  @relation(fields: [user_id], references: [id])
+  expiredAt Int
 }
 
 enum Gender {
