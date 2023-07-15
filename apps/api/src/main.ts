@@ -12,7 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(MasterApi);
   const globalPrefix = 'api';
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://pmb.votsu.co'],
+    origin: process.env.CORS_ORIGIN,
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
     credentials: true,
   });
