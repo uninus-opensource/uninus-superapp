@@ -19,7 +19,12 @@ import {
   resendOtpDto,
 } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
-import { ApiTags, ApiResponse, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiResponse,
+  ApiOperation,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -61,8 +66,9 @@ export class AuthController {
     return await this.appService.logout(refreshDto?.refresh_token);
   }
 
-  @UseGuards(RtGuard)
   @Post('refresh')
+  @ApiBearerAuth()
+  @UseGuards(RtGuard)
   @ApiOperation({ summary: 'Refresh Token' })
   async refresh(@Request() reqToken: TReqToken) {
     return this.appService.refreshToken(reqToken);
