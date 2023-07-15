@@ -2,12 +2,7 @@
 import { FC, ReactElement, useState } from 'react';
 import Image from 'next/image';
 import { TSideBarProps, TSideBarList } from './type';
-import {
-  AiFillHome,
-  AiOutlineFileDone,
-  AiOutlineLogout,
-  AiOutlineHome,
-} from 'react-icons/ai';
+import { AiFillHome, AiOutlineFileDone, AiOutlineLogout } from 'react-icons/ai';
 import { BiMenuAltLeft } from 'react-icons/bi';
 import { FaRegUser } from 'react-icons/fa';
 import Link from 'next/link';
@@ -36,7 +31,7 @@ export const SideBar: FC<TSideBarProps> = ({
   return (
     <>
       {/* Desktop */}
-      <div className="min-h-screen lg:relative fixed z-[99999]">
+      <div className="min-h-full lg:relative fixed z-[99999]">
         <aside
           className={` sm:hidden h-full top-0 left-0 flex z-50 lg:relative transition-transform -translate-x-full lg:sm:translate-x-0 w-72 md:flex  bg-primary-white py-10`}
         >

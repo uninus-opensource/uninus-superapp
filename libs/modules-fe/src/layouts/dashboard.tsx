@@ -7,9 +7,11 @@ export const DashboardLayout: FC<PropsWithChildren> = ({
   return (
     <html lang="en">
       <body>
-        <main className="flex w-full min-h-screen ">
+        <main className="flex w-full min-h-full">
           <SideBar profileName="mawar saidah" profileEmail="mwrsdh@gmail.com" />
-          <div className="w-full bg-gray-100 p-10 bg-slate-2">{children}</div>
+          <div className="w-full bg-gray-100 p-10 bg-primary-white">
+            {children}
+          </div>
         </main>
       </body>
     </html>
