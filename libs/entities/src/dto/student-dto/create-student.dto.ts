@@ -13,12 +13,12 @@ export class CreateStudentDto {
   avatar!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   nim!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   nisn!: string;
 
@@ -26,7 +26,7 @@ export class CreateStudentDto {
     example: 'KTP | SIM | KARTU_PELAJAR',
     description: 'string',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @IsIn(['KTP', 'SIM', 'KARTU_PELAJAR'], {
     message: 'Card Type must be one of KTP, SIM atau KARTU_PELAJAR',
@@ -34,24 +34,24 @@ export class CreateStudentDto {
   identification_type!: 'KTP' | 'SIM' | 'KARTU_PELAJAR';
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   identification_number!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   birth_place!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsISO8601()
   birth_date!: string;
 
   @ApiProperty({
     example: 'MALE | FEMALE',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsIn(['MALE', 'FEMALE'], {
     message: 'Gender must be one MALE atau FEMALE',
   })
@@ -60,7 +60,7 @@ export class CreateStudentDto {
   @ApiProperty({
     example: 'ISLAM | KRISTEN | KATOLIK | KONGHUCU | HINDU | BUDHA',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsIn(['ISLAM', 'KRISTEN', 'KATOLIK', 'KONGHUCU', 'HINDU', 'BUDHA'], {
     message:
       'Religion must be one of ISLAM, KRISTEN, KATOLIK, KONGHUCU, HINDU, BUDHA',
@@ -70,174 +70,174 @@ export class CreateStudentDto {
   @ApiProperty({
     example: 'WNI | WNA',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsIn(['WNI', 'WNA'], {
     message: 'Citizenship must be one of WNI or WNA',
   })
   citizenship!: 'WNI' | 'WNA';
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   marital_status!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   country!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   address!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   rt!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   rw!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   postal_code!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   subdistrict!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   province!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   city!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   phone_number!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   kk_number!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_type!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_major!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_name!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_address!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_postal_code!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_subdistrict!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_province!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_city!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   school_phone_number!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   graduation_year!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   father_name!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   mother_name!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   guardian_name!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_address!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_rt!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_rw!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_postal_code!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_subdistrict!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_province!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   parent_phone_number!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   father_education!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   mother_education!: string;
 
@@ -249,12 +249,12 @@ export class CreateStudentDto {
   guardian_education?: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   father_occupation!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   mother_occupation!: string;
 
@@ -266,12 +266,12 @@ export class CreateStudentDto {
   guardian_occupation?: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   father_income!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   mother_income!: string;
 
@@ -283,22 +283,22 @@ export class CreateStudentDto {
   guardian_income?: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   selection_type!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   program!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   academic_year!: string;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   registration_wave!: string;
 }

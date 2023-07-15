@@ -1,7 +1,7 @@
 export function getEmailMessageTemplate(
   name: string,
   otp: string,
-  obj: string
+  msg: string
 ): string {
   return `
       <!DOCTYPE html>
@@ -99,7 +99,7 @@ export function getEmailMessageTemplate(
                   </tr>
                   <tr>
                     <td style="text-align: left; padding: 30px 50px 50px 50px" valign="top">
-                      <p>Silahkan gunakan kode OTP ini untuk ${obj}</p>
+                      <p>Silahkan gunakan kode OTP ini untuk ${msg}</p>
                     </td>
                   </tr>
                   <tr>

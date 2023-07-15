@@ -7,3 +7,4 @@ export * from './req-user';
 export * from './rt-payload';
 export * from './token';
 export * from './biodata';
+export * from './student';
