@@ -15,6 +15,7 @@ import { usePathname } from 'next/navigation';
 export const SideBar: FC<TSideBarProps> = ({
   profileName = '',
   profileEmail = '',
+  onLogout,
 }): ReactElement => {
   const [onToogle, setOnToogle] = useState<boolean>(false);
   const { data: session } = useSession();
@@ -89,7 +90,12 @@ export const SideBar: FC<TSideBarProps> = ({
               <div className="btn w-fit p-3 bg-primary-white drop-shadow-md rounded-lg">
                 <AiOutlineLogout className="text-xl" />
               </div>
-              <Button variant="sidebarbutton" size="sm" styling="text-xl mt-0 ">
+              <Button
+                variant="sidebarbutton"
+                size="sm"
+                styling="text-xl mt-0"
+                onClick={onLogout}
+              >
                 Log out
               </Button>
             </div>
