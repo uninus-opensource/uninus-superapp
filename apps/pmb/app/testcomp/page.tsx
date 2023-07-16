@@ -9,9 +9,9 @@ import {
   DraggableComponent,
   TabJalurSeleksi,
   SelectField,
+  Accordion,
 } from '@uninus/components';
 import { PlusOutlined } from '@ant-design/icons';
-import { Accordion } from '../../../../libs/components/src/organisms/accordion';
 
 const LandingPage: FC = (): ReactElement => {
   const { control } = useForm<FieldValues>({
