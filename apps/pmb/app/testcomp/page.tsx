@@ -9,7 +9,7 @@ import {
   DraggableComponent,
   TabJalurSeleksi,
   SelectField,
-  AccordionTab,
+  Accordion,
 } from '@uninus/components';
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -139,7 +139,7 @@ const LandingPage: FC = (): ReactElement => {
           width="w-36"
         />
 
-        <AccordionTab header="Halo" titles={['Halo']} contents={[['String']]} />
+        <Accordion title="Data diri pendaftar">TES</Accordion>
       </div>
     </section>
   );
