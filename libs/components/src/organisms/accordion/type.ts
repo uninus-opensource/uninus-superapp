@@ -1,6 +1,7 @@
-export type AccordionItem = {
-  header: string;
-  titles: string[];
-  contents: string[][];
-  title?: string;
+import { ReactNode } from 'react';
+
+export type AccordionType = {
+  title: string;
+  className?: string;
+  children: ReactNode;
 };

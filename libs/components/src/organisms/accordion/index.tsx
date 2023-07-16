@@ -1,45 +1,35 @@
-'use client';
-import { useState, FC, ReactElement } from 'react';
-import { HiChevronDown } from 'react-icons/hi';
-import { AccordionItem } from './type';
+import { FC, ReactElement, useState } from 'react';
+import { AccordionType } from './type';
+import { CaretDownFilled, CaretUpFilled } from '@ant-design/icons';
 
-export const AccordionTab: FC<AccordionItem> = ({
-  header,
-  titles,
-  contents,
+export const Accordion: FC<AccordionType> = ({
+  children,
+  title,
+  className,
 }): ReactElement => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const toggleItem = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
-    <div className="w-full">
-      <h1 className="p-2 md:text-3xl lg:text-4xl text-2xl">{header}</h1>
-      {titles.map((title, index) => (
-        <div key={index}>
-          <button
-            type="button"
-            className="w-full flex items-center gap-2 p-2 md:p-4 bg-[#1C532A] text-white hover:bg-[#FECD42] hover:text-black focus:outline-none"
-            onClick={() => toggleItem(index)}
-          >
-            <HiChevronDown
-              className={`h-6 w-6 transition-transform ${
-                activeIndex === index ? 'transform rotate-180' : ''
-              }`}
-            />
-            <h2 className="md:text-sm lg:text-lg font-medium">{title}</h2>
-          </button>
-          {activeIndex === index && (
-            <div className="p-2 md:text-sm lg:text-base text-sm bg-gray-100">
-              {contents[index].map((content, contentIndex) => (
-                <div key={contentIndex}>{content}</div>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
+    <div className="rounded-lg w-[80vw] md:w-[70vw] lg:w-[70vw] xl:w-[70vw] 2xl-[70vw] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] py-5">
+      <div
+        className="flex justify-between items-center cursor-pointer select-none px-10"
+        onClick={toggleAccordion}
+      >
+        <h2 className="text-[2rem] font-extrabold text-secondary-green-4">
+          {title}
+        </h2>
+
+        <CaretUpFilled
+          className={`text-secondary-green-4 text-[2.5rem] duration-300 ${
+            isOpen ? 'rotate-0' : 'rotate-180'
+          }`}
+        />
+      </div>
+      {isOpen && <div className={className}>{children}</div>}
     </div>
   );
 };
