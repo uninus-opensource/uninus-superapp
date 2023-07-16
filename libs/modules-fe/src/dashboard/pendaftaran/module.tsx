@@ -35,7 +35,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               'Program Sarjana(S1) 2023/2024',
               'Program Pascasarjana(S2) 2023/2024',
             ]}
-            value="Pilihan Program"
             control={control}
           />
           <SelectField
@@ -51,7 +50,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               'Kerjasama Banom',
               'KIP - KULIAH',
             ]}
-            value="Jalur Seleksi"
             control={control}
           />
           <SelectField
@@ -69,7 +67,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               'Faklutas Hukum (FHUM)',
               'Faklutas Pertanian (FAPERTA)',
             ]}
-            value="Metode Pembayaran"
             control={control}
           />
           <SelectField
@@ -90,7 +87,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               'Teknik Informatika',
               'Teknik Industri',
             ]}
-            value="Metode Pembayaran"
             control={control}
           />
           <div className="flex flex-col gap-8">
