@@ -1,13 +1,15 @@
 'use client';
 import { Button, CheckBox, TextField } from '@uninus/components';
 import { signIn } from 'next-auth/react';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TVSLogin, VSLogin } from './schema';
 import Link from 'next/link';
 
 export const LoginModule: FC = (): ReactElement => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const {
     control,
     handleSubmit,
@@ -23,6 +25,7 @@ export const LoginModule: FC = (): ReactElement => {
   });
 
   const onSubmit = handleSubmit((data) => {
+    setIsLoading(true);
     signIn('login', {
       callbackUrl: '/dashboard',
       redirect: true,
@@ -85,7 +88,7 @@ export const LoginModule: FC = (): ReactElement => {
           </Link>
         </div>
         <div className="flex justify-center">
-          <Button disabled={!isValid} width="w-full">
+          <Button loading={isLoading} disabled={!isValid} width="w-full">
             Masuk Sekarang
           </Button>
         </div>

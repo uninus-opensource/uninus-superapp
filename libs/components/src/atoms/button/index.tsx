@@ -57,13 +57,19 @@ export const Button: FC<IButtonProps> = ({
 
   return props?.href ? (
     <Link role="link" href={`${props?.href}`} onClick={scroll}>
-      <button {...props} className={className}>
-        {loading ? <LoadingSpinner /> : props.children}
+      <button
+        {...props}
+        className={`${className} ${loading ? 'hover:cursor-wait' : ''}`}
+      >
+        {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
       </button>
     </Link>
   ) : (
-    <button {...props} className={className}>
-      {loading ? <LoadingSpinner /> : props.children}
+    <button
+      {...props}
+      className={`${className} ${loading ? 'hover:cursor-wait' : ''}`}
+    >
+      {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
     </button>
   );
 };
