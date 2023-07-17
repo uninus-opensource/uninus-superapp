@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { FieldValues, useController } from 'react-hook-form';
-import { TRadioButtonProps } from './type';
+import { TRadioButtonProps } from './types';
 
 import clsx from 'clsx';
 

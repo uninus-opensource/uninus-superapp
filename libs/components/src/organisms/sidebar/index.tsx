@@ -71,7 +71,7 @@ export const SideBar: FC<TSideBarProps> = ({
               </figcaption>
             </figure>
             {/* Status pendaftaran */}
-            <div className="2xl:w-2/5 w-1/2 mt-2 bg-red-5 text-primary-white p-2 rounded-md text-center text-xs">
+            <div className="2xl:w-2/5 w-full mt-2 bg-red-5 text-primary-white p-2 rounded-md text-center text-xs">
               Belum Mendaftar
             </div>
             {/* End Status pendaftaran */}

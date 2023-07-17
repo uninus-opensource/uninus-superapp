@@ -122,22 +122,17 @@ export const ModuleBiodata: FC = (): ReactElement => {
               title="Data diri pendaftar"
               className="w-full h-auto pl-[5rem] mt-[2rem] flex flex-col gap-5"
             >
+              {/* section upload avatar */}
               <div className="flex flex-col gap-7 ">
-                <div className="flex items-center gap-14">
-                  <figure className="w-fit rounded-full relative overflow-hidden ">
-                    <Image
-                      src={'/illustrations/foto-cewe.png'}
-                      alt="profil"
-                      width={200}
-                      height={200}
-                      quality={100}
-                      priority
-                      className="inline h-full scale-110 top-2 left-2 relative"
-                    />
-                  </figure>
-                  <UploadField />
-                </div>
+                <UploadField
+                  className="flex h-full  items-center gap-4"
+                  control={control}
+                  name="file"
+                  defaultImage="/illustrations/dummy-avatar.jpg"
+                  previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full "
+                />
               </div>
+
               <section className="grid grid-cols-2 gap-4">
                 <TextField
                   name="nim"

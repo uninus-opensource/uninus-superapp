@@ -1,9 +1,7 @@
-export type FormData = {
-  file: FileList;
-};
-
 export type TUploadFile = {
-  className?: string;
-
-  required?: boolean;
+  control: any;
+  name: string;
+  className: string;
+  defaultImage?: string;
+  previewImage?: string;
 };
