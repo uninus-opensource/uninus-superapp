@@ -1,35 +1,46 @@
-import { ReactElement, useState } from 'react';
-import { FieldValues } from 'react-hook-form';
-import { TUploadFieldProps } from './types';
+'use client';
+import { FC, ReactElement } from 'react';
+import { TUploadFile } from './types';
+import { useController } from 'react-hook-form';
 
-export const UploadField = <T extends FieldValues>(
-  props: TUploadFieldProps<T>
-): ReactElement => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [previewImage, setPreviewImage] = useState('');
+export const UploadField: FC<TUploadFile> = (props): ReactElement => {
+  const {
+    field: { onChange, value, ref },
+  } = useController({
+    ...props,
+    defaultValue: null,
+  });
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      if (file.type.includes('image')) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreviewImage(reader.result as string);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        setPreviewImage('');
-      }
-    }
+    onChange(file);
   };
+
   return (
-    <section className="flex w-auto my-1 gap-y-2 ">
-      {previewImage && (
+    <div className={props.className}>
+      {value ? (
         <div>
-          <img src={previewImage} alt="Preview" style={{ maxWidth: '180px' }} />
+          <img
+            src={URL.createObjectURL(value)}
+            alt="Preview"
+            className={props.previewImage}
+          />
+        </div>
+      ) : (
+        <div className="w-auto h-auto">
+          <img
+            src={props?.defaultImage || ''}
+            alt=""
+            className={props.previewImage}
+          />
         </div>
       )}
-      <input type="file" accept="image/*,.pdf" onChange={handleFileChange} />
-    </section>
+      <input
+        type="file"
+        accept="image/*,.pdf"
+        onChange={handleFileChange}
+        ref={ref}
+      />
+    </div>
   );
 };

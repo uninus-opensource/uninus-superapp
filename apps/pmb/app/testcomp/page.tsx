@@ -123,7 +123,13 @@ const LandingPage: FC = (): ReactElement => {
           closeText="Cancel"
         />
         <div className="flex gap-2 w-auto">
-          <UploadField name="test" variant={'sm'} control={control} />
+          <UploadField
+            className="flex flex-col gap-4"
+            control={control}
+            name="file"
+            defaultImage=""
+            previewImage="w-[500px] "
+          />
         </div>
         <DraggableComponent control={control} name="draggableComponent" />
         <TabJalurSeleksi />
