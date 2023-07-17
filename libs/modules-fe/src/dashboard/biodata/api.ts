@@ -6,14 +6,14 @@ import {
 } from '@uninus/entities';
 
 export const BiodataCreate = async (
-  payload: TBiodataRequest
+  payload: TBiodataRequest | unknown
 ): Promise<TBiodataResponse> => {
   const { data } = await api.post('/student', payload);
   return data;
 };
 
 export const BiodataUpdate = async (
-  payload: TBiodataRequest
+  payload: TBiodataRequest | unknown
 ): Promise<TBiodataResponse> => {
   const { data } = await api.put('/student', payload);
   return data;

@@ -1,22 +1,32 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQuery,
+  UseMutationResult,
+} from '@tanstack/react-query';
 import { BiodataCreate, BiodataGet } from './api';
-import { TBiodataRequest } from '@uninus/entities';
+import { TBiodataResponse } from '@uninus/entities';
 
-export const useBiodataCreate = () => {
-  return useMutation({
+export const useBiodataCreate = (): UseMutationResult<
+  TBiodataResponse,
+  unknown
+> =>
+  useMutation({
     mutationKey: ['createBiodata'],
-    mutationFn: async (payload: TBiodataRequest) =>
-      await BiodataCreate(payload),
+    mutationFn: async (payload) => {
+      return await BiodataCreate(payload);
+    },
   });
-};
 
-export const useBiodataUpdate = () => {
-  return useMutation({
+export const useBiodataUpdate = (): UseMutationResult<
+  TBiodataResponse,
+  unknown
+> =>
+  useMutation({
     mutationKey: ['updateBiodata'],
-    mutationFn: async (payload: TBiodataRequest) =>
-      await BiodataCreate(payload),
+    mutationFn: async (payload) => {
+      return await BiodataCreate(payload);
+    },
   });
-};
 
 export const useBiodataGet = () => {
   return useQuery({
