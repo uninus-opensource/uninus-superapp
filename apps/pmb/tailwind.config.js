@@ -81,7 +81,7 @@ module.exports = {
         4: '#9E9E9E',
         3: '#B3B3B3',
         2: '#C7C7C7',
-        1: '#FFFFFF',
+        1: '#FAFCFF',
       },
       disable: {
         state: '#BDBDBD',
