@@ -1,5 +1,5 @@
 'use client';
-import { ReactElement, FC } from 'react';
+import { ReactElement, FC, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import {
   Accordion,
@@ -10,132 +10,98 @@ import {
   UploadField,
 } from '@uninus/components';
 import { useForm } from 'react-hook-form';
-import { TTextFieldOne, TTextFieldThree, TTextFieldTwo } from './type';
+import { formBiodataOne, formBiodataThree, formBiodataTwo } from './store';
 import { DashboardLayout } from '../../layouts';
-import { useBiodataCreate } from './hook';
+import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hook';
 
 // import { TVSBiodata, VSBiodata } from './schema';
 
 export const ModuleBiodata: FC = (): ReactElement => {
-  const { control, handleSubmit } = useForm({
+  const { data } = useBiodataGet();
+
+  const student = useMemo(() => {
+    return data;
+  }, [data]);
+
+  const { control, handleSubmit, reset } = useForm({
     mode: 'all',
     defaultValues: {
-      avatar: undefined,
-      nim: '123213213',
-      email: '132131',
-      identification_type: 'KTP',
-      identification_number: '213123123',
-      nisn: '123123123',
-      phone_number: '12312312',
-      kk_number: 'asdsa',
-      birth_place: '',
-      birth_date: '',
-      gender: '',
-      religion: '',
-      marital_status: '',
-      citizenship: '',
-      country: '',
-      province: '',
-      city: '',
-      subdistrict: '',
-      address: '',
-      rt: '002',
-      rw: '005',
-      postal_code: '32423',
-      school_type: '',
-      school_major: '',
-      school_name: '',
-      school_address: '',
-      school_province: '',
-      school_city: '',
-      school_subdistrict: '',
-      school_postal_code: '',
-      school_phone_number: '',
-      graduation_year: '',
-      mother_name: '',
-      father_name: '',
-      guardian_name: 'Rian',
-      parent_address: '',
-      parent_rt: '',
-      parent_rw: '',
-      parent_postal_code: '',
-      parent_province: '',
-      parent_phone_number: '651564846',
-      parent_subdistrict: '',
-      father_education: '',
-      father_occupation: '',
-      father_income: '',
-      mother_education: '',
-      mother_occupation: '',
-      mother_income: '',
-      guardian_education: undefined,
-      guardian_occupation: undefined,
-      guardian_income: undefined,
-      selection_type: 'JSPA',
-      program: 'KIP',
-      academic_year: '2023',
-      registration_wave: '5',
+      avatar: student?.avatar,
+      nim: student?.nim,
+      email: student?.email,
+      identification_type: student?.identification_type,
+      identification_number: student?.identification_number,
+      nisn: student?.nisn,
+      phone_number: student?.phone_number,
+      kk_number: student?.kk_number,
+      birth_place: student?.birth_place,
+      birth_date: student?.birth_date,
+      EGender: student?.EGender,
+      EReligion: student?.EReligion,
+      marital_status: student?.marital_status,
+      ECitizenship: student?.ECitizenship,
+      country: student?.country,
+      province: student?.province,
+      city: student?.city,
+      subdistrict: student?.subdistrict,
+      address: student?.address,
+      rt: student?.rt,
+      rw: student?.rw,
+      postal_code: student?.postal_code,
+      school_type: student?.school_type,
+      school_major: student?.school_major,
+      school_name: student?.school_name,
+      school_address: student?.school_address,
+      school_province: student?.school_province,
+      school_city: student?.city,
+      school_subdistrict: student?.school_subdistrict,
+      school_postal_code: student?.school_postal_code,
+      school_phone_number: student?.school_phone_number,
+      graduation_year: student?.graduation_year,
+      mother_name: student?.mother_name,
+      father_name: student?.father_name,
+      guardian_name: student?.guardian_name,
+      parent_address: student?.parent_address,
+      parent_rt: student?.parent_rt,
+      parent_rw: student?.parent_rw,
+      parent_postal_code: student?.parent_postal_code,
+      parent_province: student?.parent_province,
+      parent_phone_number: student?.parent_phone_number,
+      parent_subdistrict: student?.subdistrict,
+      father_education: student?.father_education,
+      father_occupation: student?.father_occupation,
+      father_income: student?.father_income,
+      mother_education: student?.mother_education,
+      mother_occupation: student?.mother_occupation,
+      mother_income: student?.mother_income,
+      guardian_education: student?.guardian_education,
+      guardian_occupation: student?.guardian_occupation,
+      guardian_income: student?.guardian_income,
+      selection_type: student?.selection_type,
+      program: student?.program,
+      academic_year: student?.academic_year,
+      registration_wave: student?.registration_wave,
     },
   });
 
   const { mutate: createBiodata } = useBiodataCreate();
+  const { mutate: updateBiodata } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
     try {
-      createBiodata(data);
+      if (student?.identification_number) {
+        updateBiodata(data);
+      } else {
+        createBiodata(data);
+      }
     } catch (error) {
       console.log(error);
     }
   });
 
-  const formBiodataOne: TTextFieldOne[] = [
-    {
-      name: 'email',
-      item: 'Email',
-      type: 'text',
-    },
-    {
-      name: 'identification_number',
-      item: 'Nomor Kartu Identitas',
-      type: 'text',
-    },
-    {
-      name: 'nisn',
-      item: 'Nomor Induk Siswa Nasional',
-      type: 'text',
-    },
-    {
-      name: 'phone_number',
-      item: 'Nomor Handphone/WA',
-      type: 'text',
-    },
-  ];
-
-  const formBiodataTwo: TTextFieldTwo[] = [
-    {
-      name: 'rt',
-      item: 'RT',
-      type: 'text',
-    },
-    {
-      name: 'rw',
-      item: 'RW',
-      type: 'text',
-    },
-  ];
-
-  const formBiodataThree: TTextFieldThree[] = [
-    {
-      name: 'parent_rt',
-      item: 'RT',
-      type: 'text',
-    },
-    {
-      name: 'parent_rw',
-      item: 'RW',
-      type: 'text',
-    },
-  ];
+  useEffect(() => {
+    reset(student);
+  }, [student, reset]);
 
   return (
     <DashboardLayout>
@@ -173,8 +139,9 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
-                  label="Nama lengkap"
+                  label="NIM"
                   inputWidth="lg:w-25% xl:w-20% text-base"
+                  disabled
                   control={control}
                   required
                 />
@@ -200,7 +167,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Kota tempat lahir"
                   status="none"
                   options={['Kota Bandung', 'Kota Jakarta', 'Kota Denpasar']}
-                  value="Tempat Lahir"
                   width="lg:w-25% xl:w-20%"
                   control={control}
                   required
@@ -221,7 +187,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   <h3 className="text-xs font-semibold">Jenis Kelamin</h3>
                   <div className="flex items-center gap-6">
                     <RadioButton
-                      name="gender"
+                      name="EGender"
                       label="Laki-laki"
                       control={control}
                       id="l"
@@ -229,9 +195,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       value="MALE"
                       variant="primary"
                       required
+                      isChecked={student?.EGender === 'MALE' ? true : false}
                     />
                     <RadioButton
-                      name="gender"
+                      name="EGender"
                       label="Perempuan"
                       control={control}
                       id="p"
@@ -239,11 +206,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       value="FEMALE"
                       variant="primary"
                       required
+                      isChecked={student?.EGender === 'FEMALE' ? true : false}
                     />
                   </div>
                 </div>
                 <SelectField
-                  name="religion"
+                  name="EReligion"
                   label="Agama"
                   size="sm"
                   placeholder="Agama"
@@ -256,7 +224,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     'HINDU',
                     'BUDDHA',
                   ]}
-                  value="Agama"
                   width="lg:w-15% xl:w-10%"
                   control={control}
                 />
@@ -267,7 +234,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Status"
                   status="none"
                   options={['Menikah', 'Belum menikah']}
-                  value="Status Menikah"
                   width="lg:w-20% xl:w-15%"
                   control={control}
                 />
@@ -278,23 +244,25 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
                   <div className="flex items-center gap-6">
                     <RadioButton
-                      name="citizenship"
+                      name="ECitizenship"
                       label="WNI"
                       control={control}
                       id="wni"
                       inputname="kewarganegaraan"
                       value="WNI"
                       variant="primary"
+                      isChecked={student?.ECitizenship === 'WNI' ? true : false}
                       required
                     />
                     <RadioButton
-                      name="citizenship"
+                      name="ECitizenship"
                       label="WNA"
                       control={control}
                       id="wna"
                       inputname="kewarganegaraan"
                       value="WNA"
                       variant="primary"
+                      isChecked={student?.ECitizenship === 'WNA' ? true : false}
                       required
                     />
                   </div>
@@ -306,7 +274,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Asal Negara"
                   status="none"
                   options={['Indonesia', 'Malaysia', 'Singapura', 'Kamboja']}
-                  value="Asal Negara"
                   width="lg:w-20% xl:w-15%"
                   control={control}
                 />
@@ -320,7 +287,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Provinsi"
                   status="none"
                   options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                  value="Provinsi"
                   width="lg:w-15% xl:w-15%"
                   control={control}
                 />
@@ -336,7 +302,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     'Kota Jakarta',
                     'Kota Bandung',
                   ]}
-                  value="Kota/Kabupaten"
                   width="lg:w-20% xl:w-15%"
                   control={control}
                 />
@@ -347,7 +312,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Kecamatan"
                   status="none"
                   options={['Sumur Bandung', 'Batununggal']}
-                  value="Kecamatan"
                   width="w-15%"
                   control={control}
                 />
@@ -410,9 +374,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Jenis Pendidikan Asal"
                   size="sm"
                   placeholder="Jenis Pendidikan"
-                  status="none"
                   options={['SMA', 'SMK', 'MA']}
-                  value="Pendidikan Asal"
                   width="lg:w-20% xl:w-15%"
                   control={control}
                 />
@@ -421,9 +383,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Jurusan Pendidikan Asal"
                   size="sm"
                   placeholder="Jurusan Pendidikan"
-                  status="none"
                   options={['Saintek', 'Soshum', 'Lainnya']}
-                  value="Jurusan Asal"
                   width="lg:w-20% xl:w-15%"
                   control={control}
                 />
@@ -463,7 +423,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Provinsi"
                   status="none"
                   options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                  value="Provinsi Instansi"
                   width="lg:w-15% xl:w-15%"
                   control={control}
                 />
@@ -479,7 +438,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     'Kota Jakarta',
                     'Kota Bandung',
                   ]}
-                  value="Kota/Kabupaten Instansi"
                   width="lg:w-20% xl:w-15%"
                   control={control}
                 />
@@ -490,7 +448,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Kecamatan"
                   status="none"
                   options={['Sumur Bandung', 'Batununggal']}
-                  value="Kecamatan Instansi"
                   width="w-15%"
                   control={control}
                 />
@@ -524,7 +481,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Tahun lulus"
                   status="none"
                   options={['2023', '2022']}
-                  value="Tahun Lulus"
                   width="w-15%"
                   control={control}
                 />
@@ -609,10 +565,9 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   name="parent_province"
                   label="Provinsi"
                   size="sm"
-                  placeholder="Provinsi"
+                  placeholder="Pilih Provinsi"
                   status="none"
                   options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                  value="Provinsi Ortu"
                   width="lg:w-15% xl:w-15%"
                   control={control}
                 />
@@ -620,10 +575,9 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   name="parent_subdistrict"
                   label="Kecamatan"
                   size="sm"
-                  placeholder="Kecamatan"
+                  placeholder="Pilih Kecamatan"
                   status="none"
                   options={['Sumur Bandung', 'Batununggal']}
-                  value="Kecamatan Ortu"
                   width="w-15%"
                   control={control}
                 />

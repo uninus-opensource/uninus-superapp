@@ -6,3 +6,4 @@ export * from './schema-properties';
 export * from './strategies';
 export * from './types';
 export * from './templates/email-message';
+export * from './interfaces';

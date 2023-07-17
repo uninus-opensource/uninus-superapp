@@ -13,4 +13,5 @@ export type TRadioButtonProps<T extends FieldValues> = UseControllerProps<T> & {
   onChange?: ChangeEventHandler<HTMLInputElement>;
   value: string;
   id: string;
+  isChecked?: boolean;
 };

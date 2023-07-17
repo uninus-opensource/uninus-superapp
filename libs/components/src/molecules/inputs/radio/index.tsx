@@ -49,6 +49,7 @@ export const RadioButton = <T extends FieldValues>({
         id={props.id}
         value={props.value}
         name={props.inputname}
+        checked={props.isChecked}
       />
       <label htmlFor={props.name} className={lblSize}>
         {props.label}
