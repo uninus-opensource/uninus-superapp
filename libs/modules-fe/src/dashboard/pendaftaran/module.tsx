@@ -17,14 +17,16 @@ export const ModulePendaftaran: FC = (): ReactElement => {
 
   return (
     <DashboardLayout>
-      <section className="flex flex-col text-center lg:text-start">
-        <h1 className="text-slate-5">
-          PMB <span className="text-secondary-green-4"> / Pendaftaran</span>
-        </h1>
-        <p className="text-lg font-bold text-secondary-green-4">
-          Formulir Pendaftaran
-        </p>
-        <div className="flex flex-col gap-4 w-full p-12 rounded-lg border border-slate-3  shadow-lg m-6">
+      <section className="flex flex-col text-center lg:px-10 px-4 gap-y-6  lg:text-start">
+        <div className="2xl:text-2xl">
+          <h1 className="text-slate-5">
+            PMB <span className="text-secondary-green-4"> / Pendaftaran</span>
+          </h1>
+          <p className=" text-lg 2xl:text-2xl  font-bold text-secondary-green-4">
+            Formulir Pendaftaran
+          </p>
+        </div>
+        <div className="flex flex-col gap-4 w-full bg-primary-white p-12 rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
           <SelectField
             name="program"
             label="Program"
@@ -89,7 +91,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
             ]}
             control={control}
           />
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-start">
             <Button variant="elevated" size="sm" width="w-48" height="h-12">
               Daftar Sekarang
             </Button>
