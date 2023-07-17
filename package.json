@@ -91,7 +91,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.8",
     "@nestjs/schematics": "^10.0.1",
-    "@nestjs/testing": "^10.0.2",
+    "@nestjs/testing": "^10.1.0",
     "@nx-extend/strapi": "^6.1.1",
     "@nx/cypress": "16.4.0",
     "@nx/eslint-plugin": "16.5.2",
