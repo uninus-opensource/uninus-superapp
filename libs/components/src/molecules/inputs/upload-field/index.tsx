@@ -1,33 +1,35 @@
-'use client';
-import { FC, ReactElement, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import clsx from 'clsx';
-import { FormData, TUploadFile } from './types';
-import { Button } from '../../../atoms';
+import { ReactElement, useState } from 'react';
+import { FieldValues } from 'react-hook-form';
+import { TUploadFieldProps } from './types';
 
-export const UploadField: FC<TUploadFile> = ({
-  className,
-  required,
-}): ReactElement => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
-
-  const onSubmit = handleSubmit((data) => {
-    const file = data.file[0];
-    console.log(file);
-  });
-
+export const UploadField = <T extends FieldValues>(
+  props: TUploadFieldProps<T>
+): ReactElement => {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState('');
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      if (file.type.includes('image')) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewImage(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setPreviewImage('');
+      }
+    }
+  };
   return (
-    <fieldset>
-      <input
-        className={className}
-        type="file"
-        {...register('file', { required })}
-      />
-      {errors.file && <span>This field is required</span>}
-    </fieldset>
+    <section className="flex w-auto my-1 gap-y-2 ">
+      {previewImage && (
+        <div>
+          <img src={previewImage} alt="Preview" style={{ maxWidth: '180px' }} />
+        </div>
+      )}
+      <input type="file" accept="image/*,.pdf" onChange={handleFileChange} />
+    </section>
   );
 };

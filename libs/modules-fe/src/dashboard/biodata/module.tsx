@@ -170,7 +170,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       className="inline h-full scale-110 top-2 left-2 relative"
                     />
                   </figure>
-                  <UploadField />
+                  <UploadField name="avatar" variant={'md'} />
                 </div>
               </div>
               <section className="grid grid-cols-2 gap-4">
