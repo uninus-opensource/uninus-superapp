@@ -4,9 +4,17 @@ import {
   UseMutationResult,
 } from '@tanstack/react-query';
 import { BiodataCreate, BiodataGet } from './api';
-import { TBiodataResponse } from '@uninus/entities';
+import {
+  TBiodataRequest,
+  TBiodataResponse,
+  TBiodataUpdateRequest,
+  TBiodataUpdateResponse,
+  TMetaErrorResponse,
+} from '@uninus/entities';
 
 export const useBiodataCreate = (): UseMutationResult<
+  TBiodataRequest,
+  TMetaErrorResponse,
   TBiodataResponse,
   unknown
 > =>
@@ -18,7 +26,9 @@ export const useBiodataCreate = (): UseMutationResult<
   });
 
 export const useBiodataUpdate = (): UseMutationResult<
-  TBiodataResponse,
+  TBiodataUpdateRequest,
+  TMetaErrorResponse,
+  TBiodataUpdateResponse,
   unknown
 > =>
   useMutation({

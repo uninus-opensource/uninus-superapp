@@ -6,9 +6,9 @@ export type TBiodataRequest = {
   identification_number?: string;
   birth_place?: string;
   birth_date?: string;
-  gender?: string;
-  religion?: string;
-  citizenship?: string;
+  EGender?: string;
+  EReligion?: string;
+  ECitizenship?: string;
   marital_status?: string;
   country?: string;
   address?: string;
@@ -56,3 +56,5 @@ export type TBiodataRequest = {
 };
 
 export type TBiodataResponse = TBiodataRequest;
+export type TBiodataUpdateResponse = TBiodataResponse;
+export type TBiodataUpdateRequest = TBiodataRequest;

@@ -3,6 +3,8 @@ import {
   IBiodataGetResponse,
   TBiodataRequest,
   TBiodataResponse,
+  TBiodataUpdateRequest,
+  TBiodataUpdateResponse,
 } from '@uninus/entities';
 
 export const BiodataCreate = async (
@@ -13,8 +15,8 @@ export const BiodataCreate = async (
 };
 
 export const BiodataUpdate = async (
-  payload: TBiodataRequest | unknown
-): Promise<TBiodataResponse> => {
+  payload: TBiodataUpdateRequest | unknown
+): Promise<TBiodataUpdateResponse> => {
   const { data } = await api.put('/student', payload);
   return data;
 };

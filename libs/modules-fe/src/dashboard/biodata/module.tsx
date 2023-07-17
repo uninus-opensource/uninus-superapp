@@ -23,7 +23,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
     return data;
   }, [data]);
 
-  const { control, handleSubmit, setValue } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     mode: 'all',
     defaultValues: {
       avatar: student?.avatar,
@@ -36,10 +36,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
       kk_number: student?.kk_number,
       birth_place: student?.birth_place,
       birth_date: student?.birth_date,
-      gender: student?.gender,
-      religion: student?.religion,
+      EGender: student?.EGender,
+      EReligion: student?.EReligion,
       marital_status: student?.marital_status,
-      citizenship: student?.citizenship,
+      ECitizenship: student?.ECitizenship,
       country: student?.country,
       province: student?.province,
       city: student?.city,
@@ -100,62 +100,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
   });
 
   useEffect(() => {
-    setValue('avatar', student?.avatar);
-    setValue('nim', student?.nim);
-    setValue('email', student?.email);
-    setValue('identification_type', student?.identification_type);
-    setValue('identification_number', student?.identification_number);
-    setValue('nisn', student?.nisn);
-    setValue('phone_number', student?.phone_number);
-    setValue('kk_number', student?.kk_number);
-    setValue('birth_place', student?.birth_place);
-    setValue('birth_date', student?.birth_date);
-    setValue('gender', student?.gender);
-    setValue('religion', student?.religion);
-    setValue('marital_status', student?.marital_status);
-    setValue('citizenship', student?.citizenship);
-    setValue('country', student?.country);
-    setValue('province', student?.province);
-    setValue('city', student?.city);
-    setValue('subdistrict', student?.subdistrict);
-    setValue('address', student?.address);
-    setValue('rt', student?.rt);
-    setValue('rw', student?.rw);
-    setValue('postal_code', student?.postal_code);
-    setValue('school_type', student?.school_type);
-    setValue('school_major', student?.school_major);
-    setValue('school_name', student?.school_name);
-    setValue('school_address', student?.school_address);
-    setValue('school_province', student?.school_province);
-    setValue('school_city', student?.city);
-    setValue('school_subdistrict', student?.school_subdistrict);
-    setValue('school_postal_code', student?.school_postal_code);
-    setValue('school_phone_number', student?.school_phone_number);
-    setValue('graduation_year', student?.graduation_year);
-    setValue('mother_name', student?.mother_name);
-    setValue('father_name', student?.father_name);
-    setValue('guardian_name', student?.guardian_name);
-    setValue('parent_address', student?.parent_address);
-    setValue('parent_rt', student?.parent_rt);
-    setValue('parent_rw', student?.parent_rw);
-    setValue('parent_postal_code', student?.parent_postal_code);
-    setValue('parent_province', student?.parent_province);
-    setValue('parent_phone_number', student?.parent_phone_number);
-    setValue('parent_subdistrict', student?.subdistrict);
-    setValue('father_education', student?.father_education);
-    setValue('father_occupation', student?.father_occupation);
-    setValue('father_income', student?.father_income);
-    setValue('mother_education', student?.mother_education);
-    setValue('mother_occupation', student?.mother_occupation);
-    setValue('mother_income', student?.mother_income);
-    setValue('guardian_education', student?.guardian_education);
-    setValue('guardian_occupation', student?.guardian_occupation);
-    setValue('guardian_income', student?.guardian_income);
-    setValue('selection_type', student?.selection_type);
-    setValue('program', student?.program);
-    setValue('academic_year', student?.academic_year);
-    setValue('registration_wave', student?.registration_wave);
-  }, [student, setValue]);
+    reset(student);
+  }, [student, reset]);
 
   return (
     <DashboardLayout>
@@ -246,7 +192,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   <h3 className="text-xs font-semibold">Jenis Kelamin</h3>
                   <div className="flex items-center gap-6">
                     <RadioButton
-                      name="gender"
+                      name="EGender"
                       label="Laki-laki"
                       control={control}
                       id="l"
@@ -254,10 +200,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       value="MALE"
                       variant="primary"
                       required
-                      isChecked={student?.gender === 'MALE' ? true : false}
+                      isChecked={student?.EGender === 'MALE' ? true : false}
                     />
                     <RadioButton
-                      name="gender"
+                      name="EGender"
                       label="Perempuan"
                       control={control}
                       id="p"
@@ -265,12 +211,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       value="FEMALE"
                       variant="primary"
                       required
-                      isChecked={student?.gender === 'FEMALE' ? true : false}
+                      isChecked={student?.EGender === 'FEMALE' ? true : false}
                     />
                   </div>
                 </div>
                 <SelectField
-                  name="religion"
+                  name="EReligion"
                   label="Agama"
                   size="sm"
                   placeholder="Agama"
@@ -303,25 +249,25 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
                   <div className="flex items-center gap-6">
                     <RadioButton
-                      name="citizenship"
+                      name="ECitizenship"
                       label="WNI"
                       control={control}
                       id="wni"
                       inputname="kewarganegaraan"
                       value="WNI"
                       variant="primary"
-                      isChecked={student?.citizenship === 'WNI' ? true : false}
+                      isChecked={student?.ECitizenship === 'WNI' ? true : false}
                       required
                     />
                     <RadioButton
-                      name="citizenship"
+                      name="ECitizenship"
                       label="WNA"
                       control={control}
                       id="wna"
                       inputname="kewarganegaraan"
                       value="WNA"
                       variant="primary"
-                      isChecked={student?.citizenship === 'WNA' ? true : false}
+                      isChecked={student?.ECitizenship === 'WNA' ? true : false}
                       required
                     />
                   </div>
