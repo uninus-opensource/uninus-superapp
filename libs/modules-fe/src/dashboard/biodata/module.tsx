@@ -105,17 +105,22 @@ export const ModuleBiodata: FC = (): ReactElement => {
 
   return (
     <DashboardLayout>
-      <h1 className="text-slate-5">
-        PMB <span className="text-secondary-green-4"> / Data diri</span>
-      </h1>
-      <p className="text-lg font-bold text-secondary-green-4">
-        Pengisian data diri
-      </p>
+      <div className="ml-[6vw] lg:ml-0">
+        <h1 className="text-slate-5">
+          PMB <span className="text-secondary-green-4"> / Data diri</span>
+        </h1>
+        <p className="text-lg font-bold text-secondary-green-4">
+          Pengisian data diri
+        </p>
+      </div>
       {/* Section Biodata */}
-      <section className="flex flex-col gap-6 h-screen">
+      <section className="flex flex-col gap-6">
         {/* Section Biodata diri pendaftar */}
-        <section className="flex flex-col gap-8 px-8 py-10 w-full h-full rounded-lg bg-primary-white overflow-y-auto ">
-          <form onSubmit={onSubmit} className="flex flex-col gap-6">
+        <section className="flex flex-col gap-8 px-8 py-10 w-full rounded-lg bg-primary-white overflow-y-auto">
+          <form
+            onSubmit={onSubmit}
+            className="flex flex-col gap-6 justify-center w-full"
+          >
             {/* Accordion data diri pendaftar */}
             {/* section form biodata diri pendaftar */}
             <Accordion
@@ -123,7 +128,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
               className="w-full h-auto pl-[5rem] mt-[2rem] flex flex-col gap-5"
             >
               {/* section upload avatar */}
-              <div className="flex flex-col gap-7 ">
+              <div className="flex flex-col gap-7">
                 <UploadField
                   className="flex h-full  items-center gap-4"
                   control={control}
