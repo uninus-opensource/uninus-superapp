@@ -1,12 +1,18 @@
 'use client';
 import { DashboardLayout } from '../layouts';
-import { ReactElement, FC } from 'react';
+import { ReactElement, FC, useMemo } from 'react';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 export const DashboardModule: FC = (): ReactElement => {
+  const { data: session } = useSession();
+  const namaStudent = useMemo(() => {
+    return session?.user?.name;
+  }, [session?.user?.name]);
+
   return (
     <DashboardLayout>
-      <section className="flex flex-col lg:px-10 px-4 text-center gap-y-6 lg:text-start">
+      <section className="flex flex-col  lg:px-10 px-4 text-center gap-y-6 lg:text-start">
         <div className="2xl:text-2xl">
           <h1 className="text-slate-5 ">
             PMB <span className="text-secondary-green-4"> / Homepage</span>
@@ -15,22 +21,34 @@ export const DashboardModule: FC = (): ReactElement => {
             Homepage
           </p>
         </div>
-        <div className="w-full rounded-lg lg:h-full h-[400px] 2xl:h-[700px] bg-primary-white flex flex-col 2xl:gap-y-4 items-center py-6 px-4 shadow-[0_3px_10px_rgb(0,0,0,0.2)] ">
-          <p className="lg:text-md text-xs 2xl:text-xl text-center py-4 font-semibold lg:w-5/6 text-secondary-green-4">
-            Selamat datang di dashboard PMB Universitas Islam Nusantara, untuk
-            melakukan pendaftaran PMB dapat melihat tata cara di bawah ini :
-          </p>
-          <figure className="pb-4">
+        <div className="w-full rounded-lg h-auto bg-primary-white flex text-secondary-green-4 flex-col text-center items-center py-8 gap-5 px-7 lg:px-14 shadow-full">
+          <figure className="w-56">
             <Image
-              src={'/illustrations/tata_cara.png'}
-              alt="profil"
-              className="2xl:w-[800px] 2xl:h-[530px] w-fit"
-              width={584}
-              height={400}
+              src={'/illustrations/dashboard-home.png'}
+              alt="home"
+              width={1000}
+              height={1000}
               quality={100}
               priority
             />
           </figure>
+          <div className="flex flex-col gap-1">
+            <h1 className="text-3xl font-bold">Hello, {namaStudent}</h1>
+            <h2 className="font-semibold text-sm lg:text-base xl:text-lg">
+              Selamat Datang di Dashboard Penerimaan Mahasiswa Baru (PMB) <br />
+              Universitas Islam Nusantara
+            </h2>
+          </div>
+          <hr className="w-full" />
+          <h3 className="text-xs xl:text-sm mb-10">
+            Bagi Nusantara Muda yang ingin mendaftarkan diri di Universitas
+            Islam Nusantara, dapat mengisi kelengkapan data pribadi, data
+            pendidikan, dan data orang tua pada menu{' '}
+            <span className="font-bold">Data Diri</span> , Kemudian dapat
+            mengisi formulir pendaftaran PMB yang dapat diakses pada menu{' '}
+            <span className="font-bold">Pendaftaran</span>. Kemudian lakukan
+            pembayaran, dan lihat status pendaftaran.
+          </h3>
         </div>
       </section>
     </DashboardLayout>

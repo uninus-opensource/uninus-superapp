@@ -13,6 +13,7 @@ module.exports = {
     extend: {
       boxShadow: {
         inset: '0px 2px 6px 0px rgba(0, 0, 0, 0.25) inset',
+        full: '0px 3px 10px rgb(0,0,0,0.2)',
       },
       width: {
         18: '72px',
