@@ -323,7 +323,7 @@ export class AuthService {
     });
 
     if (!isEmailExist) {
-      throw new ConflictException('Email tidak ditemukan');
+      throw new NotFoundException('Email tidak ditemukan');
     }
 
     const user = await this.prisma.users.update({
