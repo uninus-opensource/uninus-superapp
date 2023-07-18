@@ -1,5 +1,12 @@
 'use client';
-import { ReactElement, FC, useEffect, useMemo } from 'react';
+import {
+  ReactElement,
+  FC,
+  useEffect,
+  useMemo,
+  useState,
+  ChangeEvent,
+} from 'react';
 import Image from 'next/image';
 import {
   Accordion,
@@ -18,11 +25,9 @@ import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hook';
 
 export const ModuleBiodata: FC = (): ReactElement => {
   const { data } = useBiodataGet();
-
   const student = useMemo(() => {
     return data;
   }, [data]);
-
   const { control, handleSubmit, reset } = useForm({
     mode: 'all',
     defaultValues: {
@@ -36,10 +41,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
       kk_number: student?.kk_number,
       birth_place: student?.birth_place,
       birth_date: student?.birth_date,
-      EGender: student?.EGender,
+      EGender: student?.gender,
       EReligion: student?.EReligion,
       marital_status: student?.marital_status,
-      ECitizenship: student?.ECitizenship,
+      ECitizenship: student?.citizenship,
       country: student?.country,
       province: student?.province,
       city: student?.city,
@@ -87,6 +92,22 @@ export const ModuleBiodata: FC = (): ReactElement => {
   const { mutate: createBiodata } = useBiodataCreate();
   const { mutate: updateBiodata } = useBiodataUpdate();
 
+  const [radioSelected, setRadioSelected] = useState<{
+    EGender?: string;
+    ECitizenship?: string;
+  }>({
+    EGender: '',
+    ECitizenship: '',
+  });
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setRadioSelected({
+      ...radioSelected,
+      [e.target.name]: e.target.value,
+    });
+    console.log(e.target.value);
+    console.log(data);
+  };
+
   const onSubmit = handleSubmit((data) => {
     try {
       if (student?.identification_number) {
@@ -97,30 +118,30 @@ export const ModuleBiodata: FC = (): ReactElement => {
     } catch (error) {
       console.log(error);
     }
+    console.log('submit');
   });
 
   useEffect(() => {
     reset(student);
+    setRadioSelected({
+      EGender: student?.gender,
+      ECitizenship: student?.citizenship,
+    });
   }, [student, reset]);
 
   return (
     <DashboardLayout>
-      <div className="ml-[6vw] lg:ml-0">
-        <h1 className="text-slate-5">
-          PMB <span className="text-secondary-green-4"> / Data diri</span>
-        </h1>
-        <p className="text-lg font-bold text-secondary-green-4">
-          Pengisian data diri
-        </p>
-      </div>
+      <h1 className="text-slate-5">
+        PMB <span className="text-secondary-green-4"> / Data diri</span>
+      </h1>
+      <p className="text-lg font-bold text-secondary-green-4">
+        Pengisian data diri
+      </p>
       {/* Section Biodata */}
-      <section className="flex flex-col gap-6">
+      <section className="flex flex-col gap-6 h-screen">
         {/* Section Biodata diri pendaftar */}
-        <section className="flex flex-col gap-8 px-8 py-10 w-full rounded-lg bg-primary-white overflow-y-auto">
-          <form
-            onSubmit={onSubmit}
-            className="flex flex-col gap-6 justify-center w-full"
-          >
+        <section className="flex flex-col gap-8 px-8 py-10 w-full h-full rounded-lg bg-primary-white overflow-y-auto ">
+          <form onSubmit={onSubmit} className="flex flex-col gap-6">
             {/* Accordion data diri pendaftar */}
             {/* section form biodata diri pendaftar */}
             <Accordion
@@ -128,7 +149,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
               className="w-full h-auto pl-[5rem] mt-[2rem] flex flex-col gap-5"
             >
               {/* section upload avatar */}
-              <div className="flex flex-col gap-7">
+              <div className="flex flex-col gap-7 ">
                 <UploadField
                   className="flex h-full  items-center gap-4"
                   control={control}
@@ -146,7 +167,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   labelclassname="text-sm font-semibold"
                   label="NIM"
                   inputWidth="lg:w-25% xl:w-20% text-base"
-                  disabled
+                  // disabled
                   control={control}
                   required
                 />
@@ -196,22 +217,22 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       label="Laki-laki"
                       control={control}
                       id="l"
-                      inputname="jk"
+                      onChange={handleChange}
                       value="MALE"
                       variant="primary"
                       required
-                      isChecked={student?.EGender === 'MALE' ? true : false}
+                      isChecked={radioSelected?.EGender === 'MALE'}
                     />
                     <RadioButton
                       name="EGender"
                       label="Perempuan"
                       control={control}
                       id="p"
-                      inputname="jk"
+                      onChange={handleChange}
                       value="FEMALE"
                       variant="primary"
                       required
-                      isChecked={student?.EGender === 'FEMALE' ? true : false}
+                      isChecked={radioSelected?.EGender === 'FEMALE'}
                     />
                   </div>
                 </div>
@@ -253,22 +274,24 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       label="WNI"
                       control={control}
                       id="wni"
+                      onChange={handleChange}
                       inputname="kewarganegaraan"
                       value="WNI"
                       variant="primary"
-                      isChecked={student?.ECitizenship === 'WNI' ? true : false}
                       required
+                      isChecked={radioSelected?.ECitizenship === 'WNI'}
                     />
                     <RadioButton
                       name="ECitizenship"
                       label="WNA"
                       control={control}
                       id="wna"
+                      onChange={handleChange}
                       inputname="kewarganegaraan"
                       value="WNA"
                       variant="primary"
-                      isChecked={student?.ECitizenship === 'WNA' ? true : false}
                       required
+                      isChecked={radioSelected?.ECitizenship === 'WNA'}
                     />
                   </div>
                 </div>
