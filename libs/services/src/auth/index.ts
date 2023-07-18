@@ -97,11 +97,18 @@ export class AuthService {
     if (!createdUser) {
       throw new BadRequestException('Gagal Mendaftar');
     }
-    const otp = await generateOtp(createdUser?.email);
+    const isCreateOtp = await generateOtp(createdUser?.email, createdUser?.id);
 
+    if (!isCreateOtp) {
+      throw new BadRequestException('Gagal membuat otp');
+    }
     const msg = 'verifikasi akun anda';
 
-    const html = getEmailMessageTemplate(data.fullname, otp, msg);
+    const html = getEmailMessageTemplate(
+      data.fullname,
+      isCreateOtp?.token,
+      msg
+    );
 
     const sendEmail = this.emailService.sendEmail(
       data.email.toLowerCase(),
@@ -243,11 +250,18 @@ export class AuthService {
       throw new NotFoundException('Akun tidak ditemukan');
     }
 
-    const otp = await generateOtp(email);
+    const isCreateOtp = await generateOtp(user?.email, user?.id);
 
+    if (!isCreateOtp) {
+      throw new BadRequestException('Gagal membuat otp');
+    }
     const msg = 'verifikasi akun anda';
 
-    const html = getEmailMessageTemplate(user?.fullname, otp, msg);
+    const html = getEmailMessageTemplate(
+      user?.fullname,
+      isCreateOtp?.token,
+      msg
+    );
 
     const sendEmail = this.emailService.sendEmail(
       email.toLowerCase(),
@@ -269,14 +283,22 @@ export class AuthService {
       where: {
         email,
       },
-      select: {
-        fullname: true,
-      },
     });
     const msg = 'memperbarui kata sandi anda';
 
-    const otp = await generateOtp(email);
-    const html = getEmailMessageTemplate(user?.fullname ?? '', otp, msg);
+    if (!user) {
+      throw new NotFoundException('Akun tidak ditemukan');
+    }
+
+    const isCreateOtp = await generateOtp(user?.email, user?.id);
+    if (!isCreateOtp) {
+      throw new BadRequestException('Gagal membuat otp');
+    }
+    const html = getEmailMessageTemplate(
+      user?.fullname ?? '',
+      isCreateOtp?.token,
+      msg
+    );
 
     const sendEmail = this.emailService.sendEmail(
       email.toLowerCase(),

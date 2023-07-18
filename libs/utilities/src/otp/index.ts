@@ -2,38 +2,33 @@ import { PrismaService } from '@uninus/models';
 
 const prisma = new PrismaService();
 
-export const generateOtp = async (email: string) => {
+const generateTime = () => {
+  return Math.floor(new Date().getTime() / 1000);
+};
+
+export const generateOtp = async (email: string, id: string) => {
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-  const user = await prisma.users.findUnique({
+  const isCreateOtp = await prisma.oTP.upsert({
     where: {
-      email,
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  await prisma.oTP.upsert({
-    where: {
-      user_id: user?.id,
+      user_id: id,
     },
     update: {
       token: otp,
-      expiredAt: Math.floor(new Date().getTime() / 1000) + 120,
+      expiredAt: generateTime() + 120,
     },
     create: {
       token: otp,
-      expiredAt: Math.floor(new Date().getTime() / 1000) + 120,
+      expiredAt: generateTime() + 120,
       user: {
         connect: {
-          id: user?.id,
+          id: id,
         },
       },
     },
   });
 
-  return otp;
+  return isCreateOtp;
 };
 
 export const compareOtp = async (
@@ -60,7 +55,7 @@ export const clearOtp = async (): Promise<void> => {
   await prisma.oTP.deleteMany({
     where: {
       expiredAt: {
-        lte: Math.floor(new Date().getTime() / 1000),
+        lte: generateTime(),
       },
     },
   });
