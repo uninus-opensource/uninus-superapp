@@ -1,6 +1,5 @@
 'use client';
 import { ReactElement, FC, useEffect, useMemo } from 'react';
-import Image from 'next/image';
 import {
   Accordion,
   Button,
