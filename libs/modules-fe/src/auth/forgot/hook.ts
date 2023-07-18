@@ -2,6 +2,7 @@ import { UseMutationResult, useMutation } from '@tanstack/react-query';
 import { TPayLoadForgot, TForgotResponse } from './type';
 import { TMetaErrorResponse } from '@uninus/entities';
 import { forgotRequest } from './api';
+import { useRouter } from 'next/navigation';
 
 export const useForgot = (): UseMutationResult<
   TForgotResponse,
