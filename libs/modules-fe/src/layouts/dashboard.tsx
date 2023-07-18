@@ -19,7 +19,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({
         profileEmail="mwrsdh@gmail.com"
         onLogout={handleLogout}
       />
-      <div className="w-full bg-gray-100 lg:p-10 py-4 bg-grayscale-1 h-screen overflow-y-scroll">
+      <div className="w-full bg-gray-100 lg:p-10 py-4 bg-grayscale-1 h-full ">
         {children}
       </div>
     </main>
