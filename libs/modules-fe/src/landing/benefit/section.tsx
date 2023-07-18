@@ -9,6 +9,8 @@ import {
 } from 'react-icons/ai';
 import { BiSolidUser } from 'react-icons/bi';
 import { TBenefit } from './type';
+import AliceCarousel from 'react-alice-carousel';
+import 'react-alice-carousel/lib/alice-carousel.css';
 
 const CardBenerfit: TBenefit[] = [
   {
@@ -103,20 +105,48 @@ const CardBenerfit: TBenefit[] = [
   },
 ];
 
+const cardProps = {
+  items: CardBenerfit.map((x, i) => (
+    <div key={i} className="flex">
+      <Card key={i} icon={x.icon} cardTitle={x.title}>
+        {x.desc}
+      </Card>
+    </div>
+  )),
+  responsive: {
+    0: {
+      items: 1,
+    },
+    600: {
+      items: 2,
+    },
+    1024: {
+      items: 4,
+    },
+  },
+  autoPlay: true,
+  autoPlayInterval: 3000,
+  animationDuration: 1000,
+  Infinity: true,
+  disableButtonsControls: true,
+};
+
 export const BenefitSection: FC = (): ReactElement => {
   return (
-    <section className="mt-40 h-auto w-full gap-4 my-16 lg:px-16 px-4 py-2 flex flex-col items-center ">
+    <section className="mt-40 h-full w-full gap-4 my-20 lg:px-16 px-4 py-2 flex flex-col items-center ">
       <h1 className="p-5 text-2xl text-center lg:text-4xl text-secondary-green-4 font-bold">
         Kenapa Harus Kuliah di{' '}
         <span className="text-primary-yellow">UNINUS?</span>
       </h1>
-      <section className="grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3  lg:gap-10 gap-4 xl:gap-16">
+      {/* <section className="lg:grid hidden lg:grid-cols-3  lg:gap-10 gap-4 xl:gap-16">
         {CardBenerfit.map((x, i) => (
           <Card key={i} icon={x.icon} cardTitle={x.title}>
             {x.desc}
           </Card>
         ))}
-      </section>
+      </section> */}
+
+      <AliceCarousel {...cardProps} />
     </section>
   );
 };
