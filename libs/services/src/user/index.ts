@@ -44,14 +44,17 @@ export class UserService {
         cause: new Error(),
       });
     }
-    const otp = await generateOtp(payload.email);
     const user = await this.prisma.users.create({
       data: payload,
     });
+    const isCreateOtp = await generateOtp(user?.email, user?.id);
+    if (!isCreateOtp) {
+      throw new BadRequestException('Gagal membuat otp');
+    }
     const sendEmail = this.emailService.sendEmail(
       payload.email.toLowerCase(),
       'Verifikasi Email',
-      `Kode OTP anda adalah ${otp}`
+      `Kode OTP anda adalah ${isCreateOtp?.token}`
     );
     if (!sendEmail) {
       throw new BadRequestException('Gagal mengirimkan kode verifikasi');
