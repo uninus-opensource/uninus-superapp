@@ -131,43 +131,50 @@ export const ModuleBiodata: FC = (): ReactElement => {
 
   return (
     <DashboardLayout>
-      <h1 className="text-slate-5">
-        PMB <span className="text-secondary-green-4"> / Data diri</span>
-      </h1>
-      <p className="text-lg font-bold text-secondary-green-4">
-        Pengisian data diri
-      </p>
+      <div className="p-5 lg:p-0 lg:py-4">
+        <h1 className="text-slate-5">
+          PMB <span className="text-secondary-green-4"> / Data diri</span>
+        </h1>
+        <p className="text-lg font-bold text-secondary-green-4">
+          Pengisian data diri
+        </p>
+      </div>
+
       {/* Section Biodata */}
-      <section className="flex flex-col gap-6 h-screen">
+      <section className="flex flex-col shadow-md rounded-lg gap-6 w-full ">
         {/* Section Biodata diri pendaftar */}
-        <section className="flex flex-col gap-8 px-8 py-10 w-full h-full rounded-lg bg-primary-white overflow-y-auto ">
-          <form onSubmit={onSubmit} className="flex flex-col gap-6">
+        <section className="flex flex-col gap-8 px-8 py-10 w-full justify-center items-center rounded-lg bg-primary-white overflow-x-hidden">
+          <form
+            onSubmit={onSubmit}
+            className="flex flex-col gap-6 justify-center w-full items-center"
+          >
             {/* Accordion data diri pendaftar */}
             {/* section form biodata diri pendaftar */}
             <Accordion
               title="Data diri pendaftar"
-              className="w-full h-auto pl-[5rem] mt-[2rem] flex flex-col gap-5"
+              className="w-full h-auto mt-[2rem] flex flex-col items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] gap-5"
             >
               {/* section upload avatar */}
               <div className="flex flex-col gap-7 ">
                 <UploadField
-                  className="flex h-full  items-center gap-4"
+                  className="grid grid-cols-1 lg:flex lg:items-center lg:gap-6 w-full justify-items-center h-full gap-y-6 lg:gap-y-0"
+                  classNameField="w-70% lg:w-auto"
                   control={control}
-                  name="file"
+                  name="avatar"
                   defaultImage="/illustrations/dummy-avatar.jpg"
                   previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full "
                 />
               </div>
 
-              <section className="grid grid-cols-2 gap-4">
+              <section className="grid grid-cols-1 lg:flex lg:justify-between lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-4 lg:items-center lg:w-55%">
                 <TextField
                   name="nim"
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="NIM"
-                  inputWidth="lg:w-25% xl:w-20% text-base"
-                  // disabled
+                  inputWidth="w-70% lg:w-25% xl:w-20% text-base"
+                  disabled
                   control={control}
                   required
                 />
@@ -178,14 +185,14 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     label={biodata.item}
                     labelclassname="text-xl font-semibold"
                     variant="sm"
-                    inputWidth="lg:w-25% xl:w-20%"
+                    inputWidth="w-70% lg:w-25% xl:w-20%"
                     type={biodata.type}
                     control={control}
                     required
                   />
                 ))}
               </section>
-              <section className="grid grid-cols-2 gap-4 mt-2">
+              <section className="grid grid-cols-1 lg:flex lg:justify-between lg:gap-6 xl:gap-1 gap-y-4 mt-4 lg:items-center lg:w-55%">
                 <SelectField
                   name="birth_place"
                   label="Tempat Lahir"
@@ -193,7 +200,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Kota tempat lahir"
                   status="none"
                   options={['Kota Bandung', 'Kota Jakarta', 'Kota Denpasar']}
-                  width="lg:w-25% xl:w-20%"
+                  width="w-70% lg:w-25% xl:w-20%"
                   control={control}
                   required
                 />
@@ -208,8 +215,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   required
                 />
               </section>
-              <section className="flex justify-between lg:gap-6 xl:gap-1 mt-4 items-center w-55%">
-                <div className="flex flex-col lg:gap-2 xl:gap-4">
+              <section className="grid grid-cols-1 lg:flex lg:justify-between lg:gap-6 xl:gap-1 gap-y-4 mt-4 lg:items-center lg:w-55%">
+                <div className="flex flex-col gap-2 xl:gap-4">
                   <h3 className="text-xs font-semibold">Jenis Kelamin</h3>
                   <div className="flex items-center gap-6">
                     <RadioButton
@@ -250,7 +257,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     'HINDU',
                     'BUDDHA',
                   ]}
-                  width="lg:w-15% xl:w-10%"
+                  width="w-70% lg:w-15% xl:w-10%"
                   control={control}
                 />
                 <SelectField
@@ -260,13 +267,13 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Status"
                   status="none"
                   options={['Menikah', 'Belum menikah']}
-                  width="lg:w-20% xl:w-15%"
+                  width="lg:w-15%"
                   control={control}
                 />
               </section>
 
-              <section className="flex justify-between items-center mt-6 w-55%">
-                <div className="flex flex-col lg:gap-2 xl:gap-4">
+              <section className="grid grid-cols-1 lg:flex lg:justify-between lg:items-center mt-6 gap-y-4 lg:w-55%">
+                <div className="flex flex-col gap-2 xl:gap-4">
                   <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
                   <div className="flex items-center gap-6">
                     <RadioButton
@@ -302,12 +309,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Asal Negara"
                   status="none"
                   options={['Indonesia', 'Malaysia', 'Singapura', 'Kamboja']}
-                  width="lg:w-20% xl:w-15%"
+                  width="w-70% lg:w-20% xl:w-15%"
                   control={control}
                 />
               </section>
 
-              <section className="flex justify-between items-center mt-6 w-55%">
+              <section className="grid grid-cols-1 lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55%">
                 <SelectField
                   name="province"
                   label="Provinsi"
@@ -315,7 +322,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Provinsi"
                   status="none"
                   options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                  width="lg:w-15% xl:w-15%"
+                  width="w-70% lg:w-15% xl:w-15%"
                   control={control}
                 />
                 <SelectField
@@ -330,7 +337,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     'Kota Jakarta',
                     'Kota Bandung',
                   ]}
-                  width="lg:w-20% xl:w-15%"
+                  width="w-70% lg:w-20% xl:w-15%"
                   control={control}
                 />
                 <SelectField
@@ -340,12 +347,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Kecamatan"
                   status="none"
                   options={['Sumur Bandung', 'Batununggal']}
-                  width="w-15%"
+                  width="w-70% lg:w-15%"
                   control={control}
                 />
               </section>
 
-              <section className="flex justify-between items-center mt-6 w-55%">
+              <section className="grid grid-cols-1 lg:flex lg:justify-between lg:items-center mt-2 gap-y-4 lg:mt-6 lg:w-55%">
                 <TextField
                   name="address"
                   variant="sm"
@@ -357,10 +364,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   isTextArea
                   textAreaRow={5}
                   textAreaCols={30}
-                  className="bg-grayscale-2 h-20 rounded-lg text-xs resize-none"
+                  className="bg-grayscale-2 h-20 rounded-lg text-xs resize-none w-70% lg:w-auto"
                 />
 
-                <div className="flex lg:w-30% xl:w-20% items-center lg:justify-evenly xl:justify-between">
+                <div className="flex lg:w-30% xl:w-20% items-center justify-between lg:justify-evenly xl:justify-between">
                   {formBiodataTwo.map((biodata, idx) => (
                     <TextField
                       key={idx}
@@ -394,16 +401,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
             {/* section form data pendidikan */}
             <Accordion
               title="Data Pendidikan"
-              className="w-full h-auto pl-[5rem] mt-[2rem] flex flex-col gap-5"
+              className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
             >
-              <section className="flex items-center justify-between lg:w-55%">
+              <section className="grid grid-cols-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55%">
                 <SelectField
                   name="school_type"
                   label="Jenis Pendidikan Asal"
                   size="sm"
                   placeholder="Jenis Pendidikan"
                   options={['SMA', 'SMK', 'MA']}
-                  width="lg:w-20% xl:w-15%"
+                  width="w-70% lg:w-20% xl:w-15%"
                   control={control}
                 />
                 <SelectField
@@ -412,19 +419,19 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Jurusan Pendidikan"
                   options={['Saintek', 'Soshum', 'Lainnya']}
-                  width="lg:w-20% xl:w-15%"
+                  width="w-70% lg:w-20% xl:w-15%"
                   control={control}
                 />
               </section>
 
-              <section className="flex justify-between lg:w-full xl:w-55%">
+              <section className="grid grid-cols-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55%">
                 <TextField
                   name="school_name"
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Nama Instansi Pendidikan"
-                  inputWidth="w-20%"
+                  inputWidth="w-70% lg:w-20%"
                   control={control}
                   required
                 />
@@ -443,7 +450,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
               </section>
 
-              <section className="flex justify-between items-center mt-6 w-55%">
+              <section className="grid grid-cols-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55%">
                 <SelectField
                   name="school_province"
                   label="Provinsi"
@@ -451,7 +458,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Provinsi"
                   status="none"
                   options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                  width="lg:w-15% xl:w-15%"
+                  width="w-70% lg:w-15% xl:w-15%"
                   control={control}
                 />
                 <SelectField
@@ -466,7 +473,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     'Kota Jakarta',
                     'Kota Bandung',
                   ]}
-                  width="lg:w-20% xl:w-15%"
+                  width="w-70% lg:w-20% xl:w-15%"
                   control={control}
                 />
                 <SelectField
@@ -476,19 +483,19 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Kecamatan"
                   status="none"
                   options={['Sumur Bandung', 'Batununggal']}
-                  width="w-15%"
+                  width="w-70% lg:w-15%"
                   control={control}
                 />
               </section>
 
-              <section className="flex justify-between gap-12 mt-6 w-55%">
+              <section className="grid grid-cols-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55%">
                 <TextField
                   name="school_postal_code"
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Kode Pos"
-                  inputWidth="w-15%"
+                  inputWidth="w-70% lg:w-15%"
                   control={control}
                   required
                 />
@@ -498,7 +505,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Kontak Instansi"
-                  inputWidth="w-15%"
+                  inputWidth="w-70% lg:w-15%"
                   control={control}
                   required
                 />
@@ -509,7 +516,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Tahun lulus"
                   status="none"
                   options={['2023', '2022']}
-                  width="w-15%"
+                  width="w-70% lg:w-15%"
                   control={control}
                 />
               </section>
@@ -519,16 +526,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
             {/* section form orang tua/wali */}
             <Accordion
               title="Data Orang tua dan wali"
-              className="w-full h-auto pl-[5rem] mt-[2rem] flex flex-col gap-5"
+              className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw]"
             >
-              <section className="grid grid-cols-2 gap-6 lg:w-full w-55% items-center ">
+              <section className="grid grid-cols-1 lg:flex lg:justify-between lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-4 lg:items-center lg:w-55%">
                 <TextField
                   name="father_name"
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Nama Ayah Kandung"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                   required
                 />
@@ -538,12 +545,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Nama Ibu Kandung"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                   required
                 />
 
-                <div className="w-25% xl:w-20%">
+                <div className="w-70% w-25% xl:w-20%">
                   <TextField
                     name="parent_address"
                     variant="sm"
@@ -559,7 +566,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   />
                 </div>
 
-                <div className="flex lg:w-30% xl:w-20% items-center lg:justify-evenly xl:justify-between">
+                <div className="flex lg:w-30% xl:w-20% items-center justify-between lg:justify-evenly xl:justify-between">
                   {formBiodataThree.map((biodata, idx) => (
                     <TextField
                       key={idx}
@@ -588,7 +595,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 </div>
               </section>
 
-              <section className="flex justify-between items-center mt-6 w-55% mb-2">
+              <section className="grid grid-cols-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55%">
                 <SelectField
                   name="parent_province"
                   label="Provinsi"
@@ -596,7 +603,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pilih Provinsi"
                   status="none"
                   options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                  width="lg:w-15% xl:w-15%"
+                  width="w-70% lg:w-15% xl:w-15%"
                   control={control}
                 />
                 <SelectField
@@ -606,19 +613,19 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pilih Kecamatan"
                   status="none"
                   options={['Sumur Bandung', 'Batununggal']}
-                  width="w-15%"
+                  width="w-70% lg:w-15%"
                   control={control}
                 />
               </section>
 
-              <section className="grid grid-cols-2 xl:w-full lg:w-55% gap-4 items-center mt-8 ">
+              <section className="grid grid-cols-1 lg:flex lg:flex-wrap lg:items-center gap-y-4 lg:justify-between mt-4 lg:w-55%">
                 <TextField
                   name="father_education"
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Pendidikan Ayah"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                   required
                 />
@@ -628,7 +635,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Pekerjaan Ayah"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                   required
                 />
@@ -638,20 +645,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Pendapatan Ayah"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                   required
                 />
               </section>
 
-              <section className="grid grid-cols-2 xl:w-full lg:w-55% gap-4 items-center mt-6 ">
+              <section className="grid grid-cols-1 lg:flex lg:flex-wrap lg:items-center gap-y-4 lg:justify-between mt-4 lg:w-55%">
                 <TextField
                   name="mother_education"
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Pendidikan Ibu"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70%  lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                   required
                 />
@@ -661,7 +668,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Pekerjaan Ibu"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                   required
                 />
@@ -671,20 +678,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Pendapatan Ibu"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                   required
                 />
               </section>
 
-              <section className="grid grid-cols-2 xl:w-full lg:w-55% gap-4 items-center mt-6 ">
+              <section className="grid grid-cols-1 lg:flex lg:flex-wrap lg:items-center gap-y-4 lg:justify-between mt-4 lg:w-55%">
                 <TextField
                   name="guardian_education"
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Pendidikan Wali"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                 />
                 <TextField
@@ -693,7 +700,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Pekerjaan Wali"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                 />
                 <TextField
@@ -702,7 +709,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Pendapatan Wali"
-                  inputWidth="lg:w-25% max-w-20% xl:w-20%"
+                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
                 />
               </section>

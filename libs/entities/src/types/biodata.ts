@@ -1,5 +1,5 @@
 export type TBiodataRequest = {
-  avatar?: FileList;
+  avatar?: FileList | string;
   nim?: string;
   nisn?: string;
   identification_type?: string;
