@@ -316,6 +316,16 @@ export class AuthService {
   async resetPassword(args: { email: string; password: string }) {
     const newPassword = await encryptPassword(args.password);
 
+    const isEmailExist = await this.prisma.users.findUnique({
+      where: {
+        email: args.email.toLowerCase(),
+      },
+    });
+
+    if (!isEmailExist) {
+      throw new NotFoundException('Email tidak ditemukan');
+    }
+
     const user = await this.prisma.users.update({
       where: {
         email: args.email,
@@ -324,6 +334,7 @@ export class AuthService {
         password: newPassword,
       },
     });
+
     if (!user) {
       throw new BadRequestException('Gagal mengganti password');
     }
