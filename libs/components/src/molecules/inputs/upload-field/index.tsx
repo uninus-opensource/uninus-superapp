@@ -40,6 +40,7 @@ export const UploadField: FC<TUploadFile> = (props): ReactElement => {
         accept="image/*,.pdf"
         onChange={handleFileChange}
         ref={ref}
+        className={props.classNameField}
       />
     </div>
   );

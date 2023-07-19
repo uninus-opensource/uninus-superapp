@@ -99,7 +99,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
               fixedHeader
               fixedHeaderScrollHeight="400px"
               progressPending={pending}
-              progressComponent={<LoadingSpinner />}
+              progressComponent={<LoadingSpinner className="w-10 h-10" />}
             />
           </section>
 
@@ -119,7 +119,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
               customStyles={customStyles}
               striped
               progressPending={pending}
-              progressComponent={<LoadingSpinner />}
+              progressComponent={<LoadingSpinner className="w-10 h-10" />}
             />
           </section>
         </section>

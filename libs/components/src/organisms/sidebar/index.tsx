@@ -43,9 +43,9 @@ export const SideBar: FC<TSideBarProps> = ({
   return (
     <>
       {/* Desktop */}
-      <div className="lg:relative fixed z-[99999] bg-sky-3 ">
+      <div className="lg:relative fixed z-[99999] bg-sky-3 h-auto ">
         <aside
-          className={`sm:hidden xl:h-screen left-0 flex z-50 shadow-lg lg:relative transition-transform 2xl:w-80  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
+          className={`sm:hidden xl:h-screen left-0 flex z-50 shadow-lg transition-transform 2xl:w-80 overflow-y-auto  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
         >
           <section className={` w-full flex flex-col items-center gap-4 `}>
             <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
@@ -77,7 +77,7 @@ export const SideBar: FC<TSideBarProps> = ({
             <div className="2xl:flex 2xl:flex-col 2xl:justify-between 2xl:h-full">
               <nav>
                 <ul className="flex flex-col gap-y-6 lg:gap-y-4">
-                  {sideLists.map((sideList, idx, arr) => (
+                  {sideLists.map((sideList, idx) => (
                     <li key={idx} className="flex flex-col gap-y-6">
                       <Link
                         href={sideList.link}
@@ -135,7 +135,7 @@ export const SideBar: FC<TSideBarProps> = ({
 
         {onToogle && (
           <motion.aside
-            className={` h-full top-0 w-60 left-0 shadow-lg absolute z-50 lg:relative duration-75 overflow-y-auto  transition-transform lg:sm:translate-x-0 bg-grayscale-1 py-5`}
+            className={` h-screen lg:hidden top-0 w-60 left-0 shadow-lg absolute z-50 duration-75 overflow-y-auto  transition-transform lg:sm:translate-x-0 bg-grayscale-1 py-5`}
             aria-label="Sidebar"
             initial={
               onToogle
@@ -176,7 +176,7 @@ export const SideBar: FC<TSideBarProps> = ({
               <div className="w-[60%]  px-3 h-[1px] bg-slate-4"></div>
               <nav>
                 <ul className="flex flex-col gap-y-6">
-                  {sideLists.map((sideList, idx, arr) => (
+                  {sideLists.map((sideList, idx) => (
                     <li key={idx} className="flex flex-col gap-y-6">
                       <Link
                         href={sideList.link}
@@ -201,7 +201,7 @@ export const SideBar: FC<TSideBarProps> = ({
                     </li>
                   ))}
                 </ul>
-                <div className="flex text-2xl sm:absolute bottom-0 items-start my-8 py-2 rounded-md">
+                <div className="flex text-2xl relative bottom-0 items-start my-8 py-2 rounded-md">
                   <Button
                     variant="sidebarbutton"
                     size="sm"
