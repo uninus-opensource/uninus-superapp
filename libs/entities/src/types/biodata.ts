@@ -6,9 +6,9 @@ export type TBiodataRequest = {
   identification_number?: string;
   birth_place?: string;
   birth_date?: string;
-  EGender?: string;
+  gender?: string;
   EReligion?: string;
-  ECitizenship?: string;
+  citizenship?: string;
   marital_status?: string;
   country?: string;
   address?: string;
