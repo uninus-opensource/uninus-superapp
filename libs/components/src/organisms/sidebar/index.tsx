@@ -8,15 +8,28 @@ import { FaRegUser } from 'react-icons/fa';
 import Link from 'next/link';
 import { Button } from '../../atoms';
 import dummyImage from '../../atoms/illustrations/dummy/dummy-avatar.jpg';
+import logOutImage from '../../atoms/illustrations/logOut/logOut.png';
 import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
+import { Modal } from '../modal';
 
 export const SideBar: FC<TSideBarProps> = ({
   profileName = '',
   profileEmail = '',
   onLogout,
 }): ReactElement => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const handleOpenModal = () => {
+    setShowModal(!showModal);
+    setOnToogle(false);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setOnToogle(!onToogle);
+  };
+
   const [onToogle, setOnToogle] = useState<boolean>(false);
   const { data: session } = useSession();
   const userName = session?.user?.name;
@@ -40,8 +53,53 @@ export const SideBar: FC<TSideBarProps> = ({
     },
   ];
   const pathname = usePathname();
+
   return (
     <>
+      <Modal
+        showModal={showModal}
+        modalTitle="Keluar"
+        onClose={handleCloseModal}
+        submitText="LogOut"
+        closeText="Cancel"
+      >
+        <div className="modal flex justify-center items-center p-4">
+          <div className="img lg:pr-4 ">
+            <Image
+              className=" "
+              src={logOutImage}
+              alt="profile picture"
+              width={300}
+              height={300}
+              priority={true}
+            />
+          </div>
+          <div className="txt">
+            <div className="">
+              <h1 className="font-bold text-xl">Log Out</h1>
+              <h1>Apakah Anda Yakin Ingin Keluar?</h1>
+            </div>
+            <div className="button flex  gap-x-3 pt-4">
+              <Button
+                variant="filled-tonal"
+                size="md"
+                styling="w-20"
+                onClick={onLogout}
+              >
+                Ya
+              </Button>
+              <Button
+                variant="warningButton"
+                size="md"
+                styling="w-20"
+                onClick={handleCloseModal}
+              >
+                Tidak
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Modal>
       {/* Desktop */}
       <div className="lg:relative fixed z-[99999] bg-sky-3 h-auto ">
         <aside
@@ -108,7 +166,7 @@ export const SideBar: FC<TSideBarProps> = ({
                   variant="sidebarbutton"
                   size="sm"
                   styling="text-xl -ml-4 mt-0 items-center flex"
-                  onClick={onLogout}
+                  onClick={handleOpenModal}
                 >
                   <AiOutlineLogout
                     size={43}
@@ -206,7 +264,7 @@ export const SideBar: FC<TSideBarProps> = ({
                     variant="sidebarbutton"
                     size="sm"
                     styling="text-sm font-normal text-primary-green mt-0 p-0"
-                    onClick={onLogout}
+                    onClick={handleOpenModal}
                   >
                     <AiOutlineLogout
                       size={45}
