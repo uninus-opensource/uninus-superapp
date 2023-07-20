@@ -137,7 +137,7 @@
     "jest-environment-jsdom": "^29.4.1",
     "jest-environment-node": "^29.6.1",
     "nx": "16.5.3",
-    "postcss": "^8.4.24",
+    "postcss": "^8.4.26",
     "prettier": "^2.8.8",
     "prisma": "5",
     "tailwindcss": "^3.3.3",
