@@ -8,11 +8,24 @@ import { FaRegUser } from 'react-icons/fa';
 import Link from 'next/link';
 import { Button } from '../../atoms';
 import dummyImage from '../../atoms/illustrations/dummy/dummy-avatar.jpg';
+import logOutImage from '../../atoms/illustrations/logOut/logOut.png';
 import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
+import { Modal } from '../modal';
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const handleOpenModal = () => {
+    setShowModal(!showModal);
+    setOnToogle(false);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setOnToogle(!onToogle);
+  };
+
   const [onToogle, setOnToogle] = useState<boolean>(false);
   const { data: session } = useSession();
   const userName = session?.user?.name;
@@ -22,7 +35,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
   }, [userName]);
 
   const sideLists: TSideBarList[] = [
-    { label: 'homepage', link: '/dashboard', icon: <AiFillHome /> },
+    { label: 'Beranda', link: '/dashboard', icon: <AiFillHome /> },
     { label: 'data diri', link: '/dashboard/biodata', icon: <FaRegUser /> },
     {
       label: 'pendaftaran',
@@ -36,8 +49,53 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
     },
   ];
   const pathname = usePathname();
+
   return (
     <>
+      <Modal
+        showModal={showModal}
+        modalTitle="Keluar"
+        onClose={handleCloseModal}
+        submitText="LogOut"
+        closeText="Cancel"
+      >
+        <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row p-2">
+          <div className="img ">
+            <Image
+              className=" "
+              src={logOutImage}
+              alt="profile picture"
+              width={300}
+              height={300}
+              priority={true}
+            />
+          </div>
+          <div className="txt mt-4 lg:mt-0">
+            <div className="">
+              <h1 className="font-bold text-xl">Log Out</h1>
+              <h1>Apakah Anda Yakin Ingin Keluar?</h1>
+            </div>
+            <div className="button flex  gap-x-3 pt-4">
+              <Button
+                variant="filled-tonal"
+                size="md"
+                styling="w-20"
+                onClick={onLogout}
+              >
+                Ya
+              </Button>
+              <Button
+                variant="warningButton"
+                size="md"
+                styling="w-20"
+                onClick={handleCloseModal}
+              >
+                Tidak
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Modal>
       {/* Desktop */}
       <div className="lg:relative fixed z-[99999] bg-sky-3 h-auto ">
         <aside
@@ -74,20 +132,20 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
               <nav>
                 <ul className="flex flex-col gap-y-6 lg:gap-y-4">
                   {sideLists.map((sideList, idx) => (
-                    <li key={idx} className="flex flex-col gap-y-6">
+                    <li key={idx} className="flex flex-col gap-y-6 ">
                       <Link
                         href={sideList.link}
                         role="link"
                         className={`flex gap-x-3 text-lg capitalize ${
                           pathname === sideList.link &&
                           'bg-primary-white drop-shadow-md '
-                        }hover:bg-primary-white hover:shadow-md hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                        }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
                       >
                         <p
                           className={`${
                             pathname === sideList.link &&
                             'bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white'
-                          } text-primary-green w-fit h-fit p-3 hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg`}
+                          } text-primary-green w-fit h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg`}
                         >
                           {sideList.icon}
                         </p>
@@ -104,7 +162,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
                   variant="sidebarbutton"
                   size="sm"
                   styling="text-xl -ml-4 mt-0 items-center flex"
-                  onClick={onLogout}
+                  onClick={handleOpenModal}
                 >
                   <AiOutlineLogout
                     size={43}
@@ -202,7 +260,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
                     variant="sidebarbutton"
                     size="sm"
                     styling="text-sm font-normal text-primary-green mt-0 p-0"
-                    onClick={onLogout}
+                    onClick={handleOpenModal}
                   >
                     <AiOutlineLogout
                       size={45}
