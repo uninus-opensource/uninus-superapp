@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import { FC, Fragment, ReactElement } from 'react';
 import Image from 'next/image';
 import {
   Ellipse,
@@ -9,7 +9,7 @@ import {
 
 export const WellcomeSection: FC = (): ReactElement => {
   return (
-    <section>
+    <Fragment>
       <figure className="absolute left-0">
         <Ellipse />
       </figure>
@@ -49,6 +49,6 @@ export const WellcomeSection: FC = (): ReactElement => {
       <figure className="absolute right-0 lg:flex hidden mt-0.5">
         <HalfEllipseGreen />
       </figure>
-    </section>
+    </Fragment>
   );
 };
