@@ -63,7 +63,7 @@ export const SideBar: FC<TSideBarProps> = ({
         submitText="LogOut"
         closeText="Cancel"
       >
-        <div className="modal flex justify-center items-center p-2 sm:flex sm:flex-row sm:justify-center sm:items-center">
+        <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row">
           <div className="img ">
             <Image
               className=" "
@@ -74,7 +74,7 @@ export const SideBar: FC<TSideBarProps> = ({
               priority={true}
             />
           </div>
-          <div className="txt">
+          <div className="txt mt-4 lg:mt-0">
             <div className="">
               <h1 className="font-bold text-xl">Log Out</h1>
               <h1>Apakah Anda Yakin Ingin Keluar?</h1>
