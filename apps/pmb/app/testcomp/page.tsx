@@ -118,7 +118,6 @@ const LandingPage: FC = (): ReactElement => {
           showModal={showModal}
           modalTitle="INI CERITANYA MODAL"
           onClose={handleCloseModal}
-          onSubmit={() => alert('Submit Succes')}
           submitText="Save"
           closeText="Cancel"
         />
