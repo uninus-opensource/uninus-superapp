@@ -70,8 +70,8 @@ export const RegisterModule: FC = (): ReactElement => {
             name="nik"
             type="text"
             variant="md"
-            label="Namor Induk Keluarga"
-            placeholder="Masukan Nomor Induk Keluarga"
+            label="Nomor Induk Kependudukan"
+            placeholder="Masukan Nomor Induk Kependudukan"
             control={control}
             required
             status={errors?.nik ? 'error' : undefined}

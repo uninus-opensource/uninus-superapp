@@ -11,7 +11,8 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | 'float-bottom-right'
     | 'custom'
     | 'sidebarlist'
-    | 'sidebarbutton';
+    | 'sidebarbutton'
+    | 'warningButton';
   loading?: boolean;
   href?: string;
   width?: string;

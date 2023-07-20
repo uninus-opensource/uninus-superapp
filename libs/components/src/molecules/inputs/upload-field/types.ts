@@ -4,4 +4,5 @@ export type TUploadFile = {
   className: string;
   defaultImage?: string;
   previewImage?: string;
+  classNameField?: string;
 };

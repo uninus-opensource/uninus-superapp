@@ -20,17 +20,18 @@ export const ForgotModule: FC = (): ReactElement => {
     },
   });
 
-  const { mutate: forgot } = useForgot();
   const router = useRouter();
 
+  const { mutate: forgot, isSuccess, isError } = useForgot();
+
   const onSubmit = handleSubmit((data) => {
-    try {
-      forgot(data);
-      router.push('/auth/verif-email');
-    } catch (error) {
-      console.log(error);
-    }
+    forgot(data);
   });
+
+  if (isSuccess) {
+    router.push('/auth/verifikasi-otp');
+  }
+
   return (
     <form
       className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col justify-center items-center"
@@ -50,8 +51,11 @@ export const ForgotModule: FC = (): ReactElement => {
           placeholder="Masukan email"
           control={control}
           required
-          status={errors?.email ? 'error' : undefined}
-          message={errors?.email?.message}
+          status={errors?.email || isError ? 'error' : undefined}
+          message={
+            errors?.email?.message ||
+            (isError ? 'email tidak ditemukan atau tidak valid' : undefined)
+          }
         />
         <Button disabled={!isValid}>Lanjutkan</Button>
       </div>

@@ -41,10 +41,11 @@ export const ModuleMitra: FC = (): ReactElement => {
                     Memenuhi salah satu kriteria dibawah ini :
                     <ul className="list-inside px-5">
                       <li>
-                        a. <b>Anak guru</b> atau anggota NU Se-jawa barat{' '}
+                        a. <b>Anak guru</b> SMA/SMK/MAN/PONPES atau anggota NU
+                        Se-jawa barat{' '}
                       </li>
                       <li>
-                        b. Rata-rata nilai 70 untuk tiga mata pelajaran yaitu :
+                        b. Rata-rata nilai 80 untuk tiga mata pelajaran yaitu :
                       </li>
                       <ul className="pl-4 font-semibold">
                         <li>Matematika</li>
@@ -65,7 +66,7 @@ export const ModuleMitra: FC = (): ReactElement => {
                 <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">
                   Periode Pendaftaran
                 </h2>
-                <p>1 Januari - 31 Maret 2023</p>
+                <p>1 Januari - 31 Agustus 2023</p>
               </div>
               <div className="flex w-full lg:justify-start justify-center">
                 <Button

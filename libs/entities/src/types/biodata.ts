@@ -1,14 +1,14 @@
 export type TBiodataRequest = {
-  avatar?: FileList;
+  avatar?: FileList | string;
   nim?: string;
   nisn?: string;
   identification_type?: string;
   identification_number?: string;
   birth_place?: string;
   birth_date?: string;
-  EGender?: string;
+  gender?: string;
   EReligion?: string;
-  ECitizenship?: string;
+  citizenship?: string;
   marital_status?: string;
   country?: string;
   address?: string;
