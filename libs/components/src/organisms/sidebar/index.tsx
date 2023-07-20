@@ -58,12 +58,13 @@ export const SideBar: FC<TSideBarProps> = ({
     <>
       <Modal
         showModal={showModal}
-        modalTitle="Keluar"
+        modalTitle=" "
         onClose={handleCloseModal}
+        iconClose={false}
         submitText="LogOut"
         closeText="Cancel"
       >
-        <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row p-2">
+        <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row lg:py-10  ">
           <div className="img ">
             <Image
               className=" "
@@ -76,25 +77,27 @@ export const SideBar: FC<TSideBarProps> = ({
           </div>
           <div className="txt mt-4 lg:mt-0">
             <div className="">
-              <h1 className="font-bold text-xl">Log Out</h1>
-              <h1>Apakah Anda Yakin Ingin Keluar?</h1>
+              <h1 className="font-extrabold text-3xl text-primary-black mb-2">
+                Log Out
+              </h1>
+              <h1 className="text-primary-black">
+                Apakah Anda yakin ingin keluar?
+              </h1>
             </div>
-            <div className="button flex  gap-x-3 pt-4">
+            <div className="button flex  gap-x-3 pt-4 ">
               <Button
-                variant="filled-tonal"
-                size="md"
-                styling="w-20"
+                variant="elevated"
                 onClick={onLogout}
+                styling="w-1/2 font-normal"
               >
-                Ya
+                Keluar
               </Button>
               <Button
-                variant="warningButton"
-                size="md"
-                styling="w-20"
+                variant="green-outline"
                 onClick={handleCloseModal}
+                styling="w-1/2 font-normal"
               >
-                Tidak
+                Tetap Disini
               </Button>
             </div>
           </div>

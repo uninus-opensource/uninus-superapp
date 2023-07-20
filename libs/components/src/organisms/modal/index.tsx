@@ -7,7 +7,7 @@ import { FC, ReactElement } from 'react';
 export const Modal: FC<ModalProps> = ({
   showModal,
   onClose,
-
+  iconClose = true,
   modalTitle,
   children,
   submitText = 'Submit',
@@ -26,9 +26,13 @@ export const Modal: FC<ModalProps> = ({
               <h3 className="text-xl font-semibold text-gray-900 w-full">
                 {modalTitle}
               </h3>
-              <Button onClick={onClose} variant="text-icon" size="sm">
-                <IoCloseSharp size={25} />
-              </Button>
+              {iconClose ? (
+                <Button onClick={onClose} variant="text-icon" size="sm">
+                  <IoCloseSharp size={25} />
+                </Button>
+              ) : (
+                ''
+              )}
             </div>
             <div className="p-6 space-y-8">{children}</div>
           </div>

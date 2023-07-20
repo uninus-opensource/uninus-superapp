@@ -12,7 +12,7 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | 'custom'
     | 'sidebarlist'
     | 'sidebarbutton'
-    | 'warningButton';
+    | 'green-outline';
   loading?: boolean;
   href?: string;
   width?: string;
