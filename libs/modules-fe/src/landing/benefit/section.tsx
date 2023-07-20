@@ -1,3 +1,4 @@
+'use client';
 import { Card } from '@uninus/components';
 import { FC, ReactElement } from 'react';
 import {
@@ -81,14 +82,13 @@ const CardBenerfit: TBenefit[] = [
         <span className="text-secondary-green-4 font-bold">
           Terdapat berbagai Beasiswa Pilihan
         </span>{' '}
-        Nusantara Unggul, Nusantara Berprestasi, Mitra Nusantara dan Nusantara
-        Peduli Difabel
+        Nusantara Unggul, Nusantara Berprestasi dan Mitra Nusantara
       </p>
     ),
   },
   {
     icon: <BiSolidUser />,
-    title: 'Kampus pilihan',
+    title: 'Dosen Berpengalaman',
     desc: (
       <p>
         Dosen{' '}
@@ -107,7 +107,7 @@ const CardBenerfit: TBenefit[] = [
 
 const cardProps = {
   items: CardBenerfit.map((x, i) => (
-    <div key={i} className="flex">
+    <div key={i} className="flex h-full">
       <Card key={i} icon={x.icon} cardTitle={x.title}>
         {x.desc}
       </Card>
@@ -117,8 +117,11 @@ const cardProps = {
     0: {
       items: 1,
     },
-    600: {
+    640: {
       items: 2,
+    },
+    768: {
+      items: 3,
     },
     1024: {
       items: 4,
@@ -127,7 +130,7 @@ const cardProps = {
   autoPlay: true,
   autoPlayInterval: 3000,
   animationDuration: 1000,
-  Infinity: true,
+  infinite: true,
   disableButtonsControls: true,
 };
 
@@ -138,15 +141,17 @@ export const BenefitSection: FC = (): ReactElement => {
         Kenapa Harus Kuliah di{' '}
         <span className="text-primary-yellow">UNINUS?</span>
       </h1>
-      {/* <section className="lg:grid hidden lg:grid-cols-3  lg:gap-10 gap-4 xl:gap-16">
+      <section className="lg:grid hidden lg:grid-cols-3 lg:gap-10 gap-4 xl:gap-16">
         {CardBenerfit.map((x, i) => (
           <Card key={i} icon={x.icon} cardTitle={x.title}>
             {x.desc}
           </Card>
         ))}
-      </section> */}
+      </section>
 
-      <AliceCarousel {...cardProps} />
+      <div className="lg:hidden w-full">
+        <AliceCarousel {...cardProps} />
+      </div>
     </section>
   );
 };
