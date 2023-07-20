@@ -1,7 +1,4 @@
 'use client';
-<<<<<<< HEAD
-import { ReactElement, FC, useEffect, useMemo } from 'react';
-=======
 import {
   ReactElement,
   FC,
@@ -11,7 +8,6 @@ import {
   ChangeEvent,
 } from 'react';
 import Image from 'next/image';
->>>>>>> develop
 import {
   Accordion,
   Button,
