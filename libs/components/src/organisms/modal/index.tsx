@@ -22,7 +22,7 @@ export const Modal: FC<ModalProps> = ({
       <div className="fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex items-center justify-center bg-grayscale-6 bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 ">
         <div className="relative w-full max-w-2xl max-h-full md:backdrop-blur-sm rounded-lg bg-primary-white">
           <div className="relative bg-white rounded-lg shadow">
-            <div className="flex items-center justify-between p-4 rounded-t">
+            <div className="flex items-center justify-between pt-4 px-4 rounded-t">
               <h3 className="text-xl font-semibold text-gray-900 w-full">
                 {modalTitle}
               </h3>
