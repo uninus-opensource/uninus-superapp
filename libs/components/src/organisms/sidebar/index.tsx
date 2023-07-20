@@ -63,7 +63,7 @@ export const SideBar: FC<TSideBarProps> = ({
         submitText="LogOut"
         closeText="Cancel"
       >
-        <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row">
+        <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row p-2">
           <div className="img ">
             <Image
               className=" "
