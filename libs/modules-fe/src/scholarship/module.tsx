@@ -1,9 +1,15 @@
 'use client';
 import { ReactElement, FC } from 'react';
-import { HeroBanner } from '@uninus/components';
+import { HeroBanner, LazyLoading } from '@uninus/components';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MainLayout } from '../layouts';
+import dynamic from 'next/dynamic';
+const MainLayout = dynamic(
+  () => import('../layouts').then((mod) => mod.MainLayout),
+  {
+    loading: () => <LazyLoading />,
+  }
+);
 
 export const ModulBeasiswa: FC = (): ReactElement => {
   const beasiswaList: { name: string; img: string; link: string }[] = [

@@ -10,6 +10,7 @@ import {
   TabJalurSeleksi,
   Button,
   Reveal,
+  LazyLoading,
 } from '@uninus/components';
 import {
   AiFillStar,
@@ -20,7 +21,13 @@ import {
 } from 'react-icons/ai';
 import { BiSolidUser } from 'react-icons/bi';
 import { ProgramPendidikanProps } from './type';
-import { MainLayout } from '../layouts';
+import dynamic from 'next/dynamic';
+const MainLayout = dynamic(
+  () => import('../layouts').then((mod) => mod.MainLayout),
+  {
+    loading: () => <LazyLoading />,
+  }
+);
 
 export const LandingModule: FC = (): ReactElement => {
   const programPendidikanList: ProgramPendidikanProps[] = [
@@ -32,7 +39,7 @@ export const LandingModule: FC = (): ReactElement => {
     {
       iconText: 'S2',
       title: 'magister',
-      item: 'Program Pendidikan UNINUS Di Perguruan Tinggi berkualitas yang fleksibel, dikelola oleh dosen berpengalaman, menigkatkan jenjang karier dan wawasan bakat minat anda.',
+      item: 'Program Pendidikan di UNINUS Pendidikan tinggi berkualitas, fleksibel, dikelola oleh dosen berpengalaman, tingkatkan karier dan wawasan dalam bakat minat anda.',
     },
     {
       iconText: 'S3',
@@ -201,7 +208,7 @@ export const LandingModule: FC = (): ReactElement => {
 
         {/* start program pendidikan section */}
         <section className="mt-32 mb-20 h-auto lg:w-full w-auto gap-4 lg:px-16 px-8 py-2 flex flex-col">
-          <h1 className="uppercase text-left lg:ml-8 ml-4 w-full text-3xl text-secondary-green-4 font-extramedium ">
+          <h1 className="uppercase text-center lg:ml-8 ml-4 w-full text-3xl text-secondary-green-4 font-bold ">
             program <span className="text-primary-green">pendidikan</span>
           </h1>
           <section className="grid grid-cols-1 justify-center md:grid-cols-2 lg:grid-cols-3 items-center gap-10 xl:flex xl:justify-center xl:gap-8 px-8 mt-10">

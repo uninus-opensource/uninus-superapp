@@ -7,7 +7,6 @@ import {
   useState,
   ChangeEvent,
 } from 'react';
-import Image from 'next/image';
 import {
   Accordion,
   Button,
@@ -28,10 +27,11 @@ export const ModuleBiodata: FC = (): ReactElement => {
   const student = useMemo(() => {
     return data;
   }, [data]);
-  const { control, handleSubmit, reset } = useForm({
+
+  const { control, handleSubmit, setValue } = useForm({
     mode: 'all',
     defaultValues: {
-      avatar: student?.avatar,
+      image: student?.image,
       nim: student?.nim,
       email: student?.email,
       identification_type: student?.identification_type,
@@ -41,10 +41,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
       kk_number: student?.kk_number,
       birth_place: student?.birth_place,
       birth_date: student?.birth_date,
-      EGender: student?.gender,
+      EGender: student?.EGender,
       EReligion: student?.EReligion,
       marital_status: student?.marital_status,
-      ECitizenship: student?.citizenship,
+      ECitizenship: student?.ECitizenship,
       country: student?.country,
       province: student?.province,
       city: student?.city,
@@ -96,8 +96,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
     EGender?: string;
     ECitizenship?: string;
   }>({
-    EGender: '',
-    ECitizenship: '',
+    EGender: undefined,
+    ECitizenship: undefined,
   });
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setRadioSelected({
@@ -115,6 +115,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
       } else {
         createBiodata(data);
       }
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -122,12 +123,67 @@ export const ModuleBiodata: FC = (): ReactElement => {
   });
 
   useEffect(() => {
-    reset(student);
+    setValue('image', student?.image);
+    setValue('nim', student?.nim);
+    setValue('email', student?.email);
+    setValue('identification_type', student?.identification_type);
+    setValue('identification_number', student?.identification_number);
+    setValue('nisn', student?.nisn);
+    setValue('phone_number', student?.phone_number);
+    setValue('kk_number', student?.kk_number);
+    setValue('birth_place', student?.birth_place);
+    setValue('birth_date', student?.birth_date);
+    setValue('EGender', student?.EGender);
+    setValue('EReligion', student?.EReligion);
+    setValue('marital_status', student?.marital_status);
+    setValue('ECitizenship', student?.ECitizenship);
+    setValue('country', student?.country);
+    setValue('province', student?.province);
+    setValue('city', student?.city);
+    setValue('subdistrict', student?.subdistrict);
+    setValue('address', student?.address);
+    setValue('rt', student?.rt);
+    setValue('rw', student?.rw);
+    setValue('postal_code', student?.postal_code);
+    setValue('school_type', student?.school_type);
+    setValue('school_major', student?.school_major);
+    setValue('school_name', student?.school_name);
+    setValue('school_address', student?.school_address);
+    setValue('school_province', student?.school_province);
+    setValue('school_city', student?.city);
+    setValue('school_subdistrict', student?.school_subdistrict);
+    setValue('school_postal_code', student?.school_postal_code);
+    setValue('school_phone_number', student?.school_phone_number);
+    setValue('graduation_year', student?.graduation_year);
+    setValue('mother_name', student?.mother_name);
+    setValue('father_name', student?.father_name);
+    setValue('guardian_name', student?.guardian_name);
+    setValue('parent_address', student?.parent_address);
+    setValue('parent_rt', student?.parent_rt);
+    setValue('parent_rw', student?.parent_rw);
+    setValue('parent_postal_code', student?.parent_postal_code);
+    setValue('parent_province', student?.parent_province);
+    setValue('parent_phone_number', student?.parent_phone_number);
+    setValue('parent_subdistrict', student?.subdistrict);
+    setValue('father_education', student?.father_education);
+    setValue('father_occupation', student?.father_occupation);
+    setValue('father_income', student?.father_income);
+    setValue('mother_education', student?.mother_education);
+    setValue('mother_occupation', student?.mother_occupation);
+    setValue('mother_income', student?.mother_income);
+    setValue('guardian_education', student?.guardian_education);
+    setValue('guardian_occupation', student?.guardian_occupation);
+    setValue('guardian_income', student?.guardian_income);
+    setValue('selection_type', student?.selection_type);
+    setValue('program', student?.program);
+    setValue('academic_year', student?.academic_year);
+    setValue('registration_wave', student?.registration_wave);
+
     setRadioSelected({
-      EGender: student?.gender,
-      ECitizenship: student?.citizenship,
+      EGender: student?.EGender,
+      ECitizenship: student?.ECitizenship,
     });
-  }, [student, reset]);
+  }, [setValue, student]);
 
   return (
     <DashboardLayout>
@@ -154,13 +210,13 @@ export const ModuleBiodata: FC = (): ReactElement => {
               title="Data diri pendaftar"
               className="w-full h-auto mt-[2rem] flex flex-col items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] gap-5"
             >
-              {/* section upload avatar */}
+              {/* section upload image */}
               <div className="flex flex-col gap-7 ">
                 <UploadField
                   className="grid grid-cols-1 lg:flex lg:items-center lg:gap-6 w-full justify-items-center h-full gap-y-6 lg:gap-y-0"
                   classNameField="w-70% lg:w-auto"
                   control={control}
-                  name="avatar"
+                  name="image"
                   defaultImage="/illustrations/dummy-avatar.jpg"
                   previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full "
                 />
@@ -174,9 +230,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   labelclassname="text-sm font-semibold"
                   label="NIM"
                   inputWidth="w-70% lg:w-25% xl:w-20% text-base"
-                  disabled
                   control={control}
-                  required
                 />
                 {formBiodataOne.map((biodata, idx) => (
                   <TextField
@@ -188,7 +242,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     inputWidth="w-70% lg:w-25% xl:w-20%"
                     type={biodata.type}
                     control={control}
-                    required
                   />
                 ))}
               </section>
@@ -202,7 +255,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   options={['Kota Bandung', 'Kota Jakarta', 'Kota Denpasar']}
                   width="w-70% lg:w-25% xl:w-20%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="birth_date"
@@ -212,7 +264,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Tanggal Lahir"
                   inputWidth="lg:w-25% xl:w-20%"
                   control={control}
-                  required
                 />
               </section>
               <section className="grid grid-cols-1 lg:flex lg:justify-between lg:gap-6 xl:gap-1 gap-y-4 mt-4 lg:items-center lg:w-55%">
@@ -227,7 +278,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       onChange={handleChange}
                       value="MALE"
                       variant="primary"
-                      required
                       isChecked={radioSelected?.EGender === 'MALE'}
                     />
                     <RadioButton
@@ -238,7 +288,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       onChange={handleChange}
                       value="FEMALE"
                       variant="primary"
-                      required
                       isChecked={radioSelected?.EGender === 'FEMALE'}
                     />
                   </div>
@@ -285,7 +334,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       inputname="kewarganegaraan"
                       value="WNI"
                       variant="primary"
-                      required
                       isChecked={radioSelected?.ECitizenship === 'WNI'}
                     />
                     <RadioButton
@@ -297,7 +345,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       inputname="kewarganegaraan"
                       value="WNA"
                       variant="primary"
-                      required
                       isChecked={radioSelected?.ECitizenship === 'WNA'}
                     />
                   </div>
@@ -360,7 +407,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   labelclassname="text-xl font-semibold"
                   label="Alamat"
                   control={control}
-                  required
                   isTextArea
                   textAreaRow={5}
                   textAreaCols={30}
@@ -379,7 +425,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       inputWidth="w-14 text-base"
                       control={control}
                       maxlenght={3}
-                      required
                     />
                   ))}
                   <TextField
@@ -390,7 +435,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     label="Kode Pos"
                     inputWidth="w-20 text-base"
                     control={control}
-                    required
                     maxlenght={6}
                   />
                 </div>
@@ -433,7 +477,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Nama Instansi Pendidikan"
                   inputWidth="w-70% lg:w-20%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="school_address"
@@ -442,7 +485,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   labelclassname="text-xl font-semibold"
                   label="Alamat Instansi Pendidikan"
                   control={control}
-                  required
                   isTextArea
                   textAreaRow={5}
                   textAreaCols={30}
@@ -497,7 +539,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Kode Pos"
                   inputWidth="w-70% lg:w-15%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="school_phone_number"
@@ -507,7 +548,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Kontak Instansi"
                   inputWidth="w-70% lg:w-15%"
                   control={control}
-                  required
                 />
                 <SelectField
                   name="graduation_year"
@@ -537,7 +577,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Nama Ayah Kandung"
                   inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="mother_name"
@@ -547,7 +586,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Nama Ibu Kandung"
                   inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
-                  required
                 />
 
                 <div className="w-70% w-25% xl:w-20%">
@@ -558,7 +596,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     labelclassname="text-xl font-semibold"
                     label="Alamat Orang Tua"
                     control={control}
-                    required
                     isTextArea
                     textAreaRow={5}
                     textAreaCols={30}
@@ -578,7 +615,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       inputWidth="w-14 text-base"
                       control={control}
                       maxlenght={3}
-                      required
                     />
                   ))}
                   <TextField
@@ -589,7 +625,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     label="Kode Pos"
                     inputWidth="w-20 text-base"
                     control={control}
-                    required
                     maxlenght={6}
                   />
                 </div>
@@ -627,7 +662,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Pendidikan Ayah"
                   inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="father_occupation"
@@ -637,7 +671,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Pekerjaan Ayah"
                   inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="father_income"
@@ -647,7 +680,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Pendapatan Ayah"
                   inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
-                  required
                 />
               </section>
 
@@ -660,7 +692,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Pendidikan Ibu"
                   inputWidth="w-70%  lg:w-25% max-w-20% xl:w-20%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="mother_occupation"
@@ -670,7 +701,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Pekerjaan Ibu"
                   inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="mother_income"
@@ -680,7 +710,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Pendapatan Ibu"
                   inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
-                  required
                 />
               </section>
 

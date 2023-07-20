@@ -8,16 +8,16 @@ import {
 } from '@uninus/entities';
 
 export const BiodataCreate = async (
-  payload: TBiodataRequest | unknown
+  payload: TBiodataRequest
 ): Promise<TBiodataResponse> => {
-  const { data } = await api.post('/student', payload);
+  const { data } = await api.post<TBiodataRequest>('/student', payload);
   return data;
 };
 
 export const BiodataUpdate = async (
-  payload: TBiodataUpdateRequest | unknown
+  payload: TBiodataUpdateRequest
 ): Promise<TBiodataUpdateResponse> => {
-  const { data } = await api.put('/student', payload);
+  const { data } = await api.put<TBiodataUpdateRequest>('/student', payload);
   return data;
 };
 

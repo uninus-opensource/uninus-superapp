@@ -1,8 +1,14 @@
 'use client';
 import { ReactElement, FC } from 'react';
-import { Button, HeroBanner } from '@uninus/components';
+import { Button, HeroBanner, LazyLoading } from '@uninus/components';
 import Image from 'next/image';
-import { MainLayout } from '../../layouts';
+import dynamic from 'next/dynamic';
+const MainLayout = dynamic(
+  () => import('../../layouts').then((mod) => mod.MainLayout),
+  {
+    loading: () => <LazyLoading />,
+  }
+);
 
 export const ModuleUnggul: FC = (): ReactElement => {
   return (
