@@ -18,7 +18,7 @@ export const Navbar: FC = (): ReactElement => {
 
   const navList: NavbarList[] = [
     {
-      item: 'home',
+      item: 'beranda',
       link: '/',
     },
     {

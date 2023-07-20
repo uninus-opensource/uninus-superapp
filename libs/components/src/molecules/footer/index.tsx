@@ -183,7 +183,7 @@ export const Footer: FC = (): ReactElement => {
                         style={{ fontSize: 13, color: 'white' }}
                       />
                       <h3 className="text-[10px] text-primary-white">
-                        0811-2161-530
+                        0821-1686-0530
                       </h3>
                     </div>
                   </div>
@@ -222,7 +222,7 @@ export const Footer: FC = (): ReactElement => {
                 <div className="lg:flex lg:items-center lg:gap-2 lg:w-[18vw]">
                   <ContactsFilled style={{ fontSize: 20, color: 'white' }} />
                   <p className="lg:text-primary-white lg:text-[10px]">
-                    0811-2161-530
+                    0821-1686-0530
                   </p>
                 </div>
                 <div className="lg:flex lg:items-center lg:gap-2 lg:w-[18vw]">
@@ -249,7 +249,7 @@ export const Footer: FC = (): ReactElement => {
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center md:gap-2">
                 <ContactsFilled style={{ fontSize: 23, color: 'white' }} />
                 <h3 className="md:text-sm md:text-primary-white">
-                  0811-2161-530
+                  0821-1686-0530
                 </h3>
               </div>
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center md:gap-2">
@@ -301,7 +301,7 @@ export const Footer: FC = (): ReactElement => {
           <div className="group cursor-pointer">
             <div className="group-hover:scale-90 duration-300 ease-in-out">
               <Link
-                href="https://instagram.com/uninusbandung"
+                href="https://www.instagram.com/pmbuninus/"
                 target="_blank"
                 className="flex items-center"
               >

@@ -44,8 +44,8 @@ export const ModulePrestasi: FC = (): ReactElement => {
                       <li>a. Nilai rata-rata rapor : 80 </li>
                       <li>b. Nilai UTBK : 500 </li>
                       <li>
-                        c. Minimal Juara 3 pada kejuaaraan tingkat nasional
-                        (perorangan/tim){' '}
+                        c. Minimal Juara 3 pada kejuaaraan tingkat daerah atau
+                        provinsi (perorangan/tim){' '}
                       </li>
                       <li>d. Tahfidz Qur'an minimal 3 juz </li>
                     </ul>
@@ -62,7 +62,7 @@ export const ModulePrestasi: FC = (): ReactElement => {
                 <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">
                   Periode Pendaftaran
                 </h2>
-                <p>1 Januari s.d 31 Maret 2023</p>
+                <p>1 Januari s.d 31 Mei 2023</p>
               </div>
               <div className="flex w-full lg:justify-start justify-center">
                 <Button

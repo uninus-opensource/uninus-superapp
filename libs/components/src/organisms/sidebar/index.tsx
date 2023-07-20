@@ -26,7 +26,7 @@ export const SideBar: FC<TSideBarProps> = ({
   }, [userName]);
 
   const sideLists: TSideBarList[] = [
-    { label: 'homepage', link: '/dashboard', icon: <AiFillHome /> },
+    { label: 'Beranda', link: '/dashboard', icon: <AiFillHome /> },
     { label: 'data diri', link: '/dashboard/biodata', icon: <FaRegUser /> },
     {
       label: 'pendaftaran',
@@ -78,20 +78,20 @@ export const SideBar: FC<TSideBarProps> = ({
               <nav>
                 <ul className="flex flex-col gap-y-6 lg:gap-y-4">
                   {sideLists.map((sideList, idx) => (
-                    <li key={idx} className="flex flex-col gap-y-6">
+                    <li key={idx} className="flex flex-col gap-y-6 ">
                       <Link
                         href={sideList.link}
                         role="link"
                         className={`flex gap-x-3 text-lg capitalize ${
                           pathname === sideList.link &&
                           'bg-primary-white drop-shadow-md '
-                        }hover:bg-primary-white hover:shadow-md hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                        }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
                       >
                         <p
                           className={`${
                             pathname === sideList.link &&
                             'bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white'
-                          } text-primary-green w-fit h-fit p-3 hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg`}
+                          } text-primary-green w-fit h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg`}
                         >
                           {sideList.icon}
                         </p>

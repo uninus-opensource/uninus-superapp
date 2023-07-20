@@ -7,11 +7,11 @@ import { useForm } from 'react-hook-form';
 export const ModulePendaftaran: FC = (): ReactElement => {
   const { control } = useForm({
     defaultValues: {
-      program: '',
-      seleksi: '',
-      prodi: '',
-      fakultas: '',
-      pembayaran: '',
+      program: undefined,
+      seleksi: undefined,
+      prodi: undefined,
+      fakultas: undefined,
+      pembayaran: undefined,
     },
   });
 
@@ -35,7 +35,8 @@ export const ModulePendaftaran: FC = (): ReactElement => {
             status="none"
             options={[
               'Program Sarjana(S1) 2023/2024',
-              'Program Pascasarjana(S2) 2023/2024',
+              'Program Magister(S2) 2023/2024',
+              'Program Doktor(S3) 2023/2024',
             ]}
             control={control}
           />
@@ -61,13 +62,13 @@ export const ModulePendaftaran: FC = (): ReactElement => {
             placeholder="Pilih Fakultas"
             status="none"
             options={[
-              'Fakultas Agama Islam',
-              'Faklutas Keguruan dan Ilmu Pendidikan (FKIP)',
-              'Faklutas Teknik (FTEK)',
-              'Faklutas Ilmu Komunikasi (FIKOM)',
-              'Faklutas Ekonomi (FKON)',
-              'Faklutas Hukum (FHUM)',
-              'Faklutas Pertanian (FAPERTA)',
+              'Fakultas Agama Islam (FAI)',
+              'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)',
+              'Fakultas Teknik (FTEK)',
+              'Fakultas Ilmu Komunikasi (FIKOM)',
+              'Fakultas Ekonomi (FKON)',
+              'Fakultas Hukum (FHUM)',
+              'Fakultas Pertanian (FAPERTA)',
             ]}
             control={control}
           />
