@@ -42,7 +42,7 @@ export const LoginModule: FC = (): ReactElement => {
       <div className="flex flex-col gap-2">
         <h1 className="font-bold text-base lg:text-[1.5rem]">Login</h1>
         <p className="text-grayscale-5 w-[60vw] text-xs lg:text-sm lg:w-[30vw]">
-          Selamat Datang Calon Mahasiswa Uninus
+          Selamat Datang Calon Nusantara Muda
         </p>
       </div>
       <div className="flex flex-col w-full justify-center items-center">

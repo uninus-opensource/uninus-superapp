@@ -15,10 +15,10 @@ export const DashboardModule: FC = (): ReactElement => {
       <section className="flex flex-col  lg:px-10 px-4 text-center gap-y-6 lg:text-start">
         <div className="2xl:text-2xl">
           <h1 className="text-slate-5 ">
-            PMB <span className="text-secondary-green-4"> / Homepage</span>
+            PMB <span className="text-secondary-green-4"> / Beranda</span>
           </h1>
           <p className="text-lg 2xl:text-2xl font-bold text-secondary-green-4">
-            Homepage
+            Beranda
           </p>
         </div>
         <div className="w-full rounded-lg h-auto bg-primary-white flex text-secondary-green-4 flex-col text-center items-center py-8 gap-5 px-7 lg:px-14 shadow-full">
