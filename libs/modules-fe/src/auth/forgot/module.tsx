@@ -22,15 +22,19 @@ export const ForgotModule: FC = (): ReactElement => {
 
   const router = useRouter();
 
-  const { mutate: forgot, isSuccess, isError } = useForgot();
+  const { mutate, isError } = useForgot();
 
   const onSubmit = handleSubmit((data) => {
-    forgot(data);
+    mutate(
+      {
+        email: data?.email,
+      },
+      {
+        onSuccess: () =>
+          router.push(`/auth/verifikasi-otp?email=${data?.email}`),
+      }
+    );
   });
-
-  if (isSuccess) {
-    router.push('/auth/verifikasi-otp');
-  }
 
   return (
     <form

@@ -25,7 +25,13 @@ export const RegisterModule: FC = (): ReactElement => {
     },
   });
 
-  const { mutate, isLoading } = useRegister();
+  const { mutate, isLoading, isError, error } = useRegister();
+
+  const isNikAlreadyRegistered =
+    isError && error?.response?.data.message === 'Nik sudah terdaftar';
+
+  const isEmailAlreadyRegistered =
+    isError && error?.response?.data.message === 'Email sudah terdaftar';
 
   const onSubmit = handleSubmit((data) => {
     mutate(
@@ -70,12 +76,16 @@ export const RegisterModule: FC = (): ReactElement => {
             name="nik"
             type="text"
             variant="md"
-            label="Namor Induk Keluarga"
+            label="Nomor Induk Keluarga"
             placeholder="Masukan Nomor Induk Keluarga"
             control={control}
             required
-            status={errors?.nik ? 'error' : undefined}
-            message={errors?.nik?.message}
+            status={errors?.nik || isNikAlreadyRegistered ? 'error' : undefined}
+            message={
+              errors?.nik?.message ||
+              (isNikAlreadyRegistered ? 'Nik sudah terdaftar' : undefined)
+            }
+            maxlenght={16}
           />
           <TextField
             name="email"
@@ -85,8 +95,13 @@ export const RegisterModule: FC = (): ReactElement => {
             placeholder="Masukan email"
             control={control}
             required
-            status={errors?.email ? 'error' : undefined}
-            message={errors?.email?.message}
+            status={
+              errors?.email || isEmailAlreadyRegistered ? 'error' : undefined
+            }
+            message={
+              errors?.email?.message ||
+              (isEmailAlreadyRegistered ? 'Email sudah terdaftar' : undefined)
+            }
           />
           <TextField
             name="password"
