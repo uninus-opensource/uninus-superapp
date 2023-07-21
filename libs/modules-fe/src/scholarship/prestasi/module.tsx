@@ -45,7 +45,7 @@ export const ModulePrestasi: FC = (): ReactElement => {
                       <li>a. Nilai rata-rata rapor : 80 </li>
                       <li>b. Nilai UTBK : 500 </li>
                       <li>
-                        c. Minimal Juara 3 pada kejuaaraan tingkat daerah atau
+                        c. Minimal Juara 3 pada kejuaraan tingkat daerah atau
                         provinsi (perorangan/tim){' '}
                       </li>
                       <li>d. Tahfidz Qur'an minimal 3 juz </li>

@@ -11,7 +11,7 @@ const programPendidikanList: ProgramPendidikanProps[] = [
   {
     iconText: 'S2',
     title: 'magister',
-    item: 'Program Pendidikan UNINUS Di Perguruan Tinggi berkualitas yang fleksibel, dikelola oleh dosen berpengalaman, menigkatkan jenjang karier dan wawasan bakat minat anda.',
+    item: 'Program Pendidikan UNINUS Di Perguruan Tinggi berkualitas yang fleksibel, dikelola oleh dosen berpengalaman, meningkatkan jenjang karier dan wawasan bakat minat anda.',
   },
   {
     iconText: 'S3',
