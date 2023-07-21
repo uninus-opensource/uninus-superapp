@@ -1,5 +1,5 @@
 export type TBiodataRequest = {
-  image: any;
+  image?: File;
   nim: string;
   nisn: string;
   email?: string;

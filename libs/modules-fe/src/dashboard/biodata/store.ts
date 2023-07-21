@@ -94,7 +94,7 @@ export const formBioadataIbu: TTextFieldIbu[] = [
 ];
 
 export const defaultValuesBiodata: TBiodataRequest = {
-  image: '',
+  image: undefined,
   nim: '',
   email: '',
   identification_type: 'KTP',

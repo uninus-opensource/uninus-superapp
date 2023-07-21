@@ -1,7 +1,7 @@
 'use client';
 import { ReactElement, FC } from 'react';
 import { HeroSection } from './hero';
-import { WellcomeSection } from './banner-wellcome';
+import { WelcomeSection } from './banner-welcome';
 import { BenefitSection } from './benefit';
 import { SelectionSection } from './selection';
 import { ProgramSection } from './program-study';
@@ -14,7 +14,7 @@ export const LandingModule: FC = (): ReactElement => {
     <MainLayout>
       <main className="w-full min-h-screen overflow-x-hidden bg-slate-2">
         <HeroSection />
-        <WellcomeSection />
+        <WelcomeSection />
         <BenefitSection />
         <SelectionSection />
         <ProgramSection />
