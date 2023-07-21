@@ -14,11 +14,7 @@ import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { Modal } from '../modal';
 
-export const SideBar: FC<TSideBarProps> = ({
-  profileName = '',
-  profileEmail = '',
-  onLogout,
-}): ReactElement => {
+export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleOpenModal = () => {
@@ -135,7 +131,7 @@ export const SideBar: FC<TSideBarProps> = ({
               </figcaption>
             </figure>
             {/* Status pendaftaran */}
-            <div className="w-3/5 mt-2 font-bold bg-red-5 text-primary-white p-2 rounded-md text-center text-xs">
+            <div className="w-3/5 mt-2 font-bold bg-red-3 text-primary-black p-2 rounded-md text-center text-xs">
               Belum Mendaftar
             </div>
             {/* End Status pendaftaran */}

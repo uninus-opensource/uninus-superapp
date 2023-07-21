@@ -1,8 +1,11 @@
 'use client';
-import { FC, PropsWithChildren, ReactElement } from 'react';
-import { SideBar } from '@uninus/components';
+import { FC, PropsWithChildren, ReactElement, Suspense } from 'react';
+import { LazyLoading, SideBar } from '@uninus/components';
 import { useLogout } from '../auth';
 import { signOut } from 'next-auth/react';
+import { lazily } from 'react-lazily';
+const { DashboardContent } = lazily(() => import('./dashboardcontent'));
+
 export const DashboardLayout: FC<PropsWithChildren> = ({
   children,
 }): ReactElement => {
@@ -19,9 +22,9 @@ export const DashboardLayout: FC<PropsWithChildren> = ({
         profileEmail="mwrsdh@gmail.com"
         onLogout={handleLogout}
       />
-      <div className="w-full bg-gray-100 lg:p-10 py-4 bg-grayscale-1 h-screen overflow-y-auto">
-        {children}
-      </div>
+      <Suspense fallback={<LazyLoading />}>
+        <DashboardContent>{children}</DashboardContent>
+      </Suspense>
     </main>
   );
 };

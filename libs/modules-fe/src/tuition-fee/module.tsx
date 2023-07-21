@@ -4,7 +4,8 @@ import { HeroBanner, LoadingSpinner } from '@uninus/components';
 import { dataSarjana, dataMagister } from './store';
 import { TTableMagister, TTableSarjana } from './types';
 import DataTable, { TableColumn } from 'react-data-table-component';
-import { MainLayout } from '../layouts';
+import { lazily } from 'react-lazily';
+const { MainLayout } = lazily(() => import('../layouts'));
 
 export const TuitionFeeModule: FC = (): ReactElement => {
   const [columsOne, setColumsOne] = useState([{}]);

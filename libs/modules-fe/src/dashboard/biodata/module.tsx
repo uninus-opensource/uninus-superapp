@@ -7,7 +7,6 @@ import {
   useState,
   ChangeEvent,
 } from 'react';
-import Image from 'next/image';
 import {
   Accordion,
   Button,
@@ -17,9 +16,16 @@ import {
   UploadField,
 } from '@uninus/components';
 import { useForm } from 'react-hook-form';
-import { formBiodataOne, formBiodataThree, formBiodataTwo } from './store';
+import {
+  formBiodataOne,
+  formBiodataThree,
+  formBiodataTwo,
+  defaultValuesBiodata,
+  formBioadataIbu,
+  formBioadataAyah,
+} from './store';
 import { DashboardLayout } from '../../layouts';
-import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hook';
+import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
 
 // import { TVSBiodata, VSBiodata } from './schema';
 
@@ -28,65 +34,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
   const student = useMemo(() => {
     return data;
   }, [data]);
+
   const { control, handleSubmit, reset } = useForm({
     mode: 'all',
-    defaultValues: {
-      avatar: student?.avatar,
-      nim: student?.nim,
-      email: student?.email,
-      identification_type: student?.identification_type,
-      identification_number: student?.identification_number,
-      nisn: student?.nisn,
-      phone_number: student?.phone_number,
-      kk_number: student?.kk_number,
-      birth_place: student?.birth_place,
-      birth_date: student?.birth_date,
-      EGender: student?.gender,
-      EReligion: student?.EReligion,
-      marital_status: student?.marital_status,
-      ECitizenship: student?.citizenship,
-      country: student?.country,
-      province: student?.province,
-      city: student?.city,
-      subdistrict: student?.subdistrict,
-      address: student?.address,
-      rt: student?.rt,
-      rw: student?.rw,
-      postal_code: student?.postal_code,
-      school_type: student?.school_type,
-      school_major: student?.school_major,
-      school_name: student?.school_name,
-      school_address: student?.school_address,
-      school_province: student?.school_province,
-      school_city: student?.city,
-      school_subdistrict: student?.school_subdistrict,
-      school_postal_code: student?.school_postal_code,
-      school_phone_number: student?.school_phone_number,
-      graduation_year: student?.graduation_year,
-      mother_name: student?.mother_name,
-      father_name: student?.father_name,
-      guardian_name: student?.guardian_name,
-      parent_address: student?.parent_address,
-      parent_rt: student?.parent_rt,
-      parent_rw: student?.parent_rw,
-      parent_postal_code: student?.parent_postal_code,
-      parent_province: student?.parent_province,
-      parent_phone_number: student?.parent_phone_number,
-      parent_subdistrict: student?.subdistrict,
-      father_education: student?.father_education,
-      father_occupation: student?.father_occupation,
-      father_income: student?.father_income,
-      mother_education: student?.mother_education,
-      mother_occupation: student?.mother_occupation,
-      mother_income: student?.mother_income,
-      guardian_education: student?.guardian_education,
-      guardian_occupation: student?.guardian_occupation,
-      guardian_income: student?.guardian_income,
-      selection_type: student?.selection_type,
-      program: student?.program,
-      academic_year: student?.academic_year,
-      registration_wave: student?.registration_wave,
-    },
+    defaultValues: { ...defaultValuesBiodata },
   });
 
   const { mutate: createBiodata } = useBiodataCreate();
@@ -115,19 +66,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
       } else {
         createBiodata(data);
       }
+      console.log(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-    console.log('submit');
   });
 
   useEffect(() => {
     reset(student);
+
     setRadioSelected({
-      EGender: student?.gender,
-      ECitizenship: student?.citizenship,
+      EGender: student?.EGender,
+      ECitizenship: student?.ECitizenship,
     });
-  }, [student, reset]);
+  }, [reset, student]);
 
   return (
     <DashboardLayout>
@@ -154,13 +106,13 @@ export const ModuleBiodata: FC = (): ReactElement => {
               title="Data diri pendaftar"
               className="w-full h-auto mt-[2rem] flex flex-col items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] gap-5"
             >
-              {/* section upload avatar */}
+              {/* section upload image */}
               <div className="flex flex-col gap-7 ">
                 <UploadField
                   className="grid grid-cols-1 lg:flex lg:items-center lg:gap-6 w-full justify-items-center h-full gap-y-6 lg:gap-y-0"
                   classNameField="w-70% lg:w-auto"
                   control={control}
-                  name="avatar"
+                  name="image"
                   defaultImage="/illustrations/dummy-avatar.jpg"
                   previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full "
                 />
@@ -174,9 +126,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   labelclassname="text-sm font-semibold"
                   label="NIM"
                   inputWidth="w-70% lg:w-25% xl:w-20% text-base"
-                  disabled
                   control={control}
-                  required
                 />
                 {formBiodataOne.map((biodata, idx) => (
                   <TextField
@@ -188,9 +138,18 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     inputWidth="w-70% lg:w-25% xl:w-20%"
                     type={biodata.type}
                     control={control}
-                    required
                   />
                 ))}
+                <TextField
+                  name="email"
+                  variant="sm"
+                  type="text"
+                  labelclassname="text-sm font-semibold"
+                  label="Email"
+                  inputWidth="w-70% lg:w-25% xl:w-20% text-base"
+                  control={control}
+                  disabled
+                />
               </section>
               <section className="grid grid-cols-1 lg:flex lg:justify-between lg:gap-6 xl:gap-1 gap-y-4 mt-4 lg:items-center lg:w-55%">
                 <SelectField
@@ -202,7 +161,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   options={['Kota Bandung', 'Kota Jakarta', 'Kota Denpasar']}
                   width="w-70% lg:w-25% xl:w-20%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="birth_date"
@@ -212,7 +170,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Tanggal Lahir"
                   inputWidth="lg:w-25% xl:w-20%"
                   control={control}
-                  required
                 />
               </section>
               <section className="grid grid-cols-1 lg:flex lg:justify-between lg:gap-6 xl:gap-1 gap-y-4 mt-4 lg:items-center lg:w-55%">
@@ -227,7 +184,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       onChange={handleChange}
                       value="MALE"
                       variant="primary"
-                      required
                       isChecked={radioSelected?.EGender === 'MALE'}
                     />
                     <RadioButton
@@ -238,7 +194,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       onChange={handleChange}
                       value="FEMALE"
                       variant="primary"
-                      required
                       isChecked={radioSelected?.EGender === 'FEMALE'}
                     />
                   </div>
@@ -285,7 +240,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       inputname="kewarganegaraan"
                       value="WNI"
                       variant="primary"
-                      required
                       isChecked={radioSelected?.ECitizenship === 'WNI'}
                     />
                     <RadioButton
@@ -297,7 +251,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       inputname="kewarganegaraan"
                       value="WNA"
                       variant="primary"
-                      required
                       isChecked={radioSelected?.ECitizenship === 'WNA'}
                     />
                   </div>
@@ -360,7 +313,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   labelclassname="text-xl font-semibold"
                   label="Alamat"
                   control={control}
-                  required
                   isTextArea
                   textAreaRow={5}
                   textAreaCols={30}
@@ -379,7 +331,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       inputWidth="w-14 text-base"
                       control={control}
                       maxlenght={3}
-                      required
                     />
                   ))}
                   <TextField
@@ -390,7 +341,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     label="Kode Pos"
                     inputWidth="w-20 text-base"
                     control={control}
-                    required
                     maxlenght={6}
                   />
                 </div>
@@ -433,7 +383,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Nama Instansi Pendidikan"
                   inputWidth="w-70% lg:w-20%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="school_address"
@@ -442,7 +391,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   labelclassname="text-xl font-semibold"
                   label="Alamat Instansi Pendidikan"
                   control={control}
-                  required
                   isTextArea
                   textAreaRow={5}
                   textAreaCols={30}
@@ -497,7 +445,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Kode Pos"
                   inputWidth="w-70% lg:w-15%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="school_phone_number"
@@ -507,7 +454,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Kontak Instansi"
                   inputWidth="w-70% lg:w-15%"
                   control={control}
-                  required
                 />
                 <SelectField
                   name="graduation_year"
@@ -537,7 +483,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Nama Ayah Kandung"
                   inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
-                  required
                 />
                 <TextField
                   name="mother_name"
@@ -547,7 +492,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Nama Ibu Kandung"
                   inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
                   control={control}
-                  required
                 />
 
                 <div className="w-70% w-25% xl:w-20%">
@@ -558,7 +502,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     labelclassname="text-xl font-semibold"
                     label="Alamat Orang Tua"
                     control={control}
-                    required
                     isTextArea
                     textAreaRow={5}
                     textAreaCols={30}
@@ -578,7 +521,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       inputWidth="w-14 text-base"
                       control={control}
                       maxlenght={3}
-                      required
                     />
                   ))}
                   <TextField
@@ -589,7 +531,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     label="Kode Pos"
                     inputWidth="w-20 text-base"
                     control={control}
-                    required
                     maxlenght={6}
                   />
                 </div>
@@ -619,99 +560,33 @@ export const ModuleBiodata: FC = (): ReactElement => {
               </section>
 
               <section className="grid grid-cols-1 lg:flex lg:flex-wrap lg:items-center gap-y-4 lg:justify-between mt-4 lg:w-55%">
-                <TextField
-                  name="father_education"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendidikan Ayah"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                  required
-                />
-                <TextField
-                  name="father_occupation"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pekerjaan Ayah"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                  required
-                />
-                <TextField
-                  name="father_income"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendapatan Ayah"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                  required
-                />
+                {formBioadataAyah.map((input, i) => (
+                  <TextField
+                    key={i}
+                    name={input.name}
+                    variant="sm"
+                    type={input.type}
+                    labelclassname="text-sm font-semibold"
+                    label={input.item}
+                    inputWidth={input.className}
+                    control={control}
+                  />
+                ))}
               </section>
 
               <section className="grid grid-cols-1 lg:flex lg:flex-wrap lg:items-center gap-y-4 lg:justify-between mt-4 lg:w-55%">
-                <TextField
-                  name="mother_education"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendidikan Ibu"
-                  inputWidth="w-70%  lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                  required
-                />
-                <TextField
-                  name="mother_occupation"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pekerjaan Ibu"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                  required
-                />
-                <TextField
-                  name="mother_income"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendapatan Ibu"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                  required
-                />
-              </section>
-
-              <section className="grid grid-cols-1 lg:flex lg:flex-wrap lg:items-center gap-y-4 lg:justify-between mt-4 lg:w-55%">
-                <TextField
-                  name="guardian_education"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendidikan Wali"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
-                <TextField
-                  name="guardian_occupation"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pekerjaan Wali"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
-                <TextField
-                  name="guardian_income"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendapatan Wali"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
+                {formBioadataIbu.map((input, i) => (
+                  <TextField
+                    key={i}
+                    name={input.name}
+                    variant="sm"
+                    type={input.type}
+                    labelclassname="text-sm font-semibold"
+                    label={input.item}
+                    inputWidth={input.className}
+                    control={control}
+                  />
+                ))}
               </section>
             </Accordion>
 

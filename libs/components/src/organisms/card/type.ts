@@ -5,4 +5,5 @@ export type TCardProps = {
   iconText?: string;
   cardTitle?: string;
   children?: ReactNode;
+  height?: string;
 };

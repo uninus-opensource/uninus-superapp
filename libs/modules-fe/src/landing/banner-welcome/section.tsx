@@ -7,7 +7,7 @@ import {
   HalfEllipseGreen,
 } from '@uninus/components';
 
-export const WellcomeSection: FC = (): ReactElement => {
+export const WelcomeSection: FC = (): ReactElement => {
   return (
     <Fragment>
       <figure className="absolute left-0">

@@ -3,7 +3,8 @@ import { ReactElement, FC } from 'react';
 import { HeroBanner } from '@uninus/components';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MainLayout } from '../layouts';
+import { lazily } from 'react-lazily';
+const { MainLayout } = lazily(() => import('../layouts'));
 
 export const ModulBeasiswa: FC = (): ReactElement => {
   const beasiswaList: { name: string; img: string; link: string }[] = [

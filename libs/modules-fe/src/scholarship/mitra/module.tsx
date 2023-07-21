@@ -2,7 +2,8 @@
 import { ReactElement, FC } from 'react';
 import { Button, HeroBanner } from '@uninus/components';
 import Image from 'next/image';
-import { MainLayout } from '../../layouts';
+import { lazily } from 'react-lazily';
+const { MainLayout } = lazily(() => import('../../layouts'));
 
 export const ModuleMitra: FC = (): ReactElement => {
   return (
