@@ -21,6 +21,8 @@ import {
   formBiodataThree,
   formBiodataTwo,
   defaultValuesBiodata,
+  formBioadataIbu,
+  formBioadataAyah,
 } from './store';
 import { DashboardLayout } from '../../layouts';
 import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
@@ -28,15 +30,15 @@ import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
 // import { TVSBiodata, VSBiodata } from './schema';
 
 export const ModuleBiodata: FC = (): ReactElement => {
-  const { control, handleSubmit, reset } = useForm({
-    mode: 'all',
-    defaultValues: { ...defaultValuesBiodata },
-  });
-
   const { data } = useBiodataGet();
   const student = useMemo(() => {
     return data;
   }, [data]);
+
+  const { control, handleSubmit, reset } = useForm({
+    mode: 'all',
+    defaultValues: { ...defaultValuesBiodata },
+  });
 
   const { mutate: createBiodata } = useBiodataCreate();
   const { mutate: updateBiodata } = useBiodataUpdate();
@@ -558,93 +560,33 @@ export const ModuleBiodata: FC = (): ReactElement => {
               </section>
 
               <section className="grid grid-cols-1 lg:flex lg:flex-wrap lg:items-center gap-y-4 lg:justify-between mt-4 lg:w-55%">
-                <TextField
-                  name="father_education"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendidikan Ayah"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
-                <TextField
-                  name="father_occupation"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pekerjaan Ayah"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
-                <TextField
-                  name="father_income"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendapatan Ayah"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
+                {formBioadataAyah.map((input, i) => (
+                  <TextField
+                    key={i}
+                    name={input.name}
+                    variant="sm"
+                    type={input.type}
+                    labelclassname="text-sm font-semibold"
+                    label={input.item}
+                    inputWidth={input.className}
+                    control={control}
+                  />
+                ))}
               </section>
 
               <section className="grid grid-cols-1 lg:flex lg:flex-wrap lg:items-center gap-y-4 lg:justify-between mt-4 lg:w-55%">
-                <TextField
-                  name="mother_education"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendidikan Ibu"
-                  inputWidth="w-70%  lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
-                <TextField
-                  name="mother_occupation"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pekerjaan Ibu"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
-                <TextField
-                  name="mother_income"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendapatan Ibu"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
-              </section>
-
-              <section className="grid grid-cols-1 lg:flex lg:flex-wrap lg:items-center gap-y-4 lg:justify-between mt-4 lg:w-55%">
-                <TextField
-                  name="guardian_education"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendidikan Wali"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
-                <TextField
-                  name="guardian_occupation"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pekerjaan Wali"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
-                <TextField
-                  name="guardian_income"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Pendapatan Wali"
-                  inputWidth="w-70% lg:w-25% max-w-20% xl:w-20%"
-                  control={control}
-                />
+                {formBioadataIbu.map((input, i) => (
+                  <TextField
+                    key={i}
+                    name={input.name}
+                    variant="sm"
+                    type={input.type}
+                    labelclassname="text-sm font-semibold"
+                    label={input.item}
+                    inputWidth={input.className}
+                    control={control}
+                  />
+                ))}
               </section>
             </Accordion>
 

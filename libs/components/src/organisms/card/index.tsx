@@ -18,7 +18,7 @@ export const Card: FC<TCardProps> = ({
       <h1 className="lg:text-2xl text-sm font-bold text-secondary-green-4 uppercase">
         {cardTitle}
       </h1>
-      <p className="text-xs font-extramedium">{children}</p>
+      <div className="text-xs font-extramedium">{children}</div>
     </section>
   );
 };

@@ -1,5 +1,11 @@
 import { TBiodataRequest } from '@uninus/entities';
-import { TTextFieldOne, TTextFieldThree, TTextFieldTwo } from './type';
+import {
+  TTextFieldAyah,
+  TTextFieldIbu,
+  TTextFieldOne,
+  TTextFieldThree,
+  TTextFieldTwo,
+} from './type';
 
 export const formBiodataOne: TTextFieldOne[] = [
   {
@@ -42,6 +48,48 @@ export const formBiodataThree: TTextFieldThree[] = [
     name: 'parent_rw',
     item: 'RW',
     type: 'text',
+  },
+];
+
+export const formBioadataAyah: TTextFieldAyah[] = [
+  {
+    name: 'father_education',
+    item: 'Pendidikan Ayah',
+    type: 'text',
+    className: 'w-70% lg:w-25% max-w-20% xl:w-20%',
+  },
+  {
+    name: 'father_occupation',
+    item: 'Pekerjaan Ayah',
+    type: 'text',
+    className: 'w-70% lg:w-25% max-w-20% xl:w-20%',
+  },
+  {
+    name: 'father_income',
+    item: 'Pendapatan Ayah (Per bulan)',
+    type: 'text',
+    className: 'w-70% lg:w-55%',
+  },
+];
+
+export const formBioadataIbu: TTextFieldIbu[] = [
+  {
+    name: 'mother_education',
+    item: 'Pendidikan Ibu',
+    type: 'text',
+    className: 'w-70% lg:w-25% max-w-20% xl:w-20%',
+  },
+  {
+    name: 'mother_occupation',
+    item: 'Pekerjaan Ibu',
+    type: 'text',
+    className: 'w-70% lg:w-25% max-w-20% xl:w-20%',
+  },
+  {
+    name: 'mother_income',
+    item: 'Pendapatan Ibu (Per bulan)',
+    type: 'text',
+    className: 'w-70% lg:w-55%',
   },
 ];
 
