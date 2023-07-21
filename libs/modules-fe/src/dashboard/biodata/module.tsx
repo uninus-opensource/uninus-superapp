@@ -24,7 +24,6 @@ import {
 } from './store';
 import { DashboardLayout } from '../../layouts';
 import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
-import { TBiodataRequest } from '@uninus/entities';
 
 // import { TVSBiodata, VSBiodata } from './schema';
 

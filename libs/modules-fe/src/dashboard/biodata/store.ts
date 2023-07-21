@@ -1,7 +1,5 @@
 import { TBiodataRequest } from '@uninus/entities';
 import { TTextFieldOne, TTextFieldThree, TTextFieldTwo } from './type';
-import { useBiodataGet } from './hooks';
-import { useMemo } from 'react';
 
 export const formBiodataOne: TTextFieldOne[] = [
   {
