@@ -107,7 +107,7 @@ const CardBenerfit: TBenefit[] = [
 
 const cardProps = {
   items: CardBenerfit.map((x, i) => (
-    <div key={i} className="flex h-full">
+    <div key={i} className="flex h-full p-4">
       <Card key={i} icon={x.icon} cardTitle={x.title} height="h-48">
         {x.desc}
       </Card>
