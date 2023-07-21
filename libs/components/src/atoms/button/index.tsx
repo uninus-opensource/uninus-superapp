@@ -50,8 +50,8 @@ export const Button: FC<IButtonProps> = ({
       'text-white uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full ':
         variant === 'sidebarlist',
       'text-primary-green font-normal ': variant === 'sidebarbutton',
-      'bg-primary-yellow text-primary-white hover:bg-primary-yellow focus:bg-primary-yellow active:shadow-inset':
-        variant === 'warningButton',
+      'bg-primary-white text-primary-green border border-primary-green  active:shadow-inset':
+        variant === 'green-outline',
     }
   );
 

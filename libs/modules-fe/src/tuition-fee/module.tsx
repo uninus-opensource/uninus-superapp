@@ -1,16 +1,11 @@
 'use client';
 import { ReactElement, FC, useState, useEffect, useMemo } from 'react';
-import { HeroBanner, LazyLoading, LoadingSpinner } from '@uninus/components';
+import { HeroBanner, LoadingSpinner } from '@uninus/components';
 import { dataSarjana, dataMagister } from './store';
 import { TTableMagister, TTableSarjana } from './types';
 import DataTable, { TableColumn } from 'react-data-table-component';
-import dynamic from 'next/dynamic';
-const MainLayout = dynamic(
-  () => import('../layouts').then((mod) => mod.MainLayout),
-  {
-    loading: () => <LazyLoading />,
-  }
-);
+import { lazily } from 'react-lazily';
+const { MainLayout } = lazily(() => import('../layouts'));
 
 export const TuitionFeeModule: FC = (): ReactElement => {
   const [columsOne, setColumsOne] = useState([{}]);

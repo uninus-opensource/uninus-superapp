@@ -17174,6 +17174,13 @@ rc@1.2.8, rc@^1.2.7, rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-alice-carousel@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/react-alice-carousel/-/react-alice-carousel-2.7.1.tgz#0a92db78535d2d7e010633f39dd483f44dc8cfae"
+  integrity sha512-8ljKi5y+eqlsRkO4qRxEXIP0067w/4zvZvpJ66w+eAbeF0hIgC3iLeSmVtNc+F6ISzFsEJX0cOx7jIawXs0G8A==
+  dependencies:
+    vanilla-swipe "^2.4.1"
+
 react-data-table-component@^7.5.3:
   version "7.5.3"
   resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-7.5.3.tgz#a008b4c281574cc1a81315e2c1b34107b5d18fe0"
@@ -17283,6 +17290,11 @@ react-is@^18.0.0, react-is@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-lazily@^0.9.2:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/react-lazily/-/react-lazily-0.9.2.tgz#74596dbde43c8e0f607445da5c4839cf6cc48ab5"
+  integrity sha512-oBVRDQ+SuMPWenBO/0Kq+iZk34lOYJEmjiTto4bYRufndf8pux3E50BT3mJZbsq0vBsAVbX3fpQjlUvsXgDVag==
 
 react-otp-input@^3.0.2:
   version "3.0.2"
@@ -19943,6 +19955,11 @@ value-equal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/value-equal/-/value-equal-1.0.1.tgz#1e0b794c734c5c0cade179c437d356d931a34d6c"
   integrity sha512-NOJ6JZCAWr0zlxZt+xqCHNTEKOsrks2HQd4MqhP1qy4z1SkbEP467eNx6TgDKXMvUOb+OENfJCZwM+16n7fRfw==
+
+vanilla-swipe@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/vanilla-swipe/-/vanilla-swipe-2.4.1.tgz#697d58bde3729db3c80fd3de488a54a8eae05664"
+  integrity sha512-o6pfI0dipet88ZnPLV4Jx04Ia+U3xANh14vhROW2TOe/mrwk2JGG68+Z0BPoD1YUcQQEnK4SZBXkqFe+K1l7/w==
 
 vary@^1, vary@^1.1.2, vary@~1.1.2:
   version "1.1.2"

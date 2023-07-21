@@ -54,15 +54,16 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
     <>
       <Modal
         showModal={showModal}
-        modalTitle="Keluar"
+        modalTitle=" "
         onClose={handleCloseModal}
+        iconClose={false}
         submitText="LogOut"
         closeText="Cancel"
       >
-        <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row p-2">
-          <div className="img ">
+        <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row lg:py-10">
+          <div className="img">
             <Image
-              className=" "
+              className=""
               src={logOutImage}
               alt="profile picture"
               width={300}
@@ -72,32 +73,40 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
           </div>
           <div className="txt mt-4 lg:mt-0">
             <div className="">
-              <h1 className="font-bold text-xl">Log Out</h1>
-              <h1>Apakah Anda Yakin Ingin Keluar?</h1>
+              <h1 className="font-extrabold text-3xl text-primary-black mb-2">
+                Log Out
+              </h1>
+              <h1 className="text-primary-black">
+                Apakah Anda yakin ingin keluar?
+              </h1>
             </div>
-            <div className="button flex  gap-x-3 pt-4">
+            <div className="button flex gap-x-3 pt-4">
               <Button
-                variant="filled-tonal"
-                size="md"
-                styling="w-20"
+                variant="elevated"
                 onClick={onLogout}
+                styling="w-1/2 font-normal"
               >
-                Ya
+                Keluar
               </Button>
               <Button
-                variant="warningButton"
-                size="md"
-                styling="w-20"
+                variant="green-outline"
                 onClick={handleCloseModal}
+                styling="w-1/2 font-normal"
               >
-                Tidak
+                Tetap Disini
               </Button>
             </div>
           </div>
         </div>
       </Modal>
+      {showModal && (
+        <div
+          className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-50 z-[48]"
+          onClick={handleCloseModal}
+        />
+      )}
       {/* Desktop */}
-      <div className="lg:relative fixed z-[99999] bg-sky-3 h-auto ">
+      <div className="lg:relative fixed z-[49] bg-sky-3 h-auto ">
         <aside
           className={`sm:hidden xl:h-screen left-0 flex z-50 shadow-lg transition-transform 2xl:w-80 overflow-y-auto  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
         >
@@ -188,90 +197,99 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
         </Button>
 
         {onToogle && (
-          <motion.aside
-            className={` h-screen lg:hidden top-0 w-60 left-0 shadow-lg absolute z-50 duration-75 overflow-y-auto  transition-transform lg:sm:translate-x-0 bg-grayscale-1 py-5`}
-            aria-label="Sidebar"
-            initial={
-              onToogle
-                ? { opacity: 0, translateX: -50 }
-                : { opacity: 1, translateX: 0 }
-            }
-            animate={{ opacity: 1, translateX: 0 }}
-            transition={{ duration: 0 }}
-          >
-            <section className={` w-full flex flex-col items-center  gap-y-6`}>
-              <h1 className="text-secondary-green-4 text-lg font-bold">
-                PMB UNINUS
-              </h1>
-              <div className="flex flex-row  items-center gap-x-6">
-                <figure className="flex flex-col">
-                  <Image
-                    className="rounded-full mx-auto"
-                    src={dummyImage}
-                    alt="profile picture"
-                    width={70}
-                    height={70}
-                    priority={true}
-                  />
-                  <figcaption className="text-center flex flex-col gap-y-2 mt-3  ">
-                    <div className=" text-xs text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
-                      <h3 className="max-w-3/5 text-base leading-normal">
-                        {userName}
-                      </h3>
-                    </div>
-                  </figcaption>
-                </figure>
-              </div>
-              {/* Status pendaftaran */}
-              <div className="w-3/5 mt-2 bg-red-5 text-primary-white p-2 font-bold rounded-md text-center text-xs">
-                Belum Mendaftar
-              </div>
-              {/* End Status pendaftaran */}
-              <div className="w-[60%]  px-3 h-[1px] bg-slate-4"></div>
-              <nav>
-                <ul className="flex flex-col gap-y-6">
-                  {sideLists.map((sideList, idx) => (
-                    <li key={idx} className="flex flex-col gap-y-6">
-                      <Link
-                        href={sideList.link}
-                        role="link"
-                        className={`flex gap-x-3 text-lg capitalize ${
-                          pathname === sideList.link &&
-                          'bg-primary-white drop-shadow-md '
-                        }hover:bg-primary-white   hover:text-secondary-green-1 items-center p-2  rounded-md`}
-                      >
-                        <p
-                          className={`${
-                            pathname === sideList.link &&
-                            'bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white'
-                          } text-primary-green w-fit h-fit p-3 bg-primary-white drop-shadow-md rounded-lg`}
-                        >
-                          {sideList.icon}
-                        </p>
-                        <p className="text-primary-green text-sm font-normal">
-                          {sideList.label}
-                        </p>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex text-2xl relative bottom-0 items-start my-8 py-2 rounded-md">
-                  <Button
-                    variant="sidebarbutton"
-                    size="sm"
-                    styling="text-sm font-normal text-primary-green mt-0 p-0"
-                    onClick={handleOpenModal}
-                  >
-                    <AiOutlineLogout
-                      size={45}
-                      className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white rounded-lg "
+          <>
+            <div
+              className="mobile-sidebar-overlay fixed top-0 left-0 right-0 bottom-0 bg-black opacity-50 z-50"
+              onClick={() => setOnToogle(false)}
+            />
+            <motion.aside
+              className="h-screen lg:hidden top-0 w-60 left-0 shadow-lg absolute overflow-hidden z-50 duration-75 overflow-y-auto transition-transform bg-grayscale-1 py-5"
+              aria-label="Sidebar"
+              initial={
+                onToogle
+                  ? { opacity: 0, translateX: -50 }
+                  : { opacity: 1, translateX: 0 }
+              }
+              animate={{ opacity: 1, translateX: onToogle ? 0 : -50 }}
+              transition={{ duration: 0 }}
+              style={{ pointerEvents: onToogle ? 'auto' : 'none' }}
+            >
+              <section
+                className={` w-full flex flex-col items-center  gap-y-6`}
+              >
+                <h1 className="text-secondary-green-4 text-lg font-bold">
+                  PMB UNINUS
+                </h1>
+                <div className="flex flex-row  items-center gap-x-6">
+                  <figure className="flex flex-col">
+                    <Image
+                      className="rounded-full mx-auto"
+                      src={dummyImage}
+                      alt="profile picture"
+                      width={70}
+                      height={70}
+                      priority={true}
                     />
-                    Log out
-                  </Button>
+                    <figcaption className="text-center flex flex-col gap-y-2 mt-3  ">
+                      <div className=" text-xs text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
+                        <h3 className="max-w-3/5 text-base leading-normal">
+                          {userName}
+                        </h3>
+                      </div>
+                    </figcaption>
+                  </figure>
                 </div>
-              </nav>
-            </section>
-          </motion.aside>
+                {/* Status pendaftaran */}
+                <div className="w-3/5 mt-2 bg-red-5 text-primary-white p-2 font-bold rounded-md text-center text-xs">
+                  Belum Mendaftar
+                </div>
+                {/* End Status pendaftaran */}
+                <div className="w-[60%]  px-3 h-[1px] bg-slate-4"></div>
+                <nav>
+                  <ul className="flex flex-col gap-y-6">
+                    {sideLists.map((sideList, idx) => (
+                      <li key={idx} className="flex flex-col gap-y-6">
+                        <Link
+                          href={sideList.link}
+                          role="link"
+                          className={`flex gap-x-3 text-lg capitalize ${
+                            pathname === sideList.link &&
+                            'bg-primary-white drop-shadow-md '
+                          }hover:bg-primary-white   hover:text-secondary-green-1 items-center p-2  rounded-md`}
+                        >
+                          <p
+                            className={`${
+                              pathname === sideList.link &&
+                              'bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white'
+                            } text-primary-green w-fit h-fit p-3 bg-primary-white drop-shadow-md rounded-lg`}
+                          >
+                            {sideList.icon}
+                          </p>
+                          <p className="text-primary-green text-sm font-normal">
+                            {sideList.label}
+                          </p>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex text-2xl relative bottom-0 items-start my-8 py-2 rounded-md">
+                    <Button
+                      variant="sidebarbutton"
+                      size="sm"
+                      styling="text-sm font-normal text-primary-green mt-0 p-0"
+                      onClick={handleOpenModal}
+                    >
+                      <AiOutlineLogout
+                        size={45}
+                        className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white rounded-lg "
+                      />
+                      Log out
+                    </Button>
+                  </div>
+                </nav>
+              </section>
+            </motion.aside>
+          </>
         )}
       </div>
     </>

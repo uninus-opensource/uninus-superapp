@@ -1,14 +1,9 @@
 'use client';
 import { ReactElement, FC } from 'react';
-import { Button, HeroBanner, LazyLoading } from '@uninus/components';
+import { Button, HeroBanner } from '@uninus/components';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-const MainLayout = dynamic(
-  () => import('../../layouts').then((mod) => mod.MainLayout),
-  {
-    loading: () => <LazyLoading />,
-  }
-);
+import { lazily } from 'react-lazily';
+const { MainLayout } = lazily(() => import('../../layouts'));
 
 export const ModulePrestasi: FC = (): ReactElement => {
   return (
