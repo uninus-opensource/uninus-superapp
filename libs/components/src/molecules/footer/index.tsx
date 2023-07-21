@@ -131,7 +131,7 @@ export const Footer: FC = (): ReactElement => {
 
                 {/* Hubungi Kami */}
                 <div className="group hover:cursor-pointer">
-                  <Link href="tel:+628112161530" target="_blank">
+                  <Link href="tel:+6282116860530" target="_blank">
                     <div className="flex items-center justify-center gap-2 group-hover:scale-95 duration-300 ease-in-out">
                       <div className="md:hidden flex justify-center items-center">
                         <PhoneOutlined

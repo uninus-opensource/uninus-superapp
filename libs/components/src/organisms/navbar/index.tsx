@@ -85,7 +85,7 @@ export const Navbar: FC = (): ReactElement => {
         </section>
       </header>
       <Sidebar showSidebar={isOpen} closeSidebar={closeSidebar}>
-        <ul className="mt-6 flex flex-col gap-6">
+        <ul className="mt-6 flex flex-col gap-6 items-center">
           {navList.map((nav, idx) => (
             <li key={idx}>
               <Button
@@ -98,6 +98,18 @@ export const Navbar: FC = (): ReactElement => {
               </Button>
             </li>
           ))}
+          <div className="w-[50vw]">
+            <Button
+              variant="sidebarlist"
+              height="h-8"
+              href="/auth/register"
+              onClick={closeSidebar}
+              styling="bg-primary-white text-primary-green rounded-md"
+              size="sm"
+            >
+              PENDAFTARAN PMB
+            </Button>
+          </div>
         </ul>
       </Sidebar>
     </Fragment>
