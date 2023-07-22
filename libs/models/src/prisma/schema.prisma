@@ -160,3 +160,10 @@ enum IdentificationType {
   SIM
   KARTU_PELAJAR @map("Kartu Pelajar")
 }
+
+model Location {
+  id  Int @id @default(autoincrement())
+  province  String
+  city String
+  district String
+}
