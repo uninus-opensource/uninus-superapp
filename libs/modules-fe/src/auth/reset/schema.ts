@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const uppercaseRegex = /^(?=.*[A-Z])/;
+const numberRegex = /^(?=.*\d)/;
 
 export const VSReset = z
   .object({
@@ -15,19 +16,27 @@ export const VSReset = z
       .string()
       .min(1, { message: 'Kata Sandi harus tidak boleh kosong' })
       .min(8, { message: 'Kata Sandi minimal 8' })
-      .refine((value) => uppercaseRegex.test(value), {
-        message: 'Kata Sandi harus mengandung setidaknya satu huruf besar',
-      }),
+      .refine(
+        (value) => uppercaseRegex.test(value) && numberRegex.test(value),
+        {
+          message:
+            'Kata Sandi harus mengandung setidaknya satu huruf besar dan satu angka',
+        }
+      ),
     cpassword: z
       .string()
       .min(1, { message: 'Kata Sandi harus tidak boleh kosong' })
       .min(8, { message: 'Kata Sandi minimal 8' })
-      .refine((value) => uppercaseRegex.test(value), {
-        message: 'Kata Sandi harus mengandung setidaknya satu huruf besar',
-      }),
+      .refine(
+        (value) => uppercaseRegex.test(value) && numberRegex.test(value),
+        {
+          message:
+            'Kata Sandi harus mengandung setidaknya satu huruf besar dan satu angka',
+        }
+      ),
   })
   .refine((data) => data.password === data.cpassword, {
-    message: 'kata sandi tidak sama',
+    message: 'kata sandi harus sama',
     path: ['cpassword'],
   });
 
