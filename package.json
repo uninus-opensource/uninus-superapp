@@ -5,6 +5,8 @@
   "scripts": {
     "pmb:serve": "yarn nx serve pmb",
     "pmb:build": "yarn nx build pmb",
+    "pmb-admin:serve": "yarn nx serve pmb-admin",
+    "pmb-admin:build": "yarn nx build pmb-admin",
     "siakad:serve": "yarn nx serve siakad",
     "siakad:build": "yarn nx build siakad",
     "api:serve": "dotenv -e ./apps/api/.env -- yarn nx serve api",
