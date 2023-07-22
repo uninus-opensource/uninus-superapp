@@ -3,7 +3,6 @@ import { FC, ReactElement, useState, useMemo } from 'react';
 import Image from 'next/image';
 import { TSideBarProps, TSideBarList } from './type';
 import { AiFillHome, AiOutlineFileDone, AiOutlineLogout } from 'react-icons/ai';
-import { BiMenuAltLeft } from 'react-icons/bi';
 import { FaRegUser } from 'react-icons/fa';
 import Link from 'next/link';
 import { Button } from '../../atoms';
@@ -13,6 +12,7 @@ import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { Modal } from '../modal';
+import { MenuOutlined } from '@ant-design/icons';
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -187,13 +187,10 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
         {/* mobile */}
         <Button
           variant="text-icon"
-          styling="shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-primary-white fixed z-50 inline-flex items-center text-primary-white top-5/6 flex bottom-10 right-8 rounded-md lg:hidden self-end justify-end items-end "
+          styling="shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-primary-green fixed z-50 inline-flex items-center text-primary-white top-5/6 flex bottom-10 right-8 rounded-md lg:hidden self-end justify-end items-end"
           onClick={() => setOnToogle(!onToogle)}
         >
-          <BiMenuAltLeft
-            className="mx-autotext-center cursor-pointer text-grayscale-3"
-            size={30}
-          />
+          <MenuOutlined className="mx-autotext-center cursor-pointer text-primary-white text-[1.5rem]" />
         </Button>
 
         {onToogle && (
