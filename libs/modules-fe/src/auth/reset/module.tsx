@@ -22,16 +22,19 @@ export const ResetModule: FC = (): ReactElement => {
     },
   });
 
-  const { mutate: reset } = useReset();
+  const { mutate, isError } = useReset();
   const router = useRouter();
 
   const onSubmit = handleSubmit((data) => {
-    try {
-      reset(data);
-      router.push('/auth/login');
-    } catch (error) {
-      console.log(error);
-    }
+    mutate(
+      {
+        email: data?.email,
+        password: data?.password,
+      },
+      {
+        onSuccess: () => router.push(`/auth/login`),
+      }
+    );
   });
 
   return (
@@ -54,8 +57,11 @@ export const ResetModule: FC = (): ReactElement => {
             placeholder="Masukan email"
             control={control}
             required
-            status={errors?.email ? 'error' : undefined}
-            message={errors?.email?.message}
+            status={errors?.email || isError ? 'error' : undefined}
+            message={
+              errors?.email?.message ||
+              (isError ? 'email tidak ditemukan' : undefined)
+            }
           />
           <TextField
             name="password"
