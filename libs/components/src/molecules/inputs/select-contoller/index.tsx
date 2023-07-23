@@ -1,32 +1,75 @@
-import React, { useRef, useEffect } from 'react';
+import React, {
+  ReactElement,
+  useState,
+  useEffect,
+  useRef,
+  Fragment,
+} from 'react';
 import Select from 'react-select';
+import { useController } from 'react-hook-form';
+import { SelectInputProps } from './types';
+import observeElement, {
+  IntersectionCallback,
+} from './intersectionObserverUtils';
 
-interface Option {
-  label: string;
-  value: string;
-  children?: Option[];
-}
-
-interface NestedSelectOptionProps {
-  options: Option[];
-  value: Option | null;
-  onChange: (option: Option | null) => void;
-}
-
-const NestedSelectOption: React.FC<NestedSelectOptionProps> = ({
+export const SelectController: React.FC<SelectInputProps> = ({
+  control,
+  name,
+  className,
+  labelName,
+  labels,
+  labelClassName,
   options,
-  value,
-  onChange,
-}) => {
+  isSearchable = true,
+  isClearable = true,
+  isMulti = true,
+  ...rest
+}: SelectInputProps): ReactElement => {
+  const {
+    field: { value, ref },
+    fieldState: { invalid, error },
+  } = useController({
+    name,
+    control,
+    defaultValue: '',
+    ...rest,
+  });
+
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleChange = (value: any) => {
+    setSelectedOption(value);
+  };
+
+  const [isInViewPort, setIsInViewPort] = useState(false);
+  const selectRef = useRef(null);
+
+  useEffect(() => {
+    if (selectRef.current) {
+      const callback: IntersectionCallback = (isInViewPort: boolean) => {
+        setIsInViewPort(isInViewPort);
+      };
+
+      observeElement(selectRef.current, callback);
+    }
+  }, []);
+
   return (
-    <Select
-      options={options}
-      value={value}
-      onChange={onChange}
-      isMulti={false}
-      // Add other necessary props for the Select component here
-    />
+    <Fragment>
+      <label className={labelClassName} htmlFor={labelName}>
+        {labels}
+      </label>
+      <Select
+        options={options}
+        className={className}
+        isSearchable={isSearchable}
+        isClearable={isClearable}
+        isMulti={isMulti}
+        value={options.find((option) => option.value === value)}
+        onChange={handleChange}
+        ref={ref}
+      />
+      {invalid && <span>{error?.message}</span>}
+    </Fragment>
   );
 };
-
-export default NestedSelectOption;

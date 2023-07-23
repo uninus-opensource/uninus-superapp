@@ -9,10 +9,10 @@ import {
   DraggableComponent,
   TabJalurSeleksi,
   SelectField,
+  SelectController,
   Accordion,
 } from '@uninus/components';
 import { PlusOutlined } from '@ant-design/icons';
-import Select from 'react-select';
 
 const MultiOptions = [
   {
@@ -30,25 +30,6 @@ const MultiOptions = [
   {
     value: '3',
     label: 'Tailwind',
-  },
-];
-
-const options = [
-  {
-    label: 'Buah',
-    options: [
-      { value: 'apple', label: 'Apel' },
-      { value: 'orange', label: 'Jeruk' },
-      { value: 'banana', label: 'Pisang' },
-    ],
-  },
-  {
-    label: 'Sayuran',
-    options: [
-      { value: 'carrot', label: 'Wortel' },
-      { value: 'broccoli', label: 'Brokoli' },
-      { value: 'spinach', label: 'Bayam' },
-    ],
   },
 ];
 
@@ -74,10 +55,6 @@ const LandingPage: FC = (): ReactElement => {
 
   const handleChange = (value: any) => {
     setSelectedOption(value);
-  };
-
-  const onChange = (value: any) => {
-    console.log('Selected Option:', selectedOption);
   };
 
   return (
@@ -185,20 +162,27 @@ const LandingPage: FC = (): ReactElement => {
         <DraggableComponent control={control} name="draggableComponent" />
         <TabJalurSeleksi />
         <div className="w-1/2">
-          <label className="font-bold text-start" htmlFor="">
-            Pilih Keahlian:
-          </label>
-          <Select
-            className="w-full border-slate-5"
+          <SelectController
+            labels="Pilih Keahlian lebih dari 1:"
+            labelClassName="font-bold"
             options={MultiOptions}
-            value={selectedOption}
-            onChange={handleChange}
-            isClearable
-            isSearchable
+            isSearchable={true}
+            name="SelectController"
+            control={control}
             isMulti={true}
           />
         </div>
-        <Select options={options} onChange={onChange} isMulti={false} />
+        <div className="w-1/2">
+          <SelectController
+            labels="Pilih Keahlian :"
+            labelClassName="font-bold"
+            options={MultiOptions}
+            isSearchable={true}
+            name="SelectController"
+            control={control}
+            isMulti={false}
+          />
+        </div>
         <SelectField
           name="nama"
           label="Nama"
