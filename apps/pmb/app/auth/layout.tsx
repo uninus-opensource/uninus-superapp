@@ -1,8 +1,22 @@
+'use client';
 import { FC, PropsWithChildren, ReactElement } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { LazyLoading } from '@uninus/components';
 
 const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  if (status === 'loading') {
+    return <LazyLoading />;
+  }
+
+  if (status === 'authenticated') {
+    router.push('/dashboard');
+  }
+
   return (
     <main className="h-screen w-full flex flex-col lg:gap-y-10 xl:gap-y-16 bg-primary-green py-4 lg:py-8">
       <header className="w-full flex justify-between h-auto px-4 lg:px-8">
