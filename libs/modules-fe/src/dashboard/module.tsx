@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 
 export const DashboardModule: FC = (): ReactElement => {
   const { data: session } = useSession();
+
   const namaStudent = useMemo(() => {
     return session?.user?.name;
   }, [session?.user?.name]);
