@@ -9,7 +9,7 @@ export const ModuleMitra: FC = (): ReactElement => {
   return (
     <MainLayout>
       <section className="w-full min-h-screen">
-        <HeroBanner heroImages="/illustrations/beasiswa3.svg" />
+        <HeroBanner heroImages="/illustrations/beasiswa3.webp" />
         <section className="w-full lg:px-16 px-8 lg:py-8 py-4 flex flex-col gap-y-14">
           <div className="text-center flex flex-col gap-y-8">
             <h1 className="lg:text-3xl text-lg font-bold text-secondary-green-4 uppercase">
@@ -24,7 +24,7 @@ export const ModuleMitra: FC = (): ReactElement => {
           <div className="w-full flex lg:flex-row md:flex-row flex-col justify-between h-auto">
             <figure className="lg:absolute flex px-6 right-12">
               <Image
-                src={'/illustrations/beasiswa3.svg'}
+                src={'/illustrations/beasiswa3.webp'}
                 alt="Beasiswa Mitra"
                 width={400}
                 height={400}

@@ -8,7 +8,7 @@ export const SelectionSection: FC = (): ReactElement => {
       {/* gambar mahsiswi */}
       <figure className="mt-4 mx-8 lg:mx-0">
         <Image
-          src={'/illustrations/talent11.png'}
+          src={'/illustrations/talent11.webp'}
           priority
           alt="mahasiswi-1"
           width={400}

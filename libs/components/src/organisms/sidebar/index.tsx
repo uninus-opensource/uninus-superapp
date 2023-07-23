@@ -6,7 +6,7 @@ import { AiFillHome, AiOutlineFileDone, AiOutlineLogout } from 'react-icons/ai';
 import { FaRegUser } from 'react-icons/fa';
 import Link from 'next/link';
 import { Button } from '../../atoms';
-import dummyImage from '../../atoms/illustrations/dummy/dummy-avatar.jpg';
+
 import logOutImage from '../../atoms/illustrations/logOut/logOut.png';
 import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
@@ -118,7 +118,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
             <figure className="flex flex-col items-center gap-2 ">
               <Image
                 className="rounded-full "
-                src={dummyImage}
+                src={'/illustrations/dummy-avatar.webp'}
                 alt="profile picture"
                 width={70}
                 height={70}
@@ -221,7 +221,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
                   <figure className="flex flex-col">
                     <Image
                       className="rounded-full mx-auto"
-                      src={dummyImage}
+                      src={'/illustrations/dummy-avatar.webp'}
                       alt="profile picture"
                       width={70}
                       height={70}

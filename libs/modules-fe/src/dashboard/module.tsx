@@ -25,7 +25,7 @@ export const DashboardModule: FC = (): ReactElement => {
         <div className="w-full rounded-lg h-auto bg-primary-white flex text-secondary-green-4 flex-col text-center items-center py-8 gap-5 px-7 lg:px-14 shadow-full">
           <figure className="w-56">
             <Image
-              src={'/illustrations/dashboard-home.png'}
+              src={'/illustrations/dashboard-home.webp'}
               alt="home"
               width={1000}
               height={1000}
