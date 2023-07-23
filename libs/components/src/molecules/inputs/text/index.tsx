@@ -33,7 +33,8 @@ export const TextField = <T extends FieldValues>({
 
   const labelVariant = clsx('text-black font-medium', {
     'text-base': variant === 'lg',
-    'text-sm font-semibold': variant === 'md',
+    'text-xs md:text-sm xl:text-md lg:text-xs 2xl:text-lg font-semibold':
+      variant === 'md',
     'text-xs ': variant === 'sm',
   });
 
@@ -52,7 +53,8 @@ export const TextField = <T extends FieldValues>({
     'bg-grayscale-2 bg-opacity-30 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
     {
       'py-4 rounded-lg placeholder:text-base text-base': variant === 'lg',
-      'py-3 rounded-md placeholder:text-sm text-sm': variant === 'md',
+      'xl:py-3 lg:py-2 rounded-md placeholder:text-xs text-sm':
+        variant === 'md',
       'py-2 rounded-sm placeholder:text-xs text-xs': variant === 'sm',
       'p-5 text-center rounded-2xl placeholder:text-xs placeholder:text-slate-300 text-md md:text-xl appearance-none':
         variant === 'otp',

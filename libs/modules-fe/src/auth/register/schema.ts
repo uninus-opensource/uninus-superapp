@@ -5,12 +5,12 @@ export const VSRegister = z.object({
     message: 'Email harus valid',
   }),
   fullname: z.string().min(2, { message: 'Nama Lengkap harus diisi' }),
-  nik: z
+  phone_number: z
     .string()
-    .regex(/^\d+$/, { message: 'NIK Harus Angka' })
-    .min(1, { message: 'NIK Harus Diisi' })
-    .min(16, { message: 'NIK Setidaknya ada 16 Karakter' })
-    .max(16, { message: 'NIK tidak boleh lebih dari 16 Karakter' }),
+    .regex(/^\d+$/, { message: 'Nomor handphone Harus Angka' })
+    .min(1, { message: 'Nomor Handphone Harus Diisi' })
+    .min(10, { message: 'Nomor Handphone Setidaknya ada 10 Karakter' })
+    .max(15, { message: 'Nomor Handphone tidak boleh lebih dari 15 Karakter' }),
   password: z
     .string()
     .min(1, { message: 'Password harus diisi' })

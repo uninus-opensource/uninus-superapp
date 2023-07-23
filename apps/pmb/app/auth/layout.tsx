@@ -75,41 +75,43 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
           />
         </figure>
       </header>
-      <section className="h-fit flex justify-center lg:my-0 my-auto bg-primary-green">
-        <div className="hidden lg:h-full lg:flex lg:justify-center lg:items-center bg-grayscale-9 rounded-l-lg">
-          <Image
-            src="/illustrations/talent-focus.png"
-            alt="talent"
-            priority
-            quality={100}
-            className="object-cover rounded-l-lg opacity-[.28] w-full h-full"
-            width={500}
-            height={100}
-          />
-          <div className="absolute flex gap-4 items-center justify-center px-6 w-auto">
+      <section className="h-[65vh] flex justify-center md:items-center py-1 lg:my-0 my-auto bg-primary-green">
+        <div className="w-11/12 h-full flex justify-center md:items-center">
+          <div className="hidden lg:h-full lg:flex lg:justify-center lg:items-center w-1/4 bg-grayscale-9 rounded-l-lg">
             <Image
-              src="/illustrations/neo-uninus-2.png"
-              alt="Neo uninus"
+              src="/illustrations/talent-focus.png"
+              alt="talent"
               priority
               quality={100}
-              className="object-cover w-20"
-              width={200}
+              className="object-cover bg-cover rounded-l-lg opacity-[.28] w-full h-full"
+              width={500}
               height={100}
             />
-            <div className="w-[1px] h-[5rem] bg-primary-white"></div>
-            <Image
-              src="/illustrations/hybrid-university.png"
-              alt="Hybrid University"
-              className="object-cover w-32"
-              quality={100}
-              priority
-              width={150}
-              height={100}
-            />
+            <div className="absolute flex gap-4 items-center justify-center px-6 w-auto">
+              <Image
+                src="/illustrations/neo-uninus-2.png"
+                alt="Neo uninus"
+                priority
+                quality={100}
+                className="object-cover lg:w-18 xl:w-20 2xl:w-28"
+                width={200}
+                height={100}
+              />
+              <div className="w-[1px] xl:h-[5rem] 2xl:h-[6rem] lg:h-[4rem] bg-primary-white"></div>
+              <Image
+                src="/illustrations/hybrid-university.png"
+                alt="Hybrid University"
+                className="object-cover lg:w-24 xl:w-32 2xl:w-36"
+                quality={100}
+                priority
+                width={150}
+                height={100}
+              />
+            </div>
           </div>
-        </div>
-        <div className="w-95% lg:w-1/2 flex items-center h-auto lg:h-full rounded-lg lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg lg:rounded-br-lg bg-primary-white">
-          {children}
+          <div className="w-95% relative lg:w-1/2 flex items-center h-fit py-8 lg:-pt-24 lg:pb-10  lg:h-full rounded-lg lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg lg:rounded-br-lg bg-primary-white overflow-hidden">
+            {children}
+          </div>
         </div>
       </section>
     </main>
