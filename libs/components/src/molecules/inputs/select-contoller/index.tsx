@@ -1,5 +1,6 @@
-import React, {
+import  {
   ReactElement,
+  FC,
   useState,
   useEffect,
   useRef,
@@ -12,7 +13,7 @@ import observeElement, {
   IntersectionCallback,
 } from './intersectionObserverUtils';
 
-export const SelectController: React.FC<SelectInputProps> = ({
+export const SelectController: FC<SelectInputProps> = ({
   control,
   name,
   className,
