@@ -9,9 +9,29 @@ import {
   DraggableComponent,
   TabJalurSeleksi,
   SelectField,
+  SelectController,
   Accordion,
 } from '@uninus/components';
 import { PlusOutlined } from '@ant-design/icons';
+
+const MultiOptions = [
+  {
+    value: '1',
+    label: 'CSS',
+  },
+  {
+    value: '2',
+    label: 'JS',
+  },
+  {
+    value: '3',
+    label: 'Typescript',
+  },
+  {
+    value: '3',
+    label: 'Tailwind',
+  },
+];
 
 const LandingPage: FC = (): ReactElement => {
   const { control } = useForm<FieldValues>({
@@ -31,6 +51,12 @@ const LandingPage: FC = (): ReactElement => {
     setShowModal(false);
   };
 
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleChange = (value: any) => {
+    setSelectedOption(value);
+  };
+
   return (
     <section className="px-6 py-12 my-36">
       <div className="flex flex-col justify-center items-center h-screen gap-4">
@@ -44,7 +70,6 @@ const LandingPage: FC = (): ReactElement => {
           label="Setuju"
           message="Valid"
         />
-
         <CheckBox
           control={control}
           name={'checkboxField'}
@@ -55,7 +80,6 @@ const LandingPage: FC = (): ReactElement => {
           label="Setuju"
           message="Valid"
         />
-
         <CheckBox
           control={control}
           name={'checkboxField'}
@@ -66,7 +90,6 @@ const LandingPage: FC = (): ReactElement => {
           label="Setuju"
           message="Valid"
         />
-
         <div className="flex gap-4">
           <Button variant="elevated" size="sm">
             Elevated
@@ -113,7 +136,6 @@ const LandingPage: FC = (): ReactElement => {
         >
           Modal
         </Button>
-
         <Modal
           showModal={showModal}
           modalTitle="INI CERITANYA MODAL"
@@ -121,7 +143,6 @@ const LandingPage: FC = (): ReactElement => {
           submitText="Save"
           closeText="Cancel"
         />
-
         <Modal
           showModal={showModal}
           modalTitle="INI CERITANYA MODAL"
@@ -140,6 +161,28 @@ const LandingPage: FC = (): ReactElement => {
         </div>
         <DraggableComponent control={control} name="draggableComponent" />
         <TabJalurSeleksi />
+        <div className="w-1/2">
+          <SelectController
+            labels="Pilih Keahlian lebih dari 1:"
+            labelClassName="font-bold"
+            options={MultiOptions}
+            isSearchable={true}
+            name="SelectController"
+            control={control}
+            isMulti={true}
+          />
+        </div>
+        <div className="w-1/2">
+          <SelectController
+            labels="Pilih Keahlian :"
+            labelClassName="font-bold"
+            options={MultiOptions}
+            isSearchable={true}
+            name="SelectController"
+            control={control}
+            isMulti={false}
+          />
+        </div>
         <SelectField
           name="nama"
           label="Nama"
@@ -149,7 +192,6 @@ const LandingPage: FC = (): ReactElement => {
           control={control}
           width="w-36"
         />
-
         <Accordion title="Data diri pendaftar">TES</Accordion>
       </div>
     </section>
