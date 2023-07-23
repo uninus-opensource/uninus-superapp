@@ -214,18 +214,12 @@ export class AuthService {
     };
   }
 
-  async verifyOtp(email: string, otp: string, type: string) {
+  async verifyOtp(email: string, otp: string) {
     await clearOtp();
 
     const isVerified = await compareOtp(email, otp);
     if (!isVerified) {
       throw new NotFoundException('Email atau OTP tidak valid');
-    }
-
-    if (isVerified && type === 'password') {
-      return {
-        message: 'Berhasil verifikasi OTP',
-      };
     }
 
     const user = await this.prisma.users.update({
@@ -316,6 +310,19 @@ export class AuthService {
     }
     return {
       message: 'Berhasil kirim OTP',
+    };
+  }
+
+  async verifyOtpPassword(email: string, otp: string) {
+    await clearOtp();
+
+    const isVerified = await compareOtp(email, otp);
+    if (!isVerified) {
+      throw new NotFoundException('Email atau OTP tidak valid');
+    }
+
+    return {
+      message: 'Berhasil verifikasi OTP',
     };
   }
 

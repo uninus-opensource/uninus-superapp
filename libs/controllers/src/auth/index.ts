@@ -80,7 +80,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Gagal verifikasi OTP' })
   @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
   async verifyOtp(@Body() verifyOtp: verifyOtpDto) {
-    return this.appService.verifyOtp(verifyOtp.email, verifyOtp.otp, 'email');
+    return this.appService.verifyOtp(verifyOtp.email, verifyOtp.otp);
   }
 
   @Post('resend-otp')
@@ -109,11 +109,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Gagal verifikasi OTP' })
   @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
   async verifyOtpPassword(@Body() verifyOtp: verifyOtpDto) {
-    return this.appService.verifyOtp(
-      verifyOtp.email,
-      verifyOtp.otp,
-      'password'
-    );
+    return this.appService.verifyOtpPassword(verifyOtp.email, verifyOtp.otp);
   }
 
   @Post('reset-password')
