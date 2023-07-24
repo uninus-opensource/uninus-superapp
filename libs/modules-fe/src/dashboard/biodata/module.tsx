@@ -113,7 +113,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   classNameField="w-70% lg:w-auto"
                   control={control}
                   name="image"
-                  defaultImage="/illustrations/dummy-avatar.jpg"
+                  defaultImage="/illustrations/dummy-avatar.webp"
                   previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full "
                 />
               </div>

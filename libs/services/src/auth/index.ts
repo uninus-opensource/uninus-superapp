@@ -313,6 +313,19 @@ export class AuthService {
     };
   }
 
+  async verifyOtpPassword(email: string, otp: string) {
+    await clearOtp();
+
+    const isVerified = await compareOtp(email, otp);
+    if (!isVerified) {
+      throw new NotFoundException('Email atau OTP tidak valid');
+    }
+
+    return {
+      message: 'Berhasil verifikasi OTP',
+    };
+  }
+
   async resetPassword(args: { email: string; password: string }) {
     const newPassword = await encryptPassword(args.password);
 

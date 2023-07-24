@@ -17,7 +17,7 @@ export const WelcomeSection: FC = (): ReactElement => {
       <Reveal>
         <section className="xl:px-[10vw] md:px-10 mx-auto lg:w-full md:w-full w-auto flex 2xl:justify-center xl:justify-evenly lg:justify-around lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
           <Image
-            src={'/illustrations/gerbang-uninus.png'}
+            src={'/illustrations/gerbang-uninus.webp'}
             priority
             alt="gedung1"
             quality={100}

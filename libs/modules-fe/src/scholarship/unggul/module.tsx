@@ -10,7 +10,7 @@ export const ModuleUnggul: FC = (): ReactElement => {
     <Suspense fallback={<LazyLoading />}>
       <MainLayout>
         <section className="w-full min-h-full">
-          <HeroBanner heroImages="/illustrations/beasiswaunggul.svg" />
+          <HeroBanner heroImages="/illustrations/beasiswaunggul.webp" />
           <section className="w-full lg:px-16 px-8 lg:py-8 py-4 flex flex-col gap-y-14">
             <div className="text-center flex flex-col gap-y-8">
               <h1 className="lg:text-3xl text-2xl font-bold text-secondary-green-4 uppercase">
@@ -25,7 +25,7 @@ export const ModuleUnggul: FC = (): ReactElement => {
             <div className="w-full flex lg:flex-row md:flex-row flex-col justify-between h-auto pb-24">
               <figure className="lg:absolute flex px-6 right-12">
                 <Image
-                  src={'/illustrations/beasiswaunggul.svg'}
+                  src={'/illustrations/beasiswaunggul.webp'}
                   alt="Beasiswa Unggul"
                   width={400}
                   height={400}
