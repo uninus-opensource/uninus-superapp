@@ -4,7 +4,7 @@ import {
   IsNotEmpty,
   IsString,
   IsStrongPassword,
-  MinLength,
+  IsOptional,
 } from 'class-validator';
 
 export class RegisterDto {
@@ -40,4 +40,8 @@ export class RegisterDto {
   @IsString()
   @IsNotEmpty()
   public phone_number!: string;
+
+  @ApiProperty()
+  @IsOptional()
+  public role_id!: number;
 }
