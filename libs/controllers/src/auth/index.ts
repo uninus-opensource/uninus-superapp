@@ -10,13 +10,21 @@ import {
 import {
   LoginDto,
   LogoutDto,
-  RegisterDto,
   RtGuard,
   TReqToken,
   forgotPasswordDto,
   newPasswordDto,
   verifyOtpDto,
   resendOtpDto,
+  ZodValidationPipe,
+  RegisterZodSchema,
+  RegisterDto,
+  LoginZodSchema,
+  verifyOtpZodSchema,
+  resendOtpZodSchema,
+  forgotPasswordZodSchema,
+  newPasswordZodSchema,
+  LogoutZodSchema,
 } from '@uninus/entities';
 import { AuthService } from '@uninus/services';
 import {
@@ -40,7 +48,9 @@ export class AuthController {
   })
   @ApiResponse({ status: 400, description: 'Gagal mendaftar' })
   @ApiResponse({ status: 409, description: 'Email sudah terdaftar' })
-  async register(@Body() registerDto: RegisterDto) {
+  async register(
+    @Body(new ZodValidationPipe(RegisterZodSchema)) registerDto: RegisterDto
+  ) {
     return await this.appService.register(registerDto);
   }
 
@@ -53,7 +63,7 @@ export class AuthController {
   })
   @ApiResponse({ status: 401, description: 'Password salah' })
   @ApiResponse({ status: 404, description: 'Akun Tidak ditemukan' })
-  async login(@Body() dto: LoginDto) {
+  async login(@Body(new ZodValidationPipe(LoginZodSchema)) dto: LoginDto) {
     return await this.appService.login(dto.email, dto.password);
   }
 
@@ -62,7 +72,9 @@ export class AuthController {
   @ApiOperation({ summary: 'Logout' })
   @ApiResponse({ status: 201, description: 'Berhasil logout' })
   @ApiResponse({ status: 401, description: 'Gagal logout' })
-  async logout(@Body() refreshDto: LogoutDto) {
+  async logout(
+    @Body(new ZodValidationPipe(LogoutZodSchema)) refreshDto: LogoutDto
+  ) {
     return await this.appService.logout(refreshDto?.refresh_token);
   }
 
@@ -79,7 +91,9 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Berhasil verifikasi OTP' })
   @ApiResponse({ status: 400, description: 'Gagal verifikasi OTP' })
   @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
-  async verifyOtp(@Body() verifyOtp: verifyOtpDto) {
+  async verifyOtp(
+    @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpDto
+  ) {
     return this.appService.verifyOtp(verifyOtp.email, verifyOtp.otp);
   }
 
@@ -88,7 +102,9 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Berhasil kitim OTP' })
   @ApiResponse({ status: 400, description: 'Gagal kirim OTP' })
   @ApiResponse({ status: 404, description: 'Akun tidak ditemukan' })
-  async resendOtp(@Body() resendOtpDto: resendOtpDto) {
+  async resendOtp(
+    @Body(new ZodValidationPipe(resendOtpZodSchema)) resendOtpDto: resendOtpDto
+  ) {
     return this.appService.resendOtp(resendOtpDto.email);
   }
 
@@ -99,7 +115,10 @@ export class AuthController {
     status: 400,
     description: 'Gagal mengirimkan kode verifikasi',
   })
-  async forgotPassword(@Body() forgotPassword: forgotPasswordDto) {
+  async forgotPassword(
+    @Body(new ZodValidationPipe(forgotPasswordZodSchema))
+    forgotPassword: forgotPasswordDto
+  ) {
     return this.appService.forgotPassword(forgotPassword.email);
   }
 
@@ -108,7 +127,9 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Berhasil verifikasi OTP' })
   @ApiResponse({ status: 400, description: 'Gagal verifikasi OTP' })
   @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
-  async verifyOtpPassword(@Body() verifyOtp: verifyOtpDto) {
+  async verifyOtpPassword(
+    @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpDto
+  ) {
     return this.appService.verifyOtpPassword(verifyOtp.email, verifyOtp.otp);
   }
 
@@ -116,7 +137,10 @@ export class AuthController {
   @ApiOperation({ summary: 'Reset Password' })
   @ApiResponse({ status: 201, description: 'Berhasil mengganti password' })
   @ApiResponse({ status: 400, description: 'Gagal mengganti password' })
-  async resetPassword(@Body() newPasswordDto: newPasswordDto) {
+  async resetPassword(
+    @Body(new ZodValidationPipe(newPasswordZodSchema))
+    newPasswordDto: newPasswordDto
+  ) {
     return this.appService.resetPassword(newPasswordDto);
   }
 }

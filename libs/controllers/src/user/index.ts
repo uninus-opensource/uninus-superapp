@@ -12,9 +12,12 @@ import {
 } from '@nestjs/common';
 import {
   CreateUserDto,
+  CreateUserZodSchema,
   JwtAuthGuard,
   TReqToken,
   UpdateUserDto,
+  UpdateUserZodSchema,
+  ZodValidationPipe,
 } from '@uninus/entities';
 import { UserService } from '@uninus/services';
 import {
@@ -86,7 +89,10 @@ export class UserController {
     status: 400,
     description: 'Email sudah digunakan, NIK sudah digunakan',
   })
-  createData(@Body() createUserDto: CreateUserDto) {
+  createData(
+    @Body(new ZodValidationPipe(CreateUserZodSchema))
+    createUserDto: CreateUserDto
+  ) {
     return this.appService.createUser(createUserDto);
   }
 
@@ -102,7 +108,11 @@ export class UserController {
   @ApiOperation({ summary: 'Edit User By Id' })
   @ApiResponse({ status: 201, description: 'Berhasil update user' })
   @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
-  updateData(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  updateData(
+    @Param('id') id: string,
+    @Body(new ZodValidationPipe(UpdateUserZodSchema))
+    updateUserDto: UpdateUserDto
+  ) {
     return this.appService.updateUser(id, updateUserDto);
   }
 }

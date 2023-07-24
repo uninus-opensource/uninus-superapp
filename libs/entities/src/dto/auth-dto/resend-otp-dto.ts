@@ -1,12 +1,22 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { z } from 'zod';
 
 export class resendOtpDto {
   @ApiProperty({
     example: '',
   })
-  @IsEmail()
-  @IsNotEmpty()
-  @IsString()
   public email!: string;
 }
+
+export const resendOtpZodSchema = z.object({
+  email: z
+    .string()
+    .email({
+      message: 'Email tidak valid',
+    })
+    .nonempty({
+      message: 'Email tidak boleh kosong',
+    }),
+});
+
+export type TResendOtpSchema = z.infer<typeof resendOtpZodSchema>;

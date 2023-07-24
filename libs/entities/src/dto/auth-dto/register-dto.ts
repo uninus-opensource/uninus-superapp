@@ -1,47 +1,65 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsString,
-  IsStrongPassword,
-  IsOptional,
-} from 'class-validator';
+import { z } from 'zod';
 
 export class RegisterDto {
   @ApiProperty({
-    example: '',
+    description: 'NIK harus 16 Digit',
+    minLength: 16,
+    type: 'string',
   })
-  @IsEmail()
-  @IsNotEmpty()
+  public fullname!: string;
+
+  @ApiProperty({
+    description: 'Email tidak valid',
+    type: 'string',
+    format: 'email',
+  })
   public email!: string;
 
   @ApiProperty({
-    example: 'min length 6, upper case 1, numbers 1',
-  })
-  @IsString()
-  @IsNotEmpty()
-  @IsStrongPassword({
+    description: 'Password harus lebih dari 6 karakter',
     minLength: 6,
-    minLowercase: 1,
-    minUppercase: 1,
-    minNumbers: 1,
-    minSymbols: 0,
+    type: 'string',
   })
   public password!: string;
 
-  @ApiProperty({
-    example: '',
-  })
-  @IsString()
-  @IsNotEmpty()
-  public fullname!: string;
-
   @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
   public phone_number!: string;
 
   @ApiProperty()
-  @IsOptional()
   public role_id!: number;
 }
+
+export const RegisterZodSchema = z.object({
+  nik: z
+    .string()
+    .min(16, {
+      message: 'NIK harus 16 Digit',
+    })
+    .nonempty({
+      message: 'NIK tidak boleh kosong',
+    }),
+  email: z
+    .string()
+    .email({
+      message: 'Email tidak vaild',
+    })
+    .nonempty({
+      message: 'Email tidak boleh kosong',
+    }),
+  password: z
+    .string()
+    .nonempty({
+      message: 'Password tidak boleh kosong',
+    })
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/, {
+      message:
+        'Password harus memiliki setidaknya 6 karakter dan mengandung setidaknya 1 huruf kecil, 1 huruf besar, dan 1 angka. Tidak boleh mengandung simbol ',
+    }),
+  fullname: z.string().nonempty({
+    message: 'Nama lengkap tidak boleh kosong',
+  }),
+  role_id: z.number().optional(),
+});
+
+export type TRegisterSchema = z.infer<typeof RegisterZodSchema>;

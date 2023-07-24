@@ -14,9 +14,12 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
   CreateStudentDto,
+  CreateStudentZodSchema,
   JwtAuthGuard,
   TReqToken,
   UpdateStudentDto,
+  UpdateStudentZodSchema,
+  ZodValidationPipe,
 } from '@uninus/entities';
 import { StudentService } from '@uninus/services';
 import {
@@ -47,7 +50,8 @@ export class StudentController {
   createData(
     @Request() reqToken: TReqToken,
     @UploadedFile() Image: Express.Multer.File,
-    @Body() studentData: CreateStudentDto
+    @Body(new ZodValidationPipe(CreateStudentZodSchema))
+    studentData: CreateStudentDto
   ) {
     const { sub } = reqToken.user;
     return this.appService.createStudent(sub, Image, studentData);
@@ -84,7 +88,8 @@ export class StudentController {
   updateData(
     @Request() reqToken: TReqToken,
     @UploadedFile() Image: Express.Multer.File,
-    @Body() studentData: UpdateStudentDto
+    @Body(new ZodValidationPipe(UpdateStudentZodSchema))
+    studentData: UpdateStudentDto
   ) {
     const { sub } = reqToken.user;
     return this.appService.updateStudent(sub, Image, studentData);
@@ -109,7 +114,8 @@ export class StudentController {
   updateDataById(
     @Param('id') id: string,
     @UploadedFile() Image: Express.Multer.File,
-    @Body() studentData: UpdateStudentDto
+    @Body(new ZodValidationPipe(UpdateStudentZodSchema))
+    studentData: UpdateStudentDto
   ) {
     return this.appService.updateStudent(id, Image, studentData);
   }
