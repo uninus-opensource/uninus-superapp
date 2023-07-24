@@ -103,6 +103,15 @@ export class AuthController {
     return this.appService.forgotPassword(forgotPassword.email);
   }
 
+  @Post('verify-otp-password')
+  @ApiOperation({ summary: 'Verify OTP Reset Password' })
+  @ApiResponse({ status: 200, description: 'Berhasil verifikasi OTP' })
+  @ApiResponse({ status: 400, description: 'Gagal verifikasi OTP' })
+  @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
+  async verifyOtpPassword(@Body() verifyOtp: verifyOtpDto) {
+    return this.appService.verifyOtpPassword(verifyOtp.email, verifyOtp.otp);
+  }
+
   @Post('reset-password')
   @ApiOperation({ summary: 'Reset Password' })
   @ApiResponse({ status: 201, description: 'Berhasil mengganti password' })
