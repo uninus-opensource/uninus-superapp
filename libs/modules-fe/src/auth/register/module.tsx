@@ -20,15 +20,16 @@ export const RegisterModule: FC = (): ReactElement => {
     defaultValues: {
       email: '',
       password: '',
-      nik: '',
+      phone_number: '',
       fullname: '',
     },
   });
 
   const { mutate, isLoading, isError, error } = useRegister();
 
-  const isNikAlreadyRegistered =
-    isError && error?.response?.data.message === 'Nik sudah terdaftar';
+  const isPhoneNumberAlreadyRegistered =
+    isError &&
+    error?.response?.data.message === 'Nomer Handphone sudah terdaftar';
 
   const isEmailAlreadyRegistered =
     isError && error?.response?.data.message === 'Email sudah terdaftar';
@@ -38,7 +39,7 @@ export const RegisterModule: FC = (): ReactElement => {
       {
         email: data?.email,
         password: data?.password,
-        nik: data?.nik,
+        phone_number: data?.phone_number,
         fullname: data?.fullname,
       },
       {
@@ -54,9 +55,11 @@ export const RegisterModule: FC = (): ReactElement => {
       className="w-full h-auto px-5 lg:px-12 py-5 flex flex-col gap-y-6"
     >
       <div className="w-full justify-start flex">
-        <div className="flex flex-col justify-end lg:gap-2 py-2">
-          <h1 className="font-bold text-base lg:text-[1.5rem]">Registrasi</h1>
-          <div className="border-2 border-primary-green w-24 lg:w-36"></div>
+        <div className="flex flex-col justify-end lg:gap-y-1 py-2">
+          <h1 className="font-bold text-base lg:text-[1.5rem] 2xl:text-3xl">
+            Registrasi
+          </h1>
+          <div className="border-2 border-primary-green w-2/3 rounded-md"></div>
         </div>
       </div>
       <div className="h-auto w-full">
@@ -73,19 +76,26 @@ export const RegisterModule: FC = (): ReactElement => {
             message={errors?.fullname?.message}
           />
           <TextField
-            name="nik"
+            name="phone_number"
             type="text"
             variant="md"
-            label="Nomor Induk Kependudukan"
-            placeholder="Masukan Nomor Induk Kependudukan"
+            label="Nomor Handphone"
+            placeholder="Masukan Nomor Handphone"
             control={control}
             required
-            status={errors?.nik || isNikAlreadyRegistered ? 'error' : undefined}
+            status={
+              errors?.phone_number || isPhoneNumberAlreadyRegistered
+                ? 'error'
+                : undefined
+            }
             message={
-              errors?.nik?.message ||
-              (isNikAlreadyRegistered ? 'Nik sudah terdaftar' : undefined)
+              errors?.phone_number?.message ||
+              (isPhoneNumberAlreadyRegistered
+                ? 'Nomor Handphone sudah terdaftar'
+                : undefined)
             }
             maxlenght={16}
+            inputMode="tel"
           />
           <TextField
             name="email"

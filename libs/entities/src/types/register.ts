@@ -3,7 +3,7 @@ export type TRegisterResponse = {
 };
 
 export type TRegisterRequest = {
-  nik: string;
+  phone_number: string;
   fullname: string;
   email: string;
   password: string;
