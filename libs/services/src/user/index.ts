@@ -34,16 +34,7 @@ export class UserService {
         cause: new Error(),
       });
     }
-    const isNikExist = await this.prisma.users.findUnique({
-      where: {
-        nik: payload.nik,
-      },
-    });
-    if (isNikExist) {
-      throw new BadRequestException('NIK sudah digunakan', {
-        cause: new Error(),
-      });
-    }
+
     const user = await this.prisma.users.create({
       data: payload,
     });
@@ -114,7 +105,6 @@ export class UserService {
       select: {
         id: true,
         fullname: true,
-        nik: true,
         email: true,
       },
     });

@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsISO8601, IsEnum, IsOptional, IsString } from 'class-validator';
+import {
+  IsISO8601,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MinLength,
+  IsNotEmpty,
+} from 'class-validator';
 import {
   EIdentificationType,
   EGender,
@@ -15,12 +22,12 @@ export class CreateStudentDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  nim!: string;
+  nisn!: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  nisn!: string;
+  nik!: string;
 
   @ApiProperty({
     example: Object.keys(EIdentificationType),
@@ -146,6 +153,11 @@ export class CreateStudentDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
+  school_npsm!: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
   school_address!: string;
 
   @ApiProperty()
@@ -196,17 +208,22 @@ export class CreateStudentDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
+  father_status!: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  mother_status!: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  guardian_status!: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
   parent_address!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  parent_rt!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  parent_rw!: string;
 
   @ApiProperty()
   @IsOptional()
@@ -222,6 +239,11 @@ export class CreateStudentDto {
   @IsOptional()
   @IsString()
   parent_province!: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  parent_city!: string;
 
   @ApiProperty()
   @IsOptional()
@@ -276,20 +298,5 @@ export class CreateStudentDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  selection_type!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  program!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  academic_year!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  registration_wave!: string;
+  guardian_city?: string;
 }

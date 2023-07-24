@@ -3,10 +3,11 @@ export type TRegisterResponse = {
 };
 
 export type TRegisterRequest = {
-  phone_number: string;
   fullname: string;
   email: string;
   password: string;
+  phone_number: string;
+  role_id?: number;
 };
 
 export type TLResponse = {

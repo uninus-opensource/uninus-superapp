@@ -36,11 +36,8 @@ export class RegisterDto {
   @IsNotEmpty()
   public fullname!: string;
 
-  @ApiProperty({
-    example: '',
-  })
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  @MinLength(16)
-  public nik!: string;
+  public phone_number!: string;
 }
