@@ -10,7 +10,12 @@ import { BiUpload } from 'react-icons/bi';
 export const DraggableComponent = <T extends FieldValues>(
   props: TUploadFieldProps<T>
 ): ReactElement => {
-  const { field } = useController(props);
+  const { field } = useController({
+    ...props,
+    rules: {
+      required: props.required,
+    },
+  });
   const [fileType, setFileType] = useState('');
   const [fileName, setFileName] = useState('');
   const handleRemoveFile = () => {

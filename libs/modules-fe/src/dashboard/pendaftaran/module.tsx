@@ -55,6 +55,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                   'Program Doktor(S3) 2023/2024',
                 ]}
                 control={control}
+                required
               />
               <SelectField
                 name="fakultas"
@@ -62,6 +63,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 size="md"
                 placeholder="Pilih Fakultas"
                 status="none"
+                required
                 options={[
                   'Fakultas Agama Islam (FAI)',
                   'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)',
@@ -77,6 +79,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 name="prodi"
                 label="Pilih Program Studi"
                 size="md"
+                required
                 placeholder="Pilih Program Studi"
                 status="none"
                 options={[
@@ -99,6 +102,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 size="md"
                 placeholder="Pilih Jalur Seleksi"
                 status="none"
+                required
                 options={[
                   'Beasiswa Nusantara Berprestasi (BNP)',
                   'Seleksi Prestasi Akademik',
@@ -177,6 +181,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 <h1 className="text-base font-bold">Upload Bukti Pembayaran</h1>
                 <DraggableComponent
                   name={'dragable'}
+                  required
                   control={control}
                   labels="Upload Bukti Pembayaran Disini"
                 />
