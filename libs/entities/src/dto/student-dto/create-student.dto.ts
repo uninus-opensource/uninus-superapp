@@ -5,7 +5,7 @@ import {
   EGender,
   EReligion,
   ECitizenship,
-} from '@uninus/entities';
+} from '../../enum';
 
 export class CreateStudentDto {
   @ApiProperty()
