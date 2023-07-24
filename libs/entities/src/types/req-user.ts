@@ -1,11 +1,9 @@
 export type TProfileRequest = {
-  nik: string;
   email: string;
 };
 
 export type TProfileResponse = {
   id: string;
-  nik: string;
   email: string;
   fullname: string;
   password?: string;

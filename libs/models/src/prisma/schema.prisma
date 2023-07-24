@@ -10,7 +10,6 @@ datasource db {
 
 model Users {
   id            String     @unique @default(uuid())
-  nik           String     @unique
   email         String     @unique
   fullname      String
   password      String
@@ -27,63 +26,65 @@ model Users {
 }
 
 model Students {
-  id                    String              @unique @default(uuid())
-  nim                   String?             @unique
-  nisn                  String?             @unique
-  identification_type   IdentificationType?
-  identification_number String?
-  birth_place           String?
-  birth_date            String?
-  gender                Gender?
-  religion              Religion?
-  citizenship           Citizenship?
-  marital_status        String?
-  country               String?
-  address               String?
-  rt                    String?
-  rw                    String?
-  postal_code           String?
-  subdistrict           String?
-  province              String?
-  city                  String?
-  phone_number          String?
-  kk_number             String?
-  school_type           String?
-  school_major          String?
-  school_name           String?
-  school_address        String?
-  school_postal_code    String?
-  school_subdistrict    String?
-  school_province       String?
-  school_city           String?
-  school_phone_number   String?
-  graduation_year       String?
-  father_name           String?
-  mother_name           String?
-  guardian_name         String?
-  parent_address        String?
-  parent_rt             String?
-  parent_rw             String?
-  parent_postal_code    String?
-  parent_subdistrict    String?
-  parent_province       String?
-  parent_phone_number   String?
-  father_education      String?
-  mother_education      String?
-  guardian_education    String?
-  father_occupation     String?
-  mother_occupation     String?
-  guardian_occupation   String?
-  father_income         String?
-  mother_income         String?
-  guardian_income       String?
-  selection_type        String?
-  program               String?
-  academic_year         String?
-  registration_wave     String?
-  user_id               String              @unique
-  createdAt             DateTime            @default(now())
-  user                  Users               @relation(fields: [user_id], references: [id])
+  id                   String       @unique @default(uuid())
+  nik                  String?      @unique
+  nisn                 String?      @unique
+  birth_place          String?
+  birth_date           String?
+  gender               Gender?
+  phone_number         String?
+  religion             Religion?
+  citizenship          Citizenship?
+  marital_status       String?
+  country              String?
+  address              String?
+  postal_code          String?
+  subdistrict          String?
+  province             String?
+  city                 String?
+  school_type          String?
+  graduation_year      String?
+  school_major         String?
+  school_name          String?
+  school_npsm          String?
+  school_address       String?
+  school_postal_code   String?
+  school_subdistrict   String?
+  school_province      String?
+  school_city          String?
+  school_phone_number  String?
+  father_name          String?
+  mother_name          String?
+  guardian_name        String?
+  father_status        String?
+  mother_status        String?
+  guardian_status      String?
+  parent_address       String?
+  parent_postal_code   String?
+  parent_subdistrict   String?
+  parent_province      String?
+  parent_city          String?
+  father_education     String?
+  mother_education     String?
+  guardian_education   String?
+  father_occupation    String?
+  mother_occupation    String?
+  guardian_occupation  String?
+  father_income        String?
+  mother_income        String?
+  guardian_income      String?
+  guardian_address     String?
+  guardian_postal_code String?
+  guardian_subdistrict String?
+  guardian_province    String?
+  guardian_city        String?
+  selection_type       String?
+  program              String?
+  academic_year        String?
+  registration_wave    String?
+  user_id              String       @unique
+  createdAt            DateTime     @default(now())
+  user                 Users        @relation(fields: [user_id], references: [id])
 }
 
 model Lecturers {
@@ -153,10 +154,4 @@ enum Religion {
 enum Citizenship {
   WNI
   WNA
-}
-
-enum IdentificationType {
-  KTP
-  SIM
-  KARTU_PELAJAR @map("Kartu Pelajar")
 }
