@@ -92,7 +92,9 @@ export const DraggableComponent = <T extends FieldValues>(
           onClick={handleRemoveFile}
           className="text-red-600 cursor-pointer shadow-sm bg-neutral-100 p-4 w-full h-[30px] items-center flex justify-center absolute bottom-0"
         >
-          <div className="p-2 bg-primary-white rounded-md">Change File</div>
+          <div className="p-2 m-4 bg-primary-green text-primary-white rounded-md">
+            Change File
+          </div>
         </span>
       )}
     </div>

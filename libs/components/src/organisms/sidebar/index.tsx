@@ -108,14 +108,14 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
       {/* Desktop */}
 
       <aside
-        className={`sm:hidden xl:h-screen lg:relative fixed lg:w-[30vw] bg-sky-3 h-auto left-0 flex z-50 shadow-lg transition-transform 2xl:w-80 overflow-y-auto  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
+        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[30vw] bg-sky-3 h-auto left-0 flex z-50 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
-        <section className={` w-full flex flex-col items-center gap-4 `}>
+        <section className={` w-full flex flex-col items-center  `}>
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
             PMB UNINUS
           </h1>
 
-          <figure className="flex flex-col items-center gap-2 ">
+          <figure className="flex flex-col items-center  ">
             <Image
               className="rounded-full "
               src={dummyImage}
@@ -131,13 +131,13 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
             </figcaption>
           </figure>
           {/* Status pendaftaran */}
-          <div className="w-3/5 mt-2 font-bold bg-red-3 text-primary-black p-2 rounded-md text-center text-xs">
+          <div className="w-3/5 mt-2 font-bold bg-red-3 text-red-4 p-2 rounded-md text-center text-xs">
             Belum Mendaftar
           </div>
           {/* End Status pendaftaran */}
-
           <hr className="w-3/4 my-2" />
-          <div className="2xl:flex 2xl:flex-col 2xl:justify-between 2xl:h-full">
+
+          <div className="flex flex-col h-full justify-between 2xl:h-full">
             <nav>
               <ul className="flex flex-col gap-y-6 lg:gap-y-4">
                 {sideLists.map((sideList, idx) => (
@@ -166,7 +166,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
                 ))}
               </ul>
             </nav>
-            <div className="ml-2 lg:mt-14 hover:shadow-md text-primary-green font-normal rounded-md">
+            <div className="flex relative bottom-0 ml-2 hover:shadow-md text-primary-green font-normal rounded-md ">
               <Button
                 variant="sidebarbutton"
                 size="sm"
@@ -174,10 +174,12 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
                 onClick={handleOpenModal}
               >
                 <AiOutlineLogout
-                  size={43}
-                  className="mr-3 text-primary-green w-fit p-2 drop-shadow-lg bg-primary-white rounded-lg "
+                  size={40}
+                  className="mr-3 text-primary-green w-fit p-2 drop-shadow-lg bg-primary-white hover:bg-primary-green rounded-lg "
                 />
-                Log out
+                <p className="text-primary-green text-md font-normal">
+                  Log out
+                </p>
               </Button>
             </div>
           </div>
@@ -235,7 +237,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
                 </figure>
               </div>
               {/* Status pendaftaran */}
-              <div className="w-3/5 mt-2 bg-red-5 text-primary-white p-2 font-bold rounded-md text-center text-xs">
+              <div className="w-3/5 mt-2 bg-red-3 text-red-4  p-2 font-bold rounded-md text-center text-xs">
                 Belum Mendaftar
               </div>
               {/* End Status pendaftaran */}
@@ -276,7 +278,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
                   >
                     <AiOutlineLogout
                       size={45}
-                      className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white rounded-lg "
+                      className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white hover:bg-primary-green rounded-lg "
                     />
                     Log out
                   </Button>
