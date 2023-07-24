@@ -5,10 +5,18 @@ import {
   PmbModule,
   StudentModule,
   UserModule,
+  LocationModule,
 } from '@uninus/modules';
 
 @Module({
-  imports: [PrismaModule, AuthModule, PmbModule, StudentModule, UserModule],
+  imports: [
+    PrismaModule,
+    AuthModule,
+    PmbModule,
+    StudentModule,
+    UserModule,
+    LocationModule,
+  ],
   controllers: [],
   providers: [],
 })

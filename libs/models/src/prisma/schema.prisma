@@ -136,6 +136,32 @@ model OTP {
   expiredAt Int
 }
 
+model Province {
+  autoId  Int @id @default(autoincrement())
+  apiId Int @unique
+  name String
+  cities City[]
+}
+
+model City {
+  autoId  Int @id @default(autoincrement())
+  apiId Int @unique
+  name  String
+  type String
+  provinceId Int
+  province Province @relation(fields: [provinceId], references: [apiId])
+  districts District[]
+}
+
+
+model District {
+  autoId  Int @id @default(autoincrement())
+  apiId Int @unique
+  name String
+  cityId Int
+  city  City @relation(fields: [cityId], references: [apiId])
+}
+
 enum Gender {
   MALE   @map("Male")
   FEMALE @map("Female")
