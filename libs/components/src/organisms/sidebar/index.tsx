@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { Modal } from '../modal';
-import { MenuOutlined } from '@ant-design/icons';
+import { FileTextOutlined, MenuOutlined } from '@ant-design/icons';
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -42,9 +42,9 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
       icon: <AiOutlineFileDone />,
     },
     {
-      label: 'riwayat',
-      link: '/dashboard/riwayat',
-      icon: <AiOutlineFileDone />,
+      label: 'Upload Dokumen',
+      link: '/dashboard/dokumen',
+      icon: <FileTextOutlined />,
     },
   ];
   const pathname = usePathname();
@@ -139,7 +139,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
             <nav>
               <ul className="flex flex-col gap-y-6 lg:gap-y-4">
                 {sideLists.map((sideList, idx) => (
-                  <li key={idx} className="flex flex-col gap-y-6 ">
+                  <li key={idx} className="flex flex-col gap-y-6">
                     <Link
                       href={sideList.link}
                       role="link"
@@ -151,12 +151,12 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
                       <p
                         className={`${
                           pathname === sideList.link &&
-                          'bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white'
-                        } text-primary-green w-fit h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg`}
+                          'bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white'
+                        } text-primary-green w-fit h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
                       >
                         {sideList.icon}
                       </p>
-                      <p className="text-primary-green text-md font-normal">
+                      <p className="text-primary-green text-[15px] w-[6.8vw] font-normal">
                         {sideList.label}
                       </p>
                     </Link>

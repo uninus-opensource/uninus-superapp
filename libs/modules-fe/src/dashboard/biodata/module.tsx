@@ -83,7 +83,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
 
   return (
     <DashboardLayout>
-      <div className="p-5 lg:p-0 lg:py-4">
+      <div className="flex flex-col items-center lg:items-start p-5 lg:p-0 lg:py-4">
         <h1 className="text-slate-5">
           PMB <span className="text-secondary-green-4"> / Data diri</span>
         </h1>
@@ -113,8 +113,9 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   classNameField="w-70% lg:w-auto"
                   control={control}
                   name="image"
-                  defaultImage="/illustrations/dummy-avatar.webp"
+                  defaultImage="/illustrations/dummy-avatar.jpg"
                   previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full "
+                  preview={true}
                 />
               </div>
 
