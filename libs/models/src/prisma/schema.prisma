@@ -78,10 +78,21 @@ model Students {
   guardian_subdistrict String?
   guardian_province    String?
   guardian_city        String?
+  faculty_type         String?
+  education_programs   String?
+  study_program        String?
   selection_type       String?
-  program              String?
+  family_card          String?
+  pass_photo           String?
+  ktp_card             String?
+  school_report_card   String?
+  birth_certificate    String?
+  additional_documents String?
+  ijazah_card          String?
+  kipk_card            String?
   academic_year        String?
   registration_wave    String?
+  registration_status  String?
   user_id              String       @unique
   createdAt            DateTime     @default(now())
   user                 Users        @relation(fields: [user_id], references: [id])
