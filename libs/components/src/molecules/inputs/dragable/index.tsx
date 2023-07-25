@@ -5,11 +5,17 @@ import Image from 'next/image';
 import { FieldValues, useController } from 'react-hook-form';
 import { FcDocument } from 'react-icons/fc';
 import { TUploadFieldProps } from './types';
+import { BiUpload } from 'react-icons/bi';
 
 export const DraggableComponent = <T extends FieldValues>(
   props: TUploadFieldProps<T>
 ): ReactElement => {
-  const { field } = useController(props);
+  const { field } = useController({
+    ...props,
+    rules: {
+      required: props.required,
+    },
+  });
   const [fileType, setFileType] = useState('');
   const [fileName, setFileName] = useState('');
   const handleRemoveFile = () => {
@@ -47,7 +53,7 @@ export const DraggableComponent = <T extends FieldValues>(
   return (
     <div
       {...getRootProps()}
-      className={`flex items-center h-auto bg-neutral-100 justify-center relative w-auto p-2 border-2 border-dashed rounded-lg border-neutral-300 hover:text-white ${props.className}`}
+      className={`flex items-center h-full bg-slate-1 justify-center relative w-full p-2  rounded-lg  hover:text-white ${props.className}`}
     >
       {field.value && ACCEPTED_IMAGE_TYPES.includes(fileType) ? (
         <Image
@@ -69,13 +75,13 @@ export const DraggableComponent = <T extends FieldValues>(
           {fileName}
         </span>
       ) : (
-        <label className="flex flex-col items-center w-full px-4 py-6 bg-[#F5F5F5] dark:bg-transparent rounded-lg cursor-pointer hover:text-white">
-          <span className="mt-2 text-[14px] text-black dark:text-white">
-            Upload files
+        <label className="flex flex-col items-center w-full px-4 py-6 dark:bg-transparent rounded-lg cursor-pointer hover:text-white">
+          <BiUpload size={80} color="#737373" />
+          <span className="mt-2 text-center text-[12px] text-[#737373] dark:text-white">
+            <p>{props.labels}</p>
+            <p>(Format jpg/jpeg,png)</p>
           </span>
-          <span className="mt-2 text-[12px] text-[#737373] dark:text-white">
-            Drag & drop some files here
-          </span>
+
           <input
             {...getInputProps()}
             onChange={(event) => {
@@ -91,7 +97,9 @@ export const DraggableComponent = <T extends FieldValues>(
           onClick={handleRemoveFile}
           className="text-red-600 cursor-pointer shadow-sm bg-neutral-100 p-4 w-full h-[30px] items-center flex justify-center absolute bottom-0"
         >
-          Change File
+          <div className="p-2 m-4 bg-primary-green text-primary-white rounded-md">
+            Change File
+          </div>
         </span>
       )}
     </div>
