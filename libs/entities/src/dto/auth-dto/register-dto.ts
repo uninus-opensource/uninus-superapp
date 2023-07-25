@@ -2,11 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
 
 export class RegisterDto {
-  @ApiProperty({
-    description: 'NIK harus 16 Digit',
-    minLength: 16,
-    type: 'string',
-  })
+  @ApiProperty()
   public fullname!: string;
 
   @ApiProperty({
@@ -31,14 +27,9 @@ export class RegisterDto {
 }
 
 export const RegisterZodSchema = z.object({
-  nik: z
-    .string()
-    .min(16, {
-      message: 'NIK harus 16 Digit',
-    })
-    .nonempty({
-      message: 'NIK tidak boleh kosong',
-    }),
+  fullname: z.string().nonempty({
+    message: 'Nama lengkap tidak boleh kosong',
+  }),
   email: z
     .string()
     .email({
@@ -56,9 +47,8 @@ export const RegisterZodSchema = z.object({
       message:
         'Password harus memiliki setidaknya 6 karakter dan mengandung setidaknya 1 huruf kecil, 1 huruf besar, dan 1 angka. Tidak boleh mengandung simbol ',
     }),
-  fullname: z.string().nonempty({
-    message: 'Nama lengkap tidak boleh kosong',
-  }),
+
+  phone_number: z.string().nonempty(),
   role_id: z.number().optional(),
 });
 
