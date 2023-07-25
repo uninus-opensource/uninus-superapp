@@ -9,19 +9,16 @@ import {
 
 export const formBiodataOne: TTextFieldOne[] = [
   {
-    name: 'identification_number',
-    item: 'Nomor Kartu Identitas',
+    name: 'fullname',
+    item: 'Nama Lengkap',
     type: 'text',
-  },
-  {
-    name: 'nisn',
-    item: 'Nomor Induk Siswa Nasional',
-    type: 'text',
+    placeholder: 'Nama Lengkap',
   },
   {
     name: 'phone_number',
     item: 'Nomor Handphone/WA',
     type: 'text',
+    placeholder: '08123456789',
   },
 ];
 
@@ -58,18 +55,6 @@ export const formBioadataAyah: TTextFieldAyah[] = [
     type: 'text',
     className: 'w-70% lg:w-25% max-w-20% xl:w-20%',
   },
-  {
-    name: 'father_occupation',
-    item: 'Pekerjaan Ayah',
-    type: 'text',
-    className: 'w-70% lg:w-25% max-w-20% xl:w-20%',
-  },
-  {
-    name: 'father_income',
-    item: 'Pendapatan Ayah (Per bulan)',
-    type: 'text',
-    className: 'w-70% lg:w-55%',
-  },
 ];
 
 export const formBioadataIbu: TTextFieldIbu[] = [
@@ -79,23 +64,12 @@ export const formBioadataIbu: TTextFieldIbu[] = [
     type: 'text',
     className: 'w-70% lg:w-25% max-w-20% xl:w-20%',
   },
-  {
-    name: 'mother_occupation',
-    item: 'Pekerjaan Ibu',
-    type: 'text',
-    className: 'w-70% lg:w-25% max-w-20% xl:w-20%',
-  },
-  {
-    name: 'mother_income',
-    item: 'Pendapatan Ibu (Per bulan)',
-    type: 'text',
-    className: 'w-70% lg:w-55%',
-  },
 ];
 
 export const defaultValuesBiodata: TBiodataRequest = {
   image: undefined,
-  nim: '',
+  nik: '',
+  fullname: '',
   email: '',
   identification_type: 'KTP',
   identification_number: '',
@@ -136,6 +110,7 @@ export const defaultValuesBiodata: TBiodataRequest = {
   parent_province: '',
   parent_phone_number: '',
   parent_subdistrict: '',
+  parent_city: '',
   father_education: '',
   father_occupation: '',
   father_income: '',

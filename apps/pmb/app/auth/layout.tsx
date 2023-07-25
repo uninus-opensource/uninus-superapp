@@ -37,7 +37,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
           </figure>
           <figure className="flex w-64 lg:w-60 justify-between items-center">
             <Image
-              src={'/illustrations/nu-white.png'}
+              src={'/illustrations/nu-white.webp'}
               width={500}
               height={500}
               priority
@@ -79,7 +79,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
         <div className="w-11/12 h-full flex justify-center md:items-center">
           <div className="hidden lg:h-full lg:flex lg:justify-center lg:items-center w-1/4 bg-grayscale-9 rounded-l-lg">
             <Image
-              src="/illustrations/talent-focus.png"
+              src="/illustrations/talent-focus.webp"
               alt="talent"
               priority
               quality={100}
@@ -89,7 +89,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
             />
             <div className="absolute flex gap-4 items-center justify-center px-6 w-auto">
               <Image
-                src="/illustrations/neo-uninus-2.png"
+                src="/illustrations/neo-uninus-2.webp"
                 alt="Neo uninus"
                 priority
                 quality={100}
@@ -99,7 +99,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
               />
               <div className="w-[1px] xl:h-[5rem] 2xl:h-[6rem] lg:h-[4rem] bg-primary-white"></div>
               <Image
-                src="/illustrations/hybrid-university.png"
+                src="/illustrations/hybrid-university.webp"
                 alt="Hybrid University"
                 className="object-cover lg:w-24 xl:w-32 2xl:w-36"
                 quality={100}

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsISO8601, IsEnum, IsOptional, IsString } from 'class-validator';
+import { z } from 'zod';
 import {
   EIdentificationType,
   EGender,
@@ -9,287 +9,223 @@ import {
 
 export class UpdateStudentDto {
   @ApiProperty()
-  @IsOptional()
   avatar!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
-  nim!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
   nisn!: string;
 
-  @ApiProperty({
-    example: Object.keys(EIdentificationType),
-    description: 'string',
-  })
-  @IsOptional()
-  @IsString()
-  @IsEnum(EIdentificationType, { each: true })
+  @ApiProperty()
+  nik!: string;
+
+  @ApiProperty()
   identification_type!: EIdentificationType;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   identification_number!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   birth_place!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsISO8601()
   birth_date!: string;
 
-  @ApiProperty({
-    example: Object.keys(EGender),
-    description: 'string',
-  })
-  @IsOptional()
-  @IsString()
-  @IsEnum(EGender, { each: true })
+  @ApiProperty()
   EGender!: EGender;
 
-  @ApiProperty({
-    example: Object.keys(EReligion),
-    description: 'string',
-  })
-  @IsOptional()
-  @IsString()
-  @IsEnum(EReligion, { each: true })
+  @ApiProperty()
   EReligion!: EReligion;
 
-  @ApiProperty({
-    example: Object.keys(ECitizenship),
-    description: 'string',
-  })
-  @IsOptional()
-  @IsString()
-  @IsEnum(ECitizenship, { each: true })
+  @ApiProperty()
   ECitizenship!: ECitizenship;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   marital_status!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   country!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   address!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   rt!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   rw!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   postal_code!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   subdistrict!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   province!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   city!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   phone_number!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   kk_number!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   school_type!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   school_major!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   school_name!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
+  school_npsm!: string;
+
+  @ApiProperty()
   school_address!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   school_postal_code!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   school_subdistrict!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   school_province!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   school_city!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   school_phone_number!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   graduation_year!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   father_name!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   mother_name!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   guardian_name!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
+  father_status!: string;
+
+  @ApiProperty()
+  mother_status!: string;
+
+  @ApiProperty()
+  guardian_status!: string;
+
+  @ApiProperty()
   parent_address!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
-  parent_rt!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  parent_rw!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
   parent_postal_code!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   parent_subdistrict!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   parent_province!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
+  parent_city!: string;
+
+  @ApiProperty()
   parent_phone_number!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   father_education!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   mother_education!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   guardian_education?: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   father_occupation!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   mother_occupation!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   guardian_occupation?: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   father_income!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   mother_income!: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
   guardian_income?: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsString()
-  selection_type!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  program!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  academic_year!: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  registration_wave!: string;
+  guardian_city?: string;
 }
+
+export const UpdateStudentZodSchema = z.object({
+  avatar: z.string().optional(),
+  nisn: z.string().optional(),
+  nik: z.string().optional(),
+  identification_type: z.nativeEnum(EIdentificationType).optional(),
+  identification_number: z.string().optional(),
+  birth_place: z.string().optional(),
+  birth_date: z.string().optional(),
+  EGender: z.nativeEnum(EGender).optional(),
+  EReligion: z.nativeEnum(EReligion).optional(),
+  ECitizenship: z.nativeEnum(ECitizenship).optional(),
+  marital_status: z.string().optional(),
+  country: z.string().optional(),
+  address: z.string().optional(),
+  rt: z.string().optional(),
+  rw: z.string().optional(),
+  postal_code: z.string().optional(),
+  subdistrict: z.string().optional(),
+  province: z.string().optional(),
+  city: z.string().optional(),
+  phone_number: z.string().optional(),
+  kk_number: z.string().optional(),
+  school_type: z.string().optional(),
+  school_major: z.string().optional(),
+  school_name: z.string().optional(),
+  school_npsm: z.string().optional(),
+  school_address: z.string().optional(),
+  school_postal_code: z.string().optional(),
+  school_subdistrict: z.string().optional(),
+  school_province: z.string().optional(),
+  school_city: z.string().optional(),
+  school_phone_number: z.string().optional(),
+  graduation_year: z.string().optional(),
+  father_name: z.string().optional(),
+  mother_name: z.string().optional(),
+  guardian_name: z.string().optional(),
+  father_status: z.string().optional(),
+  mother_status: z.string().optional(),
+  guardian_status: z.string().optional(),
+  parent_address: z.string().optional(),
+  parent_postal_code: z.string().optional(),
+  parent_subdistrict: z.string().optional(),
+  parent_province: z.string().optional(),
+  parent_city: z.string().optional(),
+  parent_phone_number: z.string().optional(),
+  father_education: z.string().optional(),
+  mother_education: z.string().optional(),
+  guardian_education: z.string().optional(),
+  father_occupation: z.string().optional(),
+  mother_occupation: z.string().optional(),
+  guardian_occupation: z.string().optional(),
+  father_income: z.string().optional(),
+  mother_income: z.string().optional(),
+  guardian_income: z.string().optional(),
+  guardian_city: z.string().optional(),
+});
+
+export type TUpdateStudentSchema = z.infer<typeof UpdateStudentZodSchema>;

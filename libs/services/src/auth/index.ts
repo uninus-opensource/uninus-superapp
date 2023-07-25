@@ -10,6 +10,7 @@ import {
   TLoginResponse,
   TProfileRequest,
   TProfileResponse,
+  TRegisterRequest,
   TRegisterResponse,
   TReqToken,
   getEmailMessageTemplate,
@@ -26,6 +27,7 @@ import {
 } from '@uninus/utilities';
 
 import { EmailService } from '../email';
+import { create } from 'domain';
 
 @Injectable()
 export class AuthService {
@@ -35,11 +37,10 @@ export class AuthService {
   ) {}
 
   async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
-    const { email, nik } = reqUser;
+    const { email } = reqUser;
 
     const profile = await this.prisma.users.findUnique({
       where: {
-        nik,
         email,
       },
       select: {
@@ -48,7 +49,6 @@ export class AuthService {
         fullname: true,
         role_id: true,
         createdAt: true,
-        nik: true,
         avatar: true,
       },
     });
@@ -60,7 +60,7 @@ export class AuthService {
     return profile;
   }
 
-  async register(data: Prisma.UsersCreateInput): Promise<TRegisterResponse> {
+  async register(data: TRegisterRequest): Promise<TRegisterResponse> {
     const isEmailExist = await this.prisma.users.findUnique({
       where: {
         email: data.email.toLowerCase(),
@@ -71,26 +71,21 @@ export class AuthService {
       throw new ConflictException('Email sudah terdaftar');
     }
 
-    const isNikExist = await this.prisma.users.findUnique({
-      where: {
-        nik: data.nik,
-      },
-    });
-
-    if (isNikExist) {
-      throw new ConflictException('Nik sudah terdaftar');
-    }
-
     const password = await encryptPassword(data.password);
 
     const createdUser = await this.prisma.users.create({
       data: {
-        ...data,
+        fullname: data.fullname,
         email: data.email.toLowerCase(),
         password,
-        role: data.role,
+        role_id: data.role_id,
         avatar:
           'https://res.cloudinary.com/dyominih0/image/upload/v1688846789/MaleProfileDefault_hxtqcy.png',
+        students: {
+          create: {
+            phone_number: data.phone_number,
+          },
+        },
       },
     });
 
@@ -132,7 +127,6 @@ export class AuthService {
       },
       select: {
         id: true,
-        nik: true,
         email: true,
         fullname: true,
         password: true,
@@ -176,7 +170,6 @@ export class AuthService {
       id: user.id,
       user: {
         id: user.id,
-        nik: user.nik,
         email: user.email,
         fullname: user.fullname,
         role: user.role?.name || '',
@@ -310,6 +303,19 @@ export class AuthService {
     }
     return {
       message: 'Berhasil kirim OTP',
+    };
+  }
+
+  async verifyOtpPassword(email: string, otp: string) {
+    await clearOtp();
+
+    const isVerified = await compareOtp(email, otp);
+    if (!isVerified) {
+      throw new NotFoundException('Email atau OTP tidak valid');
+    }
+
+    return {
+      message: 'Berhasil verifikasi OTP',
     };
   }
 

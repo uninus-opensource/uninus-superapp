@@ -10,16 +10,9 @@ export class StudentService {
     private cloudinaryService: CloudinaryService
   ) {}
   async getStudent(id: string) {
-    const student = await this.prisma.users.findUnique({
+    const student = await this.prisma.students.findUnique({
       where: {
-        id,
-      },
-      select: {
-        students: true,
-        nik: true,
-        email: true,
-        avatar: true,
-        fullname: true,
+        user_id: id,
       },
     });
 
@@ -30,11 +23,7 @@ export class StudentService {
     }
 
     return {
-      nik: student.nik,
-      fullname: student.fullname,
-      email: student.email,
-      avatar: student.avatar,
-      ...student.students,
+      ...student,
     };
   }
 

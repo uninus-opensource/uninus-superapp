@@ -2,7 +2,6 @@ export type TLoginResponse = {
   id: string;
   user: {
     id: string;
-    nik: string;
     email: string;
     fullname: string;
     role: string | null;
@@ -24,7 +23,6 @@ export type TLoginRequest = {
 
 export type TLoginAuth = {
   user: {
-    nik: string;
     email: string;
   };
 };

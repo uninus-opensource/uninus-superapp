@@ -9,7 +9,7 @@ export const DetailSection: FC = (): ReactElement => {
         {/* Gambar */}
         <figure>
           <Image
-            src={'/illustrations/foto-mahasiswa-bareng-reactangle.png'}
+            src={'/illustrations/foto-mahasiswa-bareng-reactangle.webp'}
             width={500}
             height={500}
             quality={100}

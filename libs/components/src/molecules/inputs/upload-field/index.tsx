@@ -23,7 +23,7 @@ export const UploadField: FC<TUploadFile> = (props): ReactElement => {
           <img
             src={URL.createObjectURL(value) || ''}
             alt=""
-            className={props.previewImage}
+            className={`${props.preview ? props.previewImage : 'hidden'}`}
           />
         </div>
       ) : (

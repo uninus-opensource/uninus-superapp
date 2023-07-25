@@ -9,7 +9,7 @@ export const ModulePrestasi: FC = (): ReactElement => {
   return (
     <MainLayout>
       <section className="w-full min-h-screen">
-        <HeroBanner heroImages="/illustrations/beasiswa2.svg" />
+        <HeroBanner heroImages="/illustrations/beasiswa2.webp" />
 
         <section className="w-full lg:px-16 px-8 lg:py-8 py-4 flex flex-col gap-y-14">
           <div className="text-center flex flex-col gap-y-8">
@@ -25,7 +25,7 @@ export const ModulePrestasi: FC = (): ReactElement => {
           <div className="w-full flex lg:flex-row md:flex-row flex-col justify-between h-auto py-8">
             <figure className="lg:absolute flex px-6 right-12">
               <Image
-                src={'/illustrations/beasiswa2.svg'}
+                src={'/illustrations/beasiswa2.webp'}
                 alt="Beasiswa prestasi"
                 width={400}
                 height={400}

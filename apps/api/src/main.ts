@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 import 'reflect-metadata';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { MasterApi } from '@uninus/master-api';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -19,7 +19,6 @@ async function bootstrap() {
     credentials: true,
   });
   app.setGlobalPrefix(globalPrefix);
-  app.useGlobalPipes(new ValidationPipe());
 
   // Swagger config
   const config = new DocumentBuilder()

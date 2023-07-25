@@ -10,17 +10,17 @@ export const ModulBeasiswa: FC = (): ReactElement => {
   const beasiswaList: { name: string; img: string; link: string }[] = [
     {
       name: 'beasiswa unggul',
-      img: '/illustrations/beasiswaunggul.svg',
+      img: '/illustrations/beasiswaunggul.webp',
       link: '/beasiswa/beasiswaunggul ',
     },
     {
       name: 'beasiswa berprestasi',
-      img: '/illustrations/beasiswa2.svg',
+      img: '/illustrations/beasiswa2.webp',
       link: '/beasiswa/beasiswaprestasi ',
     },
     {
       name: 'beasiswa mitra nusantara',
-      img: '/illustrations/beasiswa3.svg',
+      img: '/illustrations/beasiswa3.webp',
       link: '/beasiswa/beasiswamitra',
     },
   ];
@@ -37,7 +37,7 @@ export const ModulBeasiswa: FC = (): ReactElement => {
     <MainLayout>
       <section className="w-full min-h-screen">
         <HeroBanner
-          heroImages="/illustrations/foto-mahasiswa-bareng-2.jpg"
+          heroImages="/illustrations/foto-mahasiswa-bareng-2.webp"
           heroTitleBottomRight="BEASISWA"
           backgrounColor="bg-grayscale-8"
           blur
