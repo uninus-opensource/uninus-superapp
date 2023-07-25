@@ -3,8 +3,11 @@ export type TTextFieldOne = {
     | 'identification_type'
     | 'identification_number'
     | 'nisn'
-    | 'phone_number';
+    | 'phone_number'
+    | 'fullname'
+    | 'email';
   item: string;
+  placeholder: string;
   type: 'text';
 };
 

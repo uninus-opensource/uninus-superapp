@@ -1,6 +1,7 @@
 export type TBiodataRequest = {
   image?: File;
-  nim: string;
+  nik: string;
+  fullname: string;
   nisn: string;
   email?: string;
   identification_type: string;
@@ -40,6 +41,7 @@ export type TBiodataRequest = {
   parent_postal_code: string;
   parent_subdistrict: string;
   parent_province: string;
+  parent_city: string;
   parent_phone_number: string;
   father_education: string;
   mother_education: string;
