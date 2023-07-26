@@ -7,13 +7,9 @@ CREATE TYPE "Religion" AS ENUM ('Islam', 'Kristen', 'Katolik', 'Konghucu', 'Hind
 -- CreateEnum
 CREATE TYPE "Citizenship" AS ENUM ('WNI', 'WNA');
 
--- CreateEnum
-CREATE TYPE "IdentificationType" AS ENUM ('KTP', 'SIM', 'Kartu Pelajar');
-
 -- CreateTable
 CREATE TABLE "Users" (
     "id" TEXT NOT NULL,
-    "nik" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "fullname" TEXT NOT NULL,
     "password" TEXT NOT NULL,
@@ -27,59 +23,72 @@ CREATE TABLE "Users" (
 -- CreateTable
 CREATE TABLE "Students" (
     "id" TEXT NOT NULL,
-    "nim" TEXT NOT NULL,
-    "nisn" TEXT NOT NULL,
-    "identification_type" "IdentificationType" NOT NULL,
-    "identification_number" TEXT NOT NULL,
-    "birth_place" TEXT NOT NULL,
-    "birth_date" TEXT NOT NULL,
-    "gender" "Gender" NOT NULL,
-    "religion" "Religion" NOT NULL,
-    "citizenship" "Citizenship" NOT NULL,
-    "marital_status" TEXT NOT NULL,
-    "country" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
-    "rt" TEXT NOT NULL,
-    "rw" TEXT NOT NULL,
-    "postal_code" TEXT NOT NULL,
-    "subdistrict" TEXT NOT NULL,
-    "province" TEXT NOT NULL,
-    "city" TEXT NOT NULL,
-    "phone_number" TEXT NOT NULL,
-    "kk_number" TEXT NOT NULL,
-    "school_type" TEXT NOT NULL,
-    "school_major" TEXT NOT NULL,
-    "school_name" TEXT NOT NULL,
-    "school_address" TEXT NOT NULL,
-    "school_postal_code" TEXT NOT NULL,
-    "school_subdistrict" TEXT NOT NULL,
-    "school_province" TEXT NOT NULL,
-    "school_city" TEXT NOT NULL,
-    "school_phone_number" TEXT NOT NULL,
-    "graduation_year" TEXT NOT NULL,
-    "father_name" TEXT NOT NULL,
-    "mother_name" TEXT NOT NULL,
-    "guardian_name" TEXT NOT NULL,
-    "parent_address" TEXT NOT NULL,
-    "parent_rt" TEXT NOT NULL,
-    "parent_rw" TEXT NOT NULL,
-    "parent_postal_code" TEXT NOT NULL,
-    "parent_subdistrict" TEXT NOT NULL,
-    "parent_province" TEXT NOT NULL,
-    "parent_phone_number" TEXT NOT NULL,
-    "father_education" TEXT NOT NULL,
-    "mother_education" TEXT NOT NULL,
+    "nik" TEXT,
+    "nisn" TEXT,
+    "birth_place" TEXT,
+    "birth_date" TEXT,
+    "gender" "Gender",
+    "phone_number" TEXT,
+    "religion" "Religion",
+    "citizenship" "Citizenship",
+    "marital_status" TEXT,
+    "country" TEXT,
+    "address" TEXT,
+    "postal_code" TEXT,
+    "subdistrict" TEXT,
+    "province" TEXT,
+    "city" TEXT,
+    "school_type" TEXT,
+    "graduation_year" TEXT,
+    "school_major" TEXT,
+    "school_name" TEXT,
+    "school_npsm" TEXT,
+    "school_address" TEXT,
+    "school_postal_code" TEXT,
+    "school_subdistrict" TEXT,
+    "school_province" TEXT,
+    "school_city" TEXT,
+    "school_phone_number" TEXT,
+    "father_name" TEXT,
+    "mother_name" TEXT,
+    "guardian_name" TEXT,
+    "father_status" TEXT,
+    "mother_status" TEXT,
+    "guardian_status" TEXT,
+    "parent_address" TEXT,
+    "parent_postal_code" TEXT,
+    "parent_subdistrict" TEXT,
+    "parent_province" TEXT,
+    "parent_city" TEXT,
+    "father_education" TEXT,
+    "mother_education" TEXT,
     "guardian_education" TEXT,
-    "father_occupation" TEXT NOT NULL,
-    "mother_occupation" TEXT NOT NULL,
+    "father_occupation" TEXT,
+    "mother_occupation" TEXT,
     "guardian_occupation" TEXT,
-    "father_income" TEXT NOT NULL,
-    "mother_income" TEXT NOT NULL,
+    "father_income" TEXT,
+    "mother_income" TEXT,
     "guardian_income" TEXT,
-    "selection_type" TEXT NOT NULL,
-    "program" TEXT NOT NULL,
-    "academic_year" TEXT NOT NULL,
-    "registration_wave" TEXT NOT NULL,
+    "guardian_address" TEXT,
+    "guardian_postal_code" TEXT,
+    "guardian_subdistrict" TEXT,
+    "guardian_province" TEXT,
+    "guardian_city" TEXT,
+    "faculty_type" TEXT,
+    "education_programs" TEXT,
+    "study_program" TEXT,
+    "selection_type" TEXT,
+    "family_card" TEXT,
+    "pass_photo" TEXT,
+    "ktp_card" TEXT,
+    "school_report_card" TEXT,
+    "birth_certificate" TEXT,
+    "additional_documents" TEXT,
+    "ijazah_card" TEXT,
+    "kipk_card" TEXT,
+    "academic_year" TEXT,
+    "registration_wave" TEXT,
+    "registration_status" TEXT,
     "user_id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -98,6 +107,32 @@ CREATE TABLE "Employees" (
     "nim" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "user_id" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Province" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "Province_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "City" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "province_id" INTEGER NOT NULL,
+
+    CONSTRAINT "City_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "SubDistrict" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "city_id" INTEGER NOT NULL,
+
+    CONSTRAINT "SubDistrict_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -129,6 +164,16 @@ CREATE TABLE "RolesPermissions" (
 );
 
 -- CreateTable
+CREATE TABLE "OTP" (
+    "id" SERIAL NOT NULL,
+    "token" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "expiredAt" INTEGER NOT NULL,
+
+    CONSTRAINT "OTP_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_PermissionsToRoles" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
@@ -138,16 +183,13 @@ CREATE TABLE "_PermissionsToRoles" (
 CREATE UNIQUE INDEX "Users_id_key" ON "Users"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Users_nik_key" ON "Users"("nik");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Students_id_key" ON "Students"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Students_nim_key" ON "Students"("nim");
+CREATE UNIQUE INDEX "Students_nik_key" ON "Students"("nik");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Students_nisn_key" ON "Students"("nisn");
@@ -174,6 +216,9 @@ CREATE UNIQUE INDEX "Employees_nim_key" ON "Employees"("nim");
 CREATE UNIQUE INDEX "Employees_user_id_key" ON "Employees"("user_id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "OTP_user_id_key" ON "OTP"("user_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_PermissionsToRoles_AB_unique" ON "_PermissionsToRoles"("A", "B");
 
 -- CreateIndex
@@ -192,10 +237,19 @@ ALTER TABLE "Lecturers" ADD CONSTRAINT "Lecturers_user_id_fkey" FOREIGN KEY ("us
 ALTER TABLE "Employees" ADD CONSTRAINT "Employees_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "City" ADD CONSTRAINT "City_province_id_fkey" FOREIGN KEY ("province_id") REFERENCES "Province"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SubDistrict" ADD CONSTRAINT "SubDistrict_city_id_fkey" FOREIGN KEY ("city_id") REFERENCES "City"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "RolesPermissions" ADD CONSTRAINT "RolesPermissions_permission_id_fkey" FOREIGN KEY ("permission_id") REFERENCES "Permissions"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "RolesPermissions" ADD CONSTRAINT "RolesPermissions_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "Roles"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OTP" ADD CONSTRAINT "OTP_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "Users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_PermissionsToRoles" ADD CONSTRAINT "_PermissionsToRoles_A_fkey" FOREIGN KEY ("A") REFERENCES "Permissions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
