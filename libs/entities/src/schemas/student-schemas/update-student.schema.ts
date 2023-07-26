@@ -217,8 +217,18 @@ export class UpdateStudentSchema {
 }
 
 export const UpdateStudentZodSchema = z.object({
-  nik: z.string().optional(),
-  nisn: z.string().optional(),
+  nik: z
+    .string()
+    .refine((value) => value.length === 16, {
+      message: 'NIK harus 16 digit',
+    })
+    .optional(),
+  nisn: z
+    .string()
+    .refine((value) => value.length === 10, {
+      message: 'NISN harus 10 digit',
+    })
+    .optional(),
   birth_place: z.string().optional(),
   birth_date: z.string().optional(),
   gender: z.nativeEnum(EGender).optional(),
