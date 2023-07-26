@@ -114,6 +114,27 @@ model Employees {
   user      Users    @relation(fields: [user_id], references: [id])
 }
 
+model Province {
+  id     Int    @id @default(autoincrement())
+  name   String
+  cities City[]
+}
+
+model City {
+  id           Int           @id @default(autoincrement())
+  name         String
+  province_id  Int
+  province     Province      @relation(fields: [province_id], references: [id])
+  sub_district SubDistrict[]
+}
+
+model SubDistrict {
+  id      Int    @id @default(autoincrement())
+  name    String
+  city_id Int
+  city    City   @relation(fields: [city_id], references: [id])
+}
+
 model Roles {
   id                Int                @id @default(autoincrement())
   name              String
