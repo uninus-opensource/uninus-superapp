@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
 
-export class RegisterDto {
+export class RegisterSchema {
   @ApiProperty()
   public fullname!: string;
 

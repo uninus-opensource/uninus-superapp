@@ -7,21 +7,12 @@ import {
   ECitizenship,
 } from '../../enum';
 
-export class UpdateStudentDto {
-  @ApiProperty()
-  avatar!: string;
-
-  @ApiProperty()
-  nisn!: string;
-
+export class UpdateStudentSchema {
   @ApiProperty()
   nik!: string;
 
   @ApiProperty()
-  identification_type!: EIdentificationType;
-
-  @ApiProperty()
-  identification_number!: string;
+  nisn!: string;
 
   @ApiProperty()
   birth_place!: string;
@@ -29,14 +20,26 @@ export class UpdateStudentDto {
   @ApiProperty()
   birth_date!: string;
 
-  @ApiProperty()
-  EGender!: EGender;
+  @ApiProperty({
+    example: Object.keys(EGender),
+    description: 'string',
+  })
+  gender!: EGender;
 
   @ApiProperty()
-  EReligion!: EReligion;
+  phone_number!: string;
 
-  @ApiProperty()
-  ECitizenship!: ECitizenship;
+  @ApiProperty({
+    example: Object.keys(EReligion),
+    description: 'string',
+  })
+  religion!: EReligion;
+
+  @ApiProperty({
+    example: Object.keys(ECitizenship),
+    description: 'string',
+  })
+  citizenship!: ECitizenship;
 
   @ApiProperty()
   marital_status!: string;
@@ -46,12 +49,6 @@ export class UpdateStudentDto {
 
   @ApiProperty()
   address!: string;
-
-  @ApiProperty()
-  rt!: string;
-
-  @ApiProperty()
-  rw!: string;
 
   @ApiProperty()
   postal_code!: string;
@@ -66,13 +63,10 @@ export class UpdateStudentDto {
   city!: string;
 
   @ApiProperty()
-  phone_number!: string;
-
-  @ApiProperty()
-  kk_number!: string;
-
-  @ApiProperty()
   school_type!: string;
+
+  @ApiProperty()
+  graduation_year!: string;
 
   @ApiProperty()
   school_major!: string;
@@ -100,9 +94,6 @@ export class UpdateStudentDto {
 
   @ApiProperty()
   school_phone_number!: string;
-
-  @ApiProperty()
-  graduation_year!: string;
 
   @ApiProperty()
   father_name!: string;
@@ -138,9 +129,6 @@ export class UpdateStudentDto {
   parent_city!: string;
 
   @ApiProperty()
-  parent_phone_number!: string;
-
-  @ApiProperty()
   father_education!: string;
 
   @ApiProperty()
@@ -168,32 +156,84 @@ export class UpdateStudentDto {
   guardian_income?: string;
 
   @ApiProperty()
+  guardian_address?: string;
+
+  @ApiProperty()
+  guardian_postal_code?: string;
+
+  @ApiProperty()
+  guardian_subdistrict?: string;
+
+  @ApiProperty()
+  guardian_province?: string;
+
+  @ApiProperty()
   guardian_city?: string;
+
+  @ApiProperty()
+  faculty_type?: string;
+
+  @ApiProperty()
+  education_programs?: string;
+
+  @ApiProperty()
+  study_program?: string;
+
+  @ApiProperty()
+  selection_type?: string;
+
+  @ApiProperty()
+  family_card?: string;
+
+  @ApiProperty()
+  pass_photo?: string;
+
+  @ApiProperty()
+  ktp_card?: string;
+
+  @ApiProperty()
+  school_report_card?: string;
+
+  @ApiProperty()
+  birth_certificate?: string;
+
+  @ApiProperty()
+  additional_documents?: string;
+
+  @ApiProperty()
+  ijazah_card?: string;
+
+  @ApiProperty()
+  kipk_card?: string;
+
+  @ApiProperty()
+  academic_year?: string;
+
+  @ApiProperty()
+  registration_wave?: string;
+
+  @ApiProperty()
+  registration_status?: string;
 }
 
 export const UpdateStudentZodSchema = z.object({
-  avatar: z.string().optional(),
-  nisn: z.string().optional(),
   nik: z.string().optional(),
-  identification_type: z.nativeEnum(EIdentificationType).optional(),
-  identification_number: z.string().optional(),
+  nisn: z.string().optional(),
   birth_place: z.string().optional(),
   birth_date: z.string().optional(),
-  EGender: z.nativeEnum(EGender).optional(),
-  EReligion: z.nativeEnum(EReligion).optional(),
-  ECitizenship: z.nativeEnum(ECitizenship).optional(),
+  gender: z.nativeEnum(EGender).optional(),
+  phone_number: z.string().optional(),
+  religion: z.nativeEnum(EReligion).optional(),
+  citizenship: z.nativeEnum(ECitizenship).optional(),
   marital_status: z.string().optional(),
   country: z.string().optional(),
   address: z.string().optional(),
-  rt: z.string().optional(),
-  rw: z.string().optional(),
   postal_code: z.string().optional(),
   subdistrict: z.string().optional(),
   province: z.string().optional(),
   city: z.string().optional(),
-  phone_number: z.string().optional(),
-  kk_number: z.string().optional(),
   school_type: z.string().optional(),
+  graduation_year: z.string().optional(),
   school_major: z.string().optional(),
   school_name: z.string().optional(),
   school_npsm: z.string().optional(),
@@ -203,7 +243,6 @@ export const UpdateStudentZodSchema = z.object({
   school_province: z.string().optional(),
   school_city: z.string().optional(),
   school_phone_number: z.string().optional(),
-  graduation_year: z.string().optional(),
   father_name: z.string().optional(),
   mother_name: z.string().optional(),
   guardian_name: z.string().optional(),
@@ -215,7 +254,6 @@ export const UpdateStudentZodSchema = z.object({
   parent_subdistrict: z.string().optional(),
   parent_province: z.string().optional(),
   parent_city: z.string().optional(),
-  parent_phone_number: z.string().optional(),
   father_education: z.string().optional(),
   mother_education: z.string().optional(),
   guardian_education: z.string().optional(),
@@ -225,7 +263,26 @@ export const UpdateStudentZodSchema = z.object({
   father_income: z.string().optional(),
   mother_income: z.string().optional(),
   guardian_income: z.string().optional(),
+  guardian_address: z.string().optional(),
+  guardian_postal_code: z.string().optional(),
+  guardian_subdistrict: z.string().optional(),
+  guardian_province: z.string().optional(),
   guardian_city: z.string().optional(),
+  faculty_type: z.string().optional(),
+  education_programs: z.string().optional(),
+  study_program: z.string().optional(),
+  selection_type: z.string().optional(),
+  family_card: z.string().optional(),
+  pass_photo: z.string().optional(),
+  ktp_card: z.string().optional(),
+  school_report_card: z.string().optional(),
+  birth_certificate: z.string().optional(),
+  additional_documents: z.string().optional(),
+  ijazah_card: z.string().optional(),
+  kipk_card: z.string().optional(),
+  academic_year: z.string().optional(),
+  registration_wave: z.string().optional(),
+  registration_status: z.string().optional(),
 });
 
 export type TUpdateStudentSchema = z.infer<typeof UpdateStudentZodSchema>;

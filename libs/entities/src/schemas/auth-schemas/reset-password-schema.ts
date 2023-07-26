@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
 
-export class newPasswordDto {
+export class newPasswordSchema {
   @ApiProperty({
     example: '',
   })
@@ -22,7 +22,10 @@ export const newPasswordZodSchema = z.object({
     .nonempty({
       message: 'Password tidak boleh kosong',
     })
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/),
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/, {
+      message:
+        'Password harus memiliki setidaknya 6 karakter dan mengandung setidaknya 1 huruf kecil, 1 huruf besar, dan 1 angka. Tidak boleh mengandung simbol ',
+    }),
 });
 
 export type TNewPasswordSchema = z.infer<typeof newPasswordZodSchema>;

@@ -13,11 +13,11 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
-  CreateStudentDto,
+  CreateStudentSchema,
   CreateStudentZodSchema,
   JwtAuthGuard,
   TReqToken,
-  UpdateStudentDto,
+  UpdateStudentSchema,
   UpdateStudentZodSchema,
   ZodValidationPipe,
 } from '@uninus/entities';
@@ -45,13 +45,13 @@ export class StudentController {
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
   })
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('avatar'))
   @UseGuards(JwtAuthGuard)
   createData(
     @Request() reqToken: TReqToken,
     @UploadedFile() Image: Express.Multer.File,
     @Body(new ZodValidationPipe(CreateStudentZodSchema))
-    studentData: CreateStudentDto
+    studentData: CreateStudentSchema
   ) {
     const { sub } = reqToken.user;
     return this.appService.createStudent(sub, Image, studentData);
@@ -83,13 +83,13 @@ export class StudentController {
   @ApiUnauthorizedResponse({
     description: 'Unauthorized',
   })
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('avatar'))
   @UseGuards(JwtAuthGuard)
   updateData(
     @Request() reqToken: TReqToken,
     @UploadedFile() Image: Express.Multer.File,
     @Body(new ZodValidationPipe(UpdateStudentZodSchema))
-    studentData: UpdateStudentDto
+    studentData: UpdateStudentSchema
   ) {
     const { sub } = reqToken.user;
     return this.appService.updateStudent(sub, Image, studentData);
@@ -111,11 +111,12 @@ export class StudentController {
     status: 400,
     description: 'User tidak ditemukan',
   })
+  @UseInterceptors(FileInterceptor('avatar'))
   updateDataById(
     @Param('id') id: string,
     @UploadedFile() Image: Express.Multer.File,
     @Body(new ZodValidationPipe(UpdateStudentZodSchema))
-    studentData: UpdateStudentDto
+    studentData: UpdateStudentSchema
   ) {
     return this.appService.updateStudent(id, Image, studentData);
   }

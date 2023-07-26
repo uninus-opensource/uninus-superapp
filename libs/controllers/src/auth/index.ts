@@ -8,17 +8,17 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
-  LoginDto,
-  LogoutDto,
+  LoginSchema,
+  LogoutSchema,
   RtGuard,
   TReqToken,
-  forgotPasswordDto,
-  newPasswordDto,
-  verifyOtpDto,
-  resendOtpDto,
+  forgotPasswordSchema,
+  newPasswordSchema,
+  verifyOtpSchema,
+  resendOtpSchema,
   ZodValidationPipe,
   RegisterZodSchema,
-  RegisterDto,
+  RegisterSchema,
   LoginZodSchema,
   verifyOtpZodSchema,
   resendOtpZodSchema,
@@ -49,9 +49,10 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Gagal mendaftar' })
   @ApiResponse({ status: 409, description: 'Email sudah terdaftar' })
   async register(
-    @Body(new ZodValidationPipe(RegisterZodSchema)) registerDto: RegisterDto
+    @Body(new ZodValidationPipe(RegisterZodSchema))
+    registerSchema: RegisterSchema
   ) {
-    return await this.appService.register(registerDto);
+    return await this.appService.register(registerSchema);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -63,8 +64,10 @@ export class AuthController {
   })
   @ApiResponse({ status: 401, description: 'Password salah' })
   @ApiResponse({ status: 404, description: 'Akun Tidak ditemukan' })
-  async login(@Body(new ZodValidationPipe(LoginZodSchema)) dto: LoginDto) {
-    return await this.appService.login(dto.email, dto.password);
+  async login(
+    @Body(new ZodValidationPipe(LoginZodSchema)) loginSchema: LoginSchema
+  ) {
+    return await this.appService.login(loginSchema.email, loginSchema.password);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -73,9 +76,9 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Berhasil logout' })
   @ApiResponse({ status: 401, description: 'Gagal logout' })
   async logout(
-    @Body(new ZodValidationPipe(LogoutZodSchema)) refreshDto: LogoutDto
+    @Body(new ZodValidationPipe(LogoutZodSchema)) logoutSchema: LogoutSchema
   ) {
-    return await this.appService.logout(refreshDto?.refresh_token);
+    return await this.appService.logout(logoutSchema?.refresh_token);
   }
 
   @Post('refresh')
@@ -92,7 +95,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Gagal verifikasi OTP' })
   @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
   async verifyOtp(
-    @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpDto
+    @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpSchema
   ) {
     return this.appService.verifyOtp(verifyOtp.email, verifyOtp.otp);
   }
@@ -103,9 +106,10 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Gagal kirim OTP' })
   @ApiResponse({ status: 404, description: 'Akun tidak ditemukan' })
   async resendOtp(
-    @Body(new ZodValidationPipe(resendOtpZodSchema)) resendOtpDto: resendOtpDto
+    @Body(new ZodValidationPipe(resendOtpZodSchema))
+    resendOtpSchema: resendOtpSchema
   ) {
-    return this.appService.resendOtp(resendOtpDto.email);
+    return this.appService.resendOtp(resendOtpSchema.email);
   }
 
   @Post('forgot-password')
@@ -117,7 +121,7 @@ export class AuthController {
   })
   async forgotPassword(
     @Body(new ZodValidationPipe(forgotPasswordZodSchema))
-    forgotPassword: forgotPasswordDto
+    forgotPassword: forgotPasswordSchema
   ) {
     return this.appService.forgotPassword(forgotPassword.email);
   }
@@ -128,7 +132,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Gagal verifikasi OTP' })
   @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
   async verifyOtpPassword(
-    @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpDto
+    @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpSchema
   ) {
     return this.appService.verifyOtpPassword(verifyOtp.email, verifyOtp.otp);
   }
@@ -139,8 +143,8 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Gagal mengganti password' })
   async resetPassword(
     @Body(new ZodValidationPipe(newPasswordZodSchema))
-    newPasswordDto: newPasswordDto
+    newPasswordSchema: newPasswordSchema
   ) {
-    return this.appService.resetPassword(newPasswordDto);
+    return this.appService.resetPassword(newPasswordSchema);
   }
 }

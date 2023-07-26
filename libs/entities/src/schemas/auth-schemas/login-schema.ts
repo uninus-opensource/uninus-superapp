@@ -1,19 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
 
-export class ReqUserDto {
+export class LoginSchema {
   @ApiProperty({
     example: '',
   })
   public email!: string;
 
   @ApiProperty({
-    example: '41037006280',
+    example: 'min length 6, upper case 1, numbers 1',
   })
-  public nik!: string;
+  public password!: string;
 }
 
-export const ReqUserZodSchema = z.object({
+export const LoginZodSchema = z.object({
   email: z
     .string()
     .email({
@@ -22,7 +22,9 @@ export const ReqUserZodSchema = z.object({
     .nonempty({
       message: 'Email tidak boleh kosong',
     }),
-  nik: z.string(),
+  password: z.string().nonempty({
+    message: 'Password tidak boleh kosong',
+  }),
 });
 
-export type TReqUserSchema = z.infer<typeof ReqUserZodSchema>;
+export type TLoginSchema = z.infer<typeof LoginZodSchema>;

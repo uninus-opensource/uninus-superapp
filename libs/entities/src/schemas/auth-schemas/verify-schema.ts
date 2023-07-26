@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
 
-export class verifyOtpDto {
+export class verifyOtpSchema {
   @ApiProperty({
     example: '',
   })
@@ -28,7 +28,7 @@ export const verifyOtpZodSchema = z.object({
       message: 'OTP harus 6 Digit ',
     })
     .nonempty({
-      message: 'OTP tidab boleh kosong',
+      message: 'OTP tidak boleh kosong',
     }),
 });
 
