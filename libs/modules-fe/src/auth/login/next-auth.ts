@@ -21,7 +21,6 @@ export const authOptions: NextAuthOptions = {
           return data;
         } catch (err) {
           const error = err as TMetaErrorResponse;
-          console.log(error);
           if (error?.response?.status === 422) {
             throw new Error(error.response.data.message);
           }
