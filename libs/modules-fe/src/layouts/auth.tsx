@@ -6,7 +6,9 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { LazyLoading } from '@uninus/components';
 
-const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
+export const AuthLayout: FC<PropsWithChildren> = ({
+  children,
+}): ReactElement => {
   const { data: session, status } = useSession();
   const router = useRouter();
   if (status === 'loading') {
@@ -117,5 +119,3 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     </main>
   );
 };
-
-export default AuthLayout;

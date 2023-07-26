@@ -1,9 +1,8 @@
 'use client';
 import { FC, ReactElement, useState, useMemo } from 'react';
 import Image from 'next/image';
-import { TSideBarProps, TSideBarList } from './type';
-import { AiFillHome, AiOutlineFileDone, AiOutlineLogout } from 'react-icons/ai';
-import { FaRegUser } from 'react-icons/fa';
+import { TSideBarProps } from './type';
+import { AiOutlineLogout } from 'react-icons/ai';
 import Link from 'next/link';
 import { Button } from '../../atoms';
 import logOutImage from '../../atoms/illustrations/logOut/logOut.png';
@@ -11,9 +10,12 @@ import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { Modal } from '../modal';
-import { FileTextOutlined, MenuOutlined } from '@ant-design/icons';
+import { MenuOutlined } from '@ant-design/icons';
 
-export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
+export const SideBar: FC<TSideBarProps> = ({
+  onLogout,
+  sideList,
+}): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleOpenModal = () => {
@@ -33,20 +35,6 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
     return userName;
   }, [userName]);
 
-  const sideLists: TSideBarList[] = [
-    { label: 'Beranda', link: '/dashboard', icon: <AiFillHome /> },
-    { label: 'data diri', link: '/dashboard/biodata', icon: <FaRegUser /> },
-    {
-      label: 'pendaftaran',
-      link: '/dashboard/pendaftaran',
-      icon: <AiOutlineFileDone />,
-    },
-    {
-      label: 'Upload Dokumen',
-      link: '/dashboard/dokumen',
-      icon: <FileTextOutlined />,
-    },
-  ];
   const pathname = usePathname();
 
   return (
@@ -138,26 +126,26 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
           <div className="flex flex-col h-full justify-between 2xl:h-full">
             <nav>
               <ul className="flex flex-col gap-y-6 lg:gap-y-4">
-                {sideLists.map((sideList, idx) => (
+                {sideList?.map((sideList, idx) => (
                   <li key={idx} className="flex flex-col gap-y-6">
                     <Link
-                      href={sideList.link}
+                      href={sideList?.link}
                       role="link"
                       className={`flex gap-x-3 text-lg capitalize ${
-                        pathname === sideList.link &&
+                        pathname === sideList?.link &&
                         'bg-primary-white drop-shadow-md '
                       }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
                     >
                       <p
                         className={`${
-                          pathname === sideList.link &&
+                          pathname === sideList?.link &&
                           'bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white'
                         } text-primary-green w-fit h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
                       >
-                        {sideList.icon}
+                        {sideList?.icon}
                       </p>
                       <p className="text-primary-green text-[15px] w-[6.8vw] font-normal">
-                        {sideList.label}
+                        {sideList?.label}
                       </p>
                     </Link>
                   </li>
@@ -242,7 +230,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout }): ReactElement => {
               <div className="w-[60%]  px-3 h-[1px] bg-slate-4"></div>
               <nav>
                 <ul className="flex flex-col gap-y-6">
-                  {sideLists.map((sideList, idx) => (
+                  {sideList?.map((sideList, idx) => (
                     <li key={idx} className="flex flex-col gap-y-6">
                       <Link
                         href={sideList.link}
