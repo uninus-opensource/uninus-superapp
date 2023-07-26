@@ -9,6 +9,8 @@ import Link from 'next/link';
 
 export const LoginModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
 
   const {
     control,
@@ -24,14 +26,39 @@ export const LoginModule: FC = (): ReactElement => {
     },
   });
 
-  const onSubmit = handleSubmit((data) => {
-    setIsLoading(true);
-    signIn('login', {
-      callbackUrl: '/dashboard',
-      redirect: true,
-      email: data?.email,
-      password: data?.password,
-    });
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setIsLoading(true);
+      const result = await signIn('login', {
+        callbackUrl: '/dashboard',
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
+
+      setEmailError('');
+      setPasswordError('');
+
+      if (result?.error === 'Akun tidak ditemukan') {
+        setEmailError('Akun tidak ditemukan');
+      } else if (result?.error === 'Password salah') {
+        setPasswordError('Password salah');
+      } else {
+      }
+
+      if (!result?.error) {
+        signIn('login', {
+          callbackUrl: '/dashboard',
+          redirect: true,
+          email: data.email,
+          password: data.password,
+        });
+      }
+    } catch (error) {
+      console.error('Unexpected error occurred during sign-in:', error);
+    } finally {
+      setIsLoading(false);
+    }
   });
 
   return (
@@ -48,9 +75,7 @@ export const LoginModule: FC = (): ReactElement => {
             Selamat Datang Calon Nusantara Muda
           </p>
         </div>
-        {/* <span className=" mx-auto border border-red-5 my-3  text-red-5 p-1 text-xs rounded-md text-center w-1/3">
-        akun tidak ditemukan
-      </span> */}
+
         <div className="flex flex-col w-full justify-center items-center">
           <div className="justify-center w-full flex flex-col">
             <TextField
@@ -61,8 +86,8 @@ export const LoginModule: FC = (): ReactElement => {
               placeholder="Masukan email"
               control={control}
               required
-              status={errors?.email ? 'error' : undefined}
-              message={errors?.email?.message}
+              status={errors?.email || emailError ? 'error' : undefined}
+              message={errors?.email?.message || emailError}
             />
             <TextField
               name="password"
@@ -72,8 +97,8 @@ export const LoginModule: FC = (): ReactElement => {
               control={control}
               placeholder="Masukan password"
               required
-              status={errors?.password ? 'error' : undefined}
-              message={errors?.password?.message}
+              status={errors?.email || passwordError ? 'error' : undefined}
+              message={errors?.email?.message || passwordError}
             />
           </div>
         </div>
