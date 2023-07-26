@@ -1,13 +1,11 @@
-import { Fragment } from 'react';
+import { NextPage } from 'next';
+import { ReactElement } from 'react';
+import { LoginModuleAdmin } from '@uninus/modules-fe';
+import { Metadata } from 'next';
 
-const Landing = () => {
-  return (
-    <Fragment>
-      <h1 className="text-primary-green underline font-bold">
-        Hello World from PMB Admin
-      </h1>
-    </Fragment>
-  );
+export const metadata: Metadata = {
+  title: 'PMB-ADMIN | Masuk',
 };
 
-export default Landing;
+const LoginPageAdmin: NextPage = (): ReactElement => <LoginModuleAdmin />;
+export default LoginPageAdmin;

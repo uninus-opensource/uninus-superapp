@@ -23,7 +23,10 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <QueryProvider>
-            <RecoilProvider>{children}</RecoilProvider>
+            <RecoilProvider>
+              {children}
+              <div id="modal"></div>
+            </RecoilProvider>
           </QueryProvider>
         </AuthProvider>
       </body>

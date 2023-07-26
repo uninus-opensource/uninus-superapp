@@ -3,14 +3,14 @@ import { FC, PropsWithChildren, ReactElement, Suspense } from 'react';
 import { LazyLoading, SideBar } from '@uninus/components';
 import { useLogout } from '../auth';
 import { signOut, useSession } from 'next-auth/react';
-import { lazily } from 'react-lazily';
 import { useRouter } from 'next/navigation';
+import { lazily } from 'react-lazily';
 import { AiFillHome, AiOutlineFileDone } from 'react-icons/ai';
-import { FaRegUser } from 'react-icons/fa';
 import { FileTextOutlined } from '@ant-design/icons';
+import { FaRegUser } from 'react-icons/fa';
 const { DashboardContent } = lazily(() => import('./dashboardcontent'));
 
-export const DashboardLayout: FC<PropsWithChildren> = ({
+export const DashboardAdminLayout: FC<PropsWithChildren> = ({
   children,
 }): ReactElement => {
   const { data: session, status } = useSession();
@@ -27,7 +27,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({
   }
 
   if (status === 'unauthenticated') {
-    router.push('/auth/login');
+    router.push('/');
   }
 
   const sideLists = [

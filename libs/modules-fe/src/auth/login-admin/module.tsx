@@ -4,21 +4,20 @@ import { signIn } from 'next-auth/react';
 import { FC, ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TVSLogin, VSLogin } from './schema';
-import Link from 'next/link';
+import { TVSLoginAdmin, VSLoginAdmin } from './schema';
 import { lazily } from 'react-lazily';
 const { AuthLayout } = lazily(() => import('../../layouts'));
 
-export const LoginModule: FC = (): ReactElement => {
+export const LoginModuleAdmin: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TVSLogin>({
+  } = useForm<TVSLoginAdmin>({
     mode: 'all',
-    resolver: zodResolver(VSLogin),
+    resolver: zodResolver(VSLoginAdmin),
     defaultValues: {
       email: '',
       password: '',
@@ -45,10 +44,10 @@ export const LoginModule: FC = (): ReactElement => {
         <div className="flex flex-col p-4 xl:w-4/5 2xl:w-4/5 lg:mt-4 mt-0">
           <div className="flex flex-col gap-y-1 2xl:gap-y-2 ">
             <h1 className="font-bold text-base lg:text-2xl 2xl:text-4xl text-center lg:text-start">
-              Login
+              Login Admin
             </h1>
             <p className="text-grayscale-5 w-[60vw] text-xs lg:text-sm lg:w-[30vw] 2xl:text-md lg:mb-1">
-              Selamat Datang Calon Nusantara Muda
+              Selamat Datang Admin PMB
             </p>
           </div>
           {/* <span className=" mx-auto border border-red-5 my-3  text-red-5 p-1 text-xs rounded-md text-center w-1/3">
@@ -89,28 +88,11 @@ export const LoginModule: FC = (): ReactElement => {
                 variant="primary"
                 size="md"
               />
-              <Link
-                href="/auth/forgot-password"
-                className="text-grayscale-4 hover:text-grayscale-6 duration-300 text-[12px]"
-              >
-                Lupa password ?
-              </Link>
             </div>
             <div className="flex justify-center">
               <Button loading={isLoading} disabled={!isValid} width="w-full">
                 Masuk Sekarang
               </Button>
-            </div>
-            <div className="flex gap-2">
-              <p className="text-grayscale-4 text-[12px]">
-                Belum memiliki akun ?
-              </p>
-              <Link
-                href="/auth/register"
-                className="text-primary-green text-[12px]"
-              >
-                Register
-              </Link>
             </div>
           </div>
         </div>
