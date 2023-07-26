@@ -97,8 +97,8 @@ export const LoginModule: FC = (): ReactElement => {
               control={control}
               placeholder="Masukan password"
               required
-              status={errors?.email || passwordError ? 'error' : undefined}
-              message={errors?.email?.message || passwordError}
+              status={errors?.password || passwordError ? 'error' : undefined}
+              message={errors?.password?.message || passwordError}
             />
           </div>
         </div>
