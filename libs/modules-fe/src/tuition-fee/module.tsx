@@ -20,7 +20,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
         selector: (row) => row.program_studi,
         minWidth: '400px',
       },
-      { name: 'UKT/Semester', selector: (row) => row.ukt },
+      { name: 'Uang Kuliah Tunggal (UKT)', selector: (row) => row.ukt },
     ],
     []
   );
@@ -58,7 +58,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
       style: {
         backgroundColor: '#009647',
         color: '#FFFFFF',
-        fontSize: '18px',
+        fontSize: '14px',
       },
     },
   };
