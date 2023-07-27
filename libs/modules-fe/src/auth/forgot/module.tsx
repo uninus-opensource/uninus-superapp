@@ -33,7 +33,7 @@ export const ForgotModule: FC = (): ReactElement => {
       },
       {
         onSuccess: () =>
-          router.push(`/auth/verifikasi-otp?email=${data?.email}`),
+          router.push(`/auth/verifikasi-forget?email=${data?.email}`),
       }
     );
   });
