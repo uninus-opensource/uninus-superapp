@@ -3,6 +3,9 @@ import { FC, ReactElement } from 'react';
 import Image from 'next/image';
 
 export const DetailSection: FC = (): ReactElement => {
+  const detailUninus = () => {
+    window.open('https://uninus.ac.id/', '_blank');
+  };
   return (
     <section className="flex flex-col lg:flex-row h-auto w-full gap-14 lg:gap-0 justify-center items-center mb-24">
       <section className="h-auto gap-4 px-16 py-2">
@@ -42,7 +45,7 @@ export const DetailSection: FC = (): ReactElement => {
             variant="filled-tonal"
             styling="font-semibold rounded-md text-base"
             height="h-9"
-            href="https://uninus.ac.id/"
+            onClick={detailUninus}
           >
             Detail Uninus
           </Button>
