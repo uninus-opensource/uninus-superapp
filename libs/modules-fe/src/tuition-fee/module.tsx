@@ -119,14 +119,14 @@ export const TuitionFeeModule: FC = (): ReactElement => {
               satuan dana pendidikan program sarjana
             </h1>
           </div>
-          <div className="w-full flex p-2 justify-end">
+          <div className="w-full flex p-2 lg:justify-end justify-start">
             <SearchInput
               value={searchQuery}
               onChange={handleSearch}
               placeholder="Cari Fakultas dan Program Studi"
             />
           </div>
-          <span className="flex w-full justify-start text-black font-semibold text-sm  py-2">
+          <span className="flex lg:w-full justify-start text-black font-semibold text-sm  p-2">
             (*) Uang Kuliah Tunggal (UKT) belum termasuk biaya Jurnal, Wisuda,
             Praktikum, dan Magang/PLP
           </span>
@@ -151,14 +151,14 @@ export const TuitionFeeModule: FC = (): ReactElement => {
               satuan dana pendidikan program magister dan doktor
             </h1>
           </div>
-          <div className="w-full flex p-2 justify-end">
+          <div className="w-full flex p-2 lg:justify-end justify-start ">
             <SearchInput
               value={searchQuery}
               onChange={handleSearch}
               placeholder="Cari Program Magister dan Doktor"
             />
           </div>
-          <span className="flex w-full justify-start text-black font-semibold text-sm  py-2">
+          <span className="flex lg:w-full w-auto justify-start text-black font-semibold text-sm  p-2 ">
             (*) Uang Kuliah Tunggal (UKT) belum termasuk belum termasuk biaya
             Jurnal, Wisuda, Dana Internship
           </span>
