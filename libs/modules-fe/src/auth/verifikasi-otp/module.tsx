@@ -1,11 +1,12 @@
 'use client';
-
 import { FC, ReactElement, useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { useVerify, useNewOtpRequest } from './hook';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import OtpInput from 'react-otp-input';
+import { lazily } from 'react-lazily';
+const { AuthLayout } = lazily(() => import('../../layouts'));
 
 export const VerifEmailModule: FC = (): ReactElement => {
   const searchParams = useSearchParams();
@@ -53,52 +54,54 @@ export const VerifEmailModule: FC = (): ReactElement => {
   const containerStyle = clsx('flex lg:gap-x-3 gap-x-1 justify-center w-full ');
 
   return (
-    <form className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col  justify-center items-center">
-      <div className="w-full flex flex-col gap-y-6 ">
-        <h1 className="text-3xl font-bold text-primary-black font-bebasNeue w-60%">
-          Verifikasi Kode OTP
-        </h1>
+    <AuthLayout>
+      <form className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col  justify-center items-center">
+        <div className="w-full flex flex-col gap-y-6 ">
+          <h1 className="text-3xl font-bold text-primary-black font-bebasNeue w-60%">
+            Verifikasi Kode OTP
+          </h1>
 
-        <p className="text-grayscale-5 lg:text-sm w-60%">
-          {`Masukkan kode OTP yang sudah dikirimkan melalui email ${email}`}
-        </p>
+          <p className="text-grayscale-5 lg:text-sm w-60%">
+            {`Masukkan kode OTP yang sudah dikirimkan melalui email ${email}`}
+          </p>
 
-        <div className="flex w-full">
-          <OtpInput
-            containerStyle={containerStyle}
-            inputStyle={inputStyle}
-            value={otp}
-            onChange={setOtp}
-            numInputs={6}
-            shouldAutoFocus
-            renderInput={(props) => <input {...props} />}
-            inputType="tel"
-          />
-        </div>
-        <div>
-          <small>
-            Belum menerima kode ?{' '}
-            <span>
-              <span className="text-secondary-green-1">
-                {timer < 0 ? (
-                  <span
-                    onClick={() => {
-                      setTimer(120);
-                      request({ email: email });
-                    }}
-                    ref={intervalRef}
-                    className="text-secondary-green-1 hover:underline underline-offset-4 font-semibold cursor-pointer"
-                  >
-                    Kirim Ulang
-                  </span>
-                ) : (
-                  timer
-                )}
+          <div className="flex w-full">
+            <OtpInput
+              containerStyle={containerStyle}
+              inputStyle={inputStyle}
+              value={otp}
+              onChange={setOtp}
+              numInputs={6}
+              shouldAutoFocus
+              renderInput={(props) => <input {...props} />}
+              inputType="tel"
+            />
+          </div>
+          <div>
+            <small>
+              Belum menerima kode ?{' '}
+              <span>
+                <span className="text-secondary-green-1">
+                  {timer < 0 ? (
+                    <span
+                      onClick={() => {
+                        setTimer(120);
+                        request({ email: email });
+                      }}
+                      ref={intervalRef}
+                      className="text-secondary-green-1 hover:underline underline-offset-4 font-semibold cursor-pointer"
+                    >
+                      Kirim Ulang
+                    </span>
+                  ) : (
+                    timer
+                  )}
+                </span>
               </span>
-            </span>
-          </small>
+            </small>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </AuthLayout>
   );
 };

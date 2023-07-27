@@ -1,5 +1,5 @@
 export * from './common';
-export * from './dto';
+export * from './schemas';
 export * from './guards';
 export * from './lib/entities';
 export * from './schema-properties';
