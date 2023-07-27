@@ -1,16 +1,26 @@
 'use client';
-import { ReactElement, FC, useState, useEffect, useMemo } from 'react';
+import {
+  ReactElement,
+  FC,
+  useState,
+  useEffect,
+  useMemo,
+  SetStateAction,
+} from 'react';
 import { HeroBanner, LoadingSpinner } from '@uninus/components';
 import { dataSarjana, dataMagister } from './store';
 import { TTableMagister, TTableSarjana } from './types';
+import { SearchInput } from '@uninus/components';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { lazily } from 'react-lazily';
+
 const { MainLayout } = lazily(() => import('../layouts'));
 
 export const TuitionFeeModule: FC = (): ReactElement => {
   const [columsOne, setColumsOne] = useState([{}]);
   const [columsTwo, setColumsTwo] = useState([{}]);
-  const [pending, setPending] = useState<boolean>(true);
+  const [pending, setPending] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const columnsSarjana: TableColumn<TTableSarjana>[] = useMemo(
     () => [
@@ -72,6 +82,25 @@ export const TuitionFeeModule: FC = (): ReactElement => {
     return () => clearTimeout(timeout);
   }, [columnsSarjana, columnsMagister]);
 
+  const handleSearch = (event: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredDataSarjana = dataSarjana.filter(
+    (item) =>
+      item.fakultas.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.program_studi.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.ukt.includes(searchQuery)
+  );
+
+  const filteredDataMagister = dataMagister.filter(
+    (item) =>
+      item.program_studi.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.ukt.includes(searchQuery)
+  );
+
   return (
     <MainLayout>
       <main className="w-full bg-slate-2">
@@ -90,11 +119,17 @@ export const TuitionFeeModule: FC = (): ReactElement => {
               satuan dana pendidikan program sarjana
             </h1>
           </div>
-
+          <div className="w-full flex p-2 justify-end">
+            <SearchInput
+              value={searchQuery}
+              onChange={handleSearch}
+              placeholder="Cari Fakultas dan Program Studi"
+            />
+          </div>
           <section className="rounded-lg w-full">
             <DataTable
               columns={columsOne}
-              data={dataSarjana}
+              data={filteredDataSarjana}
               customStyles={customStyles}
               striped
               fixedHeader
@@ -112,11 +147,17 @@ export const TuitionFeeModule: FC = (): ReactElement => {
               satuan dana pendidikan program magister dan doktor
             </h1>
           </div>
-
+          <div className="w-full flex p-2 justify-end">
+            <SearchInput
+              value={searchQuery}
+              onChange={handleSearch}
+              placeholder="Cari Program Magister dan Doktor"
+            />
+          </div>
           <section className="rounded-lg w-full">
             <DataTable
               columns={columsTwo}
-              data={dataMagister}
+              data={filteredDataMagister}
               customStyles={customStyles}
               striped
               progressPending={pending}
