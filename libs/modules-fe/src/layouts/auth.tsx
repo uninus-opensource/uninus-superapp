@@ -1,8 +1,8 @@
 'use client';
-import { FC, PropsWithChildren, ReactElement } from 'react';
+import { FC, PropsWithChildren, ReactElement, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { LazyLoading } from '@uninus/components';
 
@@ -11,6 +11,7 @@ export const AuthLayout: FC<PropsWithChildren> = ({
 }): ReactElement => {
   const { data: session, status } = useSession();
   const router = useRouter();
+
   if (status === 'loading') {
     return <LazyLoading />;
   }

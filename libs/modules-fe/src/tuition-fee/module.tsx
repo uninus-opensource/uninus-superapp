@@ -44,7 +44,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
         minWidth: '400px',
       },
       {
-        name: 'UKT/Semester',
+        name: 'Uang Kuliah Tunggal (UKT)',
         selector: (row) => row.ukt,
       },
     ],
@@ -127,6 +127,9 @@ export const TuitionFeeModule: FC = (): ReactElement => {
             />
           </div>
           <section className="rounded-lg w-full">
+            <span className="text-red-5 font-semibold text-sm text-left">
+              (*) Uang Kuliah Tunggal (UKT) tidak termasuk biaya lainnya
+            </span>
             <DataTable
               columns={columsOne}
               data={filteredDataSarjana}

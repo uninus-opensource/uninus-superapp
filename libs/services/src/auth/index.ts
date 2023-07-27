@@ -5,7 +5,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import {
   TLoginResponse,
   TProfileRequest,
@@ -27,7 +26,6 @@ import {
 } from '@uninus/utilities';
 
 import { EmailService } from '../email';
-import { create } from 'domain';
 
 @Injectable()
 export class AuthService {
@@ -160,11 +158,18 @@ export class AuthService {
       email: user.email,
       role: user.role?.name || '',
     });
+    const expiresIn = 15 * 60 * 1000;
+    const now = Date.now();
+    const expirationTime = now + expiresIn;
 
+    if (now > expirationTime) {
+      throw new UnauthorizedException('Access Token telah berakhir');
+    }
     return {
       message: 'Berhasil Login',
       token: {
         access_token,
+        exp: expirationTime,
         refresh_token,
       },
       id: user.id,
@@ -199,11 +204,22 @@ export class AuthService {
     };
   }
 
-  async refreshToken(reqToken: TReqToken): Promise<{ access_token: string }> {
+  async refreshToken(
+    reqToken: TReqToken
+  ): Promise<{ access_token: string; exp: number }> {
+    const expiresIn = 15 * 60 * 1000;
     const access_token = await generateAccessToken(reqToken.user);
+
+    const now = Date.now();
+    const expirationTime = now + expiresIn;
+
+    if (now > expirationTime) {
+      throw new UnauthorizedException('Access Token telah berakhir');
+    }
 
     return {
       access_token,
+      exp: expirationTime,
     };
   }
 

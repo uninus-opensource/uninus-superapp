@@ -11,6 +11,7 @@ export type TLoginResponse = {
   };
   token: {
     access_token: string;
+    exp: number;
     refresh_token: string;
   };
   message: string;
