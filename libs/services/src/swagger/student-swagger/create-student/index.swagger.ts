@@ -1,7 +1,12 @@
+import {
+  EGender,
+  ECitizenship,
+  EIdentificationType,
+  EReligion,
+} from '../../../../../entities/src';
 import { ApiProperty } from '@nestjs/swagger';
-import { EGender, EReligion, ECitizenship } from '../../../enum';
 
-export class UpdateStudentSwagger {
+export class CreateStudentSwagger {
   @ApiProperty()
   nik!: string;
 
@@ -20,7 +25,9 @@ export class UpdateStudentSwagger {
   })
   gender!: EGender;
 
-  @ApiProperty()
+  @ApiProperty({
+    example: '082212341234',
+  })
   phone_number!: string;
 
   @ApiProperty({
