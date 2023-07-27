@@ -1,14 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
-
-export class resendOtpDto {
+export class forgotPasswordSchema {
   @ApiProperty({
-    example: '',
+    example: 'user@example.com',
   })
   public email!: string;
 }
 
-export const resendOtpZodSchema = z.object({
+export const forgotPasswordZodSchema = z.object({
   email: z
     .string()
     .email({
@@ -19,4 +18,4 @@ export const resendOtpZodSchema = z.object({
     }),
 });
 
-export type TResendOtpSchema = z.infer<typeof resendOtpZodSchema>;
+export type TForgotPasswordSchema = z.infer<typeof forgotPasswordZodSchema>;
