@@ -1,17 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
-
-export class verifyOtpSchema {
-  @ApiProperty({
-    example: '',
-  })
-  public email!: string;
-
-  @ApiProperty({
-    example: 'length 6',
-  })
-  public otp!: string;
-}
 
 export const verifyOtpZodSchema = z.object({
   email: z

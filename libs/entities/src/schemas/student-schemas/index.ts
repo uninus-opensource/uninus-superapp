@@ -1,2 +1,2 @@
-export * from './create-student.schema';
-export * from './update-student.schema';
+export * from './create-student';
+export * from './update-student';

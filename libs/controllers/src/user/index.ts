@@ -11,11 +11,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
-  CreateUserSchema,
+  CreateUserSwagger,
   CreateUserZodSchema,
   JwtAuthGuard,
   TReqToken,
-  UpdateUserSchema,
+  UpdateUserSwagger,
   UpdateUserZodSchema,
   ZodValidationPipe,
 } from '@uninus/entities';
@@ -91,9 +91,9 @@ export class UserController {
   })
   createData(
     @Body(new ZodValidationPipe(CreateUserZodSchema))
-    createUserSchema: CreateUserSchema
+    createUserSwagger: CreateUserSwagger
   ) {
-    return this.appService.createUser(createUserSchema);
+    return this.appService.createUser(createUserSwagger);
   }
 
   @Delete('/:id')
@@ -111,8 +111,8 @@ export class UserController {
   updateData(
     @Param('id') id: string,
     @Body(new ZodValidationPipe(UpdateUserZodSchema))
-    updateUserDto: UpdateUserSchema
+    updateUserSwagger: UpdateUserSwagger
   ) {
-    return this.appService.updateUser(id, updateUserDto);
+    return this.appService.updateUser(id, updateUserSwagger);
   }
 }

@@ -1,11 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
-export class forgotPasswordSchema {
-  @ApiProperty({
-    example: 'user@example.com',
-  })
-  public email!: string;
-}
 
 export const forgotPasswordZodSchema = z.object({
   email: z
