@@ -19,7 +19,11 @@ import {
   UpdateStudentZodSchema,
   ZodValidationPipe,
 } from '@uninus/entities';
-import { StudentService, UpdateStudentSwagger } from '@uninus/services';
+import {
+  StudentService,
+  UpdateStudentSwagger,
+  CreateStudentSwagger,
+} from '@uninus/services';
 import {
   ApiResponse,
   ApiTags,
@@ -27,7 +31,6 @@ import {
   ApiOperation,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { CreateStudentSwagger } from '@uninus/services';
 
 @Controller('student')
 @ApiTags('Student')
