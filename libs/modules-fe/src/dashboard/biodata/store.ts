@@ -122,6 +122,8 @@ export const defaultValuesBiodata: TBiodataRequest = {
   guardian_city: '',
   guardian_province: '',
   guardian_subdistrict: '',
+  guardian_address: '',
+  guardian_postal_code: '',
   guardian_occupation: '',
   guardian_income: '',
   selection_type: '',

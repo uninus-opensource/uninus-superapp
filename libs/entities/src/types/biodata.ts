@@ -56,6 +56,8 @@ export type TBiodataRequest = {
   guardian_city: string;
   guardian_province: string;
   guardian_subdistrict: string;
+  guardian_address: string;
+  guardian_postal_code: string;
   selection_type: string;
   program: string;
   academic_year: string;
