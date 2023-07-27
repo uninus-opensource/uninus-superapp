@@ -15,7 +15,7 @@ export const MainLayout: FC<PropsWithChildren> = ({
   }
 
   if (status === 'authenticated') {
-    router.back();
+    router.push('/dashboard');
   }
 
   return (

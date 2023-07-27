@@ -26,10 +26,6 @@ export const DashboardAdminLayout: FC<PropsWithChildren> = ({
     return <LazyLoading />;
   }
 
-  if (status === 'unauthenticated') {
-    router.push('/');
-  }
-
   const sideLists = [
     { label: 'Beranda', link: '/dashboard', icon: <AiFillHome /> },
     { label: 'data diri', link: '/dashboard/biodata', icon: <FaRegUser /> },
