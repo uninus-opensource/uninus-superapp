@@ -1,17 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
-
-export class ReqUserSchema {
-  @ApiProperty({
-    example: '',
-  })
-  public email!: string;
-
-  @ApiProperty({
-    example: '41037006280',
-  })
-  public nik!: string;
-}
 
 export const ReqUserZodSchema = z.object({
   email: z

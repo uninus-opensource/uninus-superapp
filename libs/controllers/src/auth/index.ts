@@ -8,17 +8,17 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
-  LoginSchema,
-  LogoutSchema,
+  LoginSwagger,
+  LogoutSwagger,
   RtGuard,
   TReqToken,
-  forgotPasswordSchema,
-  newPasswordSchema,
-  verifyOtpSchema,
-  resendOtpSchema,
+  forgotPasswordSwagger,
+  newPasswordSwagger,
+  verifyOtpSwagger,
+  resendOtpSwagger,
   ZodValidationPipe,
   RegisterZodSchema,
-  RegisterSchema,
+  RegisterSwagger,
   LoginZodSchema,
   verifyOtpZodSchema,
   resendOtpZodSchema,
@@ -50,9 +50,9 @@ export class AuthController {
   @ApiResponse({ status: 409, description: 'Email sudah terdaftar' })
   async register(
     @Body(new ZodValidationPipe(RegisterZodSchema))
-    registerSchema: RegisterSchema
+    registerSwagger: RegisterSwagger
   ) {
-    return await this.appService.register(registerSchema);
+    return await this.appService.register(registerSwagger);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -65,9 +65,12 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Password salah' })
   @ApiResponse({ status: 404, description: 'Akun Tidak ditemukan' })
   async login(
-    @Body(new ZodValidationPipe(LoginZodSchema)) loginSchema: LoginSchema
+    @Body(new ZodValidationPipe(LoginZodSchema)) LoginSwagger: LoginSwagger
   ) {
-    return await this.appService.login(loginSchema.email, loginSchema.password);
+    return await this.appService.login(
+      LoginSwagger.email,
+      LoginSwagger.password
+    );
   }
 
   @HttpCode(HttpStatus.OK)
@@ -76,9 +79,9 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Berhasil logout' })
   @ApiResponse({ status: 401, description: 'Gagal logout' })
   async logout(
-    @Body(new ZodValidationPipe(LogoutZodSchema)) logoutSchema: LogoutSchema
+    @Body(new ZodValidationPipe(LogoutZodSchema)) LogoutSwagger: LogoutSwagger
   ) {
-    return await this.appService.logout(logoutSchema?.refresh_token);
+    return await this.appService.logout(LogoutSwagger?.refresh_token);
   }
 
   @Post('refresh')
@@ -95,7 +98,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Gagal verifikasi OTP' })
   @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
   async verifyOtp(
-    @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpSchema
+    @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpSwagger
   ) {
     return this.appService.verifyOtp(verifyOtp.email, verifyOtp.otp);
   }
@@ -107,9 +110,9 @@ export class AuthController {
   @ApiResponse({ status: 404, description: 'Akun tidak ditemukan' })
   async resendOtp(
     @Body(new ZodValidationPipe(resendOtpZodSchema))
-    resendOtpSchema: resendOtpSchema
+    resendOtpSwagger: resendOtpSwagger
   ) {
-    return this.appService.resendOtp(resendOtpSchema.email);
+    return this.appService.resendOtp(resendOtpSwagger.email);
   }
 
   @Post('forgot-password')
@@ -121,7 +124,7 @@ export class AuthController {
   })
   async forgotPassword(
     @Body(new ZodValidationPipe(forgotPasswordZodSchema))
-    forgotPassword: forgotPasswordSchema
+    forgotPassword: forgotPasswordSwagger
   ) {
     return this.appService.forgotPassword(forgotPassword.email);
   }
@@ -132,7 +135,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Gagal verifikasi OTP' })
   @ApiResponse({ status: 404, description: 'Email atau OTP tidak valid' })
   async verifyOtpPassword(
-    @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpSchema
+    @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpSwagger
   ) {
     return this.appService.verifyOtpPassword(verifyOtp.email, verifyOtp.otp);
   }
@@ -143,8 +146,8 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Gagal mengganti password' })
   async resetPassword(
     @Body(new ZodValidationPipe(newPasswordZodSchema))
-    newPasswordSchema: newPasswordSchema
+    newPasswordSwagger: newPasswordSwagger
   ) {
-    return this.appService.resetPassword(newPasswordSchema);
+    return this.appService.resetPassword(newPasswordSwagger);
   }
 }

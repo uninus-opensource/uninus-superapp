@@ -1,2 +1,2 @@
-export * from './create-user-schema';
-export * from './update-user-schema';
+export * from './create-user';
+export * from './update-user';
