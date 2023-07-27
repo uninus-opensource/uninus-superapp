@@ -6,7 +6,7 @@ export class LocationService {
   constructor(private prisma: PrismaService) {}
 
   async getLocation(province: string, city: string) {
-    let queryOptions: any = {};
+    const queryOptions: any = {};
 
     if (province && parseInt(province)) {
       queryOptions.where = { id: parseInt(province) };

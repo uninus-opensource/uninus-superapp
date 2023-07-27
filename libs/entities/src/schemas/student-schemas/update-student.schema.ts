@@ -1,11 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
-import {
-  EIdentificationType,
-  EGender,
-  EReligion,
-  ECitizenship,
-} from '../../enum';
+import { EGender, EReligion, ECitizenship } from '../../enum';
 
 export class UpdateStudentSchema {
   @ApiProperty()
