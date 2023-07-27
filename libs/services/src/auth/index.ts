@@ -5,7 +5,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import {
   TLoginResponse,
   TProfileRequest,
@@ -27,7 +26,6 @@ import {
 } from '@uninus/utilities';
 
 import { EmailService } from '../email';
-import { create } from 'domain';
 
 @Injectable()
 export class AuthService {
