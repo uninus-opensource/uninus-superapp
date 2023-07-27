@@ -5,13 +5,16 @@ import { FC, ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TVSLogin, VSLogin } from './schema';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { lazily } from 'react-lazily';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const { AuthLayout } = lazily(() => import('../../layouts'));
-
 export const LoginModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const [getError, setError] = useState<string | undefined>(undefined);
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -26,14 +29,33 @@ export const LoginModule: FC = (): ReactElement => {
     },
   });
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true);
-    signIn('login', {
-      callbackUrl: '/dashboard',
-      redirect: true,
-      email: data?.email,
-      password: data?.password,
-    });
+    try {
+      const response = await signIn('login', {
+        redirect: false,
+        email: data?.email,
+        password: data?.password,
+      });
+      if (response?.error) {
+        setError(response?.error);
+        toast.error('Email atau Password tidak valid', {
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'colored',
+        });
+      } else {
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
   });
 
   return (
@@ -43,6 +65,20 @@ export const LoginModule: FC = (): ReactElement => {
         className="w-full px-5 lg:px-0 flex flex-col gap-y-4 lg:items-center flex-wrap"
       >
         <div className="flex flex-col p-4 xl:w-4/5 2xl:w-4/5 lg:mt-4 mt-0">
+          {getError && (
+            <ToastContainer
+              position="top-center"
+              autoClose={3000}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
+          )}
           <div className="flex flex-col gap-y-1 2xl:gap-y-2 ">
             <h1 className="font-bold text-base lg:text-2xl 2xl:text-4xl text-center lg:text-start">
               Login
@@ -51,9 +87,7 @@ export const LoginModule: FC = (): ReactElement => {
               Selamat Datang Calon Nusantara Muda
             </p>
           </div>
-          {/* <span className=" mx-auto border border-red-5 my-3  text-red-5 p-1 text-xs rounded-md text-center w-1/3">
-        akun tidak ditemukan
-      </span> */}
+
           <div className="flex flex-col w-full justify-center items-center">
             <div className="justify-center w-full flex flex-col">
               <TextField
