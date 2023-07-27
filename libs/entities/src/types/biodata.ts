@@ -25,6 +25,7 @@ export type TBiodataRequest = {
   school_type: string;
   school_major: string;
   school_name: string;
+  npsn: string;
   school_address: string;
   school_postal_code: string;
   school_subdistrict: string;
@@ -52,6 +53,9 @@ export type TBiodataRequest = {
   father_income: string;
   mother_income: string;
   guardian_income: string;
+  guardian_city: string;
+  guardian_province: string;
+  guardian_subdistrict: string;
   selection_type: string;
   program: string;
   academic_year: string;
