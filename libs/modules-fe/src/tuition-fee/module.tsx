@@ -126,10 +126,11 @@ export const TuitionFeeModule: FC = (): ReactElement => {
               placeholder="Cari Fakultas dan Program Studi"
             />
           </div>
-          <section className="rounded-lg w-full">
-            <span className="text-red-5 font-semibold text-sm text-left">
-              (*) Uang Kuliah Tunggal (UKT) tidak termasuk biaya lainnya
-            </span>
+          <span className="flex w-full justify-start text-black font-semibold text-sm  py-2">
+            (*) Uang Kuliah Tunggal (UKT) belum termasuk biaya Jurnal, Wisuda,
+            Praktikum, dan Magang/PLP
+          </span>
+          <section className="rounded-lg w-full ">
             <DataTable
               columns={columsOne}
               data={filteredDataSarjana}
@@ -157,6 +158,10 @@ export const TuitionFeeModule: FC = (): ReactElement => {
               placeholder="Cari Program Magister dan Doktor"
             />
           </div>
+          <span className="flex w-full justify-start text-black font-semibold text-sm  py-2">
+            (*) Uang Kuliah Tunggal (UKT) belum termasuk belum termasuk biaya
+            Jurnal, Wisuda, Dana Internship
+          </span>
           <section className="rounded-lg w-full">
             <DataTable
               columns={columsTwo}
