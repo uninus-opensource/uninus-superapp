@@ -124,7 +124,7 @@ model City {
   id           Int           @id @default(autoincrement())
   name         String
   province_id  Int
-  province     Province      @relation(fields: [province_id], references: [id])
+  province     Province      @relation(fields: [province_id], references: [id], onDelete: Cascade)
   sub_district SubDistrict[]
 }
 
@@ -132,7 +132,7 @@ model SubDistrict {
   id      Int    @id @default(autoincrement())
   name    String
   city_id Int
-  city    City   @relation(fields: [city_id], references: [id])
+  city    City   @relation(fields: [city_id], references: [id], onDelete: Cascade)
 }
 
 model Roles {
