@@ -2414,17 +2414,17 @@
     lodash "4.17.21"
     uuid "9.0.0"
 
-"@nestjs/core@^10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-10.1.0.tgz#b6149b06cb8416d481f2cf4d15102128ba46d6cb"
-  integrity sha512-3ogHxrRAktQZNBSV709QxhNJQPsVInZRqxAK2fV7JDnfoBMu1lM3xI7cO498iViqq5xme3o/46+AdfjW9W2E2A==
+"@nestjs/core@^10.1.2":
+  version "10.1.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-10.1.2.tgz#1803ea7742d3b51caca9cc745b011b3634bf49b7"
+  integrity sha512-iOs29A/cgz8Ou8tOAeVPKYcfFoEiYbIwUvbg0UFI6VIiauo/zGalp/14ok1OL6PotrUU3mRkb0ZWYShINlvqIA==
   dependencies:
     uid "2.0.2"
     "@nuxtjs/opencollective" "0.3.2"
     fast-safe-stringify "2.1.1"
     iterare "1.2.1"
     path-to-regexp "3.2.0"
-    tslib "2.6.0"
+    tslib "2.6.1"
 
 "@nestjs/jwt@^10.1.0":
   version "10.1.0"
