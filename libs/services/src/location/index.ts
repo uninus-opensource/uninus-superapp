@@ -8,12 +8,12 @@ export class LocationService {
   async getLocation(province: string, city: string) {
     const queryOptions: any = {};
 
-    if (province && parseInt(province)) {
+    if (province) {
       queryOptions.where = { id: parseInt(province) };
       queryOptions.include = { cities: {} };
     }
 
-    if (city && parseInt(city)) {
+    if (city) {
       queryOptions.include.cities.where = { id: parseInt(city) };
       queryOptions.include.cities.include = { sub_district: {} };
     }
