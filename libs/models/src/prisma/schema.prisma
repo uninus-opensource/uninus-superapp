@@ -46,7 +46,7 @@ model Students {
   graduation_year      String?
   school_major         String?
   school_name          String?
-  school_npsm          String?
+  school_npsn          String?
   school_address       String?
   school_postal_code   String?
   school_subdistrict   String?

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma, PrismaService } from '@uninus/models';
 import { CloudinaryService } from '../cloudinary';
-import { TUpsertStudent } from '@uninus/entities';
+import { excludeSchema } from '@uninus/utilities';
 
 @Injectable()
 export class StudentService {
@@ -10,9 +10,15 @@ export class StudentService {
     private cloudinaryService: CloudinaryService
   ) {}
   async getStudent(id: string) {
-    const student = await this.prisma.students.findUnique({
+    const student = await this.prisma.users.findUnique({
       where: {
-        user_id: id,
+        id: id,
+      },
+      select: {
+        avatar: true,
+        email: true,
+        fullname: true,
+        students: true,
       },
     });
 
@@ -21,75 +27,41 @@ export class StudentService {
         cause: new Error(),
       });
     }
-
+    const excludeDataStudent = excludeSchema(student?.students, [
+      'id',
+      'user_id',
+      'createdAt',
+    ]);
     return {
-      ...student,
+      avatar: student.avatar,
+      email: student.email,
+      fullname: student.fullname,
+      ...excludeDataStudent,
     };
-  }
-
-  async createStudent(
-    id: string,
-    file: Express.Multer.File,
-    payload: Prisma.StudentsCreateWithoutUserInput
-  ) {
-    const user = await this.prisma.users.findUnique({
-      where: {
-        id,
-      },
-    });
-
-    if (!user) {
-      throw new BadRequestException('User tidak ditemukan', {
-        cause: new Error(),
-      });
-    }
-    if (file) {
-      const avatar = await this.cloudinaryService.uploadImage(file);
-
-      await this.prisma.users.update({
-        where: {
-          id,
-        },
-        data: {
-          avatar: avatar?.secure_url,
-        },
-      });
-    }
-
-    const studentUpsertArgs: TUpsertStudent = {
-      where: { user_id: id },
-      update: { ...payload },
-      create: {
-        ...payload,
-        user: {
-          connect: {
-            id: user?.id,
-          },
-        },
-      },
-    };
-    const student = await this.prisma.students.upsert(studentUpsertArgs);
-
-    return { ...student };
   }
 
   async updateStudent(
     id: string,
     file: Express.Multer.File,
-    payload: Prisma.StudentsUpdateWithoutUserInput
+    payload: Prisma.UsersUpdateInput
   ) {
+    const { fullname, email, ...studentData } = payload;
     const student = await this.prisma.users.update({
       where: {
         id,
       },
       data: {
+        fullname,
         students: {
           update: {
-            ...payload,
+            ...studentData,
           },
         },
       },
       select: {
+        avatar: true,
+        email: true,
+        fullname: true,
         students: true,
       },
     });
@@ -111,15 +83,30 @@ export class StudentService {
         },
       });
     }
+
+    const excludeDataStudent = excludeSchema(student?.students, [
+      'id',
+      'user_id',
+      'createdAt',
+    ]);
     return {
-      ...student,
+      avatar: student.avatar,
+      email: student.email,
+      fullname: student.fullname,
+      ...excludeDataStudent,
     };
   }
 
   async deleteStudent(id: string) {
-    const student = await this.prisma.students.delete({
+    const student = await this.prisma.users.delete({
       where: {
-        user_id: id,
+        id: id,
+      },
+      select: {
+        avatar: true,
+        email: true,
+        fullname: true,
+        students: true,
       },
     });
     if (!student) {
@@ -127,8 +114,16 @@ export class StudentService {
         cause: new Error(),
       });
     }
+    const excludeDataStudent = excludeSchema(student?.students, [
+      'id',
+      'user_id',
+      'createdAt',
+    ]);
     return {
-      ...student,
+      avatar: student.avatar,
+      email: student.email,
+      fullname: student.fullname,
+      ...excludeDataStudent,
     };
   }
 }
