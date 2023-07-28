@@ -242,21 +242,23 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
               </section>
-              <section className="grid grid-cols-1 lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-start md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8">
-                <SelectField
-                  name="marital_status"
-                  required
-                  label="Status"
-                  size="sm"
-                  placeholder="Status"
-                  options={['Menikah', 'Belum menikah']}
-                  width="lg:w-[27vw] xl:w-[25vw] md:w-[33vw] w-[70vw]"
-                  control={control}
-                />
-                <div className="flex flex-col gap-2 xl:gap-2 xl:ml-0 xl:self-start xl:w-[25vw]">
+              <section className="flex flex-wrap justify-center w-full items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-start md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8">
+                <div className="mr-2">
+                  <SelectField
+                    name="marital_status"
+                    required
+                    label="Status"
+                    size="sm"
+                    placeholder="Status"
+                    options={['Menikah', 'Belum menikah']}
+                    width="lg:w-[27vw] xl:w-[25vw] md:w-[33vw] w-[35vw] "
+                    control={control}
+                  />
+                </div>
+                <div className="flex flex-col gap-1 xl:gap-2 mt-1 xl:ml-0 xl:self-start xl:w-[25vw]">
                   {' '}
                   <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-2">
                     <RadioButton
                       name="ECitizenship"
                       label="WNI"
@@ -285,7 +287,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 </div>
               </section>
 
-              <section className="grid grid-cols-1 lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
+              <section className="flex flex-wrap w-full gap-x-1 justify-center items-center lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
                 <SelectField
                   name="country"
                   label="Asal Negara"
@@ -293,7 +295,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   required
                   placeholder="Asal Negara"
                   options={['Indonesia', 'Malaysia', 'Singapura', 'Kamboja']}
-                  width="w-70% lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
+                  width="w-[35vw] lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
                 <SelectField
@@ -303,11 +305,11 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   required
                   placeholder="Provinsi"
                   options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                  width="w-70% lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
+                  width="w-[35vw] lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
               </section>
-              <section className="grid grid-cols-1 lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
+              <section className="flex flex-wrap w-full gap-x-1 justify-center items-center  lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
                 <SelectField
                   name="city"
                   label="Kota/Kabupaten"
@@ -320,7 +322,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     'Kota Jakarta',
                     'Kota Bandung',
                   ]}
-                  width="w-70% lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
+                  width="w-[35vw] lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
                 <SelectField
@@ -330,11 +332,11 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   required
                   placeholder="Kecamatan"
                   options={['Sumur Bandung', 'Batununggal']}
-                  width="w-70% lg:w-[27vw] md:w-[33vw] xl:w-[25vw]"
+                  width="w-[35vw] lg:w-[27vw] md:w-[33vw] xl:w-[25vw]"
                   control={control}
                 />
               </section>
-              <section className="grid grid-cols-1 lg:flex max-w-[70vw] lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-start">
+              <section className="flex flex-row w-[70vw] gap-x-1 justify-center items-start lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <TextField
                   name="address"
                   variant="sm"
@@ -346,13 +348,13 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   textAreaRow={5}
                   textAreaCols={30}
                   inputHeight="h-20"
-                  inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+                  inputWidth="w-[30vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
                   className="resize-none bg-grayscale-2  "
                 />
 
                 <TextField
                   inputHeight="h-10"
-                  name="parent_postal_code"
+                  name="postal_code"
                   variant="md"
                   type="text"
                   labelclassname="text-sm "
@@ -369,14 +371,14 @@ export const ModuleBiodata: FC = (): ReactElement => {
               title="Data Pendidikan"
               className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
             >
-              <section className="grid grid-cols-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+              <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <SelectField
                   name="school_type"
                   label="Jenis Pendidikan Asal"
                   size="sm"
                   placeholder="Jenis Pendidikan"
                   options={['SMA', 'SMK', 'MA']}
-                  width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
                 <SelectField
@@ -385,7 +387,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Tahun Lulus"
                   options={['2020', '2021', '2022']}
-                  width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
                 <SelectField
@@ -399,7 +401,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
               </section>
 
-              <section className="grid grid-cols-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+              <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <TextField
                   inputHeight="h-10"
                   name="npsn"
@@ -408,7 +410,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   labelclassname="text-sm font-semibold"
                   label="NPSN"
                   placeholder="Masukan NPSN"
-                  inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+                  inputWidth="w-[35vw] lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
                   control={control}
                 />
                 <TextField
@@ -417,13 +419,13 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
-                  label="Nama Instansi Pendidikan"
-                  inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+                  label="Nama Sekolah Asal"
+                  inputWidth="w-[35vw] lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
                   control={control}
                 />
               </section>
 
-              <section className="grid grid-cols-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+              <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <SelectField
                   name="school_province"
                   label="Provinsi"
@@ -444,7 +446,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     'Kota Jakarta',
                     'Kota Bandung',
                   ]}
-                  width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
                 <SelectField
@@ -453,25 +455,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Kecamatan"
                   options={['Sumur Bandung', 'Batununggal']}
-                  width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
               </section>
 
-              {/* <section className="grid grid-cols-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                <TextField
-                  inputHeight="h-10"
-                  name="school_phone_number"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Kontak Instansi"
-                  inputWidth="w-70% lg:w-15% md:w-[21vw]"
-                  control={control}
-                />
-              </section> */}
-
-              <section className="grid grid-cols-1 lg:flex max-w-[70vw] lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-start">
+              <section className="flex flex-row w-[70vw] gap-x-1 justify-center items-start lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <TextField
                   name="school_address"
                   variant="sm"
@@ -483,8 +472,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   textAreaRow={5}
                   textAreaCols={30}
                   inputHeight="h-20"
-                  inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
-                  className="resize-none bg-grayscale-2 te "
+                  inputWidth="w-[30vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+                  className="resize-none bg-grayscale-2  "
                 />
 
                 <TextField
@@ -507,10 +496,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
               className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] text-left"
             >
               {/* Ayah */}
-              <div className="md:text-left mb-5">
-                <h1 className="font-bold text-xl mt-3">Profil Ayah</h1>
+              <div className="md:text-left mb-5 w-full justify-center items-center md:w-[70vw]">
+                <h1 className="font-bold text-xl mt-3 pl-5 lg:pl-0 md:pl-0 xl:pl-0">
+                  Profil Ayah
+                </h1>
 
-                <section className="grid grid-cols-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                   <TextField
                     inputHeight="h-10"
                     name="father_name"
@@ -518,7 +509,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     type="text"
                     labelclassname="text-sm font-semibold"
                     label="Nama Ayah"
-                    inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
+                    inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                     control={control}
                   />
                   <SelectField
@@ -527,7 +518,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     size="sm"
                     placeholder="Status Ayah"
                     options={['Meninggal', 'Hidup']}
-                    width="w-70% lg:w-[12vw] md:w-[16vw]"
+                    width="w-[35vw] lg:w-[12vw] md:w-[16vw]"
                     control={control}
                   />
                   <SelectField
@@ -536,7 +527,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     size="sm"
                     placeholder="Pendidikan Ayah"
                     options={['SD', 'SMP', 'SMA/SMK', 'S1']}
-                    width="w-70% lg:w-[12vw] md:w-[16vw]"
+                    width="w-[35vw] lg:w-[12vw] md:w-[16vw]"
                     control={control}
                   />
                   <SelectField
@@ -551,7 +542,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       'Wirausaha',
                       'Lainnya',
                     ]}
-                    width="w-70% lg:w-[26vw] md:w-[33vw]"
+                    width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
                     control={control}
                   />
                   <SelectField
@@ -569,8 +560,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   />
                 </section>
                 {/* Ibu */}
-                <h1 className="font-bold text-xl  mt-5">Profil Ibu</h1>
-                <section className="grid grid-cols-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <h1 className="font-bold text-xl  mt-5 pl-5 md:pl-0 xl:pl-0 lg:pl-0">
+                  Profil Ibu
+                </h1>
+                <section className="flex flex-wrap justify-center items-start w-full gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                   <TextField
                     inputHeight="h-10"
                     name="mother_name"
@@ -578,7 +571,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     type="text"
                     labelclassname="text-sm font-semibold"
                     label="Nama Ibu"
-                    inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
+                    inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                     control={control}
                   />
                   <SelectField
@@ -587,7 +580,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     size="sm"
                     placeholder="Status Ibu"
                     options={['Meninggal', 'Hidup']}
-                    width="w-70% lg:w-[12vw] md:w-[17vw]"
+                    width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
                     control={control}
                   />
                   <SelectField
@@ -596,7 +589,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     size="sm"
                     placeholder="Pendidikan Ibu"
                     options={['SD', 'SMP', 'SMA/SMK', 'S1']}
-                    width="w-70% lg:w-[12vw] md:w-[17vw]"
+                    width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
                     control={control}
                   />
                   <SelectField
@@ -611,7 +604,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       'Wirausaha',
                       'Lainnya',
                     ]}
-                    width="w-70% lg:w-[26vw] md:w-[33vw]"
+                    width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
                     control={control}
                   />
                   <SelectField
@@ -629,15 +622,17 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   />
                 </section>
                 {/* Parent Address */}
-                <h1 className="font-bold text-xl mt-5">Alamat Orang Tua</h1>
-                <section className="grid grid-cols-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <h1 className="font-bold text-xl mt-5 pl-5 lg:pl-0 md:pl-0 xl:pl-0">
+                  Alamat Orang Tua
+                </h1>
+                <section className=" flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                   <SelectField
                     name="parent_province"
                     label="Provinsi"
                     size="sm"
                     placeholder="Provinsi"
                     options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                    width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                    width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                     control={control}
                   />
                   <SelectField
@@ -651,7 +646,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       'Kota Jakarta',
                       'Kota Bandung',
                     ]}
-                    width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                    width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                     control={control}
                   />
                   <SelectField
@@ -664,9 +659,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     control={control}
                   />
                 </section>
-                <section className="grid grid-cols-1 lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-start">
+                <section className="grid grid-cols-2 w-screen gap-x-1 justify-center items-start ml-5 lg:ml-0 xl:ml-0 md:ml-0 lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                   <TextField
-                    inputHeight="h-10"
                     name="parent_address"
                     variant="sm"
                     type="text"
@@ -676,7 +670,9 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     isTextArea
                     textAreaRow={5}
                     textAreaCols={30}
-                    className="bg-grayscale-2 h-20 rounded-lg text-xs resize-none w-70% lg:w-[40vw] md:w-[50vw] md:mr-5"
+                    inputHeight="h-20"
+                    inputWidth="w-[80vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+                    className="resize-none bg-grayscale-2  "
                   />
 
                   <TextField
@@ -684,23 +680,25 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     name="parent_postal_code"
                     variant="md"
                     type="text"
-                    labelclassname="text-sm font-semibold"
+                    labelclassname="text-sm "
                     label="Kode Pos"
                     inputWidth="w-20 text-base"
                     control={control}
-                    maxlenght={6}
                   />
-
-                  <CheckBox
-                    name="parent_address"
-                    control={control}
-                    label="Alamat Sama Dengan Pendaftar"
-                    variant="primary"
-                    size="md"
-                  />
+                  <div className="col-span-full">
+                    <CheckBox
+                      name="parent_address"
+                      control={control}
+                      label="Alamat Sama Dengan Pendaftar"
+                      variant="primary"
+                      size="md"
+                    />
+                  </div>
                 </section>
-                <h1 className="font-bold text-xl mt-5">Profil Wali</h1>
-                <section className="grid grid-cols-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-2 mt-2 lg:items-center lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
+                <h1 className="font-bold text-xl mt-5 pl-5 lg:pl-0 md:pl-0 xl:pl-0">
+                  Profil Wali
+                </h1>
+                <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-2 mt-2 lg:items-center lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
                   <TextField
                     inputHeight="h-10"
                     name="guardian_name"
@@ -708,7 +706,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     type="text"
                     labelclassname="text-sm font-semibold"
                     label="Nama Wali"
-                    inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
+                    inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                     control={control}
                   />
                   <SelectField
@@ -717,7 +715,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     size="sm"
                     placeholder="Status Wali"
                     options={['Meninggal', 'Hidup']}
-                    width="w-70% lg:w-[12vw] md:w-[17vw]"
+                    width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
                     control={control}
                   />
                   <SelectField
@@ -726,7 +724,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     size="sm"
                     placeholder="Pendidikan Wali"
                     options={['SD', 'SMP', 'SMA/SMK', 'S1']}
-                    width="w-70% lg:w-[12vw] md:w-[17vw]"
+                    width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
                     control={control}
                   />
                   <SelectField
@@ -741,7 +739,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       'Wirausaha',
                       'Lainnya',
                     ]}
-                    width="w-70% lg:w-[26vw] md:w-[33vw]"
+                    width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
                     control={control}
                   />
                   <SelectField
@@ -758,15 +756,17 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     control={control}
                   />
                 </section>
-                <h1 className="font-bold text-xl mt-5">Alamat Wali</h1>
-                <section className="grid grid-cols-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <h1 className="pl-5 font-bold text-xl mt-5 lg:pl-0 xl:pl-0 md:pl-0">
+                  Alamat Wali
+                </h1>
+                <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                   <SelectField
                     name="guardian_province"
                     label="Provinsi"
                     size="sm"
                     placeholder="Provinsi"
                     options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                    width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                    width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                     control={control}
                   />
                   <SelectField
@@ -780,7 +780,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       'Kota Jakarta',
                       'Kota Bandung',
                     ]}
-                    width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                    width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                     control={control}
                   />
                   <SelectField
@@ -793,40 +793,41 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     control={control}
                   />
                 </section>
-                <section className="grid grid-cols-1 lg:flex lg:justify-between lg:items-start  gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-start mt-5">
+                <section className="grid grid-cols-2 w-screen gap-x-1 justify-center items-start ml-5 lg:ml-0 xl:ml-0 md:ml-0 lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                   <TextField
-                    inputHeight="h-10"
-                    name="parent_address"
+                    name="guardian_address"
                     variant="sm"
                     type="text"
                     labelclassname="text-xl font-semibold"
-                    label="Alamat Lengkap Wali"
+                    label="Alamat Wali"
                     control={control}
                     isTextArea
                     textAreaRow={5}
                     textAreaCols={30}
-                    className="bg-grayscale-2 h-20 rounded-lg text-xs resize-none w-70% lg:w-[40vw] md:w-[50vw] md:mr-5"
+                    inputHeight="h-20"
+                    inputWidth="w-[80vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+                    className="resize-none bg-grayscale-2  "
                   />
 
                   <TextField
                     inputHeight="h-10"
-                    name="parent_postal_code"
+                    name="guardian_postal_code"
                     variant="md"
                     type="text"
-                    labelclassname="text-sm"
+                    labelclassname="text-sm "
                     label="Kode Pos"
                     inputWidth="w-20 text-base"
                     control={control}
-                    maxlenght={6}
                   />
-
-                  <CheckBox
-                    name="parent_address"
-                    control={control}
-                    label="Alamat Sama Dengan Pendaftar"
-                    variant="primary"
-                    size="md"
-                  />
+                  <div className="col-span-full">
+                    <CheckBox
+                      name="guardian_address"
+                      control={control}
+                      label="Alamat Sama Dengan Pendaftar"
+                      variant="primary"
+                      size="md"
+                    />
+                  </div>
                 </section>
               </div>
             </Accordion>
