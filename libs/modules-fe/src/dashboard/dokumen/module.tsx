@@ -65,7 +65,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
           {/* Document upload field */}
           <section className="flex flex-col  h-auto items-center mt-5">
             <div className="md:w-[80vw] lg:w-[66vw] xl:w-[66vw] md:h-auto md:flex ">
-              <section className="flex flex-col gap-10 w-[70vw] md:w-[40%] xl:w-[25%] ">
+              <section className="flex flex-col gap-10 w-50% ">
                 {personalDocument.map((documentType) => (
                   <div key={documentType.name} className="flex flex-col gap-2">
                     <h3 className="font-bold">{documentType.label}</h3>

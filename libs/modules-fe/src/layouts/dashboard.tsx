@@ -32,12 +32,12 @@ export const DashboardLayout: FC<PropsWithChildren> = ({
 
   const sideLists = [
     { label: 'Beranda', link: '/dashboard', icon: <AiFillHome /> },
-    { label: 'data diri', link: '/dashboard/biodata', icon: <FaRegUser /> },
     {
       label: 'pendaftaran',
       link: '/dashboard/pendaftaran',
       icon: <AiOutlineFileDone />,
     },
+    { label: 'data diri', link: '/dashboard/biodata', icon: <FaRegUser /> },
     {
       label: 'Upload Dokumen',
       link: '/dashboard/dokumen',

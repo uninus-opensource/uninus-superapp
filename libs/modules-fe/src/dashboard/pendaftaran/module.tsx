@@ -1,8 +1,8 @@
 'use client';
-import { ReactElement, FC, useState } from 'react';
+import { ReactElement, FC } from 'react';
 import { Button, SelectField } from '@uninus/components';
 import { DashboardLayout } from '../../layouts';
-import { DraggableComponent } from '@uninus/components';
+
 import { FieldValues, useForm } from 'react-hook-form';
 
 export const ModulePendaftaran: FC = (): ReactElement => {
@@ -13,19 +13,16 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     defaultValues: {
       program: undefined,
       seleksi: undefined,
-      prodi: undefined,
+      prodi1: undefined,
+      prodi2: undefined,
       fakultas: undefined,
       pembayaran: undefined,
       draggableComponent: undefined,
     },
   });
 
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-
   const onSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    // Handle your form submission logic here
-    setIsFormSubmitted(true);
   };
 
   return (
@@ -39,10 +36,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
             Pendaftaran
           </p>
         </div>
-        {!isFormSubmitted && (
-          <div className="flex flex-col gap-4 w-full bg-primary-white p-12 rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
-            <h1 className="text-2xl font-bold">Formulir Pendaftaran</h1>
-            <form action="submit" onSubmit={onSubmit}>
+        <div className="flex flex-col gap-4 w-full bg-primary-white p-12 rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+          <h1 className="text-2xl font-bold">Formulir Pendaftaran</h1>
+          <form action="submit" onSubmit={onSubmit}>
+            <div className="flex flex-col gap-y-4">
               <SelectField
                 name="program"
                 label="Program Pendidikan"
@@ -76,8 +73,29 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 control={control}
               />
               <SelectField
-                name="prodi"
-                label="Pilih Program Studi"
+                name="prodi1"
+                label="Pilihan Program Studi 1"
+                size="md"
+                required
+                placeholder="Pilih Program Studi"
+                status="none"
+                options={[
+                  'Pendidikan Agama Islam',
+                  'Perbankan Syariah',
+                  'Pendidikan Guru Madrasah ibtidaiyah',
+                  'Komunikasi Penyiaran Islam',
+                  'Pendidikan Luar Biasa (PLB)',
+                  'Pendidikan Luar Sekolah (PLS)',
+                  'Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)',
+                  'Teknik Elektronika',
+                  'Teknik Informatika',
+                  'Teknik Industri',
+                ]}
+                control={control}
+              />
+              <SelectField
+                name="prodi2"
+                label="Pilihan Program Studi 2"
                 size="md"
                 required
                 placeholder="Pilih Program Studi"
@@ -112,83 +130,23 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 ]}
                 control={control}
               />
-              <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-start">
-                <Button
-                  variant="elevated"
-                  size="sm"
-                  width="w-48"
-                  height="h-12"
-                  disabled={!isValid}
-                  className={`${
-                    isValid
-                      ? 'bg-primary-green'
-                      : 'bg-slate-2 cursor-not-allowed'
-                  } text-white rounded-md`}
-                >
-                  Daftar Sekarang
-                </Button>
-              </div>
-            </form>
-          </div>
-        )}
-        {isFormSubmitted && (
-          <form action="upload">
-            <div className="flex lg:flex-row flex-col gap-4 w-full bg-primary-white p-12 rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
-              <div className="flex flex-col gap-4 lg:w-1/2 w-full">
-                <h1 className="text-2xl font-bold">Pembayaran Registrasi</h1>
-                <div className="text-base font-bold">
-                  <h1>Nomor Virtual Account : </h1>
-                  <p>903107822105074011(bukan VA Asli)</p>
-                </div>
-                <div className="text-base font-bold">
-                  <h1>
-                    Nomor Registrasi : <span>662346xxxxx</span>{' '}
-                  </h1>
-                  <p>
-                    Biaya : <span>Rp. 250.000</span>
-                  </p>
-                </div>
-                <div className="text-base ">
-                  <p>
-                    Waktu Registrasi : <span>26/07/2023</span>{' '}
-                  </p>
-                  <p>
-                    Program Pendidikan :{' '}
-                    <span>Program Sarjana S1 2023/2024</span>
-                  </p>
-                  <p>
-                    Jalur Seleksi : <span>Sistem Prestasi Akademik (SPA)</span>
-                  </p>
-                </div>
-                <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-start">
-                  <Button
-                    variant="elevated"
-                    size="sm"
-                    width="w-2/3"
-                    height="h-12"
-                    disabled={!isValid}
-                    className={`${
-                      isValid
-                        ? 'bg-primary-green'
-                        : 'bg-slate-2 cursor-not-allowed'
-                    } text-white rounded-md bg-slate-3 hover:bg-primary-green`}
-                  >
-                    Sudah Melakukan Pembayaran
-                  </Button>
-                </div>
-              </div>
-              <div className="flex flex-col gap-4 lg:w-1/2 w-full mb-8">
-                <h1 className="text-base font-bold">Upload Bukti Pembayaran</h1>
-                <DraggableComponent
-                  name={'dragable'}
-                  required
-                  control={control}
-                  labels="Upload Bukti Pembayaran Disini"
-                />
-              </div>
+            </div>
+            <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-start">
+              <Button
+                variant="elevated"
+                size="sm"
+                width="w-48"
+                height="h-12"
+                disabled={!isValid}
+                className={`${
+                  isValid ? 'bg-primary-green' : 'bg-slate-2 cursor-not-allowed'
+                } text-white rounded-md`}
+              >
+                Daftar Sekarang
+              </Button>
             </div>
           </form>
-        )}
+        </div>
       </section>
     </DashboardLayout>
   );
