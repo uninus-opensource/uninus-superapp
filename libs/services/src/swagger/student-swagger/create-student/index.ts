@@ -3,7 +3,7 @@ import {
   ECitizenship,
   EIdentificationType,
   EReligion,
-} from '../../../../../entities/src';
+} from '@uninus/entities';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateStudentSwagger {

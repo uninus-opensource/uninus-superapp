@@ -4,7 +4,7 @@ import {
   ECitizenship,
   EIdentificationType,
   EReligion,
-} from '../../../../../entities/src';
+} from '@uninus/entities';
 
 export class UpdateStudentSwagger {
   @ApiProperty()
