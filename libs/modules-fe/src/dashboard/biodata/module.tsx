@@ -242,6 +242,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
               </section>
+
               <section className="flex flex-wrap justify-start w-70% items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-start md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8">
                 <div className="mr-2">
                   <SelectField
@@ -336,6 +337,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
               </section>
+
               <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <div className="col-span-3">
                   <TextField
@@ -502,8 +504,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
               className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] text-left"
             >
               {/* Ayah */}
-              {/* <div className="md:text-left mb-5 w-full justify-center items-center md:w-[70vw]"> */}
-
               <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
                 Profil Ayah
               </h1>
@@ -811,7 +811,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     variant="sm"
                     type="text"
                     labelclassname="text-xl font-semibold"
-                    label="Alamat Domisili"
+                    label="Alamat Wali"
                     control={control}
                     isTextArea
                     textAreaRow={5}

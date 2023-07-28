@@ -13,15 +13,17 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
-  CreateStudentSwagger,
   CreateStudentZodSchema,
   JwtAuthGuard,
   TReqToken,
-  UpdateStudentSwagger,
   UpdateStudentZodSchema,
   ZodValidationPipe,
 } from '@uninus/entities';
-import { StudentService } from '@uninus/services';
+import {
+  StudentService,
+  UpdateStudentSwagger,
+  CreateStudentSwagger,
+} from '@uninus/services';
 import {
   ApiResponse,
   ApiTags,

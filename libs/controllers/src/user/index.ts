@@ -11,15 +11,17 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
-  CreateUserSwagger,
   CreateUserZodSchema,
   JwtAuthGuard,
   TReqToken,
-  UpdateUserSwagger,
   UpdateUserZodSchema,
   ZodValidationPipe,
 } from '@uninus/entities';
-import { UserService } from '@uninus/services';
+import {
+  CreateUserSwagger,
+  UpdateUserSwagger,
+  UserService,
+} from '@uninus/services';
 import {
   ApiResponse,
   ApiTags,
