@@ -1,12 +1,13 @@
-import {
-  EGender,
-  ECitizenship,
-  EIdentificationType,
-  EReligion,
-} from '@uninus/entities';
+import { EGender, ECitizenship, EReligion } from '@uninus/entities';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateStudentSwagger {
+  @ApiProperty()
+  email!: string;
+
+  @ApiProperty()
+  fullname!: string;
+
   @ApiProperty()
   nik!: string;
 

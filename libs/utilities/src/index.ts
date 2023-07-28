@@ -4,3 +4,4 @@ export * from './otp';
 export * from './parse-request';
 export * from './password';
 export * from './token';
+export * from './exclude-schema';
