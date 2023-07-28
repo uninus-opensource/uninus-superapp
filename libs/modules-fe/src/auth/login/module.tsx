@@ -38,8 +38,8 @@ export const LoginModule: FC = (): ReactElement => {
         password: data?.password,
       });
       if (response?.error) {
-        setError(response?.error);
-        toast.error('Email atau Password tidak valid', {
+        setError(response.error);
+        toast.error(`${response.error}`, {
           position: 'top-center',
           autoClose: 3000,
           hideProgressBar: true,

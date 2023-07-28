@@ -242,7 +242,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
               </section>
-              <section className="flex flex-wrap justify-center w-full items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-start md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8">
+              <section className="flex flex-wrap justify-start w-70% items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-start md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8">
                 <div className="mr-2">
                   <SelectField
                     name="marital_status"
@@ -255,7 +255,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     control={control}
                   />
                 </div>
-                <div className="flex flex-col gap-1 xl:gap-2 mt-1 xl:ml-0 xl:self-start xl:w-[25vw]">
+                <div className="flex flex-col gap-1 xl:gap-2 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start">
                   {' '}
                   <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
                   <div className="flex items-center gap-2">
@@ -336,32 +336,35 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
               </section>
-              <section className="flex flex-row w-[70vw] gap-x-1 justify-center items-start lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                <TextField
-                  name="address"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-xl font-semibold"
-                  label="Alamat Domisili"
-                  control={control}
-                  isTextArea
-                  textAreaRow={5}
-                  textAreaCols={30}
-                  inputHeight="h-20"
-                  inputWidth="w-[30vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
-                  className="resize-none bg-grayscale-2  "
-                />
-
-                <TextField
-                  inputHeight="h-10"
-                  name="postal_code"
-                  variant="md"
-                  type="text"
-                  labelclassname="text-sm "
-                  label="Kode Pos"
-                  inputWidth="w-20 text-base"
-                  control={control}
-                />
+              <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <div className="col-span-3">
+                  <TextField
+                    name="address"
+                    variant="sm"
+                    type="text"
+                    labelclassname="text-xl font-semibold"
+                    label="Alamat Domisili"
+                    control={control}
+                    isTextArea
+                    textAreaRow={5}
+                    textAreaCols={30}
+                    inputHeight="h-20"
+                    inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+                    className="resize-none bg-grayscale-2  "
+                  />
+                </div>
+                <div className="col-end-5">
+                  <TextField
+                    inputHeight="h-10"
+                    name="postal_code"
+                    variant="md"
+                    type="text"
+                    labelclassname="text-sm "
+                    label="Kode Pos"
+                    inputWidth="w-20 text-base"
+                    control={control}
+                  />
+                </div>
               </section>
             </Accordion>
 
@@ -460,32 +463,35 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
               </section>
 
-              <section className="flex flex-row w-[70vw] gap-x-1 justify-center items-start lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                <TextField
-                  name="school_address"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-xl font-semibold"
-                  label="Alamat Pendidikan Asal"
-                  control={control}
-                  isTextArea
-                  textAreaRow={5}
-                  textAreaCols={30}
-                  inputHeight="h-20"
-                  inputWidth="w-[30vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
-                  className="resize-none bg-grayscale-2  "
-                />
-
-                <TextField
-                  inputHeight="h-10"
-                  name="school_postal_code"
-                  variant="md"
-                  type="text"
-                  labelclassname="text-sm "
-                  label="Kode Pos"
-                  inputWidth="w-20 text-base"
-                  control={control}
-                />
+              <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <div className="col-span-3">
+                  <TextField
+                    name="school_address"
+                    variant="sm"
+                    type="text"
+                    labelclassname="text-xl font-semibold"
+                    label="Alamat Pendidikan Asal"
+                    control={control}
+                    isTextArea
+                    textAreaRow={5}
+                    textAreaCols={30}
+                    inputHeight="h-20"
+                    inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+                    className="resize-none bg-grayscale-2  "
+                  />
+                </div>
+                <div className="col-end-5">
+                  <TextField
+                    inputHeight="h-10"
+                    name="school_postal_code"
+                    variant="md"
+                    type="text"
+                    labelclassname="text-sm "
+                    label="Kode Pos"
+                    inputWidth="w-20 text-base"
+                    control={control}
+                  />
+                </div>
               </section>
             </Accordion>
 
@@ -496,185 +502,188 @@ export const ModuleBiodata: FC = (): ReactElement => {
               className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] text-left"
             >
               {/* Ayah */}
-              <div className="md:text-left mb-5 w-full justify-center items-center md:w-[70vw]">
-                <h1 className="font-bold text-xl mt-3 pl-5 lg:pl-0 md:pl-0 xl:pl-0">
-                  Profil Ayah
-                </h1>
+              {/* <div className="md:text-left mb-5 w-full justify-center items-center md:w-[70vw]"> */}
 
-                <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                  <TextField
-                    inputHeight="h-10"
-                    name="father_name"
-                    variant="sm"
-                    type="text"
-                    labelclassname="text-sm font-semibold"
-                    label="Nama Ayah"
-                    inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="school_subdistrict"
-                    label="Status Ayah"
-                    size="sm"
-                    placeholder="Status Ayah"
-                    options={['Meninggal', 'Hidup']}
-                    width="w-[35vw] lg:w-[12vw] md:w-[16vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="school_subdistrict"
-                    label="Pendidikan Ayah"
-                    size="sm"
-                    placeholder="Pendidikan Ayah"
-                    options={['SD', 'SMP', 'SMA/SMK', 'S1']}
-                    width="w-[35vw] lg:w-[12vw] md:w-[16vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="father_occupation"
-                    label="Pekerjaan Ayah"
-                    size="sm"
-                    placeholder="Pilih Pekerjaan"
-                    options={[
-                      'Petani',
-                      'Nelayan',
-                      'Guru',
-                      'Wirausaha',
-                      'Lainnya',
-                    ]}
-                    width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="father_income"
-                    label="Pendapatan Ayah ( Per Bulan )"
-                    size="sm"
-                    placeholder="Pilih Pendapatan"
-                    options={[
-                      'Rp. 0 - 2.000.000',
-                      'Rp. 2.000.001 - 4.000.000',
-                      'Rp. 4.000.001 - 6.000.000',
-                    ]}
-                    width="w-70% lg:w-[26.5vw] md:w-[33vw]"
-                    control={control}
-                  />
-                </section>
-                {/* Ibu */}
-                <h1 className="font-bold text-xl  mt-5 pl-5 md:pl-0 xl:pl-0 lg:pl-0">
-                  Profil Ibu
-                </h1>
-                <section className="flex flex-wrap justify-center items-start w-full gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                  <TextField
-                    inputHeight="h-10"
-                    name="mother_name"
-                    variant="sm"
-                    type="text"
-                    labelclassname="text-sm font-semibold"
-                    label="Nama Ibu"
-                    inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="school_subdistrict"
-                    label="Status Ibu"
-                    size="sm"
-                    placeholder="Status Ibu"
-                    options={['Meninggal', 'Hidup']}
-                    width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="school_subdistrict"
-                    label="Pendidikan Ibu"
-                    size="sm"
-                    placeholder="Pendidikan Ibu"
-                    options={['SD', 'SMP', 'SMA/SMK', 'S1']}
-                    width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="mother_occupation"
-                    label="Pekerjaan Ibu"
-                    size="sm"
-                    placeholder="Pilih Pekerjaan"
-                    options={[
-                      'Petani',
-                      'Nelayan',
-                      'Guru',
-                      'Wirausaha',
-                      'Lainnya',
-                    ]}
-                    width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="mother_income"
-                    label="Pendapatan Ibu ( Per Bulan )"
-                    size="sm"
-                    placeholder="Pilih Pendapatan"
-                    options={[
-                      'Rp. 0 - 2.000.000',
-                      'Rp. 2.000.001 - 4.000.000',
-                      'Rp. 4.000.001 - 6.000.000',
-                    ]}
-                    width="w-70% lg:w-[26.5vw] md:w-[33vw]"
-                    control={control}
-                  />
-                </section>
-                {/* Parent Address */}
-                <h1 className="font-bold text-xl mt-5 pl-5 lg:pl-0 md:pl-0 xl:pl-0">
-                  Alamat Orang Tua
-                </h1>
-                <section className=" flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                  <SelectField
-                    name="parent_province"
-                    label="Provinsi"
-                    size="sm"
-                    placeholder="Provinsi"
-                    options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                    width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="parent_city"
-                    label="Kota/Kabupaten"
-                    size="sm"
-                    placeholder="Kota/Kabupaten"
-                    options={[
-                      'Kota Medan',
-                      'Kabupaten Bandung',
-                      'Kota Jakarta',
-                      'Kota Bandung',
-                    ]}
-                    width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="parent_subdistrict"
-                    label="Kecamatan"
-                    size="sm"
-                    placeholder="Kecamatan"
-                    options={['Sumur Bandung', 'Batununggal']}
-                    width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-                    control={control}
-                  />
-                </section>
-                <section className="grid grid-cols-2 w-screen gap-x-1 justify-center items-start ml-5 lg:ml-0 xl:ml-0 md:ml-0 lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+              <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+                Profil Ayah
+              </h1>
+
+              <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <TextField
+                  inputHeight="h-10"
+                  name="father_name"
+                  variant="sm"
+                  type="text"
+                  labelclassname="text-sm font-semibold"
+                  label="Nama Ayah"
+                  inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="school_subdistrict"
+                  label="Status Ayah"
+                  size="sm"
+                  placeholder="Status Ayah"
+                  options={['Meninggal', 'Hidup']}
+                  width="w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="school_subdistrict"
+                  label="Pendidikan Ayah"
+                  size="sm"
+                  placeholder="Pendidikan Ayah"
+                  options={['SD', 'SMP', 'SMA/SMK', 'S1']}
+                  width="w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="father_occupation"
+                  label="Pekerjaan Ayah"
+                  size="sm"
+                  placeholder="Pilih Pekerjaan"
+                  options={[
+                    'Petani',
+                    'Nelayan',
+                    'Guru',
+                    'Wirausaha',
+                    'Lainnya',
+                  ]}
+                  width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="father_income"
+                  label="Pendapatan Ayah ( Per Bulan )"
+                  size="sm"
+                  placeholder="Pilih Pendapatan"
+                  options={[
+                    'Rp. 0 - 2.000.000',
+                    'Rp. 2.000.001 - 4.000.000',
+                    'Rp. 4.000.001 - 6.000.000',
+                  ]}
+                  width="w-70% lg:w-[26.5vw] md:w-[33vw]"
+                  control={control}
+                />
+              </section>
+              {/* Ibu */}
+              <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+                Profil Ibu
+              </h1>
+              <section className="flex flex-wrap justify-center items-start w-full gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <TextField
+                  inputHeight="h-10"
+                  name="mother_name"
+                  variant="sm"
+                  type="text"
+                  labelclassname="text-sm font-semibold"
+                  label="Nama Ibu"
+                  inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="school_subdistrict"
+                  label="Status Ibu"
+                  size="sm"
+                  placeholder="Status Ibu"
+                  options={['Meninggal', 'Hidup']}
+                  width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="school_subdistrict"
+                  label="Pendidikan Ibu"
+                  size="sm"
+                  placeholder="Pendidikan Ibu"
+                  options={['SD', 'SMP', 'SMA/SMK', 'S1']}
+                  width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="mother_occupation"
+                  label="Pekerjaan Ibu"
+                  size="sm"
+                  placeholder="Pilih Pekerjaan"
+                  options={[
+                    'Petani',
+                    'Nelayan',
+                    'Guru',
+                    'Wirausaha',
+                    'Lainnya',
+                  ]}
+                  width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="mother_income"
+                  label="Pendapatan Ibu ( Per Bulan )"
+                  size="sm"
+                  placeholder="Pilih Pendapatan"
+                  options={[
+                    'Rp. 0 - 2.000.000',
+                    'Rp. 2.000.001 - 4.000.000',
+                    'Rp. 4.000.001 - 6.000.000',
+                  ]}
+                  width="w-70% lg:w-[26.5vw] md:w-[33vw]"
+                  control={control}
+                />
+              </section>
+              {/* Parent Address */}
+              <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+                Alamat Orang Tua
+              </h1>
+              <section className=" flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <SelectField
+                  name="parent_province"
+                  label="Provinsi"
+                  size="sm"
+                  placeholder="Provinsi"
+                  options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
+                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="parent_city"
+                  label="Kota/Kabupaten"
+                  size="sm"
+                  placeholder="Kota/Kabupaten"
+                  options={[
+                    'Kota Medan',
+                    'Kabupaten Bandung',
+                    'Kota Jakarta',
+                    'Kota Bandung',
+                  ]}
+                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="parent_subdistrict"
+                  label="Kecamatan"
+                  size="sm"
+                  placeholder="Kecamatan"
+                  options={['Sumur Bandung', 'Batununggal']}
+                  width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  control={control}
+                />
+              </section>
+              <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <div className="col-span-3">
                   <TextField
                     name="parent_address"
                     variant="sm"
                     type="text"
                     labelclassname="text-xl font-semibold"
-                    label="Alamat Lengkap Orang Tua"
+                    label="Alamat Domisili"
                     control={control}
                     isTextArea
                     textAreaRow={5}
                     textAreaCols={30}
                     inputHeight="h-20"
-                    inputWidth="w-[80vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+                    inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
                     className="resize-none bg-grayscale-2  "
                   />
-
+                </div>
+                <div className="col-end-5">
                   <TextField
                     inputHeight="h-10"
                     name="parent_postal_code"
@@ -685,130 +694,134 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     inputWidth="w-20 text-base"
                     control={control}
                   />
-                  <div className="col-span-full">
-                    <CheckBox
-                      name="parent_address"
-                      control={control}
-                      label="Alamat Sama Dengan Pendaftar"
-                      variant="primary"
-                      size="md"
-                    />
-                  </div>
-                </section>
-                <h1 className="font-bold text-xl mt-5 pl-5 lg:pl-0 md:pl-0 xl:pl-0">
-                  Profil Wali
-                </h1>
-                <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-2 mt-2 lg:items-center lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
-                  <TextField
-                    inputHeight="h-10"
-                    name="guardian_name"
-                    variant="sm"
-                    type="text"
-                    labelclassname="text-sm font-semibold"
-                    label="Nama Wali"
-                    inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
+                </div>
+                <div className="col-span-4">
+                  <CheckBox
+                    name="parent_address"
                     control={control}
+                    label="Alamat Sama Dengan Pendaftar"
+                    variant="primary"
+                    size="md"
                   />
-                  <SelectField
-                    name="school_subdistrict"
-                    label="Status Wali"
-                    size="sm"
-                    placeholder="Status Wali"
-                    options={['Meninggal', 'Hidup']}
-                    width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="guardian_education"
-                    label="Pendidikan Wali"
-                    size="sm"
-                    placeholder="Pendidikan Wali"
-                    options={['SD', 'SMP', 'SMA/SMK', 'S1']}
-                    width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="guardian_occupation"
-                    label="Pekerjaan Wali"
-                    size="sm"
-                    placeholder="Pilih Pekerjaan"
-                    options={[
-                      'Petani',
-                      'Nelayan',
-                      'Guru',
-                      'Wirausaha',
-                      'Lainnya',
-                    ]}
-                    width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="guardian_income"
-                    label="Pendapatan Wali ( Per Bulan )"
-                    size="sm"
-                    placeholder="Pilih Pendapatan"
-                    options={[
-                      'Rp. 0 - 2.000.000',
-                      'Rp. 2.000.001 - 4.000.000',
-                      'Rp. 4.000.001 - 6.000.000',
-                    ]}
-                    width="w-70% lg:w-[26vw] md:w-[33vw]"
-                    control={control}
-                  />
-                </section>
-                <h1 className="pl-5 font-bold text-xl mt-5 lg:pl-0 xl:pl-0 md:pl-0">
-                  Alamat Wali
-                </h1>
-                <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                  <SelectField
-                    name="guardian_province"
-                    label="Provinsi"
-                    size="sm"
-                    placeholder="Provinsi"
-                    options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
-                    width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="guardian_city"
-                    label="Kota/Kabupaten"
-                    size="sm"
-                    placeholder="Kota/Kabupaten"
-                    options={[
-                      'Kota Medan',
-                      'Kabupaten Bandung',
-                      'Kota Jakarta',
-                      'Kota Bandung',
-                    ]}
-                    width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-                    control={control}
-                  />
-                  <SelectField
-                    name="guardian_subdistrict"
-                    label="Kecamatan"
-                    size="sm"
-                    placeholder="Kecamatan"
-                    options={['Sumur Bandung', 'Batununggal']}
-                    width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-                    control={control}
-                  />
-                </section>
-                <section className="grid grid-cols-2 w-screen gap-x-1 justify-center items-start ml-5 lg:ml-0 xl:ml-0 md:ml-0 lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                </div>
+              </section>
+
+              <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+                Profil Wali
+              </h1>
+              <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-2 mt-2 lg:items-center lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
+                <TextField
+                  inputHeight="h-10"
+                  name="guardian_name"
+                  variant="sm"
+                  type="text"
+                  labelclassname="text-sm font-semibold"
+                  label="Nama Wali"
+                  inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="school_subdistrict"
+                  label="Status Wali"
+                  size="sm"
+                  placeholder="Status Wali"
+                  options={['Meninggal', 'Hidup']}
+                  width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="guardian_education"
+                  label="Pendidikan Wali"
+                  size="sm"
+                  placeholder="Pendidikan Wali"
+                  options={['SD', 'SMP', 'SMA/SMK', 'S1']}
+                  width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="guardian_occupation"
+                  label="Pekerjaan Wali"
+                  size="sm"
+                  placeholder="Pilih Pekerjaan"
+                  options={[
+                    'Petani',
+                    'Nelayan',
+                    'Guru',
+                    'Wirausaha',
+                    'Lainnya',
+                  ]}
+                  width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="guardian_income"
+                  label="Pendapatan Wali ( Per Bulan )"
+                  size="sm"
+                  placeholder="Pilih Pendapatan"
+                  options={[
+                    'Rp. 0 - 2.000.000',
+                    'Rp. 2.000.001 - 4.000.000',
+                    'Rp. 4.000.001 - 6.000.000',
+                  ]}
+                  width="w-70% lg:w-[26vw] md:w-[33vw]"
+                  control={control}
+                />
+              </section>
+              <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+                Alamat Wali
+              </h1>
+              <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <SelectField
+                  name="guardian_province"
+                  label="Provinsi"
+                  size="sm"
+                  placeholder="Provinsi"
+                  options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
+                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="guardian_city"
+                  label="Kota/Kabupaten"
+                  size="sm"
+                  placeholder="Kota/Kabupaten"
+                  options={[
+                    'Kota Medan',
+                    'Kabupaten Bandung',
+                    'Kota Jakarta',
+                    'Kota Bandung',
+                  ]}
+                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  control={control}
+                />
+                <SelectField
+                  name="guardian_subdistrict"
+                  label="Kecamatan"
+                  size="sm"
+                  placeholder="Kecamatan"
+                  options={['Sumur Bandung', 'Batununggal']}
+                  width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  control={control}
+                />
+              </section>
+              <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <div className="col-span-3">
                   <TextField
                     name="guardian_address"
                     variant="sm"
                     type="text"
                     labelclassname="text-xl font-semibold"
-                    label="Alamat Wali"
+                    label="Alamat Domisili"
                     control={control}
                     isTextArea
                     textAreaRow={5}
                     textAreaCols={30}
                     inputHeight="h-20"
-                    inputWidth="w-[80vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+                    inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
                     className="resize-none bg-grayscale-2  "
                   />
-
+                </div>
+                <div className="col-end-5">
                   <TextField
                     inputHeight="h-10"
                     name="guardian_postal_code"
@@ -819,17 +832,17 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     inputWidth="w-20 text-base"
                     control={control}
                   />
-                  <div className="col-span-full">
-                    <CheckBox
-                      name="guardian_address"
-                      control={control}
-                      label="Alamat Sama Dengan Pendaftar"
-                      variant="primary"
-                      size="md"
-                    />
-                  </div>
-                </section>
-              </div>
+                </div>
+                <div className="col-span-4">
+                  <CheckBox
+                    name="guardian_address"
+                    control={control}
+                    label="Alamat Sama Dengan Pendaftar"
+                    variant="primary"
+                    size="md"
+                  />
+                </div>
+              </section>
             </Accordion>
 
             <Button
