@@ -8,17 +8,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
-  LoginSwagger,
-  LogoutSwagger,
   RtGuard,
   TReqToken,
-  forgotPasswordSwagger,
-  newPasswordSwagger,
-  verifyOtpSwagger,
-  resendOtpSwagger,
   ZodValidationPipe,
   RegisterZodSchema,
-  RegisterSwagger,
   LoginZodSchema,
   verifyOtpZodSchema,
   resendOtpZodSchema,
@@ -26,7 +19,16 @@ import {
   newPasswordZodSchema,
   LogoutZodSchema,
 } from '@uninus/entities';
-import { AuthService } from '@uninus/services';
+import {
+  AuthService,
+  RegisterSwagger,
+  LoginSwagger,
+  forgotPasswordSwagger,
+  LogoutSwagger,
+  resendOtpSwagger,
+  newPasswordSwagger,
+  verifyOtpSwagger,
+} from '@uninus/services';
 import {
   ApiTags,
   ApiResponse,
