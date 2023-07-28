@@ -39,11 +39,11 @@ export const ModuleBiodata: FC = (): ReactElement => {
   const { mutate: updateBiodata } = useBiodataUpdate();
 
   const [radioSelected, setRadioSelected] = useState<{
-    EGender?: string;
-    ECitizenship?: string;
+    gender?: string;
+    citizenship?: string;
   }>({
-    EGender: '',
-    ECitizenship: '',
+    gender: '',
+    citizenship: '',
   });
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setRadioSelected({
@@ -56,11 +56,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
 
   const onSubmit = handleSubmit((data) => {
     try {
-      if (student?.identification_number) {
-        updateBiodata(data);
-      } else {
-        createBiodata(data);
-      }
+      updateBiodata(data);
+
       console.log(data);
     } catch (error) {
       console.error(error);
@@ -71,8 +68,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
     reset(student);
 
     setRadioSelected({
-      EGender: student?.EGender,
-      ECitizenship: student?.ECitizenship,
+      gender: student?.gender,
+      citizenship: student?.citizenship,
     });
   }, [reset, student]);
 
@@ -174,7 +171,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   <h3 className="text-xs font-semibold">Jenis Kelamin</h3>
                   <div className="flex items-center gap-6">
                     <RadioButton
-                      name="EGender"
+                      name="gender"
                       label="Laki-laki"
                       control={control}
                       id="l"
@@ -183,10 +180,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       onChange={handleChange}
                       value="MALE"
                       variant="primary"
-                      isChecked={radioSelected?.EGender === 'MALE'}
+                      isChecked={radioSelected?.gender === 'MALE'}
                     />
                     <RadioButton
-                      name="EGender"
+                      name="gender"
                       label="Perempuan"
                       control={control}
                       id="p"
@@ -195,12 +192,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       value="FEMALE"
                       required
                       variant="primary"
-                      isChecked={radioSelected?.EGender === 'FEMALE'}
+                      isChecked={radioSelected?.gender === 'FEMALE'}
                     />
                   </div>
                 </div>
                 <SelectField
-                  name="EReligion"
+                  name="religion"
                   label="Agama"
                   size="sm"
                   placeholder="Agama"
@@ -260,7 +257,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
                   <div className="flex items-center gap-2">
                     <RadioButton
-                      name="ECitizenship"
+                      name="citizenship"
                       label="WNI"
                       control={control}
                       required
@@ -269,10 +266,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       inputname="kewarganegaraan"
                       value="WNI"
                       variant="primary"
-                      isChecked={radioSelected?.ECitizenship === 'WNI'}
+                      isChecked={radioSelected?.citizenship === 'WNI'}
                     />
                     <RadioButton
-                      name="ECitizenship"
+                      name="citizenship"
                       label="WNA"
                       control={control}
                       id="wna"
@@ -281,7 +278,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       required
                       value="WNA"
                       variant="primary"
-                      isChecked={radioSelected?.ECitizenship === 'WNA'}
+                      isChecked={radioSelected?.citizenship === 'WNA'}
                     />
                   </div>
                 </div>
@@ -408,7 +405,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
               <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <TextField
                   inputHeight="h-10"
-                  name="npsn"
+                  name="school_npsn"
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"

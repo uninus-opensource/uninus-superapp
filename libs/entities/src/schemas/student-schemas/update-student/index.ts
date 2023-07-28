@@ -2,13 +2,8 @@ import { z } from 'zod';
 import { EGender, EReligion, ECitizenship } from '../../../enum';
 
 export const UpdateStudentZodSchema = z.object({
-  avatar: z
-    .any()
-    .refine((file) =>
-      ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.[0]?.type)
-    )
-    .optional(),
   fullname: z.string().optional(),
+  email: z.string().optional(),
   nik: z
     .string()
     .refine((value) => value.length === 16, {
@@ -38,7 +33,7 @@ export const UpdateStudentZodSchema = z.object({
   graduation_year: z.string().optional(),
   school_major: z.string().optional(),
   school_name: z.string().optional(),
-  school_npsm: z.string().optional(),
+  school_npsn: z.string().optional(),
   school_address: z.string().optional(),
   school_postal_code: z.string().optional(),
   school_subdistrict: z.string().optional(),
