@@ -163,9 +163,7 @@ export const SideBar: FC<TSideBarProps> = ({
                   size={40}
                   className="mr-3 text-primary-green w-fit p-2 drop-shadow-lg bg-primary-white hover:bg-primary-green rounded-lg "
                 />
-                <p className="text-primary-green text-md font-normal">
-                  Log out
-                </p>
+                <p className="text-primary-green text-sm font-normal">Keluar</p>
               </Button>
             </div>
           </div>
@@ -255,7 +253,7 @@ export const SideBar: FC<TSideBarProps> = ({
                     </li>
                   ))}
                 </ul>
-                <div className="flex text-2xl relative bottom-0 items-start my-8 py-2 rounded-md">
+                <div className="flex text-sm relative bottom-0 items-start my-8 py-2 rounded-md">
                   <Button
                     variant="sidebarbutton"
                     size="sm"
@@ -266,7 +264,7 @@ export const SideBar: FC<TSideBarProps> = ({
                       size={45}
                       className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white hover:bg-primary-green rounded-lg "
                     />
-                    Log out
+                    <p className="text-primary-green">Keluar</p>
                   </Button>
                 </div>
               </nav>

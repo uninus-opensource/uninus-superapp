@@ -19,7 +19,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { formBiodataOne, defaultValuesBiodata } from './store';
 import { DashboardLayout } from '../../layouts';
-import { AiTwotoneEdit } from 'react-icons/ai';
 
 import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
 
