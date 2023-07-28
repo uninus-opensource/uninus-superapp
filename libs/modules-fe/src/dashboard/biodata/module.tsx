@@ -20,7 +20,9 @@ import { useForm } from 'react-hook-form';
 import { formBiodataOne, defaultValuesBiodata } from './store';
 import { DashboardLayout } from '../../layouts';
 
-import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
+import { useBiodataGet, useBiodataUpdate } from './hooks';
+import { TUpdateStudentSchema, UpdateStudentZodSchema } from '@uninus/entities';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 // import { TVSBiodata, VSBiodata } from './schema';
 
@@ -30,12 +32,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
     return data;
   }, [data]);
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset } = useForm<TUpdateStudentSchema>({
     mode: 'all',
+    resolver: zodResolver(UpdateStudentZodSchema),
     defaultValues: { ...defaultValuesBiodata },
   });
 
-  const { mutate: createBiodata } = useBiodataCreate();
   const { mutate: updateBiodata } = useBiodataUpdate();
 
   const [radioSelected, setRadioSelected] = useState<{

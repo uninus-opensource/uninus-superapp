@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { EGender, EReligion, ECitizenship } from '../../../enum';
-
+const genderArray: EGender[] = Object.values(EGender);
+const genderTuple = genderArray as [string, ...string[]];
 export const UpdateStudentZodSchema = z.object({
   fullname: z.string().optional(),
   email: z.string().optional(),
@@ -18,10 +19,14 @@ export const UpdateStudentZodSchema = z.object({
     .optional(),
   birth_place: z.string().optional(),
   birth_date: z.string().optional(),
-  gender: z.nativeEnum(EGender).optional(),
+  gender: z.enum(Object.values(EGender) as [string, ...string[]]).optional(),
   phone_number: z.string().optional(),
-  religion: z.nativeEnum(EReligion).optional(),
-  citizenship: z.nativeEnum(ECitizenship).optional(),
+  religion: z
+    .enum(Object.values(EReligion) as [string, ...string[]])
+    .optional(),
+  citizenship: z
+    .enum(Object.values(ECitizenship) as [string, ...string[]])
+    .optional(),
   marital_status: z.string().optional(),
   country: z.string().optional(),
   address: z.string().optional(),

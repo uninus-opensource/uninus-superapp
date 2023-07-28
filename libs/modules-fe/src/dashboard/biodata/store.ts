@@ -1,11 +1,5 @@
 import { TBiodataRequest } from '@uninus/entities';
-import {
-  TTextFieldAyah,
-  TTextFieldIbu,
-  TTextFieldOne,
-  TTextFieldThree,
-  TTextFieldTwo,
-} from './type';
+import { TTextFieldAyah, TTextFieldIbu, TTextFieldOne } from './type';
 
 export const formBiodataOne: TTextFieldOne[] = [
   {
@@ -19,32 +13,6 @@ export const formBiodataOne: TTextFieldOne[] = [
     item: 'Nomor Handphone/WA',
     type: 'text',
     placeholder: '08123456789',
-  },
-];
-
-export const formBiodataTwo: TTextFieldTwo[] = [
-  {
-    name: 'rt',
-    item: 'RT',
-    type: 'text',
-  },
-  {
-    name: 'rw',
-    item: 'RW',
-    type: 'text',
-  },
-];
-
-export const formBiodataThree: TTextFieldThree[] = [
-  {
-    name: 'parent_rt',
-    item: 'RT',
-    type: 'text',
-  },
-  {
-    name: 'parent_rw',
-    item: 'RW',
-    type: 'text',
   },
 ];
 
@@ -67,7 +35,6 @@ export const formBioadataIbu: TTextFieldIbu[] = [
 ];
 
 export const defaultValuesBiodata: TBiodataRequest = {
-  avatar: undefined,
   email: '',
   fullname: '',
   nik: '',
