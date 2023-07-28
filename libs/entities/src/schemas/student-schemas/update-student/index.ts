@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { EGender, EReligion, ECitizenship } from '../../../enum';
 
 export const UpdateStudentZodSchema = z.object({
-  image: z
+  avatar: z
     .any()
     .refine((file) =>
       ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.[0]?.type)
