@@ -1,17 +1,17 @@
 'use client';
-import { ReactElement, FC } from 'react';
+import { ReactElement, FC, Fragment } from 'react';
 import { HeroSection } from './hero';
 import { WelcomeSection } from './banner-welcome';
 import { BenefitSection } from './benefit';
 import { SelectionSection } from './selection';
 import { ProgramSection } from './program-study';
 import { DetailSection } from './detail';
-import { lazily } from 'react-lazily';
-const { MainLayout } = lazily(() => import('@uninus/web/layouts'));
+import { Footer, Navbar } from '@uninus/web/components';
 
 export const LandingModule: FC = (): ReactElement => {
   return (
-    <MainLayout>
+    <Fragment>
+      <Navbar />
       <main className="w-full min-h-screen overflow-x-hidden bg-slate-2">
         <HeroSection />
         <WelcomeSection />
@@ -20,6 +20,7 @@ export const LandingModule: FC = (): ReactElement => {
         <ProgramSection />
         <DetailSection />
       </main>
-    </MainLayout>
+      <Footer />
+    </Fragment>
   );
 };

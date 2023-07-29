@@ -1,10 +1,8 @@
 'use client';
-import { ReactElement, FC } from 'react';
-import { HeroBanner } from '@uninus/web/components';
+import { ReactElement, FC, Fragment } from 'react';
+import { Footer, HeroBanner, Navbar } from '@uninus/web/components';
 import Image from 'next/image';
 import Link from 'next/link';
-import { lazily } from 'react-lazily';
-const { MainLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const ModulBeasiswa: FC = (): ReactElement => {
   const beasiswaList: { name: string; img: string; link: string }[] = [
@@ -34,7 +32,8 @@ export const ModulBeasiswa: FC = (): ReactElement => {
   };
 
   return (
-    <MainLayout>
+    <Fragment>
+      <Navbar />
       <section className="w-full min-h-screen">
         <HeroBanner
           heroImages="/illustrations/foto-mahasiswa-bareng-2.webp"
@@ -89,6 +88,7 @@ export const ModulBeasiswa: FC = (): ReactElement => {
           </div>
         </section>
       </section>
-    </MainLayout>
+      <Footer />
+    </Fragment>
   );
 };

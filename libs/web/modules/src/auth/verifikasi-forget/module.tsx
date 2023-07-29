@@ -5,9 +5,7 @@ import { useVerify, useNewOtpRequest } from './hook';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import OtpInput from 'react-otp-input';
-import { lazily } from 'react-lazily';
 import { Button } from '@uninus/web/components';
-const { AuthLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const VerifForgetModule: FC = (): ReactElement => {
   const searchParams = useSearchParams();
@@ -57,66 +55,64 @@ export const VerifForgetModule: FC = (): ReactElement => {
   const containerStyle = clsx('flex lg:gap-x-3 gap-x-1 justify-center w-full ');
 
   return (
-    <AuthLayout>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
-        className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col  justify-center items-center"
-      >
-        <div className="w-full flex flex-col gap-y-6 ">
-          <span className="text-3xl font-bold text-primary-black font-bebasNeue w-30%">
-            <h1>LUPA</h1>
-            <span>PASSWORD?</span>
-          </span>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+      className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col  justify-center items-center"
+    >
+      <div className="w-full flex flex-col gap-y-6 ">
+        <span className="text-3xl font-bold text-primary-black font-bebasNeue w-30%">
+          <h1>LUPA</h1>
+          <span>PASSWORD?</span>
+        </span>
 
-          <p className="text-grayscale-5 lg:text-sm w-60%">
-            {`Masukkan kode OTP yang sudah dikirimkan melalui email ${email}`}
-          </p>
+        <p className="text-grayscale-5 lg:text-sm w-60%">
+          {`Masukkan kode OTP yang sudah dikirimkan melalui email ${email}`}
+        </p>
 
-          <div className="flex w-full">
-            <OtpInput
-              containerStyle={containerStyle}
-              inputStyle={inputStyle}
-              value={otp}
-              onChange={setOtp}
-              numInputs={6}
-              shouldAutoFocus
-              renderInput={(props) => <input {...props} />}
-              inputType="tel"
-            />
-          </div>
-          <div className="w-full">
-            <Button type="submit" width="w-full">
-              Atur Ulang Password
-            </Button>
-          </div>
-          <div>
-            <small>
-              Belum menerima kode ?{' '}
-              <span>
-                <span className="text-secondary-green-1">
-                  {timer < 0 ? (
-                    <span
-                      onClick={() => {
-                        setTimer(120);
-                        request({ email: email });
-                      }}
-                      ref={intervalRef}
-                      className="text-secondary-green-1 hover:underline underline-offset-4 font-semibold cursor-pointer"
-                    >
-                      Kirim Ulang
-                    </span>
-                  ) : (
-                    timer
-                  )}
-                </span>
-              </span>
-            </small>
-          </div>
+        <div className="flex w-full">
+          <OtpInput
+            containerStyle={containerStyle}
+            inputStyle={inputStyle}
+            value={otp}
+            onChange={setOtp}
+            numInputs={6}
+            shouldAutoFocus
+            renderInput={(props) => <input {...props} />}
+            inputType="tel"
+          />
         </div>
-      </form>
-    </AuthLayout>
+        <div className="w-full">
+          <Button type="submit" width="w-full">
+            Atur Ulang Password
+          </Button>
+        </div>
+        <div>
+          <small>
+            Belum menerima kode ?{' '}
+            <span>
+              <span className="text-secondary-green-1">
+                {timer < 0 ? (
+                  <span
+                    onClick={() => {
+                      setTimer(120);
+                      request({ email: email });
+                    }}
+                    ref={intervalRef}
+                    className="text-secondary-green-1 hover:underline underline-offset-4 font-semibold cursor-pointer"
+                  >
+                    Kirim Ulang
+                  </span>
+                ) : (
+                  timer
+                )}
+              </span>
+            </span>
+          </small>
+        </div>
+      </div>
+    </form>
   );
 };

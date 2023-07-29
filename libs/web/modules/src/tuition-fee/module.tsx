@@ -6,18 +6,18 @@ import {
   useEffect,
   useMemo,
   SetStateAction,
+  Fragment,
 } from 'react';
 import {
+  Footer,
   HeroBanner,
   LoadingSpinner,
+  Navbar,
   SearchInput,
 } from '@uninus/web/components';
 import { dataSarjana, dataMagister } from './store';
 import { TTableMagister, TTableSarjana } from './types';
 import DataTable, { TableColumn } from 'react-data-table-component';
-import { lazily } from 'react-lazily';
-
-const { MainLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const TuitionFeeModule: FC = (): ReactElement => {
   const [columsOne, setColumsOne] = useState([{}]);
@@ -105,7 +105,8 @@ export const TuitionFeeModule: FC = (): ReactElement => {
   );
 
   return (
-    <MainLayout>
+    <Fragment>
+      <Navbar />
       <main className="w-full bg-slate-2">
         <HeroBanner
           heroImages="/illustrations/foto-mahasiswa-bareng-2.webp"
@@ -177,6 +178,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
           </section>
         </section>
       </main>
-    </MainLayout>
+      <Footer />
+    </Fragment>
   );
 };

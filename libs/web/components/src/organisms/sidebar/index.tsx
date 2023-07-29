@@ -88,13 +88,13 @@ export const SideBar: FC<TSideBarProps> = ({
       </Modal>
       {showModal && (
         <div
-          className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-50 z-[48]"
+          className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-50 z-40"
           onClick={handleCloseModal}
         />
       )}
       {/* Desktop */}
       <aside
-        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[30vw] bg-sky-3 h-auto left-0 flex z-50 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
+        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[30vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
         <section className={` w-full flex flex-col items-center  `}>
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">

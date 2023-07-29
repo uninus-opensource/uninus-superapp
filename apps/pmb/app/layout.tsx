@@ -11,18 +11,14 @@ const monserrat = Montserrat({
   weight: '400',
 });
 
-export const metadata = {
-  title: 'PMB Uninus',
-};
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${monserrat.className}`}>
-      <body>
+    <html lang="en">
+      <body className={`${monserrat.className}`}>
         <AuthProvider>
           <QueryProvider>
             <RecoilProvider>

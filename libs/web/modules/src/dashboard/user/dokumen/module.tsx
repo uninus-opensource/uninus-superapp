@@ -1,6 +1,5 @@
 'use client';
 import { FC, ReactElement } from 'react';
-import { DashboardLayout } from '@uninus/web/layouts';
 import { Button, UploadField } from '@uninus/web/components';
 import { useForm } from 'react-hook-form';
 
@@ -36,7 +35,6 @@ export const ModuleDokumen: FC = (): ReactElement => {
   ];
 
   return (
-    <DashboardLayout>
       <form className="flex flex-col items-center">
         {/* header */}
         <section className="w-[90vw] lg:w-[70vw] flex justify-center lg:justify-start xl:w-[70vw] xl:mb-3">
@@ -108,6 +106,5 @@ export const ModuleDokumen: FC = (): ReactElement => {
           </section>
         </section>
       </form>
-    </DashboardLayout>
   );
 };

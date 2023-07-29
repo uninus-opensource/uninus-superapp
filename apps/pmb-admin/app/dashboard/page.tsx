@@ -10,4 +10,5 @@ export const metadata: Metadata = {
 const DashboardHomeAdmin: NextPage = (): ReactElement => (
   <DashboardModuleAdmin />
 );
+
 export default DashboardHomeAdmin;

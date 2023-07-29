@@ -8,7 +8,7 @@ export const Sidebar: FC<TSidebarProps> = ({
 }): ReactElement => {
   return (
     <section
-      className={`w-full h-full bg-primary-green text-primary-white z-50 fixed top-20 transition-transform py-7 px-5  ${
+      className={`w-full h-full bg-primary-green text-primary-white z-40 fixed top-20 transition-transform py-7 px-5  ${
         showSidebar ? 'translate-x-0' : 'translate-x-full'
       }`}
     >

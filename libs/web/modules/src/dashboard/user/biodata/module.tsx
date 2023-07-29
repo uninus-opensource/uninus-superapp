@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
   ChangeEvent,
+  Fragment,
 } from 'react';
 import {
   Accordion,
@@ -18,7 +19,6 @@ import {
 } from '@uninus/web/components';
 import { useForm } from 'react-hook-form';
 import { formBiodataOne, defaultValuesBiodata } from './store';
-import { DashboardLayout } from '@uninus/web/layouts';
 import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
 
 export const ModuleBiodata: FC = (): ReactElement => {
@@ -74,7 +74,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
   }, [reset, student]);
 
   return (
-    <DashboardLayout>
+    <Fragment>
       <div className="flex flex-col items-center lg:items-start p-5 lg:p-0 lg:py-4">
         <h1 className="text-slate-5">
           PMB <span className="text-secondary-green-4"> / Data diri</span>
@@ -852,6 +852,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
           </form>
         </section>
       </section>
-    </DashboardLayout>
+    </Fragment>
   );
 };

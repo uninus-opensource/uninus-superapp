@@ -1,5 +1,4 @@
 'use client';
-import { DashboardLayout } from '@uninus/web/layouts';
 import { ReactElement, FC, useMemo } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
@@ -12,7 +11,6 @@ export const DashboardModuleAdmin: FC = (): ReactElement => {
   }, [session?.user?.name]);
 
   return (
-    <DashboardLayout>
       <section className="flex flex-col  lg:px-10 px-4 text-center gap-y-6 lg:text-start">
         <div className="2xl:text-2xl">
           <h1 className="text-slate-5 ">
@@ -44,6 +42,5 @@ export const DashboardModuleAdmin: FC = (): ReactElement => {
           <hr className="w-full" />
         </div>
       </section>
-    </DashboardLayout>
   );
 };
