@@ -6,6 +6,12 @@ import { signOut } from 'next-auth/react';
 import { AiFillHome, AiOutlineFileDone } from 'react-icons/ai';
 import { FaRegUser } from 'react-icons/fa';
 import { FileTextOutlined } from '@ant-design/icons';
+import { Montserrat } from 'next/font/google';
+
+const monserrat = Montserrat({
+  subsets: ['latin'],
+  weight: '400',
+});
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { mutate } = useLogout();
@@ -33,7 +39,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
 
   return (
     <html>
-      <body>
+      <body className={`${monserrat.className}`}>
         <main className="flex w-full min-h-full overflow-x-hidden ">
           <SideBar
             profileName="mawar saidah"

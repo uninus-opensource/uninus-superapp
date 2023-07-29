@@ -1,12 +1,18 @@
-"use client";
+'use client';
 import { FC, PropsWithChildren, ReactElement } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Montserrat } from 'next/font/google';
+
+const monserrat = Montserrat({
+  subsets: ['latin'],
+  weight: '400',
+});
 
 const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   return (
     <html>
-      <body>
+      <body className={`${monserrat.className}`}>
         <main className="h-screen w-full flex flex-col lg:gap-y-10 xl:gap-y-16 bg-primary-green py-4 lg:py-8">
           <header className="w-full flex justify-between h-auto px-4 lg:px-8">
             <figure className="flex w-full gap-8 h-auto items-center">
