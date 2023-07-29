@@ -3,10 +3,10 @@ import { Button, TextField } from '@uninus/web/components';
 import { FC, ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TVSRegister, VSRegister } from './schema';
 import Link from 'next/link';
 import { useRegister } from './hook';
 import { useRouter } from 'next/navigation';
+import { RegisterZodSchema, TRegisterSchema } from '@uninus/entities';
 
 export const RegisterModule: FC = (): ReactElement => {
   const router = useRouter();
@@ -14,9 +14,9 @@ export const RegisterModule: FC = (): ReactElement => {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TVSRegister>({
+  } = useForm<TRegisterSchema>({
     mode: 'all',
-    resolver: zodResolver(VSRegister),
+    resolver: zodResolver(RegisterZodSchema),
     defaultValues: {
       email: '',
       password: '',

@@ -4,11 +4,11 @@ import { signIn } from 'next-auth/react';
 import { FC, ReactElement, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TVSLogin, VSLogin } from './schema';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { LoginZodSchema, TLoginSchema } from '@uninus/entities';
 
 export const LoginModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -18,9 +18,9 @@ export const LoginModule: FC = (): ReactElement => {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TVSLogin>({
+  } = useForm<TLoginSchema & { aggreement?: boolean }>({
     mode: 'all',
-    resolver: zodResolver(VSLogin),
+    resolver: zodResolver(LoginZodSchema),
     defaultValues: {
       email: '',
       password: '',

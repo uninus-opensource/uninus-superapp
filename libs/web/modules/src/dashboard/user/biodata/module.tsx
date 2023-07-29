@@ -42,6 +42,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
     EGender: '',
     ECitizenship: '',
   });
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setRadioSelected({
       ...radioSelected,

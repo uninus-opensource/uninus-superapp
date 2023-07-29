@@ -21,9 +21,7 @@ export default function RootLayout({
       <body className={`${monserrat.className}`}>
         <AuthProvider>
           <QueryProvider>
-            <RecoilProvider>
-              {children}
-            </RecoilProvider>
+            <RecoilProvider>{children}</RecoilProvider>
           </QueryProvider>
         </AuthProvider>
       </body>
