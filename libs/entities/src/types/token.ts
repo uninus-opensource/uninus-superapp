@@ -12,3 +12,7 @@ export type TGenerateToken = {
   email: string;
   role: string;
 };
+export type TResRefreshToken = {
+  access_token: string;
+  exp: number;
+};
