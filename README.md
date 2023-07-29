@@ -18,7 +18,7 @@
 
 - Soon nanti di isi
 
-## Setup Husky
+# WAJIB Setup Husky
 
 Untuk bisa menggunakan husky agar berjalan baik dan benar maka perlu di inisialisasi dulu
 
