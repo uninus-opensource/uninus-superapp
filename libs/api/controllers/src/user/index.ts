@@ -12,11 +12,11 @@ import {
 } from '@nestjs/common';
 import {
   CreateUserZodSchema,
-  JwtAuthGuard,
   TReqToken,
   UpdateUserZodSchema,
-  ZodValidationPipe,
 } from '@uninus/entities';
+import { ZodValidationPipe } from '@uninus/api/validator';
+import { JwtAuthGuard } from '@uninus/api/guard';
 import {
   CreateUserSwagger,
   UpdateUserSwagger,

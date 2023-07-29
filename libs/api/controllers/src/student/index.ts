@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  Post,
   Put,
   Request,
   UploadedFile,
@@ -13,11 +12,11 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
-  JwtAuthGuard,
   TReqToken,
   UpdateStudentZodSchema,
-  ZodValidationPipe,
 } from '@uninus/entities';
+import { JwtAuthGuard } from "@uninus/api/guard"
+import { ZodValidationPipe } from "@uninus/api/validator"
 import { StudentService, UpdateStudentSwagger } from '@uninus/api/services';
 import {
   ApiResponse,

@@ -8,9 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
-  RtGuard,
   TReqToken,
-  ZodValidationPipe,
   RegisterZodSchema,
   LoginZodSchema,
   verifyOtpZodSchema,
@@ -19,6 +17,8 @@ import {
   newPasswordZodSchema,
   LogoutZodSchema,
 } from '@uninus/entities';
+import { RtGuard } from "@uninus/api/guard"
+import { ZodValidationPipe } from "@uninus/api/validator"
 import {
   AuthService,
   RegisterSwagger,

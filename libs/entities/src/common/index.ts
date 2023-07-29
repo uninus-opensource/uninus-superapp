@@ -7,10 +7,6 @@ export type TMetaItem = {
 };
 
 export type TMetaResponse<T> = {
-  data: Array<T>;
-} & TMetaItem;
-
-export type TMetaResponseSingle<T> = {
   data: T;
 } & TMetaItem;
 
