@@ -13,7 +13,7 @@ import {
   TRegisterResponse,
   TReqToken,
   getEmailMessageTemplate,
-  TResRefreshRToken,
+  TResRefreshToken,
 } from '@uninus/entities';
 import { PrismaService } from '@uninus/api/models';
 import {
@@ -205,7 +205,7 @@ export class AuthService {
     };
   }
 
-  async refreshToken(reqToken: TReqToken): Promise<TResRefreshRToken> {
+  async refreshToken(reqToken: TReqToken): Promise<TResRefreshToken> {
     const expiresIn = 15 * 60 * 1000;
     const access_token = await generateAccessToken(reqToken.user);
 
