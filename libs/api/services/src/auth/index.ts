@@ -23,7 +23,7 @@ import {
   generateOtp,
   generateToken,
   clearOtp,
-} from '@uninus/utilities';
+} from '@uninus/api/utilities';
 
 import { EmailService } from '../email';
 

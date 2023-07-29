@@ -21,12 +21,15 @@
       "@uninus/api/models": ["libs/api/models/src/index.ts"],
       "@uninus/api/modules": ["libs/api/modules/src/index.ts"],
       "@uninus/api/services": ["libs/api/services/src/index.ts"],
+      "@uninus/api/utilities": ["libs/api/utilities/src/index.ts"],
       "@uninus/entities": ["libs/entities/src/index.ts"],
       "@uninus/utilities": ["libs/utilities/src/index.ts"],
       "@uninus/web/components": ["libs/web/components/src/index.ts"],
       "@uninus/web/modules": ["libs/web/modules/src/index.ts"],
       "@uninus/web/providers": ["libs/web/providers/src/index.ts"],
-      "@uninus/web/services": ["libs/web/services/src/index.ts"]
+      "@uninus/web/services": ["libs/web/services/src/index.ts"],
+      "@uninus/web/utilities": ["libs/web/utilities/src/index.ts"],
+      "@uninus/web/utilities/server": ["libs/web/utilities/src/server.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
