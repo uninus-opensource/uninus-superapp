@@ -13,7 +13,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   return (
     <html>
       <body className={`${monserrat.className}`}>
-        <main className="h-screen w-full flex flex-col lg:gap-y-10 xl:gap-y-16 bg-primary-green py-4 lg:py-8">
+        <main key="auth"  className="h-screen w-full flex flex-col lg:gap-y-10 xl:gap-y-16 bg-primary-green py-4 lg:py-8">
           <header className="w-full flex justify-between h-auto px-4 lg:px-8">
             <figure className="flex w-full gap-8 h-auto items-center">
               <figure className="flex w-60 lg:w-56 h-auto justify-between items-center">
@@ -104,7 +104,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
                   />
                 </div>
               </div>
-              <div className="w-95% relative lg:w-1/2 flex items-center h-fit py-8 lg:-pt-24 lg:pb-10  lg:h-full rounded-lg lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg lg:rounded-br-lg bg-primary-white overflow-hidden">
+              <div key={"auth-children"} className="w-95% relative lg:w-1/2 flex items-center h-fit py-8 lg:-pt-24 lg:pb-10  lg:h-full rounded-lg lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg lg:rounded-br-lg bg-primary-white overflow-hidden">
                 {children}
               </div>
             </div>

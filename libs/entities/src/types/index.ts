@@ -8,3 +8,4 @@ export * from './rt-payload';
 export * from './token';
 export * from './biodata';
 export * from './student';
+export * from "./user";

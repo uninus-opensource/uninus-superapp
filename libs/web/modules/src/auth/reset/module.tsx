@@ -39,6 +39,7 @@ export const ResetModule: FC = (): ReactElement => {
 
   return (
     <form
+      key="auth-reset-password"
       className="w-full h-full p-12 lg:px-12 lg:py-6 flex flex-col justify-center items-center"
       onSubmit={onSubmit}
     >

@@ -25,7 +25,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   };
 
   return (
-    <section className="flex flex-col text-center lg:px-10 px-4 gap-y-6  lg:text-start">
+    <section key="dashboard-pendaftaran" className="flex flex-col text-center lg:px-10 px-4 gap-y-6  lg:text-start">
       <div className="2xl:text-2xl">
         <h1 className="text-slate-5">
           PMB <span className="text-secondary-green-4"> / Pendaftaran</span>

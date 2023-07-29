@@ -27,13 +27,6 @@ export const RegisterModule: FC = (): ReactElement => {
 
   const { mutate, isLoading, isError, error } = useRegister();
 
-  const isPhoneNumberAlreadyRegistered =
-    isError &&
-    error?.response?.data.message === 'Nomer Handphone sudah terdaftar';
-
-  const isEmailAlreadyRegistered =
-    isError && error?.response?.data.message === 'Email sudah terdaftar';
-
   const onSubmit = handleSubmit((data) => {
     mutate(
       {
@@ -51,6 +44,7 @@ export const RegisterModule: FC = (): ReactElement => {
 
   return (
     <form
+      key="auth-register"
       onSubmit={onSubmit}
       className="w-full h-auto px-5 lg:px-12 py-5 flex flex-col gap-y-6"
     >
@@ -83,17 +77,8 @@ export const RegisterModule: FC = (): ReactElement => {
             placeholder="Masukan Nomor Handphone"
             control={control}
             required
-            status={
-              errors?.phone_number || isPhoneNumberAlreadyRegistered
-                ? 'error'
-                : undefined
-            }
-            message={
-              errors?.phone_number?.message ||
-              (isPhoneNumberAlreadyRegistered
-                ? 'Nomor Handphone sudah terdaftar'
-                : undefined)
-            }
+            status={errors?.phone_number ? "error" : undefined}
+            message={errors?.phone_number?.message}
             maxlenght={16}
             inputMode="tel"
           />
@@ -105,13 +90,8 @@ export const RegisterModule: FC = (): ReactElement => {
             placeholder="Masukan email"
             control={control}
             required
-            status={
-              errors?.email || isEmailAlreadyRegistered ? 'error' : undefined
-            }
-            message={
-              errors?.email?.message ||
-              (isEmailAlreadyRegistered ? 'Email sudah terdaftar' : undefined)
-            }
+            status={errors?.email ? 'error' : undefined}
+            message={errors?.email?.message}
           />
           <TextField
             name="password"

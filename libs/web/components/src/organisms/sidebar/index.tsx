@@ -29,11 +29,17 @@ export const SideBar: FC<TSideBarProps> = ({
 
   const [onToogle, setOnToogle] = useState<boolean>(false);
   const { data: session } = useSession();
-  const userName = session?.user?.name;
 
-  const dataUser = useMemo(() => {
+  const userName = useMemo(() => {
+    const userName = session?.user?.fullname;
     return userName;
-  }, [userName]);
+  }, [session]);
+
+
+  const userAvatar = useMemo(() => {
+    const userName = session?.user?.avatar;
+    return userName;
+  }, [session]);
 
   const pathname = usePathname();
 
@@ -104,7 +110,7 @@ export const SideBar: FC<TSideBarProps> = ({
           <figure className="flex flex-col items-center  ">
             <Image
               className="rounded-full "
-              src={'/illustrations/dummy-avatar.webp'}
+              src={userAvatar ||'/illustrations/dummy-avatar.webp'}
               alt="profile picture"
               width={70}
               height={70}
@@ -112,7 +118,7 @@ export const SideBar: FC<TSideBarProps> = ({
             />
             <figcaption className="text-center flex flex-col gap-y-3 mt-3  ">
               <div className=" text-sm text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
-                <h3>{dataUser}</h3>
+                <h3>{userName}</h3>
               </div>
             </figcaption>
           </figure>

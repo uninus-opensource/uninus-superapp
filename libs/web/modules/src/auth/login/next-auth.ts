@@ -1,32 +1,12 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { loginRequest } from './api';
-import { TLoginResponse, TMetaErrorResponse } from '@uninus/entities';
-import axios from 'axios';
-import { JWT } from 'next-auth/jwt';
-
-const refreshAccessToken = async (token: JWT) => {
-  try {
-    const URL = process.env.NEXT_PUBLIC_API_URL;
-    const { data } = await axios.post(
-      `${URL}auth/refresh`,
-      {},
-      { headers: { Authorization: `Bearer ${token.refresh_token}` } }
-    );
-
-    const newToken = await data;
-
-    return {
-      ...token,
-      access_token: newToken.access_token,
-      exp: newToken.exp,
-      refresh_token: token.refresh_token,
-    };
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
-  }
-};
+import { loginRequest, refreshRequest } from './api';
+import {
+  TLoginResponse,
+  TMetaErrorResponse,
+  TToken,
+  TUser,
+} from '@uninus/entities';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -72,47 +52,30 @@ export const authOptions: NextAuthOptions = {
       return false;
     },
 
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       const currentUser = user as unknown as TLoginResponse;
-      if (account?.provider === 'google' && account) {
-        token.access_token = account.access_token;
-        token.refresh_token = account.refresh_token;
-        token.exp = account.expires_at;
-      } else if (account?.provider === 'login' && currentUser) {
-        token.access_token = currentUser.token.access_token;
-        token.refresh_token = currentUser.token.refresh_token;
-        token.exp = currentUser.token.exp;
-        token.name = currentUser.user.fullname;
-        token.email = currentUser.user.email;
-        token.id = currentUser.user.id;
-        currentUser.user.fullname = user.name as string;
-        currentUser.user.email = user.email as string;
-        currentUser.user.id = user.id;
-        return { ...token, ...currentUser };
-      }
-      if (Date.now() < currentUser?.token?.exp) {
-        return { ...token, ...currentUser };
-      }
 
-      return refreshAccessToken(token);
+      if (Date.now() > currentUser?.token?.exp) {
+        const refresh = await refreshRequest({
+          refresh_token: currentUser?.token?.refresh_token,
+        });
+        token.access_token = refresh?.access_token;
+        token.refresh_token = currentUser.token.refresh_token;
+        token.exp = refresh?.exp.toString();
+        return { ...token, ...currentUser };
+      } else {
+        return { ...token, ...currentUser };
+      }
     },
+
     async session({ session, token }) {
-      const jwt_token: {
-        access_token: string;
-        exp: number;
-        refresh_token: string;
-      } = {
-        access_token: token?.access_token as string,
-        exp: token?.exp as number,
-        refresh_token: token?.refresh_token as string,
-      };
+      console.log('Session Token', token);
       session = {
         expires: token?.exp as string,
         user: {
-          id: token.id as string,
-          name: token.name,
-          email: token.email,
-          token: jwt_token,
+          ...(token.user as TUser),
+          access_token: token.access_token,
+          refresh_token: token.refresh_token,
         },
       };
       return session;

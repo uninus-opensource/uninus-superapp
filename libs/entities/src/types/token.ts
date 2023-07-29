@@ -3,6 +3,12 @@ export type TGenerateTokenResponse = {
   refresh_token: string;
 };
 
+export type TToken = {
+  access_token: string;
+  exp: number;
+  refresh_token: string;
+};
+
 export type TReqToken = {
   user: { sub: string; email: string; role: string };
 };

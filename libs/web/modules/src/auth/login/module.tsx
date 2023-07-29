@@ -59,6 +59,7 @@ export const LoginModule: FC = (): ReactElement => {
 
   return (
     <form
+      key="auth-login"
       onSubmit={onSubmit}
       className="w-full px-5 lg:px-0 flex flex-col gap-y-4 lg:items-center flex-wrap"
     >

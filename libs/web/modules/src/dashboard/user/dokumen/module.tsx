@@ -35,8 +35,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
   ];
 
   return (
-      <form className="flex flex-col items-center">
-        {/* header */}
+      <form key="dashboard-dokumen" className="flex flex-col items-center">
         <section className="w-[90vw] lg:w-[70vw] flex justify-center lg:justify-start xl:w-[70vw] xl:mb-3">
           <div className="flex flex-col justify-center items-center lg:items-start">
             <h1 className="text-secondary-green-4">

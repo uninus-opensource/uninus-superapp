@@ -38,6 +38,7 @@ export const ForgotModule: FC = (): ReactElement => {
 
   return (
     <form
+      key="auth-forgot"
       className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col justify-center items-center"
       onSubmit={onSubmit}
     >

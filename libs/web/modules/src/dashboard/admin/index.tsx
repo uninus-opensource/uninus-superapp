@@ -7,8 +7,8 @@ export const DashboardModuleAdmin: FC = (): ReactElement => {
   const { data: session } = useSession();
 
   const namaStudent = useMemo(() => {
-    return session?.user?.name;
-  }, [session?.user?.name]);
+    return session?.user?.fullname;
+  }, [session?.user?.fullname]);
 
   return (
       <section className="flex flex-col  lg:px-10 px-4 text-center gap-y-6 lg:text-start">

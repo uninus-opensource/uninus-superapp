@@ -56,6 +56,7 @@ export const VerifForgetModule: FC = (): ReactElement => {
 
   return (
     <form
+      key="auth-verify"
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();

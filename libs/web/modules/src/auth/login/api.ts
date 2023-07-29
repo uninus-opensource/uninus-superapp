@@ -1,5 +1,5 @@
 import { api } from '@uninus/web/services';
-import { TLoginResponse, TLoginRequest } from '@uninus/entities';
+import { TLoginResponse, TLoginRequest, TResRefreshToken } from '@uninus/entities';
 
 export const loginRequest = async (
   payload: TLoginRequest
@@ -7,3 +7,8 @@ export const loginRequest = async (
   const { data } = await api.post('/auth/login', payload);
   return data;
 };
+
+export const refreshRequest = async (payload: { refresh_token: string }): Promise<TResRefreshToken> => {
+  const { data } = await api.post("/auth/refresh", payload)
+  return data
+}

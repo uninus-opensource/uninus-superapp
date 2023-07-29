@@ -1,20 +1,11 @@
+import { TToken } from './token';
+import { TUser } from './user';
+
 export type TLoginResponse = {
   id: string;
-  user: {
-    id: string;
-    email: string;
-    fullname: string;
-    role: string | null;
-    createdAt: Date;
-    avatar: string | null;
-    isVerified: boolean | null;
-  };
-  token: {
-    access_token: string;
-    exp: number;
-    refresh_token: string;
-  };
   message: string;
+  user: TUser;
+  token: TToken;
 };
 
 export type TLoginRequest = {

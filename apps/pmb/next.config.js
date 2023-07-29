@@ -12,6 +12,17 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  images: {
+    domains: ['res.cloudinary.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.dot.co.id',
+        port: '',
+        pathname: '/sobat-bangun-dev/**',
+      },
+    ],
+  },
 };
 
 const plugins = [

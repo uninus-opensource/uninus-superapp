@@ -74,7 +74,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
   }, [reset, student]);
 
   return (
-    <Fragment>
+    <Fragment key="dashboard-biodata">
       <div className="flex flex-col items-center lg:items-start p-5 lg:p-0 lg:py-4">
         <h1 className="text-slate-5">
           PMB <span className="text-secondary-green-4"> / Data diri</span>
