@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: 18
       - run: yarn install
-      - run: yarn run nx run-many --target=lint --projects=akreditasi,evaluasi,keuangan,neo-feeder,pegawai,pmb,siakad,smart-dashboard,tata-usaha,tracer,lms,api,components,contollers,entities,master-api,models,modules,models,providers,services,services-fe,utilities
+      - run: yarn run nx run-many --target=lint --projects=akreditasi,evaluasi,keuangan,neo-feeder,pegawai,pmb,siakad,smart-dashboard,tata-usaha,tracer,lms,api,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard
 
   format-write:
     runs-on: ubuntu-latest
@@ -30,7 +30,8 @@ jobs:
         with:
           node-version: 18
       - run: yarn install
-      - run: yarn run nx run-many --target=build --projects=akreditasi,evaluasi,keuangan,neo-feeder,pegawai,pmb,siakad,smart-dashboard,tata-usaha,tracer,lms,api,components,contollers,entities,master-api,models,modules,models,providers,services,services-fe,utilities
+      - run: yarn run nx run-many --target=lint --projects=akreditasi,evaluasi,keuangan,neo-feeder,pegawai,pmb,siakad,smart-dashboard,tata-usaha,tracer,lms,api,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard
+
 
   clean:
     runs-on: ubuntu-latest
