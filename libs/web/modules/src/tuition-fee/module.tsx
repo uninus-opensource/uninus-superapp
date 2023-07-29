@@ -17,7 +17,7 @@ import { TTableMagister, TTableSarjana } from './types';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { lazily } from 'react-lazily';
 
-const { MainLayout } = lazily(() => import('../layouts'));
+const { MainLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const TuitionFeeModule: FC = (): ReactElement => {
   const [columsOne, setColumsOne] = useState([{}]);

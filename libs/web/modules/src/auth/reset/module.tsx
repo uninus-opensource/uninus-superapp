@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TVSReset, VSReset } from './schema';
 import { lazily } from 'react-lazily';
-const { AuthLayout } = lazily(() => import('../../layouts'));
+const { AuthLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const ResetModule: FC = (): ReactElement => {
   const {

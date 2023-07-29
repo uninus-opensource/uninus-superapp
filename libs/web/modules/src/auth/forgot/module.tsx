@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { TVSForgot, VSForgot } from './schema';
 import { lazily } from 'react-lazily';
-const { AuthLayout } = lazily(() => import('../../layouts'));
+const { AuthLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const ForgotModule: FC = (): ReactElement => {
   const {

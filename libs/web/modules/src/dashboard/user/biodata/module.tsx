@@ -18,7 +18,7 @@ import {
 } from '@uninus/web/components';
 import { useForm } from 'react-hook-form';
 import { formBiodataOne, defaultValuesBiodata } from './store';
-import { DashboardLayout } from '../../layouts';
+import { DashboardLayout } from '@uninus/web/layouts';
 import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
 
 export const ModuleBiodata: FC = (): ReactElement => {

@@ -1,6 +1,6 @@
 'use client';
 import { FC, ReactElement } from 'react';
-import { DashboardLayout } from '../../layouts';
+import { DashboardLayout } from '@uninus/web/layouts';
 import { Button, UploadField } from '@uninus/web/components';
 import { useForm } from 'react-hook-form';
 

@@ -7,7 +7,7 @@ import { SelectionSection } from './selection';
 import { ProgramSection } from './program-study';
 import { DetailSection } from './detail';
 import { lazily } from 'react-lazily';
-const { MainLayout } = lazily(() => import('../layouts'));
+const { MainLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const LandingModule: FC = (): ReactElement => {
   return (

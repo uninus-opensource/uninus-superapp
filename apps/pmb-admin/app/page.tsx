@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { LoginModule } from '@uninus/web/modules';
 
 export const metadata: Metadata = {
-  title: 'PMB-ADMIN | Masuk',
+  title: 'PMB-Admin | Masuk',
 };
 
 const LoginPageAdmin: NextPage = (): ReactElement => <LoginModule />;

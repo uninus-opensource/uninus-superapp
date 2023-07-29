@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import OtpInput from 'react-otp-input';
 import { lazily } from 'react-lazily';
 import { Button } from '@uninus/web/components';
-const { AuthLayout } = lazily(() => import('../../layouts'));
+const { AuthLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const VerifForgetModule: FC = (): ReactElement => {
   const searchParams = useSearchParams();

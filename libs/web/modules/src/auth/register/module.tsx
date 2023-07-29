@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useRegister } from './hook';
 import { useRouter } from 'next/navigation';
 import { lazily } from 'react-lazily';
-const { AuthLayout } = lazily(() => import('../../layouts'));
+const { AuthLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const RegisterModule: FC = (): ReactElement => {
   const router = useRouter();

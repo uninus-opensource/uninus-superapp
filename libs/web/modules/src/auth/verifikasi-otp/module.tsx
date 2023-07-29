@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import OtpInput from 'react-otp-input';
 import { lazily } from 'react-lazily';
-const { AuthLayout } = lazily(() => import('../../layouts'));
+const { AuthLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const VerifEmailModule: FC = (): ReactElement => {
   const searchParams = useSearchParams();

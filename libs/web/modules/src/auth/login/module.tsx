@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { lazily } from 'react-lazily';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-const { AuthLayout } = lazily(() => import('../../layouts'));
+const { AuthLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const LoginModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

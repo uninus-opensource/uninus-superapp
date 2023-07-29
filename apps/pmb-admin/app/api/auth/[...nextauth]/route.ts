@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-import { authOptionsAdmin } from '@uninus/modules-fe';
+import { authOptions } from '@uninus/web/modules';
 
-const handler = NextAuth(authOptionsAdmin);
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

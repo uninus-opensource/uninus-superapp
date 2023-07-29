@@ -3,7 +3,7 @@ import { ReactElement, FC, Suspense } from 'react';
 import { Button, HeroBanner, LazyLoading } from '@uninus/web/components';
 import Image from 'next/image';
 import { lazily } from 'react-lazily';
-const { MainLayout } = lazily(() => import('../../layouts'));
+const { MainLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const ModuleUnggul: FC = (): ReactElement => {
   return (

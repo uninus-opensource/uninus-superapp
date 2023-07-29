@@ -1,7 +1,7 @@
 'use client';
 import { ReactElement, FC } from 'react';
 import { Button, SelectField } from '@uninus/web/components';
-import { DashboardLayout } from '../../layouts';
+import { DashboardLayout } from '@uninus/web/layouts';
 
 import { FieldValues, useForm } from 'react-hook-form';
 

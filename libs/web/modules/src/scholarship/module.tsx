@@ -4,7 +4,7 @@ import { HeroBanner } from '@uninus/web/components';
 import Image from 'next/image';
 import Link from 'next/link';
 import { lazily } from 'react-lazily';
-const { MainLayout } = lazily(() => import('../layouts'));
+const { MainLayout } = lazily(() => import('@uninus/web/layouts'));
 
 export const ModulBeasiswa: FC = (): ReactElement => {
   const beasiswaList: { name: string; img: string; link: string }[] = [

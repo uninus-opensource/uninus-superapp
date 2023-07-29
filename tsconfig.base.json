@@ -28,6 +28,8 @@
       "@uninus/entities": ["libs/entities/src/index.ts"],
       "@uninus/utilities": ["libs/utilities/src/index.ts"],
       "@uninus/web/components": ["libs/web/components/src/index.ts"],
+      "@uninus/web/layouts": ["libs/web/layouts/src/index.ts"],
+      "@uninus/web/layouts/server": ["libs/web/layouts/src/server.ts"],
       "@uninus/web/modules": ["libs/web/modules/src/index.ts"],
       "@uninus/web/providers": ["libs/web/providers/src/index.ts"],
       "@uninus/web/services": ["libs/web/services/src/index.ts"],
