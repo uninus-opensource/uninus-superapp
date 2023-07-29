@@ -18,6 +18,13 @@
 
 - Soon nanti di isi
 
+## Setup Husky
+
+Untuk bisa menggunakan husky agar berjalan baik dan benar maka perlu di inisialisasi dulu
+
+- Jalankan perintah
+  > `yarn husky install`
+
 # Cara Menggunakan GIT dengan Baik dan Benar
 
 ### Jika Kamu baru di Project ini maka kamu bisa ke Section Installasi
@@ -311,9 +318,4 @@ Development dengan Nix membuat proses Develop menjadi lebih mudah dan ringkas, s
 
 Masuk kedalam folder `apps/nama-apps/` Copy terlebih dahulu `.env.example` kemudian rename ke `.env`
 
-## Setup Husky
 
-Untuk bisa menggunakan husky agar berjalan baik dan benar maka perlu di inisialisasi dulu
-
-- Jalankan perintah
-  > `yarn husky-init`
