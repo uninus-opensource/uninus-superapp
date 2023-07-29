@@ -8,17 +8,14 @@ import { TJwtPayload } from '@uninus/entities';
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromBodyField('refresh_token'),
       secretOrKey: process.env['REFRESH_SECRET'],
       passReqToCallback: true,
     });
   }
 
   async validate(req: Request, payload: TJwtPayload) {
-    const refreshToken = req
-      ?.get('Authorization')
-      ?.replace('Bearer', '')
-      .trim();
+    const refreshToken = req;
 
     if (!refreshToken) throw new ForbiddenException('Refresh token malformed');
 
