@@ -30,8 +30,7 @@ jobs:
         with:
           node-version: 18
       - run: yarn install
-      - run: yarn run nx run-many --target=lint --projects=akreditasi,evaluasi,keuangan,neo-feeder,pegawai,pmb,siakad,smart-dashboard,tata-usaha,tracer,lms,api,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts
-
+      - run: yarn run nx run-many --target=build --projects=akreditasi,evaluasi,keuangan,neo-feeder,pegawai,pmb,siakad,smart-dashboard,tata-usaha,tracer,lms,api,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts
 
   clean:
     runs-on: ubuntu-latest
