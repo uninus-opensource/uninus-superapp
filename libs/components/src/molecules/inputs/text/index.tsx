@@ -68,7 +68,7 @@ export const TextField = <T extends FieldValues>({
   });
 
   const messageStatus = clsx({
-    'text-red-3': status === 'error',
+    'text-red-5': status === 'error',
     'text-primary-yellow': status === 'warning',
     'text-secondary-green-1': status === 'success',
     hidden: status === 'none',
