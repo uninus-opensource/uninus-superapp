@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { NextPage } from 'next';
-import { LandingModule } from '@uninus/modules-fe';
+import { LandingModule } from '@uninus/web/modules';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

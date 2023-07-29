@@ -1,12 +1,15 @@
-'use client';
 import { Montserrat } from 'next/font/google';
-import { AuthProvider, QueryProvider, RecoilProvider } from '@uninus/providers';
+import { AuthProvider, QueryProvider, RecoilProvider } from '@uninus/web/providers';
 import './global.css';
 
 const monserrat = Montserrat({
   subsets: ['latin'],
   weight: '400',
 });
+
+export const metadata = {
+  title: "PMB Admin"
+}
 
 export default function RootLayout({
   children,

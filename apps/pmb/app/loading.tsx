@@ -1,5 +1,5 @@
 'use client';
-import { LoadingSpinner } from '@uninus/components';
+import { LoadingSpinner } from '@uninus/web/components';
 
 export default function Loading() {
   return (

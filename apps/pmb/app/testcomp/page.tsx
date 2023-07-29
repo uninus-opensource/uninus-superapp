@@ -11,7 +11,7 @@ import {
   SelectField,
   SelectController,
   Accordion,
-} from '@uninus/components';
+} from '@uninus/web/components';
 import { PlusOutlined } from '@ant-design/icons';
 
 const MultiOptions = [

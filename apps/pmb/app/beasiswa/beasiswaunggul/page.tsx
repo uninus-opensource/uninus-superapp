@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { NextPage } from 'next';
-import { ModuleUnggul } from '@uninus/modules-fe';
+import { ModuleUnggul } from '@uninus/web/modules';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

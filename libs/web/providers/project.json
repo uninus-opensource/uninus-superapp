@@ -1,0 +1,16 @@
+{
+  "name": "web-providers",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/providers/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/web/providers/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { TuitionFeeModule } from '@uninus/modules-fe';
+import { TuitionFeeModule } from '@uninus/web/modules';
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 import { Metadata } from 'next';

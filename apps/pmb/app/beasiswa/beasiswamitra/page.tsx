@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { NextPage } from 'next';
-import { ModuleMitra } from '@uninus/modules-fe';
+import { ModuleMitra } from '@uninus/web/modules';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

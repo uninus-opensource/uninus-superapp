@@ -5,7 +5,7 @@
 import 'reflect-metadata';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { MasterApi } from '@uninus/master-api';
+import { MasterApi } from '@uninus/api/master';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {

@@ -1,4 +1,4 @@
-import { PrismaService } from '@uninus/models';
+import { PrismaService } from '@uninus/api/models';
 
 const prisma = new PrismaService();
 

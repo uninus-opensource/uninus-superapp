@@ -1,4 +1,4 @@
-import { ModuleDokumen } from '@uninus/modules-fe';
+import { ModuleDokumen } from '@uninus/web/modules';
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 

@@ -1,4 +1,4 @@
-import { DashboardModuleAdmin } from '@uninus/modules-fe';
+import { DashboardModuleAdmin } from '@uninus/web/modules';
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 import { Metadata } from 'next';
