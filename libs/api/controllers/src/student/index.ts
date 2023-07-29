@@ -11,12 +11,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import {
-  TReqToken,
-  UpdateStudentZodSchema,
-} from '@uninus/entities';
-import { JwtAuthGuard } from "@uninus/api/guard"
-import { ZodValidationPipe } from "@uninus/api/validator"
+import { TReqToken, UpdateStudentZodSchema } from '@uninus/entities';
+import { JwtAuthGuard } from '@uninus/api/guard';
+import { ZodValidationPipe } from '@uninus/api/validator';
 import { StudentService, UpdateStudentSwagger } from '@uninus/api/services';
 import {
   ApiResponse,
@@ -70,22 +67,26 @@ export class StudentController {
   }
 
   @Delete('/:id')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete By Id' })
   @ApiResponse({
     status: 400,
     description: 'User tidak ditemukan',
   })
+  @UseGuards(JwtAuthGuard)
   deleteDataById(@Param('id') id: string) {
     return this.appService.deleteStudent(id);
   }
 
   @Put('/:id')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Update By Id' })
   @ApiResponse({
     status: 400,
     description: 'User tidak ditemukan',
   })
   @UseInterceptors(FileInterceptor('avatar'))
+  @UseGuards(JwtAuthGuard)
   updateDataById(
     @Param('id') id: string,
     @UploadedFile() avatar: Express.Multer.File,
@@ -93,5 +94,20 @@ export class StudentController {
     studentData: UpdateStudentSwagger
   ) {
     return this.appService.updateStudent(id, avatar, studentData);
+  }
+
+  @Get('/:id')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get Data By Id' })
+  @ApiResponse({
+    status: 400,
+    description: 'Data tidak ditemukan',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+  })
+  @UseGuards(JwtAuthGuard)
+  getDataById(@Param('id') id: string) {
+    return this.appService.getStudent(id);
   }
 }
