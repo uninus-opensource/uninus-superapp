@@ -96,7 +96,7 @@ export const SideBar: FC<TSideBarProps> = ({
       <aside
         className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[30vw] bg-sky-3 h-auto left-0 flex z-50 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
-        <section className={` w-full flex flex-col items-center  `}>
+        <section className={` w-full flex flex-col items-center gap-y-2`}>
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
             PMB UNINUS
           </h1>
@@ -125,13 +125,13 @@ export const SideBar: FC<TSideBarProps> = ({
 
           <div className="flex flex-col h-full justify-between 2xl:h-full">
             <nav>
-              <ul className="flex flex-col gap-y-6 lg:gap-y-4">
+              <ul className="flex flex-col gap-y-2.5 xl:gap-y-6 items-center">
                 {sideList?.map((sideList, idx) => (
                   <li key={idx} className="flex flex-col gap-y-6">
                     <Link
                       href={sideList?.link}
                       role="link"
-                      className={`flex gap-x-3 text-lg capitalize ${
+                      className={`flex gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
                         pathname === sideList?.link &&
                         'bg-primary-white drop-shadow-md '
                       }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
@@ -140,11 +140,11 @@ export const SideBar: FC<TSideBarProps> = ({
                         className={`${
                           pathname === sideList?.link &&
                           'bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white'
-                        } text-primary-green w-fit h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                        } text-primary-green w-10 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
                       >
                         {sideList?.icon}
                       </p>
-                      <p className="text-primary-green text-[15px] w-[6.8vw] font-normal">
+                      <p className="text-primary-green text-xs xl:text-base w-[6.8vw] font-normal">
                         {sideList?.label}
                       </p>
                     </Link>
@@ -152,18 +152,20 @@ export const SideBar: FC<TSideBarProps> = ({
                 ))}
               </ul>
             </nav>
-            <div className="flex relative bottom-0 ml-2 hover:shadow-md text-primary-green font-normal rounded-md ">
+            <div className="flex relative bottom-0 ml-2 hover:shadow-md text-primary-green font-normal rounded-md mt-2 ">
               <Button
                 variant="sidebarbutton"
                 size="sm"
-                styling="text-xl -ml-4 mt-0 items-center flex"
+                styling="text-xl -ml-4 mt-0 items-center flex group"
                 onClick={handleOpenModal}
               >
                 <AiOutlineLogout
                   size={40}
-                  className="mr-3 text-primary-green w-fit p-2 drop-shadow-lg bg-primary-white hover:bg-primary-green rounded-lg "
+                  className="mr-3 text-primary-green p-2 drop-shadow-lg bg-primary-white group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green group-hover:text-primary-white rounded-lg"
                 />
-                <p className="text-primary-green text-sm font-normal">Keluar</p>
+                <p className="text-primary-green text-sm xl:text-base font-normal">
+                  Keluar
+                </p>
               </Button>
             </div>
           </div>
@@ -236,7 +238,7 @@ export const SideBar: FC<TSideBarProps> = ({
                         className={`flex gap-x-3 text-lg capitalize ${
                           pathname === sideList.link &&
                           'bg-primary-white drop-shadow-md '
-                        }hover:bg-primary-white   hover:text-secondary-green-1 items-center p-2  rounded-md`}
+                        }hover:bg-primary-white hover:text-secondary-green-1 items-center p-2  rounded-md`}
                       >
                         <p
                           className={`${
@@ -257,12 +259,12 @@ export const SideBar: FC<TSideBarProps> = ({
                   <Button
                     variant="sidebarbutton"
                     size="sm"
-                    styling="text-sm font-normal text-primary-green mt-0 p-0"
+                    styling="text-sm font-normal text-primary-green mt-0 p-0 group "
                     onClick={handleOpenModal}
                   >
                     <AiOutlineLogout
                       size={45}
-                      className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white hover:bg-primary-green rounded-lg "
+                      className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green group-hover:text-primary-white rounded-lg "
                     />
                     <p className="text-primary-green">Keluar</p>
                   </Button>
