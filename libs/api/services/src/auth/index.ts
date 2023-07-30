@@ -14,6 +14,19 @@ import {
   TReqToken,
   getEmailMessageTemplate,
   TResRefreshToken,
+  TForgotPasswordResponse,
+  TForgotPasswordRequest,
+  TResetPasswordResponse,
+  TResetPasswordRequest,
+  TVerifyOtpRequest,
+  TVerifyOtpResponse,
+  TVerifyOtpPasswordRequest,
+  TVerifyOtpPasswordResponse,
+  TResendOtpRequest,
+  TResendOtpResponse,
+  TLogoutRequest,
+  TLogoutResponse,
+  TLoginRequest,
 } from '@uninus/entities';
 import { PrismaService } from '@uninus/api/models';
 import {
@@ -119,10 +132,10 @@ export class AuthService {
     };
   }
 
-  async login(email: string, password: string): Promise<TLoginResponse> {
+  async login(args: TLoginRequest): Promise<TLoginResponse> {
     const user = await this.prisma.users.findUnique({
       where: {
-        email: email.toLowerCase(),
+        email: args.email.toLowerCase(),
       },
       select: {
         id: true,
@@ -149,7 +162,7 @@ export class AuthService {
       throw new UnauthorizedException('Email belum terverifikasi');
     }
 
-    const isMatch = await comparePassword(password, user.password);
+    const isMatch = await comparePassword(args.password, user.password);
 
     if (!isMatch) {
       throw new UnauthorizedException('Password salah');
@@ -186,10 +199,10 @@ export class AuthService {
     };
   }
 
-  async logout(refreshToken: string): Promise<{ message: string }> {
+  async logout(args: TLogoutRequest): Promise<TLogoutResponse> {
     const result = await this.prisma.users.updateMany({
       where: {
-        refresh_token: refreshToken,
+        refresh_token: args.refresh_token,
       },
       data: {
         refresh_token: null,
@@ -222,17 +235,17 @@ export class AuthService {
     };
   }
 
-  async verifyOtp(email: string, otp: string) {
+  async verifyOtp(args: TVerifyOtpRequest): Promise<TVerifyOtpResponse> {
     await clearOtp();
 
-    const isVerified = await compareOtp(email, otp);
+    const isVerified = await compareOtp(args?.email, args?.otp);
     if (!isVerified) {
       throw new NotFoundException('Email atau OTP tidak valid');
     }
 
     const user = await this.prisma.users.update({
       where: {
-        email,
+        email: args.email,
       },
       data: {
         isVerified: true,
@@ -247,11 +260,11 @@ export class AuthService {
     };
   }
 
-  async resendOtp(email: string) {
+  async resendOtp(args: TResendOtpRequest): Promise<TResendOtpResponse> {
     await clearOtp();
     const user = await this.prisma.users.findUnique({
       where: {
-        email,
+        email: args.email,
       },
     });
     if (!user) {
@@ -272,7 +285,7 @@ export class AuthService {
     );
 
     const sendEmail = this.emailService.sendEmail(
-      email.toLowerCase(),
+      args.email.toLowerCase(),
       'Verifikasi Email',
       html
     );
@@ -286,10 +299,12 @@ export class AuthService {
     };
   }
 
-  async forgotPassword(email: string) {
+  async forgotPassword(
+    data: TForgotPasswordRequest
+  ): Promise<TForgotPasswordResponse> {
     const user = await this.prisma.users.findUnique({
       where: {
-        email,
+        email: data?.email,
       },
     });
     const msg = 'memperbarui kata sandi anda';
@@ -309,7 +324,7 @@ export class AuthService {
     );
 
     const sendEmail = this.emailService.sendEmail(
-      email.toLowerCase(),
+      data?.email.toLowerCase(),
       'Reset Password',
       html
     );
@@ -321,10 +336,12 @@ export class AuthService {
     };
   }
 
-  async verifyOtpPassword(email: string, otp: string) {
+  async verifyOtpPassword(
+    args: TVerifyOtpPasswordRequest
+  ): Promise<TVerifyOtpPasswordResponse> {
     await clearOtp();
 
-    const isVerified = await compareOtp(email, otp);
+    const isVerified = await compareOtp(args?.email, args?.otp);
     if (!isVerified) {
       throw new NotFoundException('Email atau OTP tidak valid');
     }
@@ -334,7 +351,9 @@ export class AuthService {
     };
   }
 
-  async resetPassword(args: { email: string; password: string }) {
+  async resetPassword(
+    args: TResetPasswordRequest
+  ): Promise<TResetPasswordResponse> {
     const newPassword = await encryptPassword(args.password);
 
     const isEmailExist = await this.prisma.users.findUnique({

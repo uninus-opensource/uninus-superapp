@@ -40,8 +40,8 @@ export class StudentController {
   })
   @UseGuards(JwtAuthGuard)
   getData(@Request() reqToken: TReqToken) {
-    const { sub } = reqToken.user;
-    return this.appService.getStudent(sub);
+    const { sub: id } = reqToken.user;
+    return this.appService.getStudent({ id });
   }
 
   @Put()
@@ -62,8 +62,8 @@ export class StudentController {
     @Body(new ZodValidationPipe(UpdateStudentZodSchema))
     studentData: UpdateStudentSwagger
   ) {
-    const { sub } = reqToken.user;
-    return this.appService.updateStudent(sub, avatar, studentData);
+    const { sub: id } = reqToken.user;
+    return this.appService.updateStudent({ id, avatar, studentData });
   }
 
   @Delete('/:id')
@@ -75,7 +75,7 @@ export class StudentController {
   })
   @UseGuards(JwtAuthGuard)
   deleteDataById(@Param('id') id: string) {
-    return this.appService.deleteStudent(id);
+    return this.appService.deleteStudent({ id });
   }
 
   @Put('/:id')
@@ -93,7 +93,7 @@ export class StudentController {
     @Body(new ZodValidationPipe(UpdateStudentZodSchema))
     studentData: UpdateStudentSwagger
   ) {
-    return this.appService.updateStudent(id, avatar, studentData);
+    return this.appService.updateStudent({ id, avatar, studentData });
   }
 
   @Get('/:id')
@@ -108,6 +108,6 @@ export class StudentController {
   })
   @UseGuards(JwtAuthGuard)
   getDataById(@Param('id') id: string) {
-    return this.appService.getStudent(id);
+    return this.appService.getStudent({ id });
   }
 }
