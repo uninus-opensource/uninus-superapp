@@ -4,14 +4,6 @@ export interface IGetStudentRequest {
   id: string;
 }
 
-export interface IFile {
-  fieldname: string;
-  originalname: string;
-  encoding: string;
-  mimetype: string;
-  buffer: Buffer;
-  size: number;
-}
 export interface IStudentData {
   email: string;
   fullname: string;
@@ -89,7 +81,9 @@ export interface IGetStudentResponse extends IStudentData {
   avatar: string | null;
 }
 
-export interface IDeleteStudentRequest extends IGetStudentRequest {}
+export interface IDeleteStudentRequest extends IGetStudentRequest {
+  id: string;
+}
 
 export interface IDeleteStudentResponse extends IStudentData {
   avatar: string | null;
