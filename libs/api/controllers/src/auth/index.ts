@@ -17,8 +17,8 @@ import {
   newPasswordZodSchema,
   LogoutZodSchema,
 } from '@uninus/entities';
-import { RtGuard } from "@uninus/api/guard"
-import { ZodValidationPipe } from "@uninus/api/validator"
+import { RtGuard } from '@uninus/api/guard';
+import { ZodValidationPipe } from '@uninus/api/validator';
 import {
   AuthService,
   RegisterSwagger,
@@ -69,10 +69,7 @@ export class AuthController {
   async login(
     @Body(new ZodValidationPipe(LoginZodSchema)) LoginSwagger: LoginSwagger
   ) {
-    return await this.appService.login(
-      LoginSwagger.email,
-      LoginSwagger.password
-    );
+    return await this.appService.login(LoginSwagger);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -83,7 +80,7 @@ export class AuthController {
   async logout(
     @Body(new ZodValidationPipe(LogoutZodSchema)) LogoutSwagger: LogoutSwagger
   ) {
-    return await this.appService.logout(LogoutSwagger?.refresh_token);
+    return await this.appService.logout(LogoutSwagger);
   }
 
   @Post('refresh')
@@ -102,7 +99,7 @@ export class AuthController {
   async verifyOtp(
     @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpSwagger
   ) {
-    return this.appService.verifyOtp(verifyOtp.email, verifyOtp.otp);
+    return this.appService.verifyOtp(verifyOtp);
   }
 
   @Post('resend-otp')
@@ -114,7 +111,7 @@ export class AuthController {
     @Body(new ZodValidationPipe(resendOtpZodSchema))
     resendOtpSwagger: resendOtpSwagger
   ) {
-    return this.appService.resendOtp(resendOtpSwagger.email);
+    return this.appService.resendOtp(resendOtpSwagger);
   }
 
   @Post('forgot-password')
@@ -128,7 +125,7 @@ export class AuthController {
     @Body(new ZodValidationPipe(forgotPasswordZodSchema))
     forgotPassword: forgotPasswordSwagger
   ) {
-    return this.appService.forgotPassword(forgotPassword.email);
+    return this.appService.forgotPassword(forgotPassword);
   }
 
   @Post('verify-otp-password')
@@ -139,7 +136,7 @@ export class AuthController {
   async verifyOtpPassword(
     @Body(new ZodValidationPipe(verifyOtpZodSchema)) verifyOtp: verifyOtpSwagger
   ) {
-    return this.appService.verifyOtpPassword(verifyOtp.email, verifyOtp.otp);
+    return this.appService.verifyOtpPassword(verifyOtp);
   }
 
   @Post('reset-password')

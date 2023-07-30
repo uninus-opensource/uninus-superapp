@@ -2,6 +2,14 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Prisma, PrismaService } from '@uninus/api/models';
 import { CloudinaryService } from '../cloudinary';
 import { excludeSchema } from '@uninus/api/utilities';
+import {
+  IGetStudentRequest,
+  IGetStudentResponse,
+  IDeleteStudentRequest,
+  IDeleteStudentResponse,
+  IUpdateStudentResponse,
+  IUpdateStudentRequest,
+} from '@uninus/entities';
 
 @Injectable()
 export class StudentService {
@@ -9,10 +17,10 @@ export class StudentService {
     private prisma: PrismaService,
     private cloudinaryService: CloudinaryService
   ) {}
-  async getStudent(id: string) {
+  async getStudent(args: IGetStudentRequest): Promise<IGetStudentResponse> {
     const student = await this.prisma.users.findUnique({
       where: {
-        id: id,
+        id: args.id,
       },
       select: {
         avatar: true,
@@ -27,7 +35,8 @@ export class StudentService {
         cause: new Error(),
       });
     }
-    const excludeDataStudent = excludeSchema(student?.students, [
+
+    const studentData = excludeSchema(student?.students, [
       'id',
       'user_id',
       'createdAt',
@@ -36,25 +45,23 @@ export class StudentService {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
-      ...excludeDataStudent,
+      ...studentData,
     };
   }
 
   async updateStudent(
-    id: string,
-    file: Express.Multer.File,
-    payload: Prisma.UsersUpdateInput
-  ) {
-    const { fullname, email, ...studentData } = payload;
+    args: IUpdateStudentRequest
+  ): Promise<IUpdateStudentResponse> {
+    const { fullname, email, ...updateStudentPayload } = args.studentData;
     const student = await this.prisma.users.update({
       where: {
-        id,
+        id: args.id,
       },
       data: {
         fullname,
         students: {
           update: {
-            ...studentData,
+            ...updateStudentPayload,
           },
         },
       },
@@ -71,12 +78,12 @@ export class StudentService {
         cause: new Error(),
       });
     }
-    if (file) {
-      const avatar = await this.cloudinaryService.uploadImage(file);
+    if (args.avatar) {
+      const avatar = await this.cloudinaryService.uploadImage(args.avatar);
 
       await this.prisma.users.update({
         where: {
-          id,
+          id: args.id,
         },
         data: {
           avatar: avatar?.secure_url,
@@ -84,7 +91,7 @@ export class StudentService {
       });
     }
 
-    const excludeDataStudent = excludeSchema(student?.students, [
+    const studentData = excludeSchema(student?.students, [
       'id',
       'user_id',
       'createdAt',
@@ -93,14 +100,16 @@ export class StudentService {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
-      ...excludeDataStudent,
+      ...studentData,
     };
   }
 
-  async deleteStudent(id: string) {
+  async deleteStudent(
+    args: IDeleteStudentRequest
+  ): Promise<IDeleteStudentResponse> {
     const student = await this.prisma.users.delete({
       where: {
-        id: id,
+        id: args.id,
       },
       select: {
         avatar: true,
@@ -114,7 +123,8 @@ export class StudentService {
         cause: new Error(),
       });
     }
-    const excludeDataStudent = excludeSchema(student?.students, [
+
+    const studentData = excludeSchema(student?.students, [
       'id',
       'user_id',
       'createdAt',
@@ -123,7 +133,7 @@ export class StudentService {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
-      ...excludeDataStudent,
+      ...studentData,
     };
   }
 }

@@ -1,9 +1,3 @@
-export enum EIdentificationType {
-  KTP = 'KTP',
-  SIM = 'SIM',
-  KARTU_PELAJAR = 'KARTU_PELAJAR',
-}
-
 export enum EGender {
   MALE = 'MALE',
   FEMALE = 'FEMALE',
