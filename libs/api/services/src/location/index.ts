@@ -1,8 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { NotFoundException, Injectable } from '@nestjs/common';
 import {
-  TLocationRequest,
-  TQueryOptionLocation,
-  TLocationResponse,
+  TProvinceResponse,
+  TCityRequest,
+  TCityResponse,
+  TSubDistrictResponse,
+  TSubDistrictRequest,
 } from '@uninus/entities';
 import { PrismaService } from '@uninus/api/models';
 
@@ -10,40 +12,48 @@ import { PrismaService } from '@uninus/api/models';
 export class LocationService {
   constructor(private prisma: PrismaService) {}
 
-  async getLocation({
-    province,
-    city,
-  }: TLocationRequest): Promise<TLocationResponse> {
-    const queryOptions: TQueryOptionLocation = {};
-
-    if (province) {
-      queryOptions.where = { id: Number(province) };
-      queryOptions.include = { cities: true };
+  async getProvince(): Promise<TProvinceResponse> {
+    const province = await this.prisma.province.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    if (!province) {
+      throw new NotFoundException('Data tidak ditemukan');
     }
-
-    if (city) {
-      queryOptions.include = {
-        cities: {
-          where: {
-            id: Number(city),
-          },
-          include: {
-            sub_district: true,
-          },
-        },
-      };
-    }
-
-    const location = await this.prisma.province.findMany(queryOptions);
-
-    if (!location) {
-      throw new BadRequestException('Data tidak ditemukan', {
-        cause: new Error(),
-      });
-    }
-
     return {
-      province: location,
+      province,
+    };
+  }
+
+  async getCity({ id }: TCityRequest): Promise<TCityResponse> {
+    const city = await this.prisma.city.findMany({
+      where: {
+        province_id: Number(id),
+      },
+    });
+    if (!city) {
+      throw new NotFoundException('Data tidak ditemukan');
+    }
+    return {
+      city,
+    };
+  }
+
+  async getSubDistrict({
+    id,
+  }: TSubDistrictRequest): Promise<TSubDistrictResponse> {
+    const subDistrict = await this.prisma.subDistrict.findMany({
+      where: {
+        city_id: Number(id),
+      },
+    });
+    if (!subDistrict) {
+      throw new NotFoundException('Data tidak ditemukan');
+    }
+    return {
+      sub_district: subDistrict,
     };
   }
 }
