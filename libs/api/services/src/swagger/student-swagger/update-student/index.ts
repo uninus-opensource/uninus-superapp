@@ -1,5 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { EGender, ECitizenship, EReligion } from '@uninus/entities';
+import {
+  EGender,
+  ECitizenship,
+  EReligion,
+  EOccupation,
+} from '@uninus/entities';
 
 export class UpdateStudentSwagger {
   @ApiProperty()
@@ -138,13 +143,22 @@ export class UpdateStudentSwagger {
   guardian_education?: string;
 
   @ApiProperty()
-  father_occupation!: string;
+  father_occupation?: EOccupation;
 
   @ApiProperty()
-  mother_occupation!: string;
+  father_occupation_position?: string;
 
   @ApiProperty()
-  guardian_occupation?: string;
+  mother_occupation?: EOccupation;
+
+  @ApiProperty()
+  mother_occupation_position?: string;
+
+  @ApiProperty()
+  guardian_occupation?: EOccupation;
+
+  @ApiProperty()
+  guardian_occupation_position?: string;
 
   @ApiProperty()
   father_income!: string;

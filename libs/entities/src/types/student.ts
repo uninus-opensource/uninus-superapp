@@ -1,4 +1,5 @@
 import { EGender, ECitizenship, EReligion } from '../enum';
+import { EOccupation } from '../enum/job';
 import { TFIle } from './file';
 export interface IGetStudentRequest {
   id: string;
@@ -47,9 +48,12 @@ export interface IStudentData {
   father_education?: string | null;
   mother_education?: string | null;
   guardian_education?: string | null;
-  father_occupation?: string | null;
-  mother_occupation?: string | null;
-  guardian_occupation?: string | null;
+  father_occupation?: EOccupation;
+  father_occupation_position?: string | null;
+  mother_occupation?: EOccupation;
+  mother_occupation_position?: string | null;
+  guardian_occupation?: EOccupation;
+  guardian_occupation_position?: string | null;
   father_income?: string | null;
   mother_income?: string | null;
   guardian_income?: string | null;
