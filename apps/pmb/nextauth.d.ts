@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { DefaultSession } from 'next-auth';
-import { TToken, TUser } from '@uninus/entities';
+import { TUser } from '@uninus/entities';
 export * from 'next-auth__augment';
 
 declare module 'next-auth' {

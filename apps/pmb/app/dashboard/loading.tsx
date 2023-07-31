@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <section className="w-screen bg-slate-2 h-screen flex justify-center items-center z-50">
+    <section className="w-auto bg-slate-2 h-screen flex justify-center items-center z-50">
       <div role="status">
         <svg
           aria-hidden="true"
