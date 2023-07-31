@@ -17,7 +17,7 @@ export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   onChange?: ChangeEventHandler<HTMLInputElement>;
   status?: 'success' | 'error' | 'warning' | 'none';
   message?: string;
-  variant: 'lg' | 'md' | 'sm' | 'otp';
+  variant: 'lg' | 'md' | 'sm' | 'otp' | 'telp';
   icon?: ReactNode | StaticImageData;
   prepend?: ReactNode;
   append?: ReactNode;
