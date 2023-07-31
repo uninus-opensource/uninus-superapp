@@ -58,6 +58,8 @@ export const TextField = <T extends FieldValues>({
       'py-2 rounded-sm placeholder:text-xs text-xs': variant === 'sm',
       'p-5 text-center rounded-2xl placeholder:text-xs placeholder:text-slate-300 text-md md:text-xl appearance-none':
         variant === 'otp',
+      'xl:py-3 lg:py-2 rounded-r-md placeholder:text-xs text-sm':
+        variant === 'telp',
     }
   );
 

@@ -78,7 +78,7 @@ export const RegisterModule: FC = (): ReactElement => {
 
             <div className="flex mt-1">
               <div>
-                <div className="bg-primary-green grid place-items-center rounded-md px-[0.7rem] py-[0.6rem] mt-1 lg:py-[0.85rem]">
+                <div className="bg-primary-green grid place-items-center rounded-l-md px-[0.7rem] py-[0.6rem] mt-1 lg:py-[0.85rem]">
                   <p className="text-primary-white text-[12px]">+62</p>
                 </div>
               </div>
@@ -87,7 +87,7 @@ export const RegisterModule: FC = (): ReactElement => {
                 <TextField
                   name="phone_number"
                   type="number"
-                  variant="md"
+                  variant="telp"
                   placeholder="Masukan Nomor Handphone"
                   control={control}
                   required
