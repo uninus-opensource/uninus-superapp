@@ -25,7 +25,7 @@ export const RegisterModule: FC = (): ReactElement => {
     },
   });
 
-  const { mutate, isLoading, isError, error } = useRegister();
+  const { mutate, isLoading } = useRegister();
 
   const onSubmit = handleSubmit((data) => {
     mutate(
@@ -77,7 +77,7 @@ export const RegisterModule: FC = (): ReactElement => {
             placeholder="Masukan Nomor Handphone"
             control={control}
             required
-            status={errors?.phone_number ? "error" : undefined}
+            status={errors?.phone_number ? 'error' : undefined}
             message={errors?.phone_number?.message}
             maxlenght={16}
             inputMode="tel"

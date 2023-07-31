@@ -10,4 +10,9 @@ export type TbannerProps = {
   subTitle2?: string;
   isDownload?: boolean;
   blur?: boolean;
+  isSlider?: boolean;
+};
+
+export type TSliderProps = {
+  sliderSection?: ReactNode;
 };

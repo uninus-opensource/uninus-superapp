@@ -17,6 +17,7 @@ export const HeroSection: FC = (): ReactElement => {
       backgrounColor="bg-grayscale-9"
       isDownload
       blur
+      isSlider
     />
   );
 };
