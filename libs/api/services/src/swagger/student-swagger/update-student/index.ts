@@ -143,22 +143,22 @@ export class UpdateStudentSwagger {
   guardian_education?: string;
 
   @ApiProperty()
-  father_occupation!: EOccupation;
+  father_occupation?: EOccupation;
 
   @ApiProperty()
-  father_occupation_position!: string;
+  father_occupation_position?: string;
 
   @ApiProperty()
-  mother_occupation!: EOccupation;
+  mother_occupation?: EOccupation;
 
   @ApiProperty()
-  mother_occupation_position!: string;
+  mother_occupation_position?: string;
 
   @ApiProperty()
   guardian_occupation?: EOccupation;
 
   @ApiProperty()
-  guardian_occupation_position!: string;
+  guardian_occupation_position?: string;
 
   @ApiProperty()
   father_income!: string;
