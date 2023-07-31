@@ -12,6 +12,7 @@ export interface SelectInputProps extends UseControllerProps {
   labelClassName?: string;
   labels?: string;
   control: Control;
+  placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
   isMulti?: boolean;

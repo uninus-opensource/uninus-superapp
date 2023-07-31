@@ -62,8 +62,8 @@ export const SelectField = <T extends FieldValues>({
       >
         <option disabled>{props.placeholder}</option>
         {props?.options?.map((option, idx) => (
-          <option key={idx} value={option}>
-            {option}
+          <option key={idx} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

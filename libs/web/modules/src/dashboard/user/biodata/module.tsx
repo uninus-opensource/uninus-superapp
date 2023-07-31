@@ -16,21 +16,57 @@ import {
   TextField,
   UploadField,
   CheckBox,
+  SelectOption,
 } from '@uninus/web/components';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import { formBiodataOne, defaultValuesBiodata } from './store';
 import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
+import { ECitizenship, EReligion, TLocationRequest } from '@uninus/entities';
+import { useLocationGet } from '../../../location/hooks';
 
 export const ModuleBiodata: FC = (): ReactElement => {
   const { data } = useBiodataGet();
+
   const student = useMemo(() => {
     return data;
   }, [data]);
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, watch } = useForm<FieldValues>({
     mode: 'all',
     defaultValues: { ...defaultValuesBiodata },
   });
+
+  const [locationMeta, setLocationMeta] = useState<TLocationRequest>({
+    province: '',
+    city: '',
+  });
+
+  const { data: getLocation } = useLocationGet(locationMeta);
+
+  const provinceOptions = useMemo(
+    () =>
+      getLocation?.province?.map((prov) => ({
+        label: prov.name,
+        value: prov.id.toString(),
+      })),
+    [getLocation?.province]
+  );
+
+  const cityOptions = useMemo(
+    () =>
+      getLocation?.province?.[0]?.cities?.map((city) => ({
+        label: city?.name,
+        value: city?.id.toString(),
+      })),
+    [getLocation?.province]
+  );
+
+  useEffect(() => {
+    setLocationMeta((prev) => ({
+      ...prev,
+      province: watch('province'),
+    }));
+  }, [watch('province')]);
 
   const { mutate: createBiodata } = useBiodataCreate();
   const { mutate: updateBiodata } = useBiodataUpdate();
@@ -54,11 +90,11 @@ export const ModuleBiodata: FC = (): ReactElement => {
 
   const onSubmit = handleSubmit((data) => {
     try {
-      if (student?.identification_number) {
-        updateBiodata(data);
-      } else {
-        createBiodata(data);
-      }
+      // if (student?.identification_number) {
+      //   updateBiodata(data);
+      // } else {
+      //   createBiodata(data);
+      // }
       console.log(data);
     } catch (error) {
       console.error(error);
@@ -204,12 +240,30 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Agama"
                   required
                   options={[
-                    'ISLAM',
-                    'KRISTEN',
-                    'KATOLIK',
-                    'KONGHUCU',
-                    'HINDU',
-                    'BUDDHA',
+                    {
+                      label: 'Islam',
+                      value: EReligion.ISLAM,
+                    },
+                    {
+                      label: 'Kristen',
+                      value: EReligion.KRISTEN,
+                    },
+                    {
+                      label: 'Buddha',
+                      value: EReligion.BUDHA,
+                    },
+                    {
+                      label: 'Hindu',
+                      value: EReligion.HINDU,
+                    },
+                    {
+                      label: 'Konghucu',
+                      value: EReligion.KONGHUCU,
+                    },
+                    {
+                      label: 'Katolik',
+                      value: EReligion.KATOLIK,
+                    },
                   ]}
                   width="w-70% lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
                   control={control}
@@ -223,7 +277,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Kota tempat lahir"
                   required
-                  options={['Kota Bandung', 'Kota Jakarta', 'Kota Denpasar']}
+                  options={cityOptions || []}
                   width="w-70% lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
@@ -248,7 +302,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     label="Status"
                     size="sm"
                     placeholder="Status"
-                    options={['Menikah', 'Belum menikah']}
+                    options={[
+                      {
+                        label: 'Married',
+                        value: 'Menikah',
+                      },
+                      {
+                        label: 'Single',
+                        value: 'Belum Menikah',
+                      },
+                    ]}
                     width="lg:w-[27vw] xl:w-[25vw] md:w-[33vw] w-[35vw] "
                     control={control}
                   />
@@ -292,19 +355,39 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   required
                   placeholder="Asal Negara"
-                  options={['Indonesia', 'Malaysia', 'Singapura', 'Kamboja']}
+                  options={[
+                    {
+                      label: ECitizenship.WNA,
+                      value: 'Warga Negara Asing',
+                    },
+                    {
+                      label: ECitizenship.WNI,
+                      value: 'Warga Negara Indonesia',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
-                <SelectField
+                {/* <SelectField
                   name="province"
                   label="Provinsi"
                   size="sm"
                   required
                   placeholder="Provinsi"
-                  options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
+                  options={provinceOptions || []}
                   width="w-[35vw] lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
                   control={control}
+                /> */}
+                <SelectOption
+                  labels="Provinsi"
+                  className="bg-slate-4 rounded-md text-primary-black border w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                  labelClassName="font-bold"
+                  options={provinceOptions || []}
+                  placeholder="Provinsi"
+                  isSearchable={true}
+                  name="province"
+                  control={control}
+                  isMulti={false}
                 />
               </section>
               <section className="flex flex-wrap w-full gap-x-1 justify-center items-center  lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
@@ -314,22 +397,31 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   required
                   size="sm"
                   placeholder="Kota/Kabupaten"
-                  options={[
-                    'Kota Medan',
-                    'Kabupaten Bandung',
-                    'Kota Jakarta',
-                    'Kota Bandung',
-                  ]}
+                  options={cityOptions || []}
                   width="w-[35vw] lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
+
                 <SelectField
                   name="subdistrict"
                   label="Kecamatan"
                   size="sm"
                   required
                   placeholder="Kecamatan"
-                  options={['Sumur Bandung', 'Batununggal']}
+                  options={[
+                    {
+                      label: 'Bubat',
+                      value: 'Buah Batu',
+                    },
+                    {
+                      label: 'Andir',
+                      value: 'Andir',
+                    },
+                    {
+                      label: 'Kircon',
+                      value: 'Kiara Condong',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[27vw] md:w-[33vw] xl:w-[25vw]"
                   control={control}
                 />
@@ -379,7 +471,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Jenis Pendidikan Asal"
                   size="sm"
                   placeholder="Jenis Pendidikan"
-                  options={['SMA', 'SMK', 'MA']}
+                  options={[
+                    {
+                      label: 'SMA',
+                      value: 'SMA',
+                    },
+                    {
+                      label: 'SMK',
+                      value: 'SMK',
+                    },
+                    {
+                      label: 'Madrasah',
+                      value: 'MA',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
@@ -388,7 +493,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Tahun Lulus"
                   size="sm"
                   placeholder="Tahun Lulus"
-                  options={['2020', '2021', '2022']}
+                  options={[
+                    {
+                      label: '2020',
+                      value: '2020',
+                    },
+                    {
+                      label: '2021',
+                      value: '2021',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
@@ -397,7 +511,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Jurusan Pendidikan Asal"
                   size="sm"
                   placeholder="Jurusan Pendidikan"
-                  options={['Saintek', 'Soshum', 'Lainnya']}
+                  options={[
+                    {
+                      label: 'IPA',
+                      value: 'MIPA',
+                    },
+                    {
+                      label: 'IPS',
+                      value: 'IPS',
+                    },
+                    {
+                      label: 'Keagamaan',
+                      value: 'Agama',
+                    },
+                  ]}
                   width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
@@ -421,6 +548,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
+                  placeholder="Masukan Sekolah Asal"
                   label="Nama Sekolah Asal"
                   inputWidth="w-[35vw] lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
                   control={control}
@@ -433,7 +561,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Provinsi"
                   size="sm"
                   placeholder="Provinsi"
-                  options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
+                  options={[
+                    {
+                      label: 'Jabar',
+                      value: 'Jawa Barat',
+                    },
+                    {
+                      label: 'Jatim',
+                      value: 'Jawa Timur',
+                    },
+                    {
+                      label: 'Jateng',
+                      value: 'Jawa Tengah',
+                    },
+                  ]}
                   width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
@@ -443,10 +584,18 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Kota/Kabupaten"
                   options={[
-                    'Kota Medan',
-                    'Kabupaten Bandung',
-                    'Kota Jakarta',
-                    'Kota Bandung',
+                    {
+                      label: 'Bandung',
+                      value: 'Kota Bandung',
+                    },
+                    {
+                      label: 'Jakarta',
+                      value: 'Kota Jakarta',
+                    },
+                    {
+                      label: 'Medan',
+                      value: 'Kota Medan',
+                    },
                   ]}
                   width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
@@ -456,7 +605,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Kecamatan"
                   size="sm"
                   placeholder="Kecamatan"
-                  options={['Sumur Bandung', 'Batununggal']}
+                  options={[
+                    {
+                      label: 'Bubat',
+                      value: 'Buah Batu',
+                    },
+                    {
+                      label: 'Andir',
+                      value: 'Andir',
+                    },
+                    {
+                      label: 'Kircon',
+                      value: 'Kiara Condong',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
@@ -513,6 +675,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Nama Ayah"
+                  placeholder="Masukan Nama Ayah"
                   inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
@@ -521,7 +684,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Status Ayah"
                   size="sm"
                   placeholder="Status Ayah"
-                  options={['Meninggal', 'Hidup']}
+                  options={[
+                    {
+                      label: 'Meninggal',
+                      value: 'Meninggal',
+                    },
+                    {
+                      label: 'Hidup',
+                      value: 'Hidup',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[12vw] md:w-[16vw]"
                   control={control}
                 />
@@ -530,7 +702,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Pendidikan Ayah"
                   size="sm"
                   placeholder="Pendidikan Ayah"
-                  options={['SD', 'SMP', 'SMA/SMK', 'S1']}
+                  options={[
+                    {
+                      label: 'SMA',
+                      value: 'SMA',
+                    },
+                    {
+                      label: 'SMK',
+                      value: 'SMK',
+                    },
+                    {
+                      label: 'Stara',
+                      value: 'S1',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[12vw] md:w-[16vw]"
                   control={control}
                 />
@@ -540,11 +725,18 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Pilih Pekerjaan"
                   options={[
-                    'Petani',
-                    'Nelayan',
-                    'Guru',
-                    'Wirausaha',
-                    'Lainnya',
+                    {
+                      label: 'PNS',
+                      value: 'Guru',
+                    },
+                    {
+                      label: 'Buruh',
+                      value: 'Berdagang',
+                    },
+                    {
+                      label: 'Polri',
+                      value: 'Polisi',
+                    },
                   ]}
                   width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
                   control={control}
@@ -555,9 +747,18 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Pilih Pendapatan"
                   options={[
-                    'Rp. 0 - 2.000.000',
-                    'Rp. 2.000.001 - 4.000.000',
-                    'Rp. 4.000.001 - 6.000.000',
+                    {
+                      label: 'Rendah',
+                      value: '0 - 1.200.000',
+                    },
+                    {
+                      label: 'Menengah',
+                      value: '1.200.000 - 3.200.000',
+                    },
+                    {
+                      label: 'Tinggi',
+                      value: '3.200.000',
+                    },
                   ]}
                   width="w-70% lg:w-[26.5vw] md:w-[33vw]"
                   control={control}
@@ -575,6 +776,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Nama Ibu"
+                  placeholder="Masukan Nama Ibu"
                   inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
@@ -583,7 +785,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Status Ibu"
                   size="sm"
                   placeholder="Status Ibu"
-                  options={['Meninggal', 'Hidup']}
+                  options={[
+                    {
+                      label: 'Meninggal',
+                      value: 'Meninggal',
+                    },
+                    {
+                      label: 'Hidup',
+                      value: 'Hidup',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
                   control={control}
                 />
@@ -592,7 +803,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Pendidikan Ibu"
                   size="sm"
                   placeholder="Pendidikan Ibu"
-                  options={['SD', 'SMP', 'SMA/SMK', 'S1']}
+                  options={[
+                    {
+                      label: 'SMA',
+                      value: 'SMA',
+                    },
+                    {
+                      label: 'SMK',
+                      value: 'SMK',
+                    },
+                    {
+                      label: 'Stara',
+                      value: 'S1',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
                   control={control}
                 />
@@ -602,11 +826,18 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Pilih Pekerjaan"
                   options={[
-                    'Petani',
-                    'Nelayan',
-                    'Guru',
-                    'Wirausaha',
-                    'Lainnya',
+                    {
+                      label: 'PNS',
+                      value: 'Guru',
+                    },
+                    {
+                      label: 'Buruh',
+                      value: 'Berdagang',
+                    },
+                    {
+                      label: 'Polri',
+                      value: 'Polisi',
+                    },
                   ]}
                   width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
                   control={control}
@@ -617,9 +848,18 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Pilih Pendapatan"
                   options={[
-                    'Rp. 0 - 2.000.000',
-                    'Rp. 2.000.001 - 4.000.000',
-                    'Rp. 4.000.001 - 6.000.000',
+                    {
+                      label: 'Rendah',
+                      value: '0 - 1.200.000',
+                    },
+                    {
+                      label: 'Menengah',
+                      value: '1.200.000 - 3.200.000',
+                    },
+                    {
+                      label: 'Tinggi',
+                      value: '3.200.000',
+                    },
                   ]}
                   width="w-70% lg:w-[26.5vw] md:w-[33vw]"
                   control={control}
@@ -635,7 +875,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Provinsi"
                   size="sm"
                   placeholder="Provinsi"
-                  options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
+                  options={[
+                    {
+                      label: 'Jabar',
+                      value: 'Jawa Barat',
+                    },
+                    {
+                      label: 'Jatim',
+                      value: 'Jawa Timur',
+                    },
+                    {
+                      label: 'Jateng',
+                      value: 'Jawa Tengah',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
@@ -644,12 +897,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Kota/Kabupaten"
                   size="sm"
                   placeholder="Kota/Kabupaten"
-                  options={[
-                    'Kota Medan',
-                    'Kabupaten Bandung',
-                    'Kota Jakarta',
-                    'Kota Bandung',
-                  ]}
+                  options={cityOptions || []}
                   width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
@@ -658,7 +906,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Kecamatan"
                   size="sm"
                   placeholder="Kecamatan"
-                  options={['Sumur Bandung', 'Batununggal']}
+                  options={[
+                    {
+                      label: 'Bubat',
+                      value: 'Buah Batu',
+                    },
+                    {
+                      label: 'Andir',
+                      value: 'Andir',
+                    },
+                    {
+                      label: 'Kircon',
+                      value: 'Kiara Condong',
+                    },
+                  ]}
                   width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
@@ -714,6 +975,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Nama Wali"
+                  placeholder="Masukan Nama Wali"
                   inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
@@ -722,7 +984,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Status Wali"
                   size="sm"
                   placeholder="Status Wali"
-                  options={['Meninggal', 'Hidup']}
+                  options={[
+                    {
+                      label: 'Meninggal',
+                      value: 'Meninggal',
+                    },
+                    {
+                      label: 'Hidup',
+                      value: 'Hidup',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
                   control={control}
                 />
@@ -731,7 +1002,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Pendidikan Wali"
                   size="sm"
                   placeholder="Pendidikan Wali"
-                  options={['SD', 'SMP', 'SMA/SMK', 'S1']}
+                  options={[
+                    {
+                      label: 'SMA',
+                      value: 'SMA',
+                    },
+                    {
+                      label: 'SMK',
+                      value: 'SMK',
+                    },
+                    {
+                      label: 'Stara',
+                      value: 'S1',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
                   control={control}
                 />
@@ -741,11 +1025,18 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Pilih Pekerjaan"
                   options={[
-                    'Petani',
-                    'Nelayan',
-                    'Guru',
-                    'Wirausaha',
-                    'Lainnya',
+                    {
+                      label: 'PNS',
+                      value: 'Guru',
+                    },
+                    {
+                      label: 'Buruh',
+                      value: 'Berdagang',
+                    },
+                    {
+                      label: 'Polri',
+                      value: 'Polisi',
+                    },
                   ]}
                   width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
                   control={control}
@@ -756,9 +1047,18 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   size="sm"
                   placeholder="Pilih Pendapatan"
                   options={[
-                    'Rp. 0 - 2.000.000',
-                    'Rp. 2.000.001 - 4.000.000',
-                    'Rp. 4.000.001 - 6.000.000',
+                    {
+                      label: 'Rendah',
+                      value: '0 - 1.200.000',
+                    },
+                    {
+                      label: 'Menengah',
+                      value: '1.200.000 - 3.200.000',
+                    },
+                    {
+                      label: 'Tinggi',
+                      value: '3.200.000',
+                    },
                   ]}
                   width="w-70% lg:w-[26vw] md:w-[33vw]"
                   control={control}
@@ -773,7 +1073,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Provinsi"
                   size="sm"
                   placeholder="Provinsi"
-                  options={['Jawa Barat', 'Jawa Tengah', 'Jawa Timur']}
+                  options={[
+                    {
+                      label: 'Jabar',
+                      value: 'Jawa Barat',
+                    },
+                    {
+                      label: 'Jatim',
+                      value: 'Jawa Timur',
+                    },
+                    {
+                      label: 'Jateng',
+                      value: 'Jawa Tengah',
+                    },
+                  ]}
                   width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
@@ -782,12 +1095,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Kota/Kabupaten"
                   size="sm"
                   placeholder="Kota/Kabupaten"
-                  options={[
-                    'Kota Medan',
-                    'Kabupaten Bandung',
-                    'Kota Jakarta',
-                    'Kota Bandung',
-                  ]}
+                  options={cityOptions || []}
                   width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />
@@ -796,7 +1104,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   label="Kecamatan"
                   size="sm"
                   placeholder="Kecamatan"
-                  options={['Sumur Bandung', 'Batununggal']}
+                  options={[
+                    {
+                      label: 'Bubat',
+                      value: 'Buah Batu',
+                    },
+                    {
+                      label: 'Andir',
+                      value: 'Andir',
+                    },
+                    {
+                      label: 'Kircon',
+                      value: 'Kiara Condong',
+                    },
+                  ]}
                   width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   control={control}
                 />

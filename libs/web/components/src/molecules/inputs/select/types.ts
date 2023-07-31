@@ -6,7 +6,10 @@ export type TSelectProps<T extends FieldValues> = UseControllerProps<T> & {
   width?: string;
   size: 'sm' | 'md';
   name: string;
-  options: string[];
+  options: Array<{
+    label: string;
+    value: string | number;
+  }>;
   placeholder: string;
   message?: string;
   status?: 'success' | 'error' | 'warning' | 'none';

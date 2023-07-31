@@ -1,11 +1,4 @@
-import  {
-  ReactElement,
-  FC,
-  useState,
-  useEffect,
-  useRef,
-  Fragment,
-} from 'react';
+import { ReactElement, FC, useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 import { useController } from 'react-hook-form';
 import { SelectInputProps } from './types';
@@ -13,7 +6,7 @@ import observeElement, {
   IntersectionCallback,
 } from './intersectionObserverUtils';
 
-export const SelectController: FC<SelectInputProps> = ({
+export const SelectOption: FC<SelectInputProps> = ({
   control,
   name,
   className,
@@ -21,6 +14,7 @@ export const SelectController: FC<SelectInputProps> = ({
   labels,
   labelClassName,
   options,
+  placeholder,
   isSearchable = true,
   isClearable = true,
   isMulti = true,
@@ -56,14 +50,15 @@ export const SelectController: FC<SelectInputProps> = ({
   }, []);
 
   return (
-    <Fragment>
-      <label className={labelClassName} htmlFor={labelName}>
+    <div className="flex flex-col">
+      <label className="font-bold text-sm" htmlFor={labelName}>
         {labels}
       </label>
       <Select
         options={options}
         className={className}
         isSearchable={isSearchable}
+        placeholder={placeholder}
         isClearable={isClearable}
         isMulti={isMulti}
         value={options.find((option) => option.value === value)}
@@ -71,6 +66,6 @@ export const SelectController: FC<SelectInputProps> = ({
         ref={ref}
       />
       {invalid && <span>{error?.message}</span>}
-    </Fragment>
+    </div>
   );
 };
