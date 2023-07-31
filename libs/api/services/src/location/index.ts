@@ -1,12 +1,19 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { TLocationRequest, TQueryOptionLocation } from '@uninus/entities';
+import {
+  TLocationRequest,
+  TQueryOptionLocation,
+  TLocationResponse,
+} from '@uninus/entities';
 import { PrismaService } from '@uninus/api/models';
 
 @Injectable()
 export class LocationService {
   constructor(private prisma: PrismaService) {}
 
-  async getLocation({ province, city }: TLocationRequest) {
+  async getLocation({
+    province,
+    city,
+  }: TLocationRequest): Promise<TLocationResponse> {
     const queryOptions: TQueryOptionLocation = {};
 
     if (province) {
