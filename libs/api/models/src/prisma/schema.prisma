@@ -67,11 +67,11 @@ model Students {
   father_education             String?
   mother_education             String?
   guardian_education           String?
-  father_occupation            Occupation
+  father_occupation            Occupation?
   father_occupation_position   String?
-  mother_occupation            Occupation
+  mother_occupation            Occupation?
   mother_occupation_position   String?
-  guardian_occupation          Occupation
+  guardian_occupation          Occupation?
   guardian_occupation_position String?
   father_income                String?
   mother_income                String?
