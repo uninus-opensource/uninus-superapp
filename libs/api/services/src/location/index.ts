@@ -8,7 +8,6 @@ import {
   IProvinceRequest,
 } from '@uninus/entities';
 import { PrismaService } from '@uninus/api/models';
-
 @Injectable()
 export class LocationService {
   constructor(private prisma: PrismaService) {}
