@@ -1,5 +1,5 @@
-import 'multer';
 import { EGender, ECitizenship, EReligion } from '../enum';
+import { TFIle } from './file';
 export interface IGetStudentRequest {
   id: string;
 }
@@ -93,5 +93,5 @@ export interface IUpdateStudentResponse extends IStudentData {
 export interface IUpdateStudentRequest
   extends IGetStudentRequest,
     IStudentData {
-  avatar: Express.Multer.File;
+  avatar: TFIle;
 }
