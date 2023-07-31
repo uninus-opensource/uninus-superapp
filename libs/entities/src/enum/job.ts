@@ -1,4 +1,4 @@
-export enum EJob {
+export enum EOccupation {
   TNI = 'TNI',
   POLRI = 'POLRI',
   PNS = 'PNS',
