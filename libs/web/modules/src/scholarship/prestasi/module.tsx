@@ -1,6 +1,6 @@
 'use client';
 import { ReactElement, FC, Fragment } from 'react';
-import { Button, Footer, HeroBanner, Navbar } from '@uninus/web/components';
+import { Button, Footer, Navbar } from '@uninus/web/components';
 import Image from 'next/image';
 
 export const ModulePrestasi: FC = (): ReactElement => {
