@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { EGender, EReligion, ECitizenship } from '../../../enum';
 
-export const UpdateStudentZodSchema = z.object({
+export const VSUpdateStudent = z.object({
   avatar: z
     .any()
     .refine((file) =>
@@ -87,4 +87,4 @@ export const UpdateStudentZodSchema = z.object({
   registration_status: z.string().optional(),
 });
 
-export type TUpdateStudentSchema = z.infer<typeof UpdateStudentZodSchema>;
+export type TVSUpdateStudent = z.infer<typeof VSUpdateStudent>;

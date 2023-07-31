@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const verifyOtpZodSchema = z.object({
+export const VSVerifyOtp = z.object({
   email: z
     .string()
     .email({
@@ -19,4 +19,4 @@ export const verifyOtpZodSchema = z.object({
     }),
 });
 
-export type TVerifyOtpSchema = z.infer<typeof verifyOtpZodSchema>;
+export type TVSVerifyOtp = z.infer<typeof VSVerifyOtp>;

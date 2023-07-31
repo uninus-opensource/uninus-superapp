@@ -1,5 +1,5 @@
 import { z } from 'zod';
-export const newPasswordZodSchema = z.object({
+export const VSNewPassword = z.object({
   email: z.string().email({
     message: 'Email tidak valid',
   }),
@@ -14,4 +14,4 @@ export const newPasswordZodSchema = z.object({
     }),
 });
 
-export type TNewPasswordSchema = z.infer<typeof newPasswordZodSchema>;
+export type TVSNewPassword = z.infer<typeof VSNewPassword>;

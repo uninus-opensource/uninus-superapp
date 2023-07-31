@@ -82,7 +82,6 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      console.log('Session Token', token);
       session = {
         expires: token?.exp as string,
         user: {

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const UpdateUserZodSchema = z.object({
+export const VSUpdateUser = z.object({
   email: z
     .string()
     .email({
@@ -28,4 +28,4 @@ export const UpdateUserZodSchema = z.object({
   photo: z.string().optional(),
 });
 
-export type TUpdateUserSchema = z.infer<typeof UpdateUserZodSchema>;
+export type TVSUpdateUser = z.infer<typeof VSUpdateUser>;

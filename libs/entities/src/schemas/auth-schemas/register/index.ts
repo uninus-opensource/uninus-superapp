@@ -1,29 +1,32 @@
 import { z } from 'zod';
 
-export const RegisterZodSchema = z.object({
-  fullname: z.string().nonempty({
-    message: 'Nama lengkap tidak boleh kosong',
+export const VSRegister = z.object({
+  email: z.string().min(1, { message: 'Email harus diisi' }).email({
+    message: 'Email harus valid',
   }),
-  email: z
+  fullname: z.string().min(2, { message: 'Nama Lengkap harus diisi' }),
+  phone_number: z
     .string()
-    .email({
-      message: 'Email tidak vaild',
+    .nonempty({ message: 'Nomor telepon harus diisi' })
+    .min(11, { message: 'Nomor telepon minimal 11 nomor' })
+    .max(14, { message: 'Nomor telepon maksimal 14 nomor' })
+    .refine((data) => data.match(/[0-9]/g), {
+      message: 'Nomor telepon harus angka',
     })
-    .nonempty({
-      message: 'Email tidak boleh kosong',
+    .refine((data) => data.match(/^62\d+$/g), {
+      message: 'Nomor harus diawali 62',
     }),
+
   password: z
     .string()
-    .nonempty({
-      message: 'Password tidak boleh kosong',
+    .nonempty({ message: 'Password harus diisi' })
+    .min(8, { message: 'Password minimal 8 karakter' })
+    .refine((data) => data.match(/[A-Z]/g), {
+      message: 'Password harus ada huruf besar',
     })
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/, {
-      message:
-        'Password harus memiliki setidaknya 6 karakter dan mengandung setidaknya 1 huruf kecil, 1 huruf besar, dan 1 angka. Tidak boleh mengandung simbol ',
+    .refine((data) => data.match(/[0-9]/g), {
+      message: 'Password harus ada angka',
     }),
-
-  phone_number: z.string().nonempty(),
-  role_id: z.number().optional(),
 });
 
-export type TRegisterSchema = z.infer<typeof RegisterZodSchema>;
+export type TVSRegister = z.infer<typeof VSRegister>;

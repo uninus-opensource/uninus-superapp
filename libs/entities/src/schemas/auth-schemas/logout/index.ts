@@ -1,12 +1,12 @@
 import { z } from 'zod';
 
-export const UserZodSchema = z.object({
+export const VSUser = z.object({
   sub: z.string(),
 });
 
-export const LogoutZodSchema = z.object({
+export const VSLogout = z.object({
   refresh_token: z.string(),
 });
 
-export type TUserDtoSchema = z.infer<typeof UserZodSchema>;
-export type TLogoutSchema = z.infer<typeof LogoutZodSchema>;
+export type TVSUser = z.infer<typeof VSUser>;
+export type TVSLogout = z.infer<typeof VSLogout>;
