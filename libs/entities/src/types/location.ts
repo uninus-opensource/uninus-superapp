@@ -1,3 +1,7 @@
+export interface IProvinceRequest {
+  search: string;
+}
+
 export type TProvinceResponse = {
   province: Array<{
     id: number;
@@ -5,9 +9,9 @@ export type TProvinceResponse = {
   }>;
 };
 
-export type TCityRequest = {
-  id: string;
-};
+export interface ICityRequest extends IProvinceRequest {
+  province_id: string;
+}
 
 export type TCityResponse = {
   city: Array<{
@@ -16,9 +20,9 @@ export type TCityResponse = {
   }>;
 };
 
-export type TSubDistrictRequest = {
-  id: string;
-};
+export interface ISubDistrictRequest extends IProvinceRequest {
+  city_id: string;
+}
 
 export type TSubDistrictResponse = {
   sub_district: Array<{

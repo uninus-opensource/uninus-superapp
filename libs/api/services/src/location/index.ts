@@ -1,10 +1,11 @@
 import { NotFoundException, Injectable } from '@nestjs/common';
 import {
   TProvinceResponse,
-  TCityRequest,
+  ICityRequest,
   TCityResponse,
   TSubDistrictResponse,
-  TSubDistrictRequest,
+  ISubDistrictRequest,
+  IProvinceRequest,
 } from '@uninus/entities';
 import { PrismaService } from '@uninus/api/models';
 
@@ -12,8 +13,13 @@ import { PrismaService } from '@uninus/api/models';
 export class LocationService {
   constructor(private prisma: PrismaService) {}
 
-  async getProvince(): Promise<TProvinceResponse> {
+  async getProvince({ search }: IProvinceRequest): Promise<TProvinceResponse> {
     const province = await this.prisma.province.findMany({
+      where: {
+        name: {
+          ...(search && { contains: search.toUpperCase() }),
+        },
+      },
       select: {
         id: true,
         name: true,
@@ -27,10 +33,13 @@ export class LocationService {
     };
   }
 
-  async getCity({ id }: TCityRequest): Promise<TCityResponse> {
+  async getCity({ province_id, search }: ICityRequest): Promise<TCityResponse> {
     const city = await this.prisma.city.findMany({
       where: {
-        province_id: Number(id),
+        name: {
+          ...(search && { contains: search.toUpperCase() }),
+        },
+        province_id: Number(province_id),
       },
     });
     if (!city) {
@@ -42,11 +51,15 @@ export class LocationService {
   }
 
   async getSubDistrict({
-    id,
-  }: TSubDistrictRequest): Promise<TSubDistrictResponse> {
+    city_id,
+    search,
+  }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
     const subDistrict = await this.prisma.subDistrict.findMany({
       where: {
-        city_id: Number(id),
+        name: {
+          ...(search && { contains: search.toUpperCase() }),
+        },
+        city_id: Number(city_id),
       },
     });
     if (!subDistrict) {
