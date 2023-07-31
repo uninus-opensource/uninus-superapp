@@ -1,12 +1,26 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { loginRequest, refreshRequest } from './api';
-import {
-  TLoginResponse,
-  TMetaErrorResponse,
-  TToken,
-  TUser,
-} from '@uninus/entities';
+import { TLoginResponse, TMetaErrorResponse, TUser } from '@uninus/entities';
+import { JWT } from 'next-auth/jwt';
+
+const refreshAccessToken = async (token: JWT) => {
+  try {
+    const refreshedToken = await refreshRequest({
+      refresh_token: token?.refresh_token,
+    });
+    console.log(refreshedToken);
+
+    return {
+      ...token,
+      access_token: refreshedToken?.access_token,
+      refresh_token: token?.refresh_token,
+      exp: refreshedToken?.exp.toString(),
+    };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -52,20 +66,20 @@ export const authOptions: NextAuthOptions = {
       return false;
     },
 
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       const currentUser = user as unknown as TLoginResponse;
-
-      if (Date.now() > currentUser?.token?.exp) {
-        const refresh = await refreshRequest({
-          refresh_token: currentUser?.token?.refresh_token,
-        });
-        token.access_token = refresh?.access_token;
-        token.refresh_token = currentUser.token.refresh_token;
-        token.exp = refresh?.exp.toString();
-        return { ...token, ...currentUser };
-      } else {
+      if (account?.provider === 'login' && currentUser) {
+        token.access_token = currentUser?.token?.access_token;
+        token.refresh_token = currentUser?.token?.refresh_token;
+        token.exp = currentUser?.token?.exp.toString();
         return { ...token, ...currentUser };
       }
+
+      if (Date.now() < currentUser?.token?.exp) {
+        return { ...token, ...currentUser };
+      }
+
+      return refreshAccessToken(token);
     },
 
     async session({ session, token }) {
