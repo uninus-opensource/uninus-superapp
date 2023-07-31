@@ -7,5 +7,7 @@ export const metadata: Metadata = {
   title: 'PMB | Ubah Password',
 };
 
-const resetPassword: NextPage = (): ReactElement => <ResetModule />;
+const resetPassword: NextPage = (): ReactElement => (
+  <ResetModule key={'resetPassword'} />
+);
 export default resetPassword;
