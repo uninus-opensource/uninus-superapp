@@ -63,7 +63,7 @@ export class StudentController {
     studentData: UpdateStudentSwagger
   ) {
     const { sub: id } = reqToken.user;
-    return this.appService.updateStudent({ id, avatar, studentData });
+    return this.appService.updateStudent({ id, avatar, ...studentData });
   }
 
   @Delete('/:id')
@@ -93,7 +93,7 @@ export class StudentController {
     @Body(new ZodValidationPipe(UpdateStudentZodSchema))
     studentData: UpdateStudentSwagger
   ) {
-    return this.appService.updateStudent({ id, avatar, studentData });
+    return this.appService.updateStudent({ id, avatar, ...studentData });
   }
 
   @Get('/:id')
