@@ -1,39 +1,32 @@
-export type TLocationRequest = {
-  province: string;
-  city: string;
-};
+export interface IProvinceRequest {
+  search: string;
+}
 
-export type TQueryOptionLocation = {
-  where?: {
-    id?: number;
-  };
-  include?: {
-    cities?:
-      | boolean
-      | {
-          where: {
-            id: number;
-          };
-          include: {
-            sub_district: boolean;
-          };
-        };
-  };
-};
-
-export type TLocationResponse = {
+export type TProvinceResponse = {
   province: Array<{
     id: number;
     name: string;
-    cities?: Array<{
-      id: number;
-      name: string;
-      province_id: number;
-      sub_district?: Array<{
-        id: number;
-        name: string;
-        city_id: number;
-      }>;
-    }>;
+  }>;
+};
+
+export interface ICityRequest extends IProvinceRequest {
+  province_id: string;
+}
+
+export type TCityResponse = {
+  city: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface ISubDistrictRequest extends IProvinceRequest {
+  city_id: string;
+}
+
+export type TSubDistrictResponse = {
+  sub_district: Array<{
+    id: number;
+    name: string;
   }>;
 };
