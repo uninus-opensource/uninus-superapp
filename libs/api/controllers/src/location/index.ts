@@ -14,6 +14,6 @@ export class LocationController {
     description: 'Lokasi tidak ditemukan',
   })
   getData(@Query('province') province: string, @Query('city') city: string) {
-    return this.appService.getLocation(province, city);
+    return this.appService.getLocation({ province, city });
   }
 }

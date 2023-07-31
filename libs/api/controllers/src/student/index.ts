@@ -10,6 +10,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { TFIle } from '@uninus/entities';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TReqToken, UpdateStudentZodSchema } from '@uninus/entities';
 import { JwtAuthGuard } from '@uninus/api/guard';
@@ -58,12 +59,12 @@ export class StudentController {
   @UseGuards(JwtAuthGuard)
   updateData(
     @Request() reqToken: TReqToken,
-    @UploadedFile() avatar: Express.Multer.File,
+    @UploadedFile() avatar: TFIle,
     @Body(new ZodValidationPipe(UpdateStudentZodSchema))
     studentData: UpdateStudentSwagger
   ) {
     const { sub: id } = reqToken.user;
-    return this.appService.updateStudent({ id, avatar, studentData });
+    return this.appService.updateStudent({ id, avatar, ...studentData });
   }
 
   @Delete('/:id')
@@ -89,11 +90,11 @@ export class StudentController {
   @UseGuards(JwtAuthGuard)
   updateDataById(
     @Param('id') id: string,
-    @UploadedFile() avatar: Express.Multer.File,
+    @UploadedFile() avatar: TFIle,
     @Body(new ZodValidationPipe(UpdateStudentZodSchema))
     studentData: UpdateStudentSwagger
   ) {
-    return this.appService.updateStudent({ id, avatar, studentData });
+    return this.appService.updateStudent({ id, avatar, ...studentData });
   }
 
   @Get('/:id')

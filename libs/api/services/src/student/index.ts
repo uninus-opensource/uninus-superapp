@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Prisma, PrismaService } from '@uninus/api/models';
+import { PrismaService } from '@uninus/api/models';
 import { CloudinaryService } from '../cloudinary';
 import { excludeSchema } from '@uninus/api/utilities';
 import {
@@ -17,6 +17,7 @@ export class StudentService {
     private prisma: PrismaService,
     private cloudinaryService: CloudinaryService
   ) {}
+
   async getStudent(args: IGetStudentRequest): Promise<IGetStudentResponse> {
     const student = await this.prisma.users.findUnique({
       where: {
@@ -52,10 +53,10 @@ export class StudentService {
   async updateStudent(
     args: IUpdateStudentRequest
   ): Promise<IUpdateStudentResponse> {
-    const { fullname, email, ...updateStudentPayload } = args.studentData;
+    const { id, email, fullname, avatar, ...updateStudentPayload } = args;
     const student = await this.prisma.users.update({
       where: {
-        id: args.id,
+        id,
       },
       data: {
         fullname,
@@ -78,12 +79,12 @@ export class StudentService {
         cause: new Error(),
       });
     }
-    if (args.avatar) {
+    if (avatar) {
       const avatar = await this.cloudinaryService.uploadImage(args.avatar);
 
       await this.prisma.users.update({
         where: {
-          id: args.id,
+          id,
         },
         data: {
           avatar: avatar?.secure_url,
@@ -129,10 +130,11 @@ export class StudentService {
       'user_id',
       'createdAt',
     ]);
+
     return {
       avatar: student.avatar,
       email: student.email,
-      fullname: student.fullname,
+      fullname: student.email,
       ...studentData,
     };
   }
