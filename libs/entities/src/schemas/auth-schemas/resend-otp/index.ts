@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const resendOtpZodSchema = z.object({
+export const VSResendOtp = z.object({
   email: z
     .string()
     .email({
@@ -11,4 +11,4 @@ export const resendOtpZodSchema = z.object({
     }),
 });
 
-export type TResendOtpSchema = z.infer<typeof resendOtpZodSchema>;
+export type TVSResendOtp = z.infer<typeof VSResendOtp>;

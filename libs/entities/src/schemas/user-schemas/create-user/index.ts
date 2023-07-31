@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const CreateUserZodSchema = z.object({
+export const VSCreateUser = z.object({
   email: z
     .string()
     .email({
@@ -26,4 +26,4 @@ export const CreateUserZodSchema = z.object({
     }),
 });
 
-export type TCreateUserSchema = z.infer<typeof CreateUserZodSchema>;
+export type TVSCreateUser = z.infer<typeof VSCreateUser>;

@@ -5,16 +5,16 @@ import { useForm } from 'react-hook-form';
 import { useForgot } from './hook';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TForgotPasswordSchema, forgotPasswordZodSchema } from '@uninus/entities';
+import { TVSForgotPassword, VSForgotPassword } from '@uninus/entities';
 
 export const ForgotModule: FC = (): ReactElement => {
   const {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TForgotPasswordSchema>({
+  } = useForm<TVSForgotPassword>({
     mode: 'all',
-    resolver: zodResolver(forgotPasswordZodSchema),
+    resolver: zodResolver(VSForgotPassword),
     defaultValues: {
       email: '',
     },

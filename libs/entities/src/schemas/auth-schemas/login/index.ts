@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const LoginZodSchema = z.object({
+export const VSLogin = z.object({
   email: z
     .string()
     .email({
@@ -14,4 +14,4 @@ export const LoginZodSchema = z.object({
   }),
 });
 
-export type TLoginSchema = z.infer<typeof LoginZodSchema>;
+export type TVSLogin = z.infer<typeof VSLogin>;

@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { TFIle } from '@uninus/entities';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { TReqToken, UpdateStudentZodSchema } from '@uninus/entities';
+import { TReqToken, VSUpdateStudent } from '@uninus/entities';
 import { JwtAuthGuard } from '@uninus/api/guard';
 import { ZodValidationPipe } from '@uninus/api/validator';
 import { StudentService, UpdateStudentSwagger } from '@uninus/api/services';
@@ -60,7 +60,7 @@ export class StudentController {
   updateData(
     @Request() reqToken: TReqToken,
     @UploadedFile() avatar: TFIle,
-    @Body(new ZodValidationPipe(UpdateStudentZodSchema))
+    @Body(new ZodValidationPipe(VSUpdateStudent))
     studentData: UpdateStudentSwagger
   ) {
     const { sub: id } = reqToken.user;
@@ -91,7 +91,7 @@ export class StudentController {
   updateDataById(
     @Param('id') id: string,
     @UploadedFile() avatar: TFIle,
-    @Body(new ZodValidationPipe(UpdateStudentZodSchema))
+    @Body(new ZodValidationPipe(VSUpdateStudent))
     studentData: UpdateStudentSwagger
   ) {
     return this.appService.updateStudent({ id, avatar, ...studentData });

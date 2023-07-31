@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { LoginZodSchema, TLoginSchema } from '@uninus/entities';
+import { VSLogin, TVSLogin } from '@uninus/entities';
 
 export const LoginModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -18,9 +18,9 @@ export const LoginModule: FC = (): ReactElement => {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TLoginSchema & { aggreement?: boolean }>({
+  } = useForm<TVSLogin & { aggreement?: boolean }>({
     mode: 'all',
-    resolver: zodResolver(LoginZodSchema),
+    resolver: zodResolver(VSLogin),
     defaultValues: {
       email: '',
       password: '',

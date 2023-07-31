@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRegister } from './hook';
 import { useRouter } from 'next/navigation';
-import { RegisterZodSchema, TRegisterSchema } from '@uninus/entities';
+import { VSRegister, TVSRegister } from '@uninus/entities';
 
 export const RegisterModule: FC = (): ReactElement => {
   const router = useRouter();
@@ -14,9 +14,9 @@ export const RegisterModule: FC = (): ReactElement => {
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<TRegisterSchema>({
+  } = useForm<TVSRegister>({
     mode: 'all',
-    resolver: zodResolver(RegisterZodSchema),
+    resolver: zodResolver(VSRegister),
     defaultValues: {
       email: '',
       password: '',

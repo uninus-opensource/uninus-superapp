@@ -135,7 +135,7 @@ export class AuthService {
   async login(args: TLoginRequest): Promise<TLoginResponse> {
     const user = await this.prisma.users.findUnique({
       where: {
-        email: args.email.toLowerCase(),
+        email: args.email?.toLowerCase(),
       },
       select: {
         id: true,
@@ -162,7 +162,10 @@ export class AuthService {
       throw new UnauthorizedException('Email belum terverifikasi');
     }
 
-    const isMatch = await comparePassword(args.password, user.password);
+    const isMatch = await comparePassword(
+      args.password as string,
+      user.password
+    );
 
     if (!isMatch) {
       throw new UnauthorizedException('Password salah');
