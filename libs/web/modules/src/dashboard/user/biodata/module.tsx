@@ -86,12 +86,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
       </div>
 
       {/* Section Biodata */}
-      <section className="flex flex-col shadow-md rounded-lg gap-6 w-full ">
+      <section className="flex flex-col rounded-lg gap-6 w-full bg-slate-1 ">
         {/* Section Biodata diri pendaftar */}
-        <section className="flex flex-col gap-8 px-8 py-10 w-full justify-center items-center rounded-lg bg-primary-white overflow-x-hidden">
+        <section className="flex flex-col gap-8 py-10 w-full justify-center items-center rounded-lg bg-primary-white overflow-x-hidden">
           <form
             onSubmit={onSubmit}
-            className="flex flex-col gap-6 justify-center w-full items-center"
+            className="flex flex-col gap-6 justify-start w-full items-center"
           >
             {/* Accordion data diri pendaftar */}
             {/* section form biodata diri pendaftar */}
@@ -842,12 +842,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
               </section>
             </Accordion>
 
-            <Button
-              variant="filled"
-              size="md"
-              width="lg:w-25% xl:w-15% "
-              styling="mt-4"
-            >
+            <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15% ">
               Submit
             </Button>
           </form>

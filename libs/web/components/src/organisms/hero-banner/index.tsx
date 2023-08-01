@@ -28,17 +28,17 @@ export const HeroBanner: FC<TbannerProps> = ({
           <section
             className={`px-4 mx-auto w-full h-full ${
               blur ? 'backdrop-blur-sm' : ''
-            } text-center py-20 lg:pt-40`}
+            } text-center md:pt-20 md:pb-16 lg:pt-40`}
           >
             <Reveal w="w-full" blur={blur}>
               <div className="flex items-center flex-col w-full">
-                <div className="text-lg sm:text-xl md:text-4xl xl:text-5xl py-4 font-black text-primary-white leading-normal uppercase lg:pt-10 pt-40">
+                <div className="text-base sm:text-xl md:text-4xl xl:text-5xl py-2 lg:py-4 font-black text-primary-white leading-normal uppercase lg:pt-10 pt-32">
                   {subTitle}
                 </div>
-                <h2 className="mb-8 text-lg md:text-3xl xl:text-4xl font-semibold text-primary-white">
+                <h2 className="mb-5 lg:mb-8 text-lg md:text-3xl xl:text-4xl font-semibold text-primary-white">
                   {heroTitle}
                 </h2>
-                <h1 className="mb-4 text-lg sm:text-xl md:font-medium lg:font-bold md:text-3xl lg:text-5xl text-primary-white relative bottom-4">
+                <h1 className="mb-1 lg:mb-4 text-xl sm:text-xl font-bold md:font-medium lg:font-bold md:text-3xl lg:text-5xl text-primary-white relative bottom-4">
                   {heroTitle2}
                 </h1>
                 <p className="text-lg md:text-3xl text-primary-white font-bold">
@@ -53,16 +53,21 @@ export const HeroBanner: FC<TbannerProps> = ({
                   ></div>
                 </div>
                 {isDownload ? (
-                  <section className="flex mt-12 gap-8">
+                  <section className="flex my-5 lg:mt-12 gap-8 ">
                     <Button
                       href="https://pmb.uninus.ac.id/wp-content/uploads/2023/03/Brosur-Program-Sarjana.pdf"
                       variant="outlined"
-                      styling="border-primary-white "
-                      size="lg"
+                      styling="border-primary-white lg:p-7"
+                      size="sm"
                     >
                       Unduh Brosur
                     </Button>
-                    <Button href="/auth/register" variant="filled" size="lg">
+                    <Button
+                      href="/auth/register"
+                      variant="filled"
+                      size="sm"
+                      styling="lg:p-7"
+                    >
                       Daftar Sekarang
                     </Button>
                   </section>
@@ -114,7 +119,7 @@ export const HeroBanner: FC<TbannerProps> = ({
   const cardProps = {
     items: heroSlider.map((item) => item.sliderSection),
     autoPlay: true,
-    autoPlayInterval: 3000,
+    autoPlayInterval: 4000,
     animationDuration: 1000,
     infinite: true,
     disableButtonsControls: true,
