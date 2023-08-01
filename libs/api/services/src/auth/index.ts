@@ -95,7 +95,7 @@ export class AuthService {
           'https://res.cloudinary.com/dyominih0/image/upload/v1688846789/MaleProfileDefault_hxtqcy.png',
         students: {
           create: {
-            phone_number: data.phone_number,
+            phone_number: `62${data.phone_number}`,
           },
         },
       },
