@@ -7,11 +7,14 @@ export type SelectOption = {
 
 export interface SelectInputProps extends UseControllerProps {
   options: SelectOption[];
+  disabled?: boolean;
   className?: string;
   labelName?: string;
   labelClassName?: string;
   labels?: string;
   control: Control;
+  required?: boolean;
+  placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
   isMulti?: boolean;

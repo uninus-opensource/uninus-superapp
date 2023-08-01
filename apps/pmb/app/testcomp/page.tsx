@@ -9,8 +9,8 @@ import {
   DraggableComponent,
   TabJalurSeleksi,
   SelectField,
-  SelectController,
   Accordion,
+  SelectOption,
 } from '@uninus/web/components';
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -49,12 +49,6 @@ const LandingPage: FC = (): ReactElement => {
   };
   const handleCloseModal = () => {
     setShowModal(false);
-  };
-
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const handleChange = (value: any) => {
-    setSelectedOption(value);
   };
 
   return (
@@ -162,7 +156,7 @@ const LandingPage: FC = (): ReactElement => {
         <DraggableComponent control={control} name="draggableComponent" />
         <TabJalurSeleksi />
         <div className="w-1/2">
-          <SelectController
+          <SelectOption
             labels="Pilih Keahlian lebih dari 1:"
             labelClassName="font-bold"
             options={MultiOptions}
@@ -173,7 +167,7 @@ const LandingPage: FC = (): ReactElement => {
           />
         </div>
         <div className="w-1/2">
-          <SelectController
+          <SelectOption
             labels="Pilih Keahlian :"
             labelClassName="font-bold"
             options={MultiOptions}
@@ -187,7 +181,16 @@ const LandingPage: FC = (): ReactElement => {
           name="nama"
           label="Nama"
           size="md"
-          options={['Rian', 'Dejan', 'Edo']}
+          options={[
+            {
+              label: 'Rian',
+              value: 'Rian',
+            },
+            {
+              label: 'Dejan',
+              value: 'Dejan',
+            },
+          ]}
           placeholder="Pilih Nama"
           control={control}
           width="w-36"
