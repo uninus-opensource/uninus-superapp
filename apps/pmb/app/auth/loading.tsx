@@ -1,8 +1,8 @@
 export default function Loading() {
   return (
-    <section className="w-full bg-primary-white z-50">
+    <section className="w-full bg-primary-white z-50 py-8">
       {/* Head */}
-      <section className="w-full h-[50vh] md:h-[35vh] flex items-center md:flex animate-pulse mb-6">
+      <section className="w-full h-[53vh] md:h-[35vh] flex items-center md:flex animate-pulse mb-6">
         <div className="flex flex-col  gap-x-4 gap-y-5 md:mx-auto lg:w-[90%] w-full">
           <div className="flex gap-8 ml-5 justify-start">
             <span className="bg-grayscale-2 w-[7rem] h-7 rounded-lg mb-4"></span>

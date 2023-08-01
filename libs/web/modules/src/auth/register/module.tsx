@@ -52,7 +52,7 @@ export const RegisterModule: FC = (): ReactElement => {
     <form
       key="auth-register"
       onSubmit={onSubmit}
-      className="w-full h-auto px-5 lg:px-12 py-5 flex flex-col gap-y-3 md:gap-y-1"
+      className="w-full h-auto px-5 lg:px-12  flex flex-col py-8  md:gap-y-1"
     >
       <div className="w-full justify-start flex">
         <div className="flex flex-col justify-end lg:gap-y-1 py-2">
@@ -64,7 +64,7 @@ export const RegisterModule: FC = (): ReactElement => {
       </div>
       <div className="h-auto w-full">
         <div className="grid gap-x-4 w-full grid-cols-1 md:grid-cols-2 grid-rows-2">
-          <div className="h-24">
+          <div className="">
             <TextField
               name="fullname"
               type="text"
@@ -77,9 +77,9 @@ export const RegisterModule: FC = (): ReactElement => {
               message={errors?.fullname?.message}
             />
           </div>
-          <div className="h-24 flex flex-col mt-1">
+          <div className=" flex flex-col mt-1">
             <label className="text-xs md:text-sm xl:text-md lg:text-xs 2xl:text-lg font-semibold">
-              Nomor Handphone <span className="text-red-4">*</span>
+              Nomor Handphone <span className="text-primary-green">*</span>
             </label>
 
             <div className="flex mt-1">
@@ -89,7 +89,7 @@ export const RegisterModule: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="w-full h-16">
+              <div className="w-full">
                 <TextField
                   name="phone_number"
                   type="number"
@@ -105,7 +105,7 @@ export const RegisterModule: FC = (): ReactElement => {
               </div>
             </div>
           </div>
-          <div className="h-24">
+          <div className="">
             <TextField
               name="email"
               type="email"
@@ -118,7 +118,7 @@ export const RegisterModule: FC = (): ReactElement => {
               message={errors?.email?.message}
             />
           </div>
-          <div className="h-24">
+          <div className="">
             <TextField
               name="password"
               type="password"
