@@ -38,7 +38,7 @@ export class LocationService {
         name: {
           ...(search && { contains: search.toUpperCase() }),
         },
-        province_id: Number(province_id),
+        ...(province_id && { province_id: Number(province_id) }),
       },
     });
     if (!city) {
@@ -58,7 +58,7 @@ export class LocationService {
         name: {
           ...(search && { contains: search.toUpperCase() }),
         },
-        city_id: Number(city_id),
+        ...(city_id && { city_id: Number(city_id) }),
       },
     });
     if (!subDistrict) {

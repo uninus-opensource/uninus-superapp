@@ -4,6 +4,7 @@ import {
   AuthModule,
   LocationModule,
   PmbModule,
+  SelectModule,
   StudentModule,
   UserModule,
 } from '@uninus/api/modules';
@@ -16,6 +17,7 @@ import {
     StudentModule,
     UserModule,
     LocationModule,
+    SelectModule,
   ],
   controllers: [],
   providers: [],

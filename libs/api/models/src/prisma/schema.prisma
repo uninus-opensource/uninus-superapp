@@ -26,15 +26,15 @@ model Users {
 }
 
 model Students {
-  id                           String       @unique @default(uuid())
-  nik                          String?      @unique
-  nisn                         String?      @unique
+  id                           String      @unique @default(uuid())
+  nik                          String?     @unique
+  nisn                         String?     @unique
   birth_place                  String?
   birth_date                   String?
-  gender                       Gender?
+  gender                       String?
   phone_number                 String?
-  religion                     Religion?
-  citizenship                  Citizenship?
+  religion                     String?
+  citizenship                  String?
   marital_status               String?
   country                      String?
   address                      String?
@@ -96,9 +96,9 @@ model Students {
   academic_year                String?
   registration_wave            String?
   registration_status          String?
-  user_id                      String       @unique
-  createdAt                    DateTime     @default(now())
-  user                         Users        @relation(fields: [user_id], references: [id])
+  user_id                      String      @unique
+  createdAt                    DateTime    @default(now())
+  user                         Users       @relation(fields: [user_id], references: [id])
 }
 
 model Lecturers {
@@ -172,23 +172,65 @@ model OTP {
   expiredAt Int
 }
 
-enum Gender {
-  MALE   @map("Male")
-  FEMALE @map("Female")
+model DegreeProgram {
+  id      Int       @id @default(autoincrement())
+  name    String
+  faculty Faculty[]
 }
 
-enum Religion {
-  ISLAM    @map("Islam")
-  KRISTEN  @map("Kristen")
-  KATOLIK  @map("Katolik")
-  KONGHUCU @map("Konghucu")
-  HINDU    @map("Hindu")
-  BUDHA    @map("Budha")
+model Faculty {
+  id               Int            @id @default(autoincrement())
+  name             String
+  department       Department[]
+  degreeProgram_id Int?
+  DegreeProgram    DegreeProgram? @relation(fields: [degreeProgram_id], references: [id])
 }
 
-enum Citizenship {
-  WNI
-  WNA
+model Department {
+  id         Int      @id @default(autoincrement())
+  name       String
+  faculty_id Int?
+  Faculty    Faculty? @relation(fields: [faculty_id], references: [id])
+}
+
+model MaritalStatus {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model Religion {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model Gender {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model Citizenship {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model Salary {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model RegistrationStatus {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model EducationHistory {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model Country {
+  id   Int    @id @default(autoincrement())
+  name String
 }
 
 enum Occupation {
