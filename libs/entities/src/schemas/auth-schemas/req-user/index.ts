@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const ReqUserZodSchema = z.object({
+export const VSReqUser = z.object({
   email: z
     .string()
     .email({
@@ -12,4 +12,4 @@ export const ReqUserZodSchema = z.object({
   nik: z.string(),
 });
 
-export type TReqUserSchema = z.infer<typeof ReqUserZodSchema>;
+export type TVSReqUser = z.infer<typeof VSReqUser>;

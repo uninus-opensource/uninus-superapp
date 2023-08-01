@@ -4,10 +4,10 @@ import toStream from 'buffer-to-stream';
 import { ConfigOptions, v2 } from 'cloudinary';
 import 'multer';
 import { CLOUDINARY } from './constans';
-
+import { TFIle } from '@uninus/entities';
 @Injectable()
 export class CloudinaryService {
-  async uploadImage(file: Express.Multer.File): Promise<CloudinaryResponse> {
+  async uploadImage(file: TFIle): Promise<CloudinaryResponse> {
     return new Promise((resolve, reject) => {
       const upload = v2.uploader.upload_stream((error, result) => {
         if (error) return reject(error);

@@ -69,8 +69,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
     reset(student);
 
     setRadioSelected({
-      EGender: student?.EGender,
-      ECitizenship: student?.ECitizenship,
+      EGender: student?.gender,
+      ECitizenship: student?.citizenship,
     });
   }, [reset, student]);
 
@@ -86,12 +86,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
       </div>
 
       {/* Section Biodata */}
-      <section className="flex flex-col shadow-md rounded-lg gap-6 w-full ">
+      <section className="flex flex-col rounded-lg gap-6 w-full bg-slate-1 ">
         {/* Section Biodata diri pendaftar */}
-        <section className="flex flex-col gap-8 px-8 py-10 w-full justify-center items-center rounded-lg bg-primary-white overflow-x-hidden">
+        <section className="flex flex-col gap-8 py-10 w-full justify-center items-center rounded-lg bg-primary-white overflow-x-hidden">
           <form
             onSubmit={onSubmit}
-            className="flex flex-col gap-6 justify-center w-full items-center"
+            className="flex flex-col gap-6 justify-start w-full items-center"
           >
             {/* Accordion data diri pendaftar */}
             {/* section form biodata diri pendaftar */}
@@ -172,7 +172,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   <h3 className="text-xs font-semibold">Jenis Kelamin</h3>
                   <div className="flex items-center gap-6">
                     <RadioButton
-                      name="EGender"
+                      name="gender"
                       label="Laki-laki"
                       control={control}
                       id="l"
@@ -184,7 +184,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       isChecked={radioSelected?.EGender === 'MALE'}
                     />
                     <RadioButton
-                      name="EGender"
+                      name="gender"
                       label="Perempuan"
                       control={control}
                       id="p"
@@ -198,7 +198,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   </div>
                 </div>
                 <SelectField
-                  name="EReligion"
+                  name="religion"
                   label="Agama"
                   size="sm"
                   placeholder="Agama"
@@ -258,7 +258,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
                   <div className="flex items-center gap-2">
                     <RadioButton
-                      name="ECitizenship"
+                      name="citizenship"
                       label="WNI"
                       control={control}
                       required
@@ -270,7 +270,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       isChecked={radioSelected?.ECitizenship === 'WNI'}
                     />
                     <RadioButton
-                      name="ECitizenship"
+                      name="citizenship"
                       label="WNA"
                       control={control}
                       id="wna"
@@ -419,6 +419,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   inputHeight="h-10"
                   name="school_name"
                   variant="sm"
+                  placeholder="Masukkan Nama Sekolah Asal"
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Nama Sekolah Asal"
@@ -511,13 +512,14 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   name="father_name"
                   variant="sm"
                   type="text"
+                  placeholder="Nama Lengkap Ayah Kandung"
                   labelclassname="text-sm font-semibold"
                   label="Nama Ayah"
                   inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
                 <SelectField
-                  name="school_subdistrict"
+                  name="father_status"
                   label="Status Ayah"
                   size="sm"
                   placeholder="Status Ayah"
@@ -526,7 +528,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
                 <SelectField
-                  name="school_subdistrict"
+                  name="father_education"
                   label="Pendidikan Ayah"
                   size="sm"
                   placeholder="Pendidikan Ayah"
@@ -573,13 +575,14 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   name="mother_name"
                   variant="sm"
                   type="text"
+                  placeholder="Nama Lengkap Ibu Kandung"
                   labelclassname="text-sm font-semibold"
                   label="Nama Ibu"
                   inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
                 <SelectField
-                  name="school_subdistrict"
+                  name="mother_status"
                   label="Status Ibu"
                   size="sm"
                   placeholder="Status Ibu"
@@ -588,7 +591,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
                 <SelectField
-                  name="school_subdistrict"
+                  name="mother_education"
                   label="Pendidikan Ibu"
                   size="sm"
                   placeholder="Pendidikan Ibu"
@@ -710,6 +713,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 <TextField
                   inputHeight="h-10"
                   name="guardian_name"
+                  placeholder="Nama Lengkap Wali"
                   variant="sm"
                   type="text"
                   labelclassname="text-sm font-semibold"
@@ -842,12 +846,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
               </section>
             </Accordion>
 
-            <Button
-              variant="filled"
-              size="md"
-              width="lg:w-25% xl:w-15% "
-              styling="mt-4"
-            >
+            <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15% ">
               Submit
             </Button>
           </form>

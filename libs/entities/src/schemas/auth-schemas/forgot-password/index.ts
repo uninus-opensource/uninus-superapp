@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const forgotPasswordZodSchema = z.object({
+export const VSForgotPassword = z.object({
   email: z
     .string()
     .email({
@@ -11,4 +11,4 @@ export const forgotPasswordZodSchema = z.object({
     }),
 });
 
-export type TForgotPasswordSchema = z.infer<typeof forgotPasswordZodSchema>;
+export type TVSForgotPassword = z.infer<typeof VSForgotPassword>;

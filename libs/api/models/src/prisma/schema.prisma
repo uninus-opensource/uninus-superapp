@@ -26,76 +26,79 @@ model Users {
 }
 
 model Students {
-  id                   String       @unique @default(uuid())
-  nik                  String?      @unique
-  nisn                 String?      @unique
-  birth_place          String?
-  birth_date           String?
-  gender               Gender?
-  phone_number         String?
-  religion             Religion?
-  citizenship          Citizenship?
-  marital_status       String?
-  country              String?
-  address              String?
-  postal_code          String?
-  subdistrict          String?
-  province             String?
-  city                 String?
-  school_type          String?
-  graduation_year      String?
-  school_major         String?
-  school_name          String?
-  school_npsn          String?
-  school_address       String?
-  school_postal_code   String?
-  school_subdistrict   String?
-  school_province      String?
-  school_city          String?
-  school_phone_number  String?
-  father_name          String?
-  mother_name          String?
-  guardian_name        String?
-  father_status        String?
-  mother_status        String?
-  guardian_status      String?
-  parent_address       String?
-  parent_postal_code   String?
-  parent_subdistrict   String?
-  parent_province      String?
-  parent_city          String?
-  father_education     String?
-  mother_education     String?
-  guardian_education   String?
-  father_occupation    String?
-  mother_occupation    String?
-  guardian_occupation  String?
-  father_income        String?
-  mother_income        String?
-  guardian_income      String?
-  guardian_address     String?
-  guardian_postal_code String?
-  guardian_subdistrict String?
-  guardian_province    String?
-  guardian_city        String?
-  faculty_type         String?
-  education_programs   String?
-  study_program        String?
-  selection_type       String?
-  family_card          String?
-  pass_photo           String?
-  ktp_card             String?
-  school_report_card   String?
-  birth_certificate    String?
-  additional_documents String?
-  ijazah_card          String?
-  kipk_card            String?
-  academic_year        String?
-  registration_wave    String?
-  registration_status  String?
-  user_id              String       @unique
-  createdAt            DateTime     @default(now())
-  user                 Users        @relation(fields: [user_id], references: [id])
+  id                           String       @unique @default(uuid())
+  nik                          String?      @unique
+  nisn                         String?      @unique
+  birth_place                  String?
+  birth_date                   String?
+  gender                       Gender?
+  phone_number                 String?
+  religion                     Religion?
+  citizenship                  Citizenship?
+  marital_status               String?
+  country                      String?
+  address                      String?
+  postal_code                  String?
+  subdistrict                  String?
+  province                     String?
+  city                         String?
+  school_type                  String?
+  graduation_year              String?
+  school_major                 String?
+  school_name                  String?
+  school_npsn                  String?
+  school_address               String?
+  school_postal_code           String?
+  school_subdistrict           String?
+  school_province              String?
+  school_city                  String?
+  school_phone_number          String?
+  father_name                  String?
+  mother_name                  String?
+  guardian_name                String?
+  father_status                String?
+  mother_status                String?
+  guardian_status              String?
+  parent_address               String?
+  parent_postal_code           String?
+  parent_subdistrict           String?
+  parent_province              String?
+  parent_city                  String?
+  father_education             String?
+  mother_education             String?
+  guardian_education           String?
+  father_occupation            Occupation?
+  father_occupation_position   String?
+  mother_occupation            Occupation?
+  mother_occupation_position   String?
+  guardian_occupation          Occupation?
+  guardian_occupation_position String?
+  father_income                String?
+  mother_income                String?
+  guardian_income              String?
+  guardian_address             String?
+  guardian_postal_code         String?
+  guardian_subdistrict         String?
+  guardian_province            String?
+  guardian_city                String?
+  faculty_type                 String?
+  education_programs           String?
+  study_program                String?
+  selection_type               String?
+  family_card                  String?
+  pass_photo                   String?
+  ktp_card                     String?
+  school_report_card           String?
+  birth_certificate            String?
+  additional_documents         String?
+  ijazah_card                  String?
+  kipk_card                    String?
+  academic_year                String?
+  registration_wave            String?
+  registration_status          String?
+  user_id                      String       @unique
+  createdAt                    DateTime     @default(now())
+  user                         Users        @relation(fields: [user_id], references: [id])
 }
 
 model Lecturers {
@@ -186,4 +189,20 @@ enum Religion {
 enum Citizenship {
   WNI
   WNA
+}
+
+enum Occupation {
+  TNI        @map("TNI")
+  POLRI      @map("POLRI")
+  PNS        @map("PNS")
+  BURUH      @map("Buruh")
+  SWASTA     @map("Swasta")
+  WIRAUSAHA  @map("Wirausaha")
+  WIRASWASTA @map("Wiraswasta")
+  PETANI     @map("Petani")
+  GURU       @map("Guru")
+  DOKTER     @map("Dokter")
+  PERAWAT    @map("Perawat")
+  PETERNAK   @map("Peternak")
+  NELAYAN    @map("Nelayan")
 }

@@ -10,11 +10,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import {
-  CreateUserZodSchema,
-  TReqToken,
-  UpdateUserZodSchema,
-} from '@uninus/entities';
+import { VSCreateUser, TReqToken, VSUpdateUser } from '@uninus/entities';
 import { ZodValidationPipe } from '@uninus/api/validator';
 import { JwtAuthGuard } from '@uninus/api/guard';
 import {
@@ -92,7 +88,7 @@ export class UserController {
     description: 'Email sudah digunakan, NIK sudah digunakan',
   })
   createData(
-    @Body(new ZodValidationPipe(CreateUserZodSchema))
+    @Body(new ZodValidationPipe(VSCreateUser))
     createUserSwagger: CreateUserSwagger
   ) {
     return this.appService.createUser(createUserSwagger);
@@ -112,7 +108,7 @@ export class UserController {
   @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
   updateData(
     @Param('id') id: string,
-    @Body(new ZodValidationPipe(UpdateUserZodSchema))
+    @Body(new ZodValidationPipe(VSUpdateUser))
     updateUserSwagger: UpdateUserSwagger
   ) {
     return this.appService.updateUser(id, updateUserSwagger);

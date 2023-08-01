@@ -17,7 +17,7 @@ export default function Loading() {
         </div>
         <div className="bg-grayscale-2 w-32 h-8 rounded-lg"></div>
       </div>
-      <section className="w-full h-[70vh] flex items-center animate-pulse">
+      <section className="w-full h-[70vh] flex items-center bg-slate-3 animate-pulse">
         <div className="flex flex-col mx-auto gap-y-4 items-center">
           <span className="bg-grayscale-2 w-[50rem] h-10 rounded-lg"></span>
           <span className="bg-grayscale-2 w-[35rem] h-7 rounded-lg"></span>
