@@ -7,5 +7,7 @@ export const metadata: Metadata = {
   title: 'PMB | Pendaftaran',
 };
 
-const LoginPage: NextPage = (): ReactElement => <RegisterModule />;
-export default LoginPage;
+const RegisternPage: NextPage = (): ReactElement => (
+  <RegisterModule key={'register'} />
+);
+export default RegisternPage;
