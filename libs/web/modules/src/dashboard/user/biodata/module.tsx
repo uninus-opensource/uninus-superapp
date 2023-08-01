@@ -12,7 +12,6 @@ import {
   Accordion,
   Button,
   RadioButton,
-  SelectField,
   TextField,
   UploadField,
   CheckBox,
@@ -21,8 +20,12 @@ import {
 import { FieldValues, useForm } from 'react-hook-form';
 import { formBiodataOne, defaultValuesBiodata } from './store';
 import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
-import { ECitizenship, EReligion, TLocationRequest } from '@uninus/entities';
-import { useLocationGet } from '../../../location/hooks';
+import {  EReligion } from '@uninus/entities';
+import {
+  useCityGet,
+  useProvinceGet,
+  useSubdistrictGet,
+} from '@uninus/web/services';
 
 export const ModuleBiodata: FC = (): ReactElement => {
   const { data } = useBiodataGet();
@@ -31,42 +34,56 @@ export const ModuleBiodata: FC = (): ReactElement => {
     return data;
   }, [data]);
 
-  const { control, handleSubmit, reset, watch } = useForm<FieldValues>({
-    mode: 'all',
-    defaultValues: { ...defaultValuesBiodata },
+  const { control, handleSubmit, reset, watch, setValue } =
+    useForm<FieldValues>({
+      mode: 'all',
+      defaultValues: { ...defaultValuesBiodata },
+    });
+ 
+  const [locationMeta, setLocationMeta] = useState({
+    search: '',
+    province_id: '',
+    city_id: '',
   });
 
-  const [locationMeta, setLocationMeta] = useState<TLocationRequest>({
-    province: '',
-    city: '',
-  });
-
-  const { data: getLocation } = useLocationGet(locationMeta);
+  const { data: getProvincies } = useProvinceGet(locationMeta);
 
   const provinceOptions = useMemo(
     () =>
-      getLocation?.province?.map((prov) => ({
-        label: prov.name,
-        value: prov.id.toString(),
+      getProvincies?.province?.map((province) => ({
+        label: province?.name,
+        value: province?.id.toString(),
       })),
-    [getLocation?.province]
+    [getProvincies?.province]
   );
+
+  const { data: getCity } = useCityGet({
+    province_id: watch('province'),
+    search: '',
+  });
 
   const cityOptions = useMemo(
     () =>
-      getLocation?.province?.[0]?.cities?.map((city) => ({
+      getCity?.city?.map((city) => ({
         label: city?.name,
         value: city?.id.toString(),
       })),
-    [getLocation?.province]
+    [getCity?.city]
   );
 
-  useEffect(() => {
-    setLocationMeta((prev) => ({
-      ...prev,
-      province: watch('province'),
-    }));
-  }, [watch('province')]);
+  const { data: getSubdistrict } = useSubdistrictGet({
+    city_id: watch('city'),
+    search: '',
+  });
+
+  const subDistrictOptions = useMemo(
+    () =>
+      getSubdistrict?.sub_district?.map((subdistrict) => ({
+        label: subdistrict?.name,
+        value: subdistrict?.id.toString(),
+      })),
+    [getSubdistrict?.sub_district]
+  );
 
   const { mutate: createBiodata } = useBiodataCreate();
   const { mutate: updateBiodata } = useBiodataUpdate();
@@ -100,6 +117,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
       console.error(error);
     }
   });
+
+  useEffect(() => {
+    setValue('city', null);
+  }, [watch('province')]);
 
   useEffect(() => {
     reset(student);
@@ -233,13 +254,11 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     />
                   </div>
                 </div>
-                <SelectField
-                  name="EReligion"
-                  label="Agama"
-                  size="sm"
-                  placeholder="Agama"
-                  required
-                  options={[
+                 <SelectOption
+                   labels="Agama"
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                   placeholder="Agama"
+                   options={[
                     {
                       label: 'Islam',
                       value: EReligion.ISLAM,
@@ -265,20 +284,25 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       value: EReligion.KATOLIK,
                     },
                   ]}
-                  width="w-70% lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
+                  isClearable={true}
+                  isSearchable={true}
+                  name="province"
                   control={control}
+                  isMulti={false}
                 />
               </section>
 
               <section className="grid grid-cols-1 lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
-                <SelectField
+                <TextField
+                  inputHeight="h-10"
                   name="birth_place"
-                  label="Tempat Lahir"
-                  size="sm"
-                  placeholder="Kota tempat lahir"
+                  variant="sm"
+                  type="text"
+                  placeholder="Masukan Kota tempat lahir"
                   required
-                  options={cityOptions || []}
-                  width="w-70% lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
+                  labelclassname="text-sm font-semibold"
+                  label="Tempat Lahir"
+                  inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
                   control={control}
                 />
                 <TextField
@@ -296,25 +320,26 @@ export const ModuleBiodata: FC = (): ReactElement => {
 
               <section className="flex flex-wrap justify-start w-70% items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-start md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8">
                 <div className="mr-2">
-                  <SelectField
-                    name="marital_status"
-                    required
-                    label="Status"
-                    size="sm"
-                    placeholder="Status"
-                    options={[
-                      {
-                        label: 'Married',
-                        value: 'Menikah',
-                      },
-                      {
-                        label: 'Single',
-                        value: 'Belum Menikah',
-                      },
-                    ]}
-                    width="lg:w-[27vw] xl:w-[25vw] md:w-[33vw] w-[35vw] "
-                    control={control}
-                  />
+                   <SelectOption
+                   name="marital_status"
+                   labels="Status"
+                   placeholder="Status"
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                   options={[
+                    {
+                      label: 'Menikah',
+                      value: 'Married',
+                    },
+                    {
+                      label: 'Belum Menikah',
+                      value: 'Single',
+                    },
+                  ]}
+                  isSearchable={false}
+                  control={control}
+                  isMulti={false}
+                  isClearable={true}
+                />
                 </div>
                 <div className="flex flex-col gap-1 xl:gap-2 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start">
                   {' '}
@@ -349,84 +374,74 @@ export const ModuleBiodata: FC = (): ReactElement => {
               </section>
 
               <section className="flex flex-wrap w-full gap-x-1 justify-center items-center lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
-                <SelectField
+                
+                 <SelectOption
                   name="country"
-                  label="Asal Negara"
-                  size="sm"
-                  required
+                  labels="Asal Negara"
+                 
                   placeholder="Asal Negara"
+                  className="bg-slate-3 rounded-md text-primary-black w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                  labelClassName="font-bold"
                   options={[
                     {
-                      label: ECitizenship.WNA,
-                      value: 'Warga Negara Asing',
+                      label: 'Indonesia',
+                      value: 'Indonesia',
                     },
                     {
-                      label: ECitizenship.WNI,
-                      value: 'Warga Negara Indonesia',
+                      label: 'Malaysia',
+                      value: 'Malaysia',
+                    },
+                    {
+                      label: 'Singapura',
+                      value: 'Singapura',
                     },
                   ]}
-                  width="w-[35vw] lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
+                  isClearable={true}
+                  isSearchable={true}
                   control={control}
+                  isMulti={false}
                 />
-                {/* <SelectField
-                  name="province"
-                  label="Provinsi"
-                  size="sm"
-                  required
-                  placeholder="Provinsi"
-                  options={provinceOptions || []}
-                  width="w-[35vw] lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
-                  control={control}
-                /> */}
                 <SelectOption
                   labels="Provinsi"
-                  className="bg-slate-4 rounded-md text-primary-black border w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                  className="bg-slate-3 rounded-md text-primary-black w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
                   labelClassName="font-bold"
                   options={provinceOptions || []}
                   placeholder="Provinsi"
                   isSearchable={true}
                   name="province"
+                  isClearable={true}
                   control={control}
                   isMulti={false}
                 />
               </section>
               <section className="flex flex-wrap w-full gap-x-1 justify-center items-center  lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
-                <SelectField
-                  name="city"
-                  label="Kota/Kabupaten"
-                  required
-                  size="sm"
-                  placeholder="Kota/Kabupaten"
+                <SelectOption
+                  labels="City"
+                  className="rounded-md text-primary-black  w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                  labelClassName="font-bold"
                   options={cityOptions || []}
-                  width="w-[35vw] lg:w-[27vw] xl:w-[25vw] md:w-[33vw]"
+                  placeholder="Kota/Kabupaten"
+                  isSearchable={true}
+                  name="city"
+                  isClearable={true}
                   control={control}
+                  isMulti={false}
+                  disabled={!watch('province')}
                 />
-
-                <SelectField
-                  name="subdistrict"
-                  label="Kecamatan"
-                  size="sm"
-                  required
+                <SelectOption
+                  labels="Kecamatan"
+                  className="rounded-md text-primary-black w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                  labelClassName="font-bold"
+                  options={subDistrictOptions || []}
                   placeholder="Kecamatan"
-                  options={[
-                    {
-                      label: 'Bubat',
-                      value: 'Buah Batu',
-                    },
-                    {
-                      label: 'Andir',
-                      value: 'Andir',
-                    },
-                    {
-                      label: 'Kircon',
-                      value: 'Kiara Condong',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[27vw] md:w-[33vw] xl:w-[25vw]"
+                  isSearchable={true}
+                  name="subdistrict"
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
+                  disabled={!watch('city')}
                 />
               </section>
-
               <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <div className="col-span-3">
                   <TextField
@@ -466,12 +481,13 @@ export const ModuleBiodata: FC = (): ReactElement => {
               className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
             >
               <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                <SelectField
-                  name="school_type"
-                  label="Jenis Pendidikan Asal"
-                  size="sm"
-                  placeholder="Jenis Pendidikan"
-                  options={[
+                
+                  <SelectOption
+                   name="school_type"
+                   labels="Jenis Pendidikan Asal"
+                   placeholder="Jenis Pendidikan"
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                   options={[
                     {
                       label: 'SMA',
                       value: 'SMA',
@@ -485,49 +501,57 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       value: 'MA',
                     },
                   ]}
-                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  isSearchable={false}
+                  isClearable={true}
                   control={control}
+                  isMulti={false}
                 />
-                <SelectField
-                  name="graduation_year"
-                  label="Tahun Lulus"
-                  size="sm"
-                  placeholder="Tahun Lulus"
-                  options={[
-                    {
-                      label: '2020',
-                      value: '2020',
-                    },
-                    {
-                      label: '2021',
-                      value: '2021',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                 <SelectOption
+                    name="graduation_year"
+                    labels="Tahun Lulus"
+                    placeholder="Tahun Lulus"
+                    options={[
+                      {
+                        label: '2020',
+                        value: '2020',
+                      },
+                      {
+                        label: '2021',
+                        value: '2021',
+                      },
+                    ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
                 />
-                <SelectField
-                  name="school_major"
-                  label="Jurusan Pendidikan Asal"
-                  size="sm"
-                  placeholder="Jurusan Pendidikan"
-                  options={[
-                    {
-                      label: 'IPA',
-                      value: 'MIPA',
-                    },
-                    {
-                      label: 'IPS',
-                      value: 'IPS',
-                    },
-                    {
-                      label: 'Keagamaan',
-                      value: 'Agama',
-                    },
-                  ]}
-                  width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                 <SelectOption
+                     name="school_major"
+                     labels="Jurusan Pendidikan Asal"
+
+                     placeholder="Jurusan Pendidikan"
+                     options={[
+                       {
+                         label: 'IPA',
+                         value: 'MIPA',
+                       },
+                       {
+                         label: 'IPS',
+                         value: 'IPS',
+                       },
+                       {
+                         label: 'Keagamaan',
+                         value: 'Agama',
+                       },
+                     ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
                 />
+                
+                
+                
               </section>
 
               <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
@@ -542,85 +566,70 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   inputWidth="w-[35vw] lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
                   control={control}
                 />
-                <TextField
-                  inputHeight="h-10"
-                  name="school_name"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  placeholder="Masukan Sekolah Asal"
-                  label="Nama Sekolah Asal"
-                  inputWidth="w-[35vw] lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+                  <SelectOption
+                    name="school_name"
+                     labels="Nama Sekolah Asal"
+                     placeholder="Masukan Sekolah Asal"
+                     options={[
+                       {
+                         label: 'SMAN 4 Bandung',
+                         value: 'SMAN 4 Bandung',
+                       },
+                       {
+                         label: 'SMAN 5 Bandung',
+                         value: 'SMAN 5 Bandung',
+                       },
+                       {
+                        label: 'SMK 1 Bandung',
+                        value: 'SMAN 1 Bandung',
+                      },
+                     ]}
+                   className="rounded-md text-primary-black w-[35vw] lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+                  isSearchable={true}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
               </section>
 
               <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                <SelectField
-                  name="school_province"
-                  label="Provinsi"
-                  size="sm"
+              <SelectOption
+                  labels="Provinsi"
+                  className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  labelClassName="font-bold"
+                  options={provinceOptions || []}
                   placeholder="Provinsi"
-                  options={[
-                    {
-                      label: 'Jabar',
-                      value: 'Jawa Barat',
-                    },
-                    {
-                      label: 'Jatim',
-                      value: 'Jawa Timur',
-                    },
-                    {
-                      label: 'Jateng',
-                      value: 'Jawa Tengah',
-                    },
-                  ]}
-                  width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  isSearchable={true}
+                  name="school_province"
+                  isClearable={true}
                   control={control}
+                  isMulti={false}
                 />
-                <SelectField
-                  name="school_city"
-                  label="Kota/Kabupaten"
-                  size="sm"
+                <SelectOption
+                  labels="City"
+                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  labelClassName="font-bold"
+                  options={cityOptions || []}
                   placeholder="Kota/Kabupaten"
-                  options={[
-                    {
-                      label: 'Bandung',
-                      value: 'Kota Bandung',
-                    },
-                    {
-                      label: 'Jakarta',
-                      value: 'Kota Jakarta',
-                    },
-                    {
-                      label: 'Medan',
-                      value: 'Kota Medan',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  isSearchable={true}
+                  name="school_city"
+                  isClearable={true}
                   control={control}
+                  isMulti={false}
+                  disabled={!watch('province')}
                 />
-                <SelectField
-                  name="school_subdistrict"
-                  label="Kecamatan"
-                  size="sm"
+                <SelectOption
+                  labels="Kecamatan"
+                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  labelClassName="font-bold"
+                  options={subDistrictOptions || []}
                   placeholder="Kecamatan"
-                  options={[
-                    {
-                      label: 'Bubat',
-                      value: 'Buah Batu',
-                    },
-                    {
-                      label: 'Andir',
-                      value: 'Andir',
-                    },
-                    {
-                      label: 'Kircon',
-                      value: 'Kiara Condong',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  isSearchable={true}
+                  name="school_subdistrict"
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
+                  disabled={!watch('city')}
                 />
               </section>
 
@@ -679,96 +688,104 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
-                <SelectField
-                  name="school_subdistrict"
-                  label="Status Ayah"
-                  size="sm"
-                  placeholder="Status Ayah"
-                  options={[
-                    {
-                      label: 'Meninggal',
-                      value: 'Meninggal',
-                    },
-                    {
-                      label: 'Hidup',
-                      value: 'Hidup',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                 <SelectOption
+                     name="school_subdistrict"
+                     labels="Status Ayah"
+                     placeholder="Status Ayah"
+                     options={[
+                       {
+                         label: 'Meninggal',
+                         value: 'Meninggal',
+                       },
+                       {
+                         label: 'Hidup',
+                         value: 'Hidup',
+                       },
+                     ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
-                <SelectField
-                  name="school_subdistrict"
-                  label="Pendidikan Ayah"
-                  size="sm"
-                  placeholder="Pendidikan Ayah"
-                  options={[
-                    {
-                      label: 'SMA',
-                      value: 'SMA',
-                    },
-                    {
-                      label: 'SMK',
-                      value: 'SMK',
-                    },
-                    {
-                      label: 'Stara',
-                      value: 'S1',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                <SelectOption
+                      name="father_education"
+                      labels="Pendidikan Terahir Ayah"
+                      placeholder="Pendidikan"
+                      options={[
+                        {
+                          label: 'SMA',
+                          value: 'SMA',
+                        },
+                        {
+                          label: 'SMK',
+                          value: 'SMK',
+                        },
+                        {
+                          label: 'Stara S1',
+                          value: 'S1',
+                        },
+                      ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
-                <SelectField
-                  name="father_occupation"
-                  label="Pekerjaan Ayah"
-                  size="sm"
-                  placeholder="Pilih Pekerjaan"
-                  options={[
-                    {
-                      label: 'PNS',
-                      value: 'Guru',
-                    },
-                    {
-                      label: 'Buruh',
-                      value: 'Berdagang',
-                    },
-                    {
-                      label: 'Polri',
-                      value: 'Polisi',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                <SelectOption
+                       name="father_profecy"
+                       labels="Pekerjaan Ayah"
+                       placeholder="Pilih Pekerjaan"
+                       options={[
+                         {
+                           label: 'PNS',
+                           value: 'Guru',
+                         },
+                         {
+                           label: 'Buruh',
+                           value: 'Berdagang',
+                         },
+                         {
+                           label: 'Polri',
+                           value: 'Polisi',
+                         },
+                       ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                  isSearchable={true}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
-                <SelectField
+                <SelectOption
                   name="father_income"
-                  label="Pendapatan Ayah ( Per Bulan )"
-                  size="sm"
+                  labels="Pendapatan Ayah ( Per Bulan )"
                   placeholder="Pilih Pendapatan"
                   options={[
                     {
-                      label: 'Rendah',
-                      value: '0 - 1.200.000',
+                      value: 'Rendah',
+                      label: '0 - 1.200.000',
                     },
                     {
-                      label: 'Menengah',
-                      value: '1.200.000 - 3.200.000',
+                      value: 'Menengah',
+                      label: '1.200.000 - 3.200.000',
                     },
                     {
-                      label: 'Tinggi',
-                      value: '3.200.000',
+                      value: 'Tinggi',
+                      label: '3.200.000 - 6.000.000',
                     },
                   ]}
-                  width="w-70% lg:w-[26.5vw] md:w-[33vw]"
+                   className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
               </section>
               {/* Ibu */}
               <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
                 Profil Ibu
               </h1>
-              <section className="flex flex-wrap justify-center items-start w-full gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+              <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <TextField
                   inputHeight="h-10"
                   name="mother_name"
@@ -780,148 +797,141 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
-                <SelectField
-                  name="school_subdistrict"
-                  label="Status Ibu"
-                  size="sm"
-                  placeholder="Status Ibu"
-                  options={[
-                    {
-                      label: 'Meninggal',
-                      value: 'Meninggal',
-                    },
-                    {
-                      label: 'Hidup',
-                      value: 'Hidup',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
+                 <SelectOption
+                     name="status_mother"
+                     labels="Status Ibu"
+                     placeholder="Status Ibu"
+                     options={[
+                       {
+                         label: 'Meninggal',
+                         value: 'Meninggal',
+                       },
+                       {
+                         label: 'Hidup',
+                         value: 'Hidup',
+                       },
+                     ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
-                <SelectField
-                  name="school_subdistrict"
-                  label="Pendidikan Ibu"
-                  size="sm"
-                  placeholder="Pendidikan Ibu"
-                  options={[
-                    {
-                      label: 'SMA',
-                      value: 'SMA',
-                    },
-                    {
-                      label: 'SMK',
-                      value: 'SMK',
-                    },
-                    {
-                      label: 'Stara',
-                      value: 'S1',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
+                <SelectOption
+                      name="mother_education"
+                      labels="Pendidikan Terahir Ibu"
+                      placeholder="Pendidikan"
+                      options={[
+                        {
+                          label: 'SMA',
+                          value: 'SMA',
+                        },
+                        {
+                          label: 'SMK',
+                          value: 'SMK',
+                        },
+                        {
+                          label: 'Stara S1',
+                          value: 'S1',
+                        },
+                      ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
-                <SelectField
-                  name="mother_occupation"
-                  label="Pekerjaan Ibu"
-                  size="sm"
-                  placeholder="Pilih Pekerjaan"
-                  options={[
-                    {
-                      label: 'PNS',
-                      value: 'Guru',
-                    },
-                    {
-                      label: 'Buruh',
-                      value: 'Berdagang',
-                    },
-                    {
-                      label: 'Polri',
-                      value: 'Polisi',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                <SelectOption
+                       name="mother_profecy"
+                       labels="Pekerjaan Ibu"
+                       placeholder="Pilih Pekerjaan"
+                       options={[
+                         {
+                           label: 'PNS',
+                           value: 'Guru',
+                         },
+                         {
+                           label: 'Buruh',
+                           value: 'Berdagang',
+                         },
+                         {
+                           label: 'IRT',
+                           value: 'IRT',
+                         },
+                       ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                  isSearchable={true}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
-                <SelectField
+                <SelectOption
                   name="mother_income"
-                  label="Pendapatan Ibu ( Per Bulan )"
-                  size="sm"
+                  labels="Pendapatan Ibu ( Per Bulan )"
                   placeholder="Pilih Pendapatan"
                   options={[
                     {
-                      label: 'Rendah',
-                      value: '0 - 1.200.000',
+                      value: 'Rendah',
+                      label: '0 - 1.200.000',
                     },
                     {
-                      label: 'Menengah',
-                      value: '1.200.000 - 3.200.000',
+                      value: 'Menengah',
+                      label: '1.200.000 - 3.200.000',
                     },
                     {
-                      label: 'Tinggi',
-                      value: '3.200.000',
+                      value: 'Tinggi',
+                      label: '3.200.000 - 6.000.000',
                     },
                   ]}
-                  width="w-70% lg:w-[26.5vw] md:w-[33vw]"
+                   className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
               </section>
               {/* Parent Address */}
               <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
                 Alamat Orang Tua
               </h1>
-              <section className=" flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                <SelectField
-                  name="parent_province"
-                  label="Provinsi"
-                  size="sm"
+              <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+              <SelectOption
+                  labels="Provinsi"
+                  className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  labelClassName="font-bold"
+                  options={provinceOptions || []}
                   placeholder="Provinsi"
-                  options={[
-                    {
-                      label: 'Jabar',
-                      value: 'Jawa Barat',
-                    },
-                    {
-                      label: 'Jatim',
-                      value: 'Jawa Timur',
-                    },
-                    {
-                      label: 'Jateng',
-                      value: 'Jawa Tengah',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  isSearchable={true}
+                  name="address_province"
+                  isClearable={true}
                   control={control}
+                  isMulti={false}
                 />
-                <SelectField
-                  name="parent_city"
-                  label="Kota/Kabupaten"
-                  size="sm"
-                  placeholder="Kota/Kabupaten"
+                <SelectOption
+                  labels="City"
+                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  labelClassName="font-bold"
                   options={cityOptions || []}
-                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  placeholder="Kota/Kabupaten"
+                  isSearchable={true}
+                  name="adress_city"
+                  isClearable={true}
                   control={control}
+                  isMulti={false}
+                  disabled={!watch('province')}
                 />
-                <SelectField
-                  name="parent_subdistrict"
-                  label="Kecamatan"
-                  size="sm"
+                <SelectOption
+                  labels="Kecamatan"
+                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  labelClassName="font-bold"
+                  options={subDistrictOptions || []}
                   placeholder="Kecamatan"
-                  options={[
-                    {
-                      label: 'Bubat',
-                      value: 'Buah Batu',
-                    },
-                    {
-                      label: 'Andir',
-                      value: 'Andir',
-                    },
-                    {
-                      label: 'Kircon',
-                      value: 'Kiara Condong',
-                    },
-                  ]}
-                  width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  isSearchable={true}
+                  name="adress_subdistrict"
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
+                  disabled={!watch('city')}
                 />
               </section>
               <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
@@ -967,7 +977,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
               <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
                 Profil Wali
               </h1>
-              <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-2 mt-2 lg:items-center lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
+              <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <TextField
                   inputHeight="h-10"
                   name="guardian_name"
@@ -979,147 +989,140 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
-                <SelectField
-                  name="school_subdistrict"
-                  label="Status Wali"
-                  size="sm"
-                  placeholder="Status Wali"
-                  options={[
-                    {
-                      label: 'Meninggal',
-                      value: 'Meninggal',
-                    },
-                    {
-                      label: 'Hidup',
-                      value: 'Hidup',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
+                 <SelectOption
+                     name="status_gardian"
+                     labels="Status Wali"
+                     placeholder="Status Wali"
+                     options={[
+                       {
+                         label: 'Meninggal',
+                         value: 'Meninggal',
+                       },
+                       {
+                         label: 'Hidup',
+                         value: 'Hidup',
+                       },
+                     ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
-                <SelectField
-                  name="guardian_education"
-                  label="Pendidikan Wali"
-                  size="sm"
-                  placeholder="Pendidikan Wali"
-                  options={[
-                    {
-                      label: 'SMA',
-                      value: 'SMA',
-                    },
-                    {
-                      label: 'SMK',
-                      value: 'SMK',
-                    },
-                    {
-                      label: 'Stara',
-                      value: 'S1',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[12vw] md:w-[17vw]"
+                <SelectOption
+                      name="guardian_education"
+                      labels="Pendidikan Terahir Wali"
+                      placeholder="Pendidikan"
+                      options={[
+                        {
+                          label: 'SMA',
+                          value: 'SMA',
+                        },
+                        {
+                          label: 'SMK',
+                          value: 'SMK',
+                        },
+                        {
+                          label: 'Stara S1',
+                          value: 'S1',
+                        },
+                      ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
-                <SelectField
-                  name="guardian_occupation"
-                  label="Pekerjaan Wali"
-                  size="sm"
-                  placeholder="Pilih Pekerjaan"
-                  options={[
-                    {
-                      label: 'PNS',
-                      value: 'Guru',
-                    },
-                    {
-                      label: 'Buruh',
-                      value: 'Berdagang',
-                    },
-                    {
-                      label: 'Polri',
-                      value: 'Polisi',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                <SelectOption
+                       name="guardian_profecy"
+                       labels="Pekerjaan Wali"
+                       placeholder="Pilih Pekerjaan"
+                       options={[
+                         {
+                           label: 'PNS',
+                           value: 'Guru',
+                         },
+                         {
+                           label: 'Buruh',
+                           value: 'Berdagang',
+                         },
+                         {
+                           label: 'IRT',
+                           value: 'IRT',
+                         },
+                       ]}
+                   className=" rounded-md text-primary-black w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                  isSearchable={true}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
-                <SelectField
+                <SelectOption
                   name="guardian_income"
-                  label="Pendapatan Wali ( Per Bulan )"
-                  size="sm"
+                  labels="Pendapatan Wali ( Per Bulan )"
                   placeholder="Pilih Pendapatan"
                   options={[
                     {
-                      label: 'Rendah',
-                      value: '0 - 1.200.000',
+                      value: 'Rendah',
+                      label: '0 - 1.200.000',
                     },
                     {
-                      label: 'Menengah',
-                      value: '1.200.000 - 3.200.000',
+                      value: 'Menengah',
+                      label: '1.200.000 - 3.200.000',
                     },
                     {
-                      label: 'Tinggi',
-                      value: '3.200.000',
+                      value: 'Tinggi',
+                      label: '3.200.000 - 6.000.000',
                     },
                   ]}
-                  width="w-70% lg:w-[26vw] md:w-[33vw]"
+                   className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
+                  isSearchable={false}
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
                 />
               </section>
               <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
                 Alamat Wali
               </h1>
-              <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                <SelectField
-                  name="guardian_province"
-                  label="Provinsi"
-                  size="sm"
+              <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+              <SelectOption
+                  labels="Provinsi"
+                  className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  labelClassName="font-bold"
+                  options={provinceOptions || []}
                   placeholder="Provinsi"
-                  options={[
-                    {
-                      label: 'Jabar',
-                      value: 'Jawa Barat',
-                    },
-                    {
-                      label: 'Jatim',
-                      value: 'Jawa Timur',
-                    },
-                    {
-                      label: 'Jateng',
-                      value: 'Jawa Tengah',
-                    },
-                  ]}
-                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  isSearchable={true}
+                  name="address2_province"
+                  isClearable={true}
                   control={control}
+                  isMulti={false}
                 />
-                <SelectField
-                  name="guardian_city"
-                  label="Kota/Kabupaten"
-                  size="sm"
-                  placeholder="Kota/Kabupaten"
+                <SelectOption
+                  labels="City"
+                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  labelClassName="font-bold"
                   options={cityOptions || []}
-                  width="w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  placeholder="Kota/Kabupaten"
+                  isSearchable={true}
+                  name="adress2_city"
+                  isClearable={true}
                   control={control}
+                  isMulti={false}
+                  disabled={!watch('province')}
                 />
-                <SelectField
-                  name="guardian_subdistrict"
-                  label="Kecamatan"
-                  size="sm"
+                <SelectOption
+                  labels="Kecamatan"
+                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  labelClassName="font-bold"
+                  options={subDistrictOptions || []}
                   placeholder="Kecamatan"
-                  options={[
-                    {
-                      label: 'Bubat',
-                      value: 'Buah Batu',
-                    },
-                    {
-                      label: 'Andir',
-                      value: 'Andir',
-                    },
-                    {
-                      label: 'Kircon',
-                      value: 'Kiara Condong',
-                    },
-                  ]}
-                  width="w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  isSearchable={true}
+                  name="adress2_subdistrict"
                   control={control}
+                  isMulti={false}
+                  isClearable={true}
+                  disabled={!watch('city')}
                 />
               </section>
               <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">

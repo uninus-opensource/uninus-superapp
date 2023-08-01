@@ -64,45 +64,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               control={control}
               required
             />
-            <SelectOption
-              name="fakultas"
-              labels="Pilih Fakultas"
-              placeholder="Pilih Fakultas"
-              options={[
-                {
-                  value: 'FAI',
-                  label: 'Fakultas Agama Islam (FAI)',
-                },
-                {
-                  value: 'FKIP',
-                  label: 'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)',
-                },
-                {
-                  value: 'FTEK',
-                  label: 'Fakultas Teknik (FTEK)',
-                },
-                {
-                  value: 'FIKOM',
-                  label: 'Fakultas Ilmu Komunikasi (FIKOM)',
-                },
-                {
-                  value: 'FKON',
-                  label: 'Fakultas Ekonomi (FKON)',
-                },
-                {
-                  value: 'FHUM',
-                  label: 'Fakultas Hukum (FHUM)',
-                },
-                {
-                  value: 'FAPERTA',
-                  label: 'Fakultas Pertanian (FAPERTA)',
-                },
-              ]}
-              isSearchable={true}
-              control={control}
-              isMulti={false}
-            />
-            {/* <SelectField
+            <SelectField
               name="fakultas"
               label="Pilih Fakultas"
               size="md"
@@ -140,7 +102,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 },
               ]}
               control={control}
-            /> */}
+            />
             <SelectField
               name="prodi1"
               label="Pilihan Program Studi 1"

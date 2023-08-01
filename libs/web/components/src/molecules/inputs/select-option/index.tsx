@@ -1,10 +1,8 @@
-import { ReactElement, FC, useState, useEffect, useRef } from 'react';
+import { ReactElement, FC } from 'react';
 import Select from 'react-select';
 import { useController } from 'react-hook-form';
 import { SelectInputProps } from './types';
-import observeElement, {
-  IntersectionCallback,
-} from './intersectionObserverUtils';
+
 
 export const SelectOption: FC<SelectInputProps> = ({
   control,
@@ -12,16 +10,18 @@ export const SelectOption: FC<SelectInputProps> = ({
   className,
   labelName,
   labels,
+  disabled,
   labelClassName,
   options,
   placeholder,
-  isSearchable = true,
-  isClearable = true,
-  isMulti = true,
+  required = true,
+  isSearchable ,
+  isClearable ,
+  isMulti ,
   ...rest
 }: SelectInputProps): ReactElement => {
   const {
-    field: { value, ref },
+    field: { value, ref, onChange },
     fieldState: { invalid, error },
   } = useController({
     name,
@@ -30,32 +30,22 @@ export const SelectOption: FC<SelectInputProps> = ({
     ...rest,
   });
 
-  const [selectedOption, setSelectedOption] = useState(null);
 
   const handleChange = (value: any) => {
-    setSelectedOption(value);
+    onChange(value?.value);
   };
 
-  const [isInViewPort, setIsInViewPort] = useState(false);
-  const selectRef = useRef(null);
-
-  useEffect(() => {
-    if (selectRef.current) {
-      const callback: IntersectionCallback = (isInViewPort: boolean) => {
-        setIsInViewPort(isInViewPort);
-      };
-
-      observeElement(selectRef.current, callback);
-    }
-  }, []);
-
+ 
   return (
     <div className="flex flex-col">
-      <label className="font-bold text-sm" htmlFor={labelName}>
-        {labels}
+      <label className={`font-bold text-xs py-2 ${labelClassName}`} >
+        {labels} {required  && (
+            <span className="ml-1 font-bold text-red-4">*</span>
+          )}
       </label>
       <Select
         options={options}
+        isDisabled={disabled}
         className={className}
         isSearchable={isSearchable}
         placeholder={placeholder}
