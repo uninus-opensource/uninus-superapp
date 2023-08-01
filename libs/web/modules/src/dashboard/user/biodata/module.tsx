@@ -69,8 +69,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
     reset(student);
 
     setRadioSelected({
-      EGender: student?.EGender,
-      ECitizenship: student?.ECitizenship,
+      EGender: student?.gender,
+      ECitizenship: student?.citizenship,
     });
   }, [reset, student]);
 
@@ -172,7 +172,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   <h3 className="text-xs font-semibold">Jenis Kelamin</h3>
                   <div className="flex items-center gap-6">
                     <RadioButton
-                      name="EGender"
+                      name="gender"
                       label="Laki-laki"
                       control={control}
                       id="l"
@@ -184,7 +184,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       isChecked={radioSelected?.EGender === 'MALE'}
                     />
                     <RadioButton
-                      name="EGender"
+                      name="gender"
                       label="Perempuan"
                       control={control}
                       id="p"
@@ -198,7 +198,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   </div>
                 </div>
                 <SelectField
-                  name="EReligion"
+                  name="religion"
                   label="Agama"
                   size="sm"
                   placeholder="Agama"
@@ -258,7 +258,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
                   <div className="flex items-center gap-2">
                     <RadioButton
-                      name="ECitizenship"
+                      name="citizenship"
                       label="WNI"
                       control={control}
                       required
@@ -270,7 +270,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       isChecked={radioSelected?.ECitizenship === 'WNI'}
                     />
                     <RadioButton
-                      name="ECitizenship"
+                      name="citizenship"
                       label="WNA"
                       control={control}
                       id="wna"
@@ -519,7 +519,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
                 <SelectField
-                  name="school_subdistrict"
+                  name="father_status"
                   label="Status Ayah"
                   size="sm"
                   placeholder="Status Ayah"
@@ -528,7 +528,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
                 <SelectField
-                  name="school_subdistrict"
+                  name="father_education"
                   label="Pendidikan Ayah"
                   size="sm"
                   placeholder="Pendidikan Ayah"
@@ -582,7 +582,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
                 <SelectField
-                  name="school_subdistrict"
+                  name="mother_status"
                   label="Status Ibu"
                   size="sm"
                   placeholder="Status Ibu"
@@ -591,7 +591,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
                 <SelectField
-                  name="school_subdistrict"
+                  name="mother_education"
                   label="Pendidikan Ibu"
                   size="sm"
                   placeholder="Pendidikan Ibu"
