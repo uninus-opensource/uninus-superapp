@@ -85,7 +85,7 @@ export const TextField = <T extends FieldValues>({
         >
           {props.label}
           {props.required && (
-            <span className="ml-1 font-bold text-red-4">*</span>
+            <span className="ml-1 font-bold text-primary-green">*</span>
           )}
         </label>
       )}
