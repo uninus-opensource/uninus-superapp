@@ -95,7 +95,7 @@
     "swagger": "^0.7.5",
     "tozod": "^3.0.0",
     "ts-deepmerge": "^6.2.0",
-    "ts-pattern": "^5.0.1",
+    "ts-pattern": "^5.0.4",
     "zod": "^3.21.4"
   },
   "prisma": {
