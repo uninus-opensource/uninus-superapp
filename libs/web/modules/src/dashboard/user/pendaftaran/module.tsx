@@ -1,6 +1,6 @@
 'use client';
 import { ReactElement, FC } from 'react';
-import { Button, SelectField } from '@uninus/web/components';
+import { Button, SelectField, SelectOption } from '@uninus/web/components';
 
 import { FieldValues, useForm } from 'react-hook-form';
 
@@ -25,7 +25,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   };
 
   return (
-    <section key="dashboard-pendaftaran" className="flex flex-col text-center lg:px-10 px-4 gap-y-6  lg:text-start">
+    <section
+      key="dashboard-pendaftaran"
+      className="flex flex-col text-center lg:px-10 px-4 gap-y-6  lg:text-start"
+    >
       <div className="2xl:text-2xl">
         <h1 className="text-slate-5">
           PMB <span className="text-secondary-green-4"> / Pendaftaran</span>
@@ -45,9 +48,18 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               placeholder="Pilih Program Pendidikan"
               status="none"
               options={[
-                'Program Sarjana(S1) 2023/2024',
-                'Program Magister(S2) 2023/2024',
-                'Program Doktor(S3) 2023/2024',
+                {
+                  value: 'S1',
+                  label: 'Program Sarjana(S1) 2023/2024',
+                },
+                {
+                  value: 'S2',
+                  label: 'Program Magister(S2) 2023/2024',
+                },
+                {
+                  value: 'S3',
+                  label: 'Program Doktor(S3) 2023/2024',
+                },
               ]}
               control={control}
               required
@@ -60,13 +72,34 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               status="none"
               required
               options={[
-                'Fakultas Agama Islam (FAI)',
-                'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)',
-                'Fakultas Teknik (FTEK)',
-                'Fakultas Ilmu Komunikasi (FIKOM)',
-                'Fakultas Ekonomi (FKON)',
-                'Fakultas Hukum (FHUM)',
-                'Fakultas Pertanian (FAPERTA)',
+                {
+                  label: 'FAI',
+                  value: 'Fakultas Agama Islam (FAI)',
+                },
+                {
+                  label: 'FKIP',
+                  value: 'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)',
+                },
+                {
+                  label: 'FTEK',
+                  value: 'Fakultas Teknik (FTEK)',
+                },
+                {
+                  label: 'FIKOM',
+                  value: 'Fakultas Ilmu Komunikasi (FIKOM)',
+                },
+                {
+                  label: 'FKON',
+                  value: 'Fakultas Ekonomi (FKON)',
+                },
+                {
+                  label: 'FHUM',
+                  value: 'Fakultas Hukum (FHUM)',
+                },
+                {
+                  label: 'FAPERTA',
+                  value: 'Fakultas Pertanian (FAPERTA)',
+                },
               ]}
               control={control}
             />
@@ -78,16 +111,46 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               placeholder="Pilih Program Studi"
               status="none"
               options={[
-                'Pendidikan Agama Islam',
-                'Perbankan Syariah',
-                'Pendidikan Guru Madrasah ibtidaiyah',
-                'Komunikasi Penyiaran Islam',
-                'Pendidikan Luar Biasa (PLB)',
-                'Pendidikan Luar Sekolah (PLS)',
-                'Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)',
-                'Teknik Elektronika',
-                'Teknik Informatika',
-                'Teknik Industri',
+                {
+                  label: 'PAI',
+                  value: 'Pendidikan Agama Islam',
+                },
+                {
+                  label: 'Bank',
+                  value: 'Perbankan Syariah',
+                },
+                {
+                  label: 'PG/SD',
+                  value: 'Pendidikan Guru Madrasah ibtidaiyah',
+                },
+                {
+                  label: 'KPI',
+                  value: 'Komunikasi Penyiaran Islam',
+                },
+                {
+                  label: 'PLB',
+                  value: 'Pendidikan Luar Biasa (PLB)',
+                },
+                {
+                  label: 'PLS',
+                  value: 'Pendidikan Luar Sekolah (PLS)',
+                },
+                {
+                  label: 'PG-PAUD',
+                  value: 'Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)',
+                },
+                {
+                  label: 'TE',
+                  value: 'Teknik Elektronika',
+                },
+                {
+                  label: 'TE',
+                  value: 'Teknik Informatika',
+                },
+                {
+                  label: 'TIS',
+                  value: 'Teknik Industri',
+                },
               ]}
               control={control}
             />
@@ -99,16 +162,46 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               placeholder="Pilih Program Studi"
               status="none"
               options={[
-                'Pendidikan Agama Islam',
-                'Perbankan Syariah',
-                'Pendidikan Guru Madrasah ibtidaiyah',
-                'Komunikasi Penyiaran Islam',
-                'Pendidikan Luar Biasa (PLB)',
-                'Pendidikan Luar Sekolah (PLS)',
-                'Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)',
-                'Teknik Elektronika',
-                'Teknik Informatika',
-                'Teknik Industri',
+                {
+                  label: 'PAI',
+                  value: 'Pendidikan Agama Islam',
+                },
+                {
+                  label: 'Bank',
+                  value: 'Perbankan Syariah',
+                },
+                {
+                  label: 'PG/SD',
+                  value: 'Pendidikan Guru Madrasah ibtidaiyah',
+                },
+                {
+                  label: 'KPI',
+                  value: 'Komunikasi Penyiaran Islam',
+                },
+                {
+                  label: 'PLB',
+                  value: 'Pendidikan Luar Biasa (PLB)',
+                },
+                {
+                  label: 'PLS',
+                  value: 'Pendidikan Luar Sekolah (PLS)',
+                },
+                {
+                  label: 'PG-PAUD',
+                  value: 'Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)',
+                },
+                {
+                  label: 'TE',
+                  value: 'Teknik Elektronika',
+                },
+                {
+                  label: 'TE',
+                  value: 'Teknik Informatika',
+                },
+                {
+                  label: 'TIS',
+                  value: 'Teknik Industri',
+                },
               ]}
               control={control}
             />
@@ -120,11 +213,26 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               status="none"
               required
               options={[
-                'Beasiswa Nusantara Berprestasi (BNP)',
-                'Seleksi Prestasi Akademik',
-                'Seleksi Prestasi Non Akademik',
-                'Kerjasama Banom',
-                'KIP - KULIAH',
+                {
+                  label: 'BNP',
+                  value: 'Beasiswa Nusantara Berprestasi (BNP)',
+                },
+                {
+                  label: 'SPA',
+                  value: 'Seleksi Prestasi Akademik',
+                },
+                {
+                  label: 'SPNA',
+                  value: 'Seleksi Prestasi Non Akademik',
+                },
+                {
+                  label: 'Banom',
+                  value: 'Kerjasama Banom',
+                },
+                {
+                  label: 'KIP',
+                  value: 'KIP - KULIAH',
+                },
               ]}
               control={control}
             />
