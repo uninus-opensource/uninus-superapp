@@ -131,8 +131,8 @@ export const TuitionFeeModule: FC = (): ReactElement => {
             />
           </div>
           <span className="flex lg:w-full justify-start text-black font-semibold text-sm  p-2">
-            (*) Uang Kuliah Tunggal (UKT) belum termasuk biaya Jurnal, Wisuda,
-            Praktikum, dan Magang/PLP
+            *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Praktikum,
+            dan Magang/PLP
           </span>
           <section className="rounded-lg w-full ">
             <DataTable
@@ -163,8 +163,8 @@ export const TuitionFeeModule: FC = (): ReactElement => {
             />
           </div>
           <span className="flex lg:w-full w-auto justify-start text-black font-semibold text-sm  p-2 ">
-            (*) Uang Kuliah Tunggal (UKT) belum termasuk belum termasuk biaya
-            Jurnal, Wisuda, Dana Internship
+            *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Praktikum,
+            dan Magang/PLP
           </span>
           <section className="rounded-lg w-full">
             <DataTable

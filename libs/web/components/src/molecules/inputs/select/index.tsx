@@ -54,6 +54,9 @@ export const SelectField = <T extends FieldValues>({
     <div className="flex flex-col gap-2 ">
       <label htmlFor={props.name} className={labelClassName}>
         {props.label}
+        {props.required && (
+          <span className="ml-1 font-bold text-primary-green">*</span>
+        )}
       </label>
       <select
         className={selectClassName}

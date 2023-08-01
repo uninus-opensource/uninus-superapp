@@ -54,6 +54,9 @@ export const RadioButton = <T extends FieldValues>({
       />
       <label htmlFor={props.name} className={lblSize}>
         {props.label}
+        {props.required && (
+          <span className="ml-1 font-bold text-primary-green">*</span>
+        )}
       </label>
     </section>
   );
