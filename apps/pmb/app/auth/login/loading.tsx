@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <section className="w-full bg-primary-white z-50 py-7">
+    <section className="w-full bg-primary-white z-50 py-8">
       {/* Head */}
       <section className="w-full h-[50vh] md:h-[38vh] flex items-start  md:flex animate-pulse mb-6  justify-center lg:p-4 ">
         <div className="flex flex-col  gap-x-4 mt-6 xl:mt-0 md:mx-auto lg:w-[90%] w-full">
