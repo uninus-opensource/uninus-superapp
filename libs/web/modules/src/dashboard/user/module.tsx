@@ -66,7 +66,7 @@ export const DashboardModule: FC = (): ReactElement => {
             <ArrowLine />
             <div className="w-[80%] h-[3.5rem] xl:h-[5rem] bg-primary-white shadow-[0px_1px_1px_0px_#000005] grid place-items-center">
               <div className="w-[80%]  grid place-items-center">
-                <h1 className="text-grayscale-9 text-[7.5px] md:text-[8px] xl:text-[10.8px]">
+                <h1 className="text-grayscale-9 text-[7.5px] md:text-[8px] xl:text-[10.6px]">
                   <span className="text-primary-green font-bold text-[9px] md:text-[10px] xl:text-[12px]">
                     Langkah Kedua :
                   </span>{' '}
