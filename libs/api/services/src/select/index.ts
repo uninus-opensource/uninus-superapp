@@ -20,6 +20,8 @@ import {
   TCityResponse,
   ISubDistrictRequest,
   TSubDistrictResponse,
+  TOccupationResponse,
+  TDisabilitiesResponse,
 } from '@uninus/entities';
 
 @Injectable()
@@ -199,7 +201,7 @@ export class SelectService {
     });
 
     if (!gender) {
-      throw new NotFoundException('Data Status Pernikahan Tidak Ditemukan!');
+      throw new NotFoundException('Data Gender Tidak Ditemukan!');
     }
 
     return { gender };
@@ -219,7 +221,7 @@ export class SelectService {
     });
 
     if (!citizenship) {
-      throw new NotFoundException('Data Status Pernikahan Tidak Ditemukan!');
+      throw new NotFoundException('Data Kewarganegaraan Tidak Ditemukan!');
     }
 
     return { citizenship };
@@ -237,7 +239,7 @@ export class SelectService {
     });
 
     if (!selection) {
-      throw new NotFoundException('Data Status Pernikahan Tidak Ditemukan!');
+      throw new NotFoundException('Data Jalur Seleksi Tidak Ditemukan!');
     }
 
     return { selection };
@@ -255,7 +257,7 @@ export class SelectService {
     });
 
     if (!salary) {
-      throw new NotFoundException('Data Status Pernikahan Tidak Ditemukan!');
+      throw new NotFoundException('Data Gaji Tidak Ditemukan!');
     }
 
     return { salary };
@@ -275,7 +277,7 @@ export class SelectService {
     });
 
     if (!educationHistory) {
-      throw new NotFoundException('Data Status Pernikahan Tidak Ditemukan!');
+      throw new NotFoundException('Data Pendidikan Tidak Ditemukan!');
     }
 
     return { education_history: educationHistory };
@@ -293,9 +295,48 @@ export class SelectService {
     });
 
     if (!country) {
-      throw new NotFoundException('Data Status Pernikahan Tidak Ditemukan!');
+      throw new NotFoundException('Data Negara Tidak Ditemukan!');
     }
 
     return { country };
+  }
+
+  async getOccupation({
+    search,
+  }: ISelectRequest): Promise<TOccupationResponse> {
+    const occupation = await this.prisma.occupation.findMany({
+      where: {
+        name: { ...(search && { contains: search.toUpperCase() }) },
+      },
+      select: {
+        id: true,
+        name: true,
+        occupationposition: true,
+      },
+    });
+    if (!occupation) {
+      throw new NotFoundException('Data Pekerjaan Tidak Ditemukan!');
+    }
+
+    return { occupation };
+  }
+
+  async getDisabilites({
+    search,
+  }: ISelectRequest): Promise<TDisabilitiesResponse> {
+    const disabilities = await this.prisma.disabilities.findMany({
+      where: {
+        name: { ...(search && { contains: search.toUpperCase() }) },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    if (!disabilities) {
+      throw new NotFoundException('Data Disabilitas Tidak Ditemukan!');
+    }
+
+    return { disabilities };
   }
 }

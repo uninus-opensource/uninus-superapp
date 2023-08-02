@@ -26,9 +26,9 @@ model Users {
 }
 
 model Students {
-  id                           String      @unique @default(uuid())
-  nik                          String?     @unique
-  nisn                         String?     @unique
+  id                           String   @unique @default(uuid())
+  nik                          String?  @unique
+  nisn                         String?  @unique
   birth_place                  String?
   birth_date                   String?
   gender                       String?
@@ -67,11 +67,11 @@ model Students {
   father_education             String?
   mother_education             String?
   guardian_education           String?
-  father_occupation            Occupation?
+  father_occupation            String?
   father_occupation_position   String?
-  mother_occupation            Occupation?
+  mother_occupation            String?
   mother_occupation_position   String?
-  guardian_occupation          Occupation?
+  guardian_occupation          String?
   guardian_occupation_position String?
   father_income                String?
   mother_income                String?
@@ -96,9 +96,9 @@ model Students {
   academic_year                String?
   registration_wave            String?
   registration_status          String?
-  user_id                      String      @unique
-  createdAt                    DateTime    @default(now())
-  user                         Users       @relation(fields: [user_id], references: [id])
+  user_id                      String   @unique
+  createdAt                    DateTime @default(now())
+  user                         Users    @relation(fields: [user_id], references: [id])
 }
 
 model Lecturers {
@@ -233,18 +233,20 @@ model Country {
   name String
 }
 
-enum Occupation {
-  TNI        @map("TNI")
-  POLRI      @map("POLRI")
-  PNS        @map("PNS")
-  BURUH      @map("Buruh")
-  SWASTA     @map("Swasta")
-  WIRAUSAHA  @map("Wirausaha")
-  WIRASWASTA @map("Wiraswasta")
-  PETANI     @map("Petani")
-  GURU       @map("Guru")
-  DOKTER     @map("Dokter")
-  PERAWAT    @map("Perawat")
-  PETERNAK   @map("Peternak")
-  NELAYAN    @map("Nelayan")
+model Occupation {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  occupationposition OccupationPosition[]
+}
+
+model OccupationPosition {
+  id            Int         @id @default(autoincrement())
+  name          String
+  occupation_id Int?
+  Occupation    Occupation? @relation(fields: [occupation_id], references: [id])
+}
+
+model Disabilities {
+  id   Int    @id @default(autoincrement())
+  name String
 }

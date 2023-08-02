@@ -11,7 +11,7 @@ export class SelectController {
   @ApiOperation({ summary: 'Get Province' })
   @ApiResponse({
     status: 400,
-    description: 'Lokasi tidak ditemukan',
+    description: 'Location Not Found',
   })
   getProvince(@Query('search') search: string) {
     return this.appService.getProvince({ search });
@@ -21,7 +21,7 @@ export class SelectController {
   @ApiOperation({ summary: 'Get City' })
   @ApiResponse({
     status: 400,
-    description: 'Lokasi tidak ditemukan',
+    description: 'Location Not Found',
   })
   getCity(
     @Query('province_id') province_id: string,
@@ -34,7 +34,7 @@ export class SelectController {
   @ApiOperation({ summary: 'Get Sub District' })
   @ApiResponse({
     status: 400,
-    description: 'Lokasi tidak ditemukan',
+    description: 'Location Not Found',
   })
   getSubDistrict(
     @Query('city_id') city_id: string,
@@ -157,5 +157,25 @@ export class SelectController {
   })
   getCountry(@Query('search') search: string) {
     return this.appService.getCounty({ search });
+  }
+
+  @Get('occupation')
+  @ApiOperation({ summary: 'Get Occupation' })
+  @ApiResponse({
+    status: 400,
+    description: 'Occupation Not Found',
+  })
+  getOccupation(@Query('search') search: string) {
+    return this.appService.getOccupation({ search });
+  }
+
+  @Get('disabilities')
+  @ApiOperation({ summary: 'Get Disabilities' })
+  @ApiResponse({
+    status: 400,
+    description: 'Disabilities Not Found',
+  })
+  getDisablities(@Query('search') search: string) {
+    return this.appService.getDisabilites({ search });
   }
 }

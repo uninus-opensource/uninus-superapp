@@ -119,3 +119,17 @@ export type TCountryResponse = {
     name: string;
   }>;
 };
+
+export type TOccupationResponse = {
+  occupation: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export type TDisabilitiesResponse = {
+  disabilities: Array<{
+    id: number;
+    name: string;
+  }>;
+};
