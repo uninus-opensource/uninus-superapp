@@ -20,7 +20,7 @@ import {
 import { FieldValues, useForm } from 'react-hook-form';
 import { formBiodataOne, defaultValuesBiodata } from './store';
 import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
-import {  EReligion } from '@uninus/entities';
+import { EReligion } from '@uninus/entities';
 import {
   useCityGet,
   useProvinceGet,
@@ -39,7 +39,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
       mode: 'all',
       defaultValues: { ...defaultValuesBiodata },
     });
- 
+
   const [locationMeta, setLocationMeta] = useState({
     search: '',
     province_id: '',
@@ -224,7 +224,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                 />
               </section>
-              <section className="grid grid-cols-1 lg:flex lg:justify-between lg:gap-6 xl:gap-1 gap-y-4 mt-4 lg:items-center lg:w-55% md:flex xl:flex xl:justify-between md:flex-wrap md:w-[70vw] md:justify-between">
+              <section className="flex flex-wrap justify-start w-70% items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8">
                 <div className="flex flex-col gap-2 xl:gap-4">
                   <h3 className="text-xs font-semibold">Jenis Kelamin</h3>
                   <div className="flex items-center gap-6">
@@ -254,11 +254,11 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     />
                   </div>
                 </div>
-                 <SelectOption
-                   labels="Agama"
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
-                   placeholder="Agama"
-                   options={[
+                <SelectOption
+                  labels="Agama"
+                  className=" rounded-md text-primary-black lg:w-auto w-70% xl:w-[25vw] md:w-[33vw]"
+                  placeholder="Agama"
+                  options={[
                     {
                       label: 'Islam',
                       value: EReligion.ISLAM,
@@ -320,26 +320,26 @@ export const ModuleBiodata: FC = (): ReactElement => {
 
               <section className="flex flex-wrap justify-start w-70% items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-start md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8">
                 <div className="mr-2">
-                   <SelectOption
-                   name="marital_status"
-                   labels="Status"
-                   placeholder="Status"
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
-                   options={[
-                    {
-                      label: 'Menikah',
-                      value: 'Married',
-                    },
-                    {
-                      label: 'Belum Menikah',
-                      value: 'Single',
-                    },
-                  ]}
-                  isSearchable={false}
-                  control={control}
-                  isMulti={false}
-                  isClearable={true}
-                />
+                  <SelectOption
+                    name="marital_status"
+                    labels="Status"
+                    placeholder="Status"
+                    className=" rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                    options={[
+                      {
+                        label: 'Menikah',
+                        value: 'Married',
+                      },
+                      {
+                        label: 'Belum Menikah',
+                        value: 'Single',
+                      },
+                    ]}
+                    isSearchable={false}
+                    control={control}
+                    isMulti={false}
+                    isClearable={true}
+                  />
                 </div>
                 <div className="flex flex-col gap-1 xl:gap-2 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start">
                   {' '}
@@ -374,13 +374,11 @@ export const ModuleBiodata: FC = (): ReactElement => {
               </section>
 
               <section className="flex flex-wrap w-full gap-x-1 justify-center items-center lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
-                
-                 <SelectOption
+                <SelectOption
                   name="country"
                   labels="Asal Negara"
-                 
                   placeholder="Asal Negara"
-                  className="bg-slate-3 rounded-md text-primary-black w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                  className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
                   labelClassName="font-bold"
                   options={[
                     {
@@ -403,7 +401,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
                 <SelectOption
                   labels="Provinsi"
-                  className="bg-slate-3 rounded-md text-primary-black w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                  className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
                   labelClassName="font-bold"
                   options={provinceOptions || []}
                   placeholder="Provinsi"
@@ -417,7 +415,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
               <section className="flex flex-wrap w-full gap-x-1 justify-center items-center  lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
                 <SelectOption
                   labels="City"
-                  className="rounded-md text-primary-black  w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                  className="rounded-md text-primary-black  w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
                   labelClassName="font-bold"
                   options={cityOptions || []}
                   placeholder="Kota/Kabupaten"
@@ -430,7 +428,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
                 <SelectOption
                   labels="Kecamatan"
-                  className="rounded-md text-primary-black w-[35vw] lg:w-auto xl:w-[25vw] md:w-[33vw]"
+                  className="rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
                   labelClassName="font-bold"
                   options={subDistrictOptions || []}
                   placeholder="Kecamatan"
@@ -442,7 +440,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   disabled={!watch('city')}
                 />
               </section>
-              <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+              <section className="flex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <div className="col-span-3">
                   <TextField
                     name="address"
@@ -459,7 +457,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     className="resize-none bg-grayscale-2  "
                   />
                 </div>
-                <div className="col-end-5">
+                <div>
                   <TextField
                     inputHeight="h-10"
                     name="postal_code"
@@ -467,10 +465,69 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     type="text"
                     labelclassname="text-sm "
                     label="Kode Pos"
-                    inputWidth="w-20 text-base"
+                    inputWidth="w-26 text-base"
                     control={control}
                   />
                 </div>
+              </section>
+              <section className="flex flex-wrap justify-start w-70% items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-start md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8 pb-4">
+                <div className="flex flex-col gap-2 xl:gap-4">
+                  <h3 className="text-xs font-semibold">Berkebutuhan Khusus</h3>
+                  <div className="flex items-center gap-6">
+                    <RadioButton
+                      name="difabel"
+                      label="Ya"
+                      control={control}
+                      id="y"
+                      size="lg"
+                      required
+                      onChange={handleChange}
+                      value="Ya"
+                      variant="primary"
+                      isChecked={radioSelected?.EGender === 'True'}
+                    />
+                    <RadioButton
+                      name="undifabel"
+                      label="Tidak"
+                      control={control}
+                      id="n"
+                      size="lg"
+                      onChange={handleChange}
+                      value="Tidak"
+                      required
+                      variant="primary"
+                      isChecked={radioSelected?.EGender === 'False'}
+                    />
+                  </div>
+                </div>
+                <SelectOption
+                  labels="Kategori Difabel"
+                  className=" rounded-md text-primary-black lg:w-auto w-70% xl:w-[25vw] md:w-[33vw]"
+                  placeholder="Kategori Difabel"
+                  options={[
+                    {
+                      label: 'Tuna Rungu',
+                      value: 'Tuna Rungu',
+                    },
+                    {
+                      label: 'Tuna Daksa',
+                      value: 'Tuna Daksa',
+                    },
+                    {
+                      label: 'Tuna Netra',
+                      value: 'Tuna Netra',
+                    },
+                    {
+                      label: 'Tuna Wicara',
+                      value: 'Tuna Wicara',
+                    },
+                  ]}
+                  isClearable={true}
+                  isSearchable={true}
+                  name="province"
+                  control={control}
+                  isMulti={false}
+                />
               </section>
             </Accordion>
 
@@ -481,13 +538,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
               className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
             >
               <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                
-                  <SelectOption
-                   name="school_type"
-                   labels="Jenis Pendidikan Asal"
-                   placeholder="Jenis Pendidikan"
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-                   options={[
+                <SelectOption
+                  name="school_type"
+                  labels="Jenis Pendidikan Asal"
+                  placeholder="Jenis Pendidikan"
+                  className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  options={[
                     {
                       label: 'SMA',
                       value: 'SMA',
@@ -506,52 +562,48 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                   isMulti={false}
                 />
-                 <SelectOption
-                    name="graduation_year"
-                    labels="Tahun Lulus"
-                    placeholder="Tahun Lulus"
-                    options={[
-                      {
-                        label: '2020',
-                        value: '2020',
-                      },
-                      {
-                        label: '2021',
-                        value: '2021',
-                      },
-                    ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                <SelectOption
+                  name="graduation_year"
+                  labels="Tahun Lulus"
+                  placeholder="Tahun Lulus"
+                  options={[
+                    {
+                      label: '2020',
+                      value: '2020',
+                    },
+                    {
+                      label: '2021',
+                      value: '2021',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
                 />
-                 <SelectOption
-                     name="school_major"
-                     labels="Jurusan Pendidikan Asal"
-
-                     placeholder="Jurusan Pendidikan"
-                     options={[
-                       {
-                         label: 'IPA',
-                         value: 'MIPA',
-                       },
-                       {
-                         label: 'IPS',
-                         value: 'IPS',
-                       },
-                       {
-                         label: 'Keagamaan',
-                         value: 'Agama',
-                       },
-                     ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                <SelectOption
+                  name="school_major"
+                  labels="Jurusan Pendidikan Asal"
+                  placeholder="Jurusan Pendidikan"
+                  options={[
+                    {
+                      label: 'IPA',
+                      value: 'MIPA',
+                    },
+                    {
+                      label: 'IPS',
+                      value: 'IPS',
+                    },
+                    {
+                      label: 'Keagamaan',
+                      value: 'Agama',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
                 />
-                
-                
-                
               </section>
 
               <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
@@ -563,28 +615,28 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   labelclassname="text-sm font-semibold"
                   label="NPSN"
                   placeholder="Masukan NPSN"
-                  inputWidth="w-[35vw] lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+                  inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
                   control={control}
                 />
-                  <SelectOption
-                    name="school_name"
-                     labels="Nama Sekolah Asal"
-                     placeholder="Masukan Sekolah Asal"
-                     options={[
-                       {
-                         label: 'SMAN 4 Bandung',
-                         value: 'SMAN 4 Bandung',
-                       },
-                       {
-                         label: 'SMAN 5 Bandung',
-                         value: 'SMAN 5 Bandung',
-                       },
-                       {
-                        label: 'SMK 1 Bandung',
-                        value: 'SMAN 1 Bandung',
-                      },
-                     ]}
-                   className="rounded-md text-primary-black w-[35vw] lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+                <SelectOption
+                  name="school_name"
+                  labels="Nama Sekolah Asal"
+                  placeholder="Masukan Sekolah Asal"
+                  options={[
+                    {
+                      label: 'SMAN 4 Bandung',
+                      value: 'SMAN 4 Bandung',
+                    },
+                    {
+                      label: 'SMAN 5 Bandung',
+                      value: 'SMAN 5 Bandung',
+                    },
+                    {
+                      label: 'SMK 1 Bandung',
+                      value: 'SMAN 1 Bandung',
+                    },
+                  ]}
+                  className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
                   isSearchable={true}
                   control={control}
                   isMulti={false}
@@ -593,7 +645,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
               </section>
 
               <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-              <SelectOption
+                <SelectOption
                   labels="Provinsi"
                   className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   labelClassName="font-bold"
@@ -607,7 +659,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
                 <SelectOption
                   labels="City"
-                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   labelClassName="font-bold"
                   options={cityOptions || []}
                   placeholder="Kota/Kabupaten"
@@ -620,7 +672,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
                 <SelectOption
                   labels="Kecamatan"
-                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   labelClassName="font-bold"
                   options={subDistrictOptions || []}
                   placeholder="Kecamatan"
@@ -633,7 +685,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
               </section>
 
-              <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+              <section className="flex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <div className="col-span-3">
                   <TextField
                     name="school_address"
@@ -658,7 +710,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     type="text"
                     labelclassname="text-sm "
                     label="Kode Pos"
-                    inputWidth="w-20 text-base"
+                    inputWidth="w-26 text-base"
                     control={control}
                   />
                 </div>
@@ -682,75 +734,76 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   name="father_name"
                   variant="sm"
                   type="text"
+                  required
                   placeholder="Nama Lengkap Ayah Kandung"
                   labelclassname="text-sm font-semibold"
                   label="Nama Ayah"
-                  inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
+                  inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
-                 <SelectOption
-                     name="school_subdistrict"
-                     labels="Status Ayah"
-                     placeholder="Status Ayah"
-                     options={[
-                       {
-                         label: 'Meninggal',
-                         value: 'Meninggal',
-                       },
-                       {
-                         label: 'Hidup',
-                         value: 'Hidup',
-                       },
-                     ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                <SelectOption
+                  name="school_subdistrict"
+                  labels="Status Ayah"
+                  placeholder="Status Ayah"
+                  options={[
+                    {
+                      label: 'Meninggal',
+                      value: 'Meninggal',
+                    },
+                    {
+                      label: 'Hidup',
+                      value: 'Hidup',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
                   isClearable={true}
                 />
                 <SelectOption
-                      name="father_education"
-                      labels="Pendidikan Terahir Ayah"
-                      placeholder="Pendidikan"
-                      options={[
-                        {
-                          label: 'SMA',
-                          value: 'SMA',
-                        },
-                        {
-                          label: 'SMK',
-                          value: 'SMK',
-                        },
-                        {
-                          label: 'Stara S1',
-                          value: 'S1',
-                        },
-                      ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  name="father_education"
+                  labels="Pendidikan Terahir Ayah"
+                  placeholder="Pendidikan"
+                  options={[
+                    {
+                      label: 'SMA',
+                      value: 'SMA',
+                    },
+                    {
+                      label: 'SMK',
+                      value: 'SMK',
+                    },
+                    {
+                      label: 'Stara S1',
+                      value: 'S1',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
                   isClearable={true}
                 />
                 <SelectOption
-                       name="father_profecy"
-                       labels="Pekerjaan Ayah"
-                       placeholder="Pilih Pekerjaan"
-                       options={[
-                         {
-                           label: 'PNS',
-                           value: 'Guru',
-                         },
-                         {
-                           label: 'Buruh',
-                           value: 'Berdagang',
-                         },
-                         {
-                           label: 'Polri',
-                           value: 'Polisi',
-                         },
-                       ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                  name="father_profecy"
+                  labels="Pekerjaan Ayah"
+                  placeholder="Pilih Pekerjaan"
+                  options={[
+                    {
+                      label: 'PNS',
+                      value: 'Guru',
+                    },
+                    {
+                      label: 'Buruh',
+                      value: 'Berdagang',
+                    },
+                    {
+                      label: 'Polri',
+                      value: 'Polisi',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
                   isSearchable={true}
                   control={control}
                   isMulti={false}
@@ -774,7 +827,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       label: '3.200.000 - 6.000.000',
                     },
                   ]}
-                   className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
+                  className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
@@ -791,75 +844,76 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   name="mother_name"
                   variant="sm"
                   type="text"
+                  required
                   placeholder="Nama Lengkap Ibu Kandung"
                   labelclassname="text-sm font-semibold"
                   label="Nama Ibu"
-                  inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
+                  inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
-                 <SelectOption
-                     name="status_mother"
-                     labels="Status Ibu"
-                     placeholder="Status Ibu"
-                     options={[
-                       {
-                         label: 'Meninggal',
-                         value: 'Meninggal',
-                       },
-                       {
-                         label: 'Hidup',
-                         value: 'Hidup',
-                       },
-                     ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                <SelectOption
+                  name="status_mother"
+                  labels="Status Ibu"
+                  placeholder="Status Ibu"
+                  options={[
+                    {
+                      label: 'Meninggal',
+                      value: 'Meninggal',
+                    },
+                    {
+                      label: 'Hidup',
+                      value: 'Hidup',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
                   isClearable={true}
                 />
                 <SelectOption
-                      name="mother_education"
-                      labels="Pendidikan Terahir Ibu"
-                      placeholder="Pendidikan"
-                      options={[
-                        {
-                          label: 'SMA',
-                          value: 'SMA',
-                        },
-                        {
-                          label: 'SMK',
-                          value: 'SMK',
-                        },
-                        {
-                          label: 'Stara S1',
-                          value: 'S1',
-                        },
-                      ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  name="mother_education"
+                  labels="Pendidikan Terahir Ibu"
+                  placeholder="Pendidikan"
+                  options={[
+                    {
+                      label: 'SMA',
+                      value: 'SMA',
+                    },
+                    {
+                      label: 'SMK',
+                      value: 'SMK',
+                    },
+                    {
+                      label: 'Stara S1',
+                      value: 'S1',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
                   isClearable={true}
                 />
                 <SelectOption
-                       name="mother_profecy"
-                       labels="Pekerjaan Ibu"
-                       placeholder="Pilih Pekerjaan"
-                       options={[
-                         {
-                           label: 'PNS',
-                           value: 'Guru',
-                         },
-                         {
-                           label: 'Buruh',
-                           value: 'Berdagang',
-                         },
-                         {
-                           label: 'IRT',
-                           value: 'IRT',
-                         },
-                       ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                  name="mother_profecy"
+                  labels="Pekerjaan Ibu"
+                  placeholder="Pilih Pekerjaan"
+                  options={[
+                    {
+                      label: 'PNS',
+                      value: 'Guru',
+                    },
+                    {
+                      label: 'Buruh',
+                      value: 'Berdagang',
+                    },
+                    {
+                      label: 'IRT',
+                      value: 'IRT',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
                   isSearchable={true}
                   control={control}
                   isMulti={false}
@@ -883,7 +937,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       label: '3.200.000 - 6.000.000',
                     },
                   ]}
-                   className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
+                  className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
@@ -895,7 +949,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 Alamat Orang Tua
               </h1>
               <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-              <SelectOption
+                <SelectOption
                   labels="Provinsi"
                   className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   labelClassName="font-bold"
@@ -909,7 +963,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
                 <SelectOption
                   labels="City"
-                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   labelClassName="font-bold"
                   options={cityOptions || []}
                   placeholder="Kota/Kabupaten"
@@ -922,7 +976,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
                 <SelectOption
                   labels="Kecamatan"
-                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   labelClassName="font-bold"
                   options={subDistrictOptions || []}
                   placeholder="Kecamatan"
@@ -934,7 +988,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   disabled={!watch('city')}
                 />
               </section>
-              <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+              <section className="lex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
                 <div className="col-span-3">
                   <TextField
                     name="parent_address"
@@ -959,7 +1013,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     type="text"
                     labelclassname="text-sm "
                     label="Kode Pos"
-                    inputWidth="w-20 text-base"
+                    inputWidth="w-26 text-base"
                     control={control}
                   />
                 </div>
@@ -986,72 +1040,72 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   type="text"
                   labelclassname="text-sm font-semibold"
                   label="Nama Wali"
-                  inputWidth="w-[35vw] lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
+                  inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
                   control={control}
                 />
-                 <SelectOption
-                     name="status_gardian"
-                     labels="Status Wali"
-                     placeholder="Status Wali"
-                     options={[
-                       {
-                         label: 'Meninggal',
-                         value: 'Meninggal',
-                       },
-                       {
-                         label: 'Hidup',
-                         value: 'Hidup',
-                       },
-                     ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                <SelectOption
+                  name="status_gardian"
+                  labels="Status Wali"
+                  placeholder="Status Wali"
+                  options={[
+                    {
+                      label: 'Meninggal',
+                      value: 'Meninggal',
+                    },
+                    {
+                      label: 'Hidup',
+                      value: 'Hidup',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
                   isClearable={true}
                 />
                 <SelectOption
-                      name="guardian_education"
-                      labels="Pendidikan Terahir Wali"
-                      placeholder="Pendidikan"
-                      options={[
-                        {
-                          label: 'SMA',
-                          value: 'SMA',
-                        },
-                        {
-                          label: 'SMK',
-                          value: 'SMK',
-                        },
-                        {
-                          label: 'Stara S1',
-                          value: 'S1',
-                        },
-                      ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[12vw] md:w-[16vw]"
+                  name="guardian_education"
+                  labels="Pendidikan Terahir Wali"
+                  placeholder="Pendidikan"
+                  options={[
+                    {
+                      label: 'SMA',
+                      value: 'SMA',
+                    },
+                    {
+                      label: 'SMK',
+                      value: 'SMK',
+                    },
+                    {
+                      label: 'Stara S1',
+                      value: 'S1',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
                   isClearable={true}
                 />
                 <SelectOption
-                       name="guardian_profecy"
-                       labels="Pekerjaan Wali"
-                       placeholder="Pilih Pekerjaan"
-                       options={[
-                         {
-                           label: 'PNS',
-                           value: 'Guru',
-                         },
-                         {
-                           label: 'Buruh',
-                           value: 'Berdagang',
-                         },
-                         {
-                           label: 'IRT',
-                           value: 'IRT',
-                         },
-                       ]}
-                   className=" rounded-md text-primary-black w-[35vw] lg:w-[26vw] md:w-[33vw]"
+                  name="guardian_profecy"
+                  labels="Pekerjaan Wali"
+                  placeholder="Pilih Pekerjaan"
+                  options={[
+                    {
+                      label: 'PNS',
+                      value: 'Guru',
+                    },
+                    {
+                      label: 'Buruh',
+                      value: 'Berdagang',
+                    },
+                    {
+                      label: 'IRT',
+                      value: 'IRT',
+                    },
+                  ]}
+                  className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
                   isSearchable={true}
                   control={control}
                   isMulti={false}
@@ -1075,7 +1129,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       label: '3.200.000 - 6.000.000',
                     },
                   ]}
-                   className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
+                  className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
                   isSearchable={false}
                   control={control}
                   isMulti={false}
@@ -1086,7 +1140,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 Alamat Wali
               </h1>
               <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-              <SelectOption
+                <SelectOption
                   labels="Provinsi"
                   className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   labelClassName="font-bold"
@@ -1100,7 +1154,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
                 <SelectOption
                   labels="City"
-                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   labelClassName="font-bold"
                   options={cityOptions || []}
                   placeholder="Kota/Kabupaten"
@@ -1113,7 +1167,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 />
                 <SelectOption
                   labels="Kecamatan"
-                  className="rounded-md text-primary-black w-[35vw] lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+                  className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   labelClassName="font-bold"
                   options={subDistrictOptions || []}
                   placeholder="Kecamatan"
@@ -1125,23 +1179,21 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   disabled={!watch('city')}
                 />
               </section>
-              <section className="grid grid-cols-3 w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-                <div className="col-span-3">
-                  <TextField
-                    name="guardian_address"
-                    variant="sm"
-                    type="text"
-                    labelclassname="text-xl font-semibold"
-                    label="Alamat Wali"
-                    control={control}
-                    isTextArea
-                    textAreaRow={5}
-                    textAreaCols={30}
-                    inputHeight="h-20"
-                    inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
-                    className="resize-none bg-grayscale-2  "
-                  />
-                </div>
+              <section className="lex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+                <TextField
+                  name="guardian_address"
+                  variant="sm"
+                  type="text"
+                  labelclassname="text-xl font-semibold"
+                  label="Alamat Wali"
+                  control={control}
+                  isTextArea
+                  textAreaRow={5}
+                  textAreaCols={30}
+                  inputHeight="h-20"
+                  inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+                  className="resize-none bg-grayscale-2  "
+                />
                 <div className="col-end-5">
                   <TextField
                     inputHeight="h-10"
@@ -1150,7 +1202,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     type="text"
                     labelclassname="text-sm "
                     label="Kode Pos"
-                    inputWidth="w-20 text-base"
+                    inputWidth="w-26 text-base"
                     control={control}
                   />
                 </div>
