@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { Modal } from '../modal';
-import { MenuOutlined } from '@ant-design/icons';
+import { MenuOutlined, AppstoreFilled } from '@ant-design/icons';
 
 export const SideBar: FC<TSideBarProps> = ({
   onLogout,
@@ -34,7 +34,6 @@ export const SideBar: FC<TSideBarProps> = ({
     const userName = session?.user?.fullname;
     return userName;
   }, [session]);
-
 
   const userAvatar = useMemo(() => {
     const userName = session?.user?.avatar;
@@ -110,7 +109,7 @@ export const SideBar: FC<TSideBarProps> = ({
           <figure className="flex flex-col items-center  ">
             <Image
               className="rounded-full "
-              src={userAvatar ||'/illustrations/dummy-avatar.webp'}
+              src={userAvatar || '/illustrations/dummy-avatar.webp'}
               alt="profile picture"
               width={70}
               height={70}
@@ -184,7 +183,8 @@ export const SideBar: FC<TSideBarProps> = ({
         styling="shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-primary-green fixed z-50 inline-flex items-center text-primary-white top-5/6 flex bottom-10 right-8 rounded-md lg:hidden self-end justify-end items-end"
         onClick={() => setOnToogle(!onToogle)}
       >
-        <MenuOutlined className="mx-autotext-center cursor-pointer text-primary-white text-[1.5rem]" />
+        <MenuOutlined className="md:hidden mx-auto text-center cursor-pointer text-primary-white text-[1.5rem]" />
+        <AppstoreFilled className="hidden md:block mx-auto text-center cursor-pointer text-primary-white text-[1.5rem]" />
       </Button>
 
       {onToogle && (
