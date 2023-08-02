@@ -2,8 +2,8 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SelectService } from '@uninus/api/services';
 
-@Controller('select')
-@ApiTags('Select')
+@Controller()
+@ApiTags()
 export class SelectController {
   constructor(private readonly appService: SelectService) {}
 
