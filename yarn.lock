@@ -1530,10 +1530,10 @@
   dependencies:
     "@ucast/mongo2js" "^1.3.0"
 
-"@casl/prisma@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@casl/prisma/-/prisma-1.4.0.tgz#0b446e272c2b1ab300de8958c39aa534e3a29db2"
-  integrity sha512-edDoBfm2aSww5HLyAqKmSYlGqCX06Bo8j+4P8hBNuIxmSO97Q1jEO8hkCzMThnucuGFEbNvUct1+K64CH2zTWQ==
+"@casl/prisma@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@casl/prisma/-/prisma-1.4.1.tgz#dff7266f5ee0e2154b3a869c016839b1ad230a1a"
+  integrity sha512-WTFcWhYnoEc8fRHMzlqd3MU6WXOtT1cfoHmxSyB14gVeRHWvOyWdVaGxueLySgBOb08kIiZdjOBYNJRTzlAqBA==
   dependencies:
     "@ucast/core" "^1.10.0"
     "@ucast/js" "^3.0.1"
