@@ -7,6 +7,42 @@ import { SelectService } from '@uninus/api/services';
 export class SelectController {
   constructor(private readonly appService: SelectService) {}
 
+  @Get('province')
+  @ApiOperation({ summary: 'Get Province' })
+  @ApiResponse({
+    status: 400,
+    description: 'Lokasi tidak ditemukan',
+  })
+  getProvince(@Query('search') search: string) {
+    return this.appService.getProvince({ search });
+  }
+
+  @Get('city')
+  @ApiOperation({ summary: 'Get City' })
+  @ApiResponse({
+    status: 400,
+    description: 'Lokasi tidak ditemukan',
+  })
+  getCity(
+    @Query('province_id') province_id: string,
+    @Query('search') search: string
+  ) {
+    return this.appService.getCity({ province_id, search });
+  }
+
+  @Get('sub-district')
+  @ApiOperation({ summary: 'Get Sub District' })
+  @ApiResponse({
+    status: 400,
+    description: 'Lokasi tidak ditemukan',
+  })
+  getSubDistrict(
+    @Query('city_id') city_id: string,
+    @Query('search') search: string
+  ) {
+    return this.appService.getSubDistrict({ city_id, search });
+  }
+
   @Get('degree-program')
   @ApiOperation({ summary: 'Get Degree Program' })
   @ApiResponse({
@@ -97,7 +133,7 @@ export class SelectController {
   @ApiOperation({ summary: 'Get Salary' })
   @ApiResponse({
     status: 400,
-    description: 'SSalary Not Found',
+    description: 'Salary Not Found',
   })
   getSalary(@Query('search') search: string) {
     return this.appService.getSalary({ search });
