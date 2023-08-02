@@ -1,13 +1,14 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller } from "@nestjs/common";
 
 import { AppService } from "./app.service";
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getData() {
+  @MessagePattern('get_user')
+  getUser() {
+    console.log('tersambung')
     return this.appService.getData();
   }
 }

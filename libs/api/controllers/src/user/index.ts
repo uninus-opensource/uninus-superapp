@@ -31,6 +31,11 @@ export class UserController {
     return this.appService.getUser(sub);
   }
 
+  @Get("/newMe")
+  getMe() {
+    return this.appService.getMe();
+  }
+
   @Get()
   @ApiOperation({ summary: "Pagination List User" })
   getAllData(
@@ -104,4 +109,5 @@ export class UserController {
   ) {
     return this.appService.updateUser(id, updateUserSwagger);
   }
+
 }
