@@ -79,7 +79,7 @@ export const RegisterModule: FC = (): ReactElement => {
           </div>
           <div className="h-24 flex flex-col mt-1">
             <label className="text-xs md:text-sm xl:text-md lg:text-xs 2xl:text-lg font-semibold">
-              Nomor Handphone <span className="text-red-4">*</span>
+              Nomor Handphone <span className="text-primary-green">*</span>
             </label>
 
             <div className="flex mt-1">
