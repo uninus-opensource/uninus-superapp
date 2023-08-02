@@ -15,5 +15,5 @@ export * from './verify-otp';
 export * from './verify-otp-password';
 export * from './resend-otp';
 export * from './logout';
-export * from './location';
 export * from './file';
+export * from './select-field';

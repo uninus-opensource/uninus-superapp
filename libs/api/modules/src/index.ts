@@ -5,4 +5,4 @@ export * from './pmb';
 export * from './student';
 export * from './user';
 export * from './cloudinary';
-export * from './location';
+export * from './select';
