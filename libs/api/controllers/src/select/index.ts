@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SelectService } from '@uninus/api/services';
 
 @Controller()
-@ApiTags()
+@ApiTags('Select')
 export class SelectController {
   constructor(private readonly appService: SelectService) {}
 
