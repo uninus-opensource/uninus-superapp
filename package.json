@@ -97,7 +97,7 @@
     "recoil": "^0.7.7",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
-    "styled-components": "^6.0.5",
+    "styled-components": "^6.0.6",
     "swagger": "^0.7.5",
     "tozod": "^3.0.0",
     "ts-deepmerge": "^6.2.0",
