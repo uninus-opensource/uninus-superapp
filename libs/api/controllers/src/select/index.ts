@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { SelectService } from '@uninus/api/services';
 
 @Controller()
@@ -13,6 +13,7 @@ export class SelectController {
     status: 400,
     description: 'Location Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getProvince(@Query('search') search: string) {
     return this.appService.getProvince({ search });
   }
@@ -23,6 +24,8 @@ export class SelectController {
     status: 400,
     description: 'Location Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'province_id', required: false })
   getCity(
     @Query('province_id') province_id: string,
     @Query('search') search: string
@@ -36,6 +39,8 @@ export class SelectController {
     status: 400,
     description: 'Location Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'city_id', required: false })
   getSubDistrict(
     @Query('city_id') city_id: string,
     @Query('search') search: string
@@ -49,6 +54,7 @@ export class SelectController {
     status: 400,
     description: 'Degree Program Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getDegreeProgram(@Query('search') search: string) {
     return this.appService.getDegreeProgram({ search });
   }
@@ -59,6 +65,8 @@ export class SelectController {
     status: 400,
     description: 'Faculty Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'degree_program_id', required: false })
   getFaculty(
     @Query('search') search: string,
     @Query('degree_program_id') degree_program_id: string
@@ -72,6 +80,8 @@ export class SelectController {
     status: 400,
     description: 'Department Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'faculty_id', required: false })
   getDepartment(
     @Query('search') search: string,
     @Query('faculty_id') faculty_id: string
@@ -85,6 +95,7 @@ export class SelectController {
     status: 400,
     description: 'Religion Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getReligion(@Query('search') search: string) {
     return this.appService.getReligion({ search });
   }
@@ -95,6 +106,7 @@ export class SelectController {
     status: 400,
     description: 'Marital Status Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getMaritalStatus(@Query('search') search: string) {
     return this.appService.getMaritalStatus({ search });
   }
@@ -105,6 +117,7 @@ export class SelectController {
     status: 400,
     description: 'Gender Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getGender(@Query('search') search: string) {
     return this.appService.getGender({ search });
   }
@@ -115,18 +128,20 @@ export class SelectController {
     status: 400,
     description: 'Citizenship Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getCitizenship(@Query('search') search: string) {
     return this.appService.getCitizenship({ search });
   }
 
-  @Get('registration-status')
-  @ApiOperation({ summary: 'Get Registration Status' })
+  @Get('selection-path')
+  @ApiOperation({ summary: 'Get Selection Path' })
   @ApiResponse({
     status: 400,
-    description: 'Registration Status Not Found',
+    description: 'Selection Path Not Found',
   })
-  getRegistrationStatus(@Query('search') search: string) {
-    return this.appService.getSelection({ search });
+  @ApiQuery({ name: 'search', required: false })
+  getSelectionPath(@Query('search') search: string) {
+    return this.appService.getSelectionPath({ search });
   }
 
   @Get('salary')
@@ -135,6 +150,7 @@ export class SelectController {
     status: 400,
     description: 'Salary Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getSalary(@Query('search') search: string) {
     return this.appService.getSalary({ search });
   }
@@ -145,6 +161,7 @@ export class SelectController {
     status: 400,
     description: 'Education History Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getEducationHistory(@Query('search') search: string) {
     return this.appService.getEducationHistory({ search });
   }
@@ -155,6 +172,7 @@ export class SelectController {
     status: 400,
     description: 'Country Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getCountry(@Query('search') search: string) {
     return this.appService.getCounty({ search });
   }
@@ -165,6 +183,7 @@ export class SelectController {
     status: 400,
     description: 'Occupation Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getOccupation(@Query('search') search: string) {
     return this.appService.getOccupation({ search });
   }
@@ -175,6 +194,7 @@ export class SelectController {
     status: 400,
     description: 'Disabilities Not Found',
   })
+  @ApiQuery({ name: 'search', required: false })
   getDisablities(@Query('search') search: string) {
     return this.appService.getDisabilites({ search });
   }
