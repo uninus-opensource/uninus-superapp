@@ -11,7 +11,8 @@
         "outputPath": "dist/libs/entities",
         "main": "libs/entities/src/index.ts",
         "tsConfig": "libs/entities/tsconfig.lib.json",
-        "assets": ["libs/entities/*.md"]
+        "assets": ["libs/entities/*.md"],
+        "updateBuildableProjectDepsInPackageJson": true
       }
     },
     "lint": {

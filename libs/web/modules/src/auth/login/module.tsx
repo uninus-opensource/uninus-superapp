@@ -1,14 +1,14 @@
-'use client';
-import { Button, CheckBox, TextField } from '@uninus/web/components';
-import { signIn } from 'next-auth/react';
-import { FC, ReactElement, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { VSLogin, TVSLogin } from '@uninus/entities';
+"use client";
+import { Button, CheckBox, TextField } from "@uninus/web/components";
+import { signIn } from "next-auth/react";
+import { FC, ReactElement, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { VSLogin, TVSLogin } from "@uninus/entities";
 
 export const LoginModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,11 +19,11 @@ export const LoginModule: FC = (): ReactElement => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<TVSLogin & { aggreement?: boolean }>({
-    mode: 'all',
+    mode: "all",
     resolver: zodResolver(VSLogin),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       aggreement: false,
     },
   });
@@ -31,7 +31,7 @@ export const LoginModule: FC = (): ReactElement => {
   const onSubmit = handleSubmit(async (data) => {
     setIsLoading(true);
     try {
-      const response = await signIn('login', {
+      const response = await signIn("login", {
         redirect: false,
         email: data?.email,
         password: data?.password,
@@ -39,17 +39,17 @@ export const LoginModule: FC = (): ReactElement => {
       if (response?.error) {
         setError(response.error);
         toast.error(`${response.error}`, {
-          position: 'top-center',
+          position: "top-center",
           autoClose: 3000,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'colored',
+          theme: "colored",
         });
       } else {
-        router.push('/dashboard');
+        router.push("/dashboard");
       }
     } catch (error) {
       console.log(error);
@@ -97,7 +97,7 @@ export const LoginModule: FC = (): ReactElement => {
               placeholder="Masukan email"
               control={control}
               required
-              status={errors?.email ? 'error' : undefined}
+              status={errors?.email ? "error" : undefined}
               message={errors?.email?.message}
             />
             <TextField
@@ -108,7 +108,7 @@ export const LoginModule: FC = (): ReactElement => {
               control={control}
               placeholder="Masukan password"
               required
-              status={errors?.password ? 'error' : undefined}
+              status={errors?.password ? "error" : undefined}
               message={errors?.password?.message}
             />
           </div>
@@ -140,13 +140,8 @@ export const LoginModule: FC = (): ReactElement => {
             </Button>
           </div>
           <div className="flex gap-2">
-            <p className="text-grayscale-4 text-[12px]">
-              Belum memiliki akun ?
-            </p>
-            <Link
-              href="/auth/register"
-              className="text-primary-green text-[12px]"
-            >
+            <p className="text-grayscale-4 text-[12px]">Belum memiliki akun ?</p>
+            <Link href="/auth/register" className="text-primary-green text-[12px]">
               Register
             </Link>
           </div>

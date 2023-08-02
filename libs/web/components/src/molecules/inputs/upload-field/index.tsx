@@ -1,7 +1,7 @@
-'use client';
-import { FC, ReactElement } from 'react';
-import { TUploadFile } from './types';
-import { useController } from 'react-hook-form';
+"use client";
+import { FC, ReactElement } from "react";
+import { TUploadFile } from "./types";
+import { useController } from "react-hook-form";
 
 export const UploadField: FC<TUploadFile> = (props): ReactElement => {
   const {
@@ -21,18 +21,14 @@ export const UploadField: FC<TUploadFile> = (props): ReactElement => {
       {value ? (
         <div>
           <img
-            src={URL.createObjectURL(value) || ''}
+            src={URL.createObjectURL(value) || ""}
             alt=""
-            className={`${props.preview ? props.previewImage : 'hidden'}`}
+            className={`${props.preview ? props.previewImage : "hidden"}`}
           />
         </div>
       ) : (
         <div className="w-auto h-auto">
-          <img
-            src={props?.defaultImage || ''}
-            alt=""
-            className={props.previewImage}
-          />
+          <img src={props?.defaultImage || ""} alt="" className={props.previewImage} />
         </div>
       )}
       <input

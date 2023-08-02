@@ -1,9 +1,9 @@
 "use client";
-import { FC, ReactElement } from 'react';
-import { TLoadingProps } from './type';
+import { FC, ReactElement } from "react";
+import { TLoadingProps } from "./type";
 
 export const LoadingSpinner: FC<TLoadingProps> = ({
-  className = 'h-auto w-auto',
+  className = "h-auto w-auto",
 }): ReactElement => {
   return (
     <div role="status">

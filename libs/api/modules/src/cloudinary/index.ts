@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common';
-import { CloudinaryProvider, CloudinaryService } from '@uninus/api/services';
+import { Module } from "@nestjs/common";
+import { CloudinaryProvider, CloudinaryService } from "@uninus/api/services";
 
 @Module({
   providers: [CloudinaryProvider, CloudinaryService],

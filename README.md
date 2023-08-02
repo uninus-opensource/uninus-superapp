@@ -16,7 +16,7 @@
 
 ## Demo Aplikasi
 
-- Soon nanti di isi
+- https://pmb.uninus.dev
 
 # WAJIB Setup Husky
 
@@ -317,5 +317,3 @@ Development dengan Nix membuat proses Develop menjadi lebih mudah dan ringkas, s
 ## Setup Env
 
 Masuk kedalam folder `apps/nama-apps/` Copy terlebih dahulu `.env.example` kemudian rename ke `.env`
-
-

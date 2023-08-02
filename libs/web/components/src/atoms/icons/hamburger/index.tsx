@@ -1,9 +1,7 @@
-import { FC, ReactElement } from 'react';
-import { THamburgerProps } from './type';
+import { FC, ReactElement } from "react";
+import { THamburgerProps } from "./type";
 
-export const HamburgerIcon: FC<THamburgerProps> = ({
-  className,
-}): ReactElement => {
+export const HamburgerIcon: FC<THamburgerProps> = ({ className }): ReactElement => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

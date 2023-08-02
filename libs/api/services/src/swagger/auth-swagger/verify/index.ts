@@ -1,12 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 export class verifyOtpSwagger {
   @ApiProperty({
-    example: '',
+    example: "",
   })
   public email!: string;
 
   @ApiProperty({
-    example: 'length 6',
+    example: "length 6",
   })
   public otp!: string;
 }

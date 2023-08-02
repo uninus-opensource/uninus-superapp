@@ -1,10 +1,7 @@
-import { FC, ReactElement } from 'react';
-import { TRectangleProps } from './type';
+import { FC, ReactElement } from "react";
+import { TRectangleProps } from "./type";
 
-export const Rectangle: FC<TRectangleProps> = ({
-  fill,
-  className,
-}): ReactElement => {
+export const Rectangle: FC<TRectangleProps> = ({ fill, className }): ReactElement => {
   return (
     <svg
       width="164"

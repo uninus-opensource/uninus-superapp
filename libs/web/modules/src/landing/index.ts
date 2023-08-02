@@ -1,2 +1,2 @@
-export * from './module';
-export * from './program-study/type';
+export * from "./module";
+export * from "./program-study/type";

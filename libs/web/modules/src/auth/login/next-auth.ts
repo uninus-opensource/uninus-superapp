@@ -1,8 +1,8 @@
-import NextAuth, { NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { loginRequest, refreshRequest } from './api';
-import { TLoginResponse, TMetaErrorResponse, TUser } from '@uninus/entities';
-import { JWT } from 'next-auth/jwt';
+import NextAuth, { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { loginRequest, refreshRequest } from "./api";
+import { TLoginResponse, TMetaErrorResponse, TUser } from "@uninus/entities";
+import { JWT } from "next-auth/jwt";
 
 const refreshAccessToken = async (token: JWT) => {
   try {
@@ -24,11 +24,11 @@ const refreshAccessToken = async (token: JWT) => {
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      id: 'login',
-      type: 'credentials',
+      id: "login",
+      type: "credentials",
       credentials: {
-        email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<TLoginResponse> {
         try {
@@ -44,17 +44,17 @@ export const authOptions: NextAuthOptions = {
           }
 
           throw new Error(
-            typeof error?.response?.data === 'string'
+            typeof error?.response?.data === "string"
               ? error.response.data
-              : error?.response?.data?.message
+              : error?.response?.data?.message,
           );
         }
       },
     }),
   ],
   pages: {
-    signIn: '/auth/login',
-    signOut: '/auth/logout',
+    signIn: "/auth/login",
+    signOut: "/auth/logout",
   },
   session: {
     maxAge: 2 * 60 * 60,
@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
 
     async jwt({ token, user, account }) {
       const currentUser = user as unknown as TLoginResponse;
-      if (account?.provider === 'login' && currentUser) {
+      if (account?.provider === "login" && currentUser) {
         token.access_token = currentUser?.token?.access_token;
         token.refresh_token = currentUser?.token?.refresh_token;
         token.exp = currentUser?.token?.exp.toString();

@@ -1,4 +1,4 @@
-import { Control, UseControllerProps } from 'react-hook-form';
+import { Control, UseControllerProps } from "react-hook-form";
 
 export type SelectOption = {
   label: string;

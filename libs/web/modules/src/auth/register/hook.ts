@@ -1,10 +1,6 @@
-import { UseMutationResult, useMutation } from '@tanstack/react-query';
-import {
-  TMetaErrorResponse,
-  TRegisterRequest,
-  TRegisterResponse,
-} from '@uninus/entities';
-import { registerRequest } from './api';
+import { UseMutationResult, useMutation } from "@tanstack/react-query";
+import { TMetaErrorResponse, TRegisterRequest, TRegisterResponse } from "@uninus/entities";
+import { registerRequest } from "./api";
 
 export const useRegister = (): UseMutationResult<
   TRegisterResponse,
@@ -13,7 +9,7 @@ export const useRegister = (): UseMutationResult<
   unknown
 > => {
   return useMutation({
-    mutationKey: ['register'],
+    mutationKey: ["register"],
     mutationFn: async (params) => await registerRequest(params),
   });
 };

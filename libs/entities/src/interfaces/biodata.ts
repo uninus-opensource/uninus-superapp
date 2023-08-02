@@ -1,4 +1,4 @@
-import { TBiodataResponse } from '../types';
+import { TBiodataResponse } from "../types";
 
 export interface IBiodataGetResponse extends TBiodataResponse {
   id: string;

@@ -1,18 +1,11 @@
-import { FC, ReactElement } from 'react';
-import { SearchProps } from './types';
-import IconSearch from './ic-search';
+import { FC, ReactElement } from "react";
+import { SearchProps } from "./types";
+import IconSearch from "./ic-search";
 
-export const SearchInput: FC<SearchProps> = ({
-  onChange,
-  value,
-  placeholder,
-}): ReactElement => {
+export const SearchInput: FC<SearchProps> = ({ onChange, value, placeholder }): ReactElement => {
   return (
     <form>
-      <label
-        htmlFor="default-search"
-        className="mb-2 text-sm font-medium text-gray-900 sr-only "
-      >
+      <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only ">
         Search
       </label>
       <div className="relative">

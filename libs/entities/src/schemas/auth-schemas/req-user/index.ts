@@ -1,13 +1,13 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const VSReqUser = z.object({
   email: z
     .string()
     .email({
-      message: 'Email tidak valid',
+      message: "Email tidak valid",
     })
     .nonempty({
-      message: 'Email tidak boleh kosong',
+      message: "Email tidak boleh kosong",
     }),
   nik: z.string(),
 });

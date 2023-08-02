@@ -1,7 +1,7 @@
-import { useMutation, UseMutationResult } from '@tanstack/react-query';
-import { logoutRequest } from './api';
-import { TMetaErrorResponse } from '@uninus/entities';
-import { signOut } from 'next-auth/react';
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { logoutRequest } from "./api";
+import { TMetaErrorResponse } from "@uninus/entities";
+import { signOut } from "next-auth/react";
 
 export const useLogout = (): UseMutationResult<
   unknown,
@@ -10,8 +10,8 @@ export const useLogout = (): UseMutationResult<
   unknown
 > => {
   return useMutation({
-    mutationKey: ['logout-request'],
+    mutationKey: ["logout-request"],
     mutationFn: async (params) => logoutRequest({ refresh_token: params }),
-    onSuccess: async () => await signOut({ callbackUrl: '/auth/login' }),
+    onSuccess: async () => await signOut({ callbackUrl: "/auth/login" }),
   });
 };

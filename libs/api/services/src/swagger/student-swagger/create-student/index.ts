@@ -1,5 +1,5 @@
-import { EGender, ECitizenship, EReligion } from '@uninus/entities';
-import { ApiProperty } from '@nestjs/swagger';
+import { EGender, ECitizenship, EReligion } from "@uninus/entities";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateStudentSwagger {
   @ApiProperty()
@@ -22,24 +22,24 @@ export class CreateStudentSwagger {
 
   @ApiProperty({
     example: Object.keys(EGender),
-    description: 'string',
+    description: "string",
   })
   gender!: EGender;
 
   @ApiProperty({
-    example: '082212341234',
+    example: "082212341234",
   })
   phone_number!: string;
 
   @ApiProperty({
     example: Object.keys(EReligion),
-    description: 'string',
+    description: "string",
   })
   religion!: EReligion;
 
   @ApiProperty({
     example: Object.keys(ECitizenship),
-    description: 'string',
+    description: "string",
   })
   citizenship!: ECitizenship;
 

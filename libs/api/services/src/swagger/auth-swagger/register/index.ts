@@ -1,20 +1,20 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 
 export class RegisterSwagger {
   @ApiProperty()
   public fullname!: string;
 
   @ApiProperty({
-    description: 'Email tidak valid',
-    type: 'string',
-    format: 'email',
+    description: "Email tidak valid",
+    type: "string",
+    format: "email",
   })
   public email!: string;
 
   @ApiProperty({
-    description: 'Password harus lebih dari 6 karakter',
+    description: "Password harus lebih dari 6 karakter",
     minLength: 6,
-    type: 'string',
+    type: "string",
   })
   public password!: string;
 
