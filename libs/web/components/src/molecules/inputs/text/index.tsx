@@ -143,7 +143,9 @@ export const TextField = <T extends FieldValues>({
 
       <div className="flex flex-col items-start w-full gap-x-1">
         <span className={labelVariant}>{props.hint}</span>
-        <span className={`${messageStatus} text-xs`}>{props.message}</span>
+        <span className={`${messageStatus} xl:text-xs lg:text-[8px] text-xs`}>
+          {props.message}
+        </span>
       </div>
     </section>
   );

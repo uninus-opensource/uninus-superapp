@@ -23,14 +23,6 @@ export const ModulBeasiswa: FC = (): ReactElement => {
     },
   ];
 
-  const scroll = () => {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
-  };
-
   return (
     <Fragment>
       <Navbar />
@@ -68,12 +60,7 @@ export const ModulBeasiswa: FC = (): ReactElement => {
         <section className="w-full h-full py-16 px-4">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-y-8 place-items-center">
             {beasiswaList.map((item, idx) => (
-              <Link
-                href={item.link}
-                key={idx}
-                className="w-5/6"
-                onClick={scroll}
-              >
+              <Link href={item.link} key={idx} className="w-5/6">
                 <div className="hover:-translate-y-4 duration-75  aspect-auto">
                   <Image
                     className="w-full "
