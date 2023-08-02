@@ -54,9 +54,9 @@ export const RegisterModule: FC = (): ReactElement => {
       onSubmit={onSubmit}
       className="w-full h-auto px-5 lg:px-12  flex flex-col py-8  md:gap-y-1"
     >
-      <div className="w-full justify-start flex">
+      <div className="w-full justify-start flex lg:mt-10">
         <div className="flex flex-col justify-end lg:gap-y-1 py-2">
-          <h1 className="font-bold text-base lg:text-[1.5rem] 2xl:text-3xl">
+          <h1 className="font-bold text-base lg:text-xl 2xl:text-3xl">
             Registrasi
           </h1>
           <div className="border-2 border-primary-green w-2/3 rounded-md"></div>
@@ -133,10 +133,15 @@ export const RegisterModule: FC = (): ReactElement => {
           </div>
         </div>
       </div>
-      <div className="h-[33%] md:h-[36%] lg:h-[31%] flex flex-col gap-3 lg:mt-[0.5rem]">
+      <div className="h-[33%] md:h-[36%] lg:h-[31%] flex flex-col gap-3 lg:gap-2 lg:mt-[0.5rem]">
         <div className="flex justify-center">
           <div className="w-full">
-            <Button loading={isLoading} disabled={!isValid} width="w-full">
+            <Button
+              loading={isLoading}
+              disabled={!isValid}
+              width="w-full"
+              height="lg:h-8 xl:h-auto"
+            >
               Daftar Sekarang
             </Button>
           </div>

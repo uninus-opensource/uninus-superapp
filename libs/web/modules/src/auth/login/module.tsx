@@ -63,7 +63,7 @@ export const LoginModule: FC = (): ReactElement => {
       onSubmit={onSubmit}
       className="w-full px-5 lg:px-0 flex flex-col gap-y-8 py-8 lg:items-center flex-wrap"
     >
-      <div className="flex flex-col p-4 xl:w-4/5 2xl:w-4/5 lg:mt-4 mt-0">
+      <div className="flex flex-col p-4 xl:w-4/5 2xl:w-4/5 lg:mt-8 mt-0">
         {getError && (
           <ToastContainer
             position="top-center"
@@ -78,8 +78,8 @@ export const LoginModule: FC = (): ReactElement => {
             theme="colored"
           />
         )}
-        <div className="flex flex-col gap-y-2 2xl:gap-y-2 ">
-          <h1 className="font-bold text-xl lg:text-xl 2xl:text-4xl text-center lg:text-start">
+        <div className="flex flex-col 2xl:gap-y-2 ">
+          <h1 className="font-bold text-xl xl:text-2xl 2xl:text-4xl text-center lg:text-start">
             Login
           </h1>
           <p className="text-grayscale-5 w-full text-xs lg:w-[35vw] 2xl:text-md lg:mb-1 text-center lg:text-left">
@@ -87,14 +87,13 @@ export const LoginModule: FC = (): ReactElement => {
           </p>
         </div>
 
-        <div className="flex flex-col w-full justify-center items-center mt-12 md:mt-0">
+        <div className="flex flex-col w-full justify-center items-center mt-6 md:mt-0">
           <div className="justify-center w-full flex flex-col gap-5 md:gap-0">
             <TextField
               name="email"
               type="email"
               variant="md"
               label="Email"
-              inputHeight="lg:h-7 xl:h-auto"
               placeholder="Masukan email"
               control={control}
               required
@@ -106,7 +105,6 @@ export const LoginModule: FC = (): ReactElement => {
               type="password"
               variant="md"
               label="Password"
-              inputHeight="lg:h-7 xl:h-auto"
               control={control}
               placeholder="Masukan password"
               required
