@@ -1,10 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import {
-  EGender,
-  ECitizenship,
-  EReligion,
-  EOccupation,
-} from '@uninus/entities';
+import { ApiProperty } from "@nestjs/swagger";
+import { EGender, ECitizenship, EReligion, EOccupation } from "@uninus/entities";
 
 export class UpdateStudentSwagger {
   @ApiProperty()
@@ -27,7 +22,7 @@ export class UpdateStudentSwagger {
 
   @ApiProperty({
     example: Object.keys(EGender),
-    description: 'string',
+    description: "string",
   })
   gender!: EGender;
 
@@ -36,13 +31,13 @@ export class UpdateStudentSwagger {
 
   @ApiProperty({
     example: Object.keys(EReligion),
-    description: 'string',
+    description: "string",
   })
   religion!: EReligion;
 
   @ApiProperty({
     example: Object.keys(ECitizenship),
-    description: 'string',
+    description: "string",
   })
   citizenship!: ECitizenship;
 

@@ -1,7 +1,7 @@
-import { UseMutationResult, useMutation } from '@tanstack/react-query';
-import { TPayloadVerifyOTP, TVerifyOTPResponse, TNewOtpRequest } from './type';
-import { TMetaErrorResponse } from '@uninus/entities';
-import { verifyRequest, requestNewOtp } from './api';
+import { UseMutationResult, useMutation } from "@tanstack/react-query";
+import { TPayloadVerifyOTP, TVerifyOTPResponse, TNewOtpRequest } from "./type";
+import { TMetaErrorResponse } from "@uninus/entities";
+import { verifyRequest, requestNewOtp } from "./api";
 
 export const useVerify = (): UseMutationResult<
   TVerifyOTPResponse,
@@ -10,7 +10,7 @@ export const useVerify = (): UseMutationResult<
   unknown
 > => {
   return useMutation({
-    mutationKey: ['verify'],
+    mutationKey: ["verify"],
     mutationFn: async (params) => await verifyRequest(params),
   });
 };
@@ -21,7 +21,7 @@ export const useNewOtpRequest = (): UseMutationResult<
   TNewOtpRequest
 > => {
   return useMutation({
-    mutationKey: ['newRequestOtp'],
+    mutationKey: ["newRequestOtp"],
     mutationFn: async (params) => await requestNewOtp(params),
   });
 };

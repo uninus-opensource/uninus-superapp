@@ -1,77 +1,63 @@
-'use client';
-import {
-  ReactElement,
-  FC,
-  useState,
-  useEffect,
-  useMemo,
-  SetStateAction,
-  Fragment,
-} from 'react';
-import {
-  Footer,
-  HeroBanner,
-  LoadingSpinner,
-  Navbar,
-  SearchInput,
-} from '@uninus/web/components';
-import { dataSarjana, dataMagister } from './store';
-import { TTableMagister, TTableSarjana } from './types';
-import DataTable, { TableColumn } from 'react-data-table-component';
+"use client";
+import { ReactElement, FC, useState, useEffect, useMemo, SetStateAction, Fragment } from "react";
+import { Footer, HeroBanner, LoadingSpinner, Navbar, SearchInput } from "@uninus/web/components";
+import { dataSarjana, dataMagister } from "./store";
+import { TTableMagister, TTableSarjana } from "./types";
+import DataTable, { TableColumn } from "react-data-table-component";
 
 export const TuitionFeeModule: FC = (): ReactElement => {
   const [columsOne, setColumsOne] = useState([{}]);
   const [columsTwo, setColumsTwo] = useState([{}]);
   const [pending, setPending] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   const columnsSarjana: TableColumn<TTableSarjana>[] = useMemo(
     () => [
-      { name: 'Fakultas', selector: (row) => row.fakultas, minWidth: '280px' },
+      { name: "Fakultas", selector: (row) => row.fakultas, minWidth: "280px" },
       {
-        name: 'Program Studi',
+        name: "Program Studi",
         selector: (row) => row.program_studi,
-        minWidth: '400px',
+        minWidth: "400px",
       },
-      { name: 'Uang Kuliah Tunggal (UKT)', selector: (row) => row.ukt },
+      { name: "Uang Kuliah Tunggal (UKT)", selector: (row) => row.ukt },
     ],
-    []
+    [],
   );
 
   const columnsMagister: TableColumn<TTableMagister>[] = useMemo(
     () => [
       {
-        name: 'Program Magister(S2) dan Doktor(S3)',
+        name: "Program Magister(S2) dan Doktor(S3)",
         selector: (row) => row.program_studi,
         sortable: true,
-        minWidth: '400px',
+        minWidth: "400px",
       },
       {
-        name: 'Uang Kuliah Tunggal (UKT)',
+        name: "Uang Kuliah Tunggal (UKT)",
         selector: (row) => row.ukt,
       },
     ],
-    []
+    [],
   );
 
   const customStyles = {
     rows: {
       style: {
-        width: '100%',
-        minHeight: '38px',
-        fontSize: '13px',
-        background: '#F1FFF0',
+        width: "100%",
+        minHeight: "38px",
+        fontSize: "13px",
+        background: "#F1FFF0",
       },
       stripedStyle: {
-        background: 'rgb(248 250 252)',
+        background: "rgb(248 250 252)",
       },
     },
 
     headCells: {
       style: {
-        backgroundColor: '#009647',
-        color: '#FFFFFF',
-        fontSize: '14px',
+        backgroundColor: "#009647",
+        color: "#FFFFFF",
+        fontSize: "14px",
       },
     },
   };
@@ -85,9 +71,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
     return () => clearTimeout(timeout);
   }, [columnsSarjana, columnsMagister]);
 
-  const handleSearch = (event: {
-    target: { value: SetStateAction<string> };
-  }) => {
+  const handleSearch = (event: { target: { value: SetStateAction<string> } }) => {
     setSearchQuery(event.target.value);
   };
 
@@ -95,13 +79,13 @@ export const TuitionFeeModule: FC = (): ReactElement => {
     (item) =>
       item.fakultas.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.program_studi.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.ukt.includes(searchQuery)
+      item.ukt.includes(searchQuery),
   );
 
   const filteredDataMagister = dataMagister.filter(
     (item) =>
       item.program_studi.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.ukt.includes(searchQuery)
+      item.ukt.includes(searchQuery),
   );
 
   return (
@@ -131,8 +115,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
             />
           </div>
           <span className="flex lg:w-full justify-start text-black font-semibold text-sm  p-2">
-            *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Praktikum,
-            dan Magang/PLP
+            *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Praktikum, dan Magang/PLP
           </span>
           <section className="rounded-lg w-full ">
             <DataTable
@@ -163,8 +146,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
             />
           </div>
           <span className="flex lg:w-full w-auto justify-start text-black font-semibold text-sm  p-2 ">
-            *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Praktikum,
-            dan Magang/PLP
+            *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Praktikum, dan Magang/PLP
           </span>
           <section className="rounded-lg w-full">
             <DataTable

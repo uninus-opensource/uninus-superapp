@@ -1,4 +1,4 @@
-import { PrismaService } from '@uninus/api/models';
+import { PrismaService } from "@uninus/api/models";
 
 const prisma = new PrismaService();
 
@@ -31,10 +31,7 @@ export const generateOtp = async (email: string, id: string) => {
   return isCreateOtp;
 };
 
-export const compareOtp = async (
-  email: string,
-  otp: string
-): Promise<boolean> => {
+export const compareOtp = async (email: string, otp: string): Promise<boolean> => {
   const user = await prisma.users.findUnique({
     where: {
       email,

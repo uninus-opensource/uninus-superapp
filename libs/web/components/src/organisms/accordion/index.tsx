@@ -1,13 +1,9 @@
-'use client';
-import { FC, ReactElement, useState } from 'react';
-import { AccordionType } from './type';
-import { CaretUpFilled } from '@ant-design/icons';
+"use client";
+import { FC, ReactElement, useState } from "react";
+import { AccordionType } from "./type";
+import { CaretUpFilled } from "@ant-design/icons";
 
-export const Accordion: FC<AccordionType> = ({
-  children,
-  title,
-  className,
-}): ReactElement => {
+export const Accordion: FC<AccordionType> = ({ children, title, className }): ReactElement => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggleAccordion = () => {
@@ -20,13 +16,11 @@ export const Accordion: FC<AccordionType> = ({
         className="flex justify-between items-center cursor-pointer select-none px-10"
         onClick={toggleAccordion}
       >
-        <h2 className="text-[1rem] font-extrabold text-secondary-green-4">
-          {title}
-        </h2>
+        <h2 className="text-[1rem] font-extrabold text-secondary-green-4">{title}</h2>
 
         <CaretUpFilled
           className={`text-secondary-green-4 text-[1.7rem] duration-300 ${
-            isOpen ? 'rotate-0' : 'rotate-180'
+            isOpen ? "rotate-0" : "rotate-180"
           }`}
         />
       </div>

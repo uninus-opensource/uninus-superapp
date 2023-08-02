@@ -1,10 +1,10 @@
-'use client';
-import { FC, ReactElement, Fragment, useState } from 'react';
-import Image from 'next/image';
-import NeoUninusIcon from '../../atoms/illustrations/neouninus/Neo-Uninus.png';
-import { NavbarList } from './type';
-import { Button, HamburgerIcon, XIcon } from '../../atoms';
-import { Sidebar } from '../../molecules';
+"use client";
+import { FC, ReactElement, Fragment, useState } from "react";
+import Image from "next/image";
+import NeoUninusIcon from "../../atoms/illustrations/neouninus/Neo-Uninus.png";
+import { NavbarList } from "./type";
+import { Button, HamburgerIcon, XIcon } from "../../atoms";
+import { Sidebar } from "../../molecules";
 
 export const Navbar: FC = (): ReactElement => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -18,16 +18,16 @@ export const Navbar: FC = (): ReactElement => {
 
   const navList: NavbarList[] = [
     {
-      item: 'beranda',
-      link: '/',
+      item: "beranda",
+      link: "/",
     },
     {
-      item: 'beasiswa',
-      link: '/beasiswa',
+      item: "beasiswa",
+      link: "/beasiswa",
     },
     {
-      item: 'biaya kuliah',
-      link: '/biaya-kuliah',
+      item: "biaya kuliah",
+      link: "/biaya-kuliah",
     },
   ];
 
@@ -49,12 +49,7 @@ export const Navbar: FC = (): ReactElement => {
             <ul className="flex gap-4">
               {navList.map((nav, idx) => (
                 <li key={idx}>
-                  <Button
-                    variant="text-icon"
-                    styling="text-sm"
-                    href={nav.link}
-                    uppercase
-                  >
+                  <Button variant="text-icon" styling="text-sm" href={nav.link} uppercase>
                     {nav.item}
                   </Button>
                 </li>
@@ -75,11 +70,7 @@ export const Navbar: FC = (): ReactElement => {
           </div>
           <div className="block lg:hidden">
             <Button variant="text-icon" onClick={toggle}>
-              {isOpen ? (
-                <XIcon />
-              ) : (
-                <HamburgerIcon className={`fill-primary-white duration-200`} />
-              )}
+              {isOpen ? <XIcon /> : <HamburgerIcon className={`fill-primary-white duration-200`} />}
             </Button>
           </div>
         </section>
@@ -88,12 +79,7 @@ export const Navbar: FC = (): ReactElement => {
         <ul className="mt-6 flex flex-col gap-6 items-center">
           {navList.map((nav, idx) => (
             <li key={idx}>
-              <Button
-                variant="sidebarlist"
-                height="h-8"
-                href={nav.link}
-                onClick={closeSidebar}
-              >
+              <Button variant="sidebarlist" height="h-8" href={nav.link} onClick={closeSidebar}>
                 {nav.item}
               </Button>
             </li>

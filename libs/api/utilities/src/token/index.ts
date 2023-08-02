@@ -1,29 +1,25 @@
-import { JwtService } from '@nestjs/jwt';
-import { TGenerateToken, TGenerateTokenResponse } from '@uninus/entities';
-import { PrismaService } from '@uninus/api/models';
+import { JwtService } from "@nestjs/jwt";
+import { TGenerateToken, TGenerateTokenResponse } from "@uninus/entities";
+import { PrismaService } from "@uninus/api/models";
 
 const jwt = new JwtService();
 const prisma = new PrismaService();
 
-export const generateAccessToken = async (
-  payload: TGenerateToken
-): Promise<string> => {
+export const generateAccessToken = async (payload: TGenerateToken): Promise<string> => {
   const access_token = await jwt.signAsync(payload, {
     secret: process.env.ACCESS_SECRET,
-    expiresIn: '15m',
+    expiresIn: "15m",
   });
 
   return access_token;
 };
 
-export const generateToken = async (
-  payload: TGenerateToken
-): Promise<TGenerateTokenResponse> => {
+export const generateToken = async (payload: TGenerateToken): Promise<TGenerateTokenResponse> => {
   const [access_token, refresh_token] = await Promise.all([
     generateAccessToken(payload),
     jwt.signAsync(payload, {
       secret: process.env.REFRESH_SECRET,
-      expiresIn: '7d',
+      expiresIn: "7d",
     }),
   ]);
 

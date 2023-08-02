@@ -1,7 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from '@uninus/api/models';
-import { CloudinaryService } from '../cloudinary';
-import { excludeSchema } from '@uninus/api/utilities';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { PrismaService } from "@uninus/api/models";
+import { CloudinaryService } from "../cloudinary";
+import { excludeSchema } from "@uninus/api/utilities";
 import {
   IGetStudentRequest,
   IGetStudentResponse,
@@ -9,14 +9,11 @@ import {
   IDeleteStudentResponse,
   IUpdateStudentResponse,
   IUpdateStudentRequest,
-} from '@uninus/entities';
+} from "@uninus/entities";
 
 @Injectable()
 export class StudentService {
-  constructor(
-    private prisma: PrismaService,
-    private cloudinaryService: CloudinaryService
-  ) {}
+  constructor(private prisma: PrismaService, private cloudinaryService: CloudinaryService) {}
 
   async getStudent(args: IGetStudentRequest): Promise<IGetStudentResponse> {
     const student = await this.prisma.users.findUnique({
@@ -32,16 +29,12 @@ export class StudentService {
     });
 
     if (!student) {
-      throw new BadRequestException('Data tidak ditemukan', {
+      throw new BadRequestException("Data tidak ditemukan", {
         cause: new Error(),
       });
     }
 
-    const studentData = excludeSchema(student?.students, [
-      'id',
-      'user_id',
-      'createdAt',
-    ]);
+    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
     return {
       avatar: student.avatar,
       email: student.email,
@@ -50,9 +43,7 @@ export class StudentService {
     };
   }
 
-  async updateStudent(
-    args: IUpdateStudentRequest
-  ): Promise<IUpdateStudentResponse> {
+  async updateStudent(args: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
     const { id, email, fullname, avatar, ...updateStudentPayload } = args;
     const student = await this.prisma.users.update({
       where: {
@@ -75,7 +66,7 @@ export class StudentService {
     });
 
     if (!student) {
-      throw new BadRequestException('User tidak ditemukan', {
+      throw new BadRequestException("User tidak ditemukan", {
         cause: new Error(),
       });
     }
@@ -92,11 +83,7 @@ export class StudentService {
       });
     }
 
-    const studentData = excludeSchema(student?.students, [
-      'id',
-      'user_id',
-      'createdAt',
-    ]);
+    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
     return {
       avatar: student.avatar,
       email: student.email,
@@ -105,9 +92,7 @@ export class StudentService {
     };
   }
 
-  async deleteStudent(
-    args: IDeleteStudentRequest
-  ): Promise<IDeleteStudentResponse> {
+  async deleteStudent(args: IDeleteStudentRequest): Promise<IDeleteStudentResponse> {
     const student = await this.prisma.users.delete({
       where: {
         id: args.id,
@@ -120,16 +105,12 @@ export class StudentService {
       },
     });
     if (!student) {
-      throw new BadRequestException('User tidak ditemukan', {
+      throw new BadRequestException("User tidak ditemukan", {
         cause: new Error(),
       });
     }
 
-    const studentData = excludeSchema(student?.students, [
-      'id',
-      'user_id',
-      'createdAt',
-    ]);
+    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
 
     return {
       avatar: student.avatar,

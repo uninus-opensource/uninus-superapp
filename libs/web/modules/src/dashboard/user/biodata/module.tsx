@@ -1,13 +1,5 @@
-'use client';
-import {
-  ReactElement,
-  FC,
-  useEffect,
-  useMemo,
-  useState,
-  ChangeEvent,
-  Fragment,
-} from 'react';
+"use client";
+import { ReactElement, FC, useEffect, useMemo, useState, ChangeEvent, Fragment } from "react";
 import {
   Accordion,
   Button,
@@ -16,16 +8,12 @@ import {
   UploadField,
   CheckBox,
   SelectOption,
-} from '@uninus/web/components';
-import { FieldValues, useForm } from 'react-hook-form';
-import { formBiodataOne, defaultValuesBiodata } from './store';
-import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from './hooks';
-import { EReligion } from '@uninus/entities';
-import {
-  useCityGet,
-  useProvinceGet,
-  useSubdistrictGet,
-} from '@uninus/web/services';
+} from "@uninus/web/components";
+import { FieldValues, useForm } from "react-hook-form";
+import { formBiodataOne, defaultValuesBiodata } from "./store";
+import { useBiodataCreate, useBiodataGet, useBiodataUpdate } from "./hooks";
+import { EReligion } from "@uninus/entities";
+import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 
 export const ModuleBiodata: FC = (): ReactElement => {
   const { data } = useBiodataGet();
@@ -34,16 +22,15 @@ export const ModuleBiodata: FC = (): ReactElement => {
     return data;
   }, [data]);
 
-  const { control, handleSubmit, reset, watch, setValue } =
-    useForm<FieldValues>({
-      mode: 'all',
-      defaultValues: { ...defaultValuesBiodata },
-    });
+  const { control, handleSubmit, reset, watch, setValue } = useForm<FieldValues>({
+    mode: "all",
+    defaultValues: { ...defaultValuesBiodata },
+  });
 
   const [locationMeta, setLocationMeta] = useState({
-    search: '',
-    province_id: '',
-    city_id: '',
+    search: "",
+    province_id: "",
+    city_id: "",
   });
 
   const { data: getProvincies } = useProvinceGet(locationMeta);
@@ -54,12 +41,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
         label: province?.name,
         value: province?.id.toString(),
       })),
-    [getProvincies?.province]
+    [getProvincies?.province],
   );
 
   const { data: getCity } = useCityGet({
-    province_id: watch('province'),
-    search: '',
+    province_id: watch("province"),
+    search: "",
   });
 
   const cityOptions = useMemo(
@@ -68,12 +55,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
         label: city?.name,
         value: city?.id.toString(),
       })),
-    [getCity?.city]
+    [getCity?.city],
   );
 
   const { data: getSubdistrict } = useSubdistrictGet({
-    city_id: watch('city'),
-    search: '',
+    city_id: watch("city"),
+    search: "",
   });
 
   const subDistrictOptions = useMemo(
@@ -82,7 +69,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
         label: subdistrict?.name,
         value: subdistrict?.id.toString(),
       })),
-    [getSubdistrict?.sub_district]
+    [getSubdistrict?.sub_district],
   );
 
   const { mutate: createBiodata } = useBiodataCreate();
@@ -92,8 +79,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
     EGender?: string;
     ECitizenship?: string;
   }>({
-    EGender: '',
-    ECitizenship: '',
+    EGender: "",
+    ECitizenship: "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -119,8 +106,8 @@ export const ModuleBiodata: FC = (): ReactElement => {
   });
 
   useEffect(() => {
-    setValue('city', null);
-  }, [watch('province')]);
+    setValue("city", null);
+  }, [watch("province")]);
 
   useEffect(() => {
     reset(student);
@@ -137,9 +124,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
         <h1 className="text-slate-5">
           PMB <span className="text-secondary-green-4"> / Data diri</span>
         </h1>
-        <p className="text-lg font-bold text-secondary-green-4">
-          Pengisian data diri
-        </p>
+        <p className="text-lg font-bold text-secondary-green-4">Pengisian data diri</p>
       </div>
 
       {/* Section Biodata */}
@@ -238,7 +223,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       onChange={handleChange}
                       value="MALE"
                       variant="primary"
-                      isChecked={radioSelected?.EGender === 'MALE'}
+                      isChecked={radioSelected?.EGender === "MALE"}
                     />
                     <RadioButton
                       name="gender"
@@ -250,37 +235,37 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       value="FEMALE"
                       required
                       variant="primary"
-                      isChecked={radioSelected?.EGender === 'FEMALE'}
+                      isChecked={radioSelected?.EGender === "FEMALE"}
                     />
                   </div>
                 </div>
                 <SelectOption
                   labels="Agama"
-                  className=" rounded-md text-primary-black lg:w-auto w-70% xl:w-[25vw] md:w-[33vw]"
+                  className=" rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
                   placeholder="Agama"
                   options={[
                     {
-                      label: 'Islam',
+                      label: "Islam",
                       value: EReligion.ISLAM,
                     },
                     {
-                      label: 'Kristen',
+                      label: "Kristen",
                       value: EReligion.KRISTEN,
                     },
                     {
-                      label: 'Buddha',
+                      label: "Buddha",
                       value: EReligion.BUDHA,
                     },
                     {
-                      label: 'Hindu',
+                      label: "Hindu",
                       value: EReligion.HINDU,
                     },
                     {
-                      label: 'Konghucu',
+                      label: "Konghucu",
                       value: EReligion.KONGHUCU,
                     },
                     {
-                      label: 'Katolik',
+                      label: "Katolik",
                       value: EReligion.KATOLIK,
                     },
                   ]}
@@ -327,12 +312,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                     className=" rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
                     options={[
                       {
-                        label: 'Menikah',
-                        value: 'Married',
+                        label: "Menikah",
+                        value: "Married",
                       },
                       {
-                        label: 'Belum Menikah',
-                        value: 'Single',
+                        label: "Belum Menikah",
+                        value: "Single",
                       },
                     ]}
                     isSearchable={false}
@@ -342,7 +327,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   />
                 </div>
                 <div className="flex flex-col gap-1 xl:gap-2 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start">
-                  {' '}
+                  {" "}
                   <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
                   <div className="flex items-center gap-2">
                     <RadioButton
@@ -355,7 +340,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       inputname="kewarganegaraan"
                       value="WNI"
                       variant="primary"
-                      isChecked={radioSelected?.ECitizenship === 'WNI'}
+                      isChecked={radioSelected?.ECitizenship === "WNI"}
                     />
                     <RadioButton
                       name="citizenship"
@@ -367,7 +352,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       required
                       value="WNA"
                       variant="primary"
-                      isChecked={radioSelected?.ECitizenship === 'WNA'}
+                      isChecked={radioSelected?.ECitizenship === "WNA"}
                     />
                   </div>
                 </div>
@@ -382,16 +367,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   labelClassName="font-bold"
                   options={[
                     {
-                      label: 'Indonesia',
-                      value: 'Indonesia',
+                      label: "Indonesia",
+                      value: "Indonesia",
                     },
                     {
-                      label: 'Malaysia',
-                      value: 'Malaysia',
+                      label: "Malaysia",
+                      value: "Malaysia",
                     },
                     {
-                      label: 'Singapura',
-                      value: 'Singapura',
+                      label: "Singapura",
+                      value: "Singapura",
                     },
                   ]}
                   isClearable={true}
@@ -424,7 +409,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   isClearable={true}
                   control={control}
                   isMulti={false}
-                  disabled={!watch('province')}
+                  disabled={!watch("province")}
                 />
                 <SelectOption
                   labels="Kecamatan"
@@ -437,7 +422,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                   isMulti={false}
                   isClearable={true}
-                  disabled={!watch('city')}
+                  disabled={!watch("city")}
                 />
               </section>
               <section className="flex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
@@ -484,7 +469,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       onChange={handleChange}
                       value="Ya"
                       variant="primary"
-                      isChecked={radioSelected?.EGender === 'True'}
+                      isChecked={radioSelected?.EGender === "True"}
                     />
                     <RadioButton
                       name="undifabel"
@@ -496,7 +481,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                       value="Tidak"
                       required
                       variant="primary"
-                      isChecked={radioSelected?.EGender === 'False'}
+                      isChecked={radioSelected?.EGender === "False"}
                     />
                   </div>
                 </div>
@@ -506,20 +491,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Kategori Difabel"
                   options={[
                     {
-                      label: 'Tuna Rungu',
-                      value: 'Tuna Rungu',
+                      label: "Tuna Rungu",
+                      value: "Tuna Rungu",
                     },
                     {
-                      label: 'Tuna Daksa',
-                      value: 'Tuna Daksa',
+                      label: "Tuna Daksa",
+                      value: "Tuna Daksa",
                     },
                     {
-                      label: 'Tuna Netra',
-                      value: 'Tuna Netra',
+                      label: "Tuna Netra",
+                      value: "Tuna Netra",
                     },
                     {
-                      label: 'Tuna Wicara',
-                      value: 'Tuna Wicara',
+                      label: "Tuna Wicara",
+                      value: "Tuna Wicara",
                     },
                   ]}
                   isClearable={true}
@@ -545,16 +530,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
                   options={[
                     {
-                      label: 'SMA',
-                      value: 'SMA',
+                      label: "SMA",
+                      value: "SMA",
                     },
                     {
-                      label: 'SMK',
-                      value: 'SMK',
+                      label: "SMK",
+                      value: "SMK",
                     },
                     {
-                      label: 'Madrasah',
-                      value: 'MA',
+                      label: "Madrasah",
+                      value: "MA",
                     },
                   ]}
                   isSearchable={false}
@@ -568,12 +553,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Tahun Lulus"
                   options={[
                     {
-                      label: '2020',
-                      value: '2020',
+                      label: "2020",
+                      value: "2020",
                     },
                     {
-                      label: '2021',
-                      value: '2021',
+                      label: "2021",
+                      value: "2021",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
@@ -587,16 +572,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Jurusan Pendidikan"
                   options={[
                     {
-                      label: 'IPA',
-                      value: 'MIPA',
+                      label: "IPA",
+                      value: "MIPA",
                     },
                     {
-                      label: 'IPS',
-                      value: 'IPS',
+                      label: "IPS",
+                      value: "IPS",
                     },
                     {
-                      label: 'Keagamaan',
-                      value: 'Agama',
+                      label: "Keagamaan",
+                      value: "Agama",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
@@ -624,16 +609,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Masukan Sekolah Asal"
                   options={[
                     {
-                      label: 'SMAN 4 Bandung',
-                      value: 'SMAN 4 Bandung',
+                      label: "SMAN 4 Bandung",
+                      value: "SMAN 4 Bandung",
                     },
                     {
-                      label: 'SMAN 5 Bandung',
-                      value: 'SMAN 5 Bandung',
+                      label: "SMAN 5 Bandung",
+                      value: "SMAN 5 Bandung",
                     },
                     {
-                      label: 'SMK 1 Bandung',
-                      value: 'SMAN 1 Bandung',
+                      label: "SMK 1 Bandung",
+                      value: "SMAN 1 Bandung",
                     },
                   ]}
                   className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
@@ -668,7 +653,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   isClearable={true}
                   control={control}
                   isMulti={false}
-                  disabled={!watch('province')}
+                  disabled={!watch("province")}
                 />
                 <SelectOption
                   labels="Kecamatan"
@@ -681,7 +666,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                   isMulti={false}
                   isClearable={true}
-                  disabled={!watch('city')}
+                  disabled={!watch("city")}
                 />
               </section>
 
@@ -747,12 +732,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Status Ayah"
                   options={[
                     {
-                      label: 'Meninggal',
-                      value: 'Meninggal',
+                      label: "Meninggal",
+                      value: "Meninggal",
                     },
                     {
-                      label: 'Hidup',
-                      value: 'Hidup',
+                      label: "Hidup",
+                      value: "Hidup",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
@@ -767,16 +752,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pendidikan"
                   options={[
                     {
-                      label: 'SMA',
-                      value: 'SMA',
+                      label: "SMA",
+                      value: "SMA",
                     },
                     {
-                      label: 'SMK',
-                      value: 'SMK',
+                      label: "SMK",
+                      value: "SMK",
                     },
                     {
-                      label: 'Stara S1',
-                      value: 'S1',
+                      label: "Stara S1",
+                      value: "S1",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
@@ -791,16 +776,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pilih Pekerjaan"
                   options={[
                     {
-                      label: 'PNS',
-                      value: 'Guru',
+                      label: "PNS",
+                      value: "Guru",
                     },
                     {
-                      label: 'Buruh',
-                      value: 'Berdagang',
+                      label: "Buruh",
+                      value: "Berdagang",
                     },
                     {
-                      label: 'Polri',
-                      value: 'Polisi',
+                      label: "Polri",
+                      value: "Polisi",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
@@ -815,16 +800,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pilih Pendapatan"
                   options={[
                     {
-                      value: 'Rendah',
-                      label: '0 - 1.200.000',
+                      value: "Rendah",
+                      label: "0 - 1.200.000",
                     },
                     {
-                      value: 'Menengah',
-                      label: '1.200.000 - 3.200.000',
+                      value: "Menengah",
+                      label: "1.200.000 - 3.200.000",
                     },
                     {
-                      value: 'Tinggi',
-                      label: '3.200.000 - 6.000.000',
+                      value: "Tinggi",
+                      label: "3.200.000 - 6.000.000",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
@@ -857,12 +842,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Status Ibu"
                   options={[
                     {
-                      label: 'Meninggal',
-                      value: 'Meninggal',
+                      label: "Meninggal",
+                      value: "Meninggal",
                     },
                     {
-                      label: 'Hidup',
-                      value: 'Hidup',
+                      label: "Hidup",
+                      value: "Hidup",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
@@ -877,16 +862,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pendidikan"
                   options={[
                     {
-                      label: 'SMA',
-                      value: 'SMA',
+                      label: "SMA",
+                      value: "SMA",
                     },
                     {
-                      label: 'SMK',
-                      value: 'SMK',
+                      label: "SMK",
+                      value: "SMK",
                     },
                     {
-                      label: 'Stara S1',
-                      value: 'S1',
+                      label: "Stara S1",
+                      value: "S1",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
@@ -901,16 +886,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pilih Pekerjaan"
                   options={[
                     {
-                      label: 'PNS',
-                      value: 'Guru',
+                      label: "PNS",
+                      value: "Guru",
                     },
                     {
-                      label: 'Buruh',
-                      value: 'Berdagang',
+                      label: "Buruh",
+                      value: "Berdagang",
                     },
                     {
-                      label: 'IRT',
-                      value: 'IRT',
+                      label: "IRT",
+                      value: "IRT",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
@@ -925,16 +910,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pilih Pendapatan"
                   options={[
                     {
-                      value: 'Rendah',
-                      label: '0 - 1.200.000',
+                      value: "Rendah",
+                      label: "0 - 1.200.000",
                     },
                     {
-                      value: 'Menengah',
-                      label: '1.200.000 - 3.200.000',
+                      value: "Menengah",
+                      label: "1.200.000 - 3.200.000",
                     },
                     {
-                      value: 'Tinggi',
-                      label: '3.200.000 - 6.000.000',
+                      value: "Tinggi",
+                      label: "3.200.000 - 6.000.000",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
@@ -972,7 +957,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   isClearable={true}
                   control={control}
                   isMulti={false}
-                  disabled={!watch('province')}
+                  disabled={!watch("province")}
                 />
                 <SelectOption
                   labels="Kecamatan"
@@ -985,7 +970,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                   isMulti={false}
                   isClearable={true}
-                  disabled={!watch('city')}
+                  disabled={!watch("city")}
                 />
               </section>
               <section className="lex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
@@ -1049,12 +1034,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Status Wali"
                   options={[
                     {
-                      label: 'Meninggal',
-                      value: 'Meninggal',
+                      label: "Meninggal",
+                      value: "Meninggal",
                     },
                     {
-                      label: 'Hidup',
-                      value: 'Hidup',
+                      label: "Hidup",
+                      value: "Hidup",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
@@ -1069,16 +1054,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pendidikan"
                   options={[
                     {
-                      label: 'SMA',
-                      value: 'SMA',
+                      label: "SMA",
+                      value: "SMA",
                     },
                     {
-                      label: 'SMK',
-                      value: 'SMK',
+                      label: "SMK",
+                      value: "SMK",
                     },
                     {
-                      label: 'Stara S1',
-                      value: 'S1',
+                      label: "Stara S1",
+                      value: "S1",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
@@ -1093,16 +1078,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pilih Pekerjaan"
                   options={[
                     {
-                      label: 'PNS',
-                      value: 'Guru',
+                      label: "PNS",
+                      value: "Guru",
                     },
                     {
-                      label: 'Buruh',
-                      value: 'Berdagang',
+                      label: "Buruh",
+                      value: "Berdagang",
                     },
                     {
-                      label: 'IRT',
-                      value: 'IRT',
+                      label: "IRT",
+                      value: "IRT",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
@@ -1117,16 +1102,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   placeholder="Pilih Pendapatan"
                   options={[
                     {
-                      value: 'Rendah',
-                      label: '0 - 1.200.000',
+                      value: "Rendah",
+                      label: "0 - 1.200.000",
                     },
                     {
-                      value: 'Menengah',
-                      label: '1.200.000 - 3.200.000',
+                      value: "Menengah",
+                      label: "1.200.000 - 3.200.000",
                     },
                     {
-                      value: 'Tinggi',
-                      label: '3.200.000 - 6.000.000',
+                      value: "Tinggi",
+                      label: "3.200.000 - 6.000.000",
                     },
                   ]}
                   className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
@@ -1163,7 +1148,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   isClearable={true}
                   control={control}
                   isMulti={false}
-                  disabled={!watch('province')}
+                  disabled={!watch("province")}
                 />
                 <SelectOption
                   labels="Kecamatan"
@@ -1176,7 +1161,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
                   control={control}
                   isMulti={false}
                   isClearable={true}
-                  disabled={!watch('city')}
+                  disabled={!watch("city")}
                 />
               </section>
               <section className="lex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">

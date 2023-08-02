@@ -1,6 +1,6 @@
-import { EGender, ECitizenship, EReligion } from '../enum';
-import { EOccupation } from '../enum/job';
-import { TFIle } from './file';
+import { EGender, ECitizenship, EReligion } from "../enum";
+import { EOccupation } from "../enum/job";
+import { TFIle } from "./file";
 export interface IGetStudentRequest {
   id: string;
 }
@@ -94,8 +94,6 @@ export interface IDeleteStudentResponse extends IStudentData {
 export interface IUpdateStudentResponse extends IStudentData {
   avatar: string | null;
 }
-export interface IUpdateStudentRequest
-  extends IGetStudentRequest,
-    IStudentData {
+export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
   avatar: TFIle;
 }

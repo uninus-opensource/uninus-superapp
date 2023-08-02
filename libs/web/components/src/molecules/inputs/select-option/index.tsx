@@ -1,7 +1,7 @@
-import { ReactElement, FC } from 'react';
-import Select from 'react-select';
-import { useController } from 'react-hook-form';
-import { SelectInputProps } from './types';
+import { ReactElement, FC } from "react";
+import Select from "react-select";
+import { useController } from "react-hook-form";
+import { SelectInputProps } from "./types";
 
 export const SelectOption: FC<SelectInputProps> = ({
   control,
@@ -25,7 +25,7 @@ export const SelectOption: FC<SelectInputProps> = ({
   } = useController({
     name,
     control,
-    defaultValue: '',
+    defaultValue: "",
     ...rest,
   });
 
@@ -36,10 +36,7 @@ export const SelectOption: FC<SelectInputProps> = ({
   return (
     <div className="flex flex-col">
       <label className={`font-bold text-xs py-2 ${labelClassName}`}>
-        {labels}{' '}
-        {required && (
-          <span className="ml-1 font-bold text-primary-green">*</span>
-        )}
+        {labels} {required && <span className="ml-1 font-bold text-primary-green">*</span>}
       </label>
       <Select
         options={options}

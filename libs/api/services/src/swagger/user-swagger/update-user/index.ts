@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 
 export class UpdateUserSwagger {
   @ApiProperty()
@@ -11,7 +11,7 @@ export class UpdateUserSwagger {
   public fullname!: string;
 
   @ApiProperty({
-    example: 'min length 6, upper case 1, numbers 1',
+    example: "min length 6, upper case 1, numbers 1",
   })
   public password!: string;
 

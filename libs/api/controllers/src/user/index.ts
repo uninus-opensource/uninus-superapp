@@ -9,31 +9,22 @@ import {
   Query,
   Request,
   UseGuards,
-} from '@nestjs/common';
-import { VSCreateUser, TReqToken, VSUpdateUser } from '@uninus/entities';
-import { ZodValidationPipe } from '@uninus/api/validator';
-import { JwtAuthGuard } from '@uninus/api/guard';
-import {
-  CreateUserSwagger,
-  UpdateUserSwagger,
-  UserService,
-} from '@uninus/api/services';
-import {
-  ApiResponse,
-  ApiTags,
-  ApiOperation,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+} from "@nestjs/common";
+import { VSCreateUser, TReqToken, VSUpdateUser } from "@uninus/entities";
+import { ZodValidationPipe } from "@uninus/api/validator";
+import { JwtAuthGuard } from "@uninus/api/guard";
+import { CreateUserSwagger, UpdateUserSwagger, UserService } from "@uninus/api/services";
+import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 
-@Controller('user')
-@ApiTags('User')
+@Controller("user")
+@ApiTags("User")
 export class UserController {
   constructor(private readonly appService: UserService) {}
 
-  @Get('/me')
+  @Get("/me")
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get Data' })
-  @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
+  @ApiOperation({ summary: "Get Data" })
+  @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   @UseGuards(JwtAuthGuard)
   getUser(@Request() reqToken: TReqToken) {
     const { sub } = reqToken.user;
@@ -41,27 +32,27 @@ export class UserController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Pagination List User' })
+  @ApiOperation({ summary: "Pagination List User" })
   getAllData(
-    @Query('page') page: number,
-    @Query('per_page') perPage: number,
-    @Query('order_by') orderBy: 'asc' | 'desc',
-    @Query('filter_by') filterBy: string,
-    @Query('search') search: string
+    @Query("page") page: number,
+    @Query("per_page") perPage: number,
+    @Query("order_by") orderBy: "asc" | "desc",
+    @Query("filter_by") filterBy: string,
+    @Query("search") search: string,
   ) {
     return this.appService.getUsers({
       where: {
         OR: [
           {
             fullname: {
-              contains: search || '',
-              mode: 'insensitive',
+              contains: search || "",
+              mode: "insensitive",
             },
           },
           {
             email: {
-              contains: search || '',
-              mode: 'insensitive',
+              contains: search || "",
+              mode: "insensitive",
             },
           },
         ],
@@ -74,42 +65,42 @@ export class UserController {
     });
   }
 
-  @Get('/:id')
-  @ApiOperation({ summary: 'Get Data User By Id' })
-  @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
-  getDataById(@Param('id') id: string) {
+  @Get("/:id")
+  @ApiOperation({ summary: "Get Data User By Id" })
+  @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  getDataById(@Param("id") id: string) {
     return this.appService.getUser(id);
   }
 
   @Post()
-  @ApiOperation({ summary: 'Create Data user' })
+  @ApiOperation({ summary: "Create Data user" })
   @ApiResponse({
     status: 400,
-    description: 'Email sudah digunakan, NIK sudah digunakan',
+    description: "Email sudah digunakan, NIK sudah digunakan",
   })
   createData(
     @Body(new ZodValidationPipe(VSCreateUser))
-    createUserSwagger: CreateUserSwagger
+    createUserSwagger: CreateUserSwagger,
   ) {
     return this.appService.createUser(createUserSwagger);
   }
 
-  @Delete('/:id')
-  @ApiOperation({ summary: 'Delete By Id' })
-  @ApiResponse({ status: 201, description: 'Berhasil delete user' })
-  @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
-  deleteData(@Param('id') id: string) {
+  @Delete("/:id")
+  @ApiOperation({ summary: "Delete By Id" })
+  @ApiResponse({ status: 201, description: "Berhasil delete user" })
+  @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  deleteData(@Param("id") id: string) {
     return this.appService.deleteUser(id);
   }
 
-  @Put('/:id')
-  @ApiOperation({ summary: 'Edit User By Id' })
-  @ApiResponse({ status: 201, description: 'Berhasil update user' })
-  @ApiResponse({ status: 400, description: 'User tidak ditemukan' })
+  @Put("/:id")
+  @ApiOperation({ summary: "Edit User By Id" })
+  @ApiResponse({ status: 201, description: "Berhasil update user" })
+  @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   updateData(
-    @Param('id') id: string,
+    @Param("id") id: string,
     @Body(new ZodValidationPipe(VSUpdateUser))
-    updateUserSwagger: UpdateUserSwagger
+    updateUserSwagger: UpdateUserSwagger,
   ) {
     return this.appService.updateUser(id, updateUserSwagger);
   }

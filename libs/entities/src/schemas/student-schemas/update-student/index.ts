@@ -1,24 +1,22 @@
-import { z } from 'zod';
-import { EGender, EReligion, ECitizenship } from '../../../enum';
+import { z } from "zod";
+import { EGender, EReligion, ECitizenship } from "../../../enum";
 
 export const VSUpdateStudent = z.object({
   avatar: z
     .any()
-    .refine((file) =>
-      ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.[0]?.type)
-    )
+    .refine((file) => ["image/jpeg", "image/jpg", "image/png"].includes(file?.[0]?.type))
     .optional(),
   fullname: z.string().optional(),
   nik: z
     .string()
     .refine((value) => value.length === 16, {
-      message: 'NIK harus 16 digit',
+      message: "NIK harus 16 digit",
     })
     .optional(),
   nisn: z
     .string()
     .refine((value) => value.length === 10, {
-      message: 'NISN harus 10 digit',
+      message: "NISN harus 10 digit",
     })
     .optional(),
   birth_place: z.string().optional(),

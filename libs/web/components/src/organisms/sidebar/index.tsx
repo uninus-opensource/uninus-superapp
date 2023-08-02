@@ -1,21 +1,18 @@
-'use client';
-import { FC, ReactElement, useState, useMemo } from 'react';
-import Image from 'next/image';
-import { TSideBarProps } from './type';
-import { AiOutlineLogout } from 'react-icons/ai';
-import Link from 'next/link';
-import { Button } from '../../atoms';
-import logOutImage from '../../atoms/illustrations/logOut/logOut.png';
-import { motion } from 'framer-motion';
-import { useSession } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
-import { Modal } from '../modal';
-import { MenuOutlined, AppstoreFilled } from '@ant-design/icons';
+"use client";
+import { FC, ReactElement, useState, useMemo } from "react";
+import Image from "next/image";
+import { TSideBarProps } from "./type";
+import { AiOutlineLogout } from "react-icons/ai";
+import Link from "next/link";
+import { Button } from "../../atoms";
+import logOutImage from "../../atoms/illustrations/logOut/logOut.png";
+import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
+import { Modal } from "../modal";
+import { MenuOutlined, AppstoreFilled } from "@ant-design/icons";
 
-export const SideBar: FC<TSideBarProps> = ({
-  onLogout,
-  sideList,
-}): ReactElement => {
+export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleOpenModal = () => {
@@ -65,19 +62,11 @@ export const SideBar: FC<TSideBarProps> = ({
           </div>
           <div className="txt mt-4 lg:mt-0">
             <div className="">
-              <h1 className="font-extrabold text-3xl text-primary-black mb-2">
-                Log Out
-              </h1>
-              <h1 className="text-primary-black">
-                Apakah Anda yakin ingin keluar?
-              </h1>
+              <h1 className="font-extrabold text-3xl text-primary-black mb-2">Log Out</h1>
+              <h1 className="text-primary-black">Apakah Anda yakin ingin keluar?</h1>
             </div>
             <div className="button flex gap-x-3 pt-4">
-              <Button
-                variant="elevated"
-                onClick={onLogout}
-                styling="w-1/2 font-normal"
-              >
+              <Button variant="elevated" onClick={onLogout} styling="w-1/2 font-normal">
                 Keluar
               </Button>
               <Button
@@ -102,14 +91,12 @@ export const SideBar: FC<TSideBarProps> = ({
         className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[30vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
         <section className={` w-full flex flex-col items-center gap-y-2`}>
-          <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
-            PMB UNINUS
-          </h1>
+          <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">PMB UNINUS</h1>
 
           <figure className="flex flex-col items-center  ">
             <Image
               className="rounded-full "
-              src={userAvatar || '/illustrations/dummy-avatar.webp'}
+              src={userAvatar || "/illustrations/dummy-avatar.webp"}
               alt="profile picture"
               width={70}
               height={70}
@@ -137,14 +124,13 @@ export const SideBar: FC<TSideBarProps> = ({
                       href={sideList?.link}
                       role="link"
                       className={`flex gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
-                        pathname === sideList?.link &&
-                        'bg-primary-white drop-shadow-md '
+                        pathname === sideList?.link && "bg-primary-white drop-shadow-md "
                       }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
                     >
                       <p
                         className={`${
                           pathname === sideList?.link &&
-                          'bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white'
+                          "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
                         } text-primary-green w-10 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
                       >
                         {sideList?.icon}
@@ -168,9 +154,7 @@ export const SideBar: FC<TSideBarProps> = ({
                   size={40}
                   className="mr-3 text-primary-green p-2 drop-shadow-lg bg-primary-white group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green group-hover:text-primary-white rounded-lg"
                 />
-                <p className="text-primary-green text-sm xl:text-base font-normal">
-                  Keluar
-                </p>
+                <p className="text-primary-green text-sm xl:text-base font-normal">Keluar</p>
               </Button>
             </div>
           </div>
@@ -196,24 +180,18 @@ export const SideBar: FC<TSideBarProps> = ({
           <motion.aside
             className="h-screen lg:hidden top-0 w-60 left-0 shadow-lg absolute overflow-hidden z-50 duration-75 overflow-y-auto transition-transform bg-grayscale-1 py-5"
             aria-label="Sidebar"
-            initial={
-              onToogle
-                ? { opacity: 0, translateX: -50 }
-                : { opacity: 1, translateX: 0 }
-            }
+            initial={onToogle ? { opacity: 0, translateX: -50 } : { opacity: 1, translateX: 0 }}
             animate={{ opacity: 1, translateX: onToogle ? 0 : -50 }}
             transition={{ duration: 0 }}
-            style={{ pointerEvents: onToogle ? 'auto' : 'none' }}
+            style={{ pointerEvents: onToogle ? "auto" : "none" }}
           >
             <section className={` w-full flex flex-col items-center  gap-y-6`}>
-              <h1 className="text-secondary-green-4 text-lg font-bold">
-                PMB UNINUS
-              </h1>
+              <h1 className="text-secondary-green-4 text-lg font-bold">PMB UNINUS</h1>
               <div className="flex flex-row  items-center gap-x-6">
                 <figure className="flex flex-col">
                   <Image
                     className="rounded-full mx-auto"
-                    src={'/illustrations/dummy-avatar.webp'}
+                    src={"/illustrations/dummy-avatar.webp"}
                     alt="profile picture"
                     width={70}
                     height={70}
@@ -221,9 +199,7 @@ export const SideBar: FC<TSideBarProps> = ({
                   />
                   <figcaption className="text-center flex flex-col gap-y-2 mt-3  ">
                     <div className=" text-xs text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
-                      <h3 className="max-w-3/5 text-base leading-normal">
-                        {userName}
-                      </h3>
+                      <h3 className="max-w-3/5 text-base leading-normal">{userName}</h3>
                     </div>
                   </figcaption>
                 </figure>
@@ -242,21 +218,18 @@ export const SideBar: FC<TSideBarProps> = ({
                         href={sideList.link}
                         role="link"
                         className={`flex gap-x-3 text-lg capitalize ${
-                          pathname === sideList.link &&
-                          'bg-primary-white drop-shadow-md '
+                          pathname === sideList.link && "bg-primary-white drop-shadow-md "
                         }hover:bg-primary-white hover:text-secondary-green-1 items-center p-2  rounded-md`}
                       >
                         <p
                           className={`${
                             pathname === sideList.link &&
-                            'bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white'
+                            "bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white"
                           } text-primary-green w-fit h-fit p-3 bg-primary-white drop-shadow-md rounded-lg`}
                         >
                           {sideList.icon}
                         </p>
-                        <p className="text-primary-green text-sm font-normal">
-                          {sideList.label}
-                        </p>
+                        <p className="text-primary-green text-sm font-normal">{sideList.label}</p>
                       </Link>
                     </li>
                   ))}

@@ -1,9 +1,9 @@
-import { FC, ReactElement, useState } from 'react';
-import { TSliderProps, TbannerProps } from './type';
-import { Reveal, Button } from '../../atoms';
-import Image from 'next/image';
-import AliceCarousel, { EventObject } from 'react-alice-carousel';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { FC, ReactElement, useState } from "react";
+import { TSliderProps, TbannerProps } from "./type";
+import { Reveal, Button } from "../../atoms";
+import Image from "next/image";
+import AliceCarousel, { EventObject } from "react-alice-carousel";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 export const HeroBanner: FC<TbannerProps> = ({
   heroTitle,
@@ -53,7 +53,7 @@ export const HeroBanner: FC<TbannerProps> = ({
         >
           <section
             className={`px-4 mx-auto w-full h-full ${
-              blur ? 'backdrop-blur-sm' : ''
+              blur ? "backdrop-blur-sm" : ""
             } text-center md:pt-16 lg:pt-28 xl:pt-16`}
           >
             <Reveal w="w-full" blur={blur}>
@@ -67,14 +67,12 @@ export const HeroBanner: FC<TbannerProps> = ({
                 <h1 className="lg:mb-4 text-lg sm:text-xl font-bold md:font-medium lg:font-bold md:text-3xl lg:text-5xl text-primary-white relative bottom-4">
                   {heroTitle2}
                 </h1>
-                <p className="text-lg md:text-3xl text-primary-white font-bold">
-                  {subTitle2}
-                </p>
+                <p className="text-lg md:text-3xl text-primary-white font-bold">{subTitle2}</p>
                 <div className="flex flex-col text-2xl md:text-5xl text-primary-white absolute left-0 lg:left-24 bottom-0 gap-2 font-black">
                   {heroTitleBottomRight}
                   <div
                     className={`border-2 border-primary-green w-36 ${
-                      heroTitleBottomRight ? 'block' : 'hidden'
+                      heroTitleBottomRight ? "block" : "hidden"
                     }`}
                   ></div>
                 </div>
@@ -88,12 +86,7 @@ export const HeroBanner: FC<TbannerProps> = ({
                     >
                       Unduh Brosur
                     </Button>
-                    <Button
-                      href="/auth/register"
-                      variant="filled"
-                      size="sm"
-                      styling="lg:p-7"
-                    >
+                    <Button href="/auth/register" variant="filled" size="sm" styling="lg:p-7">
                       Daftar Sekarang
                     </Button>
                   </section>
@@ -107,7 +100,7 @@ export const HeroBanner: FC<TbannerProps> = ({
     {
       sliderSection: (
         <Image
-          src={'/illustrations/slider-1.webp'}
+          src={"/illustrations/slider-1.webp"}
           alt="slider-1"
           quality={100}
           width={1000}
@@ -119,7 +112,7 @@ export const HeroBanner: FC<TbannerProps> = ({
     {
       sliderSection: (
         <Image
-          src={'/illustrations/slider-2.webp'}
+          src={"/illustrations/slider-2.webp"}
           alt="slider-2"
           quality={100}
           width={1000}
@@ -131,7 +124,7 @@ export const HeroBanner: FC<TbannerProps> = ({
     {
       sliderSection: (
         <Image
-          src={'/illustrations/slider-3.webp'}
+          src={"/illustrations/slider-3.webp"}
           alt="slider-3"
           quality={100}
           width={1000}
@@ -181,7 +174,7 @@ export const HeroBanner: FC<TbannerProps> = ({
     >
       <section
         className={`px-4 mx-auto w-full h-full ${
-          blur ? 'backdrop-blur-sm' : ''
+          blur ? "backdrop-blur-sm" : ""
         } text-center py-24 lg:py-52`}
       >
         <Reveal w="w-full" blur={blur}>
@@ -195,14 +188,12 @@ export const HeroBanner: FC<TbannerProps> = ({
             <h1 className="mb-4 text-lg sm:text-xl md:font-medium lg:font-bold md:text-3xl lg:text-5xl text-primary-white relative bottom-4">
               {heroTitle2}
             </h1>
-            <p className="text-lg md:text-3xl text-primary-white font-bold">
-              {subTitle2}
-            </p>
+            <p className="text-lg md:text-3xl text-primary-white font-bold">{subTitle2}</p>
             <div className="flex flex-col text-2xl md:text-5xl text-primary-white absolute left-0 lg:left-24 bottom-0 gap-2 font-black">
               {heroTitleBottomRight}
               <div
                 className={`border-2 border-primary-green w-36 ${
-                  heroTitleBottomRight ? 'block' : 'hidden'
+                  heroTitleBottomRight ? "block" : "hidden"
                 }`}
               ></div>
             </div>

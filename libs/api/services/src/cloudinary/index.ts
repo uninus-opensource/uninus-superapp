@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { CloudinaryResponse } from '@uninus/entities';
-import toStream from 'buffer-to-stream';
-import { ConfigOptions, v2 } from 'cloudinary';
-import 'multer';
-import { CLOUDINARY } from './constans';
-import { TFIle } from '@uninus/entities';
+import { Injectable } from "@nestjs/common";
+import { CloudinaryResponse } from "@uninus/entities";
+import toStream from "buffer-to-stream";
+import { ConfigOptions, v2 } from "cloudinary";
+import "multer";
+import { CLOUDINARY } from "./constans";
+import { TFIle } from "@uninus/entities";
 @Injectable()
 export class CloudinaryService {
   async uploadImage(file: TFIle): Promise<CloudinaryResponse> {

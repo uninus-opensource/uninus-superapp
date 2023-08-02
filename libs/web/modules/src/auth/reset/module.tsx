@@ -1,11 +1,11 @@
-'use client';
-import { Button, TextField } from '@uninus/web/components';
-import { FC, ReactElement } from 'react';
-import { useForm } from 'react-hook-form';
-import { useReset } from './hook';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { TVSReset, VSReset } from './schema';
+"use client";
+import { Button, TextField } from "@uninus/web/components";
+import { FC, ReactElement } from "react";
+import { useForm } from "react-hook-form";
+import { useReset } from "./hook";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TVSReset, VSReset } from "./schema";
 
 export const ResetModule: FC = (): ReactElement => {
   const {
@@ -13,12 +13,12 @@ export const ResetModule: FC = (): ReactElement => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<TVSReset>({
-    mode: 'all',
+    mode: "all",
     resolver: zodResolver(VSReset),
     defaultValues: {
-      email: '',
-      password: '',
-      cpassword: '',
+      email: "",
+      password: "",
+      cpassword: "",
     },
   });
 
@@ -33,7 +33,7 @@ export const ResetModule: FC = (): ReactElement => {
       },
       {
         onSuccess: () => router.push(`/auth/login`),
-      }
+      },
     );
   });
 
@@ -47,9 +47,7 @@ export const ResetModule: FC = (): ReactElement => {
         <h1 className="text-2xl font-bold text-primary-black font-bebasNeue w-50%">
           LUPA PASSWORD ?
         </h1>
-        <p className="text-grayscale-5 text-sm">
-          Silahkan mengatur ulang password akun anda
-        </p>
+        <p className="text-grayscale-5 text-sm">Silahkan mengatur ulang password akun anda</p>
         <div className="flex flex-col">
           <TextField
             name="email"
@@ -58,11 +56,8 @@ export const ResetModule: FC = (): ReactElement => {
             placeholder="Masukan email"
             control={control}
             required
-            status={errors?.email || isError ? 'error' : undefined}
-            message={
-              errors?.email?.message ||
-              (isError ? 'email tidak ditemukan' : undefined)
-            }
+            status={errors?.email || isError ? "error" : undefined}
+            message={errors?.email?.message || (isError ? "email tidak ditemukan" : undefined)}
           />
           <TextField
             name="password"
@@ -71,7 +66,7 @@ export const ResetModule: FC = (): ReactElement => {
             placeholder="Masukan password"
             control={control}
             required
-            status={errors?.password ? 'error' : undefined}
+            status={errors?.password ? "error" : undefined}
             message={errors?.password?.message}
           />
           <TextField
@@ -81,7 +76,7 @@ export const ResetModule: FC = (): ReactElement => {
             placeholder="Masukan ulang password"
             control={control}
             required
-            status={errors?.cpassword ? 'error' : undefined}
+            status={errors?.cpassword ? "error" : undefined}
             message={errors?.cpassword?.message}
           />
         </div>

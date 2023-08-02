@@ -1,13 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 
 export class ReqUserSwagger {
   @ApiProperty({
-    example: '',
+    example: "",
   })
   public email!: string;
 
   @ApiProperty({
-    example: '41037006280',
+    example: "41037006280",
   })
   public nik!: string;
 }
