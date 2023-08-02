@@ -1,5 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '@uninus/api/models';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { PrismaService } from "@uninus/api/models";
 import {
   TCitizenshipResponse,
   TDepartmentResponse,
@@ -22,7 +22,7 @@ import {
   TSubDistrictResponse,
   TOccupationResponse,
   TDisabilitiesResponse,
-} from '@uninus/entities';
+} from "@uninus/entities";
 
 @Injectable()
 export class SelectService {
@@ -41,7 +41,7 @@ export class SelectService {
       },
     });
     if (!province) {
-      throw new NotFoundException('Data tidak ditemukan');
+      throw new NotFoundException("Data tidak ditemukan");
     }
     return {
       province,
@@ -58,17 +58,14 @@ export class SelectService {
       },
     });
     if (!city) {
-      throw new NotFoundException('Data tidak ditemukan');
+      throw new NotFoundException("Data tidak ditemukan");
     }
     return {
       city,
     };
   }
 
-  async getSubDistrict({
-    city_id,
-    search,
-  }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
+  async getSubDistrict({ city_id, search }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
     const subDistrict = await this.prisma.subDistrict.findMany({
       where: {
         name: {
@@ -78,16 +75,14 @@ export class SelectService {
       },
     });
     if (!subDistrict) {
-      throw new NotFoundException('Data tidak ditemukan');
+      throw new NotFoundException("Data tidak ditemukan");
     }
     return {
       sub_district: subDistrict,
     };
   }
 
-  async getDegreeProgram({
-    search,
-  }: ISelectRequest): Promise<TDegreeProgramResponse> {
+  async getDegreeProgram({ search }: ISelectRequest): Promise<TDegreeProgramResponse> {
     const degreeProgram = await this.prisma.degreeProgram.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
@@ -99,7 +94,7 @@ export class SelectService {
     });
 
     if (!degreeProgram) {
-      throw new NotFoundException('Data Fakultas Tidak Ditemukan!');
+      throw new NotFoundException("Data Fakultas Tidak Ditemukan!");
     }
 
     return { degree_program: degreeProgram };
@@ -123,7 +118,7 @@ export class SelectService {
     });
 
     if (!faculty) {
-      throw new NotFoundException('Data Fakultas Tidak Ditemukan!');
+      throw new NotFoundException("Data Fakultas Tidak Ditemukan!");
     }
 
     return { faculty };
@@ -145,7 +140,7 @@ export class SelectService {
     });
 
     if (!department) {
-      throw new NotFoundException('Data Program Studi Tidak Ditemukan!');
+      throw new NotFoundException("Data Program Studi Tidak Ditemukan!");
     }
 
     return { department };
@@ -163,15 +158,13 @@ export class SelectService {
     });
 
     if (!religion) {
-      throw new NotFoundException('Data Religion Tidak Ditemukan!');
+      throw new NotFoundException("Data Religion Tidak Ditemukan!");
     }
 
     return { religion };
   }
 
-  async getMaritalStatus({
-    search,
-  }: ISelectRequest): Promise<TMaritalStatusResponse> {
+  async getMaritalStatus({ search }: ISelectRequest): Promise<TMaritalStatusResponse> {
     const maritalStatus = await this.prisma.maritalStatus.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
@@ -183,7 +176,7 @@ export class SelectService {
     });
 
     if (!maritalStatus) {
-      throw new NotFoundException('Data Status Pernikahan Tidak Ditemukan!');
+      throw new NotFoundException("Data Status Pernikahan Tidak Ditemukan!");
     }
 
     return { maritalStatus };
@@ -201,15 +194,13 @@ export class SelectService {
     });
 
     if (!gender) {
-      throw new NotFoundException('Data Gender Tidak Ditemukan!');
+      throw new NotFoundException("Data Gender Tidak Ditemukan!");
     }
 
     return { gender };
   }
 
-  async getCitizenship({
-    search,
-  }: ISelectRequest): Promise<TCitizenshipResponse> {
+  async getCitizenship({ search }: ISelectRequest): Promise<TCitizenshipResponse> {
     const citizenship = await this.prisma.citizenship.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
@@ -221,15 +212,13 @@ export class SelectService {
     });
 
     if (!citizenship) {
-      throw new NotFoundException('Data Kewarganegaraan Tidak Ditemukan!');
+      throw new NotFoundException("Data Kewarganegaraan Tidak Ditemukan!");
     }
 
     return { citizenship };
   }
 
-  async getSelectionPath({
-    search,
-  }: ISelectRequest): Promise<TSelectionResponse> {
+  async getSelectionPath({ search }: ISelectRequest): Promise<TSelectionResponse> {
     const selection = await this.prisma.selectionPath.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
@@ -241,7 +230,7 @@ export class SelectService {
     });
 
     if (!selection) {
-      throw new NotFoundException('Data Jalur Seleksi Tidak Ditemukan!');
+      throw new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!");
     }
 
     return { selection };
@@ -259,15 +248,13 @@ export class SelectService {
     });
 
     if (!salary) {
-      throw new NotFoundException('Data Gaji Tidak Ditemukan!');
+      throw new NotFoundException("Data Gaji Tidak Ditemukan!");
     }
 
     return { salary };
   }
 
-  async getEducationHistory({
-    search,
-  }: ISelectRequest): Promise<TEducationHistoryResponse> {
+  async getEducationHistory({ search }: ISelectRequest): Promise<TEducationHistoryResponse> {
     const educationHistory = await this.prisma.educationHistory.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
@@ -279,7 +266,7 @@ export class SelectService {
     });
 
     if (!educationHistory) {
-      throw new NotFoundException('Data Pendidikan Tidak Ditemukan!');
+      throw new NotFoundException("Data Pendidikan Tidak Ditemukan!");
     }
 
     return { education_history: educationHistory };
@@ -297,15 +284,13 @@ export class SelectService {
     });
 
     if (!country) {
-      throw new NotFoundException('Data Negara Tidak Ditemukan!');
+      throw new NotFoundException("Data Negara Tidak Ditemukan!");
     }
 
     return { country };
   }
 
-  async getOccupation({
-    search,
-  }: ISelectRequest): Promise<TOccupationResponse> {
+  async getOccupation({ search }: ISelectRequest): Promise<TOccupationResponse> {
     const occupation = await this.prisma.occupation.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
@@ -317,15 +302,13 @@ export class SelectService {
       },
     });
     if (!occupation) {
-      throw new NotFoundException('Data Pekerjaan Tidak Ditemukan!');
+      throw new NotFoundException("Data Pekerjaan Tidak Ditemukan!");
     }
 
     return { occupation };
   }
 
-  async getDisabilites({
-    search,
-  }: ISelectRequest): Promise<TDisabilitiesResponse> {
+  async getDisabilites({ search }: ISelectRequest): Promise<TDisabilitiesResponse> {
     const disabilities = await this.prisma.disabilities.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
@@ -336,7 +319,7 @@ export class SelectService {
       },
     });
     if (!disabilities) {
-      throw new NotFoundException('Data Disabilitas Tidak Ditemukan!');
+      throw new NotFoundException("Data Disabilitas Tidak Ditemukan!");
     }
 
     return { disabilities };

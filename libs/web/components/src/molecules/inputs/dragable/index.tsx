@@ -1,14 +1,14 @@
-'use client';
-import { ReactElement, useCallback, useState } from 'react';
-import { useDropzone, FileWithPath } from 'react-dropzone';
-import Image from 'next/image';
-import { FieldValues, useController } from 'react-hook-form';
-import { FcDocument } from 'react-icons/fc';
-import { TUploadFieldProps } from './types';
-import { BiUpload } from 'react-icons/bi';
+"use client";
+import { ReactElement, useCallback, useState } from "react";
+import { useDropzone, FileWithPath } from "react-dropzone";
+import Image from "next/image";
+import { FieldValues, useController } from "react-hook-form";
+import { FcDocument } from "react-icons/fc";
+import { TUploadFieldProps } from "./types";
+import { BiUpload } from "react-icons/bi";
 
 export const DraggableComponent = <T extends FieldValues>(
-  props: TUploadFieldProps<T>
+  props: TUploadFieldProps<T>,
 ): ReactElement => {
   const { field } = useController({
     ...props,
@@ -16,23 +16,23 @@ export const DraggableComponent = <T extends FieldValues>(
       required: props.required,
     },
   });
-  const [fileType, setFileType] = useState('');
-  const [fileName, setFileName] = useState('');
+  const [fileType, setFileType] = useState("");
+  const [fileName, setFileName] = useState("");
   const handleRemoveFile = () => {
     field.onChange(null);
-    setFileType('');
-    setFileName('');
+    setFileType("");
+    setFileName("");
   };
 
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[]) => {
       if (acceptedFiles[0]) {
         field.onChange(acceptedFiles[0]);
-        setFileType(acceptedFiles[0].type || '');
-        setFileName(acceptedFiles[0].name || '');
+        setFileType(acceptedFiles[0].type || "");
+        setFileName(acceptedFiles[0].name || "");
       }
     },
-    [field]
+    [field],
   );
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -40,15 +40,10 @@ export const DraggableComponent = <T extends FieldValues>(
     onDrop,
   });
 
-  const ACCEPTED_IMAGE_TYPES = [
-    'image/jpeg',
-    'image/jpg',
-    'image/webp',
-    'image/png',
-  ];
+  const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/webp", "image/png"];
 
-  const ACCEPTED_VIDEO_TYPES = ['video/ogg', 'video/webm', 'video/mp4'];
-  const ACCEPTED_DOCUMENT_TYPES = ['application/pdf', 'application/msword'];
+  const ACCEPTED_VIDEO_TYPES = ["video/ogg", "video/webm", "video/mp4"];
+  const ACCEPTED_DOCUMENT_TYPES = ["application/pdf", "application/msword"];
 
   return (
     <div
@@ -56,19 +51,9 @@ export const DraggableComponent = <T extends FieldValues>(
       className={`flex items-center h-full bg-slate-1 justify-center relative w-full p-2  rounded-lg  hover:text-white ${props.className}`}
     >
       {field.value && ACCEPTED_IMAGE_TYPES.includes(fileType) ? (
-        <Image
-          src={URL.createObjectURL(field.value)}
-          width={400}
-          height={400}
-          alt={'drag'}
-        />
+        <Image src={URL.createObjectURL(field.value)} width={400} height={400} alt={"drag"} />
       ) : field.value && ACCEPTED_VIDEO_TYPES.includes(fileType) ? (
-        <video
-          width={400}
-          controls
-          height={400}
-          src={URL.createObjectURL(field.value)}
-        />
+        <video width={400} controls height={400} src={URL.createObjectURL(field.value)} />
       ) : field.value && ACCEPTED_DOCUMENT_TYPES.includes(fileType) ? (
         <span className="flex flex-col text-black">
           <FcDocument />
@@ -97,9 +82,7 @@ export const DraggableComponent = <T extends FieldValues>(
           onClick={handleRemoveFile}
           className="text-red-600 cursor-pointer shadow-sm bg-neutral-100 p-4 w-full h-[30px] items-center flex justify-center absolute bottom-0"
         >
-          <div className="p-2 m-4 bg-primary-green text-primary-white rounded-md">
-            Change File
-          </div>
+          <div className="p-2 m-4 bg-primary-green text-primary-white rounded-md">Change File</div>
         </span>
       )}
     </div>

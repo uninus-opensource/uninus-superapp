@@ -1,7 +1,7 @@
-'use client';
-import { FC, PropsWithChildren, ReactElement } from 'react';
-import { RecoilRoot } from 'recoil';
+"use client";
+import { FC, PropsWithChildren, ReactElement } from "react";
+import { RecoilRoot } from "recoil";
 
-export const RecoilProvider: FC<PropsWithChildren> = ({
-  children,
-}): ReactElement => <RecoilRoot>{children}</RecoilRoot>;
+export const RecoilProvider: FC<PropsWithChildren> = ({ children }): ReactElement => (
+  <RecoilRoot>{children}</RecoilRoot>
+);

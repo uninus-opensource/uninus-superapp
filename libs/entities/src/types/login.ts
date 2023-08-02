@@ -1,5 +1,5 @@
-import { TToken } from './token';
-import { TUser } from './user';
+import { TToken } from "./token";
+import { TUser } from "./user";
 
 export type TLoginResponse = {
   id: string;

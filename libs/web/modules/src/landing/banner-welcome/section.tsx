@@ -1,11 +1,6 @@
-import { FC, Fragment, ReactElement } from 'react';
-import Image from 'next/image';
-import {
-  Ellipse,
-  Reveal,
-  HalfEllipseYellow,
-  HalfEllipseGreen,
-} from '@uninus/web/components';
+import { FC, Fragment, ReactElement } from "react";
+import Image from "next/image";
+import { Ellipse, Reveal, HalfEllipseYellow, HalfEllipseGreen } from "@uninus/web/components";
 
 export const WelcomeSection: FC = (): ReactElement => {
   return (
@@ -17,7 +12,7 @@ export const WelcomeSection: FC = (): ReactElement => {
       <Reveal>
         <section className="xl:px-[10vw] md:px-10 mx-auto lg:w-full md:w-full w-auto flex 2xl:justify-center xl:justify-evenly lg:justify-around lg:flex-row md:flex-row flex-col gap-8 items-center mt-32 h-auto">
           <Image
-            src={'/illustrations/gerbang-uninus.webp'}
+            src={"/illustrations/gerbang-uninus.webp"}
             priority
             alt="gedung1"
             quality={100}
@@ -33,12 +28,11 @@ export const WelcomeSection: FC = (): ReactElement => {
               <span className="text-primary-green px-2">Muda</span>
             </h1>
             <p className="text-left text-base xl:text-lg font-semibold xl:font-normal lg:leading-6 text-grayscale-9 lg:mt-12 mt-8 w-full">
-              Selamat datang nusantara muda di Universitas Islam Nusantara. Kami
-              sangat senang Anda bergabung dengan kami dan yakin Anda akan
-              menemukan banyak peluang belajar, berkembang, dan berkontribusi.
-              Kami memiliki fasilitas pendidikan terbaik, dosen berkualitas, dan
-              komunitas mahasiswa inklusif. Kami sangat menantikan kerjasama
-              kita dan membantu Anda mencapai impian Anda.
+              Selamat datang nusantara muda di Universitas Islam Nusantara. Kami sangat senang Anda
+              bergabung dengan kami dan yakin Anda akan menemukan banyak peluang belajar,
+              berkembang, dan berkontribusi. Kami memiliki fasilitas pendidikan terbaik, dosen
+              berkualitas, dan komunitas mahasiswa inklusif. Kami sangat menantikan kerjasama kita
+              dan membantu Anda mencapai impian Anda.
             </p>
           </div>
         </section>

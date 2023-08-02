@@ -1,5 +1,5 @@
 // nextauth.d.ts
-import { DefaultUser } from 'next-auth';
+import { DefaultUser } from "next-auth";
 
 interface IUser extends DefaultUser {
   token?: {
@@ -8,7 +8,7 @@ interface IUser extends DefaultUser {
   };
 }
 
-declare module 'next-auth' {
+declare module "next-auth" {
   interface Session {
     user?: IUser;
   }

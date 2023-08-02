@@ -1,7 +1,7 @@
-'use client';
-import { FC, ReactElement, useEffect, useState } from 'react';
-import { Button } from '../../atoms';
-import { TButtonSection } from './type';
+"use client";
+import { FC, ReactElement, useEffect, useState } from "react";
+import { Button } from "../../atoms";
+import { TButtonSection } from "./type";
 
 export const TabJalurSeleksi: FC = (): ReactElement => {
   const [isActive, setIsActive] = useState<number>(1);
@@ -9,15 +9,15 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
   const buttonList: TButtonSection[] = [
     {
       no: 1,
-      item: ' JSPA',
+      item: " JSPA",
     },
     {
       no: 2,
-      item: 'JSPNA',
+      item: "JSPNA",
     },
     {
       no: 3,
-      item: 'JST',
+      item: "JST",
     },
   ];
 
@@ -51,7 +51,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
               width="lg:w-[400px] w-[150px]"
               height="h-full"
               onClick={() => setIsActive(list.no)}
-              variant={isActive === list.no ? 'filled' : 'text-icon'}
+              variant={isActive === list.no ? "filled" : "text-icon"}
             >
               {list.item}
             </Button>
@@ -60,24 +60,21 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
         <div className="flex flex-col justify-center gap-2 text-sm">
           <h1 className="text-xl font-extramedium">Persyaratan</h1>
 
-          <p className={isActive === 1 ? 'block' : 'hidden'}>
-            1. Nilai Rapor Rata-rata ≥ 70 untuk 3 Mata Pelajaran (Matematika,
-            Bahasa Inggris & Bahasa Indonesia) semester 1 s.d semester 4 bagi
-            siswa kelas XII Angkatan 2022/2023 dan semester 1 s.d semester 6
-            bagi siswa Angkatan sebelumnya
+          <p className={isActive === 1 ? "block" : "hidden"}>
+            1. Nilai Rapor Rata-rata ≥ 70 untuk 3 Mata Pelajaran (Matematika, Bahasa Inggris &
+            Bahasa Indonesia) semester 1 s.d semester 4 bagi siswa kelas XII Angkatan 2022/2023 dan
+            semester 1 s.d semester 6 bagi siswa Angkatan sebelumnya
             <br />
             <br />
             2. Nilai UTBK atau hasil SBMPTN/SNBT Rata-rata ≥ 450
           </p>
-          <p className={`mt-2 ${isActive === 2 ? 'block' : 'hidden'}`}>
-            Prestasi/Juara lomba dibidang akademik atau non akademik yang pernah
-            diraih oleh calon mahasiswa ketika duduk di bangku SMA/SMK/MA atau
-            setelah lulus, dengan standar prestasi minimal Juara 3 di perlombaan
-            tingkat Kota/Kabupaten dan bagi penghafal Qur'an (Tahfidz)
+          <p className={`mt-2 ${isActive === 2 ? "block" : "hidden"}`}>
+            Prestasi/Juara lomba dibidang akademik atau non akademik yang pernah diraih oleh calon
+            mahasiswa ketika duduk di bangku SMA/SMK/MA atau setelah lulus, dengan standar prestasi
+            minimal Juara 3 di perlombaan tingkat Kota/Kabupaten dan bagi penghafal Qur'an (Tahfidz)
           </p>
-          <p className={`mt-4 ${isActive === 3 ? 'block' : 'hidden'}`}>
-            Jalur seleksi berdasarkan hasil test, dengan standar kelulusan
-            passing grade sebesar 60
+          <p className={`mt-4 ${isActive === 3 ? "block" : "hidden"}`}>
+            Jalur seleksi berdasarkan hasil test, dengan standar kelulusan passing grade sebesar 60
           </p>
         </div>
       </div>

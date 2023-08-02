@@ -9,35 +9,35 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
-} from '@nestjs/common';
-import { TFIle } from '@uninus/entities';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { TReqToken, VSUpdateStudent } from '@uninus/entities';
-import { JwtAuthGuard } from '@uninus/api/guard';
-import { ZodValidationPipe } from '@uninus/api/validator';
-import { StudentService, UpdateStudentSwagger } from '@uninus/api/services';
+} from "@nestjs/common";
+import { TFIle } from "@uninus/entities";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { TReqToken, VSUpdateStudent } from "@uninus/entities";
+import { JwtAuthGuard } from "@uninus/api/guard";
+import { ZodValidationPipe } from "@uninus/api/validator";
+import { StudentService, UpdateStudentSwagger } from "@uninus/api/services";
 import {
   ApiResponse,
   ApiTags,
   ApiUnauthorizedResponse,
   ApiOperation,
   ApiBearerAuth,
-} from '@nestjs/swagger';
+} from "@nestjs/swagger";
 
-@Controller('student')
-@ApiTags('Student')
+@Controller("student")
+@ApiTags("Student")
 export class StudentController {
   constructor(private readonly appService: StudentService) {}
 
   @Get()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get Data Student' })
+  @ApiOperation({ summary: "Get Data Student" })
   @ApiResponse({
     status: 400,
-    description: 'Data tidak ditemukan',
+    description: "Data tidak ditemukan",
   })
   @ApiUnauthorizedResponse({
-    description: 'Unauthorized',
+    description: "Unauthorized",
   })
   @UseGuards(JwtAuthGuard)
   getData(@Request() reqToken: TReqToken) {
@@ -47,68 +47,68 @@ export class StudentController {
 
   @Put()
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Update Data Student' })
+  @ApiOperation({ summary: "Update Data Student" })
   @ApiResponse({
     status: 400,
-    description: 'User tidak ditemukan',
+    description: "User tidak ditemukan",
   })
   @ApiUnauthorizedResponse({
-    description: 'Unauthorized',
+    description: "Unauthorized",
   })
-  @UseInterceptors(FileInterceptor('avatar'))
+  @UseInterceptors(FileInterceptor("avatar"))
   @UseGuards(JwtAuthGuard)
   updateData(
     @Request() reqToken: TReqToken,
     @UploadedFile() avatar: TFIle,
     @Body(new ZodValidationPipe(VSUpdateStudent))
-    studentData: UpdateStudentSwagger
+    studentData: UpdateStudentSwagger,
   ) {
     const { sub: id } = reqToken.user;
     return this.appService.updateStudent({ id, avatar, ...studentData });
   }
 
-  @Delete('/:id')
+  @Delete("/:id")
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Delete By Id' })
+  @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({
     status: 400,
-    description: 'User tidak ditemukan',
+    description: "User tidak ditemukan",
   })
   @UseGuards(JwtAuthGuard)
-  deleteDataById(@Param('id') id: string) {
+  deleteDataById(@Param("id") id: string) {
     return this.appService.deleteStudent({ id });
   }
 
-  @Put('/:id')
+  @Put("/:id")
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Update By Id' })
+  @ApiOperation({ summary: "Update By Id" })
   @ApiResponse({
     status: 400,
-    description: 'User tidak ditemukan',
+    description: "User tidak ditemukan",
   })
-  @UseInterceptors(FileInterceptor('avatar'))
+  @UseInterceptors(FileInterceptor("avatar"))
   @UseGuards(JwtAuthGuard)
   updateDataById(
-    @Param('id') id: string,
+    @Param("id") id: string,
     @UploadedFile() avatar: TFIle,
     @Body(new ZodValidationPipe(VSUpdateStudent))
-    studentData: UpdateStudentSwagger
+    studentData: UpdateStudentSwagger,
   ) {
     return this.appService.updateStudent({ id, avatar, ...studentData });
   }
 
-  @Get('/:id')
+  @Get("/:id")
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get Data By Id' })
+  @ApiOperation({ summary: "Get Data By Id" })
   @ApiResponse({
     status: 400,
-    description: 'Data tidak ditemukan',
+    description: "Data tidak ditemukan",
   })
   @ApiUnauthorizedResponse({
-    description: 'Unauthorized',
+    description: "Unauthorized",
   })
   @UseGuards(JwtAuthGuard)
-  getDataById(@Param('id') id: string) {
+  getDataById(@Param("id") id: string) {
     return this.appService.getStudent({ id });
   }
 }

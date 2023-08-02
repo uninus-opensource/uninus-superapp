@@ -1,8 +1,8 @@
-'use client';
-import { ReactElement, FC } from 'react';
-import { Button, SelectField, SelectOption } from '@uninus/web/components';
+"use client";
+import { ReactElement, FC } from "react";
+import { Button, SelectField, SelectOption } from "@uninus/web/components";
 
-import { FieldValues, useForm } from 'react-hook-form';
+import { FieldValues, useForm } from "react-hook-form";
 
 export const ModulePendaftaran: FC = (): ReactElement => {
   const {
@@ -33,9 +33,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
         <h1 className="text-slate-5">
           PMB <span className="text-secondary-green-4"> / Pendaftaran</span>
         </h1>
-        <p className=" text-lg 2xl:text-2xl  font-bold text-secondary-green-4">
-          Pendaftaran
-        </p>
+        <p className=" text-lg 2xl:text-2xl  font-bold text-secondary-green-4">Pendaftaran</p>
       </div>
       <div className="flex flex-col gap-4 w-full bg-primary-white p-12 rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
         <h1 className="text-2xl font-bold">Formulir Pendaftaran</h1>
@@ -49,16 +47,16 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               status="none"
               options={[
                 {
-                  value: 'S1',
-                  label: 'Program Sarjana(S1) 2023/2024',
+                  value: "S1",
+                  label: "Program Sarjana(S1) 2023/2024",
                 },
                 {
-                  value: 'S2',
-                  label: 'Program Magister(S2) 2023/2024',
+                  value: "S2",
+                  label: "Program Magister(S2) 2023/2024",
                 },
                 {
-                  value: 'S3',
-                  label: 'Program Doktor(S3) 2023/2024',
+                  value: "S3",
+                  label: "Program Doktor(S3) 2023/2024",
                 },
               ]}
               control={control}
@@ -73,32 +71,32 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               required
               options={[
                 {
-                  label: 'FAI',
-                  value: 'Fakultas Agama Islam (FAI)',
+                  label: "FAI",
+                  value: "Fakultas Agama Islam (FAI)",
                 },
                 {
-                  label: 'FKIP',
-                  value: 'Fakultas Keguruan dan Ilmu Pendidikan (FKIP)',
+                  label: "FKIP",
+                  value: "Fakultas Keguruan dan Ilmu Pendidikan (FKIP)",
                 },
                 {
-                  label: 'FTEK',
-                  value: 'Fakultas Teknik (FTEK)',
+                  label: "FTEK",
+                  value: "Fakultas Teknik (FTEK)",
                 },
                 {
-                  label: 'FIKOM',
-                  value: 'Fakultas Ilmu Komunikasi (FIKOM)',
+                  label: "FIKOM",
+                  value: "Fakultas Ilmu Komunikasi (FIKOM)",
                 },
                 {
-                  label: 'FKON',
-                  value: 'Fakultas Ekonomi (FKON)',
+                  label: "FKON",
+                  value: "Fakultas Ekonomi (FKON)",
                 },
                 {
-                  label: 'FHUM',
-                  value: 'Fakultas Hukum (FHUM)',
+                  label: "FHUM",
+                  value: "Fakultas Hukum (FHUM)",
                 },
                 {
-                  label: 'FAPERTA',
-                  value: 'Fakultas Pertanian (FAPERTA)',
+                  label: "FAPERTA",
+                  value: "Fakultas Pertanian (FAPERTA)",
                 },
               ]}
               control={control}
@@ -112,44 +110,44 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               status="none"
               options={[
                 {
-                  label: 'PAI',
-                  value: 'Pendidikan Agama Islam',
+                  label: "PAI",
+                  value: "Pendidikan Agama Islam",
                 },
                 {
-                  label: 'Bank',
-                  value: 'Perbankan Syariah',
+                  label: "Bank",
+                  value: "Perbankan Syariah",
                 },
                 {
-                  label: 'PG/SD',
-                  value: 'Pendidikan Guru Madrasah ibtidaiyah',
+                  label: "PG/SD",
+                  value: "Pendidikan Guru Madrasah ibtidaiyah",
                 },
                 {
-                  label: 'KPI',
-                  value: 'Komunikasi Penyiaran Islam',
+                  label: "KPI",
+                  value: "Komunikasi Penyiaran Islam",
                 },
                 {
-                  label: 'PLB',
-                  value: 'Pendidikan Luar Biasa (PLB)',
+                  label: "PLB",
+                  value: "Pendidikan Luar Biasa (PLB)",
                 },
                 {
-                  label: 'PLS',
-                  value: 'Pendidikan Luar Sekolah (PLS)',
+                  label: "PLS",
+                  value: "Pendidikan Luar Sekolah (PLS)",
                 },
                 {
-                  label: 'PG-PAUD',
-                  value: 'Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)',
+                  label: "PG-PAUD",
+                  value: "Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)",
                 },
                 {
-                  label: 'TE',
-                  value: 'Teknik Elektronika',
+                  label: "TE",
+                  value: "Teknik Elektronika",
                 },
                 {
-                  label: 'TE',
-                  value: 'Teknik Informatika',
+                  label: "TE",
+                  value: "Teknik Informatika",
                 },
                 {
-                  label: 'TIS',
-                  value: 'Teknik Industri',
+                  label: "TIS",
+                  value: "Teknik Industri",
                 },
               ]}
               control={control}
@@ -163,44 +161,44 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               status="none"
               options={[
                 {
-                  label: 'PAI',
-                  value: 'Pendidikan Agama Islam',
+                  label: "PAI",
+                  value: "Pendidikan Agama Islam",
                 },
                 {
-                  label: 'Bank',
-                  value: 'Perbankan Syariah',
+                  label: "Bank",
+                  value: "Perbankan Syariah",
                 },
                 {
-                  label: 'PG/SD',
-                  value: 'Pendidikan Guru Madrasah ibtidaiyah',
+                  label: "PG/SD",
+                  value: "Pendidikan Guru Madrasah ibtidaiyah",
                 },
                 {
-                  label: 'KPI',
-                  value: 'Komunikasi Penyiaran Islam',
+                  label: "KPI",
+                  value: "Komunikasi Penyiaran Islam",
                 },
                 {
-                  label: 'PLB',
-                  value: 'Pendidikan Luar Biasa (PLB)',
+                  label: "PLB",
+                  value: "Pendidikan Luar Biasa (PLB)",
                 },
                 {
-                  label: 'PLS',
-                  value: 'Pendidikan Luar Sekolah (PLS)',
+                  label: "PLS",
+                  value: "Pendidikan Luar Sekolah (PLS)",
                 },
                 {
-                  label: 'PG-PAUD',
-                  value: 'Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)',
+                  label: "PG-PAUD",
+                  value: "Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)",
                 },
                 {
-                  label: 'TE',
-                  value: 'Teknik Elektronika',
+                  label: "TE",
+                  value: "Teknik Elektronika",
                 },
                 {
-                  label: 'TE',
-                  value: 'Teknik Informatika',
+                  label: "TE",
+                  value: "Teknik Informatika",
                 },
                 {
-                  label: 'TIS',
-                  value: 'Teknik Industri',
+                  label: "TIS",
+                  value: "Teknik Industri",
                 },
               ]}
               control={control}
@@ -214,24 +212,24 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               required
               options={[
                 {
-                  label: 'BNP',
-                  value: 'Beasiswa Nusantara Berprestasi (BNP)',
+                  label: "BNP",
+                  value: "Beasiswa Nusantara Berprestasi (BNP)",
                 },
                 {
-                  label: 'SPA',
-                  value: 'Seleksi Prestasi Akademik',
+                  label: "SPA",
+                  value: "Seleksi Prestasi Akademik",
                 },
                 {
-                  label: 'SPNA',
-                  value: 'Seleksi Prestasi Non Akademik',
+                  label: "SPNA",
+                  value: "Seleksi Prestasi Non Akademik",
                 },
                 {
-                  label: 'Banom',
-                  value: 'Kerjasama Banom',
+                  label: "Banom",
+                  value: "Kerjasama Banom",
                 },
                 {
-                  label: 'KIP',
-                  value: 'KIP - KULIAH',
+                  label: "KIP",
+                  value: "KIP - KULIAH",
                 },
               ]}
               control={control}
@@ -245,7 +243,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               height="h-12"
               disabled={!isValid}
               className={`${
-                isValid ? 'bg-primary-green' : 'bg-slate-2 cursor-not-allowed'
+                isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"
               } text-white rounded-md`}
             >
               Daftar Sekarang

@@ -1,11 +1,11 @@
-'use client';
-import { Button, TextField } from '@uninus/web/components';
-import { FC, ReactElement } from 'react';
-import { useForm } from 'react-hook-form';
-import { useForgot } from './hook';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { TVSForgotPassword, VSForgotPassword } from '@uninus/entities';
+"use client";
+import { Button, TextField } from "@uninus/web/components";
+import { FC, ReactElement } from "react";
+import { useForm } from "react-hook-form";
+import { useForgot } from "./hook";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TVSForgotPassword, VSForgotPassword } from "@uninus/entities";
 
 export const ForgotModule: FC = (): ReactElement => {
   const {
@@ -13,10 +13,10 @@ export const ForgotModule: FC = (): ReactElement => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<TVSForgotPassword>({
-    mode: 'all',
+    mode: "all",
     resolver: zodResolver(VSForgotPassword),
     defaultValues: {
-      email: '',
+      email: "",
     },
   });
 
@@ -30,9 +30,8 @@ export const ForgotModule: FC = (): ReactElement => {
         email: data?.email,
       },
       {
-        onSuccess: () =>
-          router.push(`/auth/verifikasi-forget?email=${data?.email}`),
-      }
+        onSuccess: () => router.push(`/auth/verifikasi-forget?email=${data?.email}`),
+      },
     );
   });
 
@@ -46,9 +45,7 @@ export const ForgotModule: FC = (): ReactElement => {
         <h1 className="text-2xl font-bold text-primary-black font-bebasNeue w-50%">
           LUPA PASSWORD ?
         </h1>
-        <p className="text-grayscale-5 text-sm">
-          Masukkan email yang didaftarkan oleh akun anda
-        </p>
+        <p className="text-grayscale-5 text-sm">Masukkan email yang didaftarkan oleh akun anda</p>
         <TextField
           name="email"
           type="email"
@@ -56,10 +53,10 @@ export const ForgotModule: FC = (): ReactElement => {
           placeholder="Masukan email"
           control={control}
           required
-          status={errors?.email || isError ? 'error' : undefined}
+          status={errors?.email || isError ? "error" : undefined}
           message={
             errors?.email?.message ||
-            (isError ? 'email tidak ditemukan atau tidak valid' : undefined)
+            (isError ? "email tidak ditemukan atau tidak valid" : undefined)
           }
         />
         <Button disabled={!isValid}>Lanjutkan</Button>

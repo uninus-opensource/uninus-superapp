@@ -1,9 +1,9 @@
-import { ChangeEventHandler, ReactNode } from 'react';
-import { FieldValues, UseControllerProps } from 'react-hook-form';
-import { StaticImageData } from 'next/image';
+import { ChangeEventHandler, ReactNode } from "react";
+import { FieldValues, UseControllerProps } from "react-hook-form";
+import { StaticImageData } from "next/image";
 
 export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
-  type?: 'text' | 'password' | 'email' | 'number' | 'date';
+  type?: "text" | "password" | "email" | "number" | "date";
   label?: string;
   inputWidth?: string;
   inputHeight?: string;
@@ -15,9 +15,9 @@ export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   className?: string;
   labelclassname?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
-  status?: 'success' | 'error' | 'warning' | 'none';
+  status?: "success" | "error" | "warning" | "none";
   message?: string;
-  variant: 'lg' | 'md' | 'sm' | 'otp' | 'telp';
+  variant: "lg" | "md" | "sm" | "otp" | "telp";
   icon?: ReactNode | StaticImageData;
   prepend?: ReactNode;
   append?: ReactNode;
@@ -28,13 +28,5 @@ export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   textAreaRow?: number;
   textAreaCols?: number;
   maxlenght?: number;
-  inputMode?:
-    | 'text'
-    | 'numeric'
-    | 'search'
-    | 'tel'
-    | 'url'
-    | 'decimal'
-    | 'none'
-    | 'email';
+  inputMode?: "text" | "numeric" | "search" | "tel" | "url" | "decimal" | "none" | "email";
 };

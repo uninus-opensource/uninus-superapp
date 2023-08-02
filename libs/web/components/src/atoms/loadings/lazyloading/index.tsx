@@ -1,6 +1,6 @@
 "use client";
-import { FC, ReactElement } from 'react';
-import { LoadingSpinner } from '../spinner';
+import { FC, ReactElement } from "react";
+import { LoadingSpinner } from "../spinner";
 
 export const LazyLoading: FC = (): ReactElement => {
   return (

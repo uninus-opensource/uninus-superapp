@@ -1,12 +1,12 @@
-'use client';
-import { Button, TextField } from '@uninus/web/components';
-import { FC, ReactElement } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
-import { useRegister } from './hook';
-import { useRouter } from 'next/navigation';
-import { VSRegister, TVSRegister } from '@uninus/entities';
+"use client";
+import { Button, TextField } from "@uninus/web/components";
+import { FC, ReactElement } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useRegister } from "./hook";
+import { useRouter } from "next/navigation";
+import { VSRegister, TVSRegister } from "@uninus/entities";
 
 export const RegisterModule: FC = (): ReactElement => {
   const router = useRouter();
@@ -15,13 +15,13 @@ export const RegisterModule: FC = (): ReactElement => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<TVSRegister>({
-    mode: 'all',
+    mode: "all",
     resolver: zodResolver(VSRegister),
     defaultValues: {
-      email: '',
-      password: '',
-      phone_number: '',
-      fullname: '',
+      email: "",
+      password: "",
+      phone_number: "",
+      fullname: "",
     },
   });
 
@@ -30,7 +30,7 @@ export const RegisterModule: FC = (): ReactElement => {
   const onSubmit = handleSubmit((data) => {
     let phoneNumber = data?.phone_number;
 
-    if (!phoneNumber.startsWith('62')) {
+    if (!phoneNumber.startsWith("62")) {
       phoneNumber = `62${phoneNumber}`;
     }
 
@@ -42,9 +42,8 @@ export const RegisterModule: FC = (): ReactElement => {
         fullname: data?.fullname,
       },
       {
-        onSuccess: () =>
-          router.push(`/auth/verifikasi-otp?email=${data?.email}`),
-      }
+        onSuccess: () => router.push(`/auth/verifikasi-otp?email=${data?.email}`),
+      },
     );
   });
 
@@ -56,9 +55,7 @@ export const RegisterModule: FC = (): ReactElement => {
     >
       <div className="w-full justify-start flex lg:mt-10">
         <div className="flex flex-col justify-end lg:gap-y-1 py-2">
-          <h1 className="font-bold text-base lg:text-xl 2xl:text-3xl">
-            Registrasi
-          </h1>
+          <h1 className="font-bold text-base lg:text-xl 2xl:text-3xl">Registrasi</h1>
           <div className="border-2 border-primary-green w-2/3 rounded-md"></div>
         </div>
       </div>
@@ -73,7 +70,7 @@ export const RegisterModule: FC = (): ReactElement => {
               placeholder="Masukan Nama Lengkap"
               control={control}
               required
-              status={errors?.fullname ? 'error' : undefined}
+              status={errors?.fullname ? "error" : undefined}
               message={errors?.fullname?.message}
             />
           </div>
@@ -97,7 +94,7 @@ export const RegisterModule: FC = (): ReactElement => {
                   placeholder="Masukan Nomor Handphone"
                   control={control}
                   required
-                  status={errors?.phone_number ? 'error' : undefined}
+                  status={errors?.phone_number ? "error" : undefined}
                   message={errors?.phone_number?.message}
                   maxlenght={16}
                   inputMode="tel"
@@ -114,7 +111,7 @@ export const RegisterModule: FC = (): ReactElement => {
               placeholder="Masukan email"
               control={control}
               required
-              status={errors?.email ? 'error' : undefined}
+              status={errors?.email ? "error" : undefined}
               message={errors?.email?.message}
             />
           </div>
@@ -127,7 +124,7 @@ export const RegisterModule: FC = (): ReactElement => {
               control={control}
               placeholder="Masukan Kata Sandi"
               required
-              status={errors?.password ? 'error' : undefined}
+              status={errors?.password ? "error" : undefined}
               message={errors?.password?.message}
             />
           </div>

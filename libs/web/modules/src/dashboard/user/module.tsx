@@ -1,7 +1,7 @@
-'use client';
-import { ReactElement, FC } from 'react';
-import Image from 'next/image';
-import { ArrowLine } from '@uninus/web/components';
+"use client";
+import { ReactElement, FC } from "react";
+import Image from "next/image";
+import { ArrowLine } from "@uninus/web/components";
 
 export const DashboardModule: FC = (): ReactElement => {
   return (
@@ -11,9 +11,7 @@ export const DashboardModule: FC = (): ReactElement => {
         <h1 className="text-slate-5">
           PMB <span className="text-secondary-green-4"> / Beranda</span>
         </h1>
-        <p className="text-lg 2xl:text-2xl font-bold text-secondary-green-4">
-          Beranda
-        </p>
+        <p className="text-lg 2xl:text-2xl font-bold text-secondary-green-4">Beranda</p>
       </div>
 
       {/* body */}
@@ -22,7 +20,7 @@ export const DashboardModule: FC = (): ReactElement => {
           {/* Image */}
           <figure className=" grid place-items-center ">
             <Image
-              src={'/illustrations/dashboard-home.webp'}
+              src={"/illustrations/dashboard-home.webp"}
               alt="home"
               width={292}
               height={292}
@@ -53,13 +51,10 @@ export const DashboardModule: FC = (): ReactElement => {
                 <h1 className="text-grayscale-9 text-[9.5px] md:text-[10px] xl:text-[12px]">
                   <span className="text-primary-green font-bold md:text-[11px] xl:text-[13px]">
                     Langkah Pertama :
-                  </span>{' '}
+                  </span>{" "}
                   <br />
                   Mengisi formulir pendaftaran di halaman
-                  <span className="text-primary-green font-bold">
-                    {' '}
-                    pendaftaran.
-                  </span>
+                  <span className="text-primary-green font-bold"> pendaftaran.</span>
                 </h1>
               </div>
             </div>
@@ -69,14 +64,10 @@ export const DashboardModule: FC = (): ReactElement => {
                 <h1 className="text-grayscale-9 text-[7.5px] md:text-[8px] xl:text-[10.6px]">
                   <span className="text-primary-green font-bold text-[9px] md:text-[10px] xl:text-[12px]">
                     Langkah Kedua :
-                  </span>{' '}
+                  </span>{" "}
                   <br />
-                  Langkah Kedua : Mengisi data diri, data pendidikan, data orang
-                  tua di halaman
-                  <span className="text-primary-green font-bold">
-                    {' '}
-                    Data Diri{' '}
-                  </span>
+                  Langkah Kedua : Mengisi data diri, data pendidikan, data orang tua di halaman
+                  <span className="text-primary-green font-bold"> Data Diri </span>
                   dan melakukan pembayaran.
                 </h1>
               </div>
@@ -86,14 +77,11 @@ export const DashboardModule: FC = (): ReactElement => {
               <div className="w-[80%]  grid place-items-center">
                 <h1 className="text-grayscale-9 text-[7.3px] md:text-[9px] xl:text-[11px] text-justify">
                   <span className="text-primary-green font-bold text-[9.5px] md:text-[10px] xl:text-[12px]">
-                    Langkah Ketiga :{' '}
+                    Langkah Ketiga :{" "}
                   </span>
                   <br />
                   Selanjutnya
-                  <span className="text-primary-green font-bold">
-                    {' '}
-                    Upload Berkas{' '}
-                  </span>
+                  <span className="text-primary-green font-bold"> Upload Berkas </span>
                   untuk melengkapi persyaratan umum & khusus.
                 </h1>
               </div>

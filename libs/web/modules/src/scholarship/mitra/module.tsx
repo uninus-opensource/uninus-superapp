@@ -1,7 +1,7 @@
-'use client';
-import { ReactElement, FC, Fragment } from 'react';
-import { Button, Footer, Navbar } from '@uninus/web/components';
-import Image from 'next/image';
+"use client";
+import { ReactElement, FC, Fragment } from "react";
+import { Button, Footer, Navbar } from "@uninus/web/components";
+import Image from "next/image";
 
 export const ModuleMitra: FC = (): ReactElement => {
   return (
@@ -14,7 +14,7 @@ export const ModuleMitra: FC = (): ReactElement => {
           width={100}
           height={100}
           layout="responsive"
-          style={{ marginTop: '100px' }}
+          style={{ marginTop: "100px" }}
         />
 
         <section className="w-full lg:px-16 px-8 lg:py-8 py-4 flex flex-col gap-y-14">
@@ -23,15 +23,15 @@ export const ModuleMitra: FC = (): ReactElement => {
               beasiswa mitra nusantara
             </h1>
             <p className="lg:text-lg text-sm lg:w-4/5 w-full mx-auto lg:px-16 px-4">
-              Beasiswa ini diperuntukan bagi Orang Tua Siswa salah satu anggota
-              NU dan Orang Tua Berprofesi sebagai Guru SMA/SMK/MAN/PONPES
+              Beasiswa ini diperuntukan bagi Orang Tua Siswa salah satu anggota NU dan Orang Tua
+              Berprofesi sebagai Guru SMA/SMK/MAN/PONPES
             </p>
           </div>
 
           <div className="w-full flex lg:flex-row-reverse  md:flex-row-reverse flex-col justify-between md:items-start ">
             <figure className=" flex px-6  w-full">
               <Image
-                src={'/illustrations/beasiswa3.webp'}
+                src={"/illustrations/beasiswa3.webp"}
                 alt="Beasiswa Mitra"
                 width={400}
                 height={100}
@@ -49,12 +49,9 @@ export const ModuleMitra: FC = (): ReactElement => {
                     Memenuhi salah satu kriteria dibawah ini :
                     <ul className="list-inside px-5">
                       <li>
-                        a. <b>Anak guru</b> SMA/SMK/MAN/PONPES atau anggota NU
-                        Se-jawa barat{' '}
+                        a. <b>Anak guru</b> SMA/SMK/MAN/PONPES atau anggota NU Se-jawa barat{" "}
                       </li>
-                      <li>
-                        b. Rata-rata nilai 80 untuk tiga mata pelajaran yaitu :
-                      </li>
+                      <li>b. Rata-rata nilai 80 untuk tiga mata pelajaran yaitu :</li>
                       <ul className="pl-4 font-semibold">
                         <li>Matematika</li>
                         <li>Bahasa Inggris</li>
@@ -65,9 +62,7 @@ export const ModuleMitra: FC = (): ReactElement => {
                 </ul>
               </div>
               <div>
-                <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">
-                  Benefit
-                </h2>
+                <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">Benefit</h2>
                 <p>Potongan 20% UKT Semester 1</p>
               </div>
               <div>

@@ -1,19 +1,19 @@
-'use client';
-import { FC, ReactElement, useState, useEffect, useRef } from 'react';
-import clsx from 'clsx';
-import { useVerify, useNewOtpRequest } from './hook';
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
-import OtpInput from 'react-otp-input';
-import { Button } from '@uninus/web/components';
+"use client";
+import { FC, ReactElement, useState, useEffect, useRef } from "react";
+import clsx from "clsx";
+import { useVerify, useNewOtpRequest } from "./hook";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import OtpInput from "react-otp-input";
+import { Button } from "@uninus/web/components";
 
 export const VerifForgetModule: FC = (): ReactElement => {
   const searchParams = useSearchParams();
   const [isError, setIsError] = useState(false);
   const { mutate: verify } = useVerify();
   const { mutate: request } = useNewOtpRequest();
-  const email = searchParams.get('email') || '';
-  const [otp, setOtp] = useState<string>('');
+  const email = searchParams.get("email") || "";
+  const [otp, setOtp] = useState<string>("");
   const { push } = useRouter();
   const [timer, setTimer] = useState(120);
   const intervalRef = useRef<any>();
@@ -33,26 +33,26 @@ export const VerifForgetModule: FC = (): ReactElement => {
         },
         {
           onSuccess: () => {
-            push('/auth/reset-password');
+            push("/auth/reset-password");
           },
           onError: () => {
-            setOtp('');
+            setOtp("");
             setIsError(true);
           },
-        }
+        },
       );
     } else {
-      alert('Masukkan OTP yang valid (6 angka)');
+      alert("Masukkan OTP yang valid (6 angka)");
     }
   };
   const inputStyle = clsx(
-    '!w-full text-black border-2 border-grayscale-3 focus:outline-none outline-none placeholder:text-black placeholder:p-2 lg:!h-[64px] h-10 text-[28px] p-2 rounded-lg shadow-sm',
+    "!w-full text-black border-2 border-grayscale-3 focus:outline-none outline-none placeholder:text-black placeholder:p-2 lg:!h-[64px] h-10 text-[28px] p-2 rounded-lg shadow-sm",
     {
-      'border border-secodary-green-1 ': !isError,
-      'border border-red-4 ': isError,
-    }
+      "border border-secodary-green-1 ": !isError,
+      "border border-red-4 ": isError,
+    },
   );
-  const containerStyle = clsx('flex lg:gap-x-3 gap-x-1 justify-center w-full ');
+  const containerStyle = clsx("flex lg:gap-x-3 gap-x-1 justify-center w-full ");
 
   return (
     <form
@@ -92,7 +92,7 @@ export const VerifForgetModule: FC = (): ReactElement => {
         </div>
         <div>
           <small>
-            Belum menerima kode ?{' '}
+            Belum menerima kode ?{" "}
             <span>
               <span className="text-secondary-green-1">
                 {timer < 0 ? (

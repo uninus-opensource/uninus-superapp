@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
-} from '@nestjs/common';
+} from "@nestjs/common";
 import {
   TLoginResponse,
   TProfileRequest,
@@ -27,8 +27,8 @@ import {
   TLogoutRequest,
   TLogoutResponse,
   TLoginRequest,
-} from '@uninus/entities';
-import { PrismaService } from '@uninus/api/models';
+} from "@uninus/entities";
+import { PrismaService } from "@uninus/api/models";
 import {
   compareOtp,
   comparePassword,
@@ -37,16 +37,13 @@ import {
   generateOtp,
   generateToken,
   clearOtp,
-} from '@uninus/api/utilities';
+} from "@uninus/api/utilities";
 
-import { EmailService } from '../email';
+import { EmailService } from "../email";
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private prisma: PrismaService,
-    private readonly emailService: EmailService
-  ) {}
+  constructor(private prisma: PrismaService, private readonly emailService: EmailService) {}
 
   async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
     const { email } = reqUser;
@@ -66,7 +63,7 @@ export class AuthService {
     });
 
     if (!profile) {
-      throw new NotFoundException('Profil tidak ditemukan');
+      throw new NotFoundException("Profil tidak ditemukan");
     }
 
     return profile;
@@ -80,7 +77,7 @@ export class AuthService {
     });
 
     if (isEmailExist) {
-      throw new ConflictException('Email sudah terdaftar');
+      throw new ConflictException("Email sudah terdaftar");
     }
 
     const password = await encryptPassword(data.password);
@@ -92,7 +89,7 @@ export class AuthService {
         password,
         role_id: data.role_id,
         avatar:
-          'https://res.cloudinary.com/dyominih0/image/upload/v1688846789/MaleProfileDefault_hxtqcy.png',
+          "https://res.cloudinary.com/dyominih0/image/upload/v1688846789/MaleProfileDefault_hxtqcy.png",
         students: {
           create: {
             phone_number: data.phone_number,
@@ -102,33 +99,29 @@ export class AuthService {
     });
 
     if (!createdUser) {
-      throw new BadRequestException('Gagal Mendaftar');
+      throw new BadRequestException("Gagal Mendaftar");
     }
     const isCreateOtp = await generateOtp(createdUser?.email, createdUser?.id);
 
     if (!isCreateOtp) {
-      throw new BadRequestException('Gagal membuat otp');
+      throw new BadRequestException("Gagal membuat otp");
     }
-    const msg = 'verifikasi akun anda';
+    const msg = "verifikasi akun anda";
 
-    const html = getEmailMessageTemplate(
-      data.fullname,
-      isCreateOtp?.token,
-      msg
-    );
+    const html = getEmailMessageTemplate(data.fullname, isCreateOtp?.token, msg);
 
     const sendEmail = this.emailService.sendEmail(
       data.email.toLowerCase(),
-      'Verifikasi Email',
-      html
+      "Verifikasi Email",
+      html,
     );
 
     if (!sendEmail) {
-      throw new BadRequestException('Gagal mengirimkan kode verifikasi');
+      throw new BadRequestException("Gagal mengirimkan kode verifikasi");
     }
 
     return {
-      message: 'Akun Berhasil dibuat!, check email untuk verifikasi',
+      message: "Akun Berhasil dibuat!, check email untuk verifikasi",
     };
   }
 
@@ -155,35 +148,32 @@ export class AuthService {
       },
     });
     if (!user) {
-      throw new NotFoundException('Akun tidak ditemukan');
+      throw new NotFoundException("Akun tidak ditemukan");
     }
 
     if (!user.isVerified) {
-      throw new UnauthorizedException('Email belum terverifikasi');
+      throw new UnauthorizedException("Email belum terverifikasi");
     }
 
-    const isMatch = await comparePassword(
-      args.password as string,
-      user.password
-    );
+    const isMatch = await comparePassword(args.password as string, user.password);
 
     if (!isMatch) {
-      throw new UnauthorizedException('Password salah');
+      throw new UnauthorizedException("Password salah");
     }
     const { access_token, refresh_token } = await generateToken({
       sub: user.id,
       email: user.email,
-      role: user.role?.name || '',
+      role: user.role?.name || "",
     });
     const expiresIn = 15 * 60 * 1000;
     const now = Date.now();
     const expirationTime = now + expiresIn;
 
     if (now > expirationTime) {
-      throw new UnauthorizedException('Access Token telah berakhir');
+      throw new UnauthorizedException("Access Token telah berakhir");
     }
     return {
-      message: 'Berhasil Login',
+      message: "Berhasil Login",
       token: {
         access_token,
         exp: expirationTime,
@@ -194,7 +184,7 @@ export class AuthService {
         id: user.id,
         email: user.email,
         fullname: user.fullname,
-        role: user.role?.name || '',
+        role: user.role?.name || "",
         createdAt: user.createdAt,
         avatar: user.avatar,
         isVerified: user.isVerified,
@@ -213,11 +203,11 @@ export class AuthService {
     });
 
     if (!result) {
-      throw new UnauthorizedException('Gagal logout');
+      throw new UnauthorizedException("Gagal logout");
     }
 
     return {
-      message: 'Berhasil logout',
+      message: "Berhasil logout",
     };
   }
 
@@ -229,7 +219,7 @@ export class AuthService {
     const expirationTime = now + expiresIn;
 
     if (now > expirationTime) {
-      throw new UnauthorizedException('Access Token telah berakhir');
+      throw new UnauthorizedException("Access Token telah berakhir");
     }
 
     return {
@@ -243,7 +233,7 @@ export class AuthService {
 
     const isVerified = await compareOtp(args?.email, args?.otp);
     if (!isVerified) {
-      throw new NotFoundException('Email atau OTP tidak valid');
+      throw new NotFoundException("Email atau OTP tidak valid");
     }
 
     const user = await this.prisma.users.update({
@@ -256,10 +246,10 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new BadRequestException('Gagal verifikasi OTP');
+      throw new BadRequestException("Gagal verifikasi OTP");
     }
     return {
-      message: 'Berhasil verifikasi OTP',
+      message: "Berhasil verifikasi OTP",
     };
   }
 
@@ -271,92 +261,78 @@ export class AuthService {
       },
     });
     if (!user) {
-      throw new NotFoundException('Akun tidak ditemukan');
+      throw new NotFoundException("Akun tidak ditemukan");
     }
 
     const isCreateOtp = await generateOtp(user?.email, user?.id);
 
     if (!isCreateOtp) {
-      throw new BadRequestException('Gagal membuat otp');
+      throw new BadRequestException("Gagal membuat otp");
     }
-    const msg = 'verifikasi akun anda';
+    const msg = "verifikasi akun anda";
 
-    const html = getEmailMessageTemplate(
-      user?.fullname,
-      isCreateOtp?.token,
-      msg
-    );
+    const html = getEmailMessageTemplate(user?.fullname, isCreateOtp?.token, msg);
 
     const sendEmail = this.emailService.sendEmail(
       args.email.toLowerCase(),
-      'Verifikasi Email',
-      html
+      "Verifikasi Email",
+      html,
     );
 
     if (!sendEmail) {
-      throw new BadRequestException('Gagal mengirimkan kode verifikasi');
+      throw new BadRequestException("Gagal mengirimkan kode verifikasi");
     }
 
     return {
-      message: 'Berhasil kirim OTP',
+      message: "Berhasil kirim OTP",
     };
   }
 
-  async forgotPassword(
-    data: TForgotPasswordRequest
-  ): Promise<TForgotPasswordResponse> {
+  async forgotPassword(data: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
     const user = await this.prisma.users.findUnique({
       where: {
         email: data?.email,
       },
     });
-    const msg = 'memperbarui kata sandi anda';
+    const msg = "memperbarui kata sandi anda";
 
     if (!user) {
-      throw new NotFoundException('Akun tidak ditemukan');
+      throw new NotFoundException("Akun tidak ditemukan");
     }
 
     const isCreateOtp = await generateOtp(user?.email, user?.id);
     if (!isCreateOtp) {
-      throw new BadRequestException('Gagal membuat otp');
+      throw new BadRequestException("Gagal membuat otp");
     }
-    const html = getEmailMessageTemplate(
-      user?.fullname ?? '',
-      isCreateOtp?.token,
-      msg
-    );
+    const html = getEmailMessageTemplate(user?.fullname ?? "", isCreateOtp?.token, msg);
 
     const sendEmail = this.emailService.sendEmail(
       data?.email.toLowerCase(),
-      'Reset Password',
-      html
+      "Reset Password",
+      html,
     );
     if (!sendEmail) {
-      throw new BadRequestException('Gagal mengirimkan kode verifikasi');
+      throw new BadRequestException("Gagal mengirimkan kode verifikasi");
     }
     return {
-      message: 'Berhasil kirim OTP',
+      message: "Berhasil kirim OTP",
     };
   }
 
-  async verifyOtpPassword(
-    args: TVerifyOtpPasswordRequest
-  ): Promise<TVerifyOtpPasswordResponse> {
+  async verifyOtpPassword(args: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
     await clearOtp();
 
     const isVerified = await compareOtp(args?.email, args?.otp);
     if (!isVerified) {
-      throw new NotFoundException('Email atau OTP tidak valid');
+      throw new NotFoundException("Email atau OTP tidak valid");
     }
 
     return {
-      message: 'Berhasil verifikasi OTP',
+      message: "Berhasil verifikasi OTP",
     };
   }
 
-  async resetPassword(
-    args: TResetPasswordRequest
-  ): Promise<TResetPasswordResponse> {
+  async resetPassword(args: TResetPasswordRequest): Promise<TResetPasswordResponse> {
     const newPassword = await encryptPassword(args.password);
 
     const isEmailExist = await this.prisma.users.findUnique({
@@ -366,7 +342,7 @@ export class AuthService {
     });
 
     if (!isEmailExist) {
-      throw new NotFoundException('Email tidak ditemukan');
+      throw new NotFoundException("Email tidak ditemukan");
     }
 
     const user = await this.prisma.users.update({
@@ -379,10 +355,10 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new BadRequestException('Gagal mengganti password');
+      throw new BadRequestException("Gagal mengganti password");
     }
     return {
-      message: 'Berhasil mengganti password',
+      message: "Berhasil mengganti password",
     };
   }
 }

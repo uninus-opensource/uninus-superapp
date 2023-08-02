@@ -1,6 +1,6 @@
-import { FC, ReactElement } from 'react';
-import Image from 'next/image';
-import uninusImage from '../../atoms/illustrations/uninus/uninus.png';
+import { FC, ReactElement } from "react";
+import Image from "next/image";
+import uninusImage from "../../atoms/illustrations/uninus/uninus.png";
 import {
   ContactsFilled,
   EnvironmentFilled,
@@ -12,10 +12,10 @@ import {
   MailFilled,
   PhoneOutlined,
   YoutubeFilled,
-} from '@ant-design/icons';
-import NeoUninusIcon from '../../atoms/illustrations/neouninus/Neo-Uninus.png';
-import hybridUniversity from '../../atoms/illustrations/hybriduniversity/hybrid-university.png';
-import Link from 'next/link';
+} from "@ant-design/icons";
+import NeoUninusIcon from "../../atoms/illustrations/neouninus/Neo-Uninus.png";
+import hybridUniversity from "../../atoms/illustrations/hybriduniversity/hybrid-university.png";
+import Link from "next/link";
 
 export const Footer: FC = (): ReactElement => {
   return (
@@ -54,15 +54,11 @@ export const Footer: FC = (): ReactElement => {
                   <Link href="https://uninus.ac.id/" target="_blank">
                     <div className="flex items-center justify-center gap-2 group-hover:scale-95 duration-300 ease-in-out">
                       <div className="md:hidden flex justify-center items-center">
-                        <GlobalOutlined
-                          style={{ fontSize: 13, color: 'white' }}
-                        />
+                        <GlobalOutlined style={{ fontSize: 13, color: "white" }} />
                       </div>
 
                       <div className="hidden md:flex">
-                        <GlobalOutlined
-                          style={{ fontSize: 23, color: 'white' }}
-                        />
+                        <GlobalOutlined style={{ fontSize: 23, color: "white" }} />
                       </div>
 
                       <div className="md:w-[25vw]">
@@ -82,15 +78,11 @@ export const Footer: FC = (): ReactElement => {
                     className="flex items-center justify-center gap-2 md:gap-[10px] group-hover:scale-95 duration-300 ease-in-out"
                   >
                     <div className="md:hidden flex justify-center items-center">
-                      <FileTextOutlined
-                        style={{ fontSize: 13, color: 'white' }}
-                      />
+                      <FileTextOutlined style={{ fontSize: 13, color: "white" }} />
                     </div>
 
                     <div className="hidden md:flex">
-                      <FileTextOutlined
-                        style={{ fontSize: 23, color: 'white' }}
-                      />
+                      <FileTextOutlined style={{ fontSize: 23, color: "white" }} />
                     </div>
 
                     <div className="md:w-[20vw]">
@@ -103,21 +95,14 @@ export const Footer: FC = (): ReactElement => {
 
                 {/* Lokasi Kampus */}
                 <div className="group hover:cursor-pointer">
-                  <Link
-                    href="https://goo.gl/maps/pdvgVFaFmzLhUeSs5"
-                    target="_blank"
-                  >
+                  <Link href="https://goo.gl/maps/pdvgVFaFmzLhUeSs5" target="_blank">
                     <div className="flex items-center justify-center gap-2 group-hover:scale-95 duration-300 ease-in-out">
                       <div className="md:hidden flex justify-center items-center">
-                        <EnvironmentOutlined
-                          style={{ fontSize: 13, color: 'white' }}
-                        />
+                        <EnvironmentOutlined style={{ fontSize: 13, color: "white" }} />
                       </div>
 
                       <div className="hidden md:flex">
-                        <EnvironmentFilled
-                          style={{ fontSize: 23, color: 'white' }}
-                        />
+                        <EnvironmentFilled style={{ fontSize: 23, color: "white" }} />
                       </div>
 
                       <div className="md:w-[20vw]">
@@ -134,15 +119,11 @@ export const Footer: FC = (): ReactElement => {
                   <Link href="tel:+6282116860530" target="_blank">
                     <div className="flex items-center justify-center gap-2 group-hover:scale-95 duration-300 ease-in-out">
                       <div className="md:hidden flex justify-center items-center">
-                        <PhoneOutlined
-                          style={{ fontSize: 13, color: 'white' }}
-                        />
+                        <PhoneOutlined style={{ fontSize: 13, color: "white" }} />
                       </div>
 
                       <div className="hidden md:flex">
-                        <PhoneOutlined
-                          style={{ fontSize: 23, color: 'white' }}
-                        />
+                        <PhoneOutlined style={{ fontSize: 23, color: "white" }} />
                       </div>
 
                       <div className="md:w-[20vw]">
@@ -155,21 +136,16 @@ export const Footer: FC = (): ReactElement => {
                 </div>
               </div>
               <div className="w-[50%] flex flex-col gap-2 items-start md:hidden">
-                {' '}
+                {" "}
                 {/* Alamat */}
                 <div>
-                  <Link
-                    href="https://goo.gl/maps/pdvgVFaFmzLhUeSs5"
-                    target="_blank"
-                  >
+                  <Link href="https://goo.gl/maps/pdvgVFaFmzLhUeSs5" target="_blank">
                     <div className="flex justify-center gap-2 duration-300 ease-in-out">
-                      <EnvironmentFilled
-                        style={{ fontSize: 13, color: 'white' }}
-                      />
+                      <EnvironmentFilled style={{ fontSize: 13, color: "white" }} />
                       <div className="w-[40vw]">
                         <h3 className="text-[9px] text-primary-white">
-                          Jl. Soekarno Hatta No.530, Sekejati, Kec. Buahbatu,
-                          Kota Bandung, Jawa Barat 40286
+                          Jl. Soekarno Hatta No.530, Sekejati, Kec. Buahbatu, Kota Bandung, Jawa
+                          Barat 40286
                         </h3>
                       </div>
                     </div>
@@ -179,12 +155,8 @@ export const Footer: FC = (): ReactElement => {
                 <div>
                   <div>
                     <div className="flex justify-center gap-2 duration-300 ease-in-out md:hidden">
-                      <ContactsFilled
-                        style={{ fontSize: 13, color: 'white' }}
-                      />
-                      <h3 className="text-[10px] text-primary-white">
-                        0821-1686-0530
-                      </h3>
+                      <ContactsFilled style={{ fontSize: 13, color: "white" }} />
+                      <h3 className="text-[10px] text-primary-white">0821-1686-0530</h3>
                     </div>
                   </div>
                 </div>
@@ -192,10 +164,8 @@ export const Footer: FC = (): ReactElement => {
                 <div>
                   <div>
                     <div className="flex justify-center gap-2 duration-300 ease-in-out md:hidden">
-                      <MailFilled style={{ fontSize: 13, color: 'white' }} />
-                      <h3 className="text-[10px] text-primary-white">
-                        humas@uninus.ac.id
-                      </h3>
+                      <MailFilled style={{ fontSize: 13, color: "white" }} />
+                      <h3 className="text-[10px] text-primary-white">humas@uninus.ac.id</h3>
                     </div>
                   </div>
                 </div>
@@ -213,50 +183,42 @@ export const Footer: FC = (): ReactElement => {
                   className="object-cover w-[110px] md:w-[130px] lg:w-[150px]"
                 />
                 <div className="lg:flex lg:gap-2 lg:w-[18vw]">
-                  <EnvironmentFilled style={{ fontSize: 20, color: 'white' }} />
+                  <EnvironmentFilled style={{ fontSize: 20, color: "white" }} />
                   <p className="lg:text-primary-white lg:text-[10px]">
-                    Jl. Soekarno Hatta No.530, Sekejati, Kec. Buahbatu, Kota
-                    Bandung, Jawa Barat 40286
+                    Jl. Soekarno Hatta No.530, Sekejati, Kec. Buahbatu, Kota Bandung, Jawa Barat
+                    40286
                   </p>
                 </div>
                 <div className="lg:flex lg:items-center lg:gap-2 lg:w-[18vw]">
-                  <ContactsFilled style={{ fontSize: 20, color: 'white' }} />
-                  <p className="lg:text-primary-white lg:text-[10px]">
-                    0821-1686-0530
-                  </p>
+                  <ContactsFilled style={{ fontSize: 20, color: "white" }} />
+                  <p className="lg:text-primary-white lg:text-[10px]">0821-1686-0530</p>
                 </div>
                 <div className="lg:flex lg:items-center lg:gap-2 lg:w-[18vw]">
-                  <MailFilled style={{ fontSize: 20, color: 'white' }} />
-                  <p className="lg:text-primary-white lg:text-[10px]">
-                    humas@uninus.ac.id
-                  </p>
+                  <MailFilled style={{ fontSize: 20, color: "white" }} />
+                  <p className="lg:text-primary-white lg:text-[10px]">humas@uninus.ac.id</p>
                 </div>
               </div>
             </div>
             <div className="hidden md:flex md:w-full md:h-[25%] md:absolute md:bottom-0 lg:hidden">
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center">
                 <div className="md:flex md:justify-center md:items-center md:gap-2">
-                  <EnvironmentFilled style={{ fontSize: 23, color: 'white' }} />
+                  <EnvironmentFilled style={{ fontSize: 23, color: "white" }} />
                   <div className="md:w-[14vw]">
-                    {' '}
+                    {" "}
                     <p className="md:text-[8px] md:text-primary-white">
-                      Jl. Soekarno Hatta No.530, Sekejati, Kec. Buahbatu, Kota
-                      Bandung, Jawa Barat 40286
+                      Jl. Soekarno Hatta No.530, Sekejati, Kec. Buahbatu, Kota Bandung, Jawa Barat
+                      40286
                     </p>
                   </div>
                 </div>
               </div>
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center md:gap-2">
-                <ContactsFilled style={{ fontSize: 23, color: 'white' }} />
-                <h3 className="md:text-sm md:text-primary-white">
-                  0821-1686-0530
-                </h3>
+                <ContactsFilled style={{ fontSize: 23, color: "white" }} />
+                <h3 className="md:text-sm md:text-primary-white">0821-1686-0530</h3>
               </div>
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center md:gap-2">
-                <MailFilled style={{ fontSize: 23, color: 'white' }} />
-                <h3 className="md:text-sm text-primary-white">
-                  humas@uninus.ac.id
-                </h3>
+                <MailFilled style={{ fontSize: 23, color: "white" }} />
+                <h3 className="md:text-sm text-primary-white">humas@uninus.ac.id</h3>
               </div>
             </div>
           </div>
@@ -279,7 +241,7 @@ export const Footer: FC = (): ReactElement => {
                 target="_blank"
                 className="flex items-center"
               >
-                <FacebookFilled style={{ fontSize: 20, color: 'white' }} />
+                <FacebookFilled style={{ fontSize: 20, color: "white" }} />
               </Link>
             </div>
           </div>
@@ -292,7 +254,7 @@ export const Footer: FC = (): ReactElement => {
                 target="_blank"
                 className="flex items-center"
               >
-                <YoutubeFilled style={{ fontSize: 20, color: 'white' }} />
+                <YoutubeFilled style={{ fontSize: 20, color: "white" }} />
               </Link>
             </div>
           </div>
@@ -305,7 +267,7 @@ export const Footer: FC = (): ReactElement => {
                 target="_blank"
                 className="flex items-center"
               >
-                <InstagramFilled style={{ fontSize: 20, color: 'white' }} />
+                <InstagramFilled style={{ fontSize: 20, color: "white" }} />
               </Link>
             </div>
           </div>

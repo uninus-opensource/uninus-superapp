@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from "@prisma/client";
 
 export interface PaginatedResult<T> {
   data: T[];
@@ -20,7 +20,7 @@ export type PaginateOptions = {
 export type PaginateFunction = <T, K>(
   model: any,
   args?: K,
-  options?: PaginateOptions
+  options?: PaginateOptions,
 ) => Promise<PaginatedResult<T>>;
 
 export type TPaginationArgs = {

@@ -1,201 +1,192 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from '@nestjs/swagger';
-import { SelectService } from '@uninus/api/services';
+import { Controller, Get, Query } from "@nestjs/common";
+import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
+import { SelectService } from "@uninus/api/services";
 
 @Controller()
-@ApiTags('Select')
+@ApiTags("Select")
 export class SelectController {
   constructor(private readonly appService: SelectService) {}
 
-  @Get('province')
-  @ApiOperation({ summary: 'Get Province' })
+  @Get("province")
+  @ApiOperation({ summary: "Get Province" })
   @ApiResponse({
     status: 400,
-    description: 'Location Not Found',
+    description: "Location Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getProvince(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getProvince(@Query("search") search: string) {
     return this.appService.getProvince({ search });
   }
 
-  @Get('city')
-  @ApiOperation({ summary: 'Get City' })
+  @Get("city")
+  @ApiOperation({ summary: "Get City" })
   @ApiResponse({
     status: 400,
-    description: 'Location Not Found',
+    description: "Location Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  @ApiQuery({ name: 'province_id', required: false })
-  getCity(
-    @Query('province_id') province_id: string,
-    @Query('search') search: string
-  ) {
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "province_id", required: false })
+  getCity(@Query("province_id") province_id: string, @Query("search") search: string) {
     return this.appService.getCity({ province_id, search });
   }
 
-  @Get('sub-district')
-  @ApiOperation({ summary: 'Get Sub District' })
+  @Get("sub-district")
+  @ApiOperation({ summary: "Get Sub District" })
   @ApiResponse({
     status: 400,
-    description: 'Location Not Found',
+    description: "Location Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  @ApiQuery({ name: 'city_id', required: false })
-  getSubDistrict(
-    @Query('city_id') city_id: string,
-    @Query('search') search: string
-  ) {
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "city_id", required: false })
+  getSubDistrict(@Query("city_id") city_id: string, @Query("search") search: string) {
     return this.appService.getSubDistrict({ city_id, search });
   }
 
-  @Get('degree-program')
-  @ApiOperation({ summary: 'Get Degree Program' })
+  @Get("degree-program")
+  @ApiOperation({ summary: "Get Degree Program" })
   @ApiResponse({
     status: 400,
-    description: 'Degree Program Not Found',
+    description: "Degree Program Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getDegreeProgram(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getDegreeProgram(@Query("search") search: string) {
     return this.appService.getDegreeProgram({ search });
   }
 
-  @Get('faculty')
-  @ApiOperation({ summary: 'Get Faculty' })
+  @Get("faculty")
+  @ApiOperation({ summary: "Get Faculty" })
   @ApiResponse({
     status: 400,
-    description: 'Faculty Not Found',
+    description: "Faculty Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  @ApiQuery({ name: 'degree_program_id', required: false })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "degree_program_id", required: false })
   getFaculty(
-    @Query('search') search: string,
-    @Query('degree_program_id') degree_program_id: string
+    @Query("search") search: string,
+    @Query("degree_program_id") degree_program_id: string,
   ) {
     return this.appService.getFaculty({ search, degree_program_id });
   }
 
-  @Get('department')
-  @ApiOperation({ summary: 'Get Program Studi' })
+  @Get("department")
+  @ApiOperation({ summary: "Get Program Studi" })
   @ApiResponse({
     status: 400,
-    description: 'Department Not Found',
+    description: "Department Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  @ApiQuery({ name: 'faculty_id', required: false })
-  getDepartment(
-    @Query('search') search: string,
-    @Query('faculty_id') faculty_id: string
-  ) {
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "faculty_id", required: false })
+  getDepartment(@Query("search") search: string, @Query("faculty_id") faculty_id: string) {
     return this.appService.getDepartment({ search, faculty_id });
   }
 
-  @Get('religion')
-  @ApiOperation({ summary: 'Get Religion' })
+  @Get("religion")
+  @ApiOperation({ summary: "Get Religion" })
   @ApiResponse({
     status: 400,
-    description: 'Religion Not Found',
+    description: "Religion Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getReligion(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getReligion(@Query("search") search: string) {
     return this.appService.getReligion({ search });
   }
 
-  @Get('marital-status')
-  @ApiOperation({ summary: 'Get Marital Status' })
+  @Get("marital-status")
+  @ApiOperation({ summary: "Get Marital Status" })
   @ApiResponse({
     status: 400,
-    description: 'Marital Status Not Found',
+    description: "Marital Status Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getMaritalStatus(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getMaritalStatus(@Query("search") search: string) {
     return this.appService.getMaritalStatus({ search });
   }
 
-  @Get('gender')
-  @ApiOperation({ summary: 'Get Gender' })
+  @Get("gender")
+  @ApiOperation({ summary: "Get Gender" })
   @ApiResponse({
     status: 400,
-    description: 'Gender Not Found',
+    description: "Gender Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getGender(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getGender(@Query("search") search: string) {
     return this.appService.getGender({ search });
   }
 
-  @Get('citizenship')
-  @ApiOperation({ summary: 'Get Citizenship' })
+  @Get("citizenship")
+  @ApiOperation({ summary: "Get Citizenship" })
   @ApiResponse({
     status: 400,
-    description: 'Citizenship Not Found',
+    description: "Citizenship Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getCitizenship(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getCitizenship(@Query("search") search: string) {
     return this.appService.getCitizenship({ search });
   }
 
-  @Get('selection-path')
-  @ApiOperation({ summary: 'Get Selection Path' })
+  @Get("selection-path")
+  @ApiOperation({ summary: "Get Selection Path" })
   @ApiResponse({
     status: 400,
-    description: 'Selection Path Not Found',
+    description: "Selection Path Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getSelectionPath(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getSelectionPath(@Query("search") search: string) {
     return this.appService.getSelectionPath({ search });
   }
 
-  @Get('salary')
-  @ApiOperation({ summary: 'Get Salary' })
+  @Get("salary")
+  @ApiOperation({ summary: "Get Salary" })
   @ApiResponse({
     status: 400,
-    description: 'Salary Not Found',
+    description: "Salary Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getSalary(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getSalary(@Query("search") search: string) {
     return this.appService.getSalary({ search });
   }
 
-  @Get('education-history')
-  @ApiOperation({ summary: 'Get Bachelor Degree' })
+  @Get("education-history")
+  @ApiOperation({ summary: "Get Bachelor Degree" })
   @ApiResponse({
     status: 400,
-    description: 'Education History Not Found',
+    description: "Education History Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getEducationHistory(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getEducationHistory(@Query("search") search: string) {
     return this.appService.getEducationHistory({ search });
   }
 
-  @Get('country')
-  @ApiOperation({ summary: 'Get Country' })
+  @Get("country")
+  @ApiOperation({ summary: "Get Country" })
   @ApiResponse({
     status: 400,
-    description: 'Country Not Found',
+    description: "Country Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getCountry(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getCountry(@Query("search") search: string) {
     return this.appService.getCounty({ search });
   }
 
-  @Get('occupation')
-  @ApiOperation({ summary: 'Get Occupation' })
+  @Get("occupation")
+  @ApiOperation({ summary: "Get Occupation" })
   @ApiResponse({
     status: 400,
-    description: 'Occupation Not Found',
+    description: "Occupation Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getOccupation(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getOccupation(@Query("search") search: string) {
     return this.appService.getOccupation({ search });
   }
 
-  @Get('disabilities')
-  @ApiOperation({ summary: 'Get Disabilities' })
+  @Get("disabilities")
+  @ApiOperation({ summary: "Get Disabilities" })
   @ApiResponse({
     status: 400,
-    description: 'Disabilities Not Found',
+    description: "Disabilities Not Found",
   })
-  @ApiQuery({ name: 'search', required: false })
-  getDisablities(@Query('search') search: string) {
+  @ApiQuery({ name: "search", required: false })
+  getDisablities(@Query("search") search: string) {
     return this.appService.getDisabilites({ search });
   }
 }

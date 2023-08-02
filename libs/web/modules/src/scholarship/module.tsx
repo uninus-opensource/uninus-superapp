@@ -1,25 +1,25 @@
-'use client';
-import { ReactElement, FC, Fragment } from 'react';
-import { Footer, HeroBanner, Navbar } from '@uninus/web/components';
-import Image from 'next/image';
-import Link from 'next/link';
+"use client";
+import { ReactElement, FC, Fragment } from "react";
+import { Footer, HeroBanner, Navbar } from "@uninus/web/components";
+import Image from "next/image";
+import Link from "next/link";
 
 export const ModulBeasiswa: FC = (): ReactElement => {
   const beasiswaList: { name: string; img: string; link: string }[] = [
     {
-      name: 'beasiswa unggul',
-      img: '/illustrations/beasiswaunggul.webp',
-      link: '/beasiswa/beasiswaunggul ',
+      name: "beasiswa unggul",
+      img: "/illustrations/beasiswaunggul.webp",
+      link: "/beasiswa/beasiswaunggul ",
     },
     {
-      name: 'beasiswa berprestasi',
-      img: '/illustrations/beasiswa2.webp',
-      link: '/beasiswa/beasiswaprestasi ',
+      name: "beasiswa berprestasi",
+      img: "/illustrations/beasiswa2.webp",
+      link: "/beasiswa/beasiswaprestasi ",
     },
     {
-      name: 'beasiswa mitra nusantara',
-      img: '/illustrations/beasiswa3.webp',
-      link: '/beasiswa/beasiswamitra',
+      name: "beasiswa mitra nusantara",
+      img: "/illustrations/beasiswa3.webp",
+      link: "/beasiswa/beasiswamitra",
     },
   ];
 
@@ -37,18 +37,15 @@ export const ModulBeasiswa: FC = (): ReactElement => {
           <div className="flex flex-col lg:gap-y-16 lg:w-5/6 w-full gap-y-8">
             <div className="lg:w-4/5 w-full lg:mx-auto ">
               <h1 className="text-center text-secondary-green-5 lg:text-3xl text-lg font-bold">
-                PILIHAN BERBAGAI BEASISWA TERSEDIA DI UNIVERSITAS ISLAM
-                NUSANTARA
+                PILIHAN BERBAGAI BEASISWA TERSEDIA DI UNIVERSITAS ISLAM NUSANTARA
               </h1>
             </div>
             <div className="lg:w-4/5 w-full mx-auto">
               <p className="lg:px-16 lg:text-lg text-sm  ">
-                Beasiswa Nusantara adalah sebuah program beasiswa yang
-                ditawarkan oleh Universitas Islam Nusantara untuk membantu
-                mahasiswa melanjutkan studi ke jenjang yang lebih tinggi.
-                Beasiswa ini bertujuan untuk memberikan kesempatan bagi
-                mahasiswa untuk mencapai potensinya dan mengembangkan bakat dan
-                minat mereka
+                Beasiswa Nusantara adalah sebuah program beasiswa yang ditawarkan oleh Universitas
+                Islam Nusantara untuk membantu mahasiswa melanjutkan studi ke jenjang yang lebih
+                tinggi. Beasiswa ini bertujuan untuk memberikan kesempatan bagi mahasiswa untuk
+                mencapai potensinya dan mengembangkan bakat dan minat mereka
               </p>
             </div>
           </div>

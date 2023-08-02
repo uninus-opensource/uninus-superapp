@@ -1,12 +1,12 @@
-import { MailerModule } from '@nestjs-modules/mailer';
-import { Module } from '@nestjs/common';
-import { EmailService } from '@uninus/api/services';
+import { MailerModule } from "@nestjs-modules/mailer";
+import { Module } from "@nestjs/common";
+import { EmailService } from "@uninus/api/services";
 
 @Module({
   imports: [
     MailerModule.forRoot({
       transport: {
-        service: 'gmail',
+        service: "gmail",
         port: Number(process.env.SMTP_PORT),
         secure: true,
         auth: {

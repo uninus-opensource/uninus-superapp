@@ -1,13 +1,13 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const VSResendOtp = z.object({
   email: z
     .string()
     .email({
-      message: 'Email tidak valid',
+      message: "Email tidak valid",
     })
     .nonempty({
-      message: 'Email tidak boleh kosong',
+      message: "Email tidak boleh kosong",
     }),
 });
 

@@ -1,15 +1,12 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { TPaginationArgs } from '@uninus/entities';
-import { Prisma, PrismaService } from '@uninus/api/models';
-import { generateOtp, paginate } from '@uninus/api/utilities';
-import { EmailService } from '../email';
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { TPaginationArgs } from "@uninus/entities";
+import { Prisma, PrismaService } from "@uninus/api/models";
+import { generateOtp, paginate } from "@uninus/api/utilities";
+import { EmailService } from "../email";
 
 @Injectable()
 export class UserService {
-  constructor(
-    private prisma: PrismaService,
-    private readonly emailService: EmailService
-  ) {}
+  constructor(private prisma: PrismaService, private readonly emailService: EmailService) {}
   async getUsers({ where, orderBy, page, perPage }: TPaginationArgs) {
     return paginate(
       this.prisma.users,
@@ -20,7 +17,7 @@ export class UserService {
       {
         page,
         perPage,
-      }
+      },
     );
   }
   async createUser(payload: Prisma.UsersCreateInput) {
@@ -30,7 +27,7 @@ export class UserService {
       },
     });
     if (isEmailExist) {
-      throw new BadRequestException('Email sudah digunakan', {
+      throw new BadRequestException("Email sudah digunakan", {
         cause: new Error(),
       });
     }
@@ -40,15 +37,15 @@ export class UserService {
     });
     const isCreateOtp = await generateOtp(user?.email, user?.id);
     if (!isCreateOtp) {
-      throw new BadRequestException('Gagal membuat otp');
+      throw new BadRequestException("Gagal membuat otp");
     }
     const sendEmail = this.emailService.sendEmail(
       payload.email.toLowerCase(),
-      'Verifikasi Email',
-      `Kode OTP anda adalah ${isCreateOtp?.token}`
+      "Verifikasi Email",
+      `Kode OTP anda adalah ${isCreateOtp?.token}`,
     );
     if (!sendEmail) {
-      throw new BadRequestException('Gagal mengirimkan kode verifikasi');
+      throw new BadRequestException("Gagal mengirimkan kode verifikasi");
     }
     return {
       data: user,
@@ -69,7 +66,7 @@ export class UserService {
       },
     });
     if (!user) {
-      throw new BadRequestException('User tidak ditemukan', {
+      throw new BadRequestException("User tidak ditemukan", {
         cause: new Error(),
       });
     }
@@ -86,7 +83,7 @@ export class UserService {
       data: payload,
     });
     if (!user) {
-      throw new BadRequestException('User tidak ditemukan', {
+      throw new BadRequestException("User tidak ditemukan", {
         cause: new Error(),
       });
     }
@@ -109,7 +106,7 @@ export class UserService {
       },
     });
     if (!user) {
-      throw new BadRequestException('User tidak ditemukan', {
+      throw new BadRequestException("User tidak ditemukan", {
         cause: new Error(),
       });
     }

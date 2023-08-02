@@ -1,4 +1,4 @@
-import { api } from '../axios';
+import { api } from "../axios";
 import {
   TProvinceResponse,
   IProvinceRequest,
@@ -6,35 +6,33 @@ import {
   TCityResponse,
   ISubDistrictRequest,
   TSubDistrictResponse,
-} from '@uninus/entities';
+} from "@uninus/entities";
 
-export const ProvinceGet = async (
-  params: IProvinceRequest
-): Promise<TProvinceResponse> => {
+export const ProvinceGet = async (params: IProvinceRequest): Promise<TProvinceResponse> => {
   const { data } = await api<TProvinceResponse>({
-    method: 'GET',
+    method: "GET",
     params,
-    url: '/location/province',
+    url: "/location/province",
   });
   return data;
 };
 
 export const CityGet = async (params: ICityRequest): Promise<TCityResponse> => {
   const { data } = await api<TCityResponse>({
-    method: 'GET',
+    method: "GET",
     params,
-    url: '/location/city',
+    url: "/location/city",
   });
   return data;
 };
 
 export const SubDistrictGet = async (
-  params: ISubDistrictRequest
+  params: ISubDistrictRequest,
 ): Promise<TSubDistrictResponse> => {
   const { data } = await api<TSubDistrictResponse>({
-    method: 'GET',
+    method: "GET",
     params,
-    url: '/location/sub-district',
+    url: "/location/sub-district",
   });
   return data;
 };
