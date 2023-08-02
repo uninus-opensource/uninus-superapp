@@ -61,7 +61,7 @@ export const LoginModule: FC = (): ReactElement => {
     <form
       key="auth-login"
       onSubmit={onSubmit}
-      className="w-full px-5 lg:px-0 flex flex-col gap-y-8 lg:items-center flex-wrap"
+      className="w-full px-5 lg:px-0 flex flex-col gap-y-8 py-8 lg:items-center flex-wrap"
     >
       <div className="flex flex-col p-4 xl:w-4/5 2xl:w-4/5 lg:mt-4 mt-0">
         {getError && (
@@ -82,12 +82,12 @@ export const LoginModule: FC = (): ReactElement => {
           <h1 className="font-bold text-xl lg:text-xl 2xl:text-4xl text-center lg:text-start">
             Login
           </h1>
-          <p className="text-grayscale-5 w-full text-xs lg:w-[35vw] 2xl:text-md lg:mb-1">
+          <p className="text-grayscale-5 w-full text-xs lg:w-[35vw] 2xl:text-md lg:mb-1 text-center lg:text-left">
             Selamat Datang Calon Nusantara Muda
           </p>
         </div>
 
-        <div className="flex flex-col w-full justify-center items-center mt-24 md:mt-0">
+        <div className="flex flex-col w-full justify-center items-center mt-12 md:mt-0">
           <div className="justify-center w-full flex flex-col gap-5 md:gap-0">
             <TextField
               name="email"

@@ -109,7 +109,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
               </div>
               <div
                 key={'auth-children'}
-                className="w-95% relative lg:w-1/2 flex items-center h-fit py-8 lg:-pt-24 lg:pb-10  lg:h-full rounded-lg lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg lg:rounded-br-lg bg-primary-white overflow-hidden"
+                className="w-95% relative lg:w-1/2 flex items-center h-fit  lg:-pt-24 lg:pb-10  lg:h-full rounded-lg lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg lg:rounded-br-lg bg-primary-white overflow-hidden"
               >
                 {children}
               </div>
