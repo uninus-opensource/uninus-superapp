@@ -25,7 +25,7 @@ export const Button: FC<IButtonProps> = ({
   const buttonSize = clsx(
     `${styling} text-sm ${width} ${height} ${uppercase ? 'uppercase' : ''}`,
     {
-      'p-4': size === 'sm',
+      'lg:p-4 p-2': size === 'sm',
       'p-5': size === 'md',
       'p-6': size === 'lg',
     }
