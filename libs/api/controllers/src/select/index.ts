@@ -119,14 +119,14 @@ export class SelectController {
     return this.appService.getCitizenship({ search });
   }
 
-  @Get('registration-status')
-  @ApiOperation({ summary: 'Get Registration Status' })
+  @Get('selection-path')
+  @ApiOperation({ summary: 'Get Selection Path' })
   @ApiResponse({
     status: 400,
-    description: 'Registration Status Not Found',
+    description: 'Selection Path Not Found',
   })
-  getRegistrationStatus(@Query('search') search: string) {
-    return this.appService.getSelection({ search });
+  getSelectionPath(@Query('search') search: string) {
+    return this.appService.getSelectionPath({ search });
   }
 
   @Get('salary')

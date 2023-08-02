@@ -92,8 +92,8 @@ export type TCitizenshipResponse = {
   }>;
 };
 
-export type TSelectionResponse = {
-  selection: Array<{
+export type TSelectionPath = {
+  selection_path: Array<{
     id: number;
     name: string;
   }>;

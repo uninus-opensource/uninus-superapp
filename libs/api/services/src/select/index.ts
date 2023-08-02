@@ -8,7 +8,6 @@ import {
   TMaritalStatusResponse,
   TReligionResponse,
   TSalaryResponse,
-  TSelectionResponse,
   ISelectRequest,
   TCountryResponse,
   TEducationHistoryResponse,
@@ -22,6 +21,7 @@ import {
   TSubDistrictResponse,
   TOccupationResponse,
   TDisabilitiesResponse,
+  TSelectionPath,
 } from '@uninus/entities';
 
 @Injectable()
@@ -227,8 +227,8 @@ export class SelectService {
     return { citizenship };
   }
 
-  async getSelection({ search }: ISelectRequest): Promise<TSelectionResponse> {
-    const selection = await this.prisma.registrationStatus.findMany({
+  async getSelectionPath({ search }: ISelectRequest): Promise<TSelectionPath> {
+    const selectionPath = await this.prisma.selectionPath.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
       },
@@ -238,11 +238,11 @@ export class SelectService {
       },
     });
 
-    if (!selection) {
+    if (!selectionPath) {
       throw new NotFoundException('Data Jalur Seleksi Tidak Ditemukan!');
     }
 
-    return { selection };
+    return { selection_path: selectionPath };
   }
 
   async getSalary({ search }: ISelectRequest): Promise<TSalaryResponse> {

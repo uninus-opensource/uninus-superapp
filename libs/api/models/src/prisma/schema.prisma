@@ -218,7 +218,7 @@ model Salary {
   name String
 }
 
-model RegistrationStatus {
+model SelectionPath {
   id   Int    @id @default(autoincrement())
   name String
 }
