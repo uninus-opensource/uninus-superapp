@@ -45,7 +45,7 @@
     "@nestjs/microservices": "^10.1.2",
     "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^10.1.2",
-    "@nestjs/swagger": "^7.1.2",
+    "@nestjs/swagger": "^7.1.6",
     "@prisma/client": "5",
     "@swc/helpers": "~0.5.0",
     "@tailwindcss/forms": "^0.5.3",
