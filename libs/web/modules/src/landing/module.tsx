@@ -7,11 +7,8 @@ import { SelectionSection } from './selection';
 import { ProgramSection } from './program-study';
 import { DetailSection } from './detail';
 import { Footer, Navbar } from '@uninus/web/components';
-import { useSession } from "next-auth/react";
 
 export const LandingModule: FC = (): ReactElement => {
-  const data = useSession();
-  console.log(data)
   return (
     <Fragment>
       <Navbar />

@@ -35,7 +35,11 @@ export const HeroBanner: FC<TbannerProps> = ({
   };
 
   const sync = (e: EventObject) => {
-    setActiveIndex(e.item);
+    if (e.item > 3) {
+      setActiveIndex(e.item * 0);
+    } else {
+      setActiveIndex(e.item);
+    }
   };
 
   const heroSlider: TSliderProps[] = [
@@ -140,7 +144,10 @@ export const HeroBanner: FC<TbannerProps> = ({
 
   const cardProps = {
     items: heroSlider.map((item) => item.sliderSection),
+
     animationDuration: 1000,
+    autoPlay: true,
+    autoPlayInterval: 4000,
     infinite: true,
     activeIndex: activeIndex,
     disableButtonsControls: true,
@@ -151,12 +158,7 @@ export const HeroBanner: FC<TbannerProps> = ({
 
   return isSlider ? (
     <div className="flex items-center justify-center">
-      <AliceCarousel
-        {...cardProps}
-        onSlideChanged={sync}
-        autoHeight
-        animationEasingFunction=""
-      />
+      <AliceCarousel {...cardProps} onSlideChanged={sync} autoHeight />
       <button
         className="hidden lg:block absolute z-30 left-3 text-5xl text-primary-white lg:mt-16"
         onClick={slidePrev}
@@ -164,7 +166,7 @@ export const HeroBanner: FC<TbannerProps> = ({
         <LeftOutlined />
       </button>
       <button
-        className="hidden lg:block absolute z-30 right-3 text-5xl text-primary-white lg:mt-16"
+        className="hidden lg:block absolute z-30 right-3 text-5xl text-primary-white lg:mt-20"
         onClick={slideNext}
       >
         <RightOutlined />
