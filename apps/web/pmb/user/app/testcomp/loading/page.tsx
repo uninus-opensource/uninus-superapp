@@ -1,4 +1,7 @@
-export default function Loading() {
+import { NextPage } from "next";
+import { ReactElement } from "react";
+
+const Loading: NextPage = (): ReactElement => {
   return (
     <section className="w-screen bg-slate-2 h-screen z-50 overflow-x-hidden">
       <div className="w-full h-[100px] items-center justify-between px-7 lg:h-navbarlg lg:px-14 flex animate-pulse overflow-x-hidden">
@@ -34,4 +37,6 @@ export default function Loading() {
       <section className="w-[20rem] md:w-[50rem] h-64 block lg:hidden lg:h-[70vh] mx-auto rounded-lg bg-slate-3 animate-pulse mt-32"></section>
     </section>
   );
-}
+};
+
+export default Loading;
