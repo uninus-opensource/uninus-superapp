@@ -90,7 +90,7 @@ export const Navbar: FC = (): ReactElement => {
               height="h-8"
               href="/auth/register"
               onClick={closeSidebar}
-              styling="bg-primary-white text-primary-green rounded-md"
+              styling="bg-primary-white text-primary-green rounded-md text-xs font-bold"
               size="sm"
             >
               PENDAFTARAN PMB
