@@ -1,21 +1,12 @@
-import { BadRequestException, Injectable, Inject } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { TPaginationArgs } from "@uninus/entities";
 import { Prisma, PrismaService } from "@uninus/api/models";
 import { generateOtp, paginate } from "@uninus/api/utilities";
 import { EmailService } from "../email";
-import { ClientProxy } from "@nestjs/microservices"
 
 @Injectable()
 export class UserService {
-  constructor(
-    private prisma: PrismaService,
-    private readonly emailService: EmailService,
-    @Inject('USER_SERVICE') private readonly client: ClientProxy
-  ) {}
-  async getMe(){
-    console.log('memanggil')
-    return this.client.send<{}>("get_user",{message:"coba di cek"})
-  }
+  constructor(private prisma: PrismaService, private readonly emailService: EmailService) {}
   async getUsers({ where, orderBy, page, perPage }: TPaginationArgs) {
     return paginate(
       this.prisma.users,
