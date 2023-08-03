@@ -3,14 +3,14 @@ import { ReactElement, FC, Fragment } from "react";
 import { Button, Footer, Navbar } from "@uninus/web/components";
 import Image from "next/image";
 
-export const ModuleMitra: FC = (): ReactElement => {
+export const ModulePeduli: FC = (): ReactElement => {
   return (
     <Fragment>
       <Navbar />
       <section className="w-full min-h-screen">
         <Image
-          src="/illustrations/beasiswa-mitra.webp"
-          alt=""
+          src="/illustrations/slider-4.webp"
+          alt="besiswapeduli"
           width={100}
           height={100}
           layout="responsive"
@@ -21,18 +21,18 @@ export const ModuleMitra: FC = (): ReactElement => {
         <section className="w-full lg:px-16 px-8 lg:py-8 py-4 flex flex-col gap-y-14">
           <div className="text-center flex flex-col gap-y-8">
             <h1 className="lg:text-3xl text-lg font-bold text-secondary-green-4">
-              Beasiswa Mitra Nusantara
+              Beasiswa Nusantara Peduli Difabel
             </h1>
             <p className="lg:text-lg text-sm lg:w-4/5 w-full mx-auto lg:px-16 px-4">
-              Beasiswa ini diperuntukan bagi Orang Tua Siswa salah satu anggota NU dan Orang Tua
-              Berprofesi sebagai Guru SMA/SMK/MAN/PONPES
+              Beasiswa yang ditujukan untuk mendukung dan mendorong akses pendidikan tinggi bagi
+              mahasiswa dengan berbagai jenis disabilitas.
             </p>
           </div>
 
           <div className="w-full flex lg:flex-row-reverse  md:flex-row-reverse flex-col justify-between md:items-start ">
-            <figure className=" flex px-6 xl:ml-[20vw] w-full">
+            <figure className=" flex xl:ml-[20vw] px-6  w-full">
               <Image
-                src={"/illustrations/beasiswa3.webp"}
+                src={"/illustrations/beasiswa4.webp"}
                 alt="Beasiswa Mitra"
                 width={400}
                 height={100}
@@ -48,18 +48,8 @@ export const ModuleMitra: FC = (): ReactElement => {
                 <ul className="list-decimal list-inside">
                   <li>Siswa Lulusan 2021, 2022, dan 2023</li>
                   <li>
-                    Memenuhi salah satu kriteria dibawah ini :
-                    <ul className="list-inside px-5">
-                      <li>
-                        a. <b>Anak guru</b> SMA/SMK/MAN/PONPES atau anggota NU Se-jawa barat{" "}
-                      </li>
-                      <li>b. Rata-rata nilai 80 untuk tiga mata pelajaran yaitu :</li>
-                      <ul className="pl-4 font-semibold">
-                        <li>Matematika</li>
-                        <li>Bahasa Inggris</li>
-                        <li>Bahasa Indonesia</li>
-                      </ul>
-                    </ul>
+                    Siswa penyandang disabiilitas yang dibuktikan dengan{" "}
+                    <span className="font-black">surat keterangan dari rumah sakit.</span>
                   </li>
                 </ul>
               </div>
@@ -71,7 +61,7 @@ export const ModuleMitra: FC = (): ReactElement => {
                 <h2 className="text-secondary-green-1 text-lg font-semibold mb-4">
                   Periode Pendaftaran
                 </h2>
-                <p>1 Januari - 31 Agustus 2023</p>
+                <p>1 Januari - 31 Maret 2023</p>
               </div>
               <div className="flex w-full lg:justify-start justify-center md:justify-start">
                 <Button

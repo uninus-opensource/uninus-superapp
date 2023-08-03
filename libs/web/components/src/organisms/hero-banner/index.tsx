@@ -35,7 +35,7 @@ export const HeroBanner: FC<TbannerProps> = ({
   };
 
   const sync = (e: EventObject) => {
-    if (e.item > 3) {
+    if (e.item > heroSlider.length - 1) {
       setActiveIndex(e.item * 0);
     } else {
       setActiveIndex(e.item);
@@ -133,6 +133,18 @@ export const HeroBanner: FC<TbannerProps> = ({
         />
       ),
     },
+    {
+      sliderSection: (
+        <Image
+          src={"/illustrations/slider-4.webp"}
+          alt="slider-4"
+          quality={100}
+          width={1000}
+          height={500}
+          className={`bg-center flex justify-center items-center absolute mt-24 lg:mt-2 lg:h-auto lg:w-full`}
+        />
+      ),
+    },
   ];
 
   const cardProps = {
@@ -140,7 +152,7 @@ export const HeroBanner: FC<TbannerProps> = ({
 
     animationDuration: 1000,
     autoPlay: true,
-    autoPlayInterval: 4000,
+    autoPlayInterval: 5000,
     infinite: true,
     activeIndex: activeIndex,
     disableButtonsControls: true,
