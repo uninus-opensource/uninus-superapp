@@ -36,7 +36,7 @@ export const SelectOption: FC<SelectInputProps> = ({
   return (
     <div className="flex flex-col">
       <label className={`font-bold text-xs py-2 ${labelClassName}`}>
-        {labels} {required && <span className="ml-1 font-bold text-red-4">*</span>}
+        {labels} {required && <span className="ml-1 font-bold text-primary-green">*</span>}
       </label>
       <Select
         options={options}
