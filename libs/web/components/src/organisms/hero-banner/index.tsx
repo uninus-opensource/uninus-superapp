@@ -136,7 +136,7 @@ export const HeroBanner: FC<TbannerProps> = ({
     {
       sliderSection: (
         <Image
-          src={"/illustrations/slider-difabel.webp"}
+          src={"/illustrations/Slider-difabel.webp"}
           alt="slider-4"
           quality={100}
           width={1000}
