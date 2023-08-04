@@ -12,6 +12,7 @@ export interface ISelectFacultyRequest extends ISelectRequest {
 
 export interface ISelectDepartmentRequest extends ISelectRequest {
   faculty_id: string;
+  degree_program_id: string;
 }
 
 export type TProvinceResponse = {
@@ -131,5 +132,12 @@ export type TDisabilitiesResponse = {
   disabilities: Array<{
     id: number;
     name: string;
+  }>;
+};
+
+export type TYearGraduationResponse = {
+  year: Array<{
+    id: number;
+    name: number;
   }>;
 };

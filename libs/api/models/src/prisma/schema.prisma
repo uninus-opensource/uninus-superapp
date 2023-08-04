@@ -173,9 +173,10 @@ model OTP {
 }
 
 model DegreeProgram {
-  id      Int       @id @default(autoincrement())
-  name    String
-  faculty Faculty[]
+  id         Int          @id @default(autoincrement())
+  name       String
+  faculty    Faculty[]
+  Department Department[]
 }
 
 model Faculty {
@@ -187,10 +188,12 @@ model Faculty {
 }
 
 model Department {
-  id         Int      @id @default(autoincrement())
-  name       String
-  faculty_id Int?
-  Faculty    Faculty? @relation(fields: [faculty_id], references: [id])
+  id                Int            @id @default(autoincrement())
+  name              String
+  faculty_id        Int?
+  degree_program_id Int?
+  Faculty           Faculty?       @relation(fields: [faculty_id], references: [id])
+  DegreeProgram     DegreeProgram? @relation(fields: [degree_program_id], references: [id])
 }
 
 model MaritalStatus {

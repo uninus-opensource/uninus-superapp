@@ -22,6 +22,7 @@ import {
   TSubDistrictResponse,
   TOccupationResponse,
   TDisabilitiesResponse,
+  TYearGraduationResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -127,11 +128,13 @@ export class SelectService {
   async getDepartment({
     search,
     faculty_id,
+    degree_program_id,
   }: ISelectDepartmentRequest): Promise<TDepartmentResponse> {
     const department = await this.prisma.department.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
         ...(faculty_id && { faculty_id: Number(faculty_id) }),
+        ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
       },
       select: {
         id: true,
@@ -323,5 +326,18 @@ export class SelectService {
     }
 
     return { disabilities };
+  }
+
+  async getYearGraduate(): Promise<TYearGraduationResponse> {
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 40;
+
+    const year = Array.from({ length: currentYear - startYear + 1 }, (_, index) => {
+      const year = startYear + index;
+      const id = index + 1;
+      return { id: +id, name: year };
+    });
+
+    return { year };
   }
 }
