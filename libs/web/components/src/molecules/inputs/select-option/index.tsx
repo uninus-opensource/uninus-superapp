@@ -27,6 +27,9 @@ export const SelectOption: FC<SelectInputProps> = ({
     control,
     defaultValue: "",
     ...rest,
+    rules: {
+      required: required,
+    },
   });
 
   const handleChange = (value: any) => {
