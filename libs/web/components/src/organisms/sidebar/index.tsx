@@ -5,7 +5,6 @@ import { TSideBarProps } from "./type";
 import { AiOutlineLogout } from "react-icons/ai";
 import Link from "next/link";
 import { Button } from "../../atoms";
-import logOutImage from "../../atoms/illustrations/logOut/logOut.png";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
@@ -53,7 +52,8 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
           <div className="img">
             <Image
               className=""
-              src={logOutImage}
+              src={"/illustrations/logOut.webp"}
+              quality={100}
               alt="profile picture"
               width={300}
               height={300}

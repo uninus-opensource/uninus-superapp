@@ -1,7 +1,6 @@
 "use client";
 import { FC, ReactElement, Fragment, useState } from "react";
 import Image from "next/image";
-import NeoUninusIcon from "../../atoms/illustrations/neouninus/Neo-Uninus.png";
 import { NavbarList } from "./type";
 import { Button, HamburgerIcon, XIcon } from "../../atoms";
 import { Sidebar } from "../../molecules";
@@ -36,11 +35,13 @@ export const Navbar: FC = (): ReactElement => {
       <header className="z-40 px-8 lg:px-14 flex justify-between items-center h-[100px] lg:h-navbarlg text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold">
         <figure>
           <Image
-            src={NeoUninusIcon}
+            src={"/illustrations/Neo-Uninus.webp"}
+            width={500}
+            height={500}
+            quality={100}
             alt="logo-uninus"
             priority
             className="w-44 sm:w-56 lg:w-52"
-            quality={100}
           />
         </figure>
         <nav>
