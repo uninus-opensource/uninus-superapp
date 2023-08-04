@@ -1,0 +1,28 @@
+FROM node:18-alpine AS Builder
+WORKDIR /app
+
+RUN apk --no-cache add python3 git
+
+RUN yarn --production=false
+
+COPY . .
+RUN yarn nx reset \
+    && yarn web:pmb:user:build
+
+FROM node:18-alpine AS Service
+
+ENV HOST=0.0.0.0
+ENV PORT=4200
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /app/
+
+COPY --from=Builder /app/dist/apps/web/pmb/user ./dist
+COPY --from=Builder /app/apps/web/pmb/user ./
+COPY --from=Builder /app/node_modules ./node_modules
+COPY --from=Builder /app/package.json ./package.json
+COPY --from=Builder /app/nx.json ./nx.json
+
+EXPOSE 4200
+CMD ["yarn", "web:pmb:user:serve"]
