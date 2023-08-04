@@ -92,15 +92,15 @@ export const LandingModule: FC = (): ReactElement => {
           header={
             <div className="flex w-full h-full justify-start gap-4 text-primary-white items-center px-5">
               <FaCircleUser className="h-6 w-6" />
-              <p className="font-semibold text-sm md:text-lg">Call Center UNINUS</p>
+              <p className="font-semibold text-xs sm:text-sm md:text-lg">Call Center UNINUS</p>
             </div>
           }
-          position="fixed bottom-2 md:bottom-6 right-32"
+          position="fixed bottom-2 md:bottom-6 right-24 md:right-32"
           className="flex flex-col items-center justify-between pt-8 pb-6"
           showPopUp={isPopUp}
         >
-          <div className="border-2 border-primary-green rounded-lg w-[55vw] sm:w-[18em] lg:w-[19em] h-[4.5em] flex justify-center items-center p-4">
-            <p className="text-[10px] md:text-xs text-secondary-green-1 font-semibold">
+          <div className="border-2 border-primary-green rounded-lg w-[60vw] sm:w-[18em] lg:w-[19em] h-[4.5em] flex justify-center items-center p-4">
+            <p className="text-[9px] sm:text-[10px] md:text-xs text-secondary-green-1 font-semibold">
               {`"`}Ingin informasi cepat tentang pendaftaran, program studi, atau fasilitas kampus?
               Call center kami, siap membantumu!{`"`}
             </p>

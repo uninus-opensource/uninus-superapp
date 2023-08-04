@@ -19,7 +19,7 @@ export const PopUp: FC<TPopUpProps> = ({
       }}
       className={`${
         showPopUp ? "flex" : "hidden"
-      } w-[60vw] sm:w-[20rem] lg:w-[23rem] flex-col justify-center items-center h-60 z-50 ${position} bg-primary-white transition-transform rounded-lg shadow-md duration-0`}
+      } w-[70vw] sm:w-[20rem] lg:w-[23rem] flex-col justify-center items-center h-60 z-50 ${position} bg-primary-white transition-transform rounded-lg shadow-md duration-0`}
     >
       {/* header */}
       <section className="w-full h-16 bg-primary-green rounded-t-lg">{header}</section>
