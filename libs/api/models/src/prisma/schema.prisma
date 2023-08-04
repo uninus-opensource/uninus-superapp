@@ -227,8 +227,13 @@ model SelectionPath {
 }
 
 model EducationHistory {
-  id   Int    @id @default(autoincrement())
-  name String
+  id             Int    @id @default(autoincrement())
+  npsn           String @unique
+  name           String
+  province       String
+  district_city  String
+  sub_district   String
+  street_address String
 }
 
 model Country {

@@ -264,7 +264,12 @@ export class SelectService {
       },
       select: {
         id: true,
+        npsn: true,
         name: true,
+        province: true,
+        sub_district: true,
+        district_city: true,
+        street_address: true,
       },
     });
 
