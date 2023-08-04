@@ -88,7 +88,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               required={true}
             />
           </div>
-          <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-start">
+          <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-end">
             <Button
               variant="elevated"
               size="sm"
