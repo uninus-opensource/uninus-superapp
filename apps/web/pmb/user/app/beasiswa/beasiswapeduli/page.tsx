@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "Beasiswa | Beasiswa Prestasi",
 };
 
-const BeasiswaPeduli: NextPage = (): ReactElement => <ModulePeduli />;
+const BeasiswaPeduli: NextPage = (): ReactElement => <ModulePeduli key={"beasiswapeduli"} />;
 export default BeasiswaPeduli;

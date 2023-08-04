@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "Dashboard PMB | Form Data Diri",
 };
 
-const DashboardBiodata: NextPage = (): ReactElement => <ModuleBiodata />;
+const DashboardBiodata: NextPage = (): ReactElement => <ModuleBiodata key={"biodata"} />;
 export default DashboardBiodata;
