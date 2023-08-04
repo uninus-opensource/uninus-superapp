@@ -9,7 +9,7 @@ export const ModulePeduli: FC = (): ReactElement => {
       <Navbar />
       <section className="w-full min-h-screen">
         <Image
-          src="/illustrations/slider-4.webp"
+          src="/illustrations/Slider-difabel.webp"
           alt="besiswapeduli"
           width={100}
           height={100}

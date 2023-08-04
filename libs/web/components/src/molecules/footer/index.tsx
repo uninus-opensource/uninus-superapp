@@ -1,6 +1,5 @@
 import { FC, ReactElement } from "react";
 import Image from "next/image";
-import uninusImage from "../../atoms/illustrations/uninus/uninus.png";
 import {
   ContactsFilled,
   EnvironmentFilled,
@@ -13,8 +12,6 @@ import {
   PhoneOutlined,
   YoutubeFilled,
 } from "@ant-design/icons";
-import NeoUninusIcon from "../../atoms/illustrations/neouninus/Neo-Uninus.png";
-import hybridUniversity from "../../atoms/illustrations/hybriduniversity/hybrid-university.png";
 import Link from "next/link";
 
 export const Footer: FC = (): ReactElement => {
@@ -25,20 +22,30 @@ export const Footer: FC = (): ReactElement => {
         {/* backgroundImage */}
         <div className="z-0 relative h-[300px]">
           <Image
-            src={uninusImage}
+            src={"/illustrations/uninus.webp"}
+            width={500}
+            height={500}
+            quality={100}
             alt="uninus"
             className="w-screen object-cover h-full lg:opacity-5 opacity-0"
+            priority
           />
 
           <div className="w-full h-full absolute top-0 flex flex-col md:flex-row lg:justify-center">
             <div className="md:w-[49.5%] lg:w-[32.5%] h-[40%] md:h-[75%] lg:h-full flex md:flex-col justify-between md:justify-center items-center md:items-start lg:items-center px-[10vw] md:px-0 md:ml-[7vw] lg:ml-0 md:gap-10">
               <Image
-                src={NeoUninusIcon}
-                alt="neo uninus"
+                src={"/illustrations/Neo-Uninus.webp"}
+                width={500}
+                height={500}
+                quality={100}
+                alt="neo-uninus"
                 className="object-cover w-[170px] md:w-[210px] lg:w-[250px]"
               />
               <Image
-                src={hybridUniversity}
+                src={"/illustrations/hybrid-university.webp"}
+                width={500}
+                height={500}
+                quality={100}
                 alt="neo uninus"
                 className="object-cover w-[110px] mt-[1rem] md:w-[130px] lg:hidden"
               />
@@ -178,7 +185,10 @@ export const Footer: FC = (): ReactElement => {
             <div className="h-[75%] md:w-[50%] lg:w-[32.5%] lg:h-full lg:flex lg:flex-col lg:justify-center lg:gap-6 hidden">
               <div className="lg:ml-[4vw] lg:flex lg:flex-col lg:gap-5">
                 <Image
-                  src={hybridUniversity}
+                  src={"/illustrations/hybrid-university.webp"}
+                  width={500}
+                  height={500}
+                  quality={100}
                   alt="neo uninus"
                   className="object-cover w-[110px] md:w-[130px] lg:w-[150px]"
                 />
