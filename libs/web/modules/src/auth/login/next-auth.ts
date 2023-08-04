@@ -53,7 +53,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/auth/login",
+    signIn: process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "/" : "/auth/login",
     signOut: "/auth/logout",
   },
   session: {
