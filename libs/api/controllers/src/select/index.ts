@@ -69,15 +69,20 @@ export class SelectController {
   }
 
   @Get("department")
-  @ApiOperation({ summary: "Get Program Studi" })
+  @ApiOperation({ summary: "Get Department" })
   @ApiResponse({
     status: 400,
     description: "Department Not Found",
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "faculty_id", required: false })
-  getDepartment(@Query("search") search: string, @Query("faculty_id") faculty_id: string) {
-    return this.appService.getDepartment({ search, faculty_id });
+  @ApiQuery({ name: "degree_program_id", required: false })
+  getDepartment(
+    @Query("search") search: string,
+    @Query("faculty_id") faculty_id: string,
+    @Query("degree_program_id") degree_program_id: string,
+  ) {
+    return this.appService.getDepartment({ search, faculty_id, degree_program_id });
   }
 
   @Get("religion")
@@ -147,7 +152,7 @@ export class SelectController {
   }
 
   @Get("education-history")
-  @ApiOperation({ summary: "Get Bachelor Degree" })
+  @ApiOperation({ summary: "Get Education History" })
   @ApiResponse({
     status: 400,
     description: "Education History Not Found",
@@ -188,5 +193,15 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   getDisablities(@Query("search") search: string) {
     return this.appService.getDisabilites({ search });
+  }
+
+  @Get("year-graduate")
+  @ApiOperation({ summary: "Get Year Graduate" })
+  @ApiResponse({
+    status: 400,
+    description: "Year Graduate Not Found",
+  })
+  getYearGraduate() {
+    return this.appService.getYearGraduate();
   }
 }
