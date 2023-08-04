@@ -78,7 +78,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
     >
       <form onSubmit={onSubmit}>
-        <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+        <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
           <SelectOption
             name="school_type"
             labels="Jenis Pendidikan Asal"
@@ -145,9 +145,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
           />
-        </section>
 
-        <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
           <TextField
             inputHeight="h-10"
             name="npsn"
@@ -183,9 +181,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
           />
-        </section>
 
-        <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
           <SelectOption
             labels="Provinsi"
             className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
@@ -224,10 +220,8 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             isClearable={true}
             disabled={!watch("city")}
           />
-        </section>
 
-        <section className="flex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-          <div className="col-span-3">
+          <div>
             <TextField
               name="school_address"
               variant="sm"
@@ -239,11 +233,11 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+              inputWidth="w-[68vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
               className="resize-none bg-grayscale-2  "
             />
           </div>
-          <div className="col-end-5">
+          <div className="w-70% md:w-26 lg:w-26">
             <TextField
               inputHeight="h-10"
               name="school_postal_code"
@@ -256,7 +250,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             />
           </div>
         </section>
-        <div className="flex w-full justify-end py-4">
+        <div className="flex w-full justify-center lg:justify-end py-4">
           <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
             Submit
           </Button>

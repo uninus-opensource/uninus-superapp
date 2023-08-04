@@ -79,11 +79,11 @@ export const DataOrtuSection: FC = (): ReactElement => {
     >
       <form onSubmit={onSubmit}>
         {/* Ayah */}
-        <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-xl my-6  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
           Profil Ayah
         </h1>
 
-        <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+        <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
           <TextField
             inputHeight="h-10"
             name="father_name"
@@ -190,10 +190,10 @@ export const DataOrtuSection: FC = (): ReactElement => {
           />
         </section>
         {/* Ibu */}
-        <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-xl my-6  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
           Profil Ibu
         </h1>
-        <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+        <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
           <TextField
             inputHeight="h-10"
             name="mother_name"
@@ -300,10 +300,10 @@ export const DataOrtuSection: FC = (): ReactElement => {
           />
         </section>
         {/* Parent Address */}
-        <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-xl my-6 lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
           Alamat Orang Tua
         </h1>
-        <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+        <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
           <SelectOption
             labels="Provinsi"
             className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
@@ -342,9 +342,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isClearable={true}
             disabled={!watch("city")}
           />
-        </section>
-        <section className="lex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-          <div className="col-span-3">
+
+          <div>
             <TextField
               name="parent_address"
               variant="sm"
@@ -356,11 +355,11 @@ export const DataOrtuSection: FC = (): ReactElement => {
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+              inputWidth="w-[68vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
               className="resize-none bg-grayscale-2  "
             />
           </div>
-          <div className="col-end-5">
+          <div className="w-70% md:w-26 lg:w-26">
             <TextField
               inputHeight="h-10"
               name="parent_postal_code"
@@ -383,10 +382,10 @@ export const DataOrtuSection: FC = (): ReactElement => {
           </div>
         </section>
 
-        <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-xl my-6  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
           Profil Wali
         </h1>
-        <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+        <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
           <TextField
             inputHeight="h-10"
             name="guardian_name"
@@ -491,10 +490,10 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isClearable={true}
           />
         </section>
-        <h1 className="font-bold text-xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-xl my-6 lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
           Alamat Wali
         </h1>
-        <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+        <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
           <SelectOption
             labels="Provinsi"
             className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
@@ -533,8 +532,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isClearable={true}
             disabled={!watch("city")}
           />
-        </section>
-        <section className="lex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
+
           <TextField
             name="guardian_address"
             variant="sm"
@@ -546,10 +544,10 @@ export const DataOrtuSection: FC = (): ReactElement => {
             textAreaRow={5}
             textAreaCols={30}
             inputHeight="h-20"
-            inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+            inputWidth="w-[68vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
             className="resize-none bg-grayscale-2  "
           />
-          <div className="col-end-5">
+          <div className="w-70% md:w-26 lg:w-26">
             <TextField
               inputHeight="h-10"
               name="guardian_postal_code"
@@ -571,7 +569,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             />
           </div>
         </section>
-        <div className="flex w-full justify-end py-4">
+        <div className="flex w-full justify-center lg:justify-end py-4">
           <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
             Submit
           </Button>

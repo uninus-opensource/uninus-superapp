@@ -103,7 +103,7 @@ export const DataDiriSection: FC = (): ReactElement => {
       <form onSubmit={onSubmit}>
         <div className="flex flex-col gap-7 ">
           <UploadField
-            className="grid grid-cols-1 lg:flex lg:items-center lg:gap-6 w-full justify-items-center h-full gap-y-6 lg:gap-y-0"
+            className="grid grid-cols-1 lg:flex lg:items-center lg:gap-6 w-full justify-center items-center h-full gap-y-6 lg:gap-y-0"
             classNameField="w-70% lg:w-auto"
             control={control}
             name="image"
@@ -113,7 +113,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           />
         </div>
 
-        <section className="grid grid-cols-1 lg:flex  lg:justify-between lg:flex-wrap lg:gap-2 xl:gap-1 gap-y-4 mt-4 lg:items-center lg:w-55% md:flex md:flex-wrap md:items-center md:justify-between md:w-[70vw]">
+        <section className="flex flex-wrap w-full gap-x-1 justify-center items-center lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-80% md:flex md:flex-wrap md:justify-between">
           {formBiodataOne.map((biodata, idx) => (
             <TextField
               key={idx}
@@ -166,8 +166,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             control={control}
           />
-        </section>
-        <section className="flex flex-wrap justify-start w-70% items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8">
+
           <div className="flex flex-col gap-2 xl:gap-4">
             <h3 className="text-xs font-semibold">Jenis Kelamin</h3>
             <div className="flex items-center gap-6">
@@ -233,9 +232,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
           />
-        </section>
 
-        <section className="grid grid-cols-1 lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
           <TextField
             inputHeight="h-10"
             name="birth_place"
@@ -259,9 +256,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="lg:w-[27vw] xl:w-[25vw] md:w-[33vw] w-[70vw]"
             control={control}
           />
-        </section>
 
-        <section className="flex flex-wrap justify-start w-70% items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-start md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8">
           <div className="mr-2">
             <SelectOption
               name="marital_status"
@@ -284,10 +279,10 @@ export const DataDiriSection: FC = (): ReactElement => {
               isClearable={true}
             />
           </div>
-          <div className="flex flex-col gap-1 xl:gap-2 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start">
+          <div className="flex flex-col gap-1 xl:gap-2 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start ">
             {" "}
             <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-8">
               <RadioButton
                 name="citizenship"
                 label="WNI"
@@ -314,9 +309,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               />
             </div>
           </div>
-        </section>
 
-        <section className="flex flex-wrap w-full gap-x-1 justify-center items-center lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
           <SelectOption
             name="country"
             labels="Asal Negara"
@@ -354,8 +347,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
           />
-        </section>
-        <section className="flex flex-wrap w-full gap-x-1 justify-center items-center  lg:flex lg:justify-between lg:items-center gap-y-4 mt-2 lg:mt-6 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-between">
+
           <SelectOption
             labels="City"
             className="rounded-md text-primary-black  w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
@@ -382,9 +374,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             isClearable={true}
             disabled={!watch("city")}
           />
-        </section>
-        <section className="flex lg:flex-row flex-col w-[70vw] gap-x-1 justify-between items-start  lg:flex lg:justify-between lg:items-start mt-2 gap-y-4 lg:mt-6 lg:w-55% md:flex md:flex-wrap md:w-[70vw] md:justify-between">
-          <div className="col-span-3">
+
+          <div>
             <TextField
               name="address"
               variant="sm"
@@ -396,11 +387,11 @@ export const DataDiriSection: FC = (): ReactElement => {
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="w-[70vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+              inputWidth="w-[68vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
               className="resize-none bg-grayscale-2  "
             />
           </div>
-          <div>
+          <div className="w-70% md:w-26 lg:w-26">
             <TextField
               inputHeight="h-10"
               name="postal_code"
@@ -412,8 +403,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               control={control}
             />
           </div>
-        </section>
-        <section className="flex flex-wrap justify-start w-70% items-center lg:flex lg:justify-start lg:gap-x-3 lg:items-center  gap-y-4 lg:w-55% md:w-[70vw] md:flex md:flex-wrap md:justify-start md:gap-x-8 xl:flex xl:flex-wrap xl:justify-between xl:gap-x-8 pb-4">
+
           <div className="flex flex-col gap-2 xl:gap-4">
             <h3 className="text-xs font-semibold">Berkebutuhan Khusus</h3>
             <div className="flex items-center gap-6">
@@ -472,7 +462,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             isMulti={false}
           />
         </section>
-        <div className="flex w-full justify-end py-4">
+        <div className="flex w-full justify-center lg:justify-end py-4">
           <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
             Submit
           </Button>
