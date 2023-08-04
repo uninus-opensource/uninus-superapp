@@ -1,7 +1,7 @@
 "use client";
 import { ReactElement, FC } from "react";
 import { Button, SelectOption } from "@uninus/web/components";
-import { programStudy } from "./store";
+import { pendaftaran } from "./store";
 import { FieldValues, useForm } from "react-hook-form";
 
 export const ModulePendaftaran: FC = (): ReactElement => {
@@ -45,20 +45,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="md:text-base"
               control={control}
               name="program"
-              options={[
-                {
-                  value: "S1",
-                  label: "Program Sarjana(S1) 2023/2024",
-                },
-                {
-                  value: "S2",
-                  label: "Program Magister(S2) 2023/2024",
-                },
-                {
-                  value: "S3",
-                  label: "Program Doktor(S3) 2023/2024",
-                },
-              ]}
+              options={pendaftaran.programPendidikan}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
@@ -70,7 +57,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labels="Pilihan Program Studi 1"
               control={control}
               name="prodi1"
-              options={programStudy}
+              options={pendaftaran.programStudy}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
@@ -82,7 +69,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="md:text-base"
               control={control}
               name="prodi2"
-              options={programStudy}
+              options={pendaftaran.programStudy}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
@@ -94,28 +81,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="md:text-base"
               control={control}
               name="seleksi"
-              options={[
-                {
-                  label: "Beasiswa Nusantara Berprestasi (BNP)",
-                  value: "Beasiswa Nusantara Berprestasi",
-                },
-                {
-                  label: "Seleksi Prestasi Akademik (SPA)",
-                  value: "Seleksi Prestasi Akademik",
-                },
-                {
-                  label: "Seleksi Prestasi Non Akademik (SPNA)",
-                  value: "Seleksi Prestasi Non Akademik",
-                },
-                {
-                  label: "Kerjasama Banom",
-                  value: "Kerjasama Banom",
-                },
-                {
-                  label: "Kartu Indonesia Pintar (KIP)",
-                  value: "KIP - KULIAH",
-                },
-              ]}
+              options={pendaftaran.jalurSeleksi}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
