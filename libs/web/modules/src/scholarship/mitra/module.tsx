@@ -15,12 +15,13 @@ export const ModuleMitra: FC = (): ReactElement => {
           height={100}
           layout="responsive"
           style={{ marginTop: "100px" }}
+          quality={100}
         />
 
         <section className="w-full lg:px-16 px-8 lg:py-8 py-4 flex flex-col gap-y-14">
           <div className="text-center flex flex-col gap-y-8">
-            <h1 className="lg:text-3xl text-lg font-bold text-secondary-green-4 uppercase">
-              beasiswa mitra nusantara
+            <h1 className="lg:text-3xl text-lg font-bold text-secondary-green-4">
+              Beasiswa Mitra Nusantara
             </h1>
             <p className="lg:text-lg text-sm lg:w-4/5 w-full mx-auto lg:px-16 px-4">
               Beasiswa ini diperuntukan bagi Orang Tua Siswa salah satu anggota NU dan Orang Tua
@@ -29,13 +30,14 @@ export const ModuleMitra: FC = (): ReactElement => {
           </div>
 
           <div className="w-full flex lg:flex-row-reverse  md:flex-row-reverse flex-col justify-between md:items-start ">
-            <figure className=" flex px-6  w-full">
+            <figure className=" flex px-6 xl:ml-[20vw] w-full">
               <Image
                 src={"/illustrations/beasiswa3.webp"}
                 alt="Beasiswa Mitra"
                 width={400}
                 height={100}
                 priority
+                quality={100}
               />
             </figure>
             <div className="flex flex-wrap flex-col w-full justify-center md:text-left lg:text-left text-center py-16 md:pb-16 md:py-0 lg:pl-16 pl-0 gap-y-6 h-full">

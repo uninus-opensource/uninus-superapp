@@ -146,7 +146,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
             />
           </div>
           <span className="flex lg:w-full w-auto justify-start text-black font-semibold text-sm  p-2 ">
-            *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Praktikum, dan Magang/PLP
+            *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Dana Internship
           </span>
           <section className="rounded-lg w-full">
             <DataTable

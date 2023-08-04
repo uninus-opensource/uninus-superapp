@@ -88,7 +88,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
       )}
       {/* Desktop */}
       <aside
-        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[30vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
+        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[22vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
         <section className={` w-full flex flex-col items-center gap-y-2`}>
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">PMB UNINUS</h1>
@@ -103,7 +103,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
               priority={true}
             />
             <figcaption className="text-center flex flex-col gap-y-3 mt-3  ">
-              <div className=" text-sm text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
+              <div className=" text-sm text-secondary-green-4 p-2 font-bold rounded-md leading-[14px] capitalize">
                 <h3>{userName}</h3>
               </div>
             </figcaption>
@@ -117,7 +117,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
 
           <div className="flex flex-col h-full justify-between 2xl:h-full">
             <nav>
-              <ul className="flex flex-col gap-y-2.5 xl:gap-y-6 items-center">
+              <ul className="flex flex-col gap-y-5 xl:gap-y-4 items-center">
                 {sideList?.map((sideList, idx) => (
                   <li key={idx} className="flex flex-col gap-y-6">
                     <Link
@@ -199,7 +199,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                   />
                   <figcaption className="text-center flex flex-col gap-y-2 mt-3  ">
                     <div className=" text-xs text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
-                      <h3 className="max-w-3/5 text-base leading-normal">{userName}</h3>
+                      <h3 className="max-w-3/5 text-base leading-normal capitalize">{userName}</h3>
                     </div>
                   </figcaption>
                 </figure>
