@@ -46,7 +46,7 @@ export const HeroBanner: FC<TbannerProps> = ({
     {
       sliderSection: (
         <header
-          className={`bg-center ${backgrounColor} flex justify-center items-center bg-fixed object-center bg-cover lg:w-full xl:h-screen lg:h-[120vh] h-[50vh] relative bg-no-repeat bg-blend-overlay`}
+          className={`bg-center ${backgrounColor} flex justify-center items-center bg-fixed bg-center bg-cover lg:w-full xl:h-screen lg:h-[120vh] h-auto pb-6 lg:pb-0 relative w-screen bg-no-repeat bg-blend-overlay`}
           style={{
             backgroundImage: `url(${heroImages})`,
           }}
@@ -136,7 +136,7 @@ export const HeroBanner: FC<TbannerProps> = ({
     {
       sliderSection: (
         <Image
-          src={"/illustrations/slider-4.webp"}
+          src={"/illustrations/slider-difabel.webp"}
           alt="slider-4"
           quality={100}
           width={1000}
