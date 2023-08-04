@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: "Dashboard PMB | Form Pendaftaran",
 };
 
-const DashboardPendaftaran: NextPage = (): ReactElement => <ModulePendaftaran />;
+const DashboardPendaftaran: NextPage = (): ReactElement => (
+  <ModulePendaftaran key={"pendaftaran"} />
+);
 
 export default DashboardPendaftaran;

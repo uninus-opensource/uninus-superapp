@@ -8,7 +8,7 @@ import {
   Button,
 } from "@uninus/web/components";
 import { defaultValuesBiodata, formBiodataOne } from "../../store";
-import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useState } from "react";
+import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
@@ -68,21 +68,6 @@ export const DataDiriSection: FC = (): ReactElement => {
     setValue("city", null);
   }, [watch("province")]);
 
-  const [radioSelected, setRadioSelected] = useState<{
-    EGender?: string;
-    ECitizenship?: string;
-  }>({
-    EGender: "",
-    ECitizenship: "",
-  });
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setRadioSelected({
-      ...radioSelected,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
@@ -103,7 +88,7 @@ export const DataDiriSection: FC = (): ReactElement => {
       <form onSubmit={onSubmit}>
         <div className="flex flex-col gap-7 ">
           <UploadField
-            className="grid grid-cols-1 lg:flex lg:items-center lg:gap-6 w-full justify-center items-center h-full gap-y-6 lg:gap-y-0"
+            className="grid lg:flex lg:items-center lg:gap-6 w-full justify-center lg:justify-start items-center h-full gap-y-6 lg:gap-y-0"
             classNameField="w-70% lg:w-auto"
             control={control}
             name="image"
@@ -166,36 +151,21 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             control={control}
           />
+          {/*Start Jenis kelamin */}
+          <RadioButton
+            fieldName="Jenis Kelamin"
+            name="gender"
+            control={control}
+            size="md"
+            options={[
+              { name: "Laki-laki", value: "MALE" },
+              { name: "Perempuan", value: "FEMALE" },
+            ]}
+            required
+            variant="primary"
+          />
+          {/*End Jenis kelamin */}
 
-          <div className="flex flex-col gap-2 xl:gap-4">
-            <h3 className="text-xs font-semibold">Jenis Kelamin</h3>
-            <div className="flex items-center gap-6">
-              <RadioButton
-                name="gender"
-                label="Laki-laki"
-                control={control}
-                id="l"
-                size="lg"
-                required
-                onChange={handleChange}
-                value="MALE"
-                variant="primary"
-                isChecked={radioSelected?.EGender === "MALE"}
-              />
-              <RadioButton
-                name="gender"
-                label="Perempuan"
-                control={control}
-                id="p"
-                size="lg"
-                onChange={handleChange}
-                value="FEMALE"
-                required
-                variant="primary"
-                isChecked={radioSelected?.EGender === "FEMALE"}
-              />
-            </div>
-          </div>
           <SelectOption
             labels="Agama"
             className=" rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
@@ -279,36 +249,22 @@ export const DataDiriSection: FC = (): ReactElement => {
               isClearable={true}
             />
           </div>
-          <div className="flex flex-col gap-1 xl:gap-2 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start ">
-            {" "}
-            <h3 className="text-xs font-semibold">Kewarganegaraan</h3>
-            <div className="flex items-center gap-8">
-              <RadioButton
-                name="citizenship"
-                label="WNI"
-                control={control}
-                required
-                id="wni"
-                onChange={handleChange}
-                inputname="kewarganegaraan"
-                value="WNI"
-                variant="primary"
-                isChecked={radioSelected?.ECitizenship === "WNI"}
-              />
-              <RadioButton
-                name="citizenship"
-                label="WNA"
-                control={control}
-                id="wna"
-                onChange={handleChange}
-                inputname="kewarganegaraan"
-                required
-                value="WNA"
-                variant="primary"
-                isChecked={radioSelected?.ECitizenship === "WNA"}
-              />
-            </div>
-          </div>
+
+          {/*start Kewarganegaeaan */}
+          <RadioButton
+            name="citizenship"
+            fieldName="Kewarganegaraan"
+            label="WNI"
+            control={control}
+            options={[
+              { name: "WNI", value: "WNI" },
+              { name: "WNA", value: "WNA" },
+            ]}
+            required
+            inputname="kewarganegaraan"
+            variant="primary"
+          />
+          {/*End Kewarganegaeaan */}
 
           <SelectOption
             name="country"
@@ -403,36 +359,22 @@ export const DataDiriSection: FC = (): ReactElement => {
               control={control}
             />
           </div>
+          {/*Start difabel */}
+          <RadioButton
+            name="difabel"
+            label="Ya"
+            fieldName="Berkebutuhan Khusus"
+            control={control}
+            options={[
+              { name: "Ya", value: "Ya" },
+              { name: "Tidak", value: "Tidak" },
+            ]}
+            size="lg"
+            required
+            variant="primary"
+          />
+          {/*End difabel */}
 
-          <div className="flex flex-col gap-2 xl:gap-4">
-            <h3 className="text-xs font-semibold">Berkebutuhan Khusus</h3>
-            <div className="flex items-center gap-6">
-              <RadioButton
-                name="difabel"
-                label="Ya"
-                control={control}
-                id="y"
-                size="lg"
-                required
-                onChange={handleChange}
-                value="Ya"
-                variant="primary"
-                isChecked={radioSelected?.EGender === "True"}
-              />
-              <RadioButton
-                name="undifabel"
-                label="Tidak"
-                control={control}
-                id="n"
-                size="lg"
-                onChange={handleChange}
-                value="Tidak"
-                required
-                variant="primary"
-                isChecked={radioSelected?.EGender === "False"}
-              />
-            </div>
-          </div>
           <SelectOption
             labels="Kategori Difabel"
             className=" rounded-md text-primary-black lg:w-auto w-70% xl:w-[25vw] md:w-[33vw]"

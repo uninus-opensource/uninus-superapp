@@ -7,6 +7,6 @@ export const metadata: Metadata = {
   title: "Beasiswa | Beasiswa Mitra",
 };
 
-const MitraPage: NextPage = (): ReactElement => <ModuleMitra />;
+const MitraPage: NextPage = (): ReactElement => <ModuleMitra key={"beasiswamitra"} />;
 
 export default MitraPage;

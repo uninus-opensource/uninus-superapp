@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ChangeEvent, ReactElement, useState } from "react";
 import { FieldValues, useController } from "react-hook-form";
 import { TRadioButtonProps } from "./types";
 
@@ -10,6 +10,8 @@ export const RadioButton = <T extends FieldValues>({
   labelSize = "sm",
   ...props
 }: TRadioButtonProps<T>): ReactElement => {
+  const [value, setValue] = useState<string>("");
+
   const radioButtonSize = clsx("rounded-full p-2", {
     "w-3 h-3": size === "sm",
     "w-4 h-4": size === "md",
@@ -31,7 +33,10 @@ export const RadioButton = <T extends FieldValues>({
   });
 
   const className = `${radioButtonSize} ${radioButtonVariant}`;
-
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setValue(e.target.value);
+    console.log(e.target.value);
+  };
   const { field } = useController({
     ...props,
     rules: {
@@ -40,21 +45,30 @@ export const RadioButton = <T extends FieldValues>({
   });
 
   return (
-    <section className="flex items-center gap-1 w-auto h-auto">
-      <input
-        type="radio"
-        className={className}
-        {...{ ...props, ...field }}
-        id={props.id}
-        value={props.value}
-        name={props.name}
-        checked={props.isChecked}
-        onChange={props.onChange}
-      />
-      <label htmlFor={props.name} className={lblSize}>
-        {props.label}
-        {props.required && <span className="ml-1 font-bold text-primary-green">*</span>}
-      </label>
+    <section className="flex flex-col gap-y-2 xl:gap-y-2">
+      <h3 className="text-xs font-semibold">
+        {props.fieldName} <span className="ml-1 font-bold text-primary-green">*</span>
+      </h3>
+      <div className="flex items-center gap-x-4 xl:gap-x-8 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start">
+        {props.options?.map((item, idx) => (
+          <div>
+            <input
+              type="radio"
+              className={className}
+              {...{ ...props, ...field }}
+              id={`${item.value}-${idx}`}
+              key={idx}
+              value={item.value}
+              name={props.name}
+              checked={item.value === value}
+              onChange={handleOnChange}
+            />
+            <label htmlFor={props.name} className={lblSize}>
+              {item.name}
+            </label>
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

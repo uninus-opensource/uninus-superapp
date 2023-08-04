@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "PMB | Biaya Kuliah",
 };
 
-const TuitionFeePage: NextPage = (): ReactElement => <TuitionFeeModule />;
+const TuitionFeePage: NextPage = (): ReactElement => <TuitionFeeModule key={"biaya-kuliah"} />;
 export default TuitionFeePage;
