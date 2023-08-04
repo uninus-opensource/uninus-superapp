@@ -9,13 +9,15 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
+  BadRequestException,
+  Inject,
 } from "@nestjs/common";
 import { TFIle } from "@uninus/entities";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
 import { JwtAuthGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/validator";
-import { StudentService, UpdateStudentSwagger } from "@uninus/api/services";
+import { UpdateStudentSwagger } from "@uninus/api/services";
 import {
   ApiResponse,
   ApiTags,
@@ -23,11 +25,15 @@ import {
   ApiOperation,
   ApiBearerAuth,
 } from "@nestjs/swagger";
+import { ClientProxy } from "@nestjs/microservices";
+import { firstValueFrom } from "rxjs";
 
 @Controller("student")
 @ApiTags("Student")
 export class StudentController {
-  constructor(private readonly appService: StudentService) {}
+  constructor(
+    @Inject('STUDENT_SERVICE') private readonly client: ClientProxy
+  ) {}
 
   @Get()
   @ApiBearerAuth()
@@ -40,9 +46,16 @@ export class StudentController {
     description: "Unauthorized",
   })
   @UseGuards(JwtAuthGuard)
-  getData(@Request() reqToken: TReqToken) {
-    const { sub: id } = reqToken.user;
-    return this.appService.getStudent({ id });
+  async getData(@Request() reqToken: TReqToken) {
+    try {
+      const { sub: id } = reqToken.user;
+      const response = await firstValueFrom(this.client.send<{}>("get_student",{ id }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Put()
@@ -57,14 +70,25 @@ export class StudentController {
   })
   @UseInterceptors(FileInterceptor("avatar"))
   @UseGuards(JwtAuthGuard)
-  updateData(
+  async updateData(
     @Request() reqToken: TReqToken,
     @UploadedFile() avatar: TFIle,
     @Body(new ZodValidationPipe(VSUpdateStudent))
     studentData: UpdateStudentSwagger,
   ) {
-    const { sub: id } = reqToken.user;
-    return this.appService.updateStudent({ id, avatar, ...studentData });
+    try {
+      const { sub: id } = reqToken.user;
+      const response = await firstValueFrom(this.client.send<{}>("update_student",{
+        id,
+        avatar,
+        ...studentData
+      }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Delete("/:id")
@@ -75,8 +99,15 @@ export class StudentController {
     description: "User tidak ditemukan",
   })
   @UseGuards(JwtAuthGuard)
-  deleteDataById(@Param("id") id: string) {
-    return this.appService.deleteStudent({ id });
+  async deleteDataById(@Param("id") id: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("delete_student",{id}))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Put("/:id")
@@ -88,13 +119,20 @@ export class StudentController {
   })
   @UseInterceptors(FileInterceptor("avatar"))
   @UseGuards(JwtAuthGuard)
-  updateDataById(
+  async updateDataById(
     @Param("id") id: string,
     @UploadedFile() avatar: TFIle,
     @Body(new ZodValidationPipe(VSUpdateStudent))
     studentData: UpdateStudentSwagger,
   ) {
-    return this.appService.updateStudent({ id, avatar, ...studentData });
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("update_student",{ id, avatar, ...studentData }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("/:id")
@@ -108,7 +146,14 @@ export class StudentController {
     description: "Unauthorized",
   })
   @UseGuards(JwtAuthGuard)
-  getDataById(@Param("id") id: string) {
-    return this.appService.getStudent({ id });
+  async getDataById(@Param("id") id: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("update_student",{ id }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 }

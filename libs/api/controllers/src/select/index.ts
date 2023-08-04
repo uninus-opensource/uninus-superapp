@@ -1,11 +1,14 @@
-import { Controller, Get, Query } from "@nestjs/common";
+import { Controller, Get, Query, Inject, BadRequestException } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
-import { SelectService } from "@uninus/api/services";
+import { ClientProxy } from "@nestjs/microservices";
+import { firstValueFrom } from "rxjs";
 
 @Controller()
 @ApiTags("Select")
 export class SelectController {
-  constructor(private readonly appService: SelectService) {}
+  constructor(
+    @Inject('PMB_SERVICE') private readonly client: ClientProxy
+  ) {}
 
   @Get("province")
   @ApiOperation({ summary: "Get Province" })
@@ -14,8 +17,15 @@ export class SelectController {
     description: "Location Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getProvince(@Query("search") search: string) {
-    return this.appService.getProvince({ search });
+  async getProvince(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_province",{search}))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("city")
@@ -26,8 +36,15 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "province_id", required: false })
-  getCity(@Query("province_id") province_id: string, @Query("search") search: string) {
-    return this.appService.getCity({ province_id, search });
+  async getCity(@Query("province_id") province_id: string, @Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_city",{province_id, search}))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("sub-district")
@@ -38,8 +55,15 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "city_id", required: false })
-  getSubDistrict(@Query("city_id") city_id: string, @Query("search") search: string) {
-    return this.appService.getSubDistrict({ city_id, search });
+  async getSubDistrict(@Query("city_id") city_id: string, @Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_subdistrict",{city_id, search}))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("degree-program")
@@ -49,8 +73,15 @@ export class SelectController {
     description: "Degree Program Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getDegreeProgram(@Query("search") search: string) {
-    return this.appService.getDegreeProgram({ search });
+  async getDegreeProgram(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_degree",{ search }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("faculty")
@@ -61,11 +92,18 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "degree_program_id", required: false })
-  getFaculty(
+  async getFaculty(
     @Query("search") search: string,
     @Query("degree_program_id") degree_program_id: string,
   ) {
-    return this.appService.getFaculty({ search, degree_program_id });
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_faculty",{ search, degree_program_id }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("department")
@@ -76,8 +114,15 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "faculty_id", required: false })
-  getDepartment(@Query("search") search: string, @Query("faculty_id") faculty_id: string) {
-    return this.appService.getDepartment({ search, faculty_id });
+  async getDepartment(@Query("search") search: string, @Query("faculty_id") faculty_id: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_department",{ search, faculty_id }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("religion")
@@ -87,8 +132,15 @@ export class SelectController {
     description: "Religion Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getReligion(@Query("search") search: string) {
-    return this.appService.getReligion({ search });
+  async getReligion(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_religion",{ search }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("marital-status")
@@ -98,8 +150,15 @@ export class SelectController {
     description: "Marital Status Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getMaritalStatus(@Query("search") search: string) {
-    return this.appService.getMaritalStatus({ search });
+  async getMaritalStatus(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_marital_status",{ search }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("gender")
@@ -109,8 +168,15 @@ export class SelectController {
     description: "Gender Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getGender(@Query("search") search: string) {
-    return this.appService.getGender({ search });
+  async getGender(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_gender",{ search }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("citizenship")
@@ -120,8 +186,15 @@ export class SelectController {
     description: "Citizenship Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getCitizenship(@Query("search") search: string) {
-    return this.appService.getCitizenship({ search });
+  async getCitizenship(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_citizenship",{ search }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("selection-path")
@@ -131,8 +204,15 @@ export class SelectController {
     description: "Selection Path Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getSelectionPath(@Query("search") search: string) {
-    return this.appService.getSelectionPath({ search });
+  async getSelectionPath(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_selection_path",{ search }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("salary")
@@ -142,8 +222,15 @@ export class SelectController {
     description: "Salary Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getSalary(@Query("search") search: string) {
-    return this.appService.getSalary({ search });
+  async getSalary(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_salary",{ search }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("education-history")
@@ -153,8 +240,15 @@ export class SelectController {
     description: "Education History Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getEducationHistory(@Query("search") search: string) {
-    return this.appService.getEducationHistory({ search });
+  async getEducationHistory(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_educational_history",{ search }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("country")
@@ -164,8 +258,15 @@ export class SelectController {
     description: "Country Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getCountry(@Query("search") search: string) {
-    return this.appService.getCounty({ search });
+  async getCountry(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_country",{search}))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("occupation")
@@ -175,8 +276,15 @@ export class SelectController {
     description: "Occupation Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getOccupation(@Query("search") search: string) {
-    return this.appService.getOccupation({ search });
+  async getOccupation(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_occupation",{ search }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("disabilities")
@@ -186,7 +294,14 @@ export class SelectController {
     description: "Disabilities Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getDisablities(@Query("search") search: string) {
-    return this.appService.getDisabilites({ search });
+  async getDisablities(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<{}>("get_dissabilities",{ search }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 }

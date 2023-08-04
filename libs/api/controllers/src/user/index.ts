@@ -15,16 +15,15 @@ import {
 import { VSCreateUser, TReqToken, VSUpdateUser } from "@uninus/entities";
 import { ZodValidationPipe } from "@uninus/api/validator";
 import { JwtAuthGuard } from "@uninus/api/guard";
-import { CreateUserSwagger, UpdateUserSwagger, UserService } from "@uninus/api/services";
+import { CreateUserSwagger, UpdateUserSwagger } from "@uninus/api/services";
 import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
-import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { catchError, firstValueFrom } from "rxjs";
+import { ClientProxy } from "@nestjs/microservices";
+import { firstValueFrom } from "rxjs";
 
 @Controller("user")
 @ApiTags("User")
 export class UserController {
   constructor(
-    private readonly appService: UserService,
     @Inject('USER_SERVICE') private readonly client: ClientProxy
   ) {}
 

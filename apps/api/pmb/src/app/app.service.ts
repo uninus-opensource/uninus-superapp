@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { TPaginationArgs } from "@uninus/entities";
 import { Prisma, PrismaService } from "@uninus/api/models";
 import { generateOtp, paginate } from "@uninus/api/utilities";
