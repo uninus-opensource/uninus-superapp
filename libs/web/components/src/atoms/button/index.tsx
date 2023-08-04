@@ -14,16 +14,8 @@ export const Button: FC<IButtonProps> = ({
   styling = "",
   ...props
 }): ReactElement => {
-  const scroll = () => {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
-
   const buttonSize = clsx(`${styling} text-sm ${width} ${height} ${uppercase ? "uppercase" : ""}`, {
-    "lg:p-4 p-2": size === "sm",
+    "lg:p-4 p-3": size === "sm",
     "p-5": size === "md",
     "p-6": size === "lg",
   });
@@ -54,7 +46,7 @@ export const Button: FC<IButtonProps> = ({
   const className = [...buttonVariant, ...buttonSize].join("");
 
   return props?.href ? (
-    <Link role="link" href={`${props?.href}`} onClick={scroll}>
+    <Link role="link" href={`${props?.href}`}>
       <button {...props} className={`${className} ${loading ? "hover:cursor-wait" : ""}`}>
         {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
       </button>
