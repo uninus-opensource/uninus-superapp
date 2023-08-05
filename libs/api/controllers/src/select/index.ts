@@ -7,7 +7,6 @@ import { firstValueFrom } from "rxjs";
 @ApiTags("Select")
 export class SelectController {
   constructor(@Inject("PMB_SERVICE") private readonly client: ClientProxy) {}
-
   @Get("province")
   @ApiOperation({ summary: "Get Province" })
   @ApiResponse({
