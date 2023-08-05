@@ -31,6 +31,10 @@ export interface ICityRequest extends ISelectRequest {
   province_id: string;
 }
 
+export interface ICountryRequest extends ISelectRequest {
+  citizenship: string;
+}
+
 export type TCityResponse = {
   city: Array<{
     id: number;
@@ -149,5 +153,12 @@ export type TYearGraduationResponse = {
   year: Array<{
     id: number;
     name: number;
+  }>;
+};
+
+export type TScholarshipResponse = {
+  scholarship: Array<{
+    id: number;
+    name: string;
   }>;
 };
