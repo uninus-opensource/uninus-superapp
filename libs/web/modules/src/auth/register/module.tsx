@@ -28,17 +28,11 @@ export const RegisterModule: FC = (): ReactElement => {
   const { mutate, isLoading } = useRegister();
 
   const onSubmit = handleSubmit((data) => {
-    let phoneNumber = data?.phone_number;
-
-    if (!phoneNumber.startsWith("62")) {
-      phoneNumber = `62${phoneNumber}`;
-    }
-
     mutate(
       {
         email: data?.email,
         password: data?.password,
-        phone_number: phoneNumber,
+        phone_number: data?.phone_number,
         fullname: data?.fullname,
       },
       {
