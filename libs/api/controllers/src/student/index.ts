@@ -49,7 +49,7 @@ export class StudentController {
   async getData(@Request() reqToken: TReqToken) {
     try {
       const { sub: id } = reqToken.user;
-      const response = await firstValueFrom(this.client.send<{}>("get_student",{ id }))
+      const response = await firstValueFrom(this.client.send("get_student",{ id }))
       return response
     } catch (error) {
       throw new BadRequestException(error, {
@@ -78,7 +78,7 @@ export class StudentController {
   ) {
     try {
       const { sub: id } = reqToken.user;
-      const response = await firstValueFrom(this.client.send<{}>("update_student",{
+      const response = await firstValueFrom(this.client.send("update_student",{
         id,
         avatar,
         ...studentData
@@ -101,7 +101,7 @@ export class StudentController {
   @UseGuards(JwtAuthGuard)
   async deleteDataById(@Param("id") id: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("delete_student",{id}))
+      const response = await firstValueFrom(this.client.send("delete_student",{id}))
       return response
     } catch (error) {
       throw new BadRequestException(error, {
@@ -126,7 +126,7 @@ export class StudentController {
     studentData: UpdateStudentSwagger,
   ) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("update_student",{ id, avatar, ...studentData }))
+      const response = await firstValueFrom(this.client.send("update_student",{ id, avatar, ...studentData }))
       return response
     } catch (error) {
       throw new BadRequestException(error, {
@@ -148,7 +148,7 @@ export class StudentController {
   @UseGuards(JwtAuthGuard)
   async getDataById(@Param("id") id: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("update_student",{ id }))
+      const response = await firstValueFrom(this.client.send("update_student",{ id }))
       return response
     } catch (error) {
       throw new BadRequestException(error, {

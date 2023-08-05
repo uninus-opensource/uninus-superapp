@@ -277,7 +277,7 @@ export class AuthService {
 
     const html = getEmailMessageTemplate(user?.fullname, isCreateOtp?.token, msg);
 
-    const sendEmail = firstValueFrom(this.client.send<{}>("send_email",{
+    const sendEmail = firstValueFrom(this.client.send("send_email",{
       email:args.email.toLowerCase(),
       subject:"Verifikasi Email",
       html,
@@ -310,7 +310,7 @@ export class AuthService {
     }
     const html = getEmailMessageTemplate(user?.fullname ?? "", isCreateOtp?.token, msg);
 
-    const sendEmail = firstValueFrom(this.client.send<{}>("send_email",{
+    const sendEmail = firstValueFrom(this.client.send("send_email",{
       email:data?.email.toLowerCase(),
       subject:"Reset Password",
       html,

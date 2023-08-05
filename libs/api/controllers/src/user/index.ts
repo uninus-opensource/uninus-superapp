@@ -35,7 +35,7 @@ export class UserController {
   async getUser(@Request() reqToken: TReqToken) {
     try {
       const { sub } = reqToken.user;
-      const response = await firstValueFrom(this.client.send<{}>("get_user",sub))
+      const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user",sub))
       return response
     } catch (error) {
       throw new BadRequestException(error, {
@@ -55,7 +55,7 @@ export class UserController {
   ) {
     try {
       const response = await firstValueFrom(
-        this.client.send<{}>("get_users",{
+        this.client.send<Array<TProfileResponse>>("get_users",{
           where: {
             OR: [
               {
@@ -92,7 +92,7 @@ export class UserController {
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   async getDataById(@Param("id") id: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_user",id))
+      const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user",id))
       return response
     } catch (error) {
       throw new BadRequestException(error, {
@@ -122,7 +122,7 @@ export class UserController {
         subject:"Verifikasi Email",
         html:`Kode OTP anda adalah ${isCreateOtp?.token}`,
       }
-      const sendEmail = firstValueFrom(this.client.send<{}>("send_email",emailPayload))
+      const sendEmail = firstValueFrom(this.client.send<{message:string}>("send_email",emailPayload))
       if (!sendEmail) {
         throw new BadRequestException("Gagal mengirimkan kode verifikasi");
       }
