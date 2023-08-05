@@ -23,6 +23,7 @@ import {
   TOccupationResponse,
   TDisabilitiesResponse,
   TYearGraduationResponse,
+  ISelectEducationHistoryRequest,
 } from "@uninus/entities";
 
 @Injectable()
@@ -257,13 +258,14 @@ export class SelectService {
     return { salary };
   }
 
-  async getEducationHistory({ search }: ISelectRequest): Promise<TEducationHistoryResponse> {
+  async getEducationHistory({
+    search,
+    npsn,
+  }: ISelectEducationHistoryRequest): Promise<TEducationHistoryResponse> {
     const educationHistory = await this.prisma.educationHistory.findMany({
       where: {
-        OR: [
-          { name: { contains: search?.toUpperCase() || "" } },
-          { npsn: { contains: search || "" } },
-        ],
+        name: { ...(search && { contains: search.toUpperCase() }) },
+        npsn: { ...(npsn && { contains: npsn }) },
       },
       select: {
         id: true,

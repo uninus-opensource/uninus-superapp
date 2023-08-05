@@ -2,6 +2,11 @@ export interface ISelectRequest {
   search: string;
 }
 
+export interface ISelectEducationHistoryRequest {
+  search: string;
+  npsn: string;
+}
+
 export interface IProvinceRequest {
   search: string;
 }
