@@ -170,9 +170,9 @@ export class SelectController {
     description: "Country Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  @ApiQuery({ name: "citizenship", required: false })
-  getCountry(@Query("search") search: string, @Query("citizenship") citizenship: string) {
-    return this.appService.getCountry({ search, citizenship });
+  @ApiQuery({ name: "citizenship_id", required: false })
+  getCountry(@Query("search") search: string, @Query("citizenship") citizenship_id: string) {
+    return this.appService.getCountry({ search, citizenship_id });
   }
 
   @Get("occupation")
