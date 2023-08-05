@@ -13,7 +13,7 @@ export const VSRegister = z.object({
     .refine((data) => data.match(/[0-9]/g), {
       message: "Nomor telepon harus angka",
     })
-    .refine((data) => /^((\62)|(8))\d{8,14}$/.test(data), {
+    .refine((data) => data.match(/^8\d+$/g), {
       message: "Nomor harus diawali 8",
     }),
 
