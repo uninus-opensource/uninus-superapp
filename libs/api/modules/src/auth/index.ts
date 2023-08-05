@@ -7,7 +7,7 @@ import { PrismaModule } from "@uninus/api/models";
 import { AuthService, EmailService } from "@uninus/api/services";
 import { EmailModule } from "../email";
 import { PmbModule } from "../pmb";
-
+import { ClientsModule, Transport } from "@nestjs/microservices";
 @Module({
   imports: [
     PrismaModule,
@@ -19,6 +19,16 @@ import { PmbModule } from "../pmb";
     PassportModule.register({
       defaultStrategy: "jwt",
     }),
+    ClientsModule.register([
+      {
+        name: 'EMAIL_SERVICE',
+        transport: Transport.REDIS,
+        options:{
+          host: 'localhost',
+          port: 6379
+        }
+      }
+    ]),
 
     PmbModule,
   ],

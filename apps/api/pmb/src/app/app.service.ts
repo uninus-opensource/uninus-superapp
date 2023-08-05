@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { TPaginationArgs } from "@uninus/entities";
 import { Prisma, PrismaService } from "@uninus/api/models";
-import { generateOtp, paginate } from "@uninus/api/utilities";
+import { paginate } from "@uninus/api/utilities";
 import { EmailService } from "@uninus/api/services"
 import { RpcException } from "@nestjs/microservices";
 
@@ -38,19 +38,6 @@ export class AppService {
     const user = await this.prisma.users.create({
       data: payload,
     });
-    const isCreateOtp = await generateOtp(user?.email, user?.id);
-    if (!isCreateOtp) {
-      throw new RpcException("Gagal membuat Otp");
-    }
-    //TODO pindahkan email service menjadi client
-    const sendEmail = this.emailService.sendEmail(
-      payload.email.toLowerCase(),
-      "Verifikasi Email",
-      `Kode OTP anda adalah ${isCreateOtp?.token}`,
-    );
-    if (!sendEmail) {
-      throw new RpcException("Gagal mengirimkan kode verifikasi");
-    }
     return {
       data: user,
     };

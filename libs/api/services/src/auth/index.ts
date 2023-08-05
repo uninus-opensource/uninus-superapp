@@ -4,6 +4,7 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
+  Inject,
 } from "@nestjs/common";
 import {
   TLoginResponse,
@@ -38,12 +39,15 @@ import {
   generateToken,
   clearOtp,
 } from "@uninus/api/utilities";
-
-import { EmailService } from "../email";
+import {ClientProxy} from "@nestjs/microservices"
+import { firstValueFrom } from "rxjs";
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private readonly emailService: EmailService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject('EMAIL_SERVICE') private readonly client: ClientProxy
+  ) {}
 
   async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
     const { email } = reqUser;
@@ -110,11 +114,11 @@ export class AuthService {
 
     const html = getEmailMessageTemplate(data.fullname, isCreateOtp?.token, msg);
 
-    const sendEmail = this.emailService.sendEmail(
-      data.email.toLowerCase(),
-      "Verifikasi Email",
+    const sendEmail = firstValueFrom(this.client.send("send_email",{
+      email:data.email.toLowerCase(),
+      subject:"Verifikasi Email",
       html,
-    );
+    }));
 
     if (!sendEmail) {
       throw new BadRequestException("Gagal mengirimkan kode verifikasi");
@@ -273,11 +277,11 @@ export class AuthService {
 
     const html = getEmailMessageTemplate(user?.fullname, isCreateOtp?.token, msg);
 
-    const sendEmail = this.emailService.sendEmail(
-      args.email.toLowerCase(),
-      "Verifikasi Email",
+    const sendEmail = firstValueFrom(this.client.send<{}>("send_email",{
+      email:args.email.toLowerCase(),
+      subject:"Verifikasi Email",
       html,
-    );
+    }))
 
     if (!sendEmail) {
       throw new BadRequestException("Gagal mengirimkan kode verifikasi");
@@ -306,11 +310,12 @@ export class AuthService {
     }
     const html = getEmailMessageTemplate(user?.fullname ?? "", isCreateOtp?.token, msg);
 
-    const sendEmail = this.emailService.sendEmail(
-      data?.email.toLowerCase(),
-      "Reset Password",
+    const sendEmail = firstValueFrom(this.client.send<{}>("send_email",{
+      email:data?.email.toLowerCase(),
+      subject:"Reset Password",
       html,
-    );
+    }))
+
     if (!sendEmail) {
       throw new BadRequestException("Gagal mengirimkan kode verifikasi");
     }

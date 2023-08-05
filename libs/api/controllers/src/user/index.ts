@@ -19,7 +19,7 @@ import { CreateUserSwagger, UpdateUserSwagger } from "@uninus/api/services";
 import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 import { ClientProxy } from "@nestjs/microservices";
 import { firstValueFrom } from "rxjs";
-
+import { generateOtp } from "@uninus/api/utilities"
 @Controller("user")
 @ApiTags("User")
 export class UserController {
@@ -113,6 +113,19 @@ export class UserController {
   ) {
     try {
       const response = await firstValueFrom(this.client.send<{}>("create_user",createUserSwagger))
+      const isCreateOtp = await generateOtp(response?.email, response?.id);
+      if (!isCreateOtp) {
+        throw new BadRequestException("Gagal membuat Otp");
+      }
+      const emailPayload = {
+        email: createUserSwagger.email.toLowerCase(),
+        subject:"Verifikasi Email",
+        html:`Kode OTP anda adalah ${isCreateOtp?.token}`,
+      }
+      const sendEmail = firstValueFrom(this.client.send<{}>("send_email",emailPayload))
+      if (!sendEmail) {
+        throw new BadRequestException("Gagal mengirimkan kode verifikasi");
+      }
       return response
     } catch (error) {
       throw new BadRequestException(error, {
