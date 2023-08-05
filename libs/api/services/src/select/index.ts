@@ -51,7 +51,7 @@ export class SelectService {
     return {
       province,
     };
-    // await this.prisma.country.createMany({
+
     //   data: [
     //     { name: "Afghanistan", citizenship_id: 1 },
     //     { name: "Åland Islands", citizenship_id: 1 },
@@ -347,6 +347,12 @@ export class SelectService {
       select: {
         id: true,
         name: true,
+        department: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
 

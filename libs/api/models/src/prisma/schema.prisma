@@ -176,7 +176,7 @@ model DegreeProgram {
   id         Int          @id @default(autoincrement())
   name       String
   faculty    Faculty[]
-  Department Department[]
+  department Department[]
 }
 
 model Faculty {
@@ -184,7 +184,7 @@ model Faculty {
   name             String
   department       Department[]
   degreeProgram_id Int?
-  DegreeProgram    DegreeProgram? @relation(fields: [degreeProgram_id], references: [id])
+  degreeProgram    DegreeProgram? @relation(fields: [degreeProgram_id], references: [id])
 }
 
 model Department {
@@ -193,7 +193,7 @@ model Department {
   faculty_id        Int?
   degree_program_id Int?
   Faculty           Faculty?       @relation(fields: [faculty_id], references: [id])
-  DegreeProgram     DegreeProgram? @relation(fields: [degree_program_id], references: [id])
+  degreeProgram     DegreeProgram? @relation(fields: [degree_program_id], references: [id])
 }
 
 model MaritalStatus {
