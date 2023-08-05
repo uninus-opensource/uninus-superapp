@@ -547,11 +547,11 @@ export class SelectService {
     return { education_history: educationHistory };
   }
 
-  async getCountry({ search, citizenship }: ICountryRequest): Promise<TCountryResponse> {
+  async getCountry({ search, citizenship_id }: ICountryRequest): Promise<TCountryResponse> {
     const country = await this.prisma.country.findMany({
       where: {
         name: { ...(search && { contains: search }), mode: "insensitive" },
-        ...(citizenship && { citizenship_id: Number(citizenship) }),
+        ...(citizenship_id && { citizenship_id: Number(citizenship_id) }),
       },
       select: {
         id: true,
