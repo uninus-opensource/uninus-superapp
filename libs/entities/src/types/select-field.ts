@@ -32,7 +32,7 @@ export interface ICityRequest extends ISelectRequest {
 }
 
 export interface ICountryRequest extends ISelectRequest {
-  citizenship: string;
+  citizenship_id: string;
 }
 
 export type TCityResponse = {
