@@ -15,7 +15,6 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   async getProvince(@Query("search") search: string) {
-    console.log("test");
     try {
       const response = await firstValueFrom(this.client.send<{}>("get_province", { search }));
       return response;
