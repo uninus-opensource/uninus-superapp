@@ -24,6 +24,8 @@ import {
   TDisabilitiesResponse,
   TYearGraduationResponse,
   ISelectEducationHistoryRequest,
+  TScholarshipResponse,
+  ICountryRequest,
 } from "@uninus/entities";
 
 @Injectable()
@@ -285,10 +287,11 @@ export class SelectService {
     return { education_history: educationHistory };
   }
 
-  async getCounty({ search }: ISelectRequest): Promise<TCountryResponse> {
+  async getCountry({ search, citizenship }: ICountryRequest): Promise<TCountryResponse> {
     const country = await this.prisma.country.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
+        ...(citizenship && { citizenship_id: Number(citizenship) }),
       },
       select: {
         id: true,
@@ -349,5 +352,19 @@ export class SelectService {
     });
 
     return { year };
+  }
+
+  async getScholarship({ search }: ISelectRequest): Promise<TScholarshipResponse> {
+    const scholarship = await this.prisma.scholarship.findMany({
+      where: {
+        name: { ...(search && { contains: search.toUpperCase() }) },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    return { scholarship };
   }
 }

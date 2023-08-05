@@ -170,8 +170,9 @@ export class SelectController {
     description: "Country Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getCountry(@Query("search") search: string) {
-    return this.appService.getCounty({ search });
+  @ApiQuery({ name: "citizenship", required: false })
+  getCountry(@Query("search") search: string, @Query("citizenship") citizenship: string) {
+    return this.appService.getCountry({ search, citizenship });
   }
 
   @Get("occupation")
@@ -204,5 +205,16 @@ export class SelectController {
   })
   getYearGraduate() {
     return this.appService.getYearGraduate();
+  }
+
+  @Get("scholarship")
+  @ApiOperation({ summary: "Get Scholarship" })
+  @ApiResponse({
+    status: 400,
+    description: "Scholarship Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  getScholarship(@Query("search") search: string) {
+    return this.appService.getScholarship({ search });
   }
 }

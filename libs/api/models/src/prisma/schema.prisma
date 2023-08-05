@@ -212,8 +212,9 @@ model Gender {
 }
 
 model Citizenship {
-  id   Int    @id @default(autoincrement())
-  name String
+  id      Int       @id @default(autoincrement())
+  name    String
+  Country Country[]
 }
 
 model Salary {
@@ -237,8 +238,10 @@ model EducationHistory {
 }
 
 model Country {
-  id   Int    @id @default(autoincrement())
-  name String
+  id             Int          @id @default(autoincrement())
+  name           String
+  citizenship_id Int?
+  citizenship    Citizenship? @relation(fields: [citizenship_id], references: [id])
 }
 
 model Occupation {
@@ -255,6 +258,11 @@ model OccupationPosition {
 }
 
 model Disabilities {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model Scholarship {
   id   Int    @id @default(autoincrement())
   name String
 }
