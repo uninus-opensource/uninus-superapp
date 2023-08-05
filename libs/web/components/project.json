@@ -11,6 +11,12 @@
       "options": {
         "lintFilePatterns": ["libs/web/components/**/*.{ts,tsx,js,jsx}"]
       }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "libs/web/components/jest.config.ts"
+      }
     }
   }
 }

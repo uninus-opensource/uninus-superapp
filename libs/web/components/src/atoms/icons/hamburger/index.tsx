@@ -4,6 +4,7 @@ import { THamburgerProps } from "./type";
 export const HamburgerIcon: FC<THamburgerProps> = ({ className }): ReactElement => {
   return (
     <svg
+      data-testid="hamburger-icon"
       xmlns="http://www.w3.org/2000/svg"
       height="2em"
       viewBox="0 0 448 512"

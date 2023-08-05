@@ -3,6 +3,7 @@ import { FC, ReactElement } from "react";
 export const XIcon: FC = (): ReactElement => {
   return (
     <svg
+      data-testid="x-icon"
       xmlns="http://www.w3.org/2000/svg"
       height="2em"
       viewBox="0 0 384 512"

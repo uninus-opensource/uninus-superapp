@@ -18,6 +18,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
     setShowModal(!showModal);
     setOnToogle(false);
   };
+
   const handleCloseModal = () => {
     setShowModal(false);
     setOnToogle(!onToogle);
@@ -91,8 +92,9 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
         className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[22vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
         <section className={` w-full flex flex-col items-center gap-y-2`}>
-          <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">PMB UNINUS</h1>
-
+          <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
+            {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
+          </h1>
           <figure className="flex flex-col items-center  ">
             <Image
               className="rounded-full "
@@ -109,9 +111,11 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
             </figcaption>
           </figure>
           {/* Status pendaftaran */}
-          <div className="w-3/5 mt-2 font-bold bg-red-3 text-red-4 p-2 rounded-md text-center text-xs">
-            Belum Mendaftar
-          </div>
+          {process.env.NEXT_PUBLIC_WORKSPACE === "user" && (
+            <div className="w-3/5 mt-2 font-bold bg-red-3 text-red-4 p-2 rounded-md text-center text-xs">
+              Belum Mendaftar
+            </div>
+          )}
           {/* End Status pendaftaran */}
           <hr className="w-3/4 my-2" />
 
@@ -205,9 +209,11 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                 </figure>
               </div>
               {/* Status pendaftaran */}
-              <div className="w-3/5 mt-2 bg-red-3 text-red-4  p-2 font-bold rounded-md text-center text-xs">
-                Belum Mendaftar
-              </div>
+              {process.env.NEXT_PUBLIC_WORKSPACE === "user" && (
+                <div className="w-3/5 mt-2 bg-red-3 text-red-4  p-2 font-bold rounded-md text-center text-xs">
+                  Belum Mendaftar
+                </div>
+              )}
               {/* End Status pendaftaran */}
               <div className="w-[60%]  px-3 h-[1px] bg-slate-4"></div>
               <nav>

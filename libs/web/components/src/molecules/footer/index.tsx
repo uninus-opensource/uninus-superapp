@@ -16,7 +16,7 @@ import Link from "next/link";
 
 export const Footer: FC = (): ReactElement => {
   return (
-    <footer className="w-full h-footerHeight">
+    <footer role="footer" className="w-full h-footerHeight">
       {/* frame1 */}
       <section className="h-[300px] bg-secondary-green-4 z-10 flex flex-col">
         {/* backgroundImage */}
@@ -61,7 +61,7 @@ export const Footer: FC = (): ReactElement => {
                   <Link href="https://uninus.ac.id/" target="_blank">
                     <div className="flex items-center justify-center gap-2 group-hover:scale-95 duration-300 ease-in-out">
                       <div className="md:hidden flex justify-center items-center">
-                        <GlobalOutlined style={{ fontSize: 13, color: "white" }} />
+                        <GlobalOutlined data-testid="global-icon" style={{ fontSize: 13, color: "white" }} />
                       </div>
 
                       <div className="hidden md:flex">
@@ -85,7 +85,7 @@ export const Footer: FC = (): ReactElement => {
                     className="flex items-center justify-center gap-2 md:gap-[10px] group-hover:scale-95 duration-300 ease-in-out"
                   >
                     <div className="md:hidden flex justify-center items-center">
-                      <FileTextOutlined style={{ fontSize: 13, color: "white" }} />
+                      <FileTextOutlined data-testid="file-icon" style={{ fontSize: 13, color: "white" }} />
                     </div>
 
                     <div className="hidden md:flex">
@@ -223,11 +223,11 @@ export const Footer: FC = (): ReactElement => {
                 </div>
               </div>
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center md:gap-2">
-                <ContactsFilled style={{ fontSize: 23, color: "white" }} />
+                <ContactsFilled data-testid="contacts-icon" style={{ fontSize: 23, color: "white" }} />
                 <h3 className="md:text-sm md:text-primary-white">0821-1686-0530</h3>
               </div>
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center md:gap-2">
-                <MailFilled style={{ fontSize: 23, color: "white" }} />
+                <MailFilled data-testid="mail-icon" style={{ fontSize: 23, color: "white" }} />
                 <h3 className="md:text-sm text-primary-white">humas@uninus.ac.id</h3>
               </div>
             </div>
@@ -251,7 +251,10 @@ export const Footer: FC = (): ReactElement => {
                 target="_blank"
                 className="flex items-center"
               >
-                <FacebookFilled style={{ fontSize: 20, color: "white" }} />
+                <FacebookFilled
+                  data-testid="facebook-icon"
+                  style={{ fontSize: 20, color: "white" }}
+                />
               </Link>
             </div>
           </div>
@@ -264,7 +267,10 @@ export const Footer: FC = (): ReactElement => {
                 target="_blank"
                 className="flex items-center"
               >
-                <YoutubeFilled style={{ fontSize: 20, color: "white" }} />
+                <YoutubeFilled
+                  data-testid="youtube-icon"
+                  style={{ fontSize: 20, color: "white" }}
+                />
               </Link>
             </div>
           </div>
@@ -277,7 +283,10 @@ export const Footer: FC = (): ReactElement => {
                 target="_blank"
                 className="flex items-center"
               >
-                <InstagramFilled style={{ fontSize: 20, color: "white" }} />
+                <InstagramFilled
+                  data-testid="instagram-icon"
+                  style={{ fontSize: 20, color: "white" }}
+                />
               </Link>
             </div>
           </div>

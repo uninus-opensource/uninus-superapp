@@ -3,6 +3,7 @@ import { FC, ReactElement } from "react";
 export const Navigate: FC = (): ReactElement => {
   return (
     <svg
+      data-testid="navigate-icon"
       xmlns="http://www.w3.org/2000/svg"
       height="1em"
       viewBox="0 0 384 512"
