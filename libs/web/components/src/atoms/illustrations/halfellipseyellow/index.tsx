@@ -3,6 +3,7 @@ import { FC, ReactElement } from "react";
 export const HalfEllipseYellow: FC = (): ReactElement => {
   return (
     <svg
+      data-testid="half-ellipse-yellow"
       width="85"
       height="258"
       viewBox="0 0 85 258"

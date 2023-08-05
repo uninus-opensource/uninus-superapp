@@ -1,17 +1,22 @@
 "use client";
-import { FC, PropsWithChildren, ReactElement } from "react";
+import { FC, PropsWithChildren, ReactElement, ReactNode } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import { AiFillHome, AiOutlineFileDone } from "react-icons/ai";
 import { FaRegUser } from "react-icons/fa";
-import { FileTextOutlined } from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
 
 const monserrat = Montserrat({
   subsets: ["latin"],
   weight: "400",
 });
+
+type TSideList = Array<{
+  label: string;
+  link: string;
+  icon: ReactNode;
+}>;
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { mutate } = useLogout();
@@ -21,19 +26,18 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     mutate(session?.user?.refresh_token);
   };
 
-  const sideLists = [
-    { label: "Beranda", link: "/dashboard", icon: <AiFillHome /> },
+  const sideLists: TSideList = [
     {
-      label: "Data Pendaftar",
+      label: "Beranda",
+      link: "/dashboard",
+      icon: <AiFillHome />,
+    },
+    {
+      label: "Master Pendaftar",
       link: "/dashboard/pendaftaran",
       icon: <AiOutlineFileDone />,
     },
-    { label: "Beasiswa", link: "/dashboard/beasiswa", icon: <FaRegUser /> },
-    {
-      label: "Tes Seleksi",
-      link: "/dashboard/dokumen",
-      icon: <FileTextOutlined />,
-    },
+    { label: "Master Data User", link: "/dashboard/biodata", icon: <FaRegUser /> },
   ];
 
   return (

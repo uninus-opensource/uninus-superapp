@@ -1,5 +1,4 @@
 "use client";
-
 import { motion, useInView, useAnimation } from "framer-motion";
 import { FC, ReactElement, useRef, useEffect } from "react";
 import { TRevealProps } from "./type";

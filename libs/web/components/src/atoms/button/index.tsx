@@ -14,6 +14,7 @@ export const Button: FC<IButtonProps> = ({
   styling = "",
   ...props
 }): ReactElement => {
+
   const buttonSize = clsx(`${styling} text-sm ${width} ${height} ${uppercase ? "uppercase" : ""}`, {
     "lg:p-4 p-3": size === "sm",
     "p-5": size === "md",
@@ -30,7 +31,7 @@ export const Button: FC<IButtonProps> = ({
       "bg-secondary-green-4 text-primary-white hover:bg-secondary-green-5 focus:bg-secondary-green-5 active:shadow-inset ":
         variant === "filled-tonal",
       "text-primary-white border-2 border-secondary-green-4": variant === "outlined",
-      "text-sceondary-green-4 hover:bg-secondary-sky-1 active:bg-secondary-sky-2 ":
+      "text-secondary-green-4 hover:bg-secondary-sky-1 active:bg-secondary-sky-2 ":
         variant === "text-icon",
       "fixed bottom-4 right-4 bg-secondary-green-4 text-primary-white hover:bg-secondary-green-5 focus:bg-secondary-green-5 ":
         variant === "float-bottom-right",
@@ -40,6 +41,7 @@ export const Button: FC<IButtonProps> = ({
       "text-primary-green font-normal ": variant === "sidebarbutton",
       "bg-primary-white text-primary-green border border-primary-green  active:shadow-inset":
         variant === "green-outline",
+      "hover:cursor-wait": loading,
     },
   );
 
@@ -47,12 +49,12 @@ export const Button: FC<IButtonProps> = ({
 
   return props?.href ? (
     <Link role="link" href={`${props?.href}`}>
-      <button {...props} className={`${className} ${loading ? "hover:cursor-wait" : ""}`}>
+      <button data-testid="button" {...props} className={className}>
         {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
       </button>
     </Link>
   ) : (
-    <button {...props} className={`${className} ${loading ? "hover:cursor-wait" : ""}`}>
+    <button data-testid="button" {...props} className={className}>
       {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
     </button>
   );
