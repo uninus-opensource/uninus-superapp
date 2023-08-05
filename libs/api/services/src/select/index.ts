@@ -260,7 +260,10 @@ export class SelectService {
   async getEducationHistory({ search }: ISelectRequest): Promise<TEducationHistoryResponse> {
     const educationHistory = await this.prisma.educationHistory.findMany({
       where: {
-        name: { ...(search && { contains: search.toUpperCase() }) },
+        OR: [
+          { name: { contains: search?.toUpperCase() || "" } },
+          { npsn: { contains: search || "" } },
+        ],
       },
       select: {
         id: true,
@@ -273,7 +276,7 @@ export class SelectService {
       },
     });
 
-    if (!educationHistory) {
+    if (!educationHistory || educationHistory.length === 0) {
       throw new NotFoundException("Data Pendidikan Tidak Ditemukan!");
     }
 
