@@ -7,6 +7,7 @@ import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { MasterApi } from "@uninus/api/master";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
+import * as bodyParser from "body-parser";
 
 async function bootstrap() {
   const app = await NestFactory.create(MasterApi);
@@ -19,6 +20,17 @@ async function bootstrap() {
     credentials: true,
   });
   app.setGlobalPrefix(globalPrefix);
+  app.use(
+    bodyParser.json({
+      limit: "10mb",
+    }),
+  );
+  app.use(
+    bodyParser.urlencoded({
+      limit: "10mb",
+      extended: true,
+    }),
+  );
 
   // Swagger config
   const config = new DocumentBuilder()

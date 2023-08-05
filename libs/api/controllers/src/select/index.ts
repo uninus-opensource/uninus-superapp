@@ -158,8 +158,9 @@ export class SelectController {
     description: "Education History Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  getEducationHistory(@Query("search") search: string) {
-    return this.appService.getEducationHistory({ search });
+  @ApiQuery({ name: "npsn", required: false })
+  getEducationHistory(@Query("search") search: string, @Query("npsn") npsn: string) {
+    return this.appService.getEducationHistory({ search, npsn });
   }
 
   @Get("country")

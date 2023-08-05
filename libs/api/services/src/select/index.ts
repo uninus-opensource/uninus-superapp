@@ -23,6 +23,7 @@ import {
   TOccupationResponse,
   TDisabilitiesResponse,
   TYearGraduationResponse,
+  ISelectEducationHistoryRequest,
 } from "@uninus/entities";
 
 @Injectable()
@@ -257,18 +258,27 @@ export class SelectService {
     return { salary };
   }
 
-  async getEducationHistory({ search }: ISelectRequest): Promise<TEducationHistoryResponse> {
+  async getEducationHistory({
+    search,
+    npsn,
+  }: ISelectEducationHistoryRequest): Promise<TEducationHistoryResponse> {
     const educationHistory = await this.prisma.educationHistory.findMany({
       where: {
         name: { ...(search && { contains: search.toUpperCase() }) },
+        npsn: { ...(npsn && { contains: npsn }) },
       },
       select: {
         id: true,
+        npsn: true,
         name: true,
+        province: true,
+        sub_district: true,
+        district_city: true,
+        street_address: true,
       },
     });
 
-    if (!educationHistory) {
+    if (!educationHistory || educationHistory.length === 0) {
       throw new NotFoundException("Data Pendidikan Tidak Ditemukan!");
     }
 

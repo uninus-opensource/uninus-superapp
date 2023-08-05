@@ -2,6 +2,11 @@ export interface ISelectRequest {
   search: string;
 }
 
+export interface ISelectEducationHistoryRequest {
+  search: string;
+  npsn: string;
+}
+
 export interface IProvinceRequest {
   search: string;
 }
@@ -110,7 +115,12 @@ export type TSalaryResponse = {
 export type TEducationHistoryResponse = {
   education_history: Array<{
     id: number;
+    npsn: string;
     name: string;
+    province: string;
+    district_city: string;
+    sub_district: string;
+    street_address: string;
   }>;
 };
 
