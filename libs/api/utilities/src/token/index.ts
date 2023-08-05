@@ -7,7 +7,7 @@ const prisma = new PrismaService();
 
 export const generateAccessToken = async (payload: TGenerateToken): Promise<string> => {
   const access_token = await jwt.signAsync(payload, {
-    secret: process.env.ACCESS_SECRET,
+    secret: process.env["ACCESS_SECRET"],
     expiresIn: "15m",
   });
 
@@ -18,7 +18,7 @@ export const generateToken = async (payload: TGenerateToken): Promise<TGenerateT
   const [access_token, refresh_token] = await Promise.all([
     generateAccessToken(payload),
     jwt.signAsync(payload, {
-      secret: process.env.REFRESH_SECRET,
+      secret: process.env["REFRESH_SECRET"],
       expiresIn: "7d",
     }),
   ]);
