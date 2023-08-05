@@ -12,7 +12,7 @@ import {
   UseGuards,
   BadRequestException,
 } from "@nestjs/common";
-import { VSCreateUser, TReqToken, VSUpdateUser } from "@uninus/entities";
+import { VSCreateUser, TReqToken, VSUpdateUser, TProfileResponse } from "@uninus/entities";
 import { ZodValidationPipe } from "@uninus/api/validator";
 import { JwtAuthGuard } from "@uninus/api/guard";
 import { CreateUserSwagger, UpdateUserSwagger } from "@uninus/api/services";
@@ -112,7 +112,7 @@ export class UserController {
     createUserSwagger: CreateUserSwagger,
   ) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("create_user",createUserSwagger))
+      const response = await firstValueFrom(this.client.send<TProfileResponse>("create_user",createUserSwagger))
       const isCreateOtp = await generateOtp(response?.email, response?.id);
       if (!isCreateOtp) {
         throw new BadRequestException("Gagal membuat Otp");
