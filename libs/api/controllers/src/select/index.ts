@@ -6,9 +6,7 @@ import { firstValueFrom } from "rxjs";
 @Controller()
 @ApiTags("Select")
 export class SelectController {
-  constructor(
-    @Inject('PMB_SERVICE') private readonly client: ClientProxy
-  ) {}
+  constructor(@Inject("PMB_SERVICE") private readonly client: ClientProxy) {}
 
   @Get("province")
   @ApiOperation({ summary: "Get Province" })
@@ -18,9 +16,10 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   async getProvince(@Query("search") search: string) {
+    console.log("test");
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_province",{search}))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_province", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -38,8 +37,10 @@ export class SelectController {
   @ApiQuery({ name: "province_id", required: false })
   async getCity(@Query("province_id") province_id: string, @Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_city",{province_id, search}))
-      return response
+      const response = await firstValueFrom(
+        this.client.send<{}>("get_city", { province_id, search }),
+      );
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -57,8 +58,10 @@ export class SelectController {
   @ApiQuery({ name: "city_id", required: false })
   async getSubDistrict(@Query("city_id") city_id: string, @Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_subdistrict",{city_id, search}))
-      return response
+      const response = await firstValueFrom(
+        this.client.send<{}>("get_subdistrict", { city_id, search }),
+      );
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -75,8 +78,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getDegreeProgram(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_degree",{ search }))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_degree", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -97,8 +100,10 @@ export class SelectController {
     @Query("degree_program_id") degree_program_id: string,
   ) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_faculty",{ search, degree_program_id }))
-      return response
+      const response = await firstValueFrom(
+        this.client.send<{}>("get_faculty", { search, degree_program_id }),
+      );
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -116,8 +121,10 @@ export class SelectController {
   @ApiQuery({ name: "faculty_id", required: false })
   async getDepartment(@Query("search") search: string, @Query("faculty_id") faculty_id: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_department",{ search, faculty_id }))
-      return response
+      const response = await firstValueFrom(
+        this.client.send<{}>("get_department", { search, faculty_id }),
+      );
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -134,8 +141,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getReligion(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_religion",{ search }))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_religion", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -152,8 +159,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getMaritalStatus(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_marital_status",{ search }))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_marital_status", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -170,8 +177,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getGender(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_gender",{ search }))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_gender", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -188,8 +195,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getCitizenship(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_citizenship",{ search }))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_citizenship", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -206,8 +213,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getSelectionPath(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_selection_path",{ search }))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_selection_path", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -224,8 +231,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getSalary(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_salary",{ search }))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_salary", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -242,8 +249,10 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getEducationHistory(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_educational_history",{ search }))
-      return response
+      const response = await firstValueFrom(
+        this.client.send<{}>("get_educational_history", { search }),
+      );
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -260,8 +269,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getCountry(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_country",{search}))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_country", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -278,8 +287,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getOccupation(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_occupation",{ search }))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_occupation", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
@@ -296,8 +305,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   async getDisablities(@Query("search") search: string) {
     try {
-      const response = await firstValueFrom(this.client.send<{}>("get_dissabilities",{ search }))
-      return response
+      const response = await firstValueFrom(this.client.send<{}>("get_dissabilities", { search }));
+      return response;
     } catch (error) {
       throw new BadRequestException(error, {
         cause: new Error(),
