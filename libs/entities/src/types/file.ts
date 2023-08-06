@@ -24,5 +24,5 @@ export type TFIle = {
   /** `DiskStorage` only: Full path to the uploaded file. */
   path: string;
   /** `MemoryStorage` only: A Buffer containing the entire file. */
-  buffer?: Buffer;
+  buffer: Buffer;
 };
