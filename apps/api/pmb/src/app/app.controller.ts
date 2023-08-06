@@ -23,6 +23,11 @@ export class AppController {
     return this.appService.getUser(id);
   }
 
+  @MessagePattern('get_user_email')
+  getUserEmail(email:string) {
+    return this.appService.getUserEmail(email);
+  }
+
   @MessagePattern('update_user')
   updateUser(data:{id:string, payload:Prisma.UsersUpdateInput}) {
     const payload = data.payload

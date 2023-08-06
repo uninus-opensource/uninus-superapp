@@ -4,14 +4,12 @@ import { PassportModule } from "@nestjs/passport";
 import { AuthController } from "@uninus/api/controllers";
 import { JwtStrategy, RtStrategy } from "@uninus/api/strategies";
 import { PrismaModule } from "@uninus/api/models";
-import { AuthService, EmailService } from "@uninus/api/services";
-import { EmailModule } from "../email";
+import { AuthService } from "@uninus/api/services";
 import { PmbModule } from "../pmb";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 @Module({
   imports: [
     PrismaModule,
-    EmailModule,
     JwtModule.register({
       secret: process.env.ACCESS_SECRET,
       signOptions: { expiresIn: "1h" },
@@ -21,7 +19,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
     }),
     ClientsModule.register([
       {
-        name: 'EMAIL_SERVICE',
+        name: 'REDIS_SERVICE',
         transport: Transport.REDIS,
         options:{
           host: process.env.REDIS_HOST,
@@ -35,6 +33,6 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
     PmbModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, RtStrategy, EmailService],
+  providers: [AuthService, JwtStrategy, RtStrategy],
 })
 export class AuthModule {}

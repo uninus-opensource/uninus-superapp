@@ -101,4 +101,12 @@ export class AppService {
       message: `Berhasil delete user`,
     };
   }
+  async getUserEmail(email: string) {
+    const user = await this.prisma.users.findUnique({
+      where: {
+        email
+      },
+    });
+    return user;
+  }
 }
