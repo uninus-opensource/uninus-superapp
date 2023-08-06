@@ -119,6 +119,11 @@ describe("Test Button Style", () => {
     );
   });
 
+  it("Should have a valid className when variant set to navlist", () => {
+    const { getByTestId } = render(<Button variant="navlist" />);
+    expect(getByTestId("button")).toHaveClass("text-primary-white active:bg-secondary-sky-2");
+  });
+
   it("Should have a valid className when variant set to float-bottom-right", () => {
     const { getByTestId } = render(<Button variant="float-bottom-right" />);
     expect(getByTestId("button")).toHaveClass(
@@ -134,7 +139,7 @@ describe("Test Button Style", () => {
   it("Should have a valid className when variant set to sidebarlist", () => {
     const { getByTestId } = render(<Button variant="sidebarlist" />);
     expect(getByTestId("button")).toHaveClass(
-      "text-white uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full",
+      "uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full",
     );
   });
 

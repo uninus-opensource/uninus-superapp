@@ -10,29 +10,34 @@ export const Modal: FC<ModalProps> = ({
   iconClose = true,
   modalTitle,
   children,
-  submitText = "Submit",
-  closeText = "Cancel",
+  className = "max-w-2xl max-h-full rounded-lg bg-primary-white",
+  closeClassName = "text-primary-black",
+  headerColor = "",
+  bodyClassName = "p-6 space-y-8",
 }): ReactElement | null => {
   if (!showModal) {
     return null;
   }
+
   return (
     showModal &&
     createPortal(
-      <div className="fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex items-center justify-center bg-grayscale-6 bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0">
-        <div className="relative w-full max-w-2xl max-h-full md:backdrop-blur-sm rounded-lg bg-primary-white">
+      <div className="fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex items-center justify-center bg-primary-black bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 backdrop-blur-sm">
+        <div className={`relative w-full ${className}`}>
           <div className="relative bg-white rounded-lg shadow">
-            <div className="flex items-center justify-between pt-4 px-4 rounded-t">
-              <h3 className="text-xl font-semibold text-gray-900 w-full">{modalTitle}</h3>
+            <div className={`flex items-center justify-between py-4 px-4 rounded-t ${headerColor}`}>
+              <div className="text-xl font-semibold text-gray-900 w-full md:px-10 ">
+                {modalTitle}
+              </div>
               {iconClose ? (
                 <Button onClick={onClose} variant="text-icon" size="sm">
-                  <IoCloseSharp size={25} />
+                  <IoCloseSharp size={25} className={closeClassName} />
                 </Button>
               ) : (
                 ""
               )}
             </div>
-            <div className="p-6 space-y-8">{children}</div>
+            <div className={bodyClassName}>{children}</div>
           </div>
         </div>
       </div>,

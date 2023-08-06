@@ -14,7 +14,6 @@ export const Button: FC<IButtonProps> = ({
   styling = "",
   ...props
 }): ReactElement => {
-
   const buttonSize = clsx(`${styling} text-sm ${width} ${height} ${uppercase ? "uppercase" : ""}`, {
     "lg:p-4 p-3": size === "sm",
     "p-5": size === "md",
@@ -33,10 +32,11 @@ export const Button: FC<IButtonProps> = ({
       "text-primary-white border-2 border-secondary-green-4": variant === "outlined",
       "text-secondary-green-4 hover:bg-secondary-sky-1 active:bg-secondary-sky-2 ":
         variant === "text-icon",
+      "text-primary-white active:bg-secondary-sky-2 ": variant === "navlist",
       "fixed bottom-4 right-4 bg-secondary-green-4 text-primary-white hover:bg-secondary-green-5 focus:bg-secondary-green-5 ":
         variant === "float-bottom-right",
       "active:shadow-inset ": variant === "custom",
-      "text-white uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full ":
+      "uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full ":
         variant === "sidebarlist",
       "text-primary-green font-normal ": variant === "sidebarbutton",
       "bg-primary-white text-primary-green border border-primary-green  active:shadow-inset":

@@ -28,7 +28,7 @@ export const Footer: FC = (): ReactElement => {
             quality={100}
             alt="uninus"
             className="w-screen object-cover h-full lg:opacity-5 opacity-0"
-            priority
+            priority={true}
           />
 
           <div className="w-full h-full absolute top-0 flex flex-col md:flex-row lg:justify-center">
@@ -61,7 +61,10 @@ export const Footer: FC = (): ReactElement => {
                   <Link href="https://uninus.ac.id/" target="_blank">
                     <div className="flex items-center justify-center gap-2 group-hover:scale-95 duration-300 ease-in-out">
                       <div className="md:hidden flex justify-center items-center">
-                        <GlobalOutlined data-testid="global-icon" style={{ fontSize: 13, color: "white" }} />
+                        <GlobalOutlined
+                          data-testid="global-icon"
+                          style={{ fontSize: 13, color: "white" }}
+                        />
                       </div>
 
                       <div className="hidden md:flex">
@@ -85,7 +88,10 @@ export const Footer: FC = (): ReactElement => {
                     className="flex items-center justify-center gap-2 md:gap-[10px] group-hover:scale-95 duration-300 ease-in-out"
                   >
                     <div className="md:hidden flex justify-center items-center">
-                      <FileTextOutlined data-testid="file-icon" style={{ fontSize: 13, color: "white" }} />
+                      <FileTextOutlined
+                        data-testid="file-icon"
+                        style={{ fontSize: 13, color: "white" }}
+                      />
                     </div>
 
                     <div className="hidden md:flex">
@@ -223,7 +229,10 @@ export const Footer: FC = (): ReactElement => {
                 </div>
               </div>
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center md:gap-2">
-                <ContactsFilled data-testid="contacts-icon" style={{ fontSize: 23, color: "white" }} />
+                <ContactsFilled
+                  data-testid="contacts-icon"
+                  style={{ fontSize: 23, color: "white" }}
+                />
                 <h3 className="md:text-sm md:text-primary-white">0821-1686-0530</h3>
               </div>
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center md:gap-2">

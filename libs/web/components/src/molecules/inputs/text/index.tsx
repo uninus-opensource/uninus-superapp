@@ -15,6 +15,8 @@ export const TextField = <T extends FieldValues>({
   textAreaCols = 26,
   inputWidth = "w-full",
   inputHeight = "h-auto",
+  inputBackground = "bg-grayscale-2 bg-opacity-30",
+  messageClassName = "",
 
   ...props
 }: TTextFieldProps<T>): ReactElement => {
@@ -49,7 +51,7 @@ export const TextField = <T extends FieldValues>({
   });
 
   const inputVariant = clsx(
-    "bg-grayscale-2 bg-opacity-30 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+    `${inputBackground} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`,
     {
       "py-4 rounded-lg placeholder:text-base text-base": variant === "lg",
       "xl:py-3 lg:py-2 rounded-md placeholder:text-xs text-sm": variant === "md",
@@ -126,7 +128,9 @@ export const TextField = <T extends FieldValues>({
 
       <div className="flex flex-col items-start w-full gap-x-1">
         <span className={labelVariant}>{props.hint}</span>
-        <span className={`${messageStatus} xl:text-xs lg:text-[8px] text-xs`}>{props.message}</span>
+        <span className={`${messageStatus} xl:text-xs lg:text-[8px] text-xs ${messageClassName}`}>
+          {props.message}
+        </span>
       </div>
     </section>
   );
