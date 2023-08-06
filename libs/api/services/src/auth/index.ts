@@ -41,11 +41,27 @@ export class AuthService {
   ) {}
 
   async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
-    return firstValueFrom(this.client.send("get_profile", reqUser))
+    try {
+      const response = await firstValueFrom(this.client.send("get_profile", reqUser))
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   async register(data: TRegisterRequest): Promise<TRegisterResponse> {
-    const createdUser = await firstValueFrom(this.client.send<TProfileResponse>('register',data))
+    let createdUser: TProfileResponse
+
+    try {
+      createdUser = await firstValueFrom(this.client.send<TProfileResponse>('register',data))
+    } catch (error) {
+      console.log(error)
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
 
     if (!createdUser) {
       throw new BadRequestException("Gagal Mendaftar");

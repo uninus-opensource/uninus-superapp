@@ -1,7 +1,7 @@
 {
   "name": "api-auth",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/api/email/src",
+  "sourceRoot": "apps/api/auth/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -11,12 +11,12 @@
       "options": {
         "target": "node",
         "compiler": "tsc",
-        "outputPath": "dist/apps/api/email",
-        "main": "apps/api/email/src/main.ts",
-        "tsConfig": "apps/api/email/tsconfig.app.json",
-        "assets": ["apps/api/email/src/assets"],
+        "outputPath": "dist/apps/api/auth",
+        "main": "apps/api/auth/src/main.ts",
+        "tsConfig": "apps/api/auth/tsconfig.app.json",
+        "assets": ["apps/api/auth/src/assets"],
         "isolatedConfig": true,
-        "webpackConfig": "apps/api/email/webpack.config.js"
+        "webpackConfig": "apps/api/auth/webpack.config.js"
       },
       "configurations": {
         "development": {},
@@ -42,14 +42,14 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/api/email/**/*.ts"]
+        "lintFilePatterns": ["apps/api/auth/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/api/email/jest.config.ts",
+        "jestConfig": "apps/api/auth/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

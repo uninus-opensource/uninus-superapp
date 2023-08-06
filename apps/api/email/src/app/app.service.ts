@@ -10,7 +10,6 @@ export class AppService {
       subject,
       html,
     });
-    console.log(send)
 
     return send;
   }

@@ -2,7 +2,6 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
 import {
@@ -32,6 +31,7 @@ import {
   generateToken,
   clearOtp,
 } from "@uninus/api/utilities";
+import { RpcException } from "@nestjs/microservices";
 
 @Injectable()
 export class AppService {
@@ -57,7 +57,7 @@ export class AppService {
     });
 
     if (!profile) {
-      throw new NotFoundException("Profil tidak ditemukan");
+      throw new RpcException("Profil tidak ditemukan");
     }
 
     return profile;
@@ -71,7 +71,7 @@ export class AppService {
     });
 
     if (isEmailExist) {
-      throw new ConflictException("Email sudah terdaftar");
+      throw new RpcException("Email sudah terdaftar");
     }
 
     const password = await encryptPassword(data.password);
@@ -93,7 +93,7 @@ export class AppService {
     });
 
     if (!createdUser) {
-      throw new BadRequestException("Gagal Mendaftar");
+      throw new RpcException("Gagal Mendaftar");
     }
 
 
@@ -123,17 +123,17 @@ export class AppService {
       },
     });
     if (!user) {
-      throw new NotFoundException("Akun tidak ditemukan");
+      throw new RpcException(new UnauthorizedException("Akun Tidak ditemukan"))
     }
 
     if (!user.isVerified) {
-      throw new UnauthorizedException("Email belum terverifikasi");
+      throw new RpcException(new UnauthorizedException("Email Belum terverifikasi"))
     }
 
     const isMatch = await comparePassword(args.password as string, user.password);
 
     if (!isMatch) {
-      throw new UnauthorizedException("Password salah");
+      throw new RpcException(new UnauthorizedException("Password Salah!"))
     }
     const { access_token, refresh_token } = await generateToken({
       sub: user.id,
@@ -145,7 +145,7 @@ export class AppService {
     const expirationTime = now + expiresIn;
 
     if (now > expirationTime) {
-      throw new UnauthorizedException("Access Token telah berakhir");
+      throw new RpcException(new UnauthorizedException("Access Token telah berakhir"))
     }
     return {
       message: "Berhasil Login",
@@ -178,7 +178,7 @@ export class AppService {
     });
 
     if (!result) {
-      throw new UnauthorizedException("Gagal logout");
+      throw new RpcException(new UnauthorizedException("Gagal Logout"))
     }
 
     return {
@@ -194,7 +194,7 @@ export class AppService {
     const expirationTime = now + expiresIn;
 
     if (now > expirationTime) {
-      throw new UnauthorizedException("Access Token telah berakhir");
+      throw new RpcException(new UnauthorizedException("Access Token telah berakhir"))
     }
 
     return {
@@ -208,7 +208,7 @@ export class AppService {
 
     const isVerified = await compareOtp(args?.email, args?.otp);
     if (!isVerified) {
-      throw new NotFoundException("Email atau OTP tidak valid");
+      throw new RpcException("Email atau OTP tidak valid");
     }
 
     const user = await this.prisma.users.update({
@@ -221,7 +221,7 @@ export class AppService {
     });
 
     if (!user) {
-      throw new BadRequestException("Gagal verifikasi OTP");
+      throw new RpcException(new BadRequestException("Gagal verifikasi OTP"));
     }
     return {
       message: "Berhasil verifikasi OTP",
@@ -237,7 +237,7 @@ export class AppService {
     });
 
     if (!user) {
-      throw new NotFoundException("Akun tidak ditemukan");
+      throw new RpcException("Akun tidak ditemukan");
     }
 
     return user;
@@ -248,7 +248,7 @@ export class AppService {
 
     const isVerified = await compareOtp(args?.email, args?.otp);
     if (!isVerified) {
-      throw new NotFoundException("Email atau OTP tidak valid");
+      throw new RpcException("Email atau OTP tidak valid");
     }
 
     return {
@@ -266,7 +266,7 @@ export class AppService {
     });
 
     if (!isEmailExist) {
-      throw new NotFoundException("Email tidak ditemukan");
+      throw new RpcException("Email tidak ditemukan");
     }
 
     const user = await this.prisma.users.update({
@@ -279,7 +279,9 @@ export class AppService {
     });
 
     if (!user) {
-      throw new BadRequestException("Gagal mengganti password");
+      throw new RpcException(
+        new BadRequestException("Gagal mengganti password")
+      );
     }
     return {
       message: "Berhasil mengganti password",
