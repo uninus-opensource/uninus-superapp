@@ -37,6 +37,9 @@ describe("Footer Component", () => {
     const downloadBrosurText = getAllByText("UNDUH BROSUR");
     expect(downloadBrosurText).toBeDefined();
 
+    const campusLocationText = getAllByText("LOKASI KAMPUS");
+    expect(campusLocationText).toBeDefined();
+
     const facebookIcon = getByTestId("facebook-icon");
     expect(facebookIcon).toBeInTheDocument();
 
