@@ -44,7 +44,7 @@ export const CheckBox = <T extends FieldValues>({
 
   return (
     <section className="flex items-center gap-1">
-      <input type="checkbox" className={className} {...{ ...props, ...field }} />
+      <input role="checkbox" type="checkbox" className={className} {...{ ...props, ...field }} />
       <label htmlFor={props.name} className={lblSize}>
         {props.label}
       </label>
