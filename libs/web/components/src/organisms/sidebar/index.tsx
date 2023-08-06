@@ -13,6 +13,8 @@ import { MenuOutlined, AppstoreFilled } from "@ant-design/icons";
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [onToogle, setOnToogle] = useState<boolean>(false);
+  const { data: session } = useSession();
 
   const handleOpenModal = () => {
     setShowModal(!showModal);
@@ -23,9 +25,6 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
     setShowModal(false);
     setOnToogle(!onToogle);
   };
-
-  const [onToogle, setOnToogle] = useState<boolean>(false);
-  const { data: session } = useSession();
 
   const userName = useMemo(() => {
     const userName = session?.user?.fullname;
@@ -41,14 +40,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
 
   return (
     <>
-      <Modal
-        showModal={showModal}
-        modalTitle=" "
-        onClose={handleCloseModal}
-        iconClose={false}
-        submitText="LogOut"
-        closeText="Cancel"
-      >
+      <Modal showModal={showModal} onClose={handleCloseModal} iconClose={false}>
         <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row lg:py-10">
           <div className="img">
             <Image

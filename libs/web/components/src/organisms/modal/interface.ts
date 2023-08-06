@@ -4,8 +4,10 @@ export interface ModalProps {
   showModal: boolean;
   onClose: () => void;
   iconClose?: boolean;
-  modalTitle: string;
+  modalTitle?: ReactNode;
   children?: ReactNode;
-  submitText?: string;
-  closeText?: string;
+  className?: string;
+  closeClassName?: string;
+  headerColor?: string;
+  bodyClassName?: string;
 }

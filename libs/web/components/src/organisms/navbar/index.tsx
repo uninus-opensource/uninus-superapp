@@ -50,7 +50,7 @@ export const Navbar: FC = (): ReactElement => {
             <ul className="flex gap-4">
               {navList.map((nav, idx) => (
                 <li key={idx}>
-                  <Button variant="text-icon" styling="text-sm" href={nav.link} uppercase>
+                  <Button variant="navlist" href={nav.link} uppercase>
                     {nav.item}
                   </Button>
                 </li>

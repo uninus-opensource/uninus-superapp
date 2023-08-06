@@ -128,20 +128,7 @@ const LandingPage: FC = (): ReactElement => {
         <Button onClick={handleOpenModal} variant="filled" size="sm" width="w-28" height="h-8">
           Modal
         </Button>
-        <Modal
-          showModal={showModal}
-          modalTitle="INI CERITANYA MODAL"
-          onClose={handleCloseModal}
-          submitText="Save"
-          closeText="Cancel"
-        />
-        <Modal
-          showModal={showModal}
-          modalTitle="INI CERITANYA MODAL"
-          onClose={handleCloseModal}
-          submitText="Save"
-          closeText="Cancel"
-        />
+
         <div className="flex gap-2 w-auto">
           <UploadField
             className="flex flex-col gap-4"
