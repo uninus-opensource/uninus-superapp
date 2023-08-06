@@ -26,6 +26,7 @@
       "@uninus/api/utilities": ["libs/api/utilities/src/index.ts"],
       "@uninus/api/validator": ["libs/api/validator/src/index.ts"],
       "@uninus/entities": ["libs/entities/src/index.ts"],
+      "@uninus/my-lib": ["libs/my-lib/src/index.ts"],
       "@uninus/utilities": ["libs/utilities/src/index.ts"],
       "@uninus/web/components": ["libs/web/components/src/index.ts"],
       "@uninus/web/layouts": ["libs/web/layouts/src/index.ts"],
