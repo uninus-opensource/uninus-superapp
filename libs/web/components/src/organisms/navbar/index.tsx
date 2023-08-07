@@ -4,9 +4,14 @@ import Image from "next/image";
 import { NavbarList } from "./type";
 import { Button, HamburgerIcon, XIcon } from "../../atoms";
 import { Sidebar } from "../../molecules";
+import { AiOutlineDown } from "react-icons/ai";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 export const Navbar: FC = (): ReactElement => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isDropDown, setIsDropDown] = useState<boolean>(false);
+
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -17,16 +22,22 @@ export const Navbar: FC = (): ReactElement => {
 
   const navList: NavbarList[] = [
     {
-      item: "beranda",
+      item: "Beranda",
       link: "/",
     },
     {
-      item: "beasiswa",
-      link: "/beasiswa",
+      item: (
+        <Fragment>
+          Program <AiOutlineDown className="ml-1 h-4 text-xl" />
+        </Fragment>
+      ),
+      state: () => {
+        setIsDropDown(!isDropDown);
+      },
     },
     {
-      item: "biaya kuliah",
-      link: "/biaya-kuliah",
+      item: "Beasiswa",
+      link: "/beasiswa",
     },
   ];
 
@@ -50,14 +61,41 @@ export const Navbar: FC = (): ReactElement => {
             <ul className="flex gap-4">
               {navList.map((nav, idx) => (
                 <li key={idx}>
-                  <Button variant="navlist" href={nav.link} uppercase>
+                  <Button variant="navlist" href={nav.link} onClick={nav.state} uppercase>
                     {nav.item}
                   </Button>
                 </li>
               ))}
             </ul>
           </div>
+
+          {/* dropdown bar */}
+          <motion.nav
+            style={{
+              y: -10,
+            }}
+            animate={{
+              y: isDropDown ? [-10, 0] : [0, -10],
+            }}
+            className={`${
+              isDropDown ? "hidden lg:flex" : "hidden"
+            }  absolute bg-primary-white w-36 h-24 z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-28 mt-5 shadow-md`}
+          >
+            <Link
+              className="flex items-center justify-center p-2 text-primary-green border-2 border-l-0 border-primary-green w-full h-full "
+              href="/program-studi"
+            >
+              Program Studi
+            </Link>
+            <Link
+              className="flex items-center justify-center p-2 text-primary-green border-2 border-t-0 border-l-0 border-b-0 border-primary-green w-full h-full"
+              href="/biaya-kuliah"
+            >
+              Biaya Kuliah
+            </Link>
+          </motion.nav>
         </nav>
+
         <section className="flex items-center">
           <div className="hidden lg:block rounded-xl">
             <Button
@@ -76,6 +114,7 @@ export const Navbar: FC = (): ReactElement => {
           </div>
         </section>
       </header>
+
       <Sidebar showSidebar={isOpen} closeSidebar={closeSidebar}>
         <ul className="mt-6 flex flex-col gap-6 items-center">
           {navList.map((nav, idx) => (
