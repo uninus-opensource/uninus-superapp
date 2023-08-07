@@ -96,6 +96,7 @@ model Students {
   academic_year                String?
   registration_wave            String?
   registration_status          String?
+  registration_number          String?
   user_id                      String   @unique
   createdAt                    DateTime @default(now())
   user                         Users    @relation(fields: [user_id], references: [id])
