@@ -44,7 +44,7 @@ export class StudentService {
   }
 
   async updateStudent(args: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
-    const { id, email, fullname, avatar, ...updateStudentPayload } = args;
+    const { id, fullname, avatar, ...updateStudentPayload } = args;
     const student = await this.prisma.users.update({
       where: {
         id,
