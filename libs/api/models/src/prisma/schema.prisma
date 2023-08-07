@@ -26,16 +26,19 @@ model Users {
 }
 
 model Students {
-  id                           String   @unique @default(uuid())
-  nik                          String?  @unique
-  nisn                         String?  @unique
+  id                           String            @unique @default(uuid())
+  nik                          String?           @unique
+  nisn                         String?           @unique
   birth_place                  String?
   birth_date                   String?
-  gender                       String?
+  gender                       Gender?           @relation(fields: [genderId], references: [id])
+  genderId                     Int?
   phone_number                 String?
-  religion                     String?
+  religion                     Religion?         @relation(fields: [religionId], references: [id])
+  religionId                   Int?
   citizenship                  String?
-  marital_status               String?
+  marital_status               MaritalStatus?    @relation(fields: [maritalStatusId], references: [id])
+  maritalStatusId              Int?
   country                      String?
   address                      String?
   postal_code                  String?
@@ -45,13 +48,9 @@ model Students {
   school_type                  String?
   graduation_year              String?
   school_major                 String?
-  school_name                  String?
-  school_npsn                  String?
-  school_address               String?
+  education_History            EducationHistory? @relation(fields: [educationHistoruId], references: [id])
+  educationHistoruId           Int?
   school_postal_code           String?
-  school_subdistrict           String?
-  school_province              String?
-  school_city                  String?
   school_phone_number          String?
   father_name                  String?
   mother_name                  String?
@@ -96,9 +95,9 @@ model Students {
   academic_year                String?
   registration_wave            String?
   registration_status          String?
-  user_id                      String   @unique
-  createdAt                    DateTime @default(now())
-  user                         Users    @relation(fields: [user_id], references: [id])
+  user_id                      String            @unique
+  createdAt                    DateTime          @default(now())
+  user                         Users             @relation(fields: [user_id], references: [id])
 }
 
 model Lecturers {
@@ -197,18 +196,21 @@ model Department {
 }
 
 model MaritalStatus {
-  id   Int    @id @default(autoincrement())
-  name String
+  id       Int        @id @default(autoincrement())
+  name     String
+  Students Students[]
 }
 
 model Religion {
-  id   Int    @id @default(autoincrement())
-  name String
+  id       Int        @id @default(autoincrement())
+  name     String
+  students Students[]
 }
 
 model Gender {
-  id   Int    @id @default(autoincrement())
-  name String
+  id       Int        @id @default(autoincrement())
+  name     String
+  students Students[]
 }
 
 model Citizenship {
@@ -228,13 +230,14 @@ model SelectionPath {
 }
 
 model EducationHistory {
-  id             Int    @id @default(autoincrement())
-  npsn           String @unique
+  id             Int        @id @default(autoincrement())
+  npsn           String     @unique
   name           String
   province       String
   district_city  String
   sub_district   String
   street_address String
+  students       Students[]
 }
 
 model Country {
