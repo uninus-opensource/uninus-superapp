@@ -1,3 +1,4 @@
+"use client";
 import { FC, ReactElement } from "react";
 import Image from "next/image";
 import {
@@ -28,7 +29,6 @@ export const Footer: FC = (): ReactElement => {
             quality={100}
             alt="uninus"
             className="w-screen object-cover h-full lg:opacity-5 opacity-0"
-            priority={true}
           />
 
           <div className="w-full h-full absolute top-0 flex flex-col md:flex-row lg:justify-center">
