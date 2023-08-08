@@ -6,16 +6,10 @@ import { StudentModule } from "../student/student.module";
 import { GeneralModule } from "../general/general.module";
 import { PrismaModule } from "@uninus/api/models";
 import { EmailModule } from "@uninus/api/modules";
-import { EmailService } from "@uninus/api/services";
 
 @Module({
-  imports: [
-    PrismaModule,
-    EmailModule,
-    StudentModule,
-    GeneralModule
-  ],
+  imports: [PrismaModule, EmailModule, StudentModule, GeneralModule],
   controllers: [AppController],
-  providers: [AppService, EmailService],
+  providers: [AppService],
 })
 export class AppModule {}

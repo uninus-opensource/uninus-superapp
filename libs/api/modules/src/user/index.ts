@@ -1,9 +1,8 @@
 import { Module } from "@nestjs/common";
 import { UserController } from "@uninus/api/controllers";
 import { PrismaModule } from "@uninus/api/models";
-import { EmailService, UserService } from "@uninus/api/services";
 import { EmailModule } from "../email";
-import { ClientsModule, Transport } from "@nestjs/microservices"
+import { ClientsModule, Transport } from "@nestjs/microservices";
 
 @Module({
   imports: [
@@ -11,18 +10,18 @@ import { ClientsModule, Transport } from "@nestjs/microservices"
     EmailModule,
     ClientsModule.register([
       {
-        name: 'USER_SERVICE',
+        name: "USER_SERVICE",
         transport: Transport.REDIS,
-        options:{
+        options: {
           host: process.env.REDIS_HOST,
           port: parseInt(process.env.REDIS_PORT),
           password: process.env.REDIS_PASSWORD,
           username: process.env.REDIS_USERNAME,
-        }
-      }
+        },
+      },
     ]),
   ],
   controllers: [UserController],
-  providers: [UserService, EmailService],
+  providers: [],
 })
 export class UserModule {}

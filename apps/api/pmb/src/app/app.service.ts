@@ -2,15 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { TPaginationArgs } from "@uninus/entities";
 import { Prisma, PrismaService } from "@uninus/api/models";
 import { paginate } from "@uninus/api/utilities";
-import { EmailService } from "@uninus/api/services"
+
 import { RpcException } from "@nestjs/microservices";
 
 @Injectable()
 export class AppService {
-  constructor(
-    private prisma: PrismaService,
-    private readonly emailService: EmailService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
   async getUsers({ where, orderBy, page, perPage }: TPaginationArgs) {
     return paginate(
       this.prisma.users,
@@ -104,7 +101,7 @@ export class AppService {
   async getUserEmail(email: string) {
     const user = await this.prisma.users.findUnique({
       where: {
-        email
+        email,
       },
     });
     return user;
