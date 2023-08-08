@@ -139,6 +139,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
             control={control}
           />
+
           <TextField
             inputHeight="h-10"
             name="nisn"
@@ -152,6 +153,20 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
           />
           {/*Start Jenis kelamin */}
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="nomor kk"
+              variant="sm"
+              required
+              type="text"
+              placeholder="Nomor dapat dilihat di KK"
+              labelclassname="text-sm font-semibold"
+              label="No Kartu Keluarga"
+              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+              control={control}
+            />
+          </div>
           <RadioButton
             fieldName="Jenis Kelamin"
             name="gender"
@@ -331,34 +346,21 @@ export const DataDiriSection: FC = (): ReactElement => {
             disabled={!watch("city")}
           />
 
-          <div>
-            <TextField
-              name="address"
-              variant="sm"
-              type="text"
-              labelclassname="text-xl font-semibold"
-              label="Alamat Domisili"
-              control={control}
-              isTextArea
-              textAreaRow={5}
-              textAreaCols={30}
-              inputHeight="h-20"
-              inputWidth="w-[68vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
-              className="resize-none bg-grayscale-2  "
-            />
-          </div>
-          <div className="w-70% md:w-26 lg:w-26">
-            <TextField
-              inputHeight="h-10"
-              name="postal_code"
-              variant="md"
-              type="text"
-              labelclassname="text-sm "
-              label="Kode Pos"
-              inputWidth="w-26 text-base"
-              control={control}
-            />
-          </div>
+          <TextField
+            name="address"
+            variant="sm"
+            type="text"
+            labelclassname="text-xl font-semibold"
+            label="Alamat Domisili"
+            control={control}
+            isTextArea
+            textAreaRow={5}
+            textAreaCols={30}
+            inputHeight="h-20"
+            inputWidth="w-[68vw] md:w-[50vw] lg:w-55%"
+            className="resize-none bg-grayscale-2  "
+          />
+
           {/*Start difabel */}
           <RadioButton
             name="difabel"

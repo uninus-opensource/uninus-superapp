@@ -3,9 +3,8 @@ import { FC, PropsWithChildren, ReactElement, ReactNode } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
-import { AiFillHome, AiOutlineFileDone } from "react-icons/ai";
-import { FaRegUser } from "react-icons/fa";
 import { Montserrat } from "next/font/google";
+import { HomeOutlined, FormOutlined, UserOutlined } from "@ant-design/icons";
 
 const monserrat = Montserrat({
   subsets: ["latin"],
@@ -30,14 +29,14 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     {
       label: "Beranda",
       link: "/dashboard",
-      icon: <AiFillHome />,
+      icon: <HomeOutlined />,
     },
     {
       label: "Master Pendaftar",
       link: "/dashboard/pendaftaran",
-      icon: <AiOutlineFileDone />,
+      icon: <FormOutlined />,
     },
-    { label: "Master Data User", link: "/dashboard/biodata", icon: <FaRegUser /> },
+    { label: "Master Data User", link: "/dashboard/biodata", icon: <UserOutlined /> },
   ];
 
   return (

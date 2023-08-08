@@ -83,7 +83,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             name="school_type"
             labels="Jenis Pendidikan Asal"
             placeholder="Jenis Pendidikan"
-            className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+            className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             options={[
               {
                 label: "SMA",
@@ -117,30 +117,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
                 value: "2021",
               },
             ]}
-            className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-          />
-          <SelectOption
-            name="school_major"
-            labels="Jurusan Pendidikan Asal"
-            placeholder="Jurusan Pendidikan"
-            options={[
-              {
-                label: "IPA",
-                value: "MIPA",
-              },
-              {
-                label: "IPS",
-                value: "IPS",
-              },
-              {
-                label: "Keagamaan",
-                value: "Agama",
-              },
-            ]}
-            className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+            className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -175,12 +152,37 @@ export const DataPendidikanSection: FC = (): ReactElement => {
                 value: "SMAN 1 Bandung",
               },
             ]}
-            className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+            className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             isSearchable={true}
             control={control}
             isMulti={false}
             isClearable={true}
           />
+          <div className="w-full">
+            <SelectOption
+              name="school_major"
+              labels="Jurusan Pendidikan Asal"
+              placeholder="Jurusan Pendidikan"
+              options={[
+                {
+                  label: "IPA",
+                  value: "MIPA",
+                },
+                {
+                  label: "IPS",
+                  value: "IPS",
+                },
+                {
+                  label: "Keagamaan",
+                  value: "Agama",
+                },
+              ]}
+              className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+            />
+          </div>
 
           <SelectOption
             labels="Provinsi"
@@ -233,20 +235,8 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="w-[68vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+              inputWidth="w-[68vw] md:w-[50vw] lg:w-55% "
               className="resize-none bg-grayscale-2  "
-            />
-          </div>
-          <div className="w-70% md:w-26 lg:w-26">
-            <TextField
-              inputHeight="h-10"
-              name="school_postal_code"
-              variant="md"
-              type="text"
-              labelclassname="text-sm "
-              label="Kode Pos"
-              inputWidth="w-26 text-base"
-              control={control}
             />
           </div>
         </section>

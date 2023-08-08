@@ -4,6 +4,7 @@ import { DataDiriSection } from "./section/data-diri";
 import { DataPendidikanSection } from "./section/data-pendidikan";
 import { DataOrtuSection } from "./section/data-ortu";
 import { DataNilaiSection } from "./section/data-nilai";
+import { BerkasKhususSection } from "./section/berkas-khusus/indes";
 
 export const ModuleBiodata: FC = (): ReactElement => {
   return (
@@ -22,6 +23,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
           <DataPendidikanSection />
           <DataNilaiSection />
           <DataOrtuSection />
+          <BerkasKhususSection />
         </section>
       </section>
     </Fragment>
