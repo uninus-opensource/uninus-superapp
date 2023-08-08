@@ -27,11 +27,7 @@ export class StudentService {
         avatar: true,
         email: true,
         fullname: true,
-        students: {
-          select: {
-            education_history_id: true,
-          },
-        },
+        students: true,
       },
     });
 
@@ -46,7 +42,6 @@ export class StudentService {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
-      education_history_id: student.students?.education_history_id || null,
       ...studentData,
     };
   }
@@ -96,7 +91,6 @@ export class StudentService {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
-      education_history_id: student.students?.education_history_id || null,
       ...studentData,
     };
   }
@@ -125,7 +119,6 @@ export class StudentService {
       avatar: student.avatar,
       email: student.email,
       fullname: student.email,
-      education_history_id: student.students?.education_history_id || null,
       ...studentData,
     };
   }
