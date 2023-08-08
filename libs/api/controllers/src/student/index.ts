@@ -43,7 +43,7 @@ export class StudentController {
   graduationStatus(
     @Body(new ZodValidationPipe(VSRegistrationNumber)) registration_number: GraduationStatusSwagger,
   ) {
-    return this.appService.checkGraduationStatus({ ...registration_number });
+    return this.appService.checkGraduationStatus(registration_number);
   }
 
   @Get()
