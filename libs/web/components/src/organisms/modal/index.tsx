@@ -1,6 +1,6 @@
 import { Button } from "../../atoms";
 import { ModalProps } from "./interface";
-import { IoCloseSharp } from "react-icons/io5";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import { createPortal } from "react-dom";
 import { FC, ReactElement } from "react";
 
@@ -31,7 +31,7 @@ export const Modal: FC<ModalProps> = ({
               </div>
               {iconClose ? (
                 <Button onClick={onClose} variant="text-icon" size="sm">
-                  <IoCloseSharp size={25} className={closeClassName} />
+                  <CloseCircleOutlined size={25} className={closeClassName} />
                 </Button>
               ) : (
                 ""

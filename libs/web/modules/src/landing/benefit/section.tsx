@@ -2,20 +2,20 @@
 import { Card } from "@uninus/web/components";
 import { FC, ReactElement } from "react";
 import {
-  AiFillStar,
-  AiFillSafetyCertificate,
-  AiFillTags,
-  AiFillEnvironment,
-  AiFillTrophy,
-} from "react-icons/ai";
-import { BiSolidUser } from "react-icons/bi";
+  StarFilled,
+  SafetyCertificateFilled,
+  TagsFilled,
+  EnvironmentFilled,
+  TrophyFilled,
+  IdcardFilled
+} from "@ant-design/icons";
 import { TBenefit } from "./type";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 
 const CardBenerfit: TBenefit[] = [
   {
-    icon: <AiFillStar />,
+    icon: <StarFilled />,
     title: "Kampus pilihan",
     desc: (
       <p>
@@ -29,7 +29,7 @@ const CardBenerfit: TBenefit[] = [
     ),
   },
   {
-    icon: <AiFillSafetyCertificate />,
+    icon: <SafetyCertificateFilled />,
     title: "Terakreditasi",
     desc: (
       <p>
@@ -39,7 +39,7 @@ const CardBenerfit: TBenefit[] = [
     ),
   },
   {
-    icon: <AiFillTags />,
+    icon: <TagsFilled />,
     title: "Biaya Terjangkau",
     desc: (
       <p>
@@ -50,7 +50,7 @@ const CardBenerfit: TBenefit[] = [
     ),
   },
   {
-    icon: <AiFillEnvironment />,
+    icon: <EnvironmentFilled />,
     title: "Lokasi Strategis",
     desc: (
       <p>
@@ -61,7 +61,7 @@ const CardBenerfit: TBenefit[] = [
     ),
   },
   {
-    icon: <AiFillTrophy />,
+    icon: <TrophyFilled />,
     title: "Pilihan Beasiswa",
     desc: (
       <p>
@@ -71,7 +71,7 @@ const CardBenerfit: TBenefit[] = [
     ),
   },
   {
-    icon: <BiSolidUser />,
+    icon: <IdcardFilled />,
     title: "Dosen Berpengalaman",
     desc: (
       <p>

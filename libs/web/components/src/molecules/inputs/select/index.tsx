@@ -1,9 +1,7 @@
 import { ReactElement } from "react";
 import { TSelectProps } from "./types";
 import clsx from "clsx";
-import { AiFillWarning } from "react-icons/ai";
-import { BiSolidErrorCircle } from "react-icons/bi";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { WarningOutlined, CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import { FieldValues, useController } from "react-hook-form";
 
 export const SelectField = <T extends FieldValues>({
@@ -71,13 +69,13 @@ export const SelectField = <T extends FieldValues>({
       {props.message && (
         <span className={messageClassName}>
           {props.status === "error" && (
-            <BiSolidErrorCircle className="inline-block mr-1 text-red-400" />
+            <CloseCircleOutlined className="inline-block mr-1 text-red-400" />
           )}
           {props.status === "warning" && (
-            <AiFillWarning className="inline-block mr-1 text-amber-300" />
+            <WarningOutlined className="inline-block mr-1 text-amber-300" />
           )}
           {props.status === "success" && (
-            <AiFillCheckCircle className="inline-block mr-1 text-green-400" />
+            <CheckCircleOutlined className="inline-block mr-1 text-green-400" />
           )}
           {props.message}
         </span>

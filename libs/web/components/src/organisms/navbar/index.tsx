@@ -4,7 +4,7 @@ import Image from "next/image";
 import { NavbarList } from "./type";
 import { Button, HamburgerIcon, XIcon } from "../../atoms";
 import { Sidebar } from "../../molecules";
-import { AiOutlineDown } from "react-icons/ai";
+import { DownOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -29,7 +29,7 @@ export const Navbar: FC = (): ReactElement => {
       item: (
         <Fragment>
           Program{" "}
-          <AiOutlineDown
+          <DownOutlined
             className={`ml-1 h-4 text-xl duration-100 ${isDropDown ? "rotate-180" : ""}`}
           />
         </Fragment>

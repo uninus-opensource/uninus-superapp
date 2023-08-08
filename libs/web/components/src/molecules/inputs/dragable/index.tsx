@@ -1,11 +1,10 @@
 "use client";
+import Image from "next/image";
 import { ReactElement, useCallback, useState } from "react";
 import { useDropzone, FileWithPath } from "react-dropzone";
-import Image from "next/image";
 import { FieldValues, useController } from "react-hook-form";
-import { FcDocument } from "react-icons/fc";
+import { FileOutlined, UploadOutlined } from "@ant-design/icons";
 import { TUploadFieldProps } from "./types";
-import { BiUpload } from "react-icons/bi";
 
 export const DraggableComponent = <T extends FieldValues>(
   props: TUploadFieldProps<T>,
@@ -41,7 +40,6 @@ export const DraggableComponent = <T extends FieldValues>(
   });
 
   const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/webp", "image/png"];
-
   const ACCEPTED_VIDEO_TYPES = ["video/ogg", "video/webm", "video/mp4"];
   const ACCEPTED_DOCUMENT_TYPES = ["application/pdf", "application/msword"];
 
@@ -56,12 +54,12 @@ export const DraggableComponent = <T extends FieldValues>(
         <video width={400} controls height={400} src={URL.createObjectURL(field.value)} />
       ) : field.value && ACCEPTED_DOCUMENT_TYPES.includes(fileType) ? (
         <span className="flex flex-col text-black">
-          <FcDocument />
+          <FileOutlined />
           {fileName}
         </span>
       ) : (
         <label className="flex flex-col items-center w-full px-4 py-6 dark:bg-transparent rounded-lg cursor-pointer hover:text-white">
-          <BiUpload size={80} color="#737373" />
+          <UploadOutlined size={80} color="#737373" />
           <span className="mt-2 text-center text-[12px] text-[#737373] dark:text-white">
             <p>{props.labels}</p>
             <p>(Format jpg/jpeg,png)</p>

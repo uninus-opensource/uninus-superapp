@@ -3,7 +3,7 @@ import { ReactElement, useState } from "react";
 import { FieldValues, useController } from "react-hook-form";
 import { TTextFieldProps } from "./types";
 import clsx from "clsx";
-import { MdCheck } from "react-icons/md";
+import { WarningOutlined, CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import { EyeOpen, EyeSlash } from "../../../atoms/";
 
 export const TextField = <T extends FieldValues>({
@@ -111,7 +111,7 @@ export const TextField = <T extends FieldValues>({
         )}
 
         <div className="absolute flex space-x-2 transform -translate-y-1/2 right-4 top-1/2">
-          {status === "success" && <MdCheck className="text-green-400" size={20} />}
+          {status === "success" && <CheckCircleOutlined className="text-green-400" size={20} />}
           {type === "password" && (
             <button type="button" onClick={toggleShowPassword}>
               {type === "password" && !showPassword ? <EyeSlash /> : <EyeOpen />}
@@ -128,9 +128,20 @@ export const TextField = <T extends FieldValues>({
 
       <div className="flex flex-col items-start w-full gap-x-1">
         <span className={labelVariant}>{props.hint}</span>
-        <span className={`${messageStatus} xl:text-xs lg:text-[8px] text-xs ${messageClassName}`}>
-          {props.message}
-        </span>
+        {props.message && (
+          <span className={messageClassName}>
+            {status === "error" && (
+              <CloseCircleOutlined className="inline-block mr-1 text-red-400" />
+            )}
+            {status === "warning" && (
+              <WarningOutlined className="inline-block mr-1 text-amber-300" />
+            )}
+            {status === "success" && (
+              <CheckCircleOutlined className="inline-block mr-1 text-green-400" />
+            )}
+            {props.message}
+          </span>
+        )}{" "}
       </div>
     </section>
   );

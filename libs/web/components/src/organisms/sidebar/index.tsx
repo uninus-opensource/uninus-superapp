@@ -2,7 +2,7 @@
 import { FC, ReactElement, useState, useMemo } from "react";
 import Image from "next/image";
 import { TSideBarProps } from "./type";
-import { AiOutlineLogout } from "react-icons/ai";
+import { LogoutOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { Button } from "../../atoms";
 import { motion } from "framer-motion";
@@ -146,7 +146,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                 styling="text-xl -ml-4 mt-0 items-center flex group"
                 onClick={handleOpenModal}
               >
-                <AiOutlineLogout
+                <LogoutOutlined
                   size={40}
                   className="mr-3 text-primary-green p-2 drop-shadow-lg bg-primary-white group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green group-hover:text-primary-white rounded-lg"
                 />
@@ -239,7 +239,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                     styling="text-sm font-normal text-primary-green mt-0 p-0 group "
                     onClick={handleOpenModal}
                   >
-                    <AiOutlineLogout
+                    <LogoutOutlined
                       size={45}
                       className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green group-hover:text-primary-white rounded-lg "
                     />

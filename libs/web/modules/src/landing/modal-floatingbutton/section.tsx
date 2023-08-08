@@ -5,9 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TSeleksiProps } from "./type";
 import { Button, Modal, PopUp, TextField } from "@uninus/web/components";
 import Image from "next/image";
-import { BsCalendarCheck, BsTelephone } from "react-icons/bs";
+import { CalendarFilled, PhoneFilled, IdcardFilled } from "@ant-design/icons";
 import { motion } from "framer-motion";
-import { FaCircleUser } from "react-icons/fa6";
 
 export const ModalAndButtons: FC = (): ReactElement => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
@@ -216,7 +215,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
         }`}
         onClick={() => setIsPopUp(!isPopUp)}
       >
-        <BsTelephone className="-rotate-90 text-xl duration-200 text-primary-white font-bold " />
+        <PhoneFilled className="-rotate-90 text-xl duration-200 text-primary-white font-bold " />
       </motion.button>
 
       {/* Floating button cek kelulusan */}
@@ -230,7 +229,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
         className={`fixed flex flex-col gap-1 items-center justify-center transition-transform bottom-6 right-6 xl:right-8 z-50 group bg-primary-green rounded-full h-16 w-16 md:h-20 md:w-20 active:bg-secondary-green-1`}
         onClick={() => setIsModal(true)}
       >
-        <BsCalendarCheck className="text-primary-white text-2xl md:text-3xl" />
+        <CalendarFilled className="text-primary-white text-2xl md:text-3xl" />
         <span className="text-[8px] md:text-[10px] font-bold text-primary-white leading-none">
           Cek <br /> Kelulusan
         </span>
@@ -243,7 +242,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
         className="flex flex-col items-center justify-between pt-8 pb-6"
         header={
           <div className="flex w-full h-full justify-start gap-4 text-primary-white items-center px-5">
-            <FaCircleUser className="h-6 w-6" />
+            <IdcardFilled className="h-6 w-6" />
             <p className="font-semibold text-xs sm:text-sm md:text-lg">Call Center UNINUS</p>
           </div>
         }
