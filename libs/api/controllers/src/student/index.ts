@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Put,
+  Query,
   Request,
   UploadedFile,
   UseGuards,
@@ -39,7 +40,7 @@ export class StudentController {
     status: 400,
     description: "User tidak ditemukan",
   })
-  graduationStatus(@Body("registration_number") registration_number: GraduationStatusSwagger) {
+  graduationStatus(@Query("registration_number") registration_number: GraduationStatusSwagger) {
     return this.appService.checkGraduationStatus({ ...registration_number });
   }
 
