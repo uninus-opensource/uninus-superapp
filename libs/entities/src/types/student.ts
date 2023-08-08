@@ -97,3 +97,18 @@ export interface IUpdateStudentResponse extends IStudentData {
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
   avatar: TFIle;
 }
+
+export type TGraduationStatusRequest = {
+  registration_number: string;
+};
+
+export type TGraduationStatusReponse = {
+  registration_number: string | null;
+  fullname: string | null;
+  birth_date: string | null;
+  birth_place: string | null;
+  city: string | null;
+  school_name: string | null;
+  province: string | null;
+  registration_status: string | null;
+};
