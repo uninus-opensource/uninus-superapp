@@ -60,9 +60,9 @@ export const ModulBeasiswa: FC = (): ReactElement => {
           <div className="h-1 w-28 mt-1 bg-primary-yellow rounded"></div>
         </div>
         <section className="flex justify-center items-center w-full h-full py-20">
-          <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-y-10 place-items-center">
+          <div className="xl:w-[60em] md:w-[45em] grid md:grid-cols-2 grid-cols-1 gap-y-10 place-items-center">
             {beasiswaList.map((item, idx) => (
-              <Link href={item.link} key={idx} className="w-[18em] md:w-[20em]">
+              <Link href={item.link} key={idx} className="w-[18em] md:w-[20em] xl:w-[25em]">
                 <div className="hover:-translate-y-4 duration-75 aspect-auto">
                   <Image
                     className="w-full"

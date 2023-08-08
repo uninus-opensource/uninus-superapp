@@ -73,30 +73,30 @@ export const Navbar: FC = (): ReactElement => {
           </div>
 
           {/* dropdown bar */}
-          <motion.nav
-            style={{
-              y: -10,
-            }}
-            animate={{
-              y: isDropDown ? [-10, 0] : [0, -10],
-            }}
-            className={`${
-              isDropDown ? "hidden lg:flex" : "hidden"
-            }  absolute bg-primary-white w-36 h-24 z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-28 mt-5 shadow-md`}
-          >
-            <Link
-              className="flex items-center justify-center p-2 text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 duration-150 border-2 border-l-0 border-primary-green w-full h-full "
-              href="/program-studi"
+          {isDropDown && (
+            <motion.nav
+              style={{
+                y: -10,
+              }}
+              animate={{
+                y: isDropDown ? [-10, 0] : [0, -10],
+              }}
+              className={`hidden lg:flex absolute bg-primary-white w-36 h-24 z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-28 mt-5 shadow-md`}
             >
-              Program Studi
-            </Link>
-            <Link
-              className="flex items-center justify-center p-2 text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 border-2 border-t-0 border-l-0 border-b-0 border-primary-green w-full h-full"
-              href="/biaya-kuliah"
-            >
-              Biaya Kuliah
-            </Link>
-          </motion.nav>
+              <Link
+                className="flex items-center justify-center p-2 text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 duration-150 border-2 border-l-0 border-primary-green w-full h-full "
+                href="/program-studi"
+              >
+                Program Studi
+              </Link>
+              <Link
+                className="flex items-center justify-center p-2 text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 border-2 border-t-0 border-l-0 border-b-0 border-primary-green w-full h-full"
+                href="/biaya-kuliah"
+              >
+                Biaya Kuliah
+              </Link>
+            </motion.nav>
+          )}
         </nav>
 
         <section className="flex items-center">
