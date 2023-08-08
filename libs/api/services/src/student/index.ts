@@ -9,6 +9,8 @@ import {
   IDeleteStudentResponse,
   IUpdateStudentResponse,
   IUpdateStudentRequest,
+  TGraduationStatusRequest,
+  TGraduationStatusReponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -117,6 +119,36 @@ export class StudentService {
       email: student.email,
       fullname: student.email,
       ...studentData,
+    };
+  }
+
+  async checkGraduationStatus({
+    registration_number,
+  }: TGraduationStatusRequest): Promise<TGraduationStatusReponse> {
+    const graduationStatus = await this.prisma.students.findFirst({
+      where: {
+        registration_number,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    if (!graduationStatus) {
+      throw new BadRequestException("Data tidak ditemukan", {
+        cause: new Error(),
+      });
+    }
+
+    return {
+      registration_number: graduationStatus.registration_number,
+      fullname: graduationStatus.user.fullname,
+      birth_date: graduationStatus.birth_date,
+      birth_place: graduationStatus.birth_place,
+      city: graduationStatus.city,
+      school_name: graduationStatus.school_name,
+      province: graduationStatus.province,
+      registration_status: graduationStatus.registration_status
     };
   }
 }

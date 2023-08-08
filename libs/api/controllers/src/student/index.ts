@@ -15,7 +15,11 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
 import { JwtAuthGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/validator";
-import { StudentService, UpdateStudentSwagger } from "@uninus/api/services";
+import {
+  GraduationStatusSwagger,
+  StudentService,
+  UpdateStudentSwagger,
+} from "@uninus/api/services";
 import {
   ApiResponse,
   ApiTags,
@@ -28,6 +32,16 @@ import {
 @ApiTags("Student")
 export class StudentController {
   constructor(private readonly appService: StudentService) {}
+
+  @Get("/graduation-status")
+  @ApiOperation({ summary: "Get Graduation Status" })
+  @ApiResponse({
+    status: 400,
+    description: "User tidak ditemukan",
+  })
+  graduationStatus(@Body("registration_number") registration_number: GraduationStatusSwagger) {
+    return this.appService.checkGraduationStatus({ ...registration_number });
+  }
 
   @Get()
   @ApiBearerAuth()
