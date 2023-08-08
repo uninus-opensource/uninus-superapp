@@ -7,3 +7,4 @@ export * from "./user";
 export * from "./cloudinary";
 export * from "./swagger";
 export * from "./select";
+export * from "./file";

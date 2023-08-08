@@ -6,3 +6,4 @@ export * from "./student";
 export * from "./user";
 export * from "./cloudinary";
 export * from "./select";
+export * from "./file";
