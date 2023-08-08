@@ -357,7 +357,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             textAreaRow={5}
             textAreaCols={30}
             inputHeight="h-20"
-            inputWidth="w-[68vw] lg:[68vw] md:w-[50vw] md:mr-5"
+            inputWidth="w-[68vw] md:w-[50vw] lg:w-55%"
             className="resize-none bg-grayscale-2  "
           />
 
