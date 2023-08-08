@@ -11,6 +11,7 @@ import {
   IUpdateStudentRequest,
   TGraduationStatusRequest,
   TGraduationStatusReponse,
+  EReligion,
 } from "@uninus/entities";
 
 @Injectable()
@@ -26,7 +27,11 @@ export class StudentService {
         avatar: true,
         email: true,
         fullname: true,
-        students: true,
+        students: {
+          select: {
+            education_history_id: true,
+          },
+        },
       },
     });
 
@@ -41,6 +46,7 @@ export class StudentService {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
+      education_history_id: student.students?.education_history_id || null,
       ...studentData,
     };
   }
@@ -90,6 +96,7 @@ export class StudentService {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
+      education_history_id: student.students?.education_history_id || null,
       ...studentData,
     };
   }
@@ -118,6 +125,7 @@ export class StudentService {
       avatar: student.avatar,
       email: student.email,
       fullname: student.email,
+      education_history_id: student.students?.education_history_id || null,
       ...studentData,
     };
   }
@@ -131,6 +139,9 @@ export class StudentService {
       },
       include: {
         user: true,
+        city: true,
+        province: true,
+        education_history: true,
       },
     });
 
@@ -145,10 +156,7 @@ export class StudentService {
       fullname: graduationStatus.user.fullname,
       birth_date: graduationStatus.birth_date,
       birth_place: graduationStatus.birth_place,
-      city: graduationStatus.city,
-      school_name: graduationStatus.school_name,
-      province: graduationStatus.province,
-      registration_status: graduationStatus.registration_status
+      registration_status: graduationStatus.registration_status,
     };
   }
 }

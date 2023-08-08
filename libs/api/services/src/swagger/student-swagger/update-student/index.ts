@@ -72,6 +72,9 @@ export class UpdateStudentSwagger {
   school_major!: string;
 
   @ApiProperty()
+  education_history_id?: number | null;
+
+  @ApiProperty()
   school_name!: string;
 
   @ApiProperty()
