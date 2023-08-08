@@ -82,7 +82,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute mt-24 lg:mt-2 lg:h-auto lg:w-full`}
+          className={`bg-center flex justify-center items-center absolute mt-24 lg:h-auto lg:w-full`}
         />
       ),
     },
@@ -94,7 +94,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute mt-24 lg:mt-2 lg:h-auto lg:w-full`}
+          className={`bg-center flex justify-center items-center absolute mt-24 lg:h-auto lg:w-full`}
         />
       ),
     },
@@ -106,7 +106,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute mt-24 lg:mt-2 lg:h-auto lg:w-full`}
+          className={`bg-center flex justify-center items-center absolute mt-24 lg:h-auto lg:w-full`}
         />
       ),
     },
@@ -118,7 +118,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute mt-24 lg:mt-2 lg:h-auto lg:w-full`}
+          className={`bg-center flex justify-center items-center absolute mt-24 lg:h-auto lg:w-full`}
         />
       ),
     },
@@ -128,8 +128,8 @@ export const HeroBanner: FC<TbannerProps> = ({
     items: heroSlider.map((item) => item.sliderSection),
 
     animationDuration: 1000,
-    // autoPlay: true,
-    autoPlayInterval: 5000,
+    autoPlay: true,
+    autoPlayInterval: 7000,
     infinite: true,
     disableButtonsControls: true,
     disableDotsControls: true,

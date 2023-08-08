@@ -163,8 +163,8 @@ export const ModalAndButtons: FC = (): ReactElement => {
               <h5 className="font-semibold text-sm">Teknik Informatika</h5>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {dataSeleksi.map((data) => (
-                <div className="flex flex-col">
+              {dataSeleksi.map((data, idx) => (
+                <div key={idx} className="flex flex-col">
                   <h2 className="text-secondary-green-4 text-sm font-semibold">{data.label}</h2>
                   <h2 className="text-xs">{data.item}</h2>
                 </div>
@@ -204,15 +204,16 @@ export const ModalAndButtons: FC = (): ReactElement => {
       {/* Floating Button WA */}
       <motion.button
         style={{
-          x: 400,
+          x: 300,
           y: isPopUp ? -105 : 0,
-          rotate: 0,
+          rotate: isPopUp ? 360 : 0,
         }}
         animate={{
-          x: isVisible ? [0, 400] : [400, 0],
-          rotate: isPopUp ? [0, 200, 360] : [360, 0],
+          x: isVisible ? [0, 300] : [300, 0],
         }}
-        className={`fixed flex items-center justify-center transition-transform bottom-24 md:bottom-28 right-9 md:right-10 xl:right-12 z-50 group bg-primary-green rounded-full h-10 w-10 md:h-12 md:w-12 active:bg-secondary-green-1 duration-75`}
+        className={`fixed flex items-center justify-center transition-transform bottom-24 md:bottom-28 right-9 md:right-10 xl:right-12 z-50 group bg-primary-green rounded-full h-10 w-10 md:h-12 md:w-12 active:bg-secondary-green-1 ${
+          isVisible ? "" : "duration-300"
+        }`}
         onClick={() => setIsPopUp(!isPopUp)}
       >
         <BsTelephone className="-rotate-90 text-xl duration-200 text-primary-white font-bold " />
@@ -226,7 +227,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
         animate={{
           x: isVisible ? [0, 500] : [500, 0],
         }}
-        className={`fixed flex flex-col gap-1 items-center justify-center transition-transform bottom-6 right-6 xl:right-8 z-50 group bg-primary-green rounded-full h-16 w-16 md:h-20 md:w-20 active:bg-secondary-green-1 duration-75`}
+        className={`fixed flex flex-col gap-1 items-center justify-center transition-transform bottom-6 right-6 xl:right-8 z-50 group bg-primary-green rounded-full h-16 w-16 md:h-20 md:w-20 active:bg-secondary-green-1`}
         onClick={() => setIsModal(true)}
       >
         <BsCalendarCheck className="text-primary-white text-2xl md:text-3xl" />

@@ -59,13 +59,13 @@ export const ModulBeasiswa: FC = (): ReactElement => {
           <h2>pilihan beasiswa</h2>
           <div className="h-1 w-28 mt-1 bg-primary-yellow rounded"></div>
         </div>
-        <section className="w-full h-full py-16 px-4">
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-y-8 place-items-center">
+        <section className="flex justify-center items-center w-full h-full py-20">
+          <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-y-10 place-items-center">
             {beasiswaList.map((item, idx) => (
-              <Link href={item.link} key={idx} className="w-5/6">
+              <Link href={item.link} key={idx} className="w-[18em] md:w-[20em]">
                 <div className="hover:-translate-y-4 duration-75 aspect-auto">
                   <Image
-                    className="w-full "
+                    className="w-full"
                     src={item.img}
                     alt={item.name}
                     width={300}
