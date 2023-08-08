@@ -27,7 +27,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
   });
 
   const callCenter = () => {
-    window.open("https://wa.me/6289694313743", "_blank");
+    window.open("https://wa.me/6282116860530", "_blank");
   };
 
   const closeModal = () => {

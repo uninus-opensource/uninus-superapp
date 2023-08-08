@@ -99,12 +99,12 @@ export const Navbar: FC = (): ReactElement => {
         <section className="flex items-center">
           <div className="hidden lg:block rounded-xl">
             <Button
-              href="/auth/register"
+              href="/auth/login"
               variant="custom"
               styling="bg-grayscale-1 text-secondary-green-4"
               height="h-9"
             >
-              Pendaftaran PMB
+              Login
             </Button>
           </div>
           <div className="block lg:hidden">
@@ -128,12 +128,12 @@ export const Navbar: FC = (): ReactElement => {
             <Button
               variant="sidebarlist"
               height="h-8"
-              href="/auth/register"
+              href="/auth/login"
               onClick={closeSidebar}
               styling="bg-primary-white text-primary-green rounded-md text-xs font-bold"
               size="sm"
             >
-              PENDAFTARAN PMB
+              Login
             </Button>
           </div>
         </ul>
