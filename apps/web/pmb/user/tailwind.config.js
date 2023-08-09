@@ -53,6 +53,7 @@ module.exports = {
         green: "#009647",
         yellow: "#F8BF02",
         white: "#FFFFFF",
+        orange: "#F78100",
         black: "#000000",
       },
       secondary: {
