@@ -72,7 +72,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
               ))}
             </section>
 
-            <section className="flex flex-col gap-10 w-[70vw] mt-10 md:mt-0 md:w-[60%] xl:w-[70%] ">
+            <section className="flex flex-col gap-10 w-[70vw] mt-10 md:mt-0 md:w-[60%] xl:w-full ">
               {graduationDocument.map((documentType) => (
                 <div key={documentType.name} className="flex flex-col gap-2 md:mt-[0.4vh]">
                   <h3 className="font-bold text-[14.5px]">{documentType.label}</h3>
@@ -89,8 +89,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
         </section>
 
         {/* Button */}
-        <section className="w-[80vw] lg:w-[70vw] xl:w-[70vw] lg:pl-[2vw] flex justify-center lg:justify-start items-center rounde">
-          <Button styling="bg-primary-green px-2 py-1 rounded-[3px] w-[69vw] md:w-[25vw] lg:w-[20vw] xl:w-[10vw] mt-8 md:mt-10">
+        <section className="w-[80vw] lg:w-[70vw] xl:w-[70vw] lg:pl-[2vw] flex justify-center lg:justify-end pr-16 items-center rounde">
+          <Button styling="bg-primary-green px-2 py-1 rounded-[3px] w-[69vw] md:w-[25vw] lg:w-full mt-8 md:mt-10">
             Submit Berkas
           </Button>
         </section>

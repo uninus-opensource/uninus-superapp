@@ -4,7 +4,7 @@ import { DataDiriSection } from "./section/data-diri";
 import { DataPendidikanSection } from "./section/data-pendidikan";
 import { DataOrtuSection } from "./section/data-ortu";
 import { DataNilaiSection } from "./section/data-nilai";
-import { BerkasKhususSection } from "./section/berkas-khusus/indes";
+import { BerkasKhususSection } from "./section/berkas-khusus";
 
 export const ModuleBiodata: FC = (): ReactElement => {
   return (

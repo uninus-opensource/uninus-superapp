@@ -74,6 +74,10 @@ export type TDepartmentResponse = {
   }>;
 };
 
+export interface IReligionRequest {
+  search: string;
+}
+
 export type TReligionResponse = {
   religion: Array<{
     id: number;

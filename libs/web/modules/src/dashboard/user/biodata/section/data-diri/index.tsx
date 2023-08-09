@@ -1,4 +1,3 @@
-import { EReligion } from "@uninus/entities";
 import {
   Accordion,
   UploadField,
@@ -11,6 +10,7 @@ import { defaultValuesBiodata, formBiodataOne } from "../../store";
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
+import { useReligionGet } from "./hooks";
 import { useBiodataUpdate } from "../../hooks";
 
 export const DataDiriSection: FC = (): ReactElement => {
@@ -23,6 +23,9 @@ export const DataDiriSection: FC = (): ReactElement => {
     search: "",
     province_id: "",
     city_id: "",
+  });
+  const [religion, setReligion] = useState({
+    search: "",
   });
 
   const { data: getProvincies } = useProvinceGet(locationMeta);
@@ -69,6 +72,17 @@ export const DataDiriSection: FC = (): ReactElement => {
   }, [watch("province")]);
 
   const { mutate } = useBiodataUpdate();
+
+  const { data: getReligion } = useReligionGet(religion);
+
+  const religionOptions = useMemo(
+    () =>
+      getReligion?.religion?.map((religion) => ({
+        label: religion?.name,
+        value: religion?.id.toString(),
+      })),
+    [getReligion?.religion],
+  );
 
   const onSubmit = handleSubmit((data) => {
     try {
@@ -185,35 +199,10 @@ export const DataDiriSection: FC = (): ReactElement => {
             labels="Agama"
             className=" rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
             placeholder="Agama"
-            options={[
-              {
-                label: "Islam",
-                value: EReligion.ISLAM,
-              },
-              {
-                label: "Kristen",
-                value: EReligion.KRISTEN,
-              },
-              {
-                label: "Buddha",
-                value: EReligion.BUDHA,
-              },
-              {
-                label: "Hindu",
-                value: EReligion.HINDU,
-              },
-              {
-                label: "Konghucu",
-                value: EReligion.KONGHUCU,
-              },
-              {
-                label: "Katolik",
-                value: EReligion.KATOLIK,
-              },
-            ]}
+            options={religionOptions || []}
             isClearable={true}
             isSearchable={true}
-            name="province"
+            name="religion"
             control={control}
             isMulti={false}
           />
