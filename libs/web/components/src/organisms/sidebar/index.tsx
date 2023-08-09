@@ -113,25 +113,25 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
 
           <div className="flex flex-col h-full justify-between 2xl:h-full">
             <nav>
-              <ul className="flex flex-col gap-y-5 xl:gap-y-4 items-center">
+              <ul className="flex flex-col gap-y-1 items-start">
                 {sideList?.map((sideList, idx) => (
                   <li key={idx} className="flex flex-col gap-y-6">
                     <Link
                       href={sideList?.link}
                       role="link"
-                      className={`flex gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
-                        pathname === sideList?.link && "bg-primary-white drop-shadow-md "
+                      className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
+                        pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
                       }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
                     >
                       <p
                         className={`${
                           pathname === sideList?.link &&
                           "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
-                        } text-primary-green w-10 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                        } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
                       >
                         {sideList?.icon}
                       </p>
-                      <p className="text-primary-green text-xs xl:text-base w-[6.8vw] font-normal">
+                      <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
                         {sideList?.label}
                       </p>
                     </Link>

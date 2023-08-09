@@ -8,21 +8,31 @@ import Image from "next/image";
 import { BsCalendarCheck, BsTelephone } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { FaCircleUser } from "react-icons/fa6";
+import { useCheckRegistration } from "./hook";
+
+/*
+Untuk cek kelulusan sementara pakai nomor berikut
+3215435543
+3432432453
+3432468090
+4354366788
+5465486799
+*/
 
 export const ModalAndButtons: FC = (): ReactElement => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [isPopUp, setIsPopUp] = useState<boolean>(false);
   const [isModal, setIsModal] = useState<boolean>(false);
-  const [isPassed, setIsPassed] = useState<boolean | null>(null);
 
   const {
     control,
+    handleSubmit,
     formState: { errors },
   } = useForm<TVSNoPesertaUser>({
     mode: "all",
     resolver: zodResolver(VSNoPesertaUser),
     defaultValues: {
-      noPeserta: "",
+      registration_number: "",
     },
   });
 
@@ -32,7 +42,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
 
   const closeModal = () => {
     setIsModal(!isModal);
-    setIsPassed(null);
+    reset();
   };
 
   const listenToScroll = useCallback(() => {
@@ -60,24 +70,35 @@ export const ModalAndButtons: FC = (): ReactElement => {
     };
   }, [listenToScroll]);
 
+  const { mutate, data, reset, error, isError } = useCheckRegistration();
+
+  const onCheckRegistration = handleSubmit((data) => {
+    try {
+      mutate(data);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
   const dataSeleksi: TSeleksiProps[] = [
     {
       label: "Tanggal Lahir",
-      item: "16 Juli 2006",
+      item: data?.birth_date,
     },
     {
       label: "Kabupaten/Kota",
-      item: "Kota Bandung",
+      item: data?.birth_place,
     },
     {
       label: "Asal Sekolah",
-      item: "SMAN 2 Bandung",
+      item: data?.school_name,
     },
     {
       label: "Provinsi",
-      item: "Jawa Barat",
+      item: data?.province,
     },
   ];
+
   return (
     <Fragment>
       {/* Modal Cek Kelulusan */}
@@ -87,11 +108,11 @@ export const ModalAndButtons: FC = (): ReactElement => {
         closeClassName="text-primary-white p-0"
         bodyClassName="py-4 md:py-8"
         modalTitle={
-          isPassed === true ? (
+          data?.registration_status === "Lulus" ? (
             <p className="text-xs text-primary-white">
               SELAMAT! ANDA DINYATAKAN LULUS SELEKSI JALUR REGULER 2023
             </p>
-          ) : isPassed === false ? (
+          ) : data?.registration_status === "Tidak Lulus" ? (
             <p className="text-xs text-primary-white">
               ANDA DINYATAKAN TIDAK LULUS SELEKSI JALUR REGULER 2023
             </p>
@@ -108,111 +129,114 @@ export const ModalAndButtons: FC = (): ReactElement => {
           )
         }
         className={`${
-          isPassed === null
-            ? "bg-primary-green max-w-2xl xl:max-w-3xl"
-            : "bg-primary-white max-w-4xl"
+          data ? "bg-primary-white max-w-5xl" : "bg-primary-green max-w-2xl xl:max-w-3xl"
         }  rounded-lg duration-150 ease-in-out`}
         headerColor={`${
-          isPassed === true ? "bg-secondary-green-1" : isPassed === false ? "bg-red-7" : ""
+          data?.registration_status === "Lulus"
+            ? "bg-secondary-green-1"
+            : data?.registration_status === "Tidak Lulus"
+            ? "bg-red-7"
+            : ""
         }`}
       >
-        <section
-          className={`${
-            isPassed === null ? "flex" : "hidden"
-          } w-full flex-col md:flex-row gap-10 h-[40vh] px-12 items-center md:items-start font-extrabold md:justify-between pt-2 md:pt-12`}
-        >
-          <div className="w-full text-center md:text-left md:w-[60%] text-primary-white">
-            <h1 className="uppercase text-lg">pengumuman kelulusan</h1>
-            <h2 className="text-xs">Calon Mahasiswa Baru 2023/2024</h2>
-          </div>
-          <div className="w-full md:w-[40%]">
-            <TextField
-              type="number"
-              name="noPeserta"
-              label="Masukan No Peserta"
-              labelclassname="font-semibold text-primary-white"
-              variant="sm"
-              control={control}
-              inputHeight="h-6"
-              inputBackground="bg-primary-white"
-              status={errors?.noPeserta ? "error" : undefined}
-              message={errors?.noPeserta?.message}
-              messageClassName="text-red-3"
-            />
-            <Button
-              variant="green-outline"
-              size="sm"
-              width="w-full"
-              height="h-4"
-              onClick={() => setIsPassed(true)}
+        {/* Input nomor pendaftaran modal */}
+        {!data && (
+          <section
+            className={`flex w-full flex-col md:flex-row gap-10 h-[40vh] px-12 items-center md:items-start font-extrabold md:justify-between pt-2 md:pt-12`}
+          >
+            <div className="w-full text-center md:text-left md:w-[60%] text-primary-white">
+              <h1 className="uppercase text-lg">pengumuman kelulusan</h1>
+              <h2 className="text-xs">Calon Mahasiswa Baru 2023/2024</h2>
+            </div>
+            <form onSubmit={onCheckRegistration} className="w-full md:w-[40%]">
+              <TextField
+                type="number"
+                name="registration_number"
+                label="Masukan No Peserta"
+                labelclassname="font-semibold text-primary-white"
+                placeholder="Masukan Nomor Pendaftaran"
+                variant="sm"
+                control={control}
+                inputHeight="h-8"
+                inputBackground="bg-primary-white"
+                status={errors?.registration_number ? "error" : isError ? "error" : undefined}
+                message={
+                  isError ? error?.response?.data?.message : errors?.registration_number?.message
+                }
+                messageClassName="text-red-3"
+              />
+              <Button variant="green-outline" size="sm" width="w-full" height="h-10">
+                Cek Hasil
+              </Button>
+            </form>
+          </section>
+        )}
+
+        {/* Kelulusan modal */}
+        {data && (
+          <section className="flex flex-col md:flex-row w-full lg:h-[30vh] px-4 md:px-12 items-center justify-between">
+            <section className="flex flex-col gap-7 w-full md:w-[60%]">
+              <div className="flex flex-col gap-1">
+                <h6 className="text-xs">No Pendaftaran : {data?.registration_number}</h6>
+                <h1 className="font-semibold text-xl text-secondary-green-4">{data?.fullname}</h1>
+                <h5 className="font-semibold text-sm">Program Studi : S1 - Teknik Informatika</h5>
+                <h5 className="font-semibold text-sm">
+                  Jalur Pendaftaran : Beasiswa Nusantara Berprestasi
+                </h5>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {dataSeleksi.map((data, idx) => (
+                  <div key={idx} className="flex flex-col">
+                    <h2 className="text-secondary-green-4 text-sm font-semibold">{data.label}</h2>
+                    <h2 className="text-xs">{data.item}</h2>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Ketika Lulus */}
+            <section
+              className={`${
+                data?.registration_status === "Lulus" ? "flex" : "hidden"
+              } flex-col w-full md:w-[30%] items-center justify-center gap-2 mt-12`}
             >
-              Cek Hasil
-            </Button>
-          </div>
-        </section>
-        <section
-          className={`${
-            isPassed === null ? "hidden" : "flex"
-          } flex-col md:flex-row w-full xl:h-[30vh] lg:h-[40vh] px-4 md:px-12 items-center justify-between`}
-        >
-          <section className="flex flex-col gap-7 w-full md:w-[60%]">
-            <div>
-              <h6 className="text-xs">No Pendaftaran : 0234232</h6>
-              <h1 className="font-semibold text-xl text-secondary-green-4">Harry Potter</h1>
-              <h5 className="font-semibold text-sm">Fakultas Teknik</h5>
-              <h5 className="font-semibold text-sm">Teknik Informatika</h5>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {dataSeleksi.map((data) => (
-                <div className="flex flex-col">
-                  <h2 className="text-secondary-green-4 text-sm font-semibold">{data.label}</h2>
-                  <h2 className="text-xs">{data.item}</h2>
-                </div>
-              ))}
-            </div>
-          </section>
+              <span className="text-[10px] font-bold">Silahkan lakukan pendaftaran ulang</span>
+              <Button variant="filled" width="w-[15em]">
+                Unduh Bukti Kelulusan
+              </Button>
+            </section>
 
-          {/* Ketika Lulus */}
-          <section
-            className={`${
-              isPassed === true ? "flex md:hidden" : "hidden"
-            } flex-col w-full items-center justify-center gap-2 mt-12`}
-          >
-            <span className="text-[10px] font-bold">Silahkan lakukan pendaftaran ulang</span>
-            <Button variant="filled" width="w-[15em]">
-              Unduh Bukti Kelulusan
-            </Button>
+            {/* Ketika tidak lulus */}
+            <section
+              className={`${
+                data?.registration_status === "Tidak Lulus" ? "flex" : "hidden"
+              } flex-col justify-center text-center items-center w-full md:w-[40%] h-auto py-6 px-4 shadow-md rounded-lg gap-1 mt-12 md:mt-0`}
+            >
+              <h1 className="text-sm text-secondary-green-4 font-black">
+                JANGAN PUTUS ASA DAN TETAP SEMANGAT!
+              </h1>
+              <h2 className="text-[10px] font-semibold">
+                Masih ada kesempatan untuk mendaftar melalui jalur beasiswa unggul dan jalur reguler
+                gelombang 3
+              </h2>
+            </section>
           </section>
-
-          {/* Ketika tidak lulus */}
-          <section
-            className={`${
-              isPassed === false ? "flex" : "hidden"
-            } flex-col justify-center text-center items-center w-full md:w-[40%] h-auto py-6 px-4 shadow-md rounded-lg gap-1 mt-12 md:mt-0`}
-          >
-            <h1 className="text-sm text-secondary-green-4 font-black">
-              JANGAN PUTUS ASA DAN TETAP SEMANGAT!
-            </h1>
-            <h2 className="text-[10px] font-semibold">
-              Masih ada kesempatan untuk mendaftar melalui jalur beasiswa unggul dan jalur reguler
-              gelombang 3
-            </h2>
-          </section>
-        </section>
+        )}
       </Modal>
 
       {/* Floating Button WA */}
       <motion.button
         style={{
-          x: 400,
+          x: 300,
           y: isPopUp ? -105 : 0,
-          rotate: 0,
+          rotate: isPopUp ? 360 : 0,
         }}
         animate={{
-          x: isVisible ? [0, 400] : [400, 0],
-          rotate: isPopUp ? [0, 200, 360] : [360, 0],
+          x: isVisible ? [0, 300] : [300, 0],
         }}
-        className={`fixed flex items-center justify-center transition-transform bottom-24 md:bottom-28 right-9 md:right-10 xl:right-12 z-50 group bg-primary-green rounded-full h-10 w-10 md:h-12 md:w-12 active:bg-secondary-green-1 duration-75`}
+        className={`fixed flex items-center justify-center transition-transform bottom-24 md:bottom-28 right-9 md:right-10 xl:right-12 z-50 group bg-primary-green rounded-full h-10 w-10 md:h-12 md:w-12 active:bg-secondary-green-1 ${
+          isVisible ? "" : "duration-300"
+        }`}
         onClick={() => setIsPopUp(!isPopUp)}
       >
         <BsTelephone className="-rotate-90 text-xl duration-200 text-primary-white font-bold " />
@@ -226,7 +250,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
         animate={{
           x: isVisible ? [0, 500] : [500, 0],
         }}
-        className={`fixed flex flex-col gap-1 items-center justify-center transition-transform bottom-6 right-6 xl:right-8 z-50 group bg-primary-green rounded-full h-16 w-16 md:h-20 md:w-20 active:bg-secondary-green-1 duration-75`}
+        className={`fixed flex flex-col gap-1 items-center justify-center transition-transform bottom-6 right-6 xl:right-8 z-50 group bg-primary-green rounded-full h-16 w-16 md:h-20 md:w-20 active:bg-secondary-green-1`}
         onClick={() => setIsModal(true)}
       >
         <BsCalendarCheck className="text-primary-white text-2xl md:text-3xl" />

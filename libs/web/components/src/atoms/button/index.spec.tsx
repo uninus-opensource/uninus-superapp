@@ -121,7 +121,9 @@ describe("Test Button Style", () => {
 
   it("Should have a valid className when variant set to navlist", () => {
     const { getByTestId } = render(<Button variant="navlist" />);
-    expect(getByTestId("button")).toHaveClass("text-primary-white active:bg-secondary-sky-2");
+    expect(getByTestId("button")).toHaveClass(
+      "text-primary-white hover:text-slate-3 active:text-slate-4",
+    );
   });
 
   it("Should have a valid className when variant set to float-bottom-right", () => {
