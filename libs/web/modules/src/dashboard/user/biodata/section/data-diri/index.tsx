@@ -12,6 +12,7 @@ import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 import {
   useCitizenGet,
+  useCountryGet,
   useDisabilitiesGet,
   useGenderGet,
   useReligionGet,
@@ -144,14 +145,29 @@ export const DataDiriSection: FC = (): ReactElement => {
     () =>
       getCitizen?.citizenship?.map((citizen) => ({
         label: citizen?.name,
-        value: citizen?.id.toString(),
+        value: citizen?.name,
       })),
     [getCitizen?.citizenship],
+  );
+
+  const { data: getCountry } = useCountryGet({
+    citizenship_id: watch("citizen"),
+    search: "",
+  });
+
+  const countryOptions = useMemo(
+    () =>
+      getCountry?.country?.map((country) => ({
+        label: country?.name,
+        value: country?.id.toString(),
+      })),
+    [getCountry?.country],
   );
 
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
+    console.log(data);
     try {
       mutate({
         ...data,
@@ -166,7 +182,7 @@ export const DataDiriSection: FC = (): ReactElement => {
       title="Data diri pendaftar"
       className="w-full h-auto mt-[2rem] flex flex-col items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] gap-5"
     >
-      <form onSubmit={onSubmit}>
+      <form>
         <div className="flex flex-col gap-7 ">
           <UploadField
             className="grid lg:flex lg:items-center lg:gap-6 w-full justify-center lg:justify-start items-center h-full gap-y-6 lg:gap-y-0"
@@ -322,32 +338,20 @@ export const DataDiriSection: FC = (): ReactElement => {
             variant="primary"
           />
           {/*End Kewarganegaeaan */}
-
-          <SelectOption
-            name="country"
-            labels="Asal Negara"
-            placeholder="Asal Negara"
-            className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
-            labelClassName="font-bold"
-            options={[
-              {
-                label: "Indonesia",
-                value: "Indonesia",
-              },
-              {
-                label: "Malaysia",
-                value: "Malaysia",
-              },
-              {
-                label: "Singapura",
-                value: "Singapura",
-              },
-            ]}
-            isClearable={true}
-            isSearchable={true}
-            control={control}
-            isMulti={false}
-          />
+          {watch("citizen") !== "WNI" && (
+            <SelectOption
+              name="country"
+              labels="Asal Negara"
+              placeholder="Asal Negara"
+              className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
+              labelClassName="font-bold"
+              options={countryOptions || []}
+              isClearable={true}
+              isSearchable={true}
+              control={control}
+              isMulti={false}
+            />
+          )}
           <SelectOption
             labels="Provinsi"
             className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
@@ -431,7 +435,13 @@ export const DataDiriSection: FC = (): ReactElement => {
           />
         </section>
         <div className="flex w-full justify-center lg:justify-end py-4">
-          <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
+          <Button
+            onClick={onSubmit}
+            type="button"
+            variant="filled"
+            size="md"
+            width="w-50% lg:w-25% xl:w-15%"
+          >
             Submit
           </Button>
         </div>
