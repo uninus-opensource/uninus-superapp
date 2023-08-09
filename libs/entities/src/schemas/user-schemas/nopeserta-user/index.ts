@@ -1,10 +1,11 @@
 import { z } from "zod";
 
 export const VSNoPesertaUser = z.object({
-  noPeserta: z
+  registration_number: z
     .string()
-    .min(1, { message: "No Peserta tidak boleh kosong" })
-    .max(14, { message: "No Peserta tidak boleh lebih dari 14 nomor" }),
+    .nonempty({ message: "No Peserta tidak boleh kosong" })
+    .min(10, { message: "No Peserta harus 10 nomor" })
+    .max(10, { message: "No Peserta tidak boleh lebih dari 10 nomor" }),
 });
 
 export type TVSNoPesertaUser = z.infer<typeof VSNoPesertaUser>;

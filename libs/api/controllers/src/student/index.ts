@@ -4,13 +4,14 @@ import {
   Delete,
   Get,
   Param,
+  Post,
   Put,
   Request,
   UploadedFile,
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
-import { TFIle } from "@uninus/entities";
+import { TFIle, VSRegistrationNumber } from "@uninus/entities";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
 import { JwtAuthGuard } from "@uninus/api/guard";
@@ -33,14 +34,16 @@ import {
 export class StudentController {
   constructor(private readonly appService: StudentService) {}
 
-  @Get("/graduation-status")
+  @Post("/graduation-status")
   @ApiOperation({ summary: "Get Graduation Status" })
   @ApiResponse({
     status: 400,
     description: "User tidak ditemukan",
   })
-  graduationStatus(@Body("registration_number") registration_number: GraduationStatusSwagger) {
-    return this.appService.checkGraduationStatus({ ...registration_number });
+  graduationStatus(
+    @Body(new ZodValidationPipe(VSRegistrationNumber)) registration_number: GraduationStatusSwagger,
+  ) {
+    return this.appService.checkGraduationStatus(registration_number);
   }
 
   @Get()
