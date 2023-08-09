@@ -131,6 +131,9 @@ export class StudentService {
       },
       include: {
         user: true,
+        education_history: true,
+        province: true,
+        city: true,
       },
     });
 
@@ -145,10 +148,10 @@ export class StudentService {
       fullname: graduationStatus.user.fullname,
       birth_date: graduationStatus.birth_date,
       birth_place: graduationStatus.birth_place,
-      city: graduationStatus.city,
-      school_name: graduationStatus.school_name,
-      province: graduationStatus.province,
-      registration_status: graduationStatus.registration_status
+      city: graduationStatus.city?.name,
+      school_name: graduationStatus.education_history?.name,
+      province: graduationStatus.province?.name,
+      registration_status: graduationStatus.registration_status,
     };
   }
 }
