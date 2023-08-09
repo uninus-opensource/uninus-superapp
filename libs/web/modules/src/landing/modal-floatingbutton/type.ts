@@ -1,4 +1,4 @@
 export type TSeleksiProps = {
   label: string;
-  item: string;
+  item?: string | null;
 };
