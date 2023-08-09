@@ -12,7 +12,7 @@ export const ProvinceGet = async (params: IProvinceRequest): Promise<TProvinceRe
   const { data } = await api<TProvinceResponse>({
     method: "GET",
     params,
-    url: "/location/province",
+    url: "/province",
   });
   return data;
 };
@@ -21,7 +21,7 @@ export const CityGet = async (params: ICityRequest): Promise<TCityResponse> => {
   const { data } = await api<TCityResponse>({
     method: "GET",
     params,
-    url: "/location/city",
+    url: "/city",
   });
   return data;
 };
@@ -32,7 +32,7 @@ export const SubDistrictGet = async (
   const { data } = await api<TSubDistrictResponse>({
     method: "GET",
     params,
-    url: "/location/sub-district",
+    url: "/sub-district",
   });
   return data;
 };

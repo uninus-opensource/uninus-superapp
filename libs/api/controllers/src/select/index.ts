@@ -186,6 +186,21 @@ export class SelectController {
     return this.appService.getOccupation({ search });
   }
 
+  @Get("occupation-position")
+  @ApiOperation({ summary: "Get Occupation Position" })
+  @ApiResponse({
+    status: 400,
+    description: "Occupation Position Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "occupation_id", required: false })
+  getOccupationPosition(
+    @Query("search") search: string,
+    @Query("occupation_id") occupation_id: string,
+  ) {
+    return this.appService.getOccupationPosition({ search, occupation_id });
+  }
+
   @Get("disabilities")
   @ApiOperation({ summary: "Get Disabilities" })
   @ApiResponse({
@@ -216,5 +231,16 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   getScholarship(@Query("search") search: string) {
     return this.appService.getScholarship({ search });
+  }
+
+  @Get("school-type")
+  @ApiOperation({ summary: "Get School Type" })
+  @ApiResponse({
+    status: 400,
+    description: "School Type Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  getSchoolType(@Query("search") search: string) {
+    return this.appService.getSchoolType({ search });
   }
 }

@@ -74,12 +74,20 @@ export type TDepartmentResponse = {
   }>;
 };
 
+export interface IReligionRequest {
+  search: string;
+}
+
 export type TReligionResponse = {
   religion: Array<{
     id: number;
     name: string;
   }>;
 };
+
+export interface IMaritalStatusRequest {
+  search: string;
+}
 
 export type TMaritalStatusResponse = {
   maritalStatus: Array<{
@@ -108,6 +116,10 @@ export type TSelectionResponse = {
     name: string;
   }>;
 };
+
+export interface ISalaryRequest {
+  search: string;
+}
 
 export type TSalaryResponse = {
   salary: Array<{
@@ -142,6 +154,21 @@ export type TOccupationResponse = {
   }>;
 };
 
+export interface IOccupationPositionRequest extends ISelectRequest {
+  occupation_id: string;
+}
+
+export type TOccupationPositionResponse = {
+  occupation_position: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface IDisabilitiesRequest {
+  search: string;
+}
+
 export type TDisabilitiesResponse = {
   disabilities: Array<{
     id: number;
@@ -158,6 +185,13 @@ export type TYearGraduationResponse = {
 
 export type TScholarshipResponse = {
   scholarship: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export type TSchoolTypeResponse = {
+  school_type: Array<{
     id: number;
     name: string;
   }>;
