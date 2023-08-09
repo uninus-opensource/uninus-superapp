@@ -158,7 +158,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
           />
-          <div className="w-full">
+          <div className="lg:w-full">
             <SelectOption
               name="school_major"
               labels="Jurusan Pendidikan Asal"
@@ -223,7 +223,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             disabled={!watch("city")}
           />
 
-          <div>
+          <div className="px-14 md:px-0 lg:px-0 w-full">
             <TextField
               name="school_address"
               variant="sm"
@@ -235,7 +235,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="w-[68vw] md:w-[50vw] lg:w-55% "
+              inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2  "
             />
           </div>

@@ -267,3 +267,8 @@ model Scholarship {
   id   Int    @id @default(autoincrement())
   name String
 }
+
+model SchoolTypes {
+  id   Int    @id @default(autoincrement())
+  name String
+}

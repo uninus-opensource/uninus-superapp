@@ -1,5 +1,5 @@
 "use client";
-import { FC, ReactElement, useState, useMemo } from "react";
+import { FC, ReactElement, useState, useMemo, Fragment } from "react";
 import Image from "next/image";
 import { TSideBarProps } from "./type";
 import { AiOutlineLogout } from "react-icons/ai";
@@ -168,7 +168,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
       </Button>
 
       {onToogle && (
-        <>
+        <Fragment>
           <div
             className="mobile-sidebar-overlay fixed top-0 left-0 right-0 bottom-0 bg-black opacity-50 z-50"
             onClick={() => setOnToogle(false)}
@@ -249,7 +249,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
               </nav>
             </section>
           </motion.aside>
-        </>
+        </Fragment>
       )}
     </>
   );
