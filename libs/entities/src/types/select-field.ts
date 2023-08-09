@@ -96,12 +96,20 @@ export type TMaritalStatusResponse = {
   }>;
 };
 
+export interface IGenderRequest {
+  search: string;
+}
+
 export type TGenderResponse = {
   gender: Array<{
     id: number;
     name: string;
   }>;
 };
+
+export interface ICitizenshipRequest {
+  search: string;
+}
 
 export type TCitizenshipResponse = {
   citizenship: Array<{
@@ -140,12 +148,20 @@ export type TEducationHistoryResponse = {
   }>;
 };
 
+export interface ICountryRequest {
+  search: "string";
+}
+
 export type TCountryResponse = {
   country: Array<{
     id: number;
     name: string;
   }>;
 };
+
+export interface IOccupationRequest {
+  search: string;
+}
 
 export type TOccupationResponse = {
   occupation: Array<{
@@ -164,6 +180,10 @@ export type TDisabilitiesResponse = {
     name: string;
   }>;
 };
+
+export interface IYearGraduationRequest {
+  search: string;
+}
 
 export type TYearGraduationResponse = {
   year: Array<{

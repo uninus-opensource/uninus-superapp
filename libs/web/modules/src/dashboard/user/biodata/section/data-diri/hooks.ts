@@ -7,8 +7,14 @@ import {
   TMetaErrorResponse,
   IDisabilitiesRequest,
   TDisabilitiesResponse,
+  IGenderRequest,
+  TGenderResponse,
+  ICitizenshipRequest,
+  TCitizenshipResponse,
+  ICountryRequest,
+  TCountryResponse,
 } from "@uninus/entities";
-import { DisabilitiesGet, ReligionGet, StatusGet } from "./api";
+import { DisabilitiesGet, ReligionGet, StatusGet, GenderGet, CitizeGet, CountryGet } from "./api";
 
 export const useReligionGet = (
   params: IReligionRequest,
@@ -34,5 +40,32 @@ export const useDisabilitiesGet = (
   return useQuery({
     queryKey: ["getDisabilities", params],
     queryFn: async () => await DisabilitiesGet(params),
+  });
+};
+
+export const useGenderGet = (
+  params: IGenderRequest,
+): UseQueryResult<TGenderResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getGender", params],
+    queryFn: async () => await GenderGet(params),
+  });
+};
+
+export const useCitizenGet = (
+  params: ICitizenshipRequest,
+): UseQueryResult<TCitizenshipResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["geCitizen", params],
+    queryFn: async () => await CitizeGet(params),
+  });
+};
+
+export const useCountryGet = (
+  params: ICountryRequest,
+): UseQueryResult<TCountryResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getCountry", params],
+    queryFn: async () => await CountryGet(params),
   });
 };

@@ -10,7 +10,13 @@ import { defaultValuesBiodata, formBiodataOne } from "../../store";
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
-import { useDisabilitiesGet, useReligionGet, useStatusGet } from "./hooks";
+import {
+  useCitizenGet,
+  useDisabilitiesGet,
+  useGenderGet,
+  useReligionGet,
+  useStatusGet,
+} from "./hooks";
 import { useBiodataUpdate } from "../../hooks";
 
 export const DataDiriSection: FC = (): ReactElement => {
@@ -68,7 +74,7 @@ export const DataDiriSection: FC = (): ReactElement => {
     setValue("city", null);
   }, [watch("province")]);
 
-  const [religion, setReligion] = useState({
+  const [religion] = useState({
     search: "",
   });
 
@@ -98,7 +104,7 @@ export const DataDiriSection: FC = (): ReactElement => {
     [getStatus?.maritalStatus],
   );
 
-  const [disabilities, setDisabilities] = useState({
+  const [disabilities] = useState({
     search: "",
   });
 
@@ -111,6 +117,36 @@ export const DataDiriSection: FC = (): ReactElement => {
         value: disabilities?.id.toString(),
       })),
     [getDisabilities?.disabilities],
+  );
+
+  const [gender] = useState({
+    search: "",
+  });
+
+  const { data: getGender } = useGenderGet(gender);
+
+  const genderOptions = useMemo(
+    () =>
+      getGender?.gender?.map((gender) => ({
+        label: gender?.name,
+        value: gender?.id.toString(),
+      })),
+    [getGender?.gender],
+  );
+
+  const [citizen] = useState({
+    search: "",
+  });
+
+  const { data: getCitizen } = useCitizenGet(citizen);
+
+  const citizenOptions = useMemo(
+    () =>
+      getCitizen?.citizenship?.map((citizen) => ({
+        label: citizen?.name,
+        value: citizen?.id.toString(),
+      })),
+    [getCitizen?.citizenship],
   );
 
   const { mutate } = useBiodataUpdate();
@@ -218,10 +254,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             name="gender"
             control={control}
             size="md"
-            options={[
-              { name: "Laki-laki", value: "MALE" },
-              { name: "Perempuan", value: "FEMALE" },
-            ]}
+            options={genderOptions || []}
             required
             variant="primary"
           />
@@ -283,10 +316,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             fieldName="Kewarganegaraan"
             label="WNI"
             control={control}
-            options={[
-              { name: "WNI", value: "WNI" },
-              { name: "WNA", value: "WNA" },
-            ]}
+            options={citizenOptions || []}
             required
             inputname="kewarganegaraan"
             variant="primary"
@@ -332,7 +362,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           />
 
           <SelectOption
-            labels="City"
+            labels="Kota/Kabupaten"
             className="rounded-md text-primary-black  w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
             labelClassName="font-bold"
             options={cityOptions || []}
@@ -379,8 +409,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             fieldName="Berkebutuhan Khusus"
             control={control}
             options={[
-              { name: "Ya", value: "Ya" },
-              { name: "Tidak", value: "Tidak" },
+              { label: "Ya", value: "Ya" },
+              { label: "Tidak", value: "Tidak" },
             ]}
             size="lg"
             required
