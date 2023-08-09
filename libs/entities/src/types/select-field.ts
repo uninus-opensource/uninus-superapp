@@ -178,3 +178,10 @@ export type TScholarshipResponse = {
     name: string;
   }>;
 };
+
+export type TSchoolTypeResponse = {
+  school_type: Array<{
+    id: number;
+    name: string;
+  }>;
+};
