@@ -26,98 +26,109 @@ model Users {
 }
 
 model Students {
-  id                           String               @unique @default(uuid())
-  nik                          String?              @unique
-  nisn                         String?              @unique
-  birth_place                  String?
-  birth_date                   String?
-  gender                       Gender?              @relation(fields: [gender_id], references: [id])
-  gender_id                    Int?
-  phone_number                 String?
-  religion                     Religion?            @relation(fields: [religion_id], references: [id])
-  religion_id                  Int?
-  citizenship                  Citizenship?         @relation(fields: [citizenship_id], references: [id])
-  citizenship_id               Int?
-  country                      Country?             @relation(fields: [country_id], references: [id])
-  country_id                   Int?
-  address                      String?
-  postal_code                  String?
-  province                     Province?            @relation(fields: [province_id], references: [id])
-  province_id                  Int?
-  city                         City?                @relation(fields: [city_id], references: [id])
-  city_id                      Int?
-  marital_status               MaritalStatus?       @relation(fields: [marital_status_id], references: [id])
-  marital_status_id            Int?
-  subdistrict                  SubDistrict?         @relation(fields: [subdistrict_id], references: [id])
-  subdistrict_id               Int?
-  graduation_year              String?
-  school_type                  String?
-  education_history            EducationHistory?    @relation(fields: [education_history_id], references: [id])
-  education_history_id         Int?
-  school_major                 String?
-  father_name                  String?
-  mother_name                  String?
-  guardian_name                String?
-  father_status                FatherStatus?        @relation(fields: [father_status_id], references: [id])
-  father_status_id             Int?
-  mother_status                MotherStatus?        @relation(fields: [mother_status_id], references: [id])
-  mother_status_id             Int?
-  guardian_status              String?
-  parent_address               String?
-  parent_postal_code           String?
-  parent_subdistrict           String?
-  parent_province              String?
-  parent_city                  String?
-  father_education             String?
-  mother_education             String?
-  guardian_education           String?
-  father_occupation            String?
-  father_occupation_position   String?
-  mother_occupation            String?
-  mother_occupation_position   String?
-  guardian_occupation          String?
-  guardian_occupation_position String?
-  father_income                String?
-  mother_income                String?
-  guardian_income              String?
-  guardian_address             String?
-  guardian_postal_code         String?
-  guardian_subdistrict         String?
-  guardian_province            String?
-  guardian_city                String?
-  faculty_type                 String?
-  education_programs           String?
-  first_study_program          String?
-  second_study_program         String?
-  selection_type               String?
-  family_card_number           String?
-  family_card                  String?
-  ktp_card                     String?
-  school_report_card           SchoolReportCard?    @relation(fields: [school_report_card_id], references: [id])
-  school_report_card_id        Int?
-  birth_certificate            String?
-  utbk_certificate             String?
-  utbk_grade                   Int?
-  additional_documents         AdditionalDocuments? @relation(fields: [additional_documents_id], references: [id])
-  additional_documents_id      Int?
-  disabilities_category        Disabilities?        @relation(fields: [disabilities_id], references: [id])
-  disabilities_id              Int?
-  ijazah_card                  String?
-  academic_year                String?
-  math_grade                   MathGrade?           @relation(fields: [math_grade_id], references: [id])
-  math_grade_id                Int?
-  indonesian_language_grade    IndonesianLangGrade? @relation(fields: [indonesian_language_grade_id], references: [id])
-  indonesian_language_grade_id Int?
-  english_language_grade       EnglishLangGrade?    @relation(fields: [english_language_grade_id], references: [id])
-  english_language_grade_id    Int?
-  scholarship                  Scholarship?         @relation(fields: [scholarship_id], references: [id])
-  scholarship_id               Int?
-  registration_wave            String?
-  registration_status          String?
-  registration_number          String?
-  user_id                      String               @unique
-  createdAt                    DateTime             @default(now())
-  user                         Users                @relation(fields: [user_id], references: [id])
+  id                                 String            @unique @default(uuid())
+  nik                                String?           @unique
+  nisn                               String?           @unique
+  birth_place                        String?
+  birth_date                         String?
+  gender                             Gender?           @relation(fields: [gender_id], references: [id])
+  gender_id                          Int?
+  phone_number                       String?
+  religion                           Religion?         @relation(fields: [religion_id], references: [id])
+  religion_id                        Int?
+  citizenship                        Citizenship?      @relation(fields: [citizenship_id], references: [id])
+  citizenship_id                     Int?
+  country                            Country?          @relation(fields: [country_id], references: [id])
+  country_id                         Int?
+  address                            String?
+  postal_code                        String?
+  province                           Province?         @relation(fields: [province_id], references: [id])
+  province_id                        Int?
+  city                               City?             @relation(fields: [city_id], references: [id])
+  city_id                            Int?
+  marital_status                     MaritalStatus?    @relation(fields: [marital_status_id], references: [id])
+  marital_status_id                  Int?
+  subdistrict                        SubDistrict?      @relation(fields: [subdistrict_id], references: [id])
+  subdistrict_id                     Int?
+  graduation_year                    String?
+  school_type                        String?
+  education_history                  EducationHistory? @relation(fields: [education_history_id], references: [id])
+  education_history_id               Int?
+  school_major                       String?
+  father_name                        String?
+  mother_name                        String?
+  guardian_name                      String?
+  father_status                      FatherStatus?     @relation(fields: [father_status_id], references: [id])
+  father_status_id                   Int?
+  mother_status                      MotherStatus?     @relation(fields: [mother_status_id], references: [id])
+  mother_status_id                   Int?
+  guardian_status                    String?
+  parent_address                     String?
+  parent_postal_code                 String?
+  parent_subdistrict                 String?
+  parent_province                    String?
+  parent_city                        String?
+  father_education                   String?
+  mother_education                   String?
+  guardian_education                 String?
+  father_occupation                  String?
+  father_occupation_position         String?
+  mother_occupation                  String?
+  mother_occupation_position         String?
+  guardian_occupation                String?
+  guardian_occupation_position       String?
+  father_income                      String?
+  mother_income                      String?
+  guardian_income                    String?
+  guardian_address                   String?
+  guardian_postal_code               String?
+  guardian_subdistrict               String?
+  guardian_province                  String?
+  guardian_city                      String?
+  faculty_type                       String?
+  education_programs                 String?
+  first_study_program                String?
+  second_study_program               String?
+  selection_type                     String?
+  family_card_number                 String?
+  family_card                        String?
+  ktp_card                           String?
+  school_report_card_first_semester  String?
+  school_report_card_second_semester String?
+  school_report_card_third_semester  String?
+  school_report_card_forth_semester  String?
+  birth_certificate                  String?
+  utbk_certificate                   String?
+  utbk_grade                         String?
+  nu_membership                      String?
+  assignment_certificate             String?
+  medical_certificate                String?
+  quran_certificate                  String?
+  non_academic_certificate           String?
+  disabilities_category              Disabilities?     @relation(fields: [disabilities_id], references: [id])
+  disabilities_id                    Int?
+  ijazah_card                        String?
+  academic_year                      String?
+  math_grade_first_semester          Int?
+  math_grade_second_semester         Int?
+  math_grade_third_semester          Int?
+  math_grade_forth_semester          Int?
+  indo_grade_first_semester          Int?
+  indo_grade_second_semester         Int?
+  indo_grade_thrid_semester          Int?
+  indo_grade_forth_semester          Int?
+  engl_grade_first_semester          Int?
+  engl_grade_second_semester         Int?
+  engl_grade_third_semester          Int?
+  engl_grade_forth_semester          Int?
+  scholarship                        Scholarship?      @relation(fields: [scholarship_id], references: [id])
+  scholarship_id                     Int?
+  registration_wave                  String?
+  registration_status                String?
+  registration_number                String?
+  user_id                            String            @unique
+  createdAt                          DateTime          @default(now())
+  user                               Users             @relation(fields: [user_id], references: [id])
 }
 
 model Lecturers {
@@ -264,11 +275,6 @@ model EducationHistory {
   students       Students[]
 }
 
-model SchoolType {
-  id   Int    @id @default(autoincrement())
-  name String
-}
-
 model Country {
   id             Int          @id @default(autoincrement())
   name           String
@@ -300,52 +306,6 @@ model Scholarship {
   id       Int        @id @default(autoincrement())
   name     String
   students Students[]
-}
-
-model MathGrade {
-  id              Int        @id @default(autoincrement())
-  first_semester  Int?
-  second_semester Int?
-  third_semester  Int?
-  fourth_semester Int?
-  students        Students[]
-}
-
-model IndonesianLangGrade {
-  id              Int        @id @default(autoincrement())
-  first_semester  Int?
-  second_semester Int?
-  third_semester  Int?
-  fourth_semester Int?
-  students        Students[]
-}
-
-model EnglishLangGrade {
-  id              Int        @id @default(autoincrement())
-  first_semester  Int?
-  second_semester Int?
-  third_semester  Int?
-  fourth_semester Int?
-  students        Students[]
-}
-
-model SchoolReportCard {
-  id              Int        @id @default(autoincrement())
-  first_semester  String?
-  second_semester String?
-  third_semester  String?
-  fourth_semester String?
-  students        Students[]
-}
-
-model AdditionalDocuments {
-  id                       Int        @id @default(autoincrement())
-  nu_membership            String?
-  assignment_certificate   String?
-  medical_certificate      String?
-  quran_certificate        String?
-  non_academic_certificate String?
-  students                 Students[]
 }
 
 model FatherStatus {
