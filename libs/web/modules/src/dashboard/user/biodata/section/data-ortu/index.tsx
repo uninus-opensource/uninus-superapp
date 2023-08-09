@@ -4,6 +4,7 @@ import { defaultValuesBiodata } from "../../store";
 import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
+import { useSalaryGet } from "./hooks";
 
 export const DataOrtuSection: FC = (): ReactElement => {
   const { control, handleSubmit, watch, setValue } = useForm<FieldValues>({
@@ -59,6 +60,21 @@ export const DataOrtuSection: FC = (): ReactElement => {
   useEffect(() => {
     setValue("city", null);
   }, [watch("province")]);
+
+  const [salary, setSalary] = useState({
+    search: "",
+  });
+
+  const { data: getSalary } = useSalaryGet(salary);
+
+  const salaryOptions = useMemo(
+    () =>
+      getSalary?.salary?.map((salary) => ({
+        label: salary?.name,
+        value: salary?.id.toString(),
+      })),
+    [getSalary?.salary],
+  );
 
   const { mutate } = useBiodataUpdate();
 
@@ -168,20 +184,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             name="father_income"
             labels="Pendapatan Ayah ( Per Bulan )"
             placeholder="Pilih Pendapatan"
-            options={[
-              {
-                value: "Rendah",
-                label: "0 - 1.200.000",
-              },
-              {
-                value: "Menengah",
-                label: "1.200.000 - 3.200.000",
-              },
-              {
-                value: "Tinggi",
-                label: "3.200.000 - 6.000.000",
-              },
-            ]}
+            options={salaryOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
             isSearchable={false}
             control={control}
@@ -278,20 +281,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             name="mother_income"
             labels="Pendapatan Ibu ( Per Bulan )"
             placeholder="Pilih Pendapatan"
-            options={[
-              {
-                value: "Rendah",
-                label: "0 - 1.200.000",
-              },
-              {
-                value: "Menengah",
-                label: "1.200.000 - 3.200.000",
-              },
-              {
-                value: "Tinggi",
-                label: "3.200.000 - 6.000.000",
-              },
-            ]}
+            options={salaryOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
             isSearchable={false}
             control={control}
@@ -343,7 +333,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             disabled={!watch("city")}
           />
 
-          <div>
+          <div className="px-14 md:px-0 lg:px-0 w-full">
             <TextField
               name="parent_address"
               variant="sm"
@@ -355,7 +345,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="w-[68vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
+              inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2  "
             />
           </div>
@@ -469,20 +459,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             name="guardian_income"
             labels="Pendapatan Wali ( Per Bulan )"
             placeholder="Pilih Pendapatan"
-            options={[
-              {
-                value: "Rendah",
-                label: "0 - 1.200.000",
-              },
-              {
-                value: "Menengah",
-                label: "1.200.000 - 3.200.000",
-              },
-              {
-                value: "Tinggi",
-                label: "3.200.000 - 6.000.000",
-              },
-            ]}
+            options={salaryOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
             isSearchable={false}
             control={control}
@@ -532,21 +509,22 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isClearable={true}
             disabled={!watch("city")}
           />
-
-          <TextField
-            name="guardian_address"
-            variant="sm"
-            type="text"
-            labelclassname="text-xl font-semibold"
-            label="Alamat Wali"
-            control={control}
-            isTextArea
-            textAreaRow={5}
-            textAreaCols={30}
-            inputHeight="h-20"
-            inputWidth="w-[68vw] lg:w-[40vw] md:w-[50vw] md:mr-5"
-            className="resize-none bg-grayscale-2  "
-          />
+          <div className="px-14 md:px-0 lg:px-0 w-full">
+            <TextField
+              name="guardian_address"
+              variant="sm"
+              type="text"
+              labelclassname="text-xl font-semibold"
+              label="Alamat Wali"
+              control={control}
+              isTextArea
+              textAreaRow={5}
+              textAreaCols={30}
+              inputHeight="h-20"
+              inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
+              className="resize-none bg-grayscale-2  "
+            />
+          </div>
           <div className="w-70% md:w-26 lg:w-26">
             <TextField
               inputHeight="h-10"

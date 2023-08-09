@@ -1,4 +1,3 @@
-import { EReligion } from "@uninus/entities";
 import {
   Accordion,
   UploadField,
@@ -11,6 +10,7 @@ import { defaultValuesBiodata, formBiodataOne } from "../../store";
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
+import { useDisabilitiesGet, useReligionGet, useStatusGet } from "./hooks";
 import { useBiodataUpdate } from "../../hooks";
 
 export const DataDiriSection: FC = (): ReactElement => {
@@ -67,6 +67,51 @@ export const DataDiriSection: FC = (): ReactElement => {
   useEffect(() => {
     setValue("city", null);
   }, [watch("province")]);
+
+  const [religion, setReligion] = useState({
+    search: "",
+  });
+
+  const { data: getReligion } = useReligionGet(religion);
+
+  const religionOptions = useMemo(
+    () =>
+      getReligion?.religion?.map((religion) => ({
+        label: religion?.name,
+        value: religion?.id.toString(),
+      })),
+    [getReligion?.religion],
+  );
+
+  const [status] = useState({
+    search: "",
+  });
+
+  const { data: getStatus } = useStatusGet(status);
+
+  const statusOptions = useMemo(
+    () =>
+      getStatus?.maritalStatus?.map((status) => ({
+        label: status?.name,
+        value: status?.id.toString(),
+      })),
+    [getStatus?.maritalStatus],
+  );
+
+  const [disabilities, setDisabilities] = useState({
+    search: "",
+  });
+
+  const { data: getDisabilities } = useDisabilitiesGet(disabilities);
+
+  const disabilitiesOptions = useMemo(
+    () =>
+      getDisabilities?.disabilities?.map((disabilities) => ({
+        label: disabilities?.name,
+        value: disabilities?.id.toString(),
+      })),
+    [getDisabilities?.disabilities],
+  );
 
   const { mutate } = useBiodataUpdate();
 
@@ -127,19 +172,20 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             disabled
           />
-          <TextField
-            inputHeight="h-10"
-            name="nik"
-            variant="sm"
-            required
-            type="text"
-            placeholder="Nomor dapat dilihat dari KK atau KTP"
-            labelclassname="text-sm font-semibold"
-            label="NIK"
-            inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
-            control={control}
-          />
-
+          <div className="lg:w-full">
+            <TextField
+              inputHeight="h-10"
+              name="nik"
+              variant="sm"
+              required
+              type="text"
+              placeholder="Nomor dapat dilihat dari KK atau KTP"
+              labelclassname="text-sm font-semibold"
+              label="NIK"
+              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+              control={control}
+            />
+          </div>
           <TextField
             inputHeight="h-10"
             name="nisn"
@@ -153,20 +199,20 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
           />
           {/*Start Jenis kelamin */}
-          <div className="w-full">
-            <TextField
-              inputHeight="h-10"
-              name="nomor kk"
-              variant="sm"
-              required
-              type="text"
-              placeholder="Nomor dapat dilihat di KK"
-              labelclassname="text-sm font-semibold"
-              label="No Kartu Keluarga"
-              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
-              control={control}
-            />
-          </div>
+
+          <TextField
+            inputHeight="h-10"
+            name="nomor kk"
+            variant="sm"
+            required
+            type="text"
+            placeholder="Nomor dapat dilihat di KK"
+            labelclassname="text-sm font-semibold"
+            label="No Kartu Keluarga"
+            inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+            control={control}
+          />
+
           <RadioButton
             fieldName="Jenis Kelamin"
             name="gender"
@@ -185,35 +231,10 @@ export const DataDiriSection: FC = (): ReactElement => {
             labels="Agama"
             className=" rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
             placeholder="Agama"
-            options={[
-              {
-                label: "Islam",
-                value: EReligion.ISLAM,
-              },
-              {
-                label: "Kristen",
-                value: EReligion.KRISTEN,
-              },
-              {
-                label: "Buddha",
-                value: EReligion.BUDHA,
-              },
-              {
-                label: "Hindu",
-                value: EReligion.HINDU,
-              },
-              {
-                label: "Konghucu",
-                value: EReligion.KONGHUCU,
-              },
-              {
-                label: "Katolik",
-                value: EReligion.KATOLIK,
-              },
-            ]}
+            options={religionOptions || []}
             isClearable={true}
             isSearchable={true}
-            name="province"
+            name="religion"
             control={control}
             isMulti={false}
           />
@@ -248,16 +269,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               labels="Status"
               placeholder="Status"
               className=" rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
-              options={[
-                {
-                  label: "Menikah",
-                  value: "Married",
-                },
-                {
-                  label: "Belum Menikah",
-                  value: "Single",
-                },
-              ]}
+              options={statusOptions || []}
               isSearchable={false}
               control={control}
               isMulti={false}
@@ -345,22 +357,21 @@ export const DataDiriSection: FC = (): ReactElement => {
             isClearable={true}
             disabled={!watch("city")}
           />
-
-          <TextField
-            name="address"
-            variant="sm"
-            type="text"
-            labelclassname="text-xl font-semibold"
-            label="Alamat Domisili"
-            control={control}
-            isTextArea
-            textAreaRow={5}
-            textAreaCols={30}
-            inputHeight="h-20"
-            inputWidth="w-[68vw] md:w-[50vw] lg:w-55%"
-            className="resize-none bg-grayscale-2  "
-          />
-
+          <div className="px-14 md:px-0 lg:px-0 w-full">
+            <TextField
+              name="address"
+              variant="sm"
+              type="text"
+              labelclassname="text-xl font-semibold"
+              label="Alamat Domisili"
+              control={control}
+              isTextArea
+              textAreaCols={30}
+              inputHeight="h-20"
+              inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
+              className="resize-none bg-grayscale-2  "
+            />
+          </div>
           {/*Start difabel */}
           <RadioButton
             name="difabel"
@@ -381,24 +392,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             labels="Kategori Difabel"
             className=" rounded-md text-primary-black lg:w-auto w-70% xl:w-[25vw] md:w-[33vw]"
             placeholder="Kategori Difabel"
-            options={[
-              {
-                label: "Tuna Rungu",
-                value: "Tuna Rungu",
-              },
-              {
-                label: "Tuna Daksa",
-                value: "Tuna Daksa",
-              },
-              {
-                label: "Tuna Netra",
-                value: "Tuna Netra",
-              },
-              {
-                label: "Tuna Wicara",
-                value: "Tuna Wicara",
-              },
-            ]}
+            options={disabilitiesOptions || []}
             isClearable={true}
             isSearchable={true}
             name="province"

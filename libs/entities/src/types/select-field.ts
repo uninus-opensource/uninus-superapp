@@ -74,12 +74,20 @@ export type TDepartmentResponse = {
   }>;
 };
 
+export interface IReligionRequest {
+  search: string;
+}
+
 export type TReligionResponse = {
   religion: Array<{
     id: number;
     name: string;
   }>;
 };
+
+export interface IMaritalStatusRequest {
+  search: string;
+}
 
 export type TMaritalStatusResponse = {
   maritalStatus: Array<{
@@ -108,6 +116,10 @@ export type TSelectionResponse = {
     name: string;
   }>;
 };
+
+export interface ISalaryRequest {
+  search: string;
+}
 
 export type TSalaryResponse = {
   salary: Array<{
@@ -141,6 +153,10 @@ export type TOccupationResponse = {
     name: string;
   }>;
 };
+
+export interface IDisabilitiesRequest {
+  search: string;
+}
 
 export type TDisabilitiesResponse = {
   disabilities: Array<{
