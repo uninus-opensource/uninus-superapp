@@ -26,6 +26,8 @@ import {
   ISelectEducationHistoryRequest,
   TScholarshipResponse,
   ICountryRequest,
+  TOccupationPositionResponse,
+  IOccupationPositionRequest,
   TSchoolTypeResponse,
 } from "@uninus/entities";
 
@@ -328,7 +330,6 @@ export class SelectService {
       select: {
         id: true,
         name: true,
-        occupationposition: true,
       },
     });
     if (!occupation) {
@@ -336,6 +337,27 @@ export class SelectService {
     }
 
     return { occupation };
+  }
+
+  async getOccupationPosition({
+    search,
+    occupation_id,
+  }: IOccupationPositionRequest): Promise<TOccupationPositionResponse> {
+    const occupationPosition = await this.prisma.occupationPosition.findMany({
+      where: {
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+        ...(occupation_id && { occupation_id: Number(occupation_id) }),
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    if (!occupationPosition) {
+      throw new NotFoundException("Data Jabatan Tidak Ditemukan!");
+    }
+
+    return { occupation_position: occupationPosition };
   }
 
   async getDisabilites({ search }: ISelectRequest): Promise<TDisabilitiesResponse> {

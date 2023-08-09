@@ -154,6 +154,17 @@ export type TOccupationResponse = {
   }>;
 };
 
+export interface IOccupationPositionRequest extends ISelectRequest {
+  occupation_id: string;
+}
+
+export type TOccupationPositionResponse = {
+  occupation_position: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
 export interface IDisabilitiesRequest {
   search: string;
 }
