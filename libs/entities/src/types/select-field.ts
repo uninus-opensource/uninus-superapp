@@ -85,6 +85,10 @@ export type TReligionResponse = {
   }>;
 };
 
+export interface IMaritalStatusRequest {
+  search: string;
+}
+
 export type TMaritalStatusResponse = {
   maritalStatus: Array<{
     id: number;
@@ -112,6 +116,10 @@ export type TSelectionResponse = {
     name: string;
   }>;
 };
+
+export interface ISalaryRequest {
+  search: string;
+}
 
 export type TSalaryResponse = {
   salary: Array<{
@@ -145,6 +153,10 @@ export type TOccupationResponse = {
     name: string;
   }>;
 };
+
+export interface IDisabilitiesRequest {
+  search: string;
+}
 
 export type TDisabilitiesResponse = {
   disabilities: Array<{
