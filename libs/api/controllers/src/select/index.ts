@@ -217,4 +217,15 @@ export class SelectController {
   getScholarship(@Query("search") search: string) {
     return this.appService.getScholarship({ search });
   }
+
+  @Get("school-type")
+  @ApiOperation({ summary: "Get School Type" })
+  @ApiResponse({
+    status: 400,
+    description: "School Type Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  getSchoolType(@Query("search") search: string) {
+    return this.appService.getSchoolType({ search });
+  }
 }

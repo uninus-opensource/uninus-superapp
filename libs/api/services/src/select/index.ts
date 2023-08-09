@@ -26,6 +26,7 @@ import {
   ISelectEducationHistoryRequest,
   TScholarshipResponse,
   ICountryRequest,
+  TSchoolTypeResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -378,6 +379,28 @@ export class SelectService {
       },
     });
 
+    if (!scholarship) {
+      throw new NotFoundException("Data Beasiswa Tidak Ditemukan!");
+    }
+
     return { scholarship };
+  }
+
+  async getSchoolType({ search }: ISelectRequest): Promise<TSchoolTypeResponse> {
+    const schoolTypes = await this.prisma.schoolTypes.findMany({
+      where: {
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!schoolTypes) {
+      throw new NotFoundException("Data Jenis Sekola Tidak Ditemukan!");
+    }
+
+    return { school_type: schoolTypes };
   }
 }
