@@ -26,7 +26,7 @@ Font.register({
   ],
 });
 
-const pendaftaran = {
+const detailPembayaran = {
   nomor_regis: "37592731238697",
   nama_lengkap: "Thomas shelby",
   tanggal_daftar: "27 Juli 2023",
@@ -44,10 +44,10 @@ const pendaftaran = {
   batas_pembayaran: "20 Agustus 2023 23:23:23",
 };
 
-export const KartuPendaftaran = () => {
+export const KartuPembayaran = () => {
   return (
     <Document
-      title={`${pendaftaran.nomor_regis}_${pendaftaran.nama_lengkap}`}
+      title={`${detailPembayaran.nomor_regis}_${detailPembayaran.nama_lengkap}`}
       author="Informatika developer team"
       language="Indonesia"
       pageMode="fullScreen"
@@ -96,8 +96,8 @@ export const KartuPendaftaran = () => {
               "w-[64%] text-[#3D3D3D]  text-[1.1rem] flex justify-end gap-2 font-bold text-[#009647]",
             )}
           >
-            <Text style={tw("font-montserrat")}>{pendaftaran.nomor_regis}</Text>
-            <Text style={tw("font-montserrat")}>{pendaftaran.nama_lengkap}</Text>
+            <Text style={tw("font-montserrat")}>{detailPembayaran.nomor_regis}</Text>
+            <Text style={tw("font-montserrat")}>{detailPembayaran.nama_lengkap}</Text>
           </View>
         </View>
 
@@ -108,7 +108,7 @@ export const KartuPendaftaran = () => {
               <View>
                 <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Tanggal Daftar</Text>
                 <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-                  {pendaftaran.tanggal_daftar}
+                  {detailPembayaran.tanggal_daftar}
                 </Text>
               </View>
 
@@ -117,7 +117,7 @@ export const KartuPendaftaran = () => {
                   Jalur Pendaftaran
                 </Text>
                 <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-                  {pendaftaran.jalur_pendaftaran}
+                  {detailPembayaran.jalur_pendaftaran}
                 </Text>
               </View>
             </View>
@@ -125,14 +125,14 @@ export const KartuPendaftaran = () => {
               <View>
                 <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Tanggal Lahir</Text>
                 <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-                  {pendaftaran.tanggal_lahir}
+                  {detailPembayaran.tanggal_lahir}
                 </Text>
               </View>
 
               <View>
                 <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Periode</Text>
                 <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-                  {pendaftaran.periode}
+                  {detailPembayaran.periode}
                 </Text>
               </View>
             </View>
@@ -140,7 +140,7 @@ export const KartuPendaftaran = () => {
               <View>
                 <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Jenis Kelamin</Text>
                 <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-                  {pendaftaran.jenis_kelamin}
+                  {detailPembayaran.jenis_kelamin}
                 </Text>
               </View>
             </View>
@@ -160,13 +160,13 @@ export const KartuPendaftaran = () => {
           <View style={tw("w-[50%]")}>
             <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Jurusan 1</Text>
             <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-              {pendaftaran.jurusan_1}
+              {detailPembayaran.jurusan_1}
             </Text>
           </View>
           <View style={tw("w-[50%]")}>
             <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Jurusan 2</Text>
             <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-              {pendaftaran.jurusan_2}
+              {detailPembayaran.jurusan_2}
             </Text>
           </View>
         </View>
@@ -191,10 +191,10 @@ export const KartuPendaftaran = () => {
 
         <View style={tw("w-[90%] h-[25px] ml-10 mt-3 flex flex-row items-center justify-between")}>
           <Text style={tw(" text-[1rem] text-[#666666] pl-5 font-montserrat")}>
-            {pendaftaran.program_pendidikan}
+            {detailPembayaran.program_pendidikan}
           </Text>
           <Text style={tw(" text-[1rem] text-[#666666] pr-[10vw] font-montserrat")}>
-            {pendaftaran.nilai_tagihan}
+            {detailPembayaran.nilai_tagihan}
           </Text>
         </View>
 
@@ -212,20 +212,20 @@ export const KartuPendaftaran = () => {
         <View style={tw("w-[90%] h-[25px] ml-10 mt-5 flex flex-row items-center justify-between")}>
           <Text style={tw(" text-[1rem] text-[#666666] pl-5 font-montserrat")}>Transfer Bank</Text>
           <Text style={tw(" text-[1rem] text-[#666666] font-montserrat")}>
-            {pendaftaran.no_pembayaran}
+            {detailPembayaran.no_pembayaran}
           </Text>
           <Text style={tw(" text-[1rem] text-[#666666] font-montserrat")}>
-            {pendaftaran.biaya_admin}
+            {detailPembayaran.biaya_admin}
           </Text>
           <Text style={tw(" text-[1rem] pr-[2vw] text-[#666666] font-montserrat")}>
-            {pendaftaran.total_pembayaran}
+            {detailPembayaran.total_pembayaran}
           </Text>
         </View>
 
         <View style={tw("ml-10 mt-8 flex flex-row gap-1")}>
           <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Batas Pembayaran</Text>
           <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-            {pendaftaran.batas_pembayaran}
+            {detailPembayaran.batas_pembayaran}
           </Text>
         </View>
         <View style={tw("ml-10 mt-4 flex flex-row gap-[3px]")}>

@@ -1,6 +1,6 @@
 "use client";
 import { CopyOutlined, DownloadOutlined } from "@ant-design/icons";
-import { Button, KartuPendaftaran } from "@uninus/web/components";
+import { Button, KartuPembayaran } from "@uninus/web/components";
 import dynamic from "next/dynamic";
 import { FC, ReactElement, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -60,8 +60,8 @@ export const Pembayaran: FC = (): ReactElement => {
         <h1 className="font-bold text-[1.2rem]">Pembayaran</h1>
         <div className="h-auto">
           <PDFDownloadLink
-            document={<KartuPendaftaran />}
-            fileName="4103700434832748_Kartu Pendaftaran.pdf"
+            document={<KartuPembayaran />}
+            fileName="4103700434832748_Kartu Pembayaran.pdf"
           >
             {({ loading }) =>
               loading ? (
@@ -109,7 +109,7 @@ export const Pembayaran: FC = (): ReactElement => {
       </h2>
       <div className="mt-2 flex justify-between mx-3 md:mx-5">
         <h2 className="font-bold">Rp. 250.000</h2>
-        <BlobProvider document={<KartuPendaftaran />}>
+        <BlobProvider document={<KartuPembayaran />}>
           {({ url }) => (
             <a
               href={url != null ? url : ""}
