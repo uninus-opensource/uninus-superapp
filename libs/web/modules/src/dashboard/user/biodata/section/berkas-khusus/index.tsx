@@ -53,7 +53,7 @@ export const BerkasKhususSection: FC = (): ReactElement => {
             </div>
           ))}
         </section>
-        <div className="flex w-full justify-end items-end">
+        <div className="flex w-full justify-end items-end py-8">
           <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
             Submit
           </Button>
