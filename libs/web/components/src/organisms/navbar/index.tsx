@@ -26,12 +26,17 @@ export const Navbar: FC = (): ReactElement => {
       link: "/",
     },
     {
-      item: "Progam Studi",
-      link: "/program-studi",
-    },
-    {
-      item: "Biaya Kuliah",
-      link: "/biaya-kuliah",
+      item: (
+        <Fragment>
+          Program{" "}
+          <AiOutlineDown
+            className={`ml-1 h-4 text-xl duration-100 ${isDropDown ? "rotate-180" : ""}`}
+          />
+        </Fragment>
+      ),
+      state: () => {
+        setIsDropDown(!isDropDown);
+      },
     },
     {
       item: "Beasiswa",
