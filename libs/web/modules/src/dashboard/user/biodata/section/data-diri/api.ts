@@ -6,6 +6,12 @@ import {
   IMaritalStatusRequest,
   TDisabilitiesResponse,
   IDisabilitiesRequest,
+  IGenderRequest,
+  TGenderResponse,
+  TCitizenshipResponse,
+  ICitizenshipRequest,
+  ICountryRequest,
+  TCountryResponse,
 } from "@uninus/entities";
 
 export const ReligionGet = async (params: IReligionRequest): Promise<TReligionResponse> => {
@@ -33,6 +39,33 @@ export const DisabilitiesGet = async (
     method: "GET",
     params,
     url: "/disabilities",
+  });
+  return data;
+};
+
+export const GenderGet = async (params: IGenderRequest): Promise<TGenderResponse> => {
+  const { data } = await api<TGenderResponse>({
+    method: "GET",
+    params,
+    url: "/gender",
+  });
+  return data;
+};
+
+export const CitizeGet = async (params: ICitizenshipRequest): Promise<TCitizenshipResponse> => {
+  const { data } = await api<TCitizenshipResponse>({
+    method: "GET",
+    params,
+    url: "/citizenship",
+  });
+  return data;
+};
+
+export const CountryGet = async (params: ICountryRequest): Promise<TCountryResponse> => {
+  const { data } = await api<TCountryResponse>({
+    method: "GET",
+    params,
+    url: "/country",
   });
   return data;
 };

@@ -1,10 +1,11 @@
 import { ChangeEventHandler } from "react";
 import { FieldValues, UseControllerProps } from "react-hook-form";
+import { SELECT_SIZE, SELECT_STATUS } from "./enum";
 
 export type TSelectProps<T extends FieldValues> = UseControllerProps<T> & {
   label: string;
   width?: string;
-  size: "sm" | "md";
+  size: SELECT_SIZE | string;
   name: string;
   options: Array<{
     label: string;
@@ -12,7 +13,7 @@ export type TSelectProps<T extends FieldValues> = UseControllerProps<T> & {
   }>;
   placeholder: string;
   message?: string;
-  status?: "success" | "error" | "warning" | "none";
+  status?: SELECT_STATUS | string;
   required?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
 };
