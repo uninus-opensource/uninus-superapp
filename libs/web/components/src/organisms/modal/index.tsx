@@ -26,7 +26,7 @@ export const Modal: FC<ModalProps> = ({
         <div className={`relative w-full ${className}`}>
           <div className="relative bg-white rounded-lg shadow">
             <div className={`flex items-center justify-between py-4 px-4 rounded-t ${headerColor}`}>
-              <div className="text-xl font-semibold text-gray-900 w-full md:px-10 ">
+              <div className="text-xl font-semibold text-gray-900 w-full md:px-10 lg:px-4 ">
                 {modalTitle}
               </div>
               {iconClose ? (

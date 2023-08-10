@@ -9,7 +9,7 @@ export const ModulePeduli: FC = (): ReactElement => {
       <Navbar />
       <section className="w-full min-h-screen">
         <Image
-          src="/illustrations/Slider-difabel.webp"
+          src="/illustrations/slider-4.webp"
           alt="besiswapeduli"
           width={100}
           height={100}
@@ -30,7 +30,7 @@ export const ModulePeduli: FC = (): ReactElement => {
           </div>
 
           <div className="w-full flex lg:flex-row-reverse  md:flex-row-reverse flex-col justify-between md:items-start ">
-            <figure className=" flex xl:ml-[20vw] px-6  w-full">
+            <figure className="flex xl:ml-[20vw] px-6 w-full">
               <Image
                 src={"/illustrations/beasiswa4.webp"}
                 alt="Beasiswa Mitra"

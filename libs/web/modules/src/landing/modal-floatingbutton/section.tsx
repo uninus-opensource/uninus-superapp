@@ -80,22 +80,14 @@ export const ModalAndButtons: FC = (): ReactElement => {
     }
   });
 
-  const dataSeleksi: TSeleksiProps[] = [
+  const dataPeserta: TSeleksiProps[] = [
     {
-      label: "Tanggal Lahir",
-      item: data?.birth_date,
+      label: "Program Studi",
+      item: "S1 - Pendidikan Luar Biasa",
     },
     {
-      label: "Kabupaten/Kota",
-      item: data?.birth_place,
-    },
-    {
-      label: "Asal Sekolah",
-      item: data?.school_name,
-    },
-    {
-      label: "Provinsi",
-      item: data?.province,
+      label: "Jalur Pendidikan",
+      item: "Beasiswa Nusantara Berprestasi",
     },
   ];
 
@@ -106,10 +98,10 @@ export const ModalAndButtons: FC = (): ReactElement => {
         showModal={isModal}
         onClose={closeModal}
         closeClassName="text-primary-white p-0"
-        bodyClassName="py-4 md:py-8"
+        bodyClassName="py-4"
         modalTitle={
           data?.registration_status === "Lulus" ? (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 md:w-[70%]">
               <Image
                 alt="logo-uninus"
                 src="/illustrations/uninus-logo.webp"
@@ -119,11 +111,11 @@ export const ModalAndButtons: FC = (): ReactElement => {
                 className="w-16 h-16"
               />
               <p className="text-xs text-primary-white">
-                SELAMAT! ANDA DINYATAKAN LULUS SELEKSI JALUR REGULER 2023
+                SELAMAT! ANDA DINYATAKAN LULUS SELEKSI PMB UNINUS 2023
               </p>
             </div>
           ) : data?.registration_status === "Tidak Lulus" ? (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 md:w-[70%]">
               <Image
                 alt="logo-uninus"
                 src="/illustrations/uninus-logo.webp"
@@ -133,7 +125,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
                 className="w-16 h-16"
               />
               <p className="text-xs text-primary-white">
-                ANDA DINYATAKAN TIDAK LULUS SELEKSI JALUR REGULER 2023
+                MAAF ANDA DINYATAKAN TIDAK LULUS SELEKSI PMB UNINUS 2023
               </p>
             </div>
           ) : (
@@ -149,7 +141,9 @@ export const ModalAndButtons: FC = (): ReactElement => {
           )
         }
         className={`${
-          data ? "bg-primary-white max-w-5xl" : "bg-primary-green max-w-2xl xl:max-w-3xl"
+          data
+            ? "bg-primary-white max-w-md md:max-w-xl lg:max-w-2xl"
+            : "bg-primary-green max-w-2xl xl:max-w-3xl"
         }  rounded-lg duration-150 ease-in-out`}
         headerColor={`${
           data?.registration_status === "Lulus"
@@ -161,9 +155,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
       >
         {/* Input nomor pendaftaran modal */}
         {!data && (
-          <section
-            className={`flex w-full flex-col md:flex-row gap-10 h-[40vh] px-12 items-center md:items-start font-extrabold md:justify-between pt-2 md:pt-12`}
-          >
+          <section className="flex w-full flex-col md:flex-row gap-10 h-[40vh] px-12 items-center md:items-start font-extrabold md:justify-between pt-2 md:pt-12">
             <div className="w-full text-center md:text-left md:w-[60%] text-primary-white">
               <h1 className="uppercase text-lg">pengumuman kelulusan</h1>
               <h2 className="text-xs">Calon Mahasiswa Baru 2023/2024</h2>
@@ -194,52 +186,71 @@ export const ModalAndButtons: FC = (): ReactElement => {
 
         {/* Kelulusan modal */}
         {data && (
-          <section className="flex flex-col md:flex-row w-full lg:h-[30vh] px-4 md:px-12 items-center justify-between">
-            <section className="flex flex-col gap-7 w-full md:w-[60%]">
-              <div className="flex flex-col gap-1">
-                <h6 className="text-xs">No Pendaftaran : {data?.registration_number}</h6>
-                <h1 className="font-semibold text-xl text-secondary-green-4">{data?.fullname}</h1>
-                <h5 className="font-semibold text-sm">Program Studi : S1 - Teknik Informatika</h5>
-                <h5 className="font-semibold text-sm">
-                  Jalur Pendaftaran : Beasiswa Nusantara Berprestasi
-                </h5>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {dataSeleksi.map((data, idx) => (
-                  <div key={idx} className="flex flex-col">
-                    <h2 className="text-secondary-green-4 text-sm font-semibold">{data.label}</h2>
-                    <h2 className="text-xs">{data.item}</h2>
-                  </div>
-                ))}
-              </div>
+          <section
+            className={`flex flex-col w-full h-[25em] md:h-[20em] px-4 md:px-10 items-center 
+          ${data?.registration_status === "Tidak Lulus" ? "" : "justify-center lg:h-[22em]"}`}
+          >
+            <section className="flex flex-col gap-2 w-full font-semibold py-2 px-4 md:px-0">
+              <h4 className="text-[10px] md:text-xs text-grayscale-9">
+                No Registrasi : {data?.registration_number}
+              </h4>
+              <h2 className="text-secondary-green-4 font-extrabold md:text-xl">{data?.fullname}</h2>
             </section>
 
             {/* Ketika Lulus */}
-            <section
-              className={`${
-                data?.registration_status === "Lulus" ? "flex" : "hidden"
-              } flex-col w-full md:w-[30%] items-center justify-center gap-2 mt-12`}
-            >
-              <span className="text-[10px] font-bold">Silahkan lakukan pendaftaran ulang</span>
-              <Button variant="filled" width="w-[15em]">
-                Unduh Bukti Kelulusan
-              </Button>
-            </section>
+            {data?.registration_status === "Lulus" && (
+              <Fragment>
+                <section className="flex flex-col w-full items-center text-center md:items-start md:text-left">
+                  <div className="flex flex-col gap-5 md:gap-1">
+                    <p className="text-xs sm:text-sm w-full font-medium text-grayscale-9 pt-6">
+                      Selamat! Anda dinyatakan{" "}
+                      <span className="text-primary-green font-semibold">lulus</span> seleksi PMB
+                      Uninus
+                    </p>
+                    <div className="flex flex-col md:flex-row gap-6 lg:gap-16 mt-2">
+                      {dataPeserta.map((peserta, idx) => (
+                        <div key={idx} className="flex flex-col gap-1">
+                          <h1 className="text-base md:text-sm font-bold text-secondary-green-4">
+                            {peserta.label}
+                          </h1>
+                          <p className="text-grayscale-9 text-xs md:text-[10px] lg:text-sm font-semibold">
+                            {peserta.item}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+                <div className="flex w-[90%] md:w-full flex-col gap-4 lg:gap-8 items-center text-center mt-12   ">
+                  <p className="text-[10px] lg:text-xs font-semibold w-[90%] sm:w-[75%] lg:w-[70%]">
+                    Silahkan melakukan tahapan berikutnya dengan mengunduh bukti kelulusan di bawah
+                    ini
+                  </p>
+                  <Button variant="filled" width="w-full" height="md:h-8 lg:h-6">
+                    Unduh Bukti Kelulusan
+                  </Button>
+                </div>
+              </Fragment>
+            )}
 
             {/* Ketika tidak lulus */}
-            <section
-              className={`${
-                data?.registration_status === "Tidak Lulus" ? "flex" : "hidden"
-              } flex-col justify-center text-center items-center w-full md:w-[40%] h-auto py-6 px-4 shadow-md rounded-lg gap-1 mt-12 md:mt-0`}
-            >
-              <h1 className="text-sm text-secondary-green-4 font-black">
-                JANGAN PUTUS ASA DAN TETAP SEMANGAT!
-              </h1>
-              <h2 className="text-[10px] font-semibold">
-                Masih ada kesempatan untuk mendaftar melalui jalur beasiswa unggul dan jalur reguler
-                gelombang 3
-              </h2>
-            </section>
+            {data?.registration_status === "Tidak Lulus" && (
+              <section className="flex flex-col w-full gap-12 md:gap-6 items-center text-center  mt-2">
+                <p className="text-sm w-full sm:w-[70%] md:w-full lg:w-[80%] font-medium text-grayscale-9 pt-6">
+                  Anda dinyatakan <span className="text-red-6 font-semibold">tidak lulus</span>{" "}
+                  seleksi penerimaan mahasiswa baru Universitas Islam Nusantara
+                </p>
+                <div className="flex flex-col rounded-md p-6 gap-4 shadow-md sm:w-[90%] md:w-full lg:w-[90%] ">
+                  <h1 className="text-lg lg:text-base text-secondary-green-4 font-black">
+                    JANGAN PUTUS ASA DAN TETAP SEMANGAT!
+                  </h1>
+                  <h2 className="text-xs font-semibold">
+                    Masih ada kesempatan untuk mendaftar melalui jalur beasiswa unggul dan jalur
+                    reguler gelombang 3
+                  </h2>
+                </div>
+              </section>
+            )}
           </section>
         )}
       </Modal>
