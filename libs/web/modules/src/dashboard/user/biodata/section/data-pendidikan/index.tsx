@@ -4,6 +4,7 @@ import { defaultValuesBiodata } from "../../store";
 import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
+import { useYearGraduationGet } from "./hooks";
 
 export const DataPendidikanSection: FC = (): ReactElement => {
   const { control, handleSubmit, watch, setValue } = useForm<FieldValues>({
@@ -60,6 +61,21 @@ export const DataPendidikanSection: FC = (): ReactElement => {
     setValue("city", null);
   }, [watch("province")]);
 
+  const [graduate, setGraduate] = useState({
+    search: "",
+  });
+
+  const { data: getGraduate } = useYearGraduationGet(graduate);
+
+  const graduateOptions = useMemo(
+    () =>
+      getGraduate?.year?.map((year) => ({
+        label: year?.name.toString(),
+        value: year?.id.toString(),
+      })),
+    [getGraduate?.year],
+  );
+
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
@@ -107,16 +123,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             name="graduation_year"
             labels="Tahun Lulus"
             placeholder="Tahun Lulus"
-            options={[
-              {
-                label: "2020",
-                value: "2020",
-              },
-              {
-                label: "2021",
-                value: "2021",
-              },
-            ]}
+            options={graduateOptions || []}
             className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             isSearchable={false}
             control={control}
@@ -158,7 +165,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
           />
-          <div className="w-full">
+          <div className="lg:w-full">
             <SelectOption
               name="school_major"
               labels="Jurusan Pendidikan Asal"
@@ -197,7 +204,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             isMulti={false}
           />
           <SelectOption
-            labels="City"
+            labels="Kota/ Kabupaten"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
             labelClassName="font-bold"
             options={cityOptions || []}
@@ -223,7 +230,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             disabled={!watch("city")}
           />
 
-          <div>
+          <div className="px-14 md:px-0 lg:px-0 w-full">
             <TextField
               name="school_address"
               variant="sm"
@@ -235,7 +242,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="w-[68vw] md:w-[50vw] lg:w-55% "
+              inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2  "
             />
           </div>

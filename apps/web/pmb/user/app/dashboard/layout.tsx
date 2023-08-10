@@ -40,7 +40,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     },
     {
       label: "Tes Seleksi",
-      link: "/dashboardtes-seleksi",
+      link: "/dashboard/selection",
       icon: <AuditOutlined />,
     },
   ];

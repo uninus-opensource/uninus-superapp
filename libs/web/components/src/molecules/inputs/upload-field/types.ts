@@ -6,4 +6,7 @@ export type TUploadFile = {
   previewImage?: string;
   classNameField?: string;
   preview?: boolean;
+  labels?: string;
+  labelClassName?: string;
+  required?: boolean;
 };

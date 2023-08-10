@@ -11,7 +11,10 @@ export const Accordion: FC<AccordionType> = ({ children, title, className }): Re
   };
 
   return (
-    <div className="rounded-lg w-full lg:w-[60vw] xl:w-[70vw] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] py-3">
+    <div
+      data-testid="accordion"
+      className="rounded-lg w-full lg:w-[60vw] xl:w-[70vw] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] py-3"
+    >
       <div
         className="flex justify-between items-center cursor-pointer select-none px-10"
         onClick={toggleAccordion}

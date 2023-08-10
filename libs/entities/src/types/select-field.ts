@@ -33,6 +33,7 @@ export interface ICityRequest extends ISelectRequest {
 
 export interface ICountryRequest extends ISelectRequest {
   citizenship_id: string;
+  citizenship?: string;
 }
 
 export type TCityResponse = {
@@ -74,12 +75,20 @@ export type TDepartmentResponse = {
   }>;
 };
 
+export interface IReligionRequest {
+  search: string;
+}
+
 export type TReligionResponse = {
   religion: Array<{
     id: number;
     name: string;
   }>;
 };
+
+export interface IMaritalStatusRequest {
+  search: string;
+}
 
 export type TMaritalStatusResponse = {
   maritalStatus: Array<{
@@ -88,12 +97,20 @@ export type TMaritalStatusResponse = {
   }>;
 };
 
+export interface IGenderRequest {
+  search: string;
+}
+
 export type TGenderResponse = {
   gender: Array<{
     id: number;
     name: string;
   }>;
 };
+
+export interface ICitizenshipRequest {
+  search: string;
+}
 
 export type TCitizenshipResponse = {
   citizenship: Array<{
@@ -108,6 +125,10 @@ export type TSelectionResponse = {
     name: string;
   }>;
 };
+
+export interface ISalaryRequest {
+  search: string;
+}
 
 export type TSalaryResponse = {
   salary: Array<{
@@ -128,12 +149,20 @@ export type TEducationHistoryResponse = {
   }>;
 };
 
+export interface ICountryRequest {
+  search: string;
+}
+
 export type TCountryResponse = {
   country: Array<{
     id: number;
     name: string;
   }>;
 };
+
+export interface IOccupationRequest {
+  search: string;
+}
 
 export type TOccupationResponse = {
   occupation: Array<{
@@ -142,12 +171,31 @@ export type TOccupationResponse = {
   }>;
 };
 
+export interface IOccupationPositionRequest extends ISelectRequest {
+  occupation_id: string;
+}
+
+export type TOccupationPositionResponse = {
+  occupation_position: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface IDisabilitiesRequest {
+  search: string;
+}
+
 export type TDisabilitiesResponse = {
   disabilities: Array<{
     id: number;
     name: string;
   }>;
 };
+
+export interface IYearGraduationRequest {
+  search: string;
+}
 
 export type TYearGraduationResponse = {
   year: Array<{
@@ -158,6 +206,13 @@ export type TYearGraduationResponse = {
 
 export type TScholarshipResponse = {
   scholarship: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export type TSchoolTypeResponse = {
+  school_type: Array<{
     id: number;
     name: string;
   }>;

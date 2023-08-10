@@ -55,7 +55,6 @@ export const RadioButton = <T extends FieldValues>({
             <input
               type="radio"
               className={className}
-              role="radio"
               {...field}
               id={`${item.value}-${idx}`}
               key={idx}
@@ -65,7 +64,7 @@ export const RadioButton = <T extends FieldValues>({
               onChange={handleOnChange}
             />
             <label htmlFor={`${item.value}-${idx}`} className={lblSize}>
-              {item.name}
+              {item.label}
             </label>
           </div>
         ))}
