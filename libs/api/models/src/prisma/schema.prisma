@@ -272,3 +272,10 @@ model SchoolTypes {
   id   Int    @id @default(autoincrement())
   name String
 }
+
+model Questions {
+  id                Int      @id @default(autoincrement())
+  question          String
+  correct_answer    String
+  incorrect_answers String[]
+}

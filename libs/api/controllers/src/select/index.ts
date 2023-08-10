@@ -1,6 +1,7 @@
-import { Controller, Get, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
 import { SelectService } from "@uninus/api/services";
+import { TCreateQuestionRequest, TUpdateQuestionRequest } from "@uninus/entities";
 
 @Controller()
 @ApiTags("Select")
@@ -242,5 +243,47 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   getSchoolType(@Query("search") search: string) {
     return this.appService.getSchoolType({ search });
+  }
+
+  @Get("questions")
+  @ApiOperation({ summary: "Get All Questions" })
+  @ApiResponse({
+    status: 500,
+    description: "Internal Server Error",
+  })
+  getAllQuestions() {
+    return this.appService.getAllQuestion();
+  }
+
+  @Post("create-question")
+  @ApiOperation({ summary: "Create Questions" })
+  @ApiResponse({
+    status: 500,
+    description: "Internal Server Error",
+  })
+  createQuestion(@Body() createQuestion: TCreateQuestionRequest) {
+    return this.appService.createQuestion(createQuestion);
+  }
+
+  @Put("update-question/:id")
+  @ApiOperation({ summary: "Update question by Id" })
+  @ApiResponse({
+    status: 500,
+    description: "Internal Server Error",
+  })
+  updateQuestionById(@Param("id") id: string, @Body() updateQuestion: TUpdateQuestionRequest) {
+    const questionId = parseInt(id, 10);
+    return this.appService.updateQuestion(questionId, updateQuestion);
+  }
+
+  @Delete("delete-question/:id")
+  @ApiOperation({ summary: "Delete question by Id" })
+  @ApiResponse({
+    status: 500,
+    description: "Internal Server Error",
+  })
+  deleteQuestionById(@Param("id") id: string) {
+    const questionId = parseInt(id, 10);
+    return this.appService.deleteQuestion(questionId);
   }
 }
