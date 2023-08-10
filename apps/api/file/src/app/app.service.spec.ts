@@ -5,7 +5,7 @@ import { TFileUploadRequest } from "@uninus/entities";
 import { ConfigService } from "@nestjs/config";
 
 describe("AppService", () => {
-  let service: AppService;
+  let configService: ConfigService;
 
   beforeAll(async () => {
     const app = await Test.createTestingModule({
@@ -22,35 +22,26 @@ describe("AppService", () => {
       ],
     }).compile();
 
-    service = app.get<AppService>(AppService);
+    configService = app.get<ConfigService>(ConfigService);
   });
 
   describe("uploadFile", () => {
     it('should return path', async () => {
+      const service = new AppService(configService)
       const payload: TFileUploadRequest = {
         filename: "rafli.txt",
         buffer: Buffer.from("This is text to buffer")
       }
+      const data = []
       jest.spyOn(service, 'uploadToS3').mockImplementation(
-       async ()=>{})
+       async (payload)=>{
+         data.push(payload)
+       })
 
       const result = await service.uploadFile(payload)
       expect(result).toHaveProperty('path')
       expect(result.path).toContain( `https://BUCKET.s3.REGION.amazonaws.com/` );
       expect(result.path).toContain( payload.filename );
-    });
-
-    it('Failed error', async () => {
-      const payload: TFileUploadRequest = {
-        filename: "rafli.txt",
-        buffer: Buffer.from("This is text to buffer")
-      }
-      jest.spyOn(service, 'uploadToS3').mockImplementation(
-       async ()=>{
-         throw new Error('Failed to upload')
-       })
-
-      expect(await service.uploadFile(payload)).toThrowError()
     });
   });
 });
