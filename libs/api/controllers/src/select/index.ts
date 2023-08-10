@@ -285,10 +285,11 @@ export class SelectController {
     description: "Education History Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getEducationHistory(@Query("search") search: string) {
+  @ApiQuery({ name: "npsn", required: false })
+  async getEducationHistory(@Query("search") search: string, @Query("npsn") npsn: string) {
     try {
       const response = await firstValueFrom(
-        this.client.send("get_educational_history", { search }),
+        this.client.send("get_education_history", { search, npsn }),
       );
       return response;
     } catch (error) {

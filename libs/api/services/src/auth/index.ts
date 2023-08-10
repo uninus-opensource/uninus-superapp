@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-  Inject,
-} from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException, Inject } from "@nestjs/common";
 import {
   TLoginResponse,
   TProfileRequest,
@@ -27,22 +22,17 @@ import {
   TLogoutResponse,
   TLoginRequest,
 } from "@uninus/entities";
-import {
-  generateOtp,
-  clearOtp,
-} from "@uninus/api/utilities";
-import {ClientProxy} from "@nestjs/microservices"
+import { generateOtp, clearOtp } from "@uninus/api/utilities";
+import { ClientProxy } from "@nestjs/microservices";
 import { firstValueFrom } from "rxjs";
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @Inject('REDIS_SERVICE') private readonly client: ClientProxy
-  ) {}
+  constructor(@Inject("REDIS_SERVICE") private readonly client: ClientProxy) {}
 
   async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
     try {
-      const response = await firstValueFrom(this.client.send("get_profile", reqUser))
+      const response = await firstValueFrom(this.client.send("get_profile", reqUser));
       return response;
     } catch (error) {
       throw new BadRequestException(error, {
@@ -52,12 +42,12 @@ export class AuthService {
   }
 
   async register(data: TRegisterRequest): Promise<TRegisterResponse> {
-    let createdUser: TProfileResponse
+    let createdUser: TProfileResponse;
 
     try {
-      createdUser = await firstValueFrom(this.client.send<TProfileResponse>('register',data))
+      createdUser = await firstValueFrom(this.client.send<TProfileResponse>("register", data));
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new BadRequestException(error, {
         cause: new Error(),
       });
@@ -75,11 +65,13 @@ export class AuthService {
 
     const html = getEmailMessageTemplate(data.fullname, isCreateOtp?.token, msg);
 
-    const sendEmail = firstValueFrom(this.client.send("send_email",{
-      email:data.email.toLowerCase(),
-      subject:"Verifikasi Email",
-      html,
-    }));
+    const sendEmail = firstValueFrom(
+      this.client.send("send_email", {
+        email: data.email.toLowerCase(),
+        subject: "Verifikasi Email",
+        html,
+      }),
+    );
 
     if (!sendEmail) {
       throw new BadRequestException("Gagal mengirimkan kode verifikasi");
@@ -91,24 +83,57 @@ export class AuthService {
   }
 
   async login(args: TLoginRequest): Promise<TLoginResponse> {
-    return firstValueFrom(this.client.send("login", args))
+    try {
+      const response = await firstValueFrom(this.client.send("login", args));
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   async logout(args: TLogoutRequest): Promise<TLogoutResponse> {
-    return firstValueFrom(this.client.send("logout", args))
+    try {
+      const response = await firstValueFrom(this.client.send("logout", args));
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   async refreshToken(reqToken: TReqToken): Promise<TResRefreshToken> {
-    return firstValueFrom(this.client.send("refresh_token", reqToken))
+    try {
+      const response = await firstValueFrom(this.client.send("refresh_token", reqToken));
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   async verifyOtp(args: TVerifyOtpRequest): Promise<TVerifyOtpResponse> {
-    return firstValueFrom(this.client.send("verify_otp", args))
+    try {
+      const response = await firstValueFrom(this.client.send("verify_otp", args));
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   async resendOtp(args: TResendOtpRequest): Promise<TResendOtpResponse> {
     await clearOtp();
-    const user = await firstValueFrom(this.client.send("get_user_email", args.email))
+
+    const user = await firstValueFrom(this.client.send("get_user_email", args.email));
     if (!user) {
       throw new NotFoundException("Akun tidak ditemukan");
     }
@@ -122,11 +147,13 @@ export class AuthService {
 
     const html = getEmailMessageTemplate(user?.fullname, isCreateOtp?.token, msg);
 
-    const sendEmail = firstValueFrom(this.client.send("send_email",{
-      email:args.email.toLowerCase(),
-      subject:"Verifikasi Email",
-      html,
-    }))
+    const sendEmail = firstValueFrom(
+      this.client.send("send_email", {
+        email: args.email.toLowerCase(),
+        subject: "Verifikasi Email",
+        html,
+      }),
+    );
 
     if (!sendEmail) {
       throw new BadRequestException("Gagal mengirimkan kode verifikasi");
@@ -138,14 +165,38 @@ export class AuthService {
   }
 
   async forgotPassword(data: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
-    return firstValueFrom(this.client.send("forget_password", data))
+    try {
+      const response = await firstValueFrom(this.client.send("forget_password", data));
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   async verifyOtpPassword(args: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
-    return firstValueFrom(this.client.send("verify_otp_password", args))
+    try {
+      const response = await firstValueFrom(this.client.send("verify_otp_password", args));
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   async resetPassword(args: TResetPasswordRequest): Promise<TResetPasswordResponse> {
-    return firstValueFrom(this.client.send("reset_password", args))
+    try {
+      const response = await firstValueFrom(this.client.send("reset_password", args));
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 }
