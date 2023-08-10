@@ -1,5 +1,6 @@
 import {
   Body,
+  Inject,
   Controller,
   Delete,
   Get,
@@ -9,67 +10,95 @@ import {
   Query,
   Request,
   UseGuards,
+  BadRequestException,
 } from "@nestjs/common";
-import { VSCreateUser, TReqToken, VSUpdateUser } from "@uninus/entities";
+import { VSCreateUser, TReqToken, VSUpdateUser, TProfileResponse } from "@uninus/entities";
 import { ZodValidationPipe } from "@uninus/api/validator";
 import { JwtAuthGuard } from "@uninus/api/guard";
-import { CreateUserSwagger, UpdateUserSwagger, UserService } from "@uninus/api/services";
+import { CreateUserSwagger, UpdateUserSwagger } from "@uninus/api/services";
 import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
-
+import { ClientProxy } from "@nestjs/microservices";
+import { firstValueFrom } from "rxjs";
+import { generateOtp } from "@uninus/api/utilities"
 @Controller("user")
 @ApiTags("User")
 export class UserController {
-  constructor(private readonly appService: UserService) {}
+  constructor(
+    @Inject('USER_SERVICE') private readonly client: ClientProxy
+  ) {}
 
   @Get("/me")
   @ApiBearerAuth()
   @ApiOperation({ summary: "Get Data" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   @UseGuards(JwtAuthGuard)
-  getUser(@Request() reqToken: TReqToken) {
-    const { sub } = reqToken.user;
-    return this.appService.getUser(sub);
+  async getUser(@Request() reqToken: TReqToken) {
+    try {
+      const { sub } = reqToken.user;
+      const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user",sub))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get()
   @ApiOperation({ summary: "Pagination List User" })
-  getAllData(
+  async getAllData(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
     @Query("order_by") orderBy: "asc" | "desc",
     @Query("filter_by") filterBy: string,
     @Query("search") search: string,
   ) {
-    return this.appService.getUsers({
-      where: {
-        OR: [
-          {
-            fullname: {
-              contains: search || "",
-              mode: "insensitive",
-            },
+    try {
+      const response = await firstValueFrom(
+        this.client.send<Array<TProfileResponse>>("get_users",{
+          where: {
+            OR: [
+              {
+                fullname: {
+                  contains: search || "",
+                  mode: "insensitive",
+                },
+              },
+              {
+                email: {
+                  contains: search || "",
+                  mode: "insensitive",
+                },
+              },
+            ],
           },
-          {
-            email: {
-              contains: search || "",
-              mode: "insensitive",
-            },
+          orderBy: {
+            [filterBy]: orderBy,
           },
-        ],
-      },
-      orderBy: {
-        [filterBy]: orderBy,
-      },
-      page,
-      perPage,
-    });
+          page,
+          perPage,
+        })
+      )
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Get("/:id")
   @ApiOperation({ summary: "Get Data User By Id" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
-  getDataById(@Param("id") id: string) {
-    return this.appService.getUser(id);
+  async getDataById(@Param("id") id: string) {
+    try {
+      const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user",id))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Post()
@@ -78,30 +107,68 @@ export class UserController {
     status: 400,
     description: "Email sudah digunakan, NIK sudah digunakan",
   })
-  createData(
+  async createData(
     @Body(new ZodValidationPipe(VSCreateUser))
     createUserSwagger: CreateUserSwagger,
   ) {
-    return this.appService.createUser(createUserSwagger);
+    try {
+      const response = await firstValueFrom(this.client.send<TProfileResponse>("create_user",createUserSwagger))
+      const isCreateOtp = await generateOtp(response?.email, response?.id);
+      if (!isCreateOtp) {
+        throw new BadRequestException("Gagal membuat Otp");
+      }
+      const emailPayload = {
+        email: createUserSwagger.email.toLowerCase(),
+        subject:"Verifikasi Email",
+        html:`Kode OTP anda adalah ${isCreateOtp?.token}`,
+      }
+      const sendEmail = firstValueFrom(this.client.send<{message:string}>("send_email",emailPayload))
+      if (!sendEmail) {
+        throw new BadRequestException("Gagal mengirimkan kode verifikasi");
+      }
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Delete("/:id")
   @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({ status: 201, description: "Berhasil delete user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
-  deleteData(@Param("id") id: string) {
-    return this.appService.deleteUser(id);
+  async deleteData(@Param("id") id: string) {
+    try {
+      const response = await firstValueFrom(this.client.send("delete_user", id))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
 
   @Put("/:id")
   @ApiOperation({ summary: "Edit User By Id" })
   @ApiResponse({ status: 201, description: "Berhasil update user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
-  updateData(
+  async updateData(
     @Param("id") id: string,
     @Body(new ZodValidationPipe(VSUpdateUser))
     updateUserSwagger: UpdateUserSwagger,
   ) {
-    return this.appService.updateUser(id, updateUserSwagger);
+    try {
+      const response = await firstValueFrom(this.client.send('update_user',{
+        id,
+        payload:updateUserSwagger
+      }))
+      return response
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
   }
+
 }

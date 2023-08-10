@@ -10,22 +10,15 @@ import {
   TSalaryResponse,
   TSelectionResponse,
   ISelectRequest,
-  TCountryResponse,
   TEducationHistoryResponse,
   TDegreeProgramResponse,
   ISelectFacultyRequest,
   ISelectDepartmentRequest,
-  TProvinceResponse,
-  ICityRequest,
-  TCityResponse,
-  ISubDistrictRequest,
-  TSubDistrictResponse,
   TOccupationResponse,
   TDisabilitiesResponse,
   TYearGraduationResponse,
   ISelectEducationHistoryRequest,
   TScholarshipResponse,
-  ICountryRequest,
   TOccupationPositionResponse,
   IOccupationPositionRequest,
   TSchoolTypeResponse,
@@ -35,65 +28,8 @@ import {
 } from "@uninus/entities";
 
 @Injectable()
-export class SelectService {
+export class GeneralService {
   constructor(private prisma: PrismaService) {}
-
-  async getProvince({ search }: ISelectRequest): Promise<TProvinceResponse> {
-    const province = await this.prisma.province.findMany({
-      where: {
-        name: {
-          ...(search && { contains: search }),
-          mode: "insensitive",
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-    if (!province) {
-      throw new NotFoundException("Data tidak ditemukan");
-    }
-    return {
-      province,
-    };
-  }
-
-  async getCity({ province_id, search }: ICityRequest): Promise<TCityResponse> {
-    const city = await this.prisma.city.findMany({
-      where: {
-        name: {
-          ...(search && { contains: search }),
-          mode: "insensitive",
-        },
-        ...(province_id && { province_id: Number(province_id) }),
-      },
-    });
-    if (!city) {
-      throw new NotFoundException("Data tidak ditemukan");
-    }
-    return {
-      city,
-    };
-  }
-
-  async getSubDistrict({ city_id, search }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
-    const subDistrict = await this.prisma.subDistrict.findMany({
-      where: {
-        name: {
-          ...(search && { contains: search }),
-          mode: "insensitive",
-        },
-        ...(city_id && { city_id: Number(city_id) }),
-      },
-    });
-    if (!subDistrict) {
-      throw new NotFoundException("Data tidak ditemukan");
-    }
-    return {
-      sub_district: subDistrict,
-    };
-  }
 
   async getDegreeProgram({ search }: ISelectRequest): Promise<TDegreeProgramResponse> {
     const degreeProgram = await this.prisma.degreeProgram.findMany({
@@ -304,25 +240,6 @@ export class SelectService {
     }
 
     return { education_history: educationHistory };
-  }
-
-  async getCountry({ search, citizenship_id }: ICountryRequest): Promise<TCountryResponse> {
-    const country = await this.prisma.country.findMany({
-      where: {
-        name: { ...(search && { contains: search }), mode: "insensitive" },
-        ...(citizenship_id && { citizenship_id: Number(citizenship_id) }),
-      },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-
-    if (!country) {
-      throw new NotFoundException("Data Negara Tidak Ditemukan!");
-    }
-
-    return { country };
   }
 
   async getOccupation({ search }: ISelectRequest): Promise<TOccupationResponse> {

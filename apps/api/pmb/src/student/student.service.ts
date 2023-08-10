@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "@uninus/api/models";
-import { CloudinaryService } from "../cloudinary";
+import { CloudinaryService } from "@uninus/api/services"
 import { excludeSchema } from "@uninus/api/utilities";
 import {
   IGetStudentRequest,
