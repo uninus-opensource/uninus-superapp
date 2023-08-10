@@ -27,11 +27,11 @@ export type TFIle = {
   buffer: Buffer;
 };
 
-export type TFileUploadResponse = {
-  path: string;
-};
-
 export type TFileUploadRequest = {
   filename: string;
-  file: Buffer;
+  buffer: Buffer;
+};
+
+export type TFileUploadResponse = {
+  path: string;
 };

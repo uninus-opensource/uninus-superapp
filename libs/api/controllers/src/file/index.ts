@@ -4,18 +4,23 @@ import {
   UploadedFile,
   UseInterceptors,
   ParseFilePipeBuilder,
-  BadRequestException
+  BadRequestException,
+  Inject
 } from '@nestjs/common';
-import { FileService } from '@uninus/api/services';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ClientProxy } from '@nestjs/microservices'
+import { TFIle } from '@uninus/entities';
+import { firstValueFrom } from 'rxjs';
 
 @Controller('file')
 export class FileController {
-  constructor(private readonly appService: FileService) {}
+  constructor(
+    @Inject('FILE_SERVICE') private readonly client: ClientProxy
+  ) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile(
+  async uploadFile(@UploadedFile(
     new ParseFilePipeBuilder()
       .addMaxSizeValidator({
         maxSize: 4000000
@@ -28,10 +33,17 @@ export class FileController {
           throw new BadRequestException(error);
         },
       })
-  ) file: Express.Multer.File) {
-    return this.appService.uploadFile({
-      filename: file.originalname,
-      file: file.buffer
-    })
+  ) file: TFIle) {
+    try {
+      const data = await firstValueFrom(this.client.send('upload_file',{
+        buffer: file.buffer,
+        filename: file.originalname
+      }))
+      return data
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error()
+      })
+    }
   }
 }
