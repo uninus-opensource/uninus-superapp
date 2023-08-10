@@ -124,13 +124,7 @@ export const Pembayaran: FC = (): ReactElement => {
       </div>
 
       <h2 className="text-grayscale-6 mt-5 ml-3 md:ml-5">Selesaikan Pembayaran Sebelum</h2>
-      <h2 className="font-bold mt-2 ml-3 md:ml-5">22 Agustus 2023, 23:59 WIB</h2>
-
-      <div className="flex justify-end mt-5 mb-5 mr-3 md:mr-5">
-        <Button variant="filled" size="sm">
-          Saya sudah bayar
-        </Button>
-      </div>
+      <h2 className="font-bold mt-2 py-2 ml-3 md:ml-5">22 Agustus 2023, 23:59 WIB</h2>
     </section>
   );
 };

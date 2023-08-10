@@ -4,7 +4,7 @@ import { defaultValuesBiodata } from "../../store";
 import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
-import { useSalaryGet } from "./hooks";
+import { useOccupationGet, useSalaryGet } from "./hooks";
 
 export const DataOrtuSection: FC = (): ReactElement => {
   const { control, handleSubmit, watch, setValue } = useForm<FieldValues>({
@@ -61,7 +61,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
     setValue("city", null);
   }, [watch("province")]);
 
-  const [salary, setSalary] = useState({
+  const [salary] = useState({
     search: "",
   });
 
@@ -74,6 +74,21 @@ export const DataOrtuSection: FC = (): ReactElement => {
         value: salary?.id.toString(),
       })),
     [getSalary?.salary],
+  );
+
+  const [occupation] = useState({
+    search: "",
+  });
+
+  const { data: getOccupation } = useOccupationGet(occupation);
+
+  const occupationOptions = useMemo(
+    () =>
+      getOccupation?.occupation?.map((occupation) => ({
+        label: occupation?.name,
+        value: occupation?.id.toString(),
+      })),
+    [getOccupation?.occupation],
   );
 
   const { mutate } = useBiodataUpdate();
@@ -160,20 +175,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             name="father_profecy"
             labels="Pekerjaan Ayah"
             placeholder="Pilih Pekerjaan"
-            options={[
-              {
-                label: "PNS",
-                value: "Guru",
-              },
-              {
-                label: "Buruh",
-                value: "Berdagang",
-              },
-              {
-                label: "Polri",
-                value: "Polisi",
-              },
-            ]}
+            options={occupationOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
             isSearchable={true}
             control={control}
@@ -257,20 +259,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             name="mother_profecy"
             labels="Pekerjaan Ibu"
             placeholder="Pilih Pekerjaan"
-            options={[
-              {
-                label: "PNS",
-                value: "Guru",
-              },
-              {
-                label: "Buruh",
-                value: "Berdagang",
-              },
-              {
-                label: "IRT",
-                value: "IRT",
-              },
-            ]}
+            options={occupationOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
             isSearchable={true}
             control={control}
@@ -307,7 +296,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
           />
           <SelectOption
-            labels="City"
+            labels="Kota/Kabupaten"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
             labelClassName="font-bold"
             options={cityOptions || []}
@@ -435,20 +424,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             name="guardian_profecy"
             labels="Pekerjaan Wali"
             placeholder="Pilih Pekerjaan"
-            options={[
-              {
-                label: "PNS",
-                value: "Guru",
-              },
-              {
-                label: "Buruh",
-                value: "Berdagang",
-              },
-              {
-                label: "IRT",
-                value: "IRT",
-              },
-            ]}
+            options={occupationOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
             isSearchable={true}
             control={control}
@@ -484,7 +460,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
           />
           <SelectOption
-            labels="City"
+            labels="Kota/Kabupaten"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
             labelClassName="font-bold"
             options={cityOptions || []}
