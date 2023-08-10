@@ -1,8 +1,8 @@
 "use client";
-import { ReactElement, FC } from "react";
+import { ReactElement, FC, useMemo } from "react";
 import { Button, SelectOption } from "@uninus/web/components";
-import { pendaftaran } from "./store";
 import { FieldValues, useForm } from "react-hook-form";
+import { useDegreeProgramGet } from "./hook";
 
 export const ModulePendaftaran: FC = (): ReactElement => {
   const {
@@ -12,13 +12,22 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   } = useForm<FieldValues>({
     defaultValues: {
       program: undefined,
-      seleksi: undefined,
       prodi1: undefined,
       prodi2: undefined,
-      pembayaran: undefined,
-      draggableComponent: undefined,
+      seleksi: undefined,
     },
   });
+
+  const { data: getDegreeProgram } = useDegreeProgramGet();
+
+  const degreeProgramNames = getDegreeProgram?.degree_program.map((program) => {
+    return {
+      value: program.name,
+      label: program.name,
+    };
+  });
+
+  const degreeProgramOptions = useMemo(() => degreeProgramNames, [degreeProgramNames]);
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
@@ -45,7 +54,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="md:text-base"
               control={control}
               name="program"
-              options={pendaftaran.programPendidikan}
+              options={degreeProgramOptions || []}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
@@ -57,7 +66,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labels="Pilihan Program Studi 1"
               control={control}
               name="prodi1"
-              options={pendaftaran.programStudy}
+              options={[]}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
@@ -69,7 +78,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="md:text-base"
               control={control}
               name="prodi2"
-              options={pendaftaran.programStudy}
+              options={[]}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
@@ -81,7 +90,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="md:text-base"
               control={control}
               name="seleksi"
-              options={pendaftaran.jalurSeleksi}
+              options={[]}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
