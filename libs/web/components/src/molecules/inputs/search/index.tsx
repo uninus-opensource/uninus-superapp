@@ -11,6 +11,7 @@ export const SearchInput: FC<SearchProps> = ({ onChange, value, placeholder }): 
       <div className="relative">
         <input
           type="search"
+          role="search"
           onChange={onChange}
           id="default-search"
           className="block lg:w-30% w-80% p-2 pl-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
