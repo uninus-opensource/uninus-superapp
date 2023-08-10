@@ -96,6 +96,7 @@ model Students {
   academic_year                String?
   registration_wave            String?
   registration_status          String?
+  registration_number          String?
   user_id                      String   @unique
   createdAt                    DateTime @default(now())
   user                         Users    @relation(fields: [user_id], references: [id])
@@ -173,9 +174,10 @@ model OTP {
 }
 
 model DegreeProgram {
-  id      Int       @id @default(autoincrement())
-  name    String
-  faculty Faculty[]
+  id         Int          @id @default(autoincrement())
+  name       String
+  faculty    Faculty[]
+  department Department[]
 }
 
 model Faculty {
@@ -183,14 +185,16 @@ model Faculty {
   name             String
   department       Department[]
   degreeProgram_id Int?
-  DegreeProgram    DegreeProgram? @relation(fields: [degreeProgram_id], references: [id])
+  degreeProgram    DegreeProgram? @relation(fields: [degreeProgram_id], references: [id])
 }
 
 model Department {
-  id         Int      @id @default(autoincrement())
-  name       String
-  faculty_id Int?
-  Faculty    Faculty? @relation(fields: [faculty_id], references: [id])
+  id                Int            @id @default(autoincrement())
+  name              String
+  faculty_id        Int?
+  degree_program_id Int?
+  Faculty           Faculty?       @relation(fields: [faculty_id], references: [id])
+  degreeProgram     DegreeProgram? @relation(fields: [degree_program_id], references: [id])
 }
 
 model MaritalStatus {
@@ -209,8 +213,9 @@ model Gender {
 }
 
 model Citizenship {
-  id   Int    @id @default(autoincrement())
-  name String
+  id      Int       @id @default(autoincrement())
+  name    String
+  Country Country[]
 }
 
 model Salary {
@@ -224,13 +229,20 @@ model SelectionPath {
 }
 
 model EducationHistory {
-  id   Int    @id @default(autoincrement())
-  name String
+  id             Int    @id @default(autoincrement())
+  npsn           String @unique
+  name           String
+  province       String
+  district_city  String
+  sub_district   String
+  street_address String
 }
 
 model Country {
-  id   Int    @id @default(autoincrement())
-  name String
+  id             Int          @id @default(autoincrement())
+  name           String
+  citizenship_id Int?
+  citizenship    Citizenship? @relation(fields: [citizenship_id], references: [id])
 }
 
 model Occupation {
@@ -249,4 +261,21 @@ model OccupationPosition {
 model Disabilities {
   id   Int    @id @default(autoincrement())
   name String
+}
+
+model Scholarship {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model SchoolTypes {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model Questions {
+  id                Int      @id @default(autoincrement())
+  question          String
+  correct_answer    String
+  incorrect_answers String[]
 }

@@ -1,7 +1,44 @@
-import { Controller, Get, Query, Inject, BadRequestException } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Query,
+  Post,
+  Delete,
+  Body,
+  Put,
+  Param,
+  Inject,
+  BadRequestException,
+} from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
 import { ClientProxy } from "@nestjs/microservices";
 import { firstValueFrom } from "rxjs";
+import {
+  TCitizenshipResponse,
+  TDepartmentResponse,
+  TFacultyResponse,
+  TGenderResponse,
+  TMaritalStatusResponse,
+  TReligionResponse,
+  TSalaryResponse,
+  TSelectionResponse,
+  ISelectRequest,
+  TEducationHistoryResponse,
+  TDegreeProgramResponse,
+  ISelectFacultyRequest,
+  ISelectDepartmentRequest,
+  TOccupationResponse,
+  TDisabilitiesResponse,
+  TYearGraduationResponse,
+  ISelectEducationHistoryRequest,
+  TScholarshipResponse,
+  TOccupationPositionResponse,
+  IOccupationPositionRequest,
+  TSchoolTypeResponse,
+  TCreateQuestionRequest,
+  TUpdateQuestionRequest,
+  TDeleteQuestionResponse,
+} from "@uninus/entities";
 
 @Controller()
 @ApiTags("Select")
@@ -35,9 +72,7 @@ export class SelectController {
   @ApiQuery({ name: "province_id", required: false })
   async getCity(@Query("province_id") province_id: string, @Query("search") search: string) {
     try {
-      const response = await firstValueFrom(
-        this.client.send("get_city", { province_id, search }),
-      );
+      const response = await firstValueFrom(this.client.send("get_city", { province_id, search }));
       return response;
     } catch (error) {
       throw new BadRequestException(error, {
@@ -110,17 +145,22 @@ export class SelectController {
   }
 
   @Get("department")
-  @ApiOperation({ summary: "Get Program Studi" })
+  @ApiOperation({ summary: "Get Department" })
   @ApiResponse({
     status: 400,
     description: "Department Not Found",
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "faculty_id", required: false })
-  async getDepartment(@Query("search") search: string, @Query("faculty_id") faculty_id: string) {
+  @ApiQuery({ name: "degree_program_id", required: false })
+  async getDepartment(
+    @Query("search") search: string,
+    @Query("faculty_id") faculty_id: string,
+    @Query("degree_program_id") degree_program_id: string,
+  ) {
     try {
       const response = await firstValueFrom(
-        this.client.send("get_department", { search, faculty_id }),
+        this.client.send("get_department", { search, faculty_id, degree_program_id }),
       );
       return response;
     } catch (error) {
@@ -239,7 +279,7 @@ export class SelectController {
   }
 
   @Get("education-history")
-  @ApiOperation({ summary: "Get Bachelor Degree" })
+  @ApiOperation({ summary: "Get Education History" })
   @ApiResponse({
     status: 400,
     description: "Education History Not Found",
@@ -294,6 +334,30 @@ export class SelectController {
     }
   }
 
+  @Get("occupation-position")
+  @ApiOperation({ summary: "Get Occupation Position" })
+  @ApiResponse({
+    status: 400,
+    description: "Occupation Position Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "occupation_id", required: false })
+  async getOccupationPosition(
+    @Query("search") search: string,
+    @Query("occupation_id") occupation_id: string,
+  ) {
+    try {
+      const response = await firstValueFrom(
+        this.client.send("get_occupation_position", { search, occupation_id }),
+      );
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
+  }
+
   @Get("disabilities")
   @ApiOperation({ summary: "Get Disabilities" })
   @ApiResponse({
@@ -304,6 +368,134 @@ export class SelectController {
   async getDisablities(@Query("search") search: string) {
     try {
       const response = await firstValueFrom(this.client.send("get_dissabilities", { search }));
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
+  }
+
+  @Get("year-graduate")
+  @ApiOperation({ summary: "Get Year Graduate" })
+  @ApiResponse({
+    status: 400,
+    description: "Year Graduate Not Found",
+  })
+  async getYearGraduate() {
+    try {
+      const response = await firstValueFrom(this.client.send("get_year_graduate", {}));
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
+  }
+
+  @Get("scholarship")
+  @ApiOperation({ summary: "Get Scholarship" })
+  @ApiResponse({
+    status: 400,
+    description: "Scholarship Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  async getScholarship(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send("get_scholarship", { search }));
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
+  }
+
+  @Get("school-type")
+  @ApiOperation({ summary: "Get School Type" })
+  @ApiResponse({
+    status: 400,
+    description: "School Type Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  async getSchoolType(@Query("search") search: string) {
+    try {
+      const response = await firstValueFrom(this.client.send("get_school_type", { search }));
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
+  }
+
+  @Get("questions")
+  @ApiOperation({ summary: "Get All Questions" })
+  @ApiResponse({
+    status: 500,
+    description: "Internal Server Error",
+  })
+  async getAllQuestions() {
+    try {
+      const response = await firstValueFrom(this.client.send("get_question", {}));
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
+  }
+
+  @Post("create-question")
+  @ApiOperation({ summary: "Create Questions" })
+  @ApiResponse({
+    status: 500,
+    description: "Internal Server Error",
+  })
+  async createQuestion(@Body() createQuestion: TCreateQuestionRequest) {
+    try {
+      const response = await firstValueFrom(
+        this.client.send("create_question", { createQuestion }),
+      );
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
+  }
+
+  @Put("update-question/:id")
+  @ApiOperation({ summary: "Update question by Id" })
+  @ApiResponse({
+    status: 500,
+    description: "Internal Server Error",
+  })
+  async updateQuestionById(
+    @Param("id") id: string,
+    @Body() updateQuestion: TUpdateQuestionRequest,
+  ) {
+    try {
+      const response = await firstValueFrom(
+        this.client.send("update_question", { id, updateQuestion }),
+      );
+      return response;
+    } catch (error) {
+      throw new BadRequestException(error, {
+        cause: new Error(),
+      });
+    }
+  }
+
+  @Delete("delete-question/:id")
+  @ApiOperation({ summary: "Delete question by Id" })
+  @ApiResponse({
+    status: 500,
+    description: "Internal Server Error",
+  })
+  async deleteQuestionById(@Param("id") id: string) {
+    try {
+      const response = await firstValueFrom(this.client.send("delete_question", { id }));
       return response;
     } catch (error) {
       throw new BadRequestException(error, {

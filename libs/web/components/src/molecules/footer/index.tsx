@@ -1,6 +1,6 @@
+"use client";
 import { FC, ReactElement } from "react";
 import Image from "next/image";
-import uninusImage from "../../atoms/illustrations/uninus/uninus.png";
 import {
   ContactsFilled,
   EnvironmentFilled,
@@ -13,19 +13,20 @@ import {
   PhoneOutlined,
   YoutubeFilled,
 } from "@ant-design/icons";
-import NeoUninusIcon from "../../atoms/illustrations/neouninus/Neo-Uninus.png";
-import hybridUniversity from "../../atoms/illustrations/hybriduniversity/hybrid-university.png";
 import Link from "next/link";
 
 export const Footer: FC = (): ReactElement => {
   return (
-    <footer className="w-full h-footerHeight">
+    <footer role="footer" className="w-full h-footerHeight">
       {/* frame1 */}
       <section className="h-[300px] bg-secondary-green-4 z-10 flex flex-col">
         {/* backgroundImage */}
         <div className="z-0 relative h-[300px]">
           <Image
-            src={uninusImage}
+            src={"/illustrations/uninus.webp"}
+            width={500}
+            height={500}
+            quality={100}
             alt="uninus"
             className="w-screen object-cover h-full lg:opacity-5 opacity-0"
           />
@@ -33,12 +34,18 @@ export const Footer: FC = (): ReactElement => {
           <div className="w-full h-full absolute top-0 flex flex-col md:flex-row lg:justify-center">
             <div className="md:w-[49.5%] lg:w-[32.5%] h-[40%] md:h-[75%] lg:h-full flex md:flex-col justify-between md:justify-center items-center md:items-start lg:items-center px-[10vw] md:px-0 md:ml-[7vw] lg:ml-0 md:gap-10">
               <Image
-                src={NeoUninusIcon}
-                alt="neo uninus"
+                src={"/illustrations/Neo-Uninus.webp"}
+                width={500}
+                height={500}
+                quality={100}
+                alt="neo-uninus"
                 className="object-cover w-[170px] md:w-[210px] lg:w-[250px]"
               />
               <Image
-                src={hybridUniversity}
+                src={"/illustrations/hybrid-university.webp"}
+                width={500}
+                height={500}
+                quality={100}
                 alt="neo uninus"
                 className="object-cover w-[110px] mt-[1rem] md:w-[130px] lg:hidden"
               />
@@ -54,7 +61,10 @@ export const Footer: FC = (): ReactElement => {
                   <Link href="https://uninus.ac.id/" target="_blank">
                     <div className="flex items-center justify-center gap-2 group-hover:scale-95 duration-300 ease-in-out">
                       <div className="md:hidden flex justify-center items-center">
-                        <GlobalOutlined style={{ fontSize: 13, color: "white" }} />
+                        <GlobalOutlined
+                          data-testid="global-icon"
+                          style={{ fontSize: 13, color: "white" }}
+                        />
                       </div>
 
                       <div className="hidden md:flex">
@@ -78,7 +88,10 @@ export const Footer: FC = (): ReactElement => {
                     className="flex items-center justify-center gap-2 md:gap-[10px] group-hover:scale-95 duration-300 ease-in-out"
                   >
                     <div className="md:hidden flex justify-center items-center">
-                      <FileTextOutlined style={{ fontSize: 13, color: "white" }} />
+                      <FileTextOutlined
+                        data-testid="file-icon"
+                        style={{ fontSize: 13, color: "white" }}
+                      />
                     </div>
 
                     <div className="hidden md:flex">
@@ -178,7 +191,10 @@ export const Footer: FC = (): ReactElement => {
             <div className="h-[75%] md:w-[50%] lg:w-[32.5%] lg:h-full lg:flex lg:flex-col lg:justify-center lg:gap-6 hidden">
               <div className="lg:ml-[4vw] lg:flex lg:flex-col lg:gap-5">
                 <Image
-                  src={hybridUniversity}
+                  src={"/illustrations/hybrid-university.webp"}
+                  width={500}
+                  height={500}
+                  quality={100}
                   alt="neo uninus"
                   className="object-cover w-[110px] md:w-[130px] lg:w-[150px]"
                 />
@@ -213,11 +229,14 @@ export const Footer: FC = (): ReactElement => {
                 </div>
               </div>
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center md:gap-2">
-                <ContactsFilled style={{ fontSize: 23, color: "white" }} />
+                <ContactsFilled
+                  data-testid="contacts-icon"
+                  style={{ fontSize: 23, color: "white" }}
+                />
                 <h3 className="md:text-sm md:text-primary-white">0821-1686-0530</h3>
               </div>
               <div className="md:w-[33.3%] md:flex md:justify-center md:items-center md:gap-2">
-                <MailFilled style={{ fontSize: 23, color: "white" }} />
+                <MailFilled data-testid="mail-icon" style={{ fontSize: 23, color: "white" }} />
                 <h3 className="md:text-sm text-primary-white">humas@uninus.ac.id</h3>
               </div>
             </div>
@@ -241,7 +260,10 @@ export const Footer: FC = (): ReactElement => {
                 target="_blank"
                 className="flex items-center"
               >
-                <FacebookFilled style={{ fontSize: 20, color: "white" }} />
+                <FacebookFilled
+                  data-testid="facebook-icon"
+                  style={{ fontSize: 20, color: "white" }}
+                />
               </Link>
             </div>
           </div>
@@ -254,7 +276,10 @@ export const Footer: FC = (): ReactElement => {
                 target="_blank"
                 className="flex items-center"
               >
-                <YoutubeFilled style={{ fontSize: 20, color: "white" }} />
+                <YoutubeFilled
+                  data-testid="youtube-icon"
+                  style={{ fontSize: 20, color: "white" }}
+                />
               </Link>
             </div>
           </div>
@@ -267,7 +292,10 @@ export const Footer: FC = (): ReactElement => {
                 target="_blank"
                 className="flex items-center"
               >
-                <InstagramFilled style={{ fontSize: 20, color: "white" }} />
+                <InstagramFilled
+                  data-testid="instagram-icon"
+                  style={{ fontSize: 20, color: "white" }}
+                />
               </Link>
             </div>
           </div>

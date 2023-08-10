@@ -3,9 +3,13 @@ import { FC, PropsWithChildren, ReactElement } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
-import { AiFillHome, AiOutlineFileDone } from "react-icons/ai";
-import { FaRegUser } from "react-icons/fa";
-import { FileTextOutlined } from "@ant-design/icons";
+import {
+  AuditOutlined,
+  FileTextOutlined,
+  FormOutlined,
+  HomeOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
 
 const monserrat = Montserrat({
@@ -22,17 +26,22 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   };
 
   const sideLists = [
-    { label: "Beranda", link: "/dashboard", icon: <AiFillHome /> },
+    { label: "Beranda", link: "/dashboard", icon: <HomeOutlined /> },
     {
-      label: "pendaftaran",
+      label: "Formulir",
       link: "/dashboard/pendaftaran",
-      icon: <AiOutlineFileDone />,
-    },
-    { label: "data diri", link: "/dashboard/biodata", icon: <FaRegUser /> },
-    {
-      label: "Upload Dokumen",
-      link: "/dashboard/dokumen",
       icon: <FileTextOutlined />,
+    },
+    { label: "Registrasi", link: "/dashboard/biodata", icon: <FormOutlined /> },
+    {
+      label: "Upload Berkas",
+      link: "/dashboard/dokumen",
+      icon: <UploadOutlined />,
+    },
+    {
+      label: "Tes Seleksi",
+      link: "/dashboardtes-seleksi",
+      icon: <AuditOutlined />,
     },
   ];
 

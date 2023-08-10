@@ -4,6 +4,7 @@ import { TRectangleProps } from "./type";
 export const Rectangle: FC<TRectangleProps> = ({ fill, className }): ReactElement => {
   return (
     <svg
+      data-testid="rectangle"
       width="164"
       height="245"
       viewBox="0 0 164 245"

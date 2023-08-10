@@ -3,6 +3,7 @@ import { FC, ReactElement } from "react";
 export const Ellipse: FC = (): ReactElement => {
   return (
     <svg
+      data-testid="ellipse"
       width="337"
       height="257"
       viewBox="0 0 337 257"

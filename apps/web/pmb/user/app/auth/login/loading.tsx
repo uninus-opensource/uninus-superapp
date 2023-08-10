@@ -2,7 +2,7 @@ export default function Loading() {
   return (
     <section className="w-full bg-primary-white z-50 py-8">
       {/* Head */}
-      <section className="w-full h-[50vh] md:h-[38vh] flex items-start  md:flex animate-pulse mb-6  justify-center lg:p-4 ">
+      <section className="w-full h-fit  flex items-start md:flex animate-pulse mb-6 justify-center lg:p-4 ">
         <div className="flex flex-col  gap-x-4 mt-6 xl:mt-0 md:mx-auto lg:w-[90%] w-full">
           <div className="flex mb-5  md:mb-1 lg:ml-5 xl:ml-9 flex-col items-center gap-2 xl:gap-0 lg:items-start lg:mt-6 md:justify-center justify-center">
             <span className="bg-grayscale-2 w-[7rem] lg:mb-0 xl:mb-1  md:h-5 h-7 xl:w-[9rem] rounded-lg xl:h-10"></span>
@@ -23,7 +23,7 @@ export default function Loading() {
             <span className="bg-grayscale-2  xl:w-[20%] w-[27%] md:w-[20%] lg:w-[5rem]  h-5 rounded-lg"></span>
             <span className="bg-grayscale-2  xl:w-[30%] w-[40%] md:w-[30%] lg:w-[7rem] h-5 rounded-lg"></span>
           </div>
-          <div className="flex justify-center mt-5 lg:mt-2 md:px-3">
+          <div className="flex justify-center mt-5  md:px-3">
             <span className="bg-grayscale-2 w-[80%] md:w-[93%]  h-14 md:h-12 rounded-lg xl:w-[92%] xl:h-14 lg:h-9"></span>
           </div>
         </div>

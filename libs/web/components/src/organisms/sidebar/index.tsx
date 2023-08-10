@@ -1,11 +1,10 @@
 "use client";
-import { FC, ReactElement, useState, useMemo } from "react";
+import { FC, ReactElement, useState, useMemo, Fragment } from "react";
 import Image from "next/image";
 import { TSideBarProps } from "./type";
 import { AiOutlineLogout } from "react-icons/ai";
 import Link from "next/link";
 import { Button } from "../../atoms";
-import logOutImage from "../../atoms/illustrations/logOut/logOut.png";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
@@ -14,18 +13,18 @@ import { MenuOutlined, AppstoreFilled } from "@ant-design/icons";
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [onToogle, setOnToogle] = useState<boolean>(false);
+  const { data: session } = useSession();
 
   const handleOpenModal = () => {
     setShowModal(!showModal);
     setOnToogle(false);
   };
+
   const handleCloseModal = () => {
     setShowModal(false);
     setOnToogle(!onToogle);
   };
-
-  const [onToogle, setOnToogle] = useState<boolean>(false);
-  const { data: session } = useSession();
 
   const userName = useMemo(() => {
     const userName = session?.user?.fullname;
@@ -41,19 +40,13 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
 
   return (
     <>
-      <Modal
-        showModal={showModal}
-        modalTitle=" "
-        onClose={handleCloseModal}
-        iconClose={false}
-        submitText="LogOut"
-        closeText="Cancel"
-      >
+      <Modal showModal={showModal} onClose={handleCloseModal} iconClose={false}>
         <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row lg:py-10">
           <div className="img">
             <Image
               className=""
-              src={logOutImage}
+              src={"/illustrations/logOut.webp"}
+              quality={100}
               alt="profile picture"
               width={300}
               height={300}
@@ -88,11 +81,12 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
       )}
       {/* Desktop */}
       <aside
-        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[30vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
+        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[22vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
         <section className={` w-full flex flex-col items-center gap-y-2`}>
-          <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">PMB UNINUS</h1>
-
+          <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
+            {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
+          </h1>
           <figure className="flex flex-col items-center  ">
             <Image
               className="rounded-full "
@@ -103,39 +97,41 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
               priority={true}
             />
             <figcaption className="text-center flex flex-col gap-y-3 mt-3  ">
-              <div className=" text-sm text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
+              <div className=" text-sm text-secondary-green-4 p-2 font-bold rounded-md leading-[14px] capitalize">
                 <h3>{userName}</h3>
               </div>
             </figcaption>
           </figure>
           {/* Status pendaftaran */}
-          <div className="w-3/5 mt-2 font-bold bg-red-3 text-red-4 p-2 rounded-md text-center text-xs">
-            Belum Mendaftar
-          </div>
+          {process.env.NEXT_PUBLIC_WORKSPACE === "user" && (
+            <div className="w-3/5 mt-2 font-bold bg-red-3 text-red-4 p-2 rounded-md text-center text-xs">
+              Belum Mendaftar
+            </div>
+          )}
           {/* End Status pendaftaran */}
           <hr className="w-3/4 my-2" />
 
           <div className="flex flex-col h-full justify-between 2xl:h-full">
             <nav>
-              <ul className="flex flex-col gap-y-2.5 xl:gap-y-6 items-center">
+              <ul className="flex flex-col gap-y-1 items-start">
                 {sideList?.map((sideList, idx) => (
                   <li key={idx} className="flex flex-col gap-y-6">
                     <Link
                       href={sideList?.link}
                       role="link"
-                      className={`flex gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
-                        pathname === sideList?.link && "bg-primary-white drop-shadow-md "
+                      className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
+                        pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
                       }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
                     >
                       <p
                         className={`${
                           pathname === sideList?.link &&
                           "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
-                        } text-primary-green w-10 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                        } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
                       >
                         {sideList?.icon}
                       </p>
-                      <p className="text-primary-green text-xs xl:text-base w-[6.8vw] font-normal">
+                      <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
                         {sideList?.label}
                       </p>
                     </Link>
@@ -172,7 +168,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
       </Button>
 
       {onToogle && (
-        <>
+        <Fragment>
           <div
             className="mobile-sidebar-overlay fixed top-0 left-0 right-0 bottom-0 bg-black opacity-50 z-50"
             onClick={() => setOnToogle(false)}
@@ -199,15 +195,17 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                   />
                   <figcaption className="text-center flex flex-col gap-y-2 mt-3  ">
                     <div className=" text-xs text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
-                      <h3 className="max-w-3/5 text-base leading-normal">{userName}</h3>
+                      <h3 className="max-w-3/5 text-base leading-normal capitalize">{userName}</h3>
                     </div>
                   </figcaption>
                 </figure>
               </div>
               {/* Status pendaftaran */}
-              <div className="w-3/5 mt-2 bg-red-3 text-red-4  p-2 font-bold rounded-md text-center text-xs">
-                Belum Mendaftar
-              </div>
+              {process.env.NEXT_PUBLIC_WORKSPACE === "user" && (
+                <div className="w-3/5 mt-2 bg-red-3 text-red-4  p-2 font-bold rounded-md text-center text-xs">
+                  Belum Mendaftar
+                </div>
+              )}
               {/* End Status pendaftaran */}
               <div className="w-[60%]  px-3 h-[1px] bg-slate-4"></div>
               <nav>
@@ -251,7 +249,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
               </nav>
             </section>
           </motion.aside>
-        </>
+        </Fragment>
       )}
     </>
   );

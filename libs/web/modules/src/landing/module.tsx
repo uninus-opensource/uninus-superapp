@@ -7,6 +7,7 @@ import { SelectionSection } from "./selection";
 import { ProgramSection } from "./program-study";
 import { DetailSection } from "./detail";
 import { Footer, Navbar } from "@uninus/web/components";
+import { ModalAndButtons } from "./modal-floatingbutton";
 
 export const LandingModule: FC = (): ReactElement => {
   return (
@@ -19,6 +20,7 @@ export const LandingModule: FC = (): ReactElement => {
         <SelectionSection />
         <ProgramSection />
         <DetailSection />
+        <ModalAndButtons />
       </main>
       <Footer />
     </Fragment>

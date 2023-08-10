@@ -82,12 +82,6 @@ export const TuitionFeeModule: FC = (): ReactElement => {
       item.ukt.includes(searchQuery),
   );
 
-  const filteredDataMagister = dataMagister.filter(
-    (item) =>
-      item.program_studi.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.ukt.includes(searchQuery),
-  );
-
   return (
     <Fragment>
       <Navbar />
@@ -98,7 +92,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
           backgrounColor="bg-grayscale-8"
           blur
         />
-        <section className="px-2 lg:px-16 py-12 flex flex-col justify-center items-center ">
+        <section className="px-2 lg:px-16 py-12 flex flex-col justify-center items-center md:items-start ">
           <div className="w-full rounded-lg flex gap-10 justify-between mb-10 items-center p-2 lg:p-6 bg-primary-green">
             <figure className="flex items-center justify-center text-2xl lg:text-5xl p-2 lg:p-6 font-bold rounded-lg bg-primary-white text-primary-green">
               S1
@@ -107,16 +101,18 @@ export const TuitionFeeModule: FC = (): ReactElement => {
               satuan dana pendidikan program sarjana
             </h1>
           </div>
-          <div className="w-full flex p-2 lg:justify-end justify-start">
-            <SearchInput
-              value={searchQuery}
-              onChange={handleSearch}
-              placeholder="Cari Fakultas dan Program Studi"
-            />
+          <div className="flex lg:flex-row flex-col-reverse w-full justify-between items-center md:items-start">
+            <span className="flex lg:w-full justify-start text-black font-semibold text-sm  p-2 ">
+              *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Praktikum, dan Magang/PLP
+            </span>
+            <div className="w-full flex p-2 lg:justify-end justify-start">
+              <SearchInput
+                value={searchQuery}
+                onChange={handleSearch}
+                placeholder="Cari Fakultas dan Program Studi"
+              />
+            </div>
           </div>
-          <span className="flex lg:w-full justify-start text-black font-semibold text-sm  p-2">
-            *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Praktikum, dan Magang/PLP
-          </span>
           <section className="rounded-lg w-full ">
             <DataTable
               columns={columsOne}
@@ -138,20 +134,15 @@ export const TuitionFeeModule: FC = (): ReactElement => {
               satuan dana pendidikan program magister dan doktor
             </h1>
           </div>
-          <div className="w-full flex p-2 lg:justify-end justify-start ">
-            <SearchInput
-              value={searchQuery}
-              onChange={handleSearch}
-              placeholder="Cari Program Magister dan Doktor"
-            />
+          <div className="flex md:items-start text-left justify-start ">
+            <p className="flex lg:w-full w-auto justify-start text-black font-semibold text-sm  p-2 text-left items-start">
+              *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Dana Internship
+            </p>
           </div>
-          <span className="flex lg:w-full w-auto justify-start text-black font-semibold text-sm  p-2 ">
-            *Exclude : <br /> belum termasuk biaya Jurnal, Wisuda, Praktikum, dan Magang/PLP
-          </span>
           <section className="rounded-lg w-full">
             <DataTable
               columns={columsTwo}
-              data={filteredDataMagister}
+              data={dataMagister}
               customStyles={customStyles}
               striped
               progressPending={pending}

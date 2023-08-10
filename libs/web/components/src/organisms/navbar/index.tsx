@@ -1,13 +1,17 @@
 "use client";
 import { FC, ReactElement, Fragment, useState } from "react";
 import Image from "next/image";
-import NeoUninusIcon from "../../atoms/illustrations/neouninus/Neo-Uninus.png";
 import { NavbarList } from "./type";
 import { Button, HamburgerIcon, XIcon } from "../../atoms";
 import { Sidebar } from "../../molecules";
+import { AiOutlineDown } from "react-icons/ai";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 export const Navbar: FC = (): ReactElement => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isDropDown, setIsDropDown] = useState<boolean>(false);
+
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -18,16 +22,25 @@ export const Navbar: FC = (): ReactElement => {
 
   const navList: NavbarList[] = [
     {
-      item: "beranda",
+      item: "Beranda",
       link: "/",
     },
     {
-      item: "beasiswa",
-      link: "/beasiswa",
+      item: (
+        <Fragment>
+          Program{" "}
+          <AiOutlineDown
+            className={`ml-1 h-4 text-xl duration-100 ${isDropDown ? "rotate-180" : ""}`}
+          />
+        </Fragment>
+      ),
+      state: () => {
+        setIsDropDown(!isDropDown);
+      },
     },
     {
-      item: "biaya kuliah",
-      link: "/biaya-kuliah",
+      item: "Beasiswa",
+      link: "/beasiswa",
     },
   ];
 
@@ -36,11 +49,13 @@ export const Navbar: FC = (): ReactElement => {
       <header className="z-40 px-8 lg:px-14 flex justify-between items-center h-[100px] lg:h-navbarlg text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold">
         <figure>
           <Image
-            src={NeoUninusIcon}
+            src={"/illustrations/Neo-Uninus.webp"}
+            width={500}
+            height={500}
+            quality={100}
             alt="logo-uninus"
             priority
             className="w-44 sm:w-56 lg:w-52"
-            quality={100}
           />
         </figure>
         <nav>
@@ -49,23 +64,51 @@ export const Navbar: FC = (): ReactElement => {
             <ul className="flex gap-4">
               {navList.map((nav, idx) => (
                 <li key={idx}>
-                  <Button variant="text-icon" styling="text-sm" href={nav.link} uppercase>
+                  <Button variant="navlist" href={nav.link} onClick={nav.state} uppercase>
                     {nav.item}
                   </Button>
                 </li>
               ))}
             </ul>
           </div>
+
+          {/* dropdown bar */}
+          {isDropDown && (
+            <motion.nav
+              style={{
+                y: -10,
+              }}
+              animate={{
+                y: isDropDown ? [-10, 0] : [0, -10],
+              }}
+              className={`hidden lg:flex absolute bg-primary-white w-36 h-24 z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-28 mt-5 shadow-md`}
+            >
+              <Link
+                className="flex items-center justify-center p-2 text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 duration-150 border-2 border-l-0 border-primary-green w-full h-full "
+                href="/program-studi"
+              >
+                Program Studi
+              </Link>
+              <Link
+                className="flex items-center justify-center p-2 text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 border-2 border-t-0 border-l-0 border-b-0 border-primary-green w-full h-full"
+                href="/biaya-kuliah"
+              >
+                Biaya Kuliah
+              </Link>
+            </motion.nav>
+          )}
         </nav>
+
         <section className="flex items-center">
           <div className="hidden lg:block rounded-xl">
             <Button
-              href="/auth/register"
+              href="/auth/login"
               variant="custom"
               styling="bg-grayscale-1 text-secondary-green-4"
+              width="w-26"
               height="h-9"
             >
-              Pendaftaran PMB
+              Login
             </Button>
           </div>
           <div className="block lg:hidden">
@@ -75,6 +118,7 @@ export const Navbar: FC = (): ReactElement => {
           </div>
         </section>
       </header>
+
       <Sidebar showSidebar={isOpen} closeSidebar={closeSidebar}>
         <ul className="mt-6 flex flex-col gap-6 items-center">
           {navList.map((nav, idx) => (
@@ -88,12 +132,12 @@ export const Navbar: FC = (): ReactElement => {
             <Button
               variant="sidebarlist"
               height="h-8"
-              href="/auth/register"
+              href="/auth/login"
               onClick={closeSidebar}
-              styling="bg-primary-white text-primary-green rounded-md"
+              styling="bg-primary-white text-primary-green rounded-md text-xs font-bold"
               size="sm"
             >
-              PENDAFTARAN PMB
+              Login
             </Button>
           </div>
         </ul>

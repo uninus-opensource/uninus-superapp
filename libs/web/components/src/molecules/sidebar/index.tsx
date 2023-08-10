@@ -5,6 +5,7 @@ import { TSidebarProps } from "./type";
 export const Sidebar: FC<TSidebarProps> = ({ showSidebar, ...props }): ReactElement => {
   return (
     <section
+      data-testid="sidebar-navbar"
       className={`w-full h-full bg-primary-green text-primary-white z-40 fixed top-20 transition-transform py-7 px-5  ${
         showSidebar ? "translate-x-0" : "translate-x-full"
       }`}

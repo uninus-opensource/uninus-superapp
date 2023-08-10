@@ -13,7 +13,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${monserrat.className}`}>
         <AuthProvider>
           <QueryProvider>
-            <RecoilProvider>{children}</RecoilProvider>
+            <RecoilProvider>
+              {children}
+              <div key="modal-landing" id="modal"></div>
+            </RecoilProvider>
           </QueryProvider>
         </AuthProvider>
       </body>

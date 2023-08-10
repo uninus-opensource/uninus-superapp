@@ -53,6 +53,7 @@ module.exports = {
         green: "#009647",
         yellow: "#F8BF02",
         white: "#FFFFFF",
+        orange: "#F78100",
         black: "#000000",
       },
       secondary: {
@@ -98,6 +99,7 @@ module.exports = {
         4: "#ff5252",
         5: "#ff0000",
         6: "#a70000",
+        7: "#BB2D3B",
       },
     },
   },

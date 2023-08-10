@@ -14,16 +14,8 @@ export const Button: FC<IButtonProps> = ({
   styling = "",
   ...props
 }): ReactElement => {
-  const scroll = () => {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
-
   const buttonSize = clsx(`${styling} text-sm ${width} ${height} ${uppercase ? "uppercase" : ""}`, {
-    "p-4": size === "sm",
+    "lg:p-4 p-3": size === "sm",
     "p-5": size === "md",
     "p-6": size === "lg",
   });
@@ -38,29 +30,31 @@ export const Button: FC<IButtonProps> = ({
       "bg-secondary-green-4 text-primary-white hover:bg-secondary-green-5 focus:bg-secondary-green-5 active:shadow-inset ":
         variant === "filled-tonal",
       "text-primary-white border-2 border-secondary-green-4": variant === "outlined",
-      "text-sceondary-green-4 hover:bg-secondary-sky-1 active:bg-secondary-sky-2 ":
+      "text-secondary-green-4 hover:bg-secondary-sky-1 active:bg-secondary-sky-2 ":
         variant === "text-icon",
+      "text-primary-white hover:text-slate-3 active:text-slate-4": variant === "navlist",
       "fixed bottom-4 right-4 bg-secondary-green-4 text-primary-white hover:bg-secondary-green-5 focus:bg-secondary-green-5 ":
         variant === "float-bottom-right",
       "active:shadow-inset ": variant === "custom",
-      "text-white uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full ":
+      "uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full ":
         variant === "sidebarlist",
       "text-primary-green font-normal ": variant === "sidebarbutton",
       "bg-primary-white text-primary-green border border-primary-green  active:shadow-inset":
         variant === "green-outline",
+      "hover:cursor-wait": loading,
     },
   );
 
   const className = [...buttonVariant, ...buttonSize].join("");
 
   return props?.href ? (
-    <Link role="link" href={`${props?.href}`} onClick={scroll}>
-      <button {...props} className={`${className} ${loading ? "hover:cursor-wait" : ""}`}>
+    <Link role="link" href={`${props?.href}`}>
+      <button data-testid="button" {...props} className={className}>
         {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
       </button>
     </Link>
   ) : (
-    <button {...props} className={`${className} ${loading ? "hover:cursor-wait" : ""}`}>
+    <button data-testid="button" {...props} className={className}>
       {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
     </button>
   );

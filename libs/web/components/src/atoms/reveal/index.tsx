@@ -1,5 +1,4 @@
 "use client";
-
 import { motion, useInView, useAnimation } from "framer-motion";
 import { FC, ReactElement, useRef, useEffect } from "react";
 import { TRevealProps } from "./type";
@@ -15,7 +14,11 @@ export const Reveal: FC<TRevealProps> = ({ children, w = "w-fit", blur = false }
     }
   }, [animateControllers, isViewed]);
   return (
-    <div ref={ref} className={`relative ${w} overflow-hidden ${blur ? "backdrop-blur-sm" : ""} `}>
+    <div
+      data-testid="reveal"
+      ref={ref}
+      className={`relative ${w} overflow-hidden ${blur ? "backdrop-blur-sm" : ""} `}
+    >
       <motion.div
         variants={{
           hidden: { opacity: 0, y: 75 },

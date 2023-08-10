@@ -9,15 +9,15 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
   const buttonList: TButtonSection[] = [
     {
       no: 1,
-      item: " JSPA",
+      item: "SPA",
     },
     {
       no: 2,
-      item: "JSPNA",
+      item: "SPNA",
     },
     {
       no: 3,
-      item: "JST",
+      item: "ST",
     },
   ];
 

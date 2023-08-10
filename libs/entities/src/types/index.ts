@@ -17,3 +17,4 @@ export * from "./resend-otp";
 export * from "./logout";
 export * from "./file";
 export * from "./select-field";
+export * from "./questions";

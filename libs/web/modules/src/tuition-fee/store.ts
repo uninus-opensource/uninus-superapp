@@ -135,7 +135,7 @@ export const dataMagister: TTableMagister[] = [
     ukt: "Rp. 10.000.000",
   },
   {
-    program_studi: "Doktor Ilmu Pendidikan",
+    program_studi: "Doktor Ilmu Pendidikan (S3)",
     ukt: "Rp. 13.200.000",
   },
 ];

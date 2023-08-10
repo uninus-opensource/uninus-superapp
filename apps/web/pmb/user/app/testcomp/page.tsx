@@ -34,11 +34,16 @@ const MultiOptions = [
 ];
 
 const LandingPage: FC = (): ReactElement => {
-  const { control } = useForm<FieldValues>({
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<FieldValues>({
     defaultValues: {
       checkboxField: false,
       uploadField: "",
       draggableComponent: "",
+      favoriteProgrammingLang: undefined,
     },
   });
 
@@ -50,6 +55,10 @@ const LandingPage: FC = (): ReactElement => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
 
   return (
     <section className="px-6 py-12 my-36">
@@ -119,20 +128,7 @@ const LandingPage: FC = (): ReactElement => {
         <Button onClick={handleOpenModal} variant="filled" size="sm" width="w-28" height="h-8">
           Modal
         </Button>
-        <Modal
-          showModal={showModal}
-          modalTitle="INI CERITANYA MODAL"
-          onClose={handleCloseModal}
-          submitText="Save"
-          closeText="Cancel"
-        />
-        <Modal
-          showModal={showModal}
-          modalTitle="INI CERITANYA MODAL"
-          onClose={handleCloseModal}
-          submitText="Save"
-          closeText="Cancel"
-        />
+
         <div className="flex gap-2 w-auto">
           <UploadField
             className="flex flex-col gap-4"
@@ -161,11 +157,78 @@ const LandingPage: FC = (): ReactElement => {
             labelClassName="font-bold"
             options={MultiOptions}
             isSearchable={true}
-            name="SelectController"
+            name="SelectController2"
             control={control}
             isMulti={false}
           />
         </div>
+        <form onSubmit={onSubmit} className="w-1/2 flex flex-col justify-center items-center gap-3">
+          <SelectOption
+            labels="favorit bahasa pemrograman :"
+            labelClassName="font-bold"
+            options={[
+              {
+                value: "JAVASCRIPT",
+                label: "JAVASCRIPT",
+              },
+              {
+                value: "PHP",
+                label: "PHP",
+              },
+              {
+                value: "RUBY",
+                label: "RUBY",
+              },
+              {
+                value: "PYTHON",
+                label: "PYTHON",
+              },
+              {
+                value: "KOTLIN",
+                label: "KOTLIN",
+              },
+              {
+                value: "JAVA",
+                label: "JAVA",
+              },
+              {
+                value: "GO",
+                label: "GO",
+              },
+              {
+                value: "DART",
+                label: "DART",
+              },
+              {
+                value: "SCALA",
+                label: "SCALA",
+              },
+              {
+                value: "HASKELL",
+                label: "HASKELL",
+              },
+              {
+                value: "HTML",
+                label: "HTML 😡",
+              },
+            ]}
+            isSearchable={true}
+            name="favoriteProgrammingLang"
+            control={control}
+            isMulti={false}
+            required={true}
+          />
+          <Button
+            variant="elevated"
+            size="sm"
+            disabled={!isValid}
+            className={`${
+              isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"
+            } text-white rounded-md`}
+          >
+            Submit
+          </Button>
+        </form>
         <SelectField
           name="nama"
           label="Nama"
