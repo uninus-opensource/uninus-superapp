@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "@uninus/api/models";
 import {
   TCitizenshipResponse,
@@ -29,6 +29,9 @@ import {
   TOccupationPositionResponse,
   IOccupationPositionRequest,
   TSchoolTypeResponse,
+  TCreateQuestionRequest,
+  TUpdateQuestionRequest,
+  TDeleteQuestionResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -424,5 +427,63 @@ export class SelectService {
     }
 
     return { school_type: schoolTypes };
+  }
+
+  async getAllQuestion() {
+    const questions = await this.prisma.questions.findMany();
+    return questions;
+  }
+
+  async createQuestion(data: TCreateQuestionRequest) {
+    const { question } = data;
+
+    const existingQuestion = await this.prisma.questions.findFirst({
+      where: { question },
+    });
+
+    if (existingQuestion) {
+      throw new ConflictException("Duplicate Question");
+    }
+
+    const newQuestion = await this.prisma.questions.create({
+      data: data,
+    });
+
+    return newQuestion;
+  }
+
+  async updateQuestion(id: number, data: TUpdateQuestionRequest) {
+    const existingQuestion = await this.prisma.questions.findFirst({
+      where: {
+        question: data.question,
+      },
+    });
+
+    if (existingQuestion && existingQuestion.id !== id) {
+      throw new ConflictException("Duplicate Question at this Id");
+    }
+
+    await this.prisma.questions.update({
+      where: { id },
+      data: data,
+    });
+
+    return this.prisma.questions.findUnique({ where: { id } });
+  }
+
+  async deleteQuestion(id: number): Promise<TDeleteQuestionResponse> {
+    const question = await this.prisma.questions.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!question) {
+      throw new NotFoundException("Question not found");
+    }
+
+    await this.prisma.questions.delete({ where: { id } });
+    return {
+      message: "Question deleted",
+    };
   }
 }
