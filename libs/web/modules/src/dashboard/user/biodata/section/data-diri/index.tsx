@@ -224,20 +224,20 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             disabled
           />
-          <div className="lg:w-full">
-            <TextField
-              inputHeight="h-10"
-              name="nik"
-              variant="sm"
-              required
-              type="text"
-              placeholder="Nomor dapat dilihat dari KK atau KTP"
-              labelclassname="text-sm font-semibold"
-              label="NIK"
-              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
-              control={control}
-            />
-          </div>
+
+          <TextField
+            inputHeight="h-10"
+            name="nik"
+            variant="sm"
+            required
+            type="text"
+            placeholder="Nomor dapat dilihat dari KK atau KTP"
+            labelclassname="text-sm font-semibold"
+            label="NIK"
+            inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+            control={control}
+          />
+
           <TextField
             inputHeight="h-10"
             name="nisn"
@@ -251,20 +251,20 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
           />
           {/*Start Jenis kelamin */}
-
-          <TextField
-            inputHeight="h-10"
-            name="nomor kk"
-            variant="sm"
-            required
-            type="text"
-            placeholder="Nomor dapat dilihat di KK"
-            labelclassname="text-sm font-semibold"
-            label="No Kartu Keluarga"
-            inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
-            control={control}
-          />
-
+          <div className="lg:w-full">
+            <TextField
+              inputHeight="h-10"
+              name="nomor kk"
+              variant="sm"
+              required
+              type="text"
+              placeholder="Nomor dapat dilihat di KK"
+              labelclassname="text-sm font-semibold"
+              label="No Kartu Keluarga"
+              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+              control={control}
+            />
+          </div>
           <RadioButton
             fieldName="Jenis Kelamin"
             name="gender"
@@ -326,7 +326,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             />
           </div>
 
-          {/*start Kewarganegaeaan */}
           <RadioButton
             name="citizenship"
             fieldName="Kewarganegaraan"
@@ -337,21 +336,21 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputname="kewarganegaraan"
             variant="primary"
           />
-          {/*End Kewarganegaeaan */}
-          {watch("citizen") !== "WNI" && (
-            <SelectOption
-              name="country"
-              labels="Asal Negara"
-              placeholder="Asal Negara"
-              className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
-              labelClassName="font-bold"
-              options={countryOptions || []}
-              isClearable={true}
-              isSearchable={true}
-              control={control}
-              isMulti={false}
-            />
-          )}
+
+          <SelectOption
+            name="country"
+            labels="Asal Negara"
+            placeholder="Asal Negara"
+            className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
+            labelClassName="font-bold"
+            options={countryOptions || []}
+            isClearable={true}
+            isSearchable={true}
+            control={control}
+            isMulti={false}
+            disabled={!watch("citizen === WNI")}
+          />
+
           <SelectOption
             labels="Provinsi"
             className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
@@ -406,7 +405,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               className="resize-none bg-grayscale-2  "
             />
           </div>
-          {/*Start difabel */}
+
           <RadioButton
             name="difabel"
             label="Ya"
@@ -420,7 +419,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             required
             variant="primary"
           />
-          {/*End difabel */}
 
           <SelectOption
             labels="Kategori Difabel"
