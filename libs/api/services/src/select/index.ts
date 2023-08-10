@@ -26,6 +26,9 @@ import {
   ISelectEducationHistoryRequest,
   TScholarshipResponse,
   ICountryRequest,
+  TOccupationPositionResponse,
+  IOccupationPositionRequest,
+  TSchoolTypeResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -327,7 +330,6 @@ export class SelectService {
       select: {
         id: true,
         name: true,
-        occupationposition: true,
       },
     });
     if (!occupation) {
@@ -335,6 +337,27 @@ export class SelectService {
     }
 
     return { occupation };
+  }
+
+  async getOccupationPosition({
+    search,
+    occupation_id,
+  }: IOccupationPositionRequest): Promise<TOccupationPositionResponse> {
+    const occupationPosition = await this.prisma.occupationPosition.findMany({
+      where: {
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+        ...(occupation_id && { occupation_id: Number(occupation_id) }),
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    if (!occupationPosition) {
+      throw new NotFoundException("Data Jabatan Tidak Ditemukan!");
+    }
+
+    return { occupation_position: occupationPosition };
   }
 
   async getDisabilites({ search }: ISelectRequest): Promise<TDisabilitiesResponse> {
@@ -378,6 +401,28 @@ export class SelectService {
       },
     });
 
+    if (!scholarship) {
+      throw new NotFoundException("Data Beasiswa Tidak Ditemukan!");
+    }
+
     return { scholarship };
+  }
+
+  async getSchoolType({ search }: ISelectRequest): Promise<TSchoolTypeResponse> {
+    const schoolTypes = await this.prisma.schoolTypes.findMany({
+      where: {
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!schoolTypes) {
+      throw new NotFoundException("Data Jenis Sekola Tidak Ditemukan!");
+    }
+
+    return { school_type: schoolTypes };
   }
 }

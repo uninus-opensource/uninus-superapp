@@ -109,13 +109,33 @@ export const ModalAndButtons: FC = (): ReactElement => {
         bodyClassName="py-4 md:py-8"
         modalTitle={
           data?.registration_status === "Lulus" ? (
-            <p className="text-xs text-primary-white">
-              SELAMAT! ANDA DINYATAKAN LULUS SELEKSI JALUR REGULER 2023
-            </p>
+            <div className="flex items-center gap-4">
+              <Image
+                alt="logo-uninus"
+                src="/illustrations/uninus-logo.webp"
+                quality={100}
+                width={300}
+                height={300}
+                className="w-16 h-16"
+              />
+              <p className="text-xs text-primary-white">
+                SELAMAT! ANDA DINYATAKAN LULUS SELEKSI JALUR REGULER 2023
+              </p>
+            </div>
           ) : data?.registration_status === "Tidak Lulus" ? (
-            <p className="text-xs text-primary-white">
-              ANDA DINYATAKAN TIDAK LULUS SELEKSI JALUR REGULER 2023
-            </p>
+            <div className="flex items-center gap-4">
+              <Image
+                alt="logo-uninus"
+                src="/illustrations/uninus-logo.webp"
+                quality={100}
+                width={300}
+                height={300}
+                className="w-16 h-16"
+              />
+              <p className="text-xs text-primary-white">
+                ANDA DINYATAKAN TIDAK LULUS SELEKSI JALUR REGULER 2023
+              </p>
+            </div>
           ) : (
             <Image
               src={"/illustrations/Neo-Uninus.webp"}

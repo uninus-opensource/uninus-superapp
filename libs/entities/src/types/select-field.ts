@@ -171,6 +171,17 @@ export type TOccupationResponse = {
   }>;
 };
 
+export interface IOccupationPositionRequest extends ISelectRequest {
+  occupation_id: string;
+}
+
+export type TOccupationPositionResponse = {
+  occupation_position: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
 export interface IDisabilitiesRequest {
   search: string;
 }
@@ -195,6 +206,13 @@ export type TYearGraduationResponse = {
 
 export type TScholarshipResponse = {
   scholarship: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export type TSchoolTypeResponse = {
+  school_type: Array<{
     id: number;
     name: string;
   }>;

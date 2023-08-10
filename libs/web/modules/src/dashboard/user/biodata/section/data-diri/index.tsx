@@ -405,7 +405,6 @@ export const DataDiriSection: FC = (): ReactElement => {
               className="resize-none bg-grayscale-2  "
             />
           </div>
-
           <RadioButton
             name="difabel"
             label="Ya"
