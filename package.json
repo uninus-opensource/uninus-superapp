@@ -35,7 +35,7 @@
     "@ant-design/icons": "^5.1.4",
     "@casl/ability": "^6.5.0",
     "@casl/prisma": "^1.4.1",
-    "@hookform/resolvers": "^3.1.1",
+    "@hookform/resolvers": "^3.2.0",
     "@mobily/ts-belt": "^3.13.1",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/common": "^10.1.3",
