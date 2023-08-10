@@ -26,17 +26,12 @@ export const Navbar: FC = (): ReactElement => {
       link: "/",
     },
     {
-      item: (
-        <Fragment>
-          Program{" "}
-          <AiOutlineDown
-            className={`ml-1 h-4 text-xl duration-100 ${isDropDown ? "rotate-180" : ""}`}
-          />
-        </Fragment>
-      ),
-      state: () => {
-        setIsDropDown(!isDropDown);
-      },
+      item: "Progam Studi",
+      link: "/program-studi",
+    },
+    {
+      item: "Biaya Kuliah",
+      link: "/biaya-kuliah",
     },
     {
       item: "Beasiswa",
@@ -105,6 +100,7 @@ export const Navbar: FC = (): ReactElement => {
               href="/auth/login"
               variant="custom"
               styling="bg-grayscale-1 text-secondary-green-4"
+              width="w-26"
               height="h-9"
             >
               Login

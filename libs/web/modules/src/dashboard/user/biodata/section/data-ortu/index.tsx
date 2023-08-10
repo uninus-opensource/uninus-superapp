@@ -61,7 +61,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
     setValue("city", null);
   }, [watch("province")]);
 
-  const [salary, setSalary] = useState({
+  const [salary] = useState({
     search: "",
   });
 
@@ -76,7 +76,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
     [getSalary?.salary],
   );
 
-  const [occupation, setOccupation] = useState({
+  const [occupation] = useState({
     search: "",
   });
 
@@ -175,20 +175,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             name="father_profecy"
             labels="Pekerjaan Ayah"
             placeholder="Pilih Pekerjaan"
-            options={[
-              {
-                label: "PNS",
-                value: "Guru",
-              },
-              {
-                label: "Buruh",
-                value: "Berdagang",
-              },
-              {
-                label: "Polri",
-                value: "Polisi",
-              },
-            ]}
+            options={occupationOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
             isSearchable={true}
             control={control}
@@ -437,20 +424,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             name="guardian_profecy"
             labels="Pekerjaan Wali"
             placeholder="Pilih Pekerjaan"
-            options={[
-              {
-                label: "PNS",
-                value: "Guru",
-              },
-              {
-                label: "Buruh",
-                value: "Berdagang",
-              },
-              {
-                label: "IRT",
-                value: "IRT",
-              },
-            ]}
+            options={occupationOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
             isSearchable={true}
             control={control}

@@ -5,8 +5,10 @@ import {
   TMetaErrorResponse,
   IOccupationRequest,
   TOccupationResponse,
+  IOccupationPositionRequest,
+  TOccupationPositionResponse,
 } from "@uninus/entities";
-import { OccupationGet, SalaryGet } from "./api";
+import { OccupationGet, OccupationPositionGet, SalaryGet } from "./api";
 
 export const useSalaryGet = (
   params: ISalaryRequest,
@@ -23,5 +25,14 @@ export const useOccupationGet = (
   return useQuery({
     queryKey: ["getOccupation", params],
     queryFn: async () => await OccupationGet(params),
+  });
+};
+
+export const useOccupationPositionGet = (
+  params: IOccupationPositionRequest,
+): UseQueryResult<TOccupationPositionResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getOccupationPosition", params],
+    queryFn: async () => await OccupationPositionGet(params),
   });
 };

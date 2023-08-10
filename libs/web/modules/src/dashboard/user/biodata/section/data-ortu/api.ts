@@ -4,6 +4,8 @@ import {
   ISalaryRequest,
   IOccupationRequest,
   TOccupationResponse,
+  IOccupationPositionRequest,
+  TOccupationPositionResponse,
 } from "@uninus/entities";
 
 export const SalaryGet = async (params: ISalaryRequest): Promise<TSalaryResponse> => {
@@ -20,6 +22,17 @@ export const OccupationGet = async (params: IOccupationRequest): Promise<TOccupa
     method: "GET",
     params,
     url: "/occupation",
+  });
+  return data;
+};
+
+export const OccupationPositionGet = async (
+  params: IOccupationPositionRequest,
+): Promise<TOccupationPositionResponse> => {
+  const { data } = await api<TOccupationPositionResponse>({
+    method: "GET",
+    params,
+    url: "/occupation-position",
   });
   return data;
 };
