@@ -35,7 +35,10 @@ export const Navbar: FC = (): ReactElement => {
         </Fragment>
       ),
       state: () => {
-        setIsDropDown(!isDropDown);
+        setIsDropDown(true);
+      },
+      state2: () => {
+        setIsDropDown(false);
       },
     },
     {
@@ -46,7 +49,10 @@ export const Navbar: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      <header className="z-40 px-8 lg:px-14 flex justify-between items-center h-[100px] lg:h-navbarlg text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold">
+      <header
+        data-testid="navbarLanding"
+        className="z-40 px-8 lg:px-14 flex justify-between items-center h-[100px] lg:h-navbarlg text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold"
+      >
         <figure>
           <Image
             src={"/illustrations/Neo-Uninus.webp"}
@@ -64,7 +70,13 @@ export const Navbar: FC = (): ReactElement => {
             <ul className="flex gap-4">
               {navList.map((nav, idx) => (
                 <li key={idx}>
-                  <Button variant="navlist" href={nav.link} onClick={nav.state} uppercase>
+                  <Button
+                    variant="navlist"
+                    href={nav.link}
+                    onMouseEnter={nav.state}
+                    onMouseLeave={nav.state2}
+                    uppercase
+                  >
                     {nav.item}
                   </Button>
                 </li>
@@ -81,16 +93,20 @@ export const Navbar: FC = (): ReactElement => {
               animate={{
                 y: isDropDown ? [-10, 0] : [0, -10],
               }}
-              className={`hidden lg:flex absolute bg-primary-white w-36 h-24 z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-28 mt-5 shadow-md`}
+              className="hidden lg:flex absolute w-36 h-32 z-50  text-base text-primary-black items-center justify-center flex-col rounded-sm ml-28 -mt-2"
+              onMouseEnter={navList[1]?.state}
+              onMouseLeave={navList[1]?.state2}
             >
+              <div className="bg-primary-green w-full h-full"></div>
+
               <Link
-                className="flex items-center justify-center p-2 text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 duration-150 border-2 border-l-0 border-primary-green w-full h-full "
+                className="flex items-center justify-center p-2 bg-primary-white text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 duration-150 border-2 border-l-0 border-primary-green w-full h-full "
                 href="/program-studi"
               >
                 Program Studi
               </Link>
               <Link
-                className="flex items-center justify-center p-2 text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 border-2 border-t-0 border-l-0 border-b-0 border-primary-green w-full h-full"
+                className="flex items-center justify-center p-2 bg-primary-white text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 border-2 border-t-0 border-l-0 border-b-0 border-primary-green w-full h-full shadow-md"
                 href="/biaya-kuliah"
               >
                 Biaya Kuliah
