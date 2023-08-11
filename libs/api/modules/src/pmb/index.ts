@@ -26,4 +26,4 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
   controllers: [UserController],
   providers: [CloudinaryService],
 })
-export class PmbModule {}
+export class PmbModule { }

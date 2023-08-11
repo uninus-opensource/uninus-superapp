@@ -9,6 +9,8 @@
     "web:pmb:admin:build": "yarn nx build web-pmb-admin",
     "web:siakad:serve": "yarn nx serve web-siakad",
     "web:siakad:build": "yarn nx build web-siakad",
+    "api:file:serve": "dotenv -e ./apps/api/file/.env -- yarn nx serve api-file",
+    "api:file:build": "dotenv -e ./apps/api/file/.env -- yarn nx build api-file",
     "api:auth:serve": "dotenv -e ./apps/api/auth/.env -- yarn nx serve api-auth",
     "api:auth:build": "dotenv -e ./apps/api/auth/.env -- yarn nx build api-auth",
     "api:email:serve": "dotenv -e ./apps/api/email/.env -- yarn nx serve api-email",
@@ -35,6 +37,8 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
+    "@aws-sdk/client-s3": "^3.385.0",
+    "@aws-sdk/lib-storage": "^3.386.0",
     "@casl/ability": "^6.5.0",
     "@casl/prisma": "^1.4.1",
     "@hookform/resolvers": "^3.2.0",
