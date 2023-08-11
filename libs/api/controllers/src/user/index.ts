@@ -11,6 +11,7 @@ import {
   Request,
   UseGuards,
   BadRequestException,
+  UseFilters,
 } from "@nestjs/common";
 import { VSCreateUser, TReqToken, VSUpdateUser, TProfileResponse } from "@uninus/entities";
 import { ZodValidationPipe } from "@uninus/api/validator";
@@ -20,6 +21,8 @@ import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagg
 import { ClientProxy } from "@nestjs/microservices";
 import { firstValueFrom } from "rxjs";
 import { generateOtp } from "@uninus/api/utilities"
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
+
 @Controller("user")
 @ApiTags("User")
 export class UserController {
@@ -28,23 +31,19 @@ export class UserController {
   ) {}
 
   @Get("/me")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiBearerAuth()
   @ApiOperation({ summary: "Get Data" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   @UseGuards(JwtAuthGuard)
   async getUser(@Request() reqToken: TReqToken) {
-    try {
       const { sub } = reqToken.user;
       const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user",sub))
       return response
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   @Get()
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Pagination List User" })
   async getAllData(
     @Query("page") page: number,
@@ -53,7 +52,6 @@ export class UserController {
     @Query("filter_by") filterBy: string,
     @Query("search") search: string,
   ) {
-    try {
       const response = await firstValueFrom(
         this.client.send<Array<TProfileResponse>>("get_users",{
           where: {
@@ -80,28 +78,19 @@ export class UserController {
         })
       )
       return response
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   @Get("/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Data User By Id" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   async getDataById(@Param("id") id: string) {
-    try {
       const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user",id))
       return response
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   @Post()
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Create Data user" })
   @ApiResponse({
     status: 400,
@@ -111,7 +100,6 @@ export class UserController {
     @Body(new ZodValidationPipe(VSCreateUser))
     createUserSwagger: CreateUserSwagger,
   ) {
-    try {
       const response = await firstValueFrom(this.client.send<TProfileResponse>("create_user",createUserSwagger))
       const isCreateOtp = await generateOtp(response?.email, response?.id);
       if (!isCreateOtp) {
@@ -127,29 +115,20 @@ export class UserController {
         throw new BadRequestException("Gagal mengirimkan kode verifikasi");
       }
       return response
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   @Delete("/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({ status: 201, description: "Berhasil delete user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   async deleteData(@Param("id") id: string) {
-    try {
       const response = await firstValueFrom(this.client.send("delete_user", id))
       return response
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   @Put("/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Edit User By Id" })
   @ApiResponse({ status: 201, description: "Berhasil update user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
@@ -158,17 +137,11 @@ export class UserController {
     @Body(new ZodValidationPipe(VSUpdateUser))
     updateUserSwagger: UpdateUserSwagger,
   ) {
-    try {
       const response = await firstValueFrom(this.client.send('update_user',{
         id,
         payload:updateUserSwagger
       }))
       return response
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
 }

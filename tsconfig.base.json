@@ -25,6 +25,7 @@
       "@uninus/api/strategies": ["libs/api/strategies/src/index.ts"],
       "@uninus/api/utilities": ["libs/api/utilities/src/index.ts"],
       "@uninus/api/validator": ["libs/api/validator/src/index.ts"],
+      "@uninus/api/filter": ["libs/api/filter/src/index.ts"],
       "@uninus/entities": ["libs/entities/src/index.ts"],
       "@uninus/my-lib": ["libs/my-lib/src/index.ts"],
       "@uninus/utilities": ["libs/utilities/src/index.ts"],

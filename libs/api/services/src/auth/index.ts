@@ -31,27 +31,14 @@ export class AuthService {
   constructor(@Inject("REDIS_SERVICE") private readonly client: ClientProxy) {}
 
   async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
-    try {
       const response = await firstValueFrom(this.client.send("get_profile", reqUser));
       return response;
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   async register(data: TRegisterRequest): Promise<TRegisterResponse> {
     let createdUser: TProfileResponse;
 
-    try {
-      createdUser = await firstValueFrom(this.client.send<TProfileResponse>("register", data));
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
+    createdUser = await firstValueFrom(this.client.send<TProfileResponse>("register", data));
 
     if (!createdUser) {
       throw new BadRequestException("Gagal Mendaftar");
@@ -83,51 +70,23 @@ export class AuthService {
   }
 
   async login(args: TLoginRequest): Promise<TLoginResponse> {
-    try {
       const response = await firstValueFrom(this.client.send("login", args));
       return response;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   async logout(args: TLogoutRequest): Promise<TLogoutResponse> {
-    try {
       const response = await firstValueFrom(this.client.send("logout", args));
       return response;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   async refreshToken(reqToken: TReqToken): Promise<TResRefreshToken> {
-    try {
       const response = await firstValueFrom(this.client.send("refresh_token", reqToken));
       return response;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   async verifyOtp(args: TVerifyOtpRequest): Promise<TVerifyOtpResponse> {
-    try {
       const response = await firstValueFrom(this.client.send("verify_otp", args));
       return response;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   async resendOtp(args: TResendOtpRequest): Promise<TResendOtpResponse> {
@@ -165,38 +124,17 @@ export class AuthService {
   }
 
   async forgotPassword(data: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
-    try {
       const response = await firstValueFrom(this.client.send("forget_password", data));
       return response;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   async verifyOtpPassword(args: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
-    try {
       const response = await firstValueFrom(this.client.send("verify_otp_password", args));
       return response;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   async resetPassword(args: TResetPasswordRequest): Promise<TResetPasswordResponse> {
-    try {
       const response = await firstValueFrom(this.client.send("reset_password", args));
       return response;
-    } catch (error) {
-      console.log(error);
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 }
