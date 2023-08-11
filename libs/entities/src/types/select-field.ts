@@ -15,11 +15,6 @@ export interface ISelectFacultyRequest extends ISelectRequest {
   degree_program_id: string;
 }
 
-export interface ISelectDepartmentRequest extends ISelectRequest {
-  faculty_id: string;
-  degree_program_id: string;
-}
-
 export type TProvinceResponse = {
   province: Array<{
     id: number;
@@ -54,6 +49,10 @@ export type TSubDistrictResponse = {
   }>;
 };
 
+export interface IDegreeProgramRequest {
+  search: string;
+}
+
 export type TDegreeProgramResponse = {
   degree_program: Array<{
     id: number;
@@ -67,6 +66,11 @@ export type TFacultyResponse = {
     name: string;
   }>;
 };
+
+export interface ISelectDepartmentRequest extends ISelectRequest {
+  degree_program_id: string;
+  faculty_id: string;
+}
 
 export type TDepartmentResponse = {
   department: Array<{
@@ -118,6 +122,10 @@ export type TCitizenshipResponse = {
     name: string;
   }>;
 };
+
+export interface ISelectionRequest {
+  search: string;
+}
 
 export type TSelectionResponse = {
   selection: Array<{
