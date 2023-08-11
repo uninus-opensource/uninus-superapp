@@ -32,7 +32,7 @@ export const ModuleUnggul: FC = (): ReactElement => {
           <div className="w-full flex lg:flex-row-reverse items-center  md:flex-row-reverse flex-col justify-between md:items-start ">
             <figure className=" flex px-6 xl:ml-[20vw] w-full">
               <Image
-                src={"/illustrations/beasiswaunggul.webp"}
+                src={"/illustrations/beasiswaIllustrations/nusantara-unggul.webp"}
                 alt="Beasiswa Unggul"
                 width={400}
                 height={100}
