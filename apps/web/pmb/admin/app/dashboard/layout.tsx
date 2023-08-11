@@ -36,7 +36,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       link: "/dashboard/pendaftaran",
       icon: <FormOutlined />,
     },
-    { label: "Master Data User", link: "/dashboard/biodata", icon: <UserOutlined /> },
+    { label: "Master Data User", link: "/dashboard/registrasi/biodata", icon: <UserOutlined /> },
   ];
 
   return (

@@ -32,7 +32,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       link: "/dashboard/pendaftaran",
       icon: <FileTextOutlined />,
     },
-    { label: "Registrasi", link: "/dashboard/biodata", icon: <FormOutlined /> },
+    { label: "Registrasi", link: "/dashboard/registrasi/biodata", icon: <FormOutlined /> },
     {
       label: "Upload Berkas",
       link: "/dashboard/dokumen",
