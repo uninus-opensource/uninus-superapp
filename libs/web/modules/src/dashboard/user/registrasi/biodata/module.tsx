@@ -5,15 +5,25 @@ import { DataPendidikanSection } from "./section/data-pendidikan";
 import { DataOrtuSection } from "./section/data-ortu";
 import { DataNilaiSection } from "./section/data-nilai";
 import { BerkasKhususSection } from "./section/berkas-khusus";
-import { Pembayaran } from "./section/pembayaran";
+import { BreadCrumb, Button } from "@uninus/web/components";
+import Link from "next/link";
+
+export const registrasiBreadcrumb = [
+  {
+    name: "Registrasi",
+    link: "/dashboard/registrasi/biodata",
+  },
+];
 
 export const ModuleBiodata: FC = (): ReactElement => {
   return (
     <Fragment key="dashboard-biodata">
       <div className="flex flex-col items-center lg:items-start p-5 lg:p-0 lg:py-4">
-        <h1 className="text-slate-5">
-          PMB <span className="text-secondary-green-4"> / Data diri</span>
-        </h1>
+        <span className="flex gap-2">
+          <h1 className="text-xs md:text-sm text-slate-5 font-bold">PMB/</h1>
+          <BreadCrumb items={registrasiBreadcrumb} />
+        </span>
+
         <p className="text-lg font-bold text-secondary-green-4">Pengisian data diri</p>
       </div>
 
@@ -25,8 +35,15 @@ export const ModuleBiodata: FC = (): ReactElement => {
           <DataNilaiSection />
           <DataOrtuSection />
           <BerkasKhususSection />
-          <Pembayaran />
         </section>
+        <div className="flex gap-6 justify-end px-8">
+          <Link href="/dashboard/registrasi/pembayaran">
+            <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
+              Reguler
+            </Button>
+          </Link>
+          <button>Beasiswa</button>
+        </div>
       </section>
     </Fragment>
   );

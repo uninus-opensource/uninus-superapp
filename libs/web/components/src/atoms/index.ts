@@ -4,3 +4,4 @@ export * from "./loadings";
 export * from "./reveal";
 export * from "./illustrations";
 export * from "./pdf";
+export * from "./bread-crumb";
