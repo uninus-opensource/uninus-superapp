@@ -41,6 +41,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
 
   const { data: getDepartment } = useDepartmentGet({
     degree_program_id: watch("program"),
+    faculty_id: watch(""),
     search: "",
   });
 

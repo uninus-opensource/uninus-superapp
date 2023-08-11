@@ -2,7 +2,7 @@ import { api } from "@uninus/web/services";
 import {
   TDegreeProgramResponse,
   IDegreeProgramRequest,
-  IDepartmentRequest,
+  ISelectDepartmentRequest,
   TDepartmentResponse,
   ISelectionRequest,
   TSelectionResponse,
@@ -19,7 +19,9 @@ export const DegreeProgramGet = async (
   return data;
 };
 
-export const DepartmentGet = async (params: IDepartmentRequest): Promise<TDepartmentResponse> => {
+export const DepartmentGet = async (
+  params: ISelectDepartmentRequest,
+): Promise<TDepartmentResponse> => {
   const { data } = await api<TDepartmentResponse>({
     method: "GET",
     params,

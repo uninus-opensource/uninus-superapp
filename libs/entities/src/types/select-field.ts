@@ -67,8 +67,9 @@ export type TFacultyResponse = {
   }>;
 };
 
-export interface IDepartmentRequest extends ISelectRequest {
+export interface ISelectDepartmentRequest extends ISelectRequest {
   degree_program_id: string;
+  faculty_id: string;
 }
 
 export type TDepartmentResponse = {

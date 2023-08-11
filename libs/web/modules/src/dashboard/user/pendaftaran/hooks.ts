@@ -2,7 +2,7 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import {
   TDegreeProgramResponse,
   IDegreeProgramRequest,
-  IDepartmentRequest,
+  ISelectDepartmentRequest,
   TDepartmentResponse,
   TMetaErrorResponse,
   ISelectionRequest,
@@ -20,7 +20,7 @@ export const useDegreeProgramGet = (
 };
 
 export const useDepartmentGet = (
-  params: IDepartmentRequest,
+  params: ISelectDepartmentRequest,
 ): UseQueryResult<TDepartmentResponse, TMetaErrorResponse> => {
   return useQuery({
     queryKey: ["getDepartment", params],

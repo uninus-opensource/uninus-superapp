@@ -165,6 +165,7 @@
     "jest-environment-jsdom": "^29.6.2",
     "jest-environment-node": "^29.6.2",
     "nx": "16.6.0",
+    "nx-cloud": "^16.3.0",
     "postcss": "^8.4.27",
     "prettier": "^2.8.8",
     "prisma": "5",
