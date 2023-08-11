@@ -36,9 +36,7 @@ export class AuthService {
   }
 
   async register(data: TRegisterRequest): Promise<TRegisterResponse> {
-    let createdUser: TProfileResponse;
-
-    createdUser = await firstValueFrom(this.client.send<TProfileResponse>("register", data));
+    const createdUser: TProfileResponse = await firstValueFrom(this.client.send<TProfileResponse>("register", data));
 
     if (!createdUser) {
       throw new BadRequestException("Gagal Mendaftar");
