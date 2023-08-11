@@ -26,7 +26,7 @@ import {
   TEducationHistoryResponse,
   TDegreeProgramResponse,
   ISelectFacultyRequest,
-  IDepartmentRequest,
+  ISelectDepartmentRequest,
   TOccupationResponse,
   TDisabilitiesResponse,
   TYearGraduationResponse,
