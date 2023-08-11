@@ -1,7 +1,6 @@
 "use client";
 import { Page, Text, View, Document, Image, Font, Link } from "@react-pdf/renderer";
 import { createTw } from "react-pdf-tailwind";
-import { montserrat, montserratBold } from "../fonts";
 
 const tw = createTw({
   theme: {
@@ -17,10 +16,10 @@ Font.register({
   family: "Montserrat",
   fonts: [
     {
-      src: montserrat,
+      src: "/fonts/Montserrat.ttf",
     },
     {
-      src: montserratBold,
+      src: "/fonts/Montserrat-Bold.ttf",
       fontWeight: "bold",
     },
   ],
