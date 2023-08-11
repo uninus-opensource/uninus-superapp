@@ -9,5 +9,6 @@ export interface ModalProps {
   className?: string;
   closeClassName?: string;
   headerColor?: string;
+  footerColor?: string;
   bodyClassName?: string;
 }

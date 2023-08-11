@@ -13,6 +13,7 @@ export const Modal: FC<ModalProps> = ({
   className = "max-w-2xl max-h-full rounded-lg bg-primary-white",
   closeClassName = "text-primary-black",
   headerColor = "",
+  footerColor = "",
   bodyClassName = "p-6 space-y-8",
 }): ReactElement | null => {
   if (!showModal) {
@@ -38,6 +39,7 @@ export const Modal: FC<ModalProps> = ({
               )}
             </div>
             <div className={bodyClassName}>{children}</div>
+            <div className={`w-full h-[30px] ${footerColor}`}></div>
           </div>
         </div>
       </div>,
