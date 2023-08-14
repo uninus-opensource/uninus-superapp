@@ -1,25 +1,55 @@
 "use client";
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement, useState, useRef, useEffect } from "react";
 import { Button } from "@uninus/web/components";
 import { Modal } from "@uninus/web/components";
 import { PiWarningCircleBold } from "react-icons/pi";
 import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi";
-import { useRecoilState } from "recoil";
-import { questionState, queyQuestionState } from "./store";
-
+import { useRecoilState, useRecoilValue } from "recoil";
+import { questionState, queyQuestionState, timerState } from "./store";
+import { TTimer } from "./type";
 export const QuizModule: FC = (): ReactElement => {
   const [isActiveQuestion, setIsActiveQuestion] = useRecoilState<number>(questionState);
-  const [listDataQuestion, setListDataQuestion] = useRecoilState(queyQuestionState);
-
   const [selectedAnsweridx, setSelectedAnsweridx] = useState<number | null>(null);
-
+  const listDataQuestion = useRecoilValue(queyQuestionState);
+  const timerQuiz = useRecoilValue(timerState);
+  const timer: TTimer =
+    typeof localStorage !== "undefined" && JSON.parse(String(localStorage.timer));
+  const [minutes, setMinutes] = useState<number>(() => (timer ? timer.minutes : timerQuiz));
+  const [seconds, setSeconds] = useState<number>(() => (timer ? timer.seconds : timerQuiz));
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const getQuestionData = listDataQuestion?.map((el) => ({
     question: el.question,
     options: [...el.incorrect_answers, el.correct_answer],
   }));
+  const intervalRef = useRef<any>();
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds((prev) => prev - 1);
+      }
+      if (seconds === 0) {
+        if (minutes === 0) {
+          clearInterval(intervalRef.current);
+        } else {
+          setMinutes(minutes - 1);
+          setSeconds(timerQuiz);
+        }
+      }
+    }, 1000);
 
+    return () => {
+      localStorage.setItem(
+        "timer",
+        JSON.stringify({
+          minutes,
+          seconds,
+        }),
+      );
+
+      clearInterval(intervalRef.current);
+    };
+  }, [minutes, seconds]);
   const onOptionSelected = (answer: string, idx: number): void => {
     setSelectedAnsweridx(idx);
   };
@@ -54,8 +84,13 @@ export const QuizModule: FC = (): ReactElement => {
             <h1 className="text-primary-green text-lg lg:text-3xl py-3 font-extrabold">
               Seleksi Test
             </h1>
-            <div className="px-2 lg:px-4 py-2 shadow-[0px_0px_2px_1px_#00000024] text-medium lg:text-2xl text-primary-green font-bold">
-              60 : 00
+            <div className="px-2 lg:px-4 py-2 shadow-[0px_0px_2px_1px_#00000024] text-medium lg:text-2xl text-primary-green font-bold rounded-sm">
+              {minutes === 0 && seconds === 0 ? null : (
+                <h1>
+                  {" "}
+                  {minutes} : {seconds < 10 ? `0${seconds}` : seconds}
+                </h1>
+              )}
             </div>
           </div>
           <h2 className="font-extrabold lg:text-2xl">{`Soal No. ${isActiveQuestion + 1}/ ${

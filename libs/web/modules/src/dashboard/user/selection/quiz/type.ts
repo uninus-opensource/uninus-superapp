@@ -8,3 +8,7 @@ export type TGetQuestionData = {
     incorrect_answers: string[];
   }>;
 };
+export type TTimer = {
+  minutes: number;
+  seconds: number;
+};
