@@ -7,7 +7,7 @@ export type TRadioButtonProps<T extends FieldValues> = UseControllerProps<T> & {
   size?: RADIO_SIZE | string;
   fieldName?: string;
   labelSize?: LABEL_SIZE | string;
-  options?: Array<{ name: string; value?: string }>;
+  options?: Array<{ label?: string; value?: string }>;
   label?: string;
   name?: string;
   inputname?: string;

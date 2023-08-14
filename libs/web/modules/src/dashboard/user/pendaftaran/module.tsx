@@ -1,13 +1,15 @@
 "use client";
-import { ReactElement, FC } from "react";
+import { ReactElement, FC, useEffect, useMemo, useState } from "react";
 import { Button, SelectOption } from "@uninus/web/components";
-import { pendaftaran } from "./store";
 import { FieldValues, useForm } from "react-hook-form";
+import { useDegreeProgramGet, useDepartmentGet, useSelectionGet } from "./hooks";
 
 export const ModulePendaftaran: FC = (): ReactElement => {
   const {
     control,
     handleSubmit,
+    watch,
+    setValue,
     formState: { isValid },
   } = useForm<FieldValues>({
     defaultValues: {
@@ -19,6 +21,57 @@ export const ModulePendaftaran: FC = (): ReactElement => {
       draggableComponent: undefined,
     },
   });
+
+  const [programMeta] = useState({
+    search: "",
+    degree_program_id: "",
+    department_id: "",
+  });
+
+  const { data: getDegreeProgram } = useDegreeProgramGet(programMeta);
+
+  const DegreeProgramOptions = useMemo(
+    () =>
+      getDegreeProgram?.degree_program?.map((program) => ({
+        label: program?.name,
+        value: program?.id.toString(),
+      })),
+    [getDegreeProgram?.degree_program],
+  );
+
+  const { data: getDepartment } = useDepartmentGet({
+    degree_program_id: watch("program"),
+    faculty_id: watch(""),
+    search: "",
+  });
+
+  const DepartmentOptions = useMemo(
+    () =>
+      getDepartment?.department?.map((department) => ({
+        label: department?.name,
+        value: department?.id.toString(),
+      })),
+    [getDepartment?.department],
+  );
+
+  useEffect(() => {
+    setValue("department", null);
+  }, [watch("program")]);
+
+  const [selection] = useState({
+    search: "",
+  });
+
+  const { data: getSelection } = useSelectionGet(selection);
+
+  const SelectionOptions = useMemo(
+    () =>
+      getSelection?.selection?.map((selection) => ({
+        label: selection?.name,
+        value: selection?.id.toString(),
+      })),
+    [getSelection?.selection],
+  );
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
@@ -45,7 +98,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="md:text-base"
               control={control}
               name="program"
-              options={pendaftaran.programPendidikan}
+              options={DegreeProgramOptions || []}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
@@ -57,11 +110,12 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labels="Pilihan Program Studi 1"
               control={control}
               name="prodi1"
-              options={pendaftaran.programStudy}
+              options={DepartmentOptions || []}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
               required={true}
+              disabled={!watch("program")}
             />
             <SelectOption
               placeholder="Pilih Program Studi"
@@ -69,11 +123,12 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="md:text-base"
               control={control}
               name="prodi2"
-              options={pendaftaran.programStudy}
+              options={DepartmentOptions || []}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
               required={true}
+              disabled={!watch("program")}
             />
             <SelectOption
               placeholder="Pilih Jalur Seleksi"
@@ -81,7 +136,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="md:text-base"
               control={control}
               name="seleksi"
-              options={pendaftaran.jalurSeleksi}
+              options={SelectionOptions || []}
               isSearchable={true}
               isMulti={false}
               isClearable={true}

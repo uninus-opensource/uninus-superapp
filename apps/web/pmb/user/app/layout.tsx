@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <QueryProvider>
             <RecoilProvider>
-              {children}
+              <div key="landing-layout">{children}</div>
               <div key="modal-landing" id="modal"></div>
             </RecoilProvider>
           </QueryProvider>

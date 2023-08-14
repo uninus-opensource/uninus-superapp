@@ -26,3 +26,12 @@ export type TFIle = {
   /** `MemoryStorage` only: A Buffer containing the entire file. */
   buffer: Buffer;
 };
+
+export type TFileUploadRequest = {
+  filename: string;
+  buffer: Buffer;
+};
+
+export type TFileUploadResponse = {
+  path: string;
+};

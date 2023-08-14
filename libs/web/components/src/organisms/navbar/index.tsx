@@ -1,10 +1,10 @@
 "use client";
 import { FC, ReactElement, Fragment, useState } from "react";
 import Image from "next/image";
-import { NavbarList } from "./type";
-import { Button, HamburgerIcon, XIcon } from "../../atoms";
+import { TDropDownList, TNavbarList } from "./type";
+import { Button, HamburgerIcon } from "../../atoms";
 import { Sidebar } from "../../molecules";
-import { AiOutlineDown } from "react-icons/ai";
+import { CaretDownOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -20,22 +20,30 @@ export const Navbar: FC = (): ReactElement => {
     setIsOpen(false);
   };
 
-  const navList: NavbarList[] = [
+  const navList: TNavbarList[] = [
     {
       item: "Beranda",
       link: "/",
     },
     {
       item: (
-        <Fragment>
+        <div className="flex justify-between w-full">
           Program{" "}
-          <AiOutlineDown
-            className={`ml-1 h-4 text-xl duration-100 ${isDropDown ? "rotate-180" : ""}`}
+          <CaretDownOutlined
+            style={{
+              fontSize: "20px",
+              marginLeft: "6px",
+              transitionDuration: "100ms",
+            }}
+            rotate={isDropDown ? 180 : 0}
           />
-        </Fragment>
+        </div>
       ),
       state: () => {
-        setIsDropDown(!isDropDown);
+        setIsDropDown(true);
+      },
+      state2: () => {
+        setIsDropDown(false);
       },
     },
     {
@@ -44,9 +52,23 @@ export const Navbar: FC = (): ReactElement => {
     },
   ];
 
+  const dropDown: TDropDownList[] = [
+    {
+      item: "Program Studi",
+      link: "/program-studi",
+    },
+    {
+      item: "Biaya Kuliah",
+      link: "/biaya-kuliah",
+    },
+  ];
+
   return (
     <Fragment>
-      <header className="z-40 px-8 lg:px-14 flex justify-between items-center h-[100px] lg:h-navbarlg text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold">
+      <header
+        data-testid="navbarLanding"
+        className="z-40 px-8 lg:px-14 flex justify-between items-center h-[100px] lg:h-navbarlg text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold"
+      >
         <figure>
           <Image
             src={"/illustrations/Neo-Uninus.webp"}
@@ -64,7 +86,13 @@ export const Navbar: FC = (): ReactElement => {
             <ul className="flex gap-4">
               {navList.map((nav, idx) => (
                 <li key={idx}>
-                  <Button variant="navlist" href={nav.link} onClick={nav.state} uppercase>
+                  <Button
+                    variant="navlist"
+                    styling="text-lg"
+                    href={nav.link}
+                    onMouseEnter={nav.state}
+                    onMouseLeave={nav.state2}
+                  >
                     {nav.item}
                   </Button>
                 </li>
@@ -81,20 +109,19 @@ export const Navbar: FC = (): ReactElement => {
               animate={{
                 y: isDropDown ? [-10, 0] : [0, -10],
               }}
-              className={`hidden lg:flex absolute bg-primary-white w-36 h-24 z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-28 mt-5 shadow-md`}
+              className="hidden lg:flex absolute w-36 h-24 z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-[5.7rem] bg-primary-green"
+              onMouseEnter={navList[1]?.state}
+              onMouseLeave={navList[1]?.state2}
             >
-              <Link
-                className="flex items-center justify-center p-2 text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 duration-150 border-2 border-l-0 border-primary-green w-full h-full "
-                href="/program-studi"
-              >
-                Program Studi
-              </Link>
-              <Link
-                className="flex items-center justify-center p-2 text-primary-green hover:text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 border-2 border-t-0 border-l-0 border-b-0 border-primary-green w-full h-full"
-                href="/biaya-kuliah"
-              >
-                Biaya Kuliah
-              </Link>
+              {dropDown.map((drop, idx) => (
+                <Link
+                  key={idx}
+                  className="flex items-center justify-center p-2 text-primary-white hover:bg-secondary-green-1 active:bg-secondary-green-4 duration-150 border-primary-green w-full h-full "
+                  href={drop.link}
+                >
+                  {drop.item}
+                </Link>
+              ))}
             </motion.nav>
           )}
         </nav>
@@ -105,6 +132,7 @@ export const Navbar: FC = (): ReactElement => {
               href="/auth/login"
               variant="custom"
               styling="bg-grayscale-1 text-secondary-green-4"
+              width="w-26"
               height="h-9"
             >
               Login
@@ -112,33 +140,55 @@ export const Navbar: FC = (): ReactElement => {
           </div>
           <div className="block lg:hidden">
             <Button variant="text-icon" onClick={toggle}>
-              {isOpen ? <XIcon /> : <HamburgerIcon className={`fill-primary-white duration-200`} />}
+              {<HamburgerIcon className={`fill-primary-white duration-200`} />}
             </Button>
           </div>
         </section>
       </header>
 
       <Sidebar showSidebar={isOpen} closeSidebar={closeSidebar}>
-        <ul className="mt-6 flex flex-col gap-6 items-center">
-          {navList.map((nav, idx) => (
-            <li key={idx}>
-              <Button variant="sidebarlist" height="h-8" href={nav.link} onClick={closeSidebar}>
-                {nav.item}
-              </Button>
-            </li>
-          ))}
-          <div className="w-[50vw]">
+        <ul className="flex flex-col gap-6 text-left">
+          <li>
             <Button
               variant="sidebarlist"
-              height="h-8"
-              href="/auth/login"
+              width="w-full"
+              styling="text-xl md:text-2xl"
+              href="/"
               onClick={closeSidebar}
-              styling="bg-primary-white text-primary-green rounded-md text-xs font-bold"
-              size="sm"
             >
-              Login
+              Beranda
             </Button>
-          </div>
+          </li>
+          <li>
+            <Button
+              variant="sidebarlist"
+              width="w-full"
+              styling="text-xl md:text-2xl"
+              onClick={() => setIsDropDown(!isDropDown)}
+            >
+              Program{" "}
+              <CaretDownOutlined className={`duration-100 ${isDropDown ? "rotate-180" : ""}`} />
+            </Button>
+          </li>
+          {isDropDown &&
+            dropDown.map((nav, idx) => (
+              <li key={idx} className="px-5">
+                <Button variant="navlist" styling="text-xl md:text-2xl" href={nav.link}>
+                  {nav.item}
+                </Button>
+              </li>
+            ))}
+          <li>
+            <Button
+              variant="sidebarlist"
+              width="w-full"
+              styling="text-xl md:text-2xl"
+              href="/beasiswa"
+              onClick={closeSidebar}
+            >
+              Beasiswa
+            </Button>
+          </li>
         </ul>
       </Sidebar>
     </Fragment>

@@ -15,11 +15,6 @@ export interface ISelectFacultyRequest extends ISelectRequest {
   degree_program_id: string;
 }
 
-export interface ISelectDepartmentRequest extends ISelectRequest {
-  faculty_id: string;
-  degree_program_id: string;
-}
-
 export type TProvinceResponse = {
   province: Array<{
     id: number;
@@ -33,6 +28,7 @@ export interface ICityRequest extends ISelectRequest {
 
 export interface ICountryRequest extends ISelectRequest {
   citizenship_id: string;
+  citizenship?: string;
 }
 
 export type TCityResponse = {
@@ -53,6 +49,10 @@ export type TSubDistrictResponse = {
   }>;
 };
 
+export interface IDegreeProgramRequest {
+  search: string;
+}
+
 export type TDegreeProgramResponse = {
   degree_program: Array<{
     id: number;
@@ -66,6 +66,11 @@ export type TFacultyResponse = {
     name: string;
   }>;
 };
+
+export interface ISelectDepartmentRequest extends ISelectRequest {
+  degree_program_id: string;
+  faculty_id: string;
+}
 
 export type TDepartmentResponse = {
   department: Array<{
@@ -96,6 +101,10 @@ export type TMaritalStatusResponse = {
   }>;
 };
 
+export interface IGenderRequest {
+  search: string;
+}
+
 export type TGenderResponse = {
   gender: Array<{
     id: number;
@@ -103,12 +112,20 @@ export type TGenderResponse = {
   }>;
 };
 
+export interface ICitizenshipRequest {
+  search: string;
+}
+
 export type TCitizenshipResponse = {
   citizenship: Array<{
     id: number;
     name: string;
   }>;
 };
+
+export interface ISelectionRequest {
+  search: string;
+}
 
 export type TSelectionResponse = {
   selection: Array<{
@@ -140,12 +157,20 @@ export type TEducationHistoryResponse = {
   }>;
 };
 
+export interface ICountryRequest {
+  search: string;
+}
+
 export type TCountryResponse = {
   country: Array<{
     id: number;
     name: string;
   }>;
 };
+
+export interface IOccupationRequest {
+  search: string;
+}
 
 export type TOccupationResponse = {
   occupation: Array<{
@@ -175,6 +200,10 @@ export type TDisabilitiesResponse = {
     name: string;
   }>;
 };
+
+export interface IYearGraduationRequest {
+  search: string;
+}
 
 export type TYearGraduationResponse = {
   year: Array<{

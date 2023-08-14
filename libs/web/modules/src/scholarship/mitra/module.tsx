@@ -1,16 +1,20 @@
 "use client";
-import { ReactElement, FC, Fragment } from "react";
+import { ReactElement, FC, Fragment, useEffect } from "react";
 import { Button, Footer, Navbar } from "@uninus/web/components";
 import Image from "next/image";
 
 export const ModuleMitra: FC = (): ReactElement => {
+  useEffect(() => {
+    window.scrollTo(0, 1000);
+  }, []);
+
   return (
     <Fragment>
       <Navbar />
       <section className="w-full min-h-screen">
         <Image
           src="/illustrations/beasiswa-mitra.webp"
-          alt=""
+          alt="Beasiswa Mitra"
           width={100}
           height={100}
           layout="responsive"
@@ -32,7 +36,7 @@ export const ModuleMitra: FC = (): ReactElement => {
           <div className="w-full flex lg:flex-row-reverse  md:flex-row-reverse flex-col justify-between md:items-start ">
             <figure className=" flex px-6 xl:ml-[20vw] w-full">
               <Image
-                src={"/illustrations/beasiswa3.webp"}
+                src={"/illustrations/beasiswaIllustrations/nusantara-mitra.webp"}
                 alt="Beasiswa Mitra"
                 width={400}
                 height={100}
