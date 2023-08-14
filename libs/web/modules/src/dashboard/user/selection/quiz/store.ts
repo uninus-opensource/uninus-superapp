@@ -73,7 +73,7 @@ export const queyQuestionState = atom({
 
 export const timerState = atom({
   key: "timer-state",
-  default: 0,
+  default: 59,
 });
 
 export const incorrectAnswers = atom({
