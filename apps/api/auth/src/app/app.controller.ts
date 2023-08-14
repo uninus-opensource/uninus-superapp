@@ -1,5 +1,4 @@
 import { Controller } from "@nestjs/common";
-
 import { AppService } from "./app.service";
 import { MessagePattern } from '@nestjs/microservices';
 import { TForgotPasswordRequest, TLoginRequest, TLogoutRequest, TProfileResponse, TRegisterRequest, TReqToken, TResetPasswordRequest, TVerifyOtpPasswordRequest, TVerifyOtpRequest } from "@uninus/entities";

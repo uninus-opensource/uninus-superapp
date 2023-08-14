@@ -12,6 +12,7 @@ import {
   UseInterceptors,
   BadRequestException,
   Inject,
+  UseFilters,
 } from "@nestjs/common";
 import { TFIle, VSRegistrationNumber } from "@uninus/entities";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -28,6 +29,7 @@ import {
 } from "@nestjs/swagger";
 import { ClientProxy } from "@nestjs/microservices";
 import { firstValueFrom } from "rxjs";
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 
 @Controller("student")
 @ApiTags("Student")
@@ -35,6 +37,7 @@ export class StudentController {
   constructor(@Inject("STUDENT_SERVICE") private readonly client: ClientProxy) {}
 
   @Post("/graduation-status")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Graduation Status" })
   @ApiResponse({
     status: 400,
@@ -43,19 +46,14 @@ export class StudentController {
   async graduationStatus(
     @Body(new ZodValidationPipe(VSRegistrationNumber)) registration_number: GraduationStatusSwagger,
   ) {
-    try {
       const response = await firstValueFrom(
         this.client.send("get_graduation_status", { registration_number }),
       );
       return response;
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   @Get()
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiBearerAuth()
   @ApiOperation({ summary: "Get Data Student" })
   @ApiResponse({
@@ -67,18 +65,13 @@ export class StudentController {
   })
   @UseGuards(JwtAuthGuard)
   async getData(@Request() reqToken: TReqToken) {
-    try {
       const { sub: id } = reqToken.user;
       const response = await firstValueFrom(this.client.send("get_student", { id }));
       return response;
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   @Put()
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiBearerAuth()
   @ApiOperation({ summary: "Update Data Student" })
   @ApiResponse({
@@ -96,7 +89,6 @@ export class StudentController {
     @Body(new ZodValidationPipe(VSUpdateStudent))
     studentData: UpdateStudentSwagger,
   ) {
-    try {
       const { sub: id } = reqToken.user;
       const response = await firstValueFrom(
         this.client.send("update_student", {
@@ -106,14 +98,10 @@ export class StudentController {
         }),
       );
       return response;
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   @Delete("/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiBearerAuth()
   @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({
@@ -122,17 +110,12 @@ export class StudentController {
   })
   @UseGuards(JwtAuthGuard)
   async deleteDataById(@Param("id") id: string) {
-    try {
       const response = await firstValueFrom(this.client.send("delete_student", { id }));
       return response;
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   @Put("/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiBearerAuth()
   @ApiOperation({ summary: "Update By Id" })
   @ApiResponse({
@@ -147,19 +130,14 @@ export class StudentController {
     @Body(new ZodValidationPipe(VSUpdateStudent))
     studentData: UpdateStudentSwagger,
   ) {
-    try {
       const response = await firstValueFrom(
         this.client.send("update_student", { id, avatar, ...studentData }),
       );
       return response;
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 
   @Get("/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiBearerAuth()
   @ApiOperation({ summary: "Get Data By Id" })
   @ApiResponse({
@@ -171,13 +149,7 @@ export class StudentController {
   })
   @UseGuards(JwtAuthGuard)
   async getDataById(@Param("id") id: string) {
-    try {
       const response = await firstValueFrom(this.client.send("update_student", { id }));
       return response;
-    } catch (error) {
-      throw new BadRequestException(error, {
-        cause: new Error(),
-      });
-    }
   }
 }
