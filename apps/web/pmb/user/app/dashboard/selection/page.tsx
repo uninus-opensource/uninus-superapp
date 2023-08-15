@@ -7,6 +7,6 @@ export const metadata: Metadata = {
   title: "Dashboard PMB | Tes Seleksi",
 };
 
-const SelectionPage: NextPage = (): ReactElement => <ModuleSelectionTest key={"seleksi"} />;
+const SelectionPage: NextPage = (): ReactElement => <ModuleSelectionTest key="seleksi" />;
 
 export default SelectionPage;

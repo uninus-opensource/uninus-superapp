@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export const ModulePrestasi: FC = (): ReactElement => {
   return (
-    <Fragment>
+    <Fragment key="beasiswa-prestasi">
       <Navbar />
       <section className="w-full min-h-screen">
         <Image

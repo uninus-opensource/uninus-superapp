@@ -5,7 +5,7 @@ import { ArrowLine } from "@uninus/web/components";
 
 export const DashboardModule: FC = (): ReactElement => {
   return (
-    <section className="flex flex-col text-center px-4 gap-y-6  lg:text-start">
+    <section key="beranda" className="flex flex-col text-center px-4 gap-y-6  lg:text-start">
       <div className="2xl:text-2xl">
         <h1 className="text-slate-5">
           PMB <span className="text-secondary-green-4"> / Beranda</span>

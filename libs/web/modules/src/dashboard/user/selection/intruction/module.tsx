@@ -8,7 +8,7 @@ export const IntructionTestModule: FC = (): ReactElement => {
 
   const handleShowModal = () => setShowModal(!showModal);
   return (
-    <section className="flex flex-col w-full h-auto justify-center items-center ">
+    <section key="intruction" className="flex flex-col w-full h-auto justify-center items-center ">
       {/* header */}
       <div className="w-[80%] lg:w-full flex flex-col justify-start items-start">
         <h1 className="text-slate-5">
@@ -25,10 +25,7 @@ export const IntructionTestModule: FC = (): ReactElement => {
           </h1>
           <ul className="flex flex-col gap-y-4 list-decimal w-4/5">
             <li className="text-justify">
-              <span className="font-bold text-primary-green">
-                {" "}
-                Pastikan Koneksi Internet Stabil
-              </span>{" "}
+              <span className="font-bold text-primary-green">Pastikan Koneksi Internet Stabil</span>
               : Pastikan Anda terhubung ke internet dengan koneksi stabil sebelum memulai tes.
             </li>
             <li className="text-justify">

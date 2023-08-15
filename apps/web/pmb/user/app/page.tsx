@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "PMB | Beranda",
 };
 
-const LandingPage: NextPage = (): ReactElement => <LandingModule />;
+const LandingPage: NextPage = (): ReactElement => <LandingModule key="landing" />;
 export default LandingPage;

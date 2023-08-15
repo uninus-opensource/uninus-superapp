@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const DashboardPendaftaran: NextPage = (): ReactElement => (
-  <ModulePendaftaran key={"pendaftaran"} />
+  <ModulePendaftaran key="dashboard-pendaftaran" />
 );
 
 export default DashboardPendaftaran;

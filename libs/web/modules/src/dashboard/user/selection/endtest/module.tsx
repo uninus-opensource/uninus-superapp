@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export const EndTestModule: FC = (): ReactElement => {
   return (
-    <section className="flex flex-col w-full h-auto justify-center items-center ">
+    <section key="endtest" className="flex flex-col w-full h-auto justify-center items-center ">
       {/* header */}
       <div className="w-[80%] lg:w-full flex flex-col justify-start items-start">
         <h1 className="text-slate-5">

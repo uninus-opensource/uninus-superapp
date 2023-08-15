@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "PMB | Lupa Password",
 };
 
-const forgotPassword: NextPage = (): ReactElement => <ForgotModule key={"forgot"} />;
+const forgotPassword: NextPage = (): ReactElement => <ForgotModule key="auth-forgot" />;
 export default forgotPassword;

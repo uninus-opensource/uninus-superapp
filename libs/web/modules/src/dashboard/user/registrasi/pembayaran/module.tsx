@@ -55,7 +55,7 @@ export const Pembayaran: FC = (): ReactElement => {
   };
 
   return (
-    <Fragment key="dashboard-pembayaran">
+    <Fragment key="regist-pembayaran">
       <div className="flex flex-col items-center lg:items-start p-5 lg:p-0 lg:py-4">
         <span className="flex gap-2">
           <h1 className="text-xs md:text-sm text-slate-5 font-bold">PMB/</h1>

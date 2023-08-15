@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "Beasiswa | Beasiswa Unggul",
 };
 
-const BeasiswaUnggul: NextPage = (): ReactElement => <ModuleUnggul key={"beasiswaunggul"} />;
+const BeasiswaUnggul: NextPage = (): ReactElement => <ModuleUnggul key="beasiswa-unggul" />;
 export default BeasiswaUnggul;

@@ -7,6 +7,6 @@ export const metadata: Metadata = {
   title: "Dashboard PMB | Tes Seleksi",
 };
 
-const QuizPage: NextPage = (): ReactElement => <QuizModule key={"quiz"} />;
+const QuizPage: NextPage = (): ReactElement => <QuizModule key="quiz" />;
 
 export default QuizPage;

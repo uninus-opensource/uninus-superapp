@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "PMB | Verif Forget",
 };
 
-const verifEmail: NextPage = (): ReactElement => <VerifForgetModule key={"verifForgot"} />;
+const verifEmail: NextPage = (): ReactElement => <VerifForgetModule key="auth-verify" />;
 export default verifEmail;

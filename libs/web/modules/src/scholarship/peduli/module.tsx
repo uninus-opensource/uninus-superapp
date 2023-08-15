@@ -9,7 +9,7 @@ export const ModulePeduli: FC = (): ReactElement => {
   }, []);
 
   return (
-    <Fragment>
+    <Fragment key="beasiswa-peduli">
       <Navbar />
       <section className="w-full min-h-screen">
         <Image
