@@ -84,7 +84,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
         <HeroBanner
           heroImages="/illustrations/program-study.webp"
           heroTitleBottomRight="PROGRAM STUDI"
-          backgrounColor="bg-grayscale-8"
+          backgroundColor="bg-grayscale-8"
           blur
         />
         <div className="lg:w-full w-auto h-full lg:p-16 py-8 px-8 text-center flex justify-center font-bebasNeue">

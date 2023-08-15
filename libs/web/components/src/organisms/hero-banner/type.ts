@@ -5,7 +5,7 @@ export type TbannerProps = {
   heroTitle2?: string;
   heroTitleBottomRight?: string;
   heroImages?: string;
-  backgrounColor?: string;
+  backgroundColor?: string;
   subTitle?: string | ReactNode;
   subTitle2?: string;
   isDownload?: boolean;

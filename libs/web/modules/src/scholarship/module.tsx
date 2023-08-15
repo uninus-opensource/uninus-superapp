@@ -35,7 +35,7 @@ export const ModulBeasiswa: FC = (): ReactElement => {
         <HeroBanner
           heroImages="/illustrations/foto-mahasiswa-bareng-2.webp"
           heroTitleBottomRight="BEASISWA"
-          backgrounColor="bg-grayscale-8"
+          backgroundColor="bg-grayscale-8"
           blur
         />
         <div className="lg:w-full w-auto h-full lg:p-16 py-16 px-8 text-center flex justify-center font-bebasNeue">
