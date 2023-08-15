@@ -141,7 +141,7 @@ describe("Test Button Style", () => {
   it("Should have a valid className when variant set to sidebarlist", () => {
     const { getByTestId } = render(<Button variant="sidebarlist" />);
     expect(getByTestId("button")).toHaveClass(
-      "uppercase bg-none hover:bg-green-800 font-semibold hover:opacity-100 w-full",
+      "flex items-center justify-between bg-none hover:bg-green-800 font-semibold hover:opacity-100",
     );
   });
 
