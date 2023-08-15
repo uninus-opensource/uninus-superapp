@@ -24,7 +24,7 @@ export const Modal: FC<ModalProps> = ({
     showModal &&
     createPortal(
       <div className="fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex items-center justify-center bg-primary-black bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 backdrop-blur-sm">
-        <div className={`relative w-full ${className}`}>
+        <div data-testid="modal-landing" className={`relative w-full ${className}`}>
           <div className="relative bg-white rounded-lg shadow">
             <div className={`flex items-center justify-between py-4 px-4 rounded-t ${headerColor}`}>
               <div className="text-xl font-semibold text-gray-900 w-full md:px-10 lg:px-4 ">

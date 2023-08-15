@@ -39,7 +39,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
   const pathname = usePathname();
 
   return (
-    <>
+    <Fragment>
       <Modal showModal={showModal} onClose={handleCloseModal} iconClose={false}>
         <div className="modal flex flex-col justify-center items-center lg:flex lg:flex-row lg:py-10">
           <div className="img">
@@ -251,6 +251,6 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
           </motion.aside>
         </Fragment>
       )}
-    </>
+    </Fragment>
   );
 };
