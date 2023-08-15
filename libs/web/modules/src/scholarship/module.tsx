@@ -29,7 +29,7 @@ export const ModulBeasiswa: FC = (): ReactElement => {
   ];
 
   return (
-    <Fragment>
+    <Fragment key="beasiswa">
       <Navbar />
       <section className="w-full min-h-screen">
         <HeroBanner

@@ -46,7 +46,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   ];
 
   return (
-    <html>
+    <html key="dashboard-layout">
       <body className={`${monserrat.className}`}>
         <div key="modal-logout" id="modal" />
         <main className="flex w-full min-h-full overflow-x-hidden ">

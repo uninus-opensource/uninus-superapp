@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "PMB | Program Studi",
 };
 
-const ProgramStudiPage: NextPage = (): ReactElement => <ProgramStudyModule />;
+const ProgramStudiPage: NextPage = (): ReactElement => <ProgramStudyModule key="program-studi" />;
 export default ProgramStudiPage;

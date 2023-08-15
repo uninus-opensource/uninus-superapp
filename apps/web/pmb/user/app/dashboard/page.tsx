@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "Dashboard PMB | Beranda",
 };
 
-const DashboardHome: NextPage = (): ReactElement => <DashboardModule />;
+const DashboardHome: NextPage = (): ReactElement => <DashboardModule key="beranda" />;
 export default DashboardHome;

@@ -9,7 +9,7 @@ const monserrat = Montserrat({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" key="root-layout">
       <body className={`${monserrat.className}`}>
         <AuthProvider>
           <QueryProvider>

@@ -80,7 +80,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
         />
       )}
       <Navbar />
-      <section className="w-full min-h-screen">
+      <section key="program-studi" className="w-full min-h-screen">
         <HeroBanner
           heroImages="/illustrations/program-study.webp"
           heroTitleBottomRight="PROGRAM STUDI"

@@ -9,7 +9,7 @@ export const ModuleMitra: FC = (): ReactElement => {
   }, []);
 
   return (
-    <Fragment>
+    <Fragment key="beasiswa-mitra">
       <Navbar />
       <section className="w-full min-h-screen">
         <Image

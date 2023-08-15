@@ -11,7 +11,7 @@ import { ModalAndButtons } from "./modal-floatingbutton";
 
 export const LandingModule: FC = (): ReactElement => {
   return (
-    <Fragment>
+    <Fragment key="landing">
       <Navbar />
       <main className="w-full min-h-screen overflow-x-hidden bg-slate-2">
         <HeroSection />

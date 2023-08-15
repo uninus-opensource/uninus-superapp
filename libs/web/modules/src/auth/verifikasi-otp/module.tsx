@@ -52,7 +52,10 @@ export const VerifEmailModule: FC = (): ReactElement => {
   const containerStyle = clsx("flex lg:gap-x-3 gap-x-1 justify-center w-full ");
 
   return (
-    <form className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col  justify-center items-center">
+    <form
+      key="auth-verify-email"
+      className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col  justify-center items-center"
+    >
       <div className="w-full flex flex-col gap-y-6 ">
         <h1 className="text-3xl font-bold text-primary-black font-bebasNeue w-60%">
           Verifikasi Kode OTP

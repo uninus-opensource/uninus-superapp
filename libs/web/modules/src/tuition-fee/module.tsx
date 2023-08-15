@@ -83,7 +83,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
   );
 
   return (
-    <Fragment>
+    <Fragment key="biaya-kuliah">
       <Navbar />
       <main className="w-full bg-slate-2">
         <HeroBanner

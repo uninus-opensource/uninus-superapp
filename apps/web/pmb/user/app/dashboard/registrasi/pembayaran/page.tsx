@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "Dashboard PMB | Form Data Diri",
 };
 
-const DashboardPembayaran: NextPage = (): ReactElement => <Pembayaran key={"regist-pembayaran"} />;
+const DashboardPembayaran: NextPage = (): ReactElement => <Pembayaran key="regist-pembayaran" />;
 export default DashboardPembayaran;

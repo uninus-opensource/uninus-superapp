@@ -7,6 +7,6 @@ export const metadata: Metadata = {
   title: "Dashboard PMB | Tes Seleksi",
 };
 
-const IntructionPage: NextPage = (): ReactElement => <IntructionTestModule key={"beasiswamitra"} />;
+const IntructionPage: NextPage = (): ReactElement => <IntructionTestModule key="intruction" />;
 
 export default IntructionPage;

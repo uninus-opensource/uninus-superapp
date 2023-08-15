@@ -11,7 +11,7 @@ const monserrat = Montserrat({
 
 const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   return (
-    <html>
+    <html key="auth-layout">
       <body className={`${monserrat.className} bg-primary-green`}>
         <main
           key="auth"

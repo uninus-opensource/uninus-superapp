@@ -7,5 +7,5 @@ export const metadata: Metadata = {
   title: "PMB | Masuk",
 };
 
-const LoginPage: NextPage = (): ReactElement => <LoginUserModule key={"login"} />;
+const LoginPage: NextPage = (): ReactElement => <LoginUserModule key="auth-login" />;
 export default LoginPage;
