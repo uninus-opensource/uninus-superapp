@@ -128,7 +128,7 @@ export const BenefitSection: FC = (): ReactElement => {
       </section>
 
       <div className="lg:hidden w-full">
-        <AliceCarousel {...cardProps} />
+        <AliceCarousel key="benefit-carousel-landing" {...cardProps} />
       </div>
     </section>
   );
