@@ -14,7 +14,7 @@ export const ModulePrestasi: FC = (): ReactElement => {
           width={100}
           height={100}
           layout="responsive"
-          style={{ marginTop: "100px" }}
+          style={{ paddingTop: "100px" }}
           quality={100}
         />
 
@@ -30,7 +30,7 @@ export const ModulePrestasi: FC = (): ReactElement => {
           </div>
 
           <div className="w-full flex lg:flex-row-reverse  md:flex-row-reverse flex-col justify-between md:items-start ">
-            <figure className=" flex px-6 xl:ml-[20vw] w-full">
+            <figure className="flex justify-center px-6 xl:ml-[20vw] w-full">
               <Image
                 src={"/illustrations/beasiswaIllustrations/nusantara-berprestasi.webp"}
                 alt="Beasiswa prestasi"

@@ -18,7 +18,7 @@ export const ModulePeduli: FC = (): ReactElement => {
           width={100}
           height={100}
           layout="responsive"
-          style={{ marginTop: "100px" }}
+          style={{ paddingTop: "100px" }}
           quality={100}
         />
 
@@ -34,7 +34,7 @@ export const ModulePeduli: FC = (): ReactElement => {
           </div>
 
           <div className="w-full flex lg:flex-row-reverse  md:flex-row-reverse flex-col justify-between md:items-start ">
-            <figure className="flex xl:ml-[20vw] px-6 w-full">
+            <figure className="flex justify-center xl:ml-[20vw] px-6 w-full">
               <Image
                 src={"/illustrations/beasiswaIllustrations/nusantara-peduli.webp"}
                 alt="Beasiswa Mitra"

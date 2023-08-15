@@ -10,7 +10,7 @@ export const Sidebar: FC<TSidebarProps> = ({ showSidebar, ...props }): ReactElem
       data-testid="bg-sidebar-navbar"
       className={`${
         showSidebar ? "-translate-x-0 lg:-translate-x-full" : "-translate-x-full"
-      } fixed w-full h-screen bg-primary-black bg-opacity-75 z-[9999]`}
+      } fixed w-screen h-screen bg-primary-black bg-opacity-75 z-[9999]`}
     >
       <section
         data-testid="sidebar-navbar"
