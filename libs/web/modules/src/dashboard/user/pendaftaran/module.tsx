@@ -80,15 +80,17 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   return (
     <section
       key="dashboard-pendaftaran"
-      className="flex flex-col text-center lg:px-10 px-4 gap-y-6  lg:text-start"
+      className="flex flex-col text-center  px-4 gap-y-6  lg:text-start"
     >
       <div className="2xl:text-2xl">
         <h1 className="text-slate-5">
           PMB <span className="text-secondary-green-4"> / Pendaftaran</span>
         </h1>
-        <p className=" text-lg 2xl:text-2xl  font-bold text-secondary-green-4">Pendaftaran</p>
+        <p className=" text-lg 2xl:text-2xl pt-2 font-extrabold text-secondary-green-4">
+          Pendaftaran
+        </p>
       </div>
-      <div className="flex flex-col gap-4 w-full bg-primary-white p-12 rounded-lg shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
+      <div className="flex flex-col gap-4 w-full bg-primary-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold">Formulir Pendaftaran</h1>
         <form onSubmit={onSubmit}>
           <div className="flex flex-col gap-y-4">
