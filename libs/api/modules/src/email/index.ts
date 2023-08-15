@@ -1,5 +1,6 @@
 import { MailerModule } from "@nestjs-modules/mailer";
 import { Module } from "@nestjs/common";
+import { EmailService } from "@uninus/api/services";
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { Module } from "@nestjs/common";
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [EmailService],
 })
 export class EmailModule {}

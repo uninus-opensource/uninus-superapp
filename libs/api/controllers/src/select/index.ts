@@ -1,45 +1,24 @@
-import {
-  Controller,
-  Get,
-  Query,
-  Post,
-  Delete,
-  Body,
-  Put,
-  Param,
-  Inject,
-  BadRequestException,
-  UseFilters
-} from "@nestjs/common";
+import { Controller, Get, Query } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
-import { ClientProxy } from "@nestjs/microservices";
-import { firstValueFrom } from "rxjs";
-import {
-  TCreateQuestionRequest,
-  TUpdateQuestionRequest,
-} from "@uninus/entities";
-import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
-
+import { SelectService } from "@uninus/api/services";
 
 @Controller()
 @ApiTags("Select")
 export class SelectController {
-  constructor(@Inject("PMB_SERVICE") private readonly client: ClientProxy) {}
+  constructor(private readonly appService: SelectService) {}
+
   @Get("province")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Province" })
   @ApiResponse({
     status: 400,
     description: "Location Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getProvince(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_province", { search }));
-      return response;
+  getProvince(@Query("search") search: string) {
+    return this.appService.getProvince({ search });
   }
 
   @Get("city")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get City" })
   @ApiResponse({
     status: 400,
@@ -47,13 +26,11 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "province_id", required: false })
-  async getCity(@Query("province_id") province_id: string, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_city", { province_id, search }));
-      return response;
+  getCity(@Query("province_id") province_id: string, @Query("search") search: string) {
+    return this.appService.getCity({ province_id, search });
   }
 
   @Get("sub-district")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Sub District" })
   @ApiResponse({
     status: 400,
@@ -61,28 +38,22 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "city_id", required: false })
-  async getSubDistrict(@Query("city_id") city_id: string, @Query("search") search: string) {
-      const response = await firstValueFrom(
-        this.client.send("get_subdistrict", { city_id, search }),
-      );
-      return response;
+  getSubDistrict(@Query("city_id") city_id: string, @Query("search") search: string) {
+    return this.appService.getSubDistrict({ city_id, search });
   }
 
   @Get("degree-program")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Degree Program" })
   @ApiResponse({
     status: 400,
     description: "Degree Program Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getDegreeProgram(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_degree", { search }));
-      return response;
+  getDegreeProgram(@Query("search") search: string) {
+    return this.appService.getDegreeProgram({ search });
   }
 
   @Get("faculty")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Faculty" })
   @ApiResponse({
     status: 400,
@@ -90,18 +61,14 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "degree_program_id", required: false })
-  async getFaculty(
+  getFaculty(
     @Query("search") search: string,
     @Query("degree_program_id") degree_program_id: string,
   ) {
-      const response = await firstValueFrom(
-        this.client.send("get_faculty", { search, degree_program_id }),
-      );
-      return response;
+    return this.appService.getFaculty({ search, degree_program_id });
   }
 
   @Get("department")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Department" })
   @ApiResponse({
     status: 400,
@@ -110,97 +77,81 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "faculty_id", required: false })
   @ApiQuery({ name: "degree_program_id", required: false })
-  async getDepartment(
+  getDepartment(
     @Query("search") search: string,
     @Query("faculty_id") faculty_id: string,
     @Query("degree_program_id") degree_program_id: string,
   ) {
-      const response = await firstValueFrom(
-        this.client.send("get_department", { search, faculty_id, degree_program_id }),
-      );
-      return response;
+    return this.appService.getDepartment({ search, faculty_id, degree_program_id });
   }
 
   @Get("religion")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Religion" })
   @ApiResponse({
     status: 400,
     description: "Religion Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getReligion(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_religion", { search }));
-      return response;
+  getReligion(@Query("search") search: string) {
+    return this.appService.getReligion({ search });
   }
 
   @Get("marital-status")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Marital Status" })
   @ApiResponse({
     status: 400,
     description: "Marital Status Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getMaritalStatus(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_marital_status", { search }));
-      return response;
+  getMaritalStatus(@Query("search") search: string) {
+    return this.appService.getMaritalStatus({ search });
   }
 
   @Get("gender")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Gender" })
   @ApiResponse({
     status: 400,
     description: "Gender Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getGender(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_gender", { search }));
-      return response;
+  getGender(@Query("search") search: string) {
+    return this.appService.getGender({ search });
   }
 
   @Get("citizenship")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Citizenship" })
   @ApiResponse({
     status: 400,
     description: "Citizenship Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getCitizenship(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_citizenship", { search }));
-      return response;
+  getCitizenship(@Query("search") search: string) {
+    return this.appService.getCitizenship({ search });
   }
 
   @Get("selection-path")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Selection Path" })
   @ApiResponse({
     status: 400,
     description: "Selection Path Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getSelectionPath(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_selection_path", { search }));
-      return response;
+  getSelectionPath(@Query("search") search: string) {
+    return this.appService.getSelectionPath({ search });
   }
 
   @Get("salary")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Salary" })
   @ApiResponse({
     status: 400,
     description: "Salary Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getSalary(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_salary", { search }));
-      return response;
+  getSalary(@Query("search") search: string) {
+    return this.appService.getSalary({ search });
   }
 
   @Get("education-history")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Education History" })
   @ApiResponse({
     status: 400,
@@ -208,41 +159,34 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "npsn", required: false })
-  async getEducationHistory(@Query("search") search: string, @Query("npsn") npsn: string) {
-      const response = await firstValueFrom(
-        this.client.send("get_education_history", { search, npsn }),
-      );
-      return response;
+  getEducationHistory(@Query("search") search: string, @Query("npsn") npsn: string) {
+    return this.appService.getEducationHistory({ search, npsn });
   }
 
   @Get("country")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Country" })
   @ApiResponse({
     status: 400,
     description: "Country Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getCountry(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_country", { search }));
-      return response;
+  @ApiQuery({ name: "citizenship_id", required: false })
+  getCountry(@Query("search") search: string, @Query("citizenship") citizenship_id: string) {
+    return this.appService.getCountry({ search, citizenship_id });
   }
 
   @Get("occupation")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Occupation" })
   @ApiResponse({
     status: 400,
     description: "Occupation Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getOccupation(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_occupation", { search }));
-      return response;
+  getOccupation(@Query("search") search: string) {
+    return this.appService.getOccupation({ search });
   }
 
   @Get("occupation-position")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Occupation Position" })
   @ApiResponse({
     status: 400,
@@ -250,119 +194,53 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "occupation_id", required: false })
-  async getOccupationPosition(
+  getOccupationPosition(
     @Query("search") search: string,
     @Query("occupation_id") occupation_id: string,
   ) {
-      const response = await firstValueFrom(
-        this.client.send("get_occupation_position", { search, occupation_id }),
-      );
-      return response;
+    return this.appService.getOccupationPosition({ search, occupation_id });
   }
 
   @Get("disabilities")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Disabilities" })
   @ApiResponse({
     status: 400,
     description: "Disabilities Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getDisablities(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_dissabilities", { search }));
-      return response;
+  getDisablities(@Query("search") search: string) {
+    return this.appService.getDisabilites({ search });
   }
 
   @Get("year-graduate")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Year Graduate" })
   @ApiResponse({
     status: 400,
     description: "Year Graduate Not Found",
   })
-  async getYearGraduate() {
-      const response = await firstValueFrom(this.client.send("get_year_graduate", {}));
-      return response;
+  getYearGraduate() {
+    return this.appService.getYearGraduate();
   }
 
   @Get("scholarship")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Scholarship" })
   @ApiResponse({
     status: 400,
     description: "Scholarship Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getScholarship(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_scholarship", { search }));
-      return response;
+  getScholarship(@Query("search") search: string) {
+    return this.appService.getScholarship({ search });
   }
 
   @Get("school-type")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get School Type" })
   @ApiResponse({
     status: 400,
     description: "School Type Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getSchoolType(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_school_type", { search }));
-      return response;
-  }
-
-  @Get("questions")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @ApiOperation({ summary: "Get All Questions" })
-  @ApiResponse({
-    status: 500,
-    description: "Internal Server Error",
-  })
-  async getAllQuestions() {
-      const response = await firstValueFrom(this.client.send("get_question", {}));
-      return response;
-  }
-
-  @Post("create-question")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @ApiOperation({ summary: "Create Questions" })
-  @ApiResponse({
-    status: 500,
-    description: "Internal Server Error",
-  })
-  async createQuestion(@Body() createQuestion: TCreateQuestionRequest) {
-      const response = await firstValueFrom(
-        this.client.send("create_question", { createQuestion }),
-      );
-      return response;
-  }
-
-  @Put("update-question/:id")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @ApiOperation({ summary: "Update question by Id" })
-  @ApiResponse({
-    status: 500,
-    description: "Internal Server Error",
-  })
-  async updateQuestionById(
-    @Param("id") id: string,
-    @Body() updateQuestion: TUpdateQuestionRequest,
-  ) {
-      const response = await firstValueFrom(
-        this.client.send("update_question", { id, updateQuestion }),
-      );
-      return response;
-  }
-
-  @Delete("delete-question/:id")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @ApiOperation({ summary: "Delete question by Id" })
-  @ApiResponse({
-    status: 500,
-    description: "Internal Server Error",
-  })
-  async deleteQuestionById(@Param("id") id: string) {
-      const response = await firstValueFrom(this.client.send("delete_question", { id }));
-      return response;
+  getSchoolType(@Query("search") search: string) {
+    return this.appService.getSchoolType({ search });
   }
 }

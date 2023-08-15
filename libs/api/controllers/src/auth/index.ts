@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Request, UseFilters, UseGuards } from "@nestjs/common";
+import { Body, Controller, HttpCode, HttpStatus, Post, Request, UseGuards } from "@nestjs/common";
 import {
   TReqToken,
   VSRegister,
@@ -21,7 +21,6 @@ import {
   newPasswordSwagger,
   verifyOtpSwagger,
 } from "@uninus/api/services";
-import {RpcExceptionToHttpExceptionFilter} from '@uninus/api/filter'
 import { ApiTags, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("auth")
@@ -30,7 +29,6 @@ export class AuthController {
   constructor(private readonly appService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @Post("register")
   @ApiOperation({ summary: "Created Data" })
   @ApiResponse({
@@ -47,7 +45,6 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @Post("login")
   @ApiOperation({ summary: "Login" })
   @ApiResponse({
@@ -61,7 +58,6 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @Post("logout")
   @ApiOperation({ summary: "Logout" })
   @ApiResponse({ status: 201, description: "Berhasil logout" })
@@ -72,7 +68,6 @@ export class AuthController {
 
   @Post("refresh")
   @ApiBearerAuth()
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(RtGuard)
   @ApiOperation({ summary: "Refresh Token" })
   async refresh(@Request() reqToken: TReqToken) {
@@ -81,7 +76,6 @@ export class AuthController {
 
   @Post("verify")
   @ApiOperation({ summary: "Verify OTP" })
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiResponse({ status: 201, description: "Berhasil verifikasi OTP" })
   @ApiResponse({ status: 400, description: "Gagal verifikasi OTP" })
   @ApiResponse({ status: 404, description: "Email atau OTP tidak valid" })
@@ -90,7 +84,6 @@ export class AuthController {
   }
 
   @Post("resend-otp")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Resend OTP" })
   @ApiResponse({ status: 201, description: "Berhasil kitim OTP" })
   @ApiResponse({ status: 400, description: "Gagal kirim OTP" })
@@ -103,7 +96,6 @@ export class AuthController {
   }
 
   @Post("forgot-password")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Forgot Password" })
   @ApiResponse({ status: 201, description: "Berhasil kirim OTP" })
   @ApiResponse({
@@ -118,7 +110,6 @@ export class AuthController {
   }
 
   @Post("verify-otp-password")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Verify OTP Reset Password" })
   @ApiResponse({ status: 200, description: "Berhasil verifikasi OTP" })
   @ApiResponse({ status: 400, description: "Gagal verifikasi OTP" })
@@ -128,7 +119,6 @@ export class AuthController {
   }
 
   @Post("reset-password")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Reset Password" })
   @ApiResponse({ status: 201, description: "Berhasil mengganti password" })
   @ApiResponse({ status: 400, description: "Gagal mengganti password" })
