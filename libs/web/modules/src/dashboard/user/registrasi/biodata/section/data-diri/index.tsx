@@ -348,7 +348,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             isSearchable={true}
             control={control}
             isMulti={false}
-            disabled={!watch("citizen === WNI")}
+            required={false}
           />
 
           <SelectOption

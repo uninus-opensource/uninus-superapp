@@ -44,6 +44,9 @@ module.exports = {
         footerHeight: "360px",
         bannerLg: "520px",
       },
+      fontWeight: {
+        extramedium: "550",
+      },
     },
     colors: {
       primary: {
