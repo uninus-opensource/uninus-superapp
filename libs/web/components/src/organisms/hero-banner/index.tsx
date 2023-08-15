@@ -57,8 +57,8 @@ export const HeroBanner: FC<TbannerProps> = ({
                   <section className="flex mt-4 lg:mt-12 gap-8 ">
                     <Button
                       href="https://pmb.uninus.ac.id/wp-content/uploads/2023/03/Brosur-Program-Sarjana.pdf"
-                      variant="outlined"
-                      styling="border-primary-white lg:p-7"
+                      variant="outlined-white"
+                      styling="lg:p-7"
                       size="sm"
                     >
                       Unduh Brosur
@@ -195,8 +195,8 @@ export const HeroBanner: FC<TbannerProps> = ({
               <section className="flex mt-12 gap-8">
                 <Button
                   href="https://pmb.uninus.ac.id/wp-content/uploads/2023/03/Brosur-Program-Sarjana.pdf"
-                  variant="outlined"
-                  styling="border-primary-white "
+                  variant="outlined-white"
+                  styling="lg:p-7"
                   size="lg"
                 >
                   Unduh Brosur

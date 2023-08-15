@@ -152,7 +152,7 @@ export const Navbar: FC = (): ReactElement => {
             <Button
               variant="sidebarlist"
               width="w-full"
-              styling="text-xl md:text-2xl"
+              styling="text-xl"
               href="/"
               onClick={closeSidebar}
             >
@@ -163,7 +163,7 @@ export const Navbar: FC = (): ReactElement => {
             <Button
               variant="sidebarlist"
               width="w-full"
-              styling="text-xl md:text-2xl"
+              styling="text-xl"
               onClick={() => setIsDropDown(!isDropDown)}
             >
               Program{" "}
@@ -173,7 +173,7 @@ export const Navbar: FC = (): ReactElement => {
           {isDropDown &&
             dropDown.map((nav, idx) => (
               <li key={idx} className="px-5">
-                <Button variant="navlist" styling="text-xl md:text-2xl" href={nav.link}>
+                <Button variant="navlist" styling="text-xl" href={nav.link}>
                   {nav.item}
                 </Button>
               </li>
@@ -182,11 +182,23 @@ export const Navbar: FC = (): ReactElement => {
             <Button
               variant="sidebarlist"
               width="w-full"
-              styling="text-xl md:text-2xl"
+              styling="text-xl"
               href="/beasiswa"
               onClick={closeSidebar}
             >
               Beasiswa
+            </Button>
+          </li>
+          <li className="w-full mt-10">
+            <Button
+              href="/auth/login"
+              variant="custom"
+              size="lg"
+              styling="bg-grayscale-1 text-secondary-green-4 text-xl"
+              width="w-full"
+              height="h-9"
+            >
+              Login
             </Button>
           </li>
         </ul>

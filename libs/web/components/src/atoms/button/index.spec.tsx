@@ -112,6 +112,11 @@ describe("Test Button Style", () => {
     );
   });
 
+  it("Should have a valid classNAme when variant is set to outlind-white", () => {
+    const { getByTestId } = render(<Button variant="outlined-white" />);
+    expect(getByTestId("button")).toHaveClass("text-primary-white border-2 border-primary-white");
+  });
+
   it("Should have a valid className when variant set to text-icon", () => {
     const { getByTestId } = render(<Button variant="text-icon" />);
     expect(getByTestId("button")).toHaveClass(
