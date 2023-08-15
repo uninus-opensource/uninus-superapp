@@ -29,6 +29,9 @@ import {
   TOccupationPositionResponse,
   IOccupationPositionRequest,
   TSchoolTypeResponse,
+  TParentStatusResponse,
+  ISelectSchoolMajorRequest,
+  TSchoolMajorResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -280,7 +283,7 @@ export class SelectService {
     search,
     npsn,
   }: ISelectEducationHistoryRequest): Promise<TEducationHistoryResponse> {
-    const educationHistory = await this.prisma.educationHistory.findMany({
+    const educationHistory = await this.prisma.education.findMany({
       where: {
         name: { ...(search && { contains: search }), mode: "insensitive" },
         npsn: { ...(npsn && { contains: npsn }) },
@@ -323,7 +326,7 @@ export class SelectService {
   }
 
   async getOccupation({ search }: ISelectRequest): Promise<TOccupationResponse> {
-    const occupation = await this.prisma.occupation.findMany({
+    const occupation = await this.prisma.ocupation.findMany({
       where: {
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
@@ -343,7 +346,7 @@ export class SelectService {
     search,
     occupation_id,
   }: IOccupationPositionRequest): Promise<TOccupationPositionResponse> {
-    const occupationPosition = await this.prisma.occupationPosition.findMany({
+    const occupationPosition = await this.prisma.ocupationPosition.findMany({
       where: {
         name: { ...(search && { contains: search }), mode: "insensitive" },
         ...(occupation_id && { occupation_id: Number(occupation_id) }),
@@ -409,7 +412,7 @@ export class SelectService {
   }
 
   async getSchoolType({ search }: ISelectRequest): Promise<TSchoolTypeResponse> {
-    const schoolTypes = await this.prisma.schoolTypes.findMany({
+    const schoolTypes = await this.prisma.educationTypes.findMany({
       where: {
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
@@ -424,5 +427,45 @@ export class SelectService {
     }
 
     return { school_type: schoolTypes };
+  }
+
+  async getParentStatus({ search }: ISelectRequest): Promise<TParentStatusResponse> {
+    const parentStatusTypes = await this.prisma.parentStatus.findMany({
+      where: {
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!parentStatusTypes) {
+      throw new NotFoundException("Data Status Orang Tua Tidak Ditemukan!");
+    }
+
+    return {parent_status: parentStatusTypes}
+  }
+
+  async getSchoolMajor({
+    search,
+    school_type_id,
+  }: ISelectSchoolMajorRequest): Promise<TSchoolMajorResponse> {
+    const schoolMajorTypes = await this.prisma.educationMajor.findMany({
+      where: {
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+        ...(school_type_id && { school_type_id: Number(school_type_id) }),
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!schoolMajorTypes) {
+      throw new NotFoundException("Data Jurusan Sekolah Tidak Ditemukan!");
+    }
+
+    return { school_major: schoolMajorTypes };
   }
 }

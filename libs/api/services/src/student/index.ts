@@ -44,41 +44,46 @@ export class StudentService {
     };
   }
 
-  async updateStudent(args: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
-    const { id, fullname, avatar, ...updateStudentPayload } = args;
-    const student = await this.prisma.users.update({
-      where: {
-        id,
-      },
-      data: {
-        fullname,
-        students: {
-          update: {
-            ...updateStudentPayload,
-          },
-        },
-      },
-      select: {
-        avatar: true,
-        email: true,
-        fullname: true,
-        students: true,
-      },
-    });
+  async updateStudent(args: IUpdateStudentRequest): Promise<any> {
+    console.log(args);
+    return "";
+    // const { id, fullname, avatar, ...updateStudentPayload } = args;
+    // const student = await this.prisma.users.update({
+    //   where: {
+    //     id,
+    //   },
+    //   data: {
+    //     fullname,
+    //     students: {
+    //       update: {
+    //         ...updateStudentPayload,
+    //         pmb: {
+    //           update: {},
+    //         },
+    //       },
+    //     },
+    //   },
+    //   select: {
+    //     avatar: true,
+    //     email: true,
+    //     fullname: true,
+    //     students: true,
+    //   },
+    // });
 
-    if (!student) {
-      throw new BadRequestException("User tidak ditemukan", {
-        cause: new Error(),
-      });
-    }
+    // if (!student) {
+    //   throw new BadRequestException("User tidak ditemukan", {
+    //     cause: new Error(),
+    //   });
+    // }
 
-    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
-    return {
-      avatar: student.avatar,
-      email: student.email,
-      fullname: student.fullname,
-      ...studentData,
-    };
+    // const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
+    // return {
+    //   avatar: student.avatar,
+    //   email: student.email,
+    //   fullname: student.fullname,
+    //   ...studentData,
+    // };
   }
 
   async deleteStudent(args: IDeleteStudentRequest): Promise<IDeleteStudentResponse> {
@@ -112,12 +117,18 @@ export class StudentService {
   async checkGraduationStatus({
     registration_number,
   }: TGraduationStatusRequest): Promise<TGraduationStatusReponse> {
-    const graduationStatus = await this.prisma.students.findFirst({
+    const graduationStatus = await this.prisma.pMB.findFirst({
       where: {
         registration_number,
       },
       include: {
-        user: true,
+        student: {
+          include: {
+            user: true,
+            department: true,
+          },
+        },
+        selection_path: true,
       },
     });
 
@@ -129,12 +140,9 @@ export class StudentService {
 
     return {
       registration_number: graduationStatus.registration_number,
-      fullname: graduationStatus.user.fullname,
-      birth_date: graduationStatus.birth_date,
-      birth_place: graduationStatus.birth_place,
-      city: graduationStatus.city,
-      school_name: graduationStatus.school_name,
-      province: graduationStatus.province,
+      fullname: graduationStatus.student?.user.fullname,
+      department: graduationStatus.student?.department?.name,
+      selection_path: graduationStatus.selection_path?.name,
       registration_status: graduationStatus.registration_status,
     };
   }

@@ -93,6 +93,11 @@ export class AuthService {
         students: {
           create: {
             phone_number: `62${data.phone_number}`,
+            pmb: {
+              create: {
+                registration_number: String(Math.random() * 100),
+              },
+            },
           },
         },
       },

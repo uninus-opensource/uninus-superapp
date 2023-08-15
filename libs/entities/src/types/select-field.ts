@@ -15,6 +15,10 @@ export interface ISelectFacultyRequest extends ISelectRequest {
   degree_program_id: string;
 }
 
+export interface ISelectSchoolMajorRequest extends ISelectRequest {
+  school_type_id: string;
+}
+
 export type TProvinceResponse = {
   province: Array<{
     id: number;
@@ -221,6 +225,20 @@ export type TScholarshipResponse = {
 
 export type TSchoolTypeResponse = {
   school_type: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export type TParentStatusResponse = {
+  parent_status: Array<{
+    id: string;
+    name: string;
+  }>;
+};
+
+export type TSchoolMajorResponse = {
+  school_major: Array<{
     id: number;
     name: string;
   }>;
