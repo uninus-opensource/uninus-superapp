@@ -35,18 +35,18 @@ export const ModuleDokumen: FC = (): ReactElement => {
   ];
 
   return (
-    <form key="dashboard-dokumen" className="flex flex-col items-center">
-      <section className="w-[90vw] lg:w-[70vw] flex justify-center lg:justify-start xl:w-[70vw] xl:mb-3">
-        <div className="flex flex-col justify-center items-center lg:items-start">
-          <h1 className="text-secondary-green-4">
-            <span className="text-primary-black opacity-[.32]">PMB </span> / Upload Dokumen
-          </h1>
-          <h1 className="text-secondary-green-4 font-bold">Upload Dokumen</h1>
-        </div>
-      </section>
+    <form key="dashboard-dokumen" className="flex flex-col text-center px-4 gap-y-6  lg:text-start">
+      <div className="2xl:text-2xl">
+        <h1 className="text-slate-5">
+          PMB <span className="text-secondary-green-4"> / Upload Berkas</span>
+        </h1>
+        <p className=" text-lg 2xl:text-2xl pt-2 font-extrabold text-secondary-green-4">
+          Upload Berkas
+        </p>
+      </div>
 
       {/* body */}
-      <section className="flex flex-col items-center shadow-[0px_4px_8px_0px_rgba(0,0,0,0.1)] w-[90vw] rounded-md h-[61rem] md:h-[35rem] mt-5 lg:w-[70vw] xl:w-[70vw]">
+      <section className="flex flex-col items-center shadow-lg w-[90vw] rounded-md h-[61rem] md:h-[35rem] mt-5 lg:w-[70vw] xl:w-[70vw]">
         {/* heading */}
         <section className="flex flex-col items-center lg:items-start lg:pl-[2vw] gap-2 mt-5 lg:w-full">
           <h1 className="font-bold text-[1.3rem] text-center">Upload berkas pendaftaran</h1>
@@ -90,7 +90,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
 
         {/* Button */}
         <section className="w-[80vw] lg:w-[70vw] xl:w-[70vw] lg:pl-[2vw] flex justify-center lg:justify-end pr-16 items-center rounde">
-          <Button styling="bg-primary-green px-2 py-1 rounded-[3px] w-[69vw] md:w-[25vw] lg:w-full mt-8 md:mt-10">
+          <Button styling="bg-primary-green px-2 py-1 rounded-[3px] w-50% lg:w-25% xl:w-15% mt-8 md:mt-10">
             Submit Berkas
           </Button>
         </section>
