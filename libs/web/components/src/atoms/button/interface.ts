@@ -7,6 +7,7 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "filled"
     | "filled-tonal"
     | "outlined"
+    | "outlined-white"
     | "text-icon"
     | "navlist"
     | "float-bottom-right"

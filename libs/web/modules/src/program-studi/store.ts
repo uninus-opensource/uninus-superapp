@@ -3,7 +3,7 @@ import { ProdiProps } from "./type";
 export const ProdiList: ProdiProps[] = [
   {
     name: "Fakultas Agama Islam",
-    img: "/illustrations/fai.webp",
+    img: "/illustrations/FAI.webp",
     visi: "Menjadi Fakultas Agama Islam yang Unggul dan Mandiri pada Tahun 2035",
     prodi: [
       {
@@ -91,7 +91,7 @@ export const ProdiList: ProdiProps[] = [
 
   {
     name: "Fakultas Keguruan dan ilmu pendidikan",
-    img: "/illustrations/fkip.webp",
+    img: "/illustrations/FKIP.webp",
     visi: "Menjadi fakultas ilmu komunikasi yang unggul dengan komitmen tinggi pada pengembangan ilmu pengetahuan dan keterampilan di bidang komunikasi dan informasi yang dilandasi nilai-nilai Islam Ahlussunnah wal Jama’ah An-Nahdliyah pada tahun 2030 di tingkat nasional",
     prodi: [
       {
@@ -258,7 +258,7 @@ export const ProdiList: ProdiProps[] = [
   },
   {
     name: "Fakultas Teknik",
-    img: "/illustrations/ftek.webp",
+    img: "/illustrations/FTEK.webp",
     visi: "Menjadi Fakultas Teknik Uninus yang Unggul dalam bidang rekayasa perangkat lunak, sistem enterprise dan inteligen sistem di tingkat Nasional yang dilandasi nilai-nilai Islam Ahlussunah waljama’ah An-Nahdliyah pada Tahun 2030",
     prodi: [
       {
@@ -326,7 +326,7 @@ export const ProdiList: ProdiProps[] = [
 
   {
     name: "Fakultas Ilmu Komunikasi",
-    img: "/illustrations/fikom.webp",
+    img: "/illustrations/FIKOM.webp",
     visi: "Menjadi fakultas ilmu komunikasi yang unggul dengan komitmen tinggi pada pengembangan ilmu pengetahuan dan keterampilan di bidang komunikasi dan informasi yang dilandasi nilai-nilai Islam Ahlussunnah wal Jama’ah An-Nahdliyah pada tahun 2030 di tingkat nasional",
     prodi: [
       {
@@ -373,7 +373,7 @@ export const ProdiList: ProdiProps[] = [
   },
   {
     name: "Fakultas Ekonomi",
-    img: "/illustrations/fkon.webp",
+    img: "/illustrations/FKON.webp",
     visi: "Menjadi Fakultas Ekonomi yang islami, mandiri dan unggul pada tahun 2035.",
     prodi: [
       {
@@ -420,7 +420,7 @@ export const ProdiList: ProdiProps[] = [
   },
   {
     name: "Fakultas Hukum",
-    img: "/illustrations/fhum.webp",
+    img: "/illustrations/FHUM.webp",
     visi: "Menjadi Program Studi yang menyelenggarakan proses pendidikan tinggi hukum yang unggul, mandiri dan islami dengan lulusan yang berilmu, terampil, dan amanah",
     prodi: [
       {
@@ -447,7 +447,7 @@ export const ProdiList: ProdiProps[] = [
   },
   {
     name: "Fakultas Pertanian",
-    img: "/illustrations/ftan.webp",
+    img: "/illustrations/FTAN.webp",
     visi: "Menjadi fakultas ilmu komunikasi yang unggul dengan komitmen tinggi pada pengembangan ilmu pengetahuan dan keterampilan di bidang komunikasi dan informasi yang dilandasi nilai-nilai Islam Ahlussunnah wal Jama’ah An-Nahdliyah pada tahun 2030 di tingkat nasional",
     prodi: [
       {
@@ -474,7 +474,7 @@ export const ProdiList: ProdiProps[] = [
   },
   {
     name: "Pasca Sarjana",
-    img: "/illustrations/pasca.webp",
+    img: "/illustrations/PASCA.webp",
     visi: "Menjadi Sekolah Pasca Sarjana yang Unggul dan Mandiri pada Tahun 2035",
     prodi: [
       {
