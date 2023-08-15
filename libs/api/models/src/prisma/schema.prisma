@@ -50,16 +50,17 @@ model Students {
   province_id            Int?
   city                   City?              @relation("student", fields: [city_id], references: [id])
   city_id                Int?
-  school_type            SchoolTypes?       @relation("student", fields: [school_type_id], references: [id])
-  school_type_id         Int?
-  school_major           String?
+  education_type         EducationTypes?    @relation("student", fields: [education_type_id], references: [id])
+  education_type_id      Int?
+  education_major        EducationMajor?    @relation(fields: [education_major_id], references: [id])
+  education_major_id     Int?
   graduation_year        String?
-  school_npsn            String?
-  school                 EducationHistory?  @relation(fields: [school_npsn], references: [npsn])
+  education_npsn         String?
+  education              Education?         @relation(fields: [education_npsn], references: [npsn])
   father_name            String?
   father_status          ParentStatus?      @relation("father", fields: [father_status_id], references: [id])
   father_status_id       String?
-  father_education       SchoolTypes?       @relation("father", fields: [father_education_id], references: [id])
+  father_education       EducationTypes?    @relation("father", fields: [father_education_id], references: [id])
   father_education_id    Int?
   father_occupation      Ocupation?         @relation("father", fields: [father_occupation_id], references: [id])
   father_occupation_id   Int?
@@ -70,7 +71,7 @@ model Students {
   mother_name            String?
   mother_status          ParentStatus?      @relation("mother", fields: [mother_status_id], references: [id])
   mother_status_id       String?
-  mother_education       SchoolTypes?       @relation("mother", fields: [mother_education_id], references: [id])
+  mother_education       EducationTypes?    @relation("mother", fields: [mother_education_id], references: [id])
   mother_education_id    Int?
   mother_occupation      Ocupation?         @relation("mother", fields: [mother_occupation_id], references: [id])
   mother_occupation_id   Int?
@@ -81,7 +82,7 @@ model Students {
   guardian_name          String?
   guardian_status        ParentStatus?      @relation("guardian", fields: [guardian_status_id], references: [id])
   guardian_status_id     String?
-  guardian_education     SchoolTypes?       @relation("guardian", fields: [guardian_education_id], references: [id])
+  guardian_education     EducationTypes?    @relation("guardian", fields: [guardian_education_id], references: [id])
   guardian_education_id  Int?
   guardian_occupation    Ocupation?         @relation("guardian", fields: [guardian_occupation_id], references: [id])
   guardian_occupation_id Int?
@@ -96,36 +97,49 @@ model Students {
   parent_city            City?              @relation("parent", fields: [parent_city_id], references: [id])
   parent_city_id         Int?
   parent_address         String?
-
-  faculty_type         String?
-  education_programs   String?
-  study_program        String?
-  selection_type       String?
-  family_card          String?
-  pass_photo           String?
-  ktp_card             String?
-  school_report_card   String?
-  birth_certificate    String?
-  additional_documents String?
-  ijazah_card          String?
-  kipk_card            String?
-  academic_year        String?
-  registration_wave    String?
-  registration_status  String?
-  registration_number  String?
-  user_id              String   @unique
-  createdAt            DateTime @default(now())
-  user                 Users    @relation(fields: [user_id], references: [id])
+  scholarship            Scholarship?       @relation(fields: [scholarship_id], references: [id])
+  scholarship_id         Int?
+  faculty                Faculty?           @relation(fields: [faculty_id], references: [id])
+  faculty_id             Int?
+  department             Department?        @relation(fields: [department_id], references: [id])
+  department_id          Int?
+  academic_year          String?
+  user_id                String             @unique
+  createdAt              DateTime           @default(now())
+  user                   Users              @relation(fields: [user_id], references: [id])
 }
 
-model SchoolTypes {
-  id           Int           @id @default(autoincrement())
-  name         String
-  students     Students[]    @relation("student")
-  school_major SchoolMajor[]
-  father       Students[]    @relation("father")
-  mother       Students[]    @relation("mother")
-  guardian     Students[]    @relation("guardian")
+model PMB {
+  id                  Int     @id @default(autoincrement())
+  first_deparment     Int
+  second_deparment    Int
+  registration_status String?
+  registration_number String?
+}
+
+model Documents {
+  id   Int    @id @default(autoincrement())
+  name String
+  url  String
+}
+
+model EducationTypes {
+  id              Int              @id @default(autoincrement())
+  name            String
+  students        Students[]       @relation("student")
+  father          Students[]       @relation("father")
+  mother          Students[]       @relation("mother")
+  guardian        Students[]       @relation("guardian")
+  education_major EducationMajor[]
+  education       Education[]
+}
+
+model EducationMajor {
+  id                Int            @id @default(autoincrement())
+  name              String
+  education_type    EducationTypes @relation(fields: [education_type_id], references: [id])
+  education_type_id Int
+  student           Students[]
 }
 
 model ParentStatus {
@@ -210,6 +224,7 @@ model Faculty {
   department       Department[]
   degreeProgram_id Int?
   degreeProgram    DegreeProgram? @relation(fields: [degreeProgram_id], references: [id])
+  student          Students[]
 }
 
 model Department {
@@ -219,6 +234,7 @@ model Department {
   degree_program_id Int?
   Faculty           Faculty?       @relation(fields: [faculty_id], references: [id])
   degreeProgram     DegreeProgram? @relation(fields: [degree_program_id], references: [id])
+  student           Students[]
 }
 
 model MaritalStatus {
@@ -259,15 +275,17 @@ model SelectionPath {
   name String
 }
 
-model EducationHistory {
-  id             Int        @id @default(autoincrement())
-  npsn           String     @unique
-  name           String
-  province       String
-  district_city  String
-  sub_district   String
-  street_address String
-  students       Students[]
+model Education {
+  id                Int            @id @default(autoincrement())
+  npsn              String         @unique
+  name              String
+  province          String
+  district_city     String
+  sub_district      String
+  street_address    String
+  education_type    EducationTypes @relation(fields: [education_type_id], references: [id])
+  education_type_id Int
+  students          Students[]
 }
 
 model Country {
@@ -303,15 +321,9 @@ model Disabilities {
 }
 
 model Scholarship {
-  id   Int    @id @default(autoincrement())
-  name String
-}
-
-model SchoolMajor {
-  id             Int         @id @default(autoincrement())
-  name           String
-  school_type_id Int
-  school_type    SchoolTypes @relation(fields: [school_type_id], references: [id])
+  id      Int        @id @default(autoincrement())
+  name    String
+  student Students[]
 }
 
 model Questions {
