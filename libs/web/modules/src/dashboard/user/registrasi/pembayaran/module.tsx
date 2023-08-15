@@ -1,10 +1,11 @@
 "use client";
 import { CopyOutlined, DownloadOutlined } from "@ant-design/icons";
-import { BreadCrumb, Button, KartuPembayaran } from "@uninus/web/components";
+import { BreadCrumb, Button } from "@uninus/web/components";
 import dynamic from "next/dynamic";
 import { FC, Fragment, ReactElement, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { KartuPembayaran } from "./pdf";
 
 const PDFDownloadLink = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
