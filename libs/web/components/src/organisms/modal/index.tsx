@@ -39,7 +39,7 @@ export const Modal: FC<ModalProps> = ({
               )}
             </div>
             <div className={bodyClassName}>{children}</div>
-            <div className={`w-full h-[30px] ${footerColor}`}></div>
+            <div className={`w-full h-[30px] rounded-b ${footerColor}`}></div>
           </div>
         </div>
       </div>,

@@ -22,13 +22,14 @@ export default function Loading() {
       {/*End skeleton navbar */}
       {/*Start skeleton body */}
       <div className="w-full lg:h-[50vh] h-[35vh]  bg-slate-3 flex relative items-center px-7 pt-3  animate-pulse ">
-        <div className="flex w-[70vw] md:w-[50vw] flex-col absolute  md:pl-9 gap-2">
-          <span className=" h-14 bg-grayscale-2 rounded-3xl "></span>
+        <div className="flex w-[70vw] md:w-[50vw] flex-col absolute  pb-14 md:pl-9  gap-2">
+          <span className=" h-14 bg-grayscale-2 rounded-3xl"></span>
         </div>
       </div>
-      <div className="flex gap-x-4 mt-7 md:mt-8 items-center  px-7 bg-slate-3 w-[90vw] lg:h-32 h-20 mx-auto rounded-lg animate-pulse">
-        <span className="w-full  md:w-24 lg:h-24 h-10   bg-grayscale-2 rounded-lg"></span>
-        <span className="w-[50rem] lg:w-full h-10 lg:h-24 bg-grayscale-2 rounded-lg mx-auto"></span>
+      <span className="flex gap-x-4 mt-4 md:mt-8 items-center  px-7 bg-grayscale-2  w-2/3 lg:w-2/4 lg:h-32 h-16 mx-auto rounded-lg animate-pulse"></span>
+      <div className="w-full flex flex-wrap px-7 gap-9 animate-pulse justify-center items-center pt-16">
+        <span className="w-[15rem] h-[15rem] bg-grayscale-2 rounded-lg lg:hidden"></span>
+        <span className="w-[15rem] h-[15rem] bg-grayscale-2 rounded-lg hidden md:block lg:hidden"></span>
       </div>
       {/*Start skeleton body */}
     </section>

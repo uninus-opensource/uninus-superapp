@@ -22,6 +22,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
       <Modal
         showModal={showModal}
         onClose={handleCloseModal}
+        closeClassName="text-primary-white"
         headerColor="bg-primary-green"
         footerColor="bg-primary-green"
         modalTitle={
@@ -89,20 +90,20 @@ export const ProgramStudyModule: FC = (): ReactElement => {
         <div className="lg:w-full w-auto h-full lg:p-16 py-8 px-8 text-center flex justify-center font-bebasNeue">
           <div className="flex flex-col lg:gap-y-16 lg:w-5/6 w-full gap-y-8">
             <div className="lg:w-4/5 w-full lg:mx-auto ">
-              <h1 className="text-center text-secondary-green-5 lg:text-3xl text-lg font-bold">
+              <h1 className="text-center text-secondary-green-5 lg:text-3xl text-xl font-bold">
                 Fakultas dan Program studi Universitas Islam Nusantara
               </h1>
             </div>
           </div>
         </div>
 
-        <section className="w-full h-full py-8 px-7">
-          <div className="flex flex-wrap lg:grid lg:grid-cols-3 gap-8 justify-center items-center">
+        <section className="w-full h-full py-8 px-7 flex justify-center">
+          <div className="flex flex-wrap xl:grid xl:grid-cols-3  gap-8 justify-center  items-center">
             {ProdiList.map((item, idx) => (
               <div
                 key={idx}
-                className={`w-[265px]  h-[180px] rounded overflow-hidden shadow-md relative cursor-pointer ${
-                  idx === ProdiList.length - 1 ? "col-span-2 lg:w-[595px]" : "col-span-1  "
+                className={`w-[265px]  h-[220px] rounded overflow-hidden shadow-md relative cursor-pointer ${
+                  idx === ProdiList.length - 1 ? "col-span-2 lg:w-[564px]" : "col-span-1  "
                 }`}
                 onClick={() => {
                   setActiveItem(item);
@@ -112,7 +113,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
                 <div className=" hidden lg:block lg:mb-[4rem] ">
                   <Image
                     src={`${
-                      idx === ProdiList.length - 1 ? "/illustrations/pasca-2.png " : item.img
+                      idx === ProdiList.length - 1 ? "/illustrations/pasca-2.webp " : item.img
                     }`}
                     width={595}
                     height={360}
