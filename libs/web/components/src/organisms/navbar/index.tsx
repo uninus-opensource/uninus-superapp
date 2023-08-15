@@ -33,7 +33,7 @@ export const Navbar: FC = (): ReactElement => {
             style={{
               fontSize: "20px",
               marginLeft: "6px",
-              marginTop: "4px",
+              marginTop: "1px",
               transitionDuration: "100ms",
             }}
             rotate={isDropDown ? 180 : 0}
