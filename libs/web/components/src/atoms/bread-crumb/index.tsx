@@ -12,6 +12,7 @@ export const BreadCrumb: FC<TBreadCrumbProps> = ({
     <div
       className={`grid place-content-start w-full font-bold text-xs md:text-sm ${bgColor}`}
       aria-label="Breadcrumb"
+      data-testid="breadcrumb"
     >
       <ol className="flex w-full items-center gap-x-2">
         {items.map((crumb, index) => {
@@ -26,7 +27,7 @@ export const BreadCrumb: FC<TBreadCrumbProps> = ({
                 >
                   {crumb.name}
                 </Link>
-                <MdChevronRight className={`text-xl ${textColor}`} />
+                <MdChevronRight data-testid="bread-icon" className={`text-xl ${textColor}`} />
               </Fragment>
             );
           } else {
