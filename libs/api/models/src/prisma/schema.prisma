@@ -26,102 +26,109 @@ model Users {
 }
 
 model Students {
-  id                           String   @unique @default(uuid())
-  nik                          String?  @unique
-  nisn                         String?  @unique
-  birth_place                  String?
-  birth_date                   String?
-  gender                       String?
-  phone_number                 String?
-  religion                     String?
-  citizenship                  String?
-  marital_status               String?
-  country                      String?
-  address                      String?
-  postal_code                  String?
-  subdistrict                  String?
-  province                     String?
-  city                         String?
-  school_type                  String?
-  graduation_year              String?
-  school_major                 String?
-  school_name                  String?
-  school_npsn                  String?
-  school_address               String?
-  school_postal_code           String?
-  school_subdistrict           String?
-  school_province              String?
-  school_city                  String?
-  school_phone_number          String?
-  father_name                  String?
-  mother_name                  String?
-  guardian_name                String?
-  father_status                String?
-  mother_status                String?
-  guardian_status              String?
-  parent_address               String?
-  parent_postal_code           String?
-  parent_subdistrict           String?
-  parent_province              String?
-  parent_city                  String?
-  father_education             String?
-  mother_education             String?
-  guardian_education           String?
-  father_occupation            String?
-  father_occupation_position   String?
-  mother_occupation            String?
-  mother_occupation_position   String?
-  guardian_occupation          String?
-  guardian_occupation_position String?
-  father_income                String?
-  mother_income                String?
-  guardian_income              String?
-  guardian_address             String?
-  guardian_postal_code         String?
-  guardian_subdistrict         String?
-  guardian_province            String?
-  guardian_city                String?
-  faculty_type                 String?
-  education_programs           String?
-  study_program                String?
-  selection_type               String?
-  family_card                  String?
-  pass_photo                   String?
-  ktp_card                     String?
-  school_report_card           String?
-  birth_certificate            String?
-  additional_documents         String?
-  ijazah_card                  String?
-  kipk_card                    String?
-  academic_year                String?
-  registration_wave            String?
-  registration_status          String?
-  registration_number          String?
-  user_id                      String   @unique
-  createdAt                    DateTime @default(now())
-  user                         Users    @relation(fields: [user_id], references: [id])
+  id                    String             @unique @default(uuid())
+  nik                   String?
+  nisn                  String?
+  no_kk                 String?
+  gender                Gender?            @relation(fields: [gender_id], references: [id])
+  gender_id             Int?
+  religion              Religion?          @relation(fields: [religion_id], references: [id])
+  religion_id           Int?
+  birth_place           String?
+  birth_date            String?
+  phone_number          String?            @unique
+  citizenship           Citizenship?       @relation(fields: [citizenship_id], references: [id])
+  citizenship_id        Int?
+  marital_status        MaritalStatus?     @relation(fields: [marital_status_id], references: [id])
+  marital_status_id     Int?
+  country               Country?           @relation(fields: [country_id], references: [id])
+  country_id            Int?
+  address               String?
+  subdistrict           SubDistrict?       @relation("subdistrict", fields: [subdistrict_id], references: [id])
+  subdistrict_id        Int?
+  province              Province?          @relation("province", fields: [province_id], references: [id])
+  province_id           Int?
+  city                  City?              @relation("city", fields: [city_id], references: [id])
+  city_id               Int?
+  school_type           SchoolTypes?       @relation("school_type", fields: [school_type_id], references: [id])
+  school_type_id        Int?
+  school_major          String?
+  graduation_year       String?
+  school_npsn           String?
+  school                EducationHistory?  @relation(fields: [school_npsn], references: [npsn])
+  father_name           String?
+  father_status         ParentStatus?      @relation("father", fields: [father_status_id], references: [id])
+  father_status_id      String?
+  father_education      SchoolTypes?       @relation("father_education", fields: [father_education_id], references: [id])
+  father_education_id   Int?
+  father_occupation     Ocupation?         @relation("father_occupation", fields: [father_occupation_id], references: [id])
+  father_occupation_id  Int?
+  father_position       OcupationPosition? @relation("father_position", fields: [father_position_id], references: [id])
+  father_position_id    Int?
+  father_salary         Salary?            @relation("father", fields: [father_salary_id], references: [id])
+  father_salary_id      Int?
+  mother_name           String?
+  mother_status         ParentStatus?      @relation("mother", fields: [mother_status_id], references: [id])
+  mother_status_id      String?
+  mother_education      SchoolTypes?       @relation("mother_education", fields: [mother_education_id], references: [id])
+  mother_education_id   Int?
+  mother_occupation     Ocupation?         @relation(fields: [mother_occupation_id], references: [id])
+  mother_occupation_id  Int?
+  mother_position       OcupationPosition? @relation(fields: [mother_position_id], references: [id])
+  mother_position_id    Int?
+  mother_salary         Salary?            @relation(fields: [mother_salary_id], references: [id])
+  mother_salary_id      Int?
+  parent_province       Province?          @relation("parent_province", fields: [parent_province_id], references: [id])
+  parent_province_id    Int?
+  parent_subdistrict    SubDistrict?       @relation("parent_subdistrict", fields: [parent_subdistrict_id], references: [id])
+  parent_subdistrict_id Int?
+  parent_city           City?              @relation("parent_city", fields: [parent_city_id], references: [id])
+  parent_city_id        Int?
+  parent_address        String?
+
+  faculty_type         String?
+  education_programs   String?
+  study_program        String?
+  selection_type       String?
+  family_card          String?
+  pass_photo           String?
+  ktp_card             String?
+  school_report_card   String?
+  birth_certificate    String?
+  additional_documents String?
+  ijazah_card          String?
+  kipk_card            String?
+  academic_year        String?
+  registration_wave    String?
+  registration_status  String?
+  registration_number  String?
+  user_id              String   @unique
+  createdAt            DateTime @default(now())
+  user                 Users    @relation(fields: [user_id], references: [id])
 }
 
-model Lecturers {
-  id        String   @unique @default(uuid())
-  nip       String   @unique
-  createdAt DateTime @default(now())
-  user_id   String   @unique
-  user      Users    @relation(fields: [user_id], references: [id])
+model SchoolTypes {
+  id           Int           @id @default(autoincrement())
+  name         String
+  students     Students[]    @relation("school_type")
+  school_major SchoolMajor[]
+  father       Students[]    @relation("father_education")
+  mother       Students[]    @relation("mother_education")
 }
 
-model Employees {
-  id        String   @unique @default(uuid())
-  nim       String   @unique
-  createdAt DateTime @default(now())
-  user_id   String   @unique
-  user      Users    @relation(fields: [user_id], references: [id])
+model ParentStatus {
+  id     String     @unique @default(uuid())
+  name   String
+  father Students[] @relation("father")
+  mother Students[] @relation("mother")
 }
 
 model Province {
-  id     Int    @id @default(autoincrement())
-  name   String
-  cities City[]
+  id              Int        @id @default(autoincrement())
+  name            String
+  cities          City[]
+  students        Students[] @relation("province")
+  parent_province Students[] @relation("parent_province")
 }
 
 model City {
@@ -130,13 +137,17 @@ model City {
   province_id  Int
   province     Province      @relation(fields: [province_id], references: [id], onDelete: Cascade)
   sub_district SubDistrict[]
+  students     Students[]    @relation("city")
+  parent_city  Students[]    @relation("parent_city")
 }
 
 model SubDistrict {
-  id      Int    @id @default(autoincrement())
-  name    String
-  city_id Int
-  city    City   @relation(fields: [city_id], references: [id], onDelete: Cascade)
+  id                 Int        @id @default(autoincrement())
+  name               String
+  city_id            Int
+  city               City       @relation(fields: [city_id], references: [id], onDelete: Cascade)
+  students           Students[] @relation("subdistrict")
+  parent_subdistrict Students[] @relation("parent_subdistrict")
 }
 
 model Roles {
@@ -198,29 +209,36 @@ model Department {
 }
 
 model MaritalStatus {
-  id   Int    @id @default(autoincrement())
-  name String
+  id       Int        @id @default(autoincrement())
+  name     String
+  students Students[]
 }
 
 model Religion {
-  id   Int    @id @default(autoincrement())
-  name String
+  id       Int        @id @default(autoincrement())
+  name     String
+  students Students[]
 }
 
 model Gender {
-  id   Int    @id @default(autoincrement())
-  name String
+  id       Int        @id @default(autoincrement())
+  name     String
+  students Students[]
 }
 
 model Citizenship {
-  id      Int       @id @default(autoincrement())
-  name    String
-  Country Country[]
+  id       Int        @id @default(autoincrement())
+  name     String
+  Country  Country[]
+  students Students[]
 }
 
 model Salary {
-  id   Int    @id @default(autoincrement())
-  name String
+  id     Int        @id @default(autoincrement())
+  name   String
+  father Students[] @relation("father")
+
+  Students Students[]
 }
 
 model SelectionPath {
@@ -229,13 +247,14 @@ model SelectionPath {
 }
 
 model EducationHistory {
-  id             Int    @id @default(autoincrement())
-  npsn           String @unique
+  id             Int        @id @default(autoincrement())
+  npsn           String     @unique
   name           String
   province       String
   district_city  String
   sub_district   String
   street_address String
+  students       Students[]
 }
 
 model Country {
@@ -243,19 +262,24 @@ model Country {
   name           String
   citizenship_id Int?
   citizenship    Citizenship? @relation(fields: [citizenship_id], references: [id])
+  students       Students[]
 }
 
-model Occupation {
-  id                 Int                  @id @default(autoincrement())
+model Ocupation {
+  id                 Int                 @id @default(autoincrement())
   name               String
-  occupationposition OccupationPosition[]
+  occupationposition OcupationPosition[]
+  students           Students[]          @relation("father_occupation")
+  Students           Students[]
 }
 
-model OccupationPosition {
-  id            Int         @id @default(autoincrement())
-  name          String
-  occupation_id Int?
-  Occupation    Occupation? @relation(fields: [occupation_id], references: [id])
+model OcupationPosition {
+  id           Int        @id @default(autoincrement())
+  name         String
+  ocupation_id Int?
+  ocupation    Ocupation? @relation(fields: [ocupation_id], references: [id])
+  father       Students[] @relation("father_position")
+  Students     Students[]
 }
 
 model Disabilities {
@@ -268,9 +292,11 @@ model Scholarship {
   name String
 }
 
-model SchoolTypes {
-  id   Int    @id @default(autoincrement())
-  name String
+model SchoolMajor {
+  id             Int         @id @default(autoincrement())
+  name           String
+  school_type_id Int
+  school_type    SchoolTypes @relation(fields: [school_type_id], references: [id])
 }
 
 model Questions {
@@ -278,4 +304,20 @@ model Questions {
   question          String
   correct_answer    String
   incorrect_answers String[]
+}
+
+model Lecturers {
+  id        String   @unique @default(uuid())
+  nip       String   @unique
+  createdAt DateTime @default(now())
+  user_id   String   @unique
+  user      Users    @relation(fields: [user_id], references: [id])
+}
+
+model Employees {
+  id        String   @unique @default(uuid())
+  nim       String   @unique
+  createdAt DateTime @default(now())
+  user_id   String   @unique
+  user      Users    @relation(fields: [user_id], references: [id])
 }
