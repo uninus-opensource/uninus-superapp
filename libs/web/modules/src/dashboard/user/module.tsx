@@ -14,8 +14,8 @@ export const DashboardModule: FC = (): ReactElement => {
       </div>
 
       {/* body */}
-      <div className="flex gap-4 w-full bg-primary-white p-4 rounded-lg shadow-lg ">
-        <div className="flex flex-col md:w-[50%] pb-20 pl-8 items-center justify-center">
+      <div className="flex lg:flex-row md:flex-row sm:flex-col gap-4 w-full bg-primary-white p-4 rounded-lg shadow-lg ">
+        <div className="flex flex-col md:w-[50%] sm:w-full pb-20 pl-8 items-center justify-center">
           {/* Image */}
           <figure className=" grid place-items-center ">
             <Image
@@ -43,7 +43,7 @@ export const DashboardModule: FC = (): ReactElement => {
         </div>
 
         {/* flow register */}
-        <div className=" md:w-[50%] xl:w-[55%] h-auto xl:grid place-items-center">
+        <div className=" md:w-[50%] sm:w-full xl:w-[55%] h-auto xl:grid place-items-center">
           <div className=" w-full h-auto flex flex-col justify-center items-center">
             <div className="w-[300px] h-auto bg-primary-white shadow-md grid place-items-start">
               <div className="w-[80%] grid place-items-center p-4">
