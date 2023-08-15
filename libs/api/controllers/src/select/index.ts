@@ -243,4 +243,27 @@ export class SelectController {
   getSchoolType(@Query("search") search: string) {
     return this.appService.getSchoolType({ search });
   }
+
+  @Get("parent-status")
+  @ApiOperation({ summary: "Get Parent Status" })
+  @ApiResponse({
+    status: 400,
+    description: "Parent Status Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  getParentStatus(@Query("search") search: string) {
+    return this.appService.getParentStatus({ search });
+  }
+
+  @Get("school-type-major")
+  @ApiOperation({ summary: "Get School Type Major" })
+  @ApiResponse({
+    status: 400,
+    description: "School Type Major Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "school_type_id", required: false })
+  getSchoolMajor(@Query("search") search: string, @Query("school_type_id") school_type_id: string) {
+    return this.appService.getSchoolMajor({ search, school_type_id });
+  }
 }

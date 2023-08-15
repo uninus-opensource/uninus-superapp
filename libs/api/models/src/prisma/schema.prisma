@@ -104,17 +104,22 @@ model Students {
   department             Department?        @relation(fields: [department_id], references: [id])
   department_id          Int?
   academic_year          String?
+  user                   Users              @relation(fields: [user_id], references: [id])
   user_id                String             @unique
   createdAt              DateTime           @default(now())
-  user                   Users              @relation(fields: [user_id], references: [id])
+  pmb                    PMB?
 }
 
 model PMB {
-  id                  Int     @id @default(autoincrement())
-  first_deparment     Int
-  second_deparment    Int
+  id                  Int            @id @default(autoincrement())
+  first_deparment     Int?
+  second_deparment    Int?
   registration_status String?
   registration_number String?
+  selection_path      SelectionPath? @relation(fields: [selection_path_id], references: [id])
+  selection_path_id   Int?
+  student_id          String?        @unique
+  student             Students?      @relation(fields: [student_id], references: [id])
 }
 
 model Documents {
@@ -273,6 +278,7 @@ model Salary {
 model SelectionPath {
   id   Int    @id @default(autoincrement())
   name String
+  PMB  PMB[]
 }
 
 model Education {
