@@ -196,7 +196,7 @@ export const Navbar: FC = (): ReactElement => {
               size="lg"
               styling="bg-grayscale-1 text-secondary-green-4 text-xl"
               width="w-full"
-              height="h-9"
+              height="h-10"
             >
               Login
             </Button>
