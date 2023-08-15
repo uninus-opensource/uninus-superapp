@@ -99,9 +99,11 @@ model Students {
   parent_address         String?
   scholarship            Scholarship?       @relation(fields: [scholarship_id], references: [id])
   scholarship_id         Int?
+  disabilities           Disabilities?      @relation(fields: [disabilities_id], references: [id])
+  disabilities_id        Int?
   faculty                Faculty?           @relation(fields: [faculty_id], references: [id])
   faculty_id             Int?
-  department             Department?        @relation(fields: [department_id], references: [id])
+  department             Department?        @relation("student", fields: [department_id], references: [id])
   department_id          Int?
   academic_year          String?
   user                   Users              @relation(fields: [user_id], references: [id])
@@ -110,16 +112,39 @@ model Students {
   pmb                    PMB?
 }
 
+model StudentGrade {
+  id       Int     @id @default(autoincrement())
+  subject  String?
+  semester String?
+  grade    Float?
+  average  Float?
+  pmb      PMB?
+}
+
 model PMB {
-  id                  Int            @id @default(autoincrement())
-  first_deparment     Int?
-  second_deparment    Int?
-  registration_status String?
-  registration_number String?
-  selection_path      SelectionPath? @relation(fields: [selection_path_id], references: [id])
-  selection_path_id   Int?
-  student_id          String?        @unique
-  student             Students?      @relation(fields: [student_id], references: [id])
+  id                     Int                 @id @default(autoincrement())
+  degreeProgram          DegreeProgram?      @relation(fields: [degreeProgram_id], references: [id])
+  degreeProgram_id       Int?
+  first_deparment        Department?         @relation("first_deparment", fields: [first_deparment_id], references: [id])
+  first_deparment_id     Int?
+  second_deparment       Department?         @relation("second_deparment", fields: [second_deparment_id], references: [id])
+  second_deparment_id    Int?
+  registration_status    RegistrationStatus? @relation(fields: [registration_status_id], references: [id])
+  registration_status_id Int?
+  registration_number    String?
+  selection_path         SelectionPath?      @relation(fields: [selection_path_id], references: [id])
+  selection_path_id      Int?
+  student_id             String?             @unique
+  student                Students?           @relation(fields: [student_id], references: [id])
+  utbk                   Float?
+  student_grade          StudentGrade?       @relation(fields: [student_grade_id], references: [id])
+  student_grade_id       Int?                @unique
+}
+
+model RegistrationStatus {
+  id   Int     @id @default(autoincrement())
+  name String?
+  pmb  PMB[]
 }
 
 model Documents {
@@ -221,6 +246,7 @@ model DegreeProgram {
   name       String
   faculty    Faculty[]
   department Department[]
+  pmb        PMB[]
 }
 
 model Faculty {
@@ -239,7 +265,9 @@ model Department {
   degree_program_id Int?
   Faculty           Faculty?       @relation(fields: [faculty_id], references: [id])
   degreeProgram     DegreeProgram? @relation(fields: [degree_program_id], references: [id])
-  student           Students[]
+  student           Students[]     @relation("student")
+  first_deparment   PMB[]          @relation("first_deparment")
+  second_deparment  PMB[]          @relation("second_deparment")
 }
 
 model MaritalStatus {
@@ -322,8 +350,9 @@ model OcupationPosition {
 }
 
 model Disabilities {
-  id   Int    @id @default(autoincrement())
-  name String
+  id      Int        @id @default(autoincrement())
+  name    String
+  student Students[]
 }
 
 model Scholarship {

@@ -44,46 +44,59 @@ export class StudentService {
     };
   }
 
-  async updateStudent(args: IUpdateStudentRequest): Promise<any> {
-    console.log(args);
-    return "";
-    // const { id, fullname, avatar, ...updateStudentPayload } = args;
-    // const student = await this.prisma.users.update({
-    //   where: {
-    //     id,
-    //   },
-    //   data: {
-    //     fullname,
-    //     students: {
-    //       update: {
-    //         ...updateStudentPayload,
-    //         pmb: {
-    //           update: {},
-    //         },
-    //       },
-    //     },
-    //   },
-    //   select: {
-    //     avatar: true,
-    //     email: true,
-    //     fullname: true,
-    //     students: true,
-    //   },
-    // });
+  async updateStudent(args: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
+    const {
+      id,
+      fullname,
+      avatar,
+      email,
+      first_deparment_id,
+      second_deparment_id,
+      selection_path_id,
+      degreeProgram_id,
+      ...updateStudentPayload
+    } = args;
+    const student = await this.prisma.users.update({
+      where: {
+        id,
+      },
+      data: {
+        fullname,
+        students: {
+          update: {
+            ...updateStudentPayload,
+            pmb: {
+              update: {
+                first_deparment_id,
+                second_deparment_id,
+                selection_path_id,
+                degreeProgram_id,
+              },
+            },
+          },
+        },
+      },
+      select: {
+        avatar: true,
+        email: true,
+        fullname: true,
+        students: true,
+      },
+    });
 
-    // if (!student) {
-    //   throw new BadRequestException("User tidak ditemukan", {
-    //     cause: new Error(),
-    //   });
-    // }
+    if (!student) {
+      throw new BadRequestException("User tidak ditemukan", {
+        cause: new Error(),
+      });
+    }
 
-    // const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
-    // return {
-    //   avatar: student.avatar,
-    //   email: student.email,
-    //   fullname: student.fullname,
-    //   ...studentData,
-    // };
+    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
+    return {
+      avatar: student.avatar,
+      email: student.email,
+      fullname: student.fullname,
+      ...studentData,
+    };
   }
 
   async deleteStudent(args: IDeleteStudentRequest): Promise<IDeleteStudentResponse> {
@@ -129,11 +142,12 @@ export class StudentService {
           },
         },
         selection_path: true,
+        registration_status: true,
       },
     });
 
     if (!graduationStatus) {
-      throw new BadRequestException("Data tidak ditemukan", {
+      throw new BadRequestException("Nomor registrasi tidak ditemukan", {
         cause: new Error(),
       });
     }
@@ -143,7 +157,7 @@ export class StudentService {
       fullname: graduationStatus.student?.user.fullname,
       department: graduationStatus.student?.department?.name,
       selection_path: graduationStatus.selection_path?.name,
-      registration_status: graduationStatus.registration_status,
+      registration_status: graduationStatus.registration_status?.name,
     };
   }
 }

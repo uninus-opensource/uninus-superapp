@@ -70,6 +70,10 @@ export interface IUpdateStudentResponse extends IStudentData {
 }
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
   avatar: TFIle;
+  first_deparment_id?: number | null;
+  second_deparment_id?: number | null;
+  selection_path_id?: number | null;
+  degreeProgram_id?: number | null;
 }
 
 export type TGraduationStatusRequest = {
