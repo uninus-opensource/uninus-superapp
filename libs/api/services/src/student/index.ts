@@ -71,6 +71,7 @@ export class StudentService {
                 second_deparment_id,
                 selection_path_id,
                 degreeProgram_id,
+                registration_status_id: 2,
               },
             },
           },
@@ -80,7 +81,11 @@ export class StudentService {
         avatar: true,
         email: true,
         fullname: true,
-        students: true,
+        students: {
+          select: {
+            pmb: true,
+          },
+        },
       },
     });
 

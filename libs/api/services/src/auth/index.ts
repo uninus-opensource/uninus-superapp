@@ -96,6 +96,7 @@ export class AuthService {
             pmb: {
               create: {
                 registration_number: String(Math.random() * 100),
+                registration_status_id: 1,
               },
             },
           },
@@ -174,9 +175,6 @@ export class AuthService {
     const now = Date.now();
     const expirationTime = now + expiresIn;
 
-    if (now > expirationTime) {
-      throw new UnauthorizedException("Access Token telah berakhir");
-    }
     return {
       message: "Berhasil Login",
       token: {

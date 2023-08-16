@@ -106,7 +106,7 @@ model Students {
   department             Department?        @relation("student", fields: [department_id], references: [id])
   department_id          Int?
   academic_year          String?
-  user                   Users              @relation(fields: [user_id], references: [id])
+  user                   Users              @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id                String             @unique
   createdAt              DateTime           @default(now())
   pmb                    PMB?
@@ -118,7 +118,8 @@ model StudentGrade {
   semester String?
   grade    Float?
   average  Float?
-  pmb      PMB?
+  pmb      PMB?    @relation(fields: [pmb_id], references: [id], onDelete: Cascade)
+  pmb_id   Int?    @unique
 }
 
 model PMB {
@@ -135,10 +136,9 @@ model PMB {
   selection_path         SelectionPath?      @relation(fields: [selection_path_id], references: [id])
   selection_path_id      Int?
   student_id             String?             @unique
-  student                Students?           @relation(fields: [student_id], references: [id])
+  student                Students?           @relation(fields: [student_id], references: [id], onDelete: Cascade)
   utbk                   Float?
-  student_grade          StudentGrade?       @relation(fields: [student_grade_id], references: [id])
-  student_grade_id       Int?                @unique
+  student_grade          StudentGrade?
 }
 
 model RegistrationStatus {
@@ -237,7 +237,7 @@ model OTP {
   id        Int    @id @default(autoincrement())
   token     String
   user_id   String @unique
-  user      Users  @relation(fields: [user_id], references: [id])
+  user      Users  @relation(fields: [user_id], references: [id], onDelete: Cascade)
   expiredAt Int
 }
 
@@ -373,7 +373,7 @@ model Lecturers {
   nip       String   @unique
   createdAt DateTime @default(now())
   user_id   String   @unique
-  user      Users    @relation(fields: [user_id], references: [id])
+  user      Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Employees {
@@ -381,5 +381,5 @@ model Employees {
   nim       String   @unique
   createdAt DateTime @default(now())
   user_id   String   @unique
-  user      Users    @relation(fields: [user_id], references: [id])
+  user      Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
