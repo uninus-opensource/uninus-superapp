@@ -25,7 +25,11 @@ export class StudentService {
         avatar: true,
         email: true,
         fullname: true,
-        students: true,
+        students: {
+          include: {
+            pmb: true,
+          },
+        },
       },
     });
 
