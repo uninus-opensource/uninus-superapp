@@ -196,7 +196,6 @@ export class AppService {
     if (now > expirationTime) {
       throw new RpcException(new UnauthorizedException("Access Token telah berakhir"))
     }
-
     return {
       access_token,
       exp: expirationTime,

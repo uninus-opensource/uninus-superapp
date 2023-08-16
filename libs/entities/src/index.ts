@@ -5,3 +5,4 @@ export * from "./types";
 export * from "./templates";
 export * from "./interfaces";
 export * from "./enum";
+export * from "./class";

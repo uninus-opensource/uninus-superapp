@@ -8,6 +8,7 @@ import {
   VSForgotPassword,
   VSNewPassword,
   VSLogout,
+  CLoginResponse,
 } from "@uninus/entities";
 import { RtGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/validator";
@@ -56,8 +57,9 @@ export class AuthController {
   })
   @ApiResponse({ status: 401, description: "Password salah" })
   @ApiResponse({ status: 404, description: "Akun Tidak ditemukan" })
-  async login(@Body(new ZodValidationPipe(VSLogin)) LoginSwagger: LoginSwagger) {
-    return await this.appService.login(LoginSwagger);
+  async login(@Body(new ZodValidationPipe(VSLogin)) LoginSwagger: LoginSwagger):Promise<CLoginResponse> {
+    const res =  await this.appService.login(LoginSwagger)
+    return new CLoginResponse(res)
   }
 
   @HttpCode(HttpStatus.OK)

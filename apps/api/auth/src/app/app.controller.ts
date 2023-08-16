@@ -7,8 +7,8 @@ import { TForgotPasswordRequest, TLoginRequest, TLogoutRequest, TProfileResponse
 export class AppController {
   constructor(private readonly appService: AppService) {}
   @MessagePattern('login')
-  login(args: TLoginRequest) {
-    return this.appService.login(args);
+  async login(args: TLoginRequest) {
+    return await this.appService.login(args);
   }
 
   @MessagePattern('register')

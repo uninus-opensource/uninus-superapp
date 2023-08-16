@@ -24,7 +24,7 @@ import {
 } from "@uninus/entities";
 import { generateOtp, clearOtp } from "@uninus/api/utilities";
 import { ClientProxy } from "@nestjs/microservices";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, lastValueFrom } from "rxjs";
 
 @Injectable()
 export class AuthService {
@@ -68,7 +68,7 @@ export class AuthService {
   }
 
   async login(args: TLoginRequest): Promise<TLoginResponse> {
-      const response = await firstValueFrom(this.client.send("login", args));
+      const response = await lastValueFrom(this.client.send("login", args));
       return response;
   }
 
@@ -78,7 +78,10 @@ export class AuthService {
   }
 
   async refreshToken(reqToken: TReqToken): Promise<TResRefreshToken> {
-      const response = await firstValueFrom(this.client.send("refresh_token", reqToken));
+    const payload:TReqToken ={
+      user: reqToken.user
+    }
+      const response = await lastValueFrom(this.client.send("refreshToken", payload));
       return response;
   }
 
