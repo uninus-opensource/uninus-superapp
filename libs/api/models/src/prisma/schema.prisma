@@ -139,6 +139,7 @@ model PMB {
   student                Students?           @relation(fields: [student_id], references: [id], onDelete: Cascade)
   utbk                   Float?
   student_grade          StudentGrade?
+  document               Documents?
 }
 
 model RegistrationStatus {
@@ -148,9 +149,11 @@ model RegistrationStatus {
 }
 
 model Documents {
-  id   Int    @id @default(autoincrement())
-  name String
-  url  String
+  id     Int    @id @default(autoincrement())
+  name   String
+  url    String
+  pmb    PMB?   @relation(fields: [pmb_id], references: [id], onDelete: Cascade)
+  pmb_id Int?   @unique
 }
 
 model EducationTypes {
