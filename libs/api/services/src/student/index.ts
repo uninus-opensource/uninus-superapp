@@ -156,11 +156,8 @@ export class StudentService {
         cause: new Error(),
       });
     }
-
-    if (
-      String(graduationStatus.registration_status?.name?.toLowerCase) !== "lulus" ||
-      String(graduationStatus.registration_status?.name?.toLowerCase) !== "tidak lulus"
-    ) {
+    const { registration_status_id } = graduationStatus;
+    if ((registration_status_id as number) < 5) {
       return {
         message: "Sedang Dalam Proses Seleksi",
       };
