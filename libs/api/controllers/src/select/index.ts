@@ -266,4 +266,9 @@ export class SelectController {
   getSchoolMajor(@Query("search") search: string, @Query("school_type_id") school_type_id: string) {
     return this.appService.getSchoolMajor({ search, school_type_id });
   }
+
+  @Get("getRegistan")
+  async getRegistan() {
+    return this.appService.getTotalRegistrans();
+  }
 }
