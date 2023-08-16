@@ -4,6 +4,10 @@ export interface IGetStudentRequest {
 }
 
 export interface IStudentData {
+  first_deparment_id?: number | null;
+  second_deparment_id?: number | null;
+  selection_path_id?: number | null;
+  degree_program_id?: number | null;
   email?: string;
   fullname?: string;
   nik?: string | null;
@@ -70,10 +74,6 @@ export interface IUpdateStudentResponse extends IStudentData {
 }
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
   avatar: TFIle;
-  first_deparment_id?: number | null;
-  second_deparment_id?: number | null;
-  selection_path_id?: number | null;
-  degree_program_id?: number | null;
 }
 
 export type TGraduationStatusRequest = {
