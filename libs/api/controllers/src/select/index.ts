@@ -16,7 +16,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getProvince(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getProvince({ search });
+    return this.appService.getProvince({ search, id });
   }
 
   @Get("city")
@@ -33,7 +33,7 @@ export class SelectController {
     @Query("province_id") province_id: string,
     @Query("search") search: string,
   ) {
-    return this.appService.getCity({ province_id, search });
+    return this.appService.getCity({ province_id, search, id });
   }
 
   @Get("sub-district")
@@ -50,7 +50,7 @@ export class SelectController {
     @Query("city_id") city_id: string,
     @Query("search") search: string,
   ) {
-    return this.appService.getSubDistrict({ city_id, search });
+    return this.appService.getSubDistrict({ city_id, search, id });
   }
 
   @Get("degree-program")
@@ -79,7 +79,7 @@ export class SelectController {
     @Query("search") search: string,
     @Query("degree_program_id") degree_program_id: string,
   ) {
-    return this.appService.getFaculty({ search, degree_program_id });
+    return this.appService.getFaculty({ search, degree_program_id, id });
   }
 
   @Get("department")
@@ -98,7 +98,7 @@ export class SelectController {
     @Query("faculty_id") faculty_id: string,
     @Query("degree_program_id") degree_program_id: string,
   ) {
-    return this.appService.getDepartment({ search, faculty_id, degree_program_id });
+    return this.appService.getDepartment({ search, faculty_id, degree_program_id, id });
   }
 
   @Get("religion")
@@ -110,7 +110,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getReligion(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getReligion({ search });
+    return this.appService.getReligion({ search, id });
   }
 
   @Get("marital-status")
@@ -122,7 +122,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getMaritalStatus(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getMaritalStatus({ search });
+    return this.appService.getMaritalStatus({ search, id });
   }
 
   @Get("gender")
@@ -134,7 +134,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getGender(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getGender({ search });
+    return this.appService.getGender({ search, id });
   }
 
   @Get("citizenship")
@@ -146,7 +146,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getCitizenship(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getCitizenship({ search });
+    return this.appService.getCitizenship({ search, id });
   }
 
   @Get("selection-path")
@@ -158,7 +158,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getSelectionPath(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getSelectionPath({ search });
+    return this.appService.getSelectionPath({ search, id });
   }
 
   @Get("salary")
@@ -170,7 +170,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getSalary(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getSalary({ search });
+    return this.appService.getSalary({ search, id });
   }
 
   @Get("education-history")
@@ -187,7 +187,7 @@ export class SelectController {
     @Query("search") search: string,
     @Query("npsn") npsn: string,
   ) {
-    return this.appService.getEducationHistory({ search, npsn });
+    return this.appService.getEducationHistory({ search, npsn, id });
   }
 
   @Get("country")
@@ -204,7 +204,7 @@ export class SelectController {
     @Query("search") search: string,
     @Query("citizenship") citizenship_id: string,
   ) {
-    return this.appService.getCountry({ search, citizenship_id });
+    return this.appService.getCountry({ search, citizenship_id, id });
   }
 
   @Get("occupation")
@@ -216,7 +216,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getOccupation(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getOccupation({ search });
+    return this.appService.getOccupation({ search, id });
   }
 
   @Get("occupation-position")
@@ -233,7 +233,7 @@ export class SelectController {
     @Query("search") search: string,
     @Query("occupation_id") occupation_id: string,
   ) {
-    return this.appService.getOccupationPosition({ search, occupation_id });
+    return this.appService.getOccupationPosition({ search, occupation_id, id });
   }
 
   @Get("disabilities")
@@ -245,7 +245,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getDisablities(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getDisabilites({ search });
+    return this.appService.getDisabilites({ search, id });
   }
 
   @Get("year-graduate")
@@ -267,7 +267,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getScholarship(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getScholarship({ search });
+    return this.appService.getScholarship({ search, id });
   }
 
   @Get("school-type")
@@ -279,7 +279,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getSchoolType(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getSchoolType({ search });
+    return this.appService.getSchoolType({ search, id });
   }
 
   @Get("parent-status")
@@ -291,7 +291,7 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getParentStatus(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getParentStatus({ search });
+    return this.appService.getParentStatus({ search, id });
   }
 
   @Get("school-type-major")
@@ -308,6 +308,6 @@ export class SelectController {
     @Query("search") search: string,
     @Query("school_type_id") school_type_id: string,
   ) {
-    return this.appService.getSchoolMajor({ search, school_type_id });
+    return this.appService.getSchoolMajor({ search, school_type_id, id });
   }
 }

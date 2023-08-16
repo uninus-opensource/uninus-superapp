@@ -14,19 +14,22 @@ export class UpdateStudentSwagger {
   nisn!: string;
 
   @ApiProperty()
+  no_kk!: string;
+
+  @ApiProperty()
+  gender_id!: number;
+
+  @ApiProperty()
+  relogion_id!: number;
+
+  @ApiProperty()
   birth_place!: string;
 
   @ApiProperty()
   birth_date!: string;
 
   @ApiProperty()
-  gender_id!: number;
-
-  @ApiProperty()
   phone_number!: string;
-
-  @ApiProperty()
-  religion_id!: number;
 
   @ApiProperty()
   citizenship_id!: number;
@@ -56,83 +59,101 @@ export class UpdateStudentSwagger {
   education_major_id!: number;
 
   @ApiProperty()
+  graduation_year!: string;
+
+  @ApiProperty()
   education_npsn!: string;
 
   @ApiProperty()
   father_name!: string;
 
   @ApiProperty()
-  mother_name!: string;
-
-  @ApiProperty()
-  guardian_name!: string;
-
-  @ApiProperty()
-  father_status_id!: string;
-
-  @ApiProperty()
-  mother_status_id!: string;
-
-  @ApiProperty()
-  guardian_status_id!: string;
-
-  @ApiProperty()
-  parent_address!: string;
-
-  @ApiProperty()
-  parent_subdistrict_id!: number;
-
-  @ApiProperty()
-  parent_province_id!: number;
-
-  @ApiProperty()
-  parent_city_id!: number;
+  father_status_id!: number;
 
   @ApiProperty()
   father_education_id!: number;
 
   @ApiProperty()
-  mother_education_id!: number;
-
-  @ApiProperty()
-  guardian_education_id!: number;
-
-  @ApiProperty()
   father_occupation_id!: number;
 
   @ApiProperty()
-  father_occupation_position_id!: number;
-
-  @ApiProperty()
-  mother_occupation_id!: number;
-
-  @ApiProperty()
-  mother_occupation_position_id!: number;
-
-  @ApiProperty()
-  guardian_occupation_id!: number;
-
-  @ApiProperty()
-  guardian_occupation_position_id!: number;
+  father_position_id!: number;
 
   @ApiProperty()
   father_salary_id!: number;
 
   @ApiProperty()
+  mother_name!: string;
+
+  @ApiProperty()
+  mother_status_id!: number;
+
+  @ApiProperty()
+  mother_education_id!: number;
+
+  @ApiProperty()
+  mother_occupation_id!: number;
+
+  @ApiProperty()
+  mother_position_id!: number;
+
+  @ApiProperty()
   mother_salary_id!: number;
+
+  @ApiProperty()
+  guardian_name!: string;
+
+  @ApiProperty()
+  guardian_status_id!: number;
+
+  @ApiProperty()
+  guardian_education_id!: number;
+
+  @ApiProperty()
+  guardian_occupation_id!: number;
+
+  @ApiProperty()
+  guardian_position_id!: number;
 
   @ApiProperty()
   guardian_salary_id!: number;
 
   @ApiProperty()
-  guardian_subdistrict_id!: number;
+  parent_province!: number;
 
   @ApiProperty()
-  guardian_province_id!: number;
+  parent_subdistrict_id!: number;
 
   @ApiProperty()
-  guardian_city_id!: number;
+  parent_city_id!: number;
+
+  @ApiProperty()
+  parent_address!: string;
+
+  @ApiProperty()
+  scholarship_id!: number;
+
+  @ApiProperty()
+  disabilities_id!: number;
+
+  @ApiProperty()
+  faculty_id!: number;
+
+  @ApiProperty()
+  department_id!: number;
 
   @ApiProperty()
   academic_year!: string;
+
+  @ApiProperty()
+  degree_program_id!: number;
+
+  @ApiProperty()
+  first_deparment_id!: number;
+
+  @ApiProperty()
+  second_deparment_id!: number;
+
+  @ApiProperty()
+  selection_path_id!: number;
 }
