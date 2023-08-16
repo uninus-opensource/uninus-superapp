@@ -34,7 +34,10 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
   }, [isActive]);
 
   return (
-    <section className="flex flex-col gap-6 lg:p-6 lg:w-7/12 xl:w-8/12 w-auto items-center">
+    <section
+      data-testid="Tab"
+      className="flex flex-col gap-6 lg:p-6 lg:w-7/12 xl:w-8/12 w-auto items-center"
+    >
       <h1
         className=" border-black uppercase text-primary-white bg-secondary-green-4 rounded-lg
           text-2xl font-extramedium p-4 text-center w-5/6"
@@ -57,10 +60,10 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
             </Button>
           ))}
         </div>
-        <div className="flex flex-col justify-center gap-2 text-sm">
+        <div data-testid="content-text" className="flex flex-col justify-center gap-2 text-sm">
           <h1 className="text-xl font-extramedium">Persyaratan</h1>
 
-          <p className={isActive === 1 ? "block" : "hidden"}>
+          <p data-testid="content-1" className={isActive === 1 ? "block" : "hidden"}>
             1. Nilai Rapor Rata-rata ≥ 70 untuk 3 Mata Pelajaran (Matematika, Bahasa Inggris &
             Bahasa Indonesia) semester 1 s.d semester 4 bagi siswa kelas XII Angkatan 2022/2023 dan
             semester 1 s.d semester 6 bagi siswa Angkatan sebelumnya
@@ -68,12 +71,12 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
             <br />
             2. Nilai UTBK atau hasil SBMPTN/SNBT Rata-rata ≥ 450
           </p>
-          <p className={`mt-2 ${isActive === 2 ? "block" : "hidden"}`}>
+          <p data-testid="content-2" className={`mt-2 ${isActive === 2 ? "block" : "hidden"}`}>
             Prestasi/Juara lomba dibidang akademik atau non akademik yang pernah diraih oleh calon
             mahasiswa ketika duduk di bangku SMA/SMK/MA atau setelah lulus, dengan standar prestasi
             minimal Juara 3 di perlombaan tingkat Kota/Kabupaten dan bagi penghafal Qur'an (Tahfidz)
           </p>
-          <p className={`mt-4 ${isActive === 3 ? "block" : "hidden"}`}>
+          <p data-testid="content-3" className={`mt-4 ${isActive === 3 ? "block" : "hidden"}`}>
             Jalur seleksi berdasarkan hasil test, dengan standar kelulusan passing grade sebesar 60
           </p>
         </div>
