@@ -33,7 +33,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
           <BerkasKhususSection />
         </section>
         <div className="flex gap-6 justify-end px-8">
-          <Link href="/dashboard/registrasi/pembayaran">
+          <Link href="/dashboard/registrasi/pembayaran/detail">
             <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
               Reguler
             </Button>

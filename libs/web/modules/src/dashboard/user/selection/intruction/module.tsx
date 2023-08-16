@@ -4,7 +4,7 @@ import { Button } from "@uninus/web/components";
 import { Modal } from "@uninus/web/components";
 import { PiWarningCircleBold } from "react-icons/pi";
 export const IntructionTestModule: FC = (): ReactElement => {
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => setShowModal(!showModal);
   return (
