@@ -62,7 +62,15 @@ export class UserService {
         fullname: true,
         email: true,
         avatar: true,
-        students: true,
+        students: {
+          select: {
+            pmb: {
+              select: {
+                registration_status: true,
+              },
+            },
+          },
+        },
       },
     });
     if (!user) {
@@ -70,8 +78,10 @@ export class UserService {
         cause: new Error(),
       });
     }
+    const { students, ...dataUser } = user;
     return {
-      data: user,
+      registration_status: students?.pmb?.registration_status?.name,
+      ...dataUser,
     };
   }
 
