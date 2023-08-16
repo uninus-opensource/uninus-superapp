@@ -17,6 +17,7 @@
     "paths": {
       "@uninus/api": ["libs/api/index.ts"],
       "@uninus/api/controllers": ["libs/api/controllers/src/index.ts"],
+      "@uninus/api/filter": ["libs/api/filter/src/index.ts"],
       "@uninus/api/guard": ["libs/api/guard/src/index.ts"],
       "@uninus/api/master": ["libs/api/master/src/index.ts"],
       "@uninus/api/models": ["libs/api/models/src/index.ts"],
@@ -25,7 +26,6 @@
       "@uninus/api/strategies": ["libs/api/strategies/src/index.ts"],
       "@uninus/api/utilities": ["libs/api/utilities/src/index.ts"],
       "@uninus/api/validator": ["libs/api/validator/src/index.ts"],
-      "@uninus/api/filter": ["libs/api/filter/src/index.ts"],
       "@uninus/entities": ["libs/entities/src/index.ts"],
       "@uninus/my-lib": ["libs/my-lib/src/index.ts"],
       "@uninus/utilities": ["libs/utilities/src/index.ts"],
