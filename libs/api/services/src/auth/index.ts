@@ -95,7 +95,7 @@ export class AuthService {
             phone_number: `62${data.phone_number}`,
             pmb: {
               create: {
-                registration_number: String(Math.random() * 100),
+                registration_number: String(Math.floor(1000000000 + Math.random() * 9000000000)),
                 registration_status_id: 1,
               },
             },
