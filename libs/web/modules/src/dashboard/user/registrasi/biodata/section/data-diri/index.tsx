@@ -426,7 +426,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             options={disabilitiesOptions || []}
             isClearable={true}
             isSearchable={true}
-            name="province"
+            name="difabel"
+            required={false}
             control={control}
             isMulti={false}
           />
