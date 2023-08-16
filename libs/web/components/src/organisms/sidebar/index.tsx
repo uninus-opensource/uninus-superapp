@@ -81,6 +81,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
       )}
       {/* Desktop */}
       <aside
+        data-testid="sidebar"
         className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[22vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
         <section className={` w-full flex flex-col items-center gap-y-2`}>

@@ -82,7 +82,7 @@ export const Navbar: FC = (): ReactElement => {
         </figure>
         <nav>
           {/* Desktop */}
-          <div className="hidden lg:block">
+          <div className="hidden lg:block" data-testid="navDesktop">
             <ul className="flex gap-4">
               {navList.map((nav, idx) => (
                 <li key={idx}>
