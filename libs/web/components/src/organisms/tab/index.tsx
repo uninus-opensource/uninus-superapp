@@ -34,7 +34,10 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
   }, [isActive]);
 
   return (
-    <section data-testid="Tab" className="flex flex-col gap-6 lg:p-6 lg:w-8/12 w-auto items-center">
+    <section
+      data-testid="Tab"
+      className="flex flex-col gap-6 lg:p-6 lg:w-7/12 xl:w-8/12 w-auto items-center"
+    >
       <h1
         className=" border-black uppercase text-primary-white bg-secondary-green-4 rounded-lg
           text-2xl font-extramedium p-4 text-center w-5/6"
@@ -47,7 +50,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
             <Button
               key={idx}
               size="sm"
-              styling="text-left leading-4"
+              styling="text-left text-xl leading-4"
               width="lg:w-[400px] w-[150px]"
               height="h-full"
               onClick={() => setIsActive(list.no)}

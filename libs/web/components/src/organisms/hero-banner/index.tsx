@@ -140,7 +140,7 @@ export const HeroBanner: FC<TbannerProps> = ({
   return isSlider ? (
     <div data-testid="hero-slider" className="flex items-center justify-center">
       <AliceCarousel
-        key="carousel"
+        key="slider-carousel-landing"
         {...cardProps}
         autoHeight
         animationType="slide"

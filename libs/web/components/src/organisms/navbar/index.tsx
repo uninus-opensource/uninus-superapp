@@ -109,7 +109,7 @@ export const Navbar: FC = (): ReactElement => {
               animate={{
                 y: isDropDown ? [-10, 0] : [0, -10],
               }}
-              className="hidden lg:flex absolute w-36 h-24 z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-[5.7rem] bg-primary-green"
+              className="hidden lg:flex absolute w-36 h-28 z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-[5.7rem] bg-primary-green"
               onMouseEnter={navList[1]?.state}
               onMouseLeave={navList[1]?.state2}
             >

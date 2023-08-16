@@ -22,7 +22,7 @@ describe("Test Tab Component", () => {
     const { getByTestId, getAllByText } = render(<TabJalurSeleksi />);
     expect(getByTestId("Tab")).toBeInTheDocument();
     expect(getByTestId("Tab")).toHaveClass(
-      "flex flex-col gap-6 lg:p-6 lg:w-8/12 w-auto items-center",
+      "flex flex-col gap-6 lg:p-6 lg:w-7/12 xl:w-8/12 w-auto items-center",
     );
 
     expect(getAllByText("jalur seleksi pmb uninus")).toBeDefined();
