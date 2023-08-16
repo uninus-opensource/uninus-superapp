@@ -73,7 +73,7 @@ export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData 
   first_deparment_id?: number | null;
   second_deparment_id?: number | null;
   selection_path_id?: number | null;
-  degreeProgram_id?: number | null;
+  degree_program_id?: number | null;
 }
 
 export type TGraduationStatusRequest = {

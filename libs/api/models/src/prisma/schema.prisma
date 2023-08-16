@@ -124,8 +124,8 @@ model StudentGrade {
 
 model PMB {
   id                     Int                 @id @default(autoincrement())
-  degreeProgram          DegreeProgram?      @relation(fields: [degreeProgram_id], references: [id])
-  degreeProgram_id       Int?
+  degree_program         DegreeProgram?      @relation(fields: [degree_program_id], references: [id])
+  degree_program_id      Int?
   first_deparment        Department?         @relation("first_deparment", fields: [first_deparment_id], references: [id])
   first_deparment_id     Int?
   second_deparment       Department?         @relation("second_deparment", fields: [second_deparment_id], references: [id])

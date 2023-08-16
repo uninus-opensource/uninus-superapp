@@ -53,7 +53,7 @@ export class StudentService {
       first_deparment_id,
       second_deparment_id,
       selection_path_id,
-      degreeProgram_id,
+      degree_program_id,
       ...updateStudentPayload
     } = args;
     const student = await this.prisma.users.update({
@@ -70,7 +70,7 @@ export class StudentService {
                 first_deparment_id,
                 second_deparment_id,
                 selection_path_id,
-                degreeProgram_id,
+                degree_program_id,
                 registration_status_id: 2,
               },
             },
