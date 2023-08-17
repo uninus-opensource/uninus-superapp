@@ -2,10 +2,10 @@
 import { CopyOutlined, DownloadOutlined } from "@ant-design/icons";
 import { BreadCrumb, Button } from "@uninus/web/components";
 import dynamic from "next/dynamic";
-import { FC, Fragment, ReactElement, useState } from "react";
+import { FC, ReactElement, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { KartuPembayaran } from "./pdf";
+import { KartuPembayaran } from "../pdf";
 
 const PDFDownloadLink = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
@@ -21,6 +21,10 @@ const BlobProvider = dynamic(() => import("@react-pdf/renderer").then((mod) => m
 });
 
 export const pembayaranBreadcrumb = [
+  {
+    name: "Beranda",
+    link: "/dashboard",
+  },
   {
     name: "Registrasi",
     link: "/dashboard/registrasi/biodata",
@@ -55,16 +59,16 @@ export const Pembayaran: FC = (): ReactElement => {
   };
 
   return (
-    <Fragment key="regist-pembayaran">
-      <div className="flex flex-col items-center lg:items-start p-5 lg:p-0 lg:py-4">
-        <span className="flex gap-2">
-          <h1 className="text-xs md:text-sm text-slate-5 font-bold">PMB/</h1>
-          <BreadCrumb items={pembayaranBreadcrumb} />
-        </span>
+    <section
+      key="regist-pembayaran"
+      className="flex flex-col text-center px-4 gap-y-6 lg:text-start"
+    >
+      <BreadCrumb items={pembayaranBreadcrumb} />
+      <h1 className="text-lg 2xl:text-2xl pt-2 font-extrabold text-secondary-green-4">
+        Pembayaran Registrasi
+      </h1>
 
-        <p className="text-lg font-bold text-secondary-green-4">Pembayaran Registrasi</p>
-      </div>
-      <section className="h-auto w-[90vw] lg:w-[60vw] xl:w-[70vw] shadow-[0px_4px_8px_0px_rgba(0,0,0,0.10)] flex flex-col">
+      <section className="h-auto w-[90vw] lg:w-[60vw] xl:w-[70vw] shadow-md flex flex-col">
         <ToastContainer
           position="top-center"
           autoClose={5000}
@@ -102,7 +106,7 @@ export const Pembayaran: FC = (): ReactElement => {
 
         <div className="bg-primary-green w-full h-[3px] mt-3"></div>
 
-        <div className="border border-primary-orange rounded-md mt-7 h-[6rem] xl:h-[5rem] w-[80vw] sm:w-[85vw] lg:w-[55vw] xl:w-[65vw] flex flex-col justify-evenly mx-auto pl-3 md:pl-5">
+        <div className="border border-primary-orange rounded-md mt-7 h-auto xl:h-[5rem] w-[80vw] sm:w-[85vw] lg:w-[55vw] xl:w-[65vw] flex flex-col justify-evenly mx-auto pl-3 md:pl-5">
           <h1 className="text-primary-orange font-bold text-[1rem] ml-2">
             Segera Selesaikan Pembayaranmu!
           </h1>
@@ -112,41 +116,42 @@ export const Pembayaran: FC = (): ReactElement => {
             </h2>
           </div>
         </div>
-
-        <h2 className="text-grayscale-6 mt-5 ml-3 md:ml-5">Nomor Virtual Account</h2>
-        <div className="mt-2 flex justify-between mx-3 md:mx-5">
-          <h2 className="font-bold">4444081904377804</h2>
-          <div
-            className="flex gap-2 justify-between items-center hover:cursor-pointer"
-            onClick={copyText}
-          >
-            <p className="text-primary-green">salin</p>
-            <CopyOutlined className="text-primary-green" />
+        <div className="px-4">
+          <h2 className="text-grayscale-6 mt-5 ml-3 md:ml-5">Nomor Virtual Account</h2>
+          <div className="mt-2 flex justify-between mx-3 md:mx-5">
+            <h2 className="font-bold">4444081904377804</h2>
+            <div
+              className="flex gap-2 justify-between items-center hover:cursor-pointer"
+              onClick={copyText}
+            >
+              <p className="text-primary-green">salin</p>
+              <CopyOutlined className="text-primary-green" />
+            </div>
           </div>
-        </div>
 
-        <h2 className="text-grayscale-6 mt-5 ml-3 md:ml-5">
-          Total Pembayaran (Belum termasuk admin)
-        </h2>
-        <div className="mt-2 flex justify-between mx-3 md:mx-5">
-          <h2 className="font-bold">Rp. 250.000</h2>
-          <BlobProvider document={<KartuPembayaran />}>
-            {({ url }) => (
-              <a
-                href={url != null ? url : ""}
-                target="_blank"
-                rel="noreferrer"
-                className="text-primary-green"
-              >
-                Lihat Detail
-              </a>
-            )}
-          </BlobProvider>
-        </div>
+          <h2 className="text-grayscale-6 mt-5 ml-3 md:ml-5">
+            Total Pembayaran (Belum termasuk admin)
+          </h2>
+          <div className="mt-2 flex justify-between mx-3 md:mx-5">
+            <h2 className="font-bold">Rp. 250.000</h2>
+            <BlobProvider document={<KartuPembayaran />}>
+              {({ url }) => (
+                <a
+                  href={url != null ? url : ""}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-primary-green"
+                >
+                  Lihat Detail
+                </a>
+              )}
+            </BlobProvider>
+          </div>
 
-        <h2 className="text-grayscale-6 mt-5 ml-3 md:ml-5">Selesaikan Pembayaran Sebelum</h2>
-        <h2 className="font-bold mt-2 py-2 ml-3 md:ml-5">22 Agustus 2023, 23:59 WIB</h2>
+          <h2 className="text-grayscale-6 mt-5 ml-3 md:ml-5">Selesaikan Pembayaran Sebelum</h2>
+          <h2 className="font-bold mt-2 py-2 ml-3 md:ml-5">22 Agustus 2023, 23:59 WIB</h2>
+        </div>
       </section>
-    </Fragment>
+    </section>
   );
 };

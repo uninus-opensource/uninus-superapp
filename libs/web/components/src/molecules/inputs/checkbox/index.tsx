@@ -18,9 +18,9 @@ export const CheckBox = <T extends FieldValues>({
   });
 
   const checkboxVariant = clsx(
-    "bg-gray-300 border-gray-300 checked:scale-110 duration-300 rounded-full",
+    "bg-gray-300 border-gray-300 checked:scale-110 checked:bg-primary-green duration-300 rounded-full",
     {
-      "accent-primary-green focus:accent-sexondary-green-2 rounded-full text-primary-green focus:ring-0 ring-0 ring-primary-white":
+      "accent-primary-green focus:accent-sexondary-green-2 checked:bg-primary-green rounded-full text-primary-green focus:ring-0 ring-0 ring-primary-white":
         variant === CHECKBOX_VARIANT.PRIMARY,
       "accent-red-300 focus:accent-red-400": variant === CHECKBOX_VARIANT.ERROR,
       "accent-yellow-300 focus:accent-yellow-400": variant === CHECKBOX_VARIANT.WARNING,
@@ -33,7 +33,7 @@ export const CheckBox = <T extends FieldValues>({
     "text-lg font-extramedium": labelSize === LABEL_SIZE.LG,
   });
 
-  const className = `${checkboxSize} ${checkboxVariant}`;
+  const className = `${checkboxSize} ${checkboxVariant} checked:bg-primary-green`;
 
   const { field } = useController({
     ...props,
