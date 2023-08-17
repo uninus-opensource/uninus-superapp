@@ -131,7 +131,7 @@
     "@nx/nest": "16.7.0",
     "@nx/next": "16.7.0",
     "@nx/node": "16.7.0",
-    "@nx/react": "16.7.0",
+    "@nx/react": "16.7.1",
     "@nx/webpack": "16.7.0",
     "@nx/workspace": "16.7.0",
     "@swc/cli": "~0.1.62",
