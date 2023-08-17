@@ -278,6 +278,7 @@ export const DataDiriSection: FC = (): ReactElement => {
 
           <SelectOption
             labels="Agama"
+            labelClassName="font-bold text-xs py-2"
             className=" rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
             placeholder="Agama"
             options={religionOptions || []}
@@ -316,6 +317,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             <SelectOption
               name="marital_status"
               labels="Status"
+              labelClassName="font-bold text-xs py-2"
               placeholder="Status"
               className=" rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
               options={statusOptions || []}
@@ -340,9 +342,9 @@ export const DataDiriSection: FC = (): ReactElement => {
           <SelectOption
             name="country"
             labels="Asal Negara"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Asal Negara"
             className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
-            labelClassName="font-bold"
             options={countryOptions || []}
             isClearable={true}
             isSearchable={true}
@@ -353,8 +355,8 @@ export const DataDiriSection: FC = (): ReactElement => {
 
           <SelectOption
             labels="Provinsi"
+            labelClassName="font-bold text-xs py-2"
             className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
-            labelClassName="font-bold"
             options={provinceOptions || []}
             placeholder="Provinsi"
             isSearchable={true}
@@ -367,7 +369,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           <SelectOption
             labels="Kota/Kabupaten"
             className="rounded-md text-primary-black  w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={cityOptions || []}
             placeholder="Kota/Kabupaten"
             isSearchable={true}
@@ -380,7 +382,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           <SelectOption
             labels="Kecamatan"
             className="rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={subDistrictOptions || []}
             placeholder="Kecamatan"
             isSearchable={true}
@@ -423,6 +425,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             labels="Kategori Difabel"
             className=" rounded-md text-primary-black lg:w-auto w-70% xl:w-[25vw] md:w-[33vw]"
             placeholder="Kategori Difabel"
+            labelClassName="font-bold text-xs py-2"
             options={disabilitiesOptions || []}
             isClearable={true}
             isSearchable={true}
