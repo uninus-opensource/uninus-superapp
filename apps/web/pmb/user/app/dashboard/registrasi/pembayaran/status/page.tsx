@@ -4,7 +4,7 @@ import { Pembayaran } from "@uninus/web/modules";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard PMB | Form Data Diri",
+  title: "Dashboard PMB | Regist Pembayaran",
 };
 
 const DashboardPembayaran: NextPage = (): ReactElement => <Pembayaran key="regist-pembayaran" />;

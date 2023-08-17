@@ -49,7 +49,7 @@ export const RadioButton = <T extends FieldValues>({
       <h3 className="text-xs font-semibold">
         {props.fieldName} <span className="ml-1 font-bold text-primary-green">*</span>
       </h3>
-      <div className="flex items-center gap-x-4 xl:gap-x-8 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start">
+      <div className="flex flex-col items-center gap-x-4 xl:gap-x-8 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start">
         {props.options?.map((item, idx) => (
           <div key={idx}>
             <input
