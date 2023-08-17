@@ -4,6 +4,8 @@ import { FC, ReactElement, useMemo, useState } from "react";
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { useScholarshipGet } from "./hooks";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
 
@@ -23,7 +25,10 @@ export const beasiswaBreadcrumb = [
 ];
 
 export const BeasiswaDashboardModule: FC = (): ReactElement => {
-  const { control } = useForm<FieldValues>({
+  const {
+    control,
+    formState: { isValid },
+  } = useForm<FieldValues>({
     mode: "all",
   });
 
@@ -41,6 +46,16 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
       })),
     [getScholarship?.scholarship],
   );
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const handleButtonClick = () => {
+    if (isButtonDisabled) {
+      return;
+    }
+    setIsButtonDisabled(true);
+    toast.success("Beasiswa Berhasil Disimpan!");
+  };
+
   return (
     <section
       key="dashboard-beasiswa"
@@ -60,9 +75,9 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
         </div>
       </div>
       <div className="flex flex-col p-8 bg-primary-white shadow-lg rounded-md w-full lg:h-[240px] h-auto">
-        <h1 className="text-xl">Pilih salah satu beasiswa yang tersedia</h1>
         <SelectOption
-          labels=""
+          labels="Pilih salah satu beasiswa yang tersedia"
+          labelClassName="text-xl py-2"
           className="shadow-md bg-slate-4 rounded-md text-primary-black w-full"
           placeholder="Pilih Beasiswa"
           options={scholarshipOptions || []}
@@ -70,13 +85,34 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
           isSearchable={false}
           name="beasiwa"
           control={control}
-          required={false}
+          required={true}
           isMulti={false}
         />
         <div className="flex w-full justify-center lg:justify-end py-8">
-          <Button type="button" variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
+          <Button
+            onClick={handleButtonClick}
+            type="button"
+            variant="filled"
+            size="md"
+            width="w-50% lg:w-25% xl:w-15%"
+            disabled={isButtonDisabled || !isValid}
+            className={`${
+              isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"
+            } text-white rounded-md`}
+          >
             Submit
           </Button>
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
         </div>
       </div>
       <div className="flex w-full justify-between py-8">

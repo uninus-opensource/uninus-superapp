@@ -36,8 +36,8 @@ export const BerkasKhususSection: FC = (): ReactElement => {
 
   return (
     <Accordion
-      title="Berkas Khusus (optional)"
-      className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
+      title="Berkas Khusus Optional"
+      className="w-full h-auto mt-[2rem] flex flex-col items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] gap-5"
     >
       <form onSubmit={onSubmit} className="w-[80%] ">
         <section className="flex flex-col gap-10 w-[70vw] mt-10 md:mt-0 md:w-[60%] lg:w-full ">

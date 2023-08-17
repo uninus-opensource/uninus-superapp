@@ -24,7 +24,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
       </div>
 
       <section className="flex flex-col gap-4 w-full bg-primary-white p-8 rounded-lg shadow-lg">
-        <section className="flex flex-col gap-8 py-10 w-full justify-center items-center rounded-lg bg-primary-white overflow-x-hidden">
+        <section className="flex flex-col gap-8 w-full justify-center py-2 items-center rounded-lg bg-primary-white overflow-x-hidden">
           {/* Accordion section */}
           <DataDiriSection />
           <DataPendidikanSection />
@@ -32,7 +32,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
           <DataOrtuSection />
           <BerkasKhususSection />
         </section>
-        <div className="flex gap-6 justify-end px-8">
+        <div className="flex gap-6 justify-end px-8 py-4">
           <Link href="/dashboard/registrasi/pembayaran/detail">
             <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
               Reguler

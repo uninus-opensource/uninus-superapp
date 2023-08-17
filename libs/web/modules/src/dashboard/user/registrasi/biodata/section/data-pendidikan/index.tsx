@@ -98,6 +98,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           <SelectOption
             name="school_type"
             labels="Jenis Pendidikan Asal"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Jenis Pendidikan"
             className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             options={[
@@ -121,6 +122,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           />
           <SelectOption
             name="graduation_year"
+            labelClassName="font-bold text-xs py-2"
             labels="Tahun Lulus"
             placeholder="Tahun Lulus"
             options={graduateOptions || []}
@@ -144,6 +146,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           <SelectOption
             name="school_name"
             labels="Nama Sekolah Asal"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Masukan Sekolah Asal"
             options={[
               {
@@ -169,6 +172,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             <SelectOption
               name="school_major"
               labels="Jurusan Pendidikan Asal"
+              labelClassName="font-bold text-xs py-2"
               placeholder="Jurusan Pendidikan"
               options={[
                 {
@@ -194,7 +198,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           <SelectOption
             labels="Provinsi"
             className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={provinceOptions || []}
             placeholder="Provinsi"
             isSearchable={true}
@@ -206,7 +210,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           <SelectOption
             labels="Kota/ Kabupaten"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={cityOptions || []}
             placeholder="Kota/Kabupaten"
             isSearchable={true}
@@ -219,7 +223,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           <SelectOption
             labels="Kecamatan"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={subDistrictOptions || []}
             placeholder="Kecamatan"
             isSearchable={true}

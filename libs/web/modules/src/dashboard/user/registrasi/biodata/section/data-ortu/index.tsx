@@ -130,6 +130,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="school_subdistrict"
             labels="Status Ayah"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Status Ayah"
             options={[
               {
@@ -150,6 +151,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="father_education"
             labels="Pendidikan Terahir Ayah"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Pendidikan"
             options={[
               {
@@ -174,6 +176,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="father_profecy"
             labels="Pekerjaan Ayah"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Pilih Pekerjaan"
             options={occupationOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
@@ -185,6 +188,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="father_income"
             labels="Pendapatan Ayah ( Per Bulan )"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Pilih Pendapatan"
             options={salaryOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
@@ -215,6 +219,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             name="status_mother"
             labels="Status Ibu"
             placeholder="Status Ibu"
+            labelClassName="font-bold text-xs py-2"
             options={[
               {
                 label: "Meninggal",
@@ -234,6 +239,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="mother_education"
             labels="Pendidikan Terahir Ibu"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Pendidikan"
             options={[
               {
@@ -260,6 +266,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             labels="Pekerjaan Ibu"
             placeholder="Pilih Pekerjaan"
             options={occupationOptions || []}
+            labelClassName="font-bold text-xs py-2"
             className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
             isSearchable={true}
             control={control}
@@ -269,6 +276,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="mother_income"
             labels="Pendapatan Ibu ( Per Bulan )"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Pilih Pendapatan"
             options={salaryOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
@@ -286,7 +294,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             labels="Provinsi"
             className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={provinceOptions || []}
             placeholder="Provinsi"
             isSearchable={true}
@@ -298,7 +306,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             labels="Kota/Kabupaten"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={cityOptions || []}
             placeholder="Kota/Kabupaten"
             isSearchable={true}
@@ -311,7 +319,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             labels="Kecamatan"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={subDistrictOptions || []}
             placeholder="Kecamatan"
             isSearchable={true}
@@ -379,6 +387,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="status_gardian"
             labels="Status Wali"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Status Wali"
             options={[
               {
@@ -399,6 +408,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="guardian_education"
             labels="Pendidikan Terahir Wali"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Pendidikan"
             options={[
               {
@@ -423,6 +433,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="guardian_profecy"
             labels="Pekerjaan Wali"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Pilih Pekerjaan"
             options={occupationOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
@@ -434,6 +445,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="guardian_income"
             labels="Pendapatan Wali ( Per Bulan )"
+            labelClassName="font-bold text-xs py-2"
             placeholder="Pilih Pendapatan"
             options={salaryOptions || []}
             className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
@@ -450,7 +462,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             labels="Provinsi"
             className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={provinceOptions || []}
             placeholder="Provinsi"
             isSearchable={true}
@@ -462,7 +474,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             labels="Kota/Kabupaten"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={cityOptions || []}
             placeholder="Kota/Kabupaten"
             isSearchable={true}
@@ -475,7 +487,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             labels="Kecamatan"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold"
+            labelClassName="font-bold text-xs py-2"
             options={subDistrictOptions || []}
             placeholder="Kecamatan"
             isSearchable={true}
