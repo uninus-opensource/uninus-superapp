@@ -212,6 +212,10 @@ export type TYearGraduationResponse = {
   }>;
 };
 
+export interface IScholarshipRequest {
+  search: string;
+}
+
 export type TScholarshipResponse = {
   scholarship: Array<{
     id: number;
