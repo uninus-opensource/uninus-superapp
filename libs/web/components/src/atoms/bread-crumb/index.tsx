@@ -5,7 +5,7 @@ import { MdChevronRight } from "react-icons/md";
 
 export const BreadCrumb: FC<TBreadCrumbProps> = ({
   items,
-  textColor = "text-primary-green",
+  textColor = "text-grayscale-4",
   bgColor = "bg-surface-primary",
 }): ReactElement => {
   return (
