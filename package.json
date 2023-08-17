@@ -151,7 +151,7 @@
     "babel-preset": "^1.1.7",
     "crypto": "^1.0.1",
     "css-loader": "^6.8.1",
-    "cypress": "^12.17.3",
+    "cypress": "^12.17.4",
     "dlx": "^0.2.1",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.2.1",
