@@ -6,7 +6,7 @@ import { FC, ReactElement, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { KartuPembayaran } from "../pdf";
-
+import { StatusAlert } from "./alertStatus";
 const PDFDownloadLink = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
   {
@@ -59,10 +59,7 @@ export const Pembayaran: FC = (): ReactElement => {
   };
 
   return (
-    <section
-      key="regist-pembayaran"
-      className="flex flex-col text-center px-4 gap-y-6 lg:text-start"
-    >
+    <section key="regist-pembayaran" className="flex flex-col px-4 gap-y-6 ">
       <BreadCrumb items={pembayaranBreadcrumb} />
       <h1 className="text-lg 2xl:text-2xl pt-2 font-extrabold text-secondary-green-4">
         Pembayaran Registrasi
@@ -105,51 +102,54 @@ export const Pembayaran: FC = (): ReactElement => {
         </div>
 
         <div className="bg-primary-green w-full h-[3px] mt-3"></div>
-
-        <div className="border border-primary-orange rounded-md mt-7 h-auto xl:h-[5rem] w-[80vw] sm:w-[85vw] lg:w-[55vw] xl:w-[65vw] flex flex-col justify-evenly mx-auto pl-3 md:pl-5">
-          <h1 className="text-primary-orange font-bold text-[1rem] ml-2">
-            Segera Selesaikan Pembayaranmu!
-          </h1>
-          <div className="w-[80%]">
-            <h2 className="text-grayscale-9 text-[0.8rem] sm:text-[1rem] ml-2">
-              Sedikit Lagi Kamu akan terdaftar di Universitas Islam Nusantara
-            </h2>
+        <div className="px-4 md:px-8">
+          <StatusAlert
+            status="pending"
+            message="Sistem sedang memverifikasi pembayaran anda"
+            messageDetails="Harap menunggu proses verifikasi paling lambat 1x24 jam"
+          />
+          <div className="mt-2 flex justify-between flex-col  gap-y-2">
+            <h2 className="text-grayscale-6 text-xs md:text-base">Metode Pembayaran</h2>
+            <h2 className="font-bold text-xs md:text-base">Mandiri</h2>
           </div>
-        </div>
-        <div className="px-4">
-          <h2 className="text-grayscale-6 mt-5 ml-3 md:ml-5">Nomor Virtual Account</h2>
-          <div className="mt-2 flex justify-between mx-3 md:mx-5">
-            <h2 className="font-bold">4444081904377804</h2>
-            <div
-              className="flex gap-2 justify-between items-center hover:cursor-pointer"
-              onClick={copyText}
-            >
-              <p className="text-primary-green">salin</p>
-              <CopyOutlined className="text-primary-green" />
+          <div className="mt-4 md:mt-2 flex justify-between flex-col  gap-y-2">
+            <h2 className="text-grayscale-6 text-xs md:text-base">Nomor Virtual Account</h2>
+            <div className="flex justify-between">
+              <h2 className="font-bold text-xs md:text-base">4444081904377804</h2>
+              <div
+                className="flex gap-2 justify-between items-center hover:cursor-pointer"
+                onClick={copyText}
+              >
+                <p className="text-primary-green text-xs md:text-base">salin</p>
+                <CopyOutlined className="text-primary-green" />
+              </div>
             </div>
           </div>
 
-          <h2 className="text-grayscale-6 mt-5 ml-3 md:ml-5">
-            Total Pembayaran (Belum termasuk admin)
-          </h2>
-          <div className="mt-2 flex justify-between mx-3 md:mx-5">
-            <h2 className="font-bold">Rp. 250.000</h2>
-            <BlobProvider document={<KartuPembayaran />}>
-              {({ url }) => (
-                <a
-                  href={url != null ? url : ""}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-primary-green"
-                >
-                  Lihat Detail
-                </a>
-              )}
-            </BlobProvider>
+          <div className="mt-4 md:mt-2 flex justify-between flex-col  gap-y-2 ">
+            <h2 className="text-grayscale-6 text-xs md:text-base">
+              Total Pembayaran (Belum termasuk admin)
+            </h2>
+            <div className="flex justify-between text-xs md:text-base">
+              <h2 className="font-bold">Rp. 250.000</h2>
+              <BlobProvider document={<KartuPembayaran />}>
+                {({ url }) => (
+                  <a
+                    href={url != null ? url : ""}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-primary-green "
+                  >
+                    Lihat Detail
+                  </a>
+                )}
+              </BlobProvider>
+            </div>
           </div>
-
-          <h2 className="text-grayscale-6 mt-5 ml-3 md:ml-5">Selesaikan Pembayaran Sebelum</h2>
-          <h2 className="font-bold mt-2 py-2 ml-3 md:ml-5">22 Agustus 2023, 23:59 WIB</h2>
+          <h2 className="text-grayscale-6 text-xs md:text-base mt-5 ">
+            Selesaikan Pembayaran Sebelum
+          </h2>
+          <h2 className="font-bold py-2 text-xs md:text-base ">22 Agustus 2023, 23:59 WIB</h2>
         </div>
       </section>
     </section>
