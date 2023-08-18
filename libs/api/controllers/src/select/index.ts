@@ -267,7 +267,7 @@ export class SelectController {
     return this.appService.getSchoolMajor({ search, school_type_id });
   }
 
-  @Get("getRegistan")
+  @Get("registrans")
   async getRegistan() {
     return this.appService.getTotalRegistrans();
   }

@@ -13,7 +13,7 @@ import { PmbModule } from "../pmb";
     PrismaModule,
     EmailModule,
     JwtModule.register({
-      secret: process.env.ACCESS_SECRET,
+      secret: process.env["ACCESS_SECRET"],
       signOptions: { expiresIn: "1h" },
     }),
     PassportModule.register({
