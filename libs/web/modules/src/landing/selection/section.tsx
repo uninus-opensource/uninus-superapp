@@ -13,7 +13,7 @@ export const SelectionSection: FC = (): ReactElement => {
           width={700}
           height={700}
           quality={100}
-          className=""
+          className="sm:w-[30rem] mb-12 lg:mb-0"
         />
       </figure>
       <TabJalurSeleksi />
