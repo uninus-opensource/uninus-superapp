@@ -59,7 +59,7 @@ model Students {
   education              Education?         @relation(fields: [education_npsn], references: [npsn])
   father_name            String?
   father_status          ParentStatus?      @relation("father", fields: [father_status_id], references: [id])
-  father_status_id       String?
+  father_status_id       Int?
   father_education       EducationTypes?    @relation("father", fields: [father_education_id], references: [id])
   father_education_id    Int?
   father_occupation      Ocupation?         @relation("father", fields: [father_occupation_id], references: [id])
@@ -70,7 +70,7 @@ model Students {
   father_salary_id       Int?
   mother_name            String?
   mother_status          ParentStatus?      @relation("mother", fields: [mother_status_id], references: [id])
-  mother_status_id       String?
+  mother_status_id       Int?
   mother_education       EducationTypes?    @relation("mother", fields: [mother_education_id], references: [id])
   mother_education_id    Int?
   mother_occupation      Ocupation?         @relation("mother", fields: [mother_occupation_id], references: [id])
@@ -81,7 +81,7 @@ model Students {
   mother_salary_id       Int?
   guardian_name          String?
   guardian_status        ParentStatus?      @relation("guardian", fields: [guardian_status_id], references: [id])
-  guardian_status_id     String?
+  guardian_status_id     Int?
   guardian_education     EducationTypes?    @relation("guardian", fields: [guardian_education_id], references: [id])
   guardian_education_id  Int?
   guardian_occupation    Ocupation?         @relation("guardian", fields: [guardian_occupation_id], references: [id])
@@ -113,19 +113,19 @@ model Students {
 }
 
 model StudentGrade {
-  id       Int     @id @default(autoincrement())
+  id       String  @unique @default(uuid())
   subject  String?
   semester String?
   grade    Float?
   average  Float?
   pmb      PMB?    @relation(fields: [pmb_id], references: [id], onDelete: Cascade)
-  pmb_id   Int?    @unique
+  pmb_id   String? @unique
 }
 
 model PMB {
-  id                     Int                 @id @default(autoincrement())
-  degreeProgram          DegreeProgram?      @relation(fields: [degreeProgram_id], references: [id])
-  degreeProgram_id       Int?
+  id                     String              @unique @default(uuid())
+  degree_program         DegreeProgram?      @relation(fields: [degree_program_id], references: [id])
+  degree_program_id      Int?
   first_deparment        Department?         @relation("first_deparment", fields: [first_deparment_id], references: [id])
   first_deparment_id     Int?
   second_deparment       Department?         @relation("second_deparment", fields: [second_deparment_id], references: [id])
@@ -149,11 +149,11 @@ model RegistrationStatus {
 }
 
 model Documents {
-  id     Int    @id @default(autoincrement())
+  id     String  @unique @default(uuid())
   name   String
   url    String
-  pmb    PMB?   @relation(fields: [pmb_id], references: [id], onDelete: Cascade)
-  pmb_id Int?   @unique
+  pmb    PMB?    @relation(fields: [pmb_id], references: [id], onDelete: Cascade)
+  pmb_id String? @unique
 }
 
 model EducationTypes {
@@ -176,7 +176,7 @@ model EducationMajor {
 }
 
 model ParentStatus {
-  id       String     @unique @default(uuid())
+  id       Int        @id @default(autoincrement())
   name     String
   father   Students[] @relation("father")
   mother   Students[] @relation("mother")

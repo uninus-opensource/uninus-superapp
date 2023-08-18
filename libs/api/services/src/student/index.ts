@@ -25,7 +25,11 @@ export class StudentService {
         avatar: true,
         email: true,
         fullname: true,
-        students: true,
+        students: {
+          include: {
+            pmb: true,
+          },
+        },
       },
     });
 
@@ -34,12 +38,17 @@ export class StudentService {
         cause: new Error(),
       });
     }
+    const { avatar, email, fullname, students } = student;
 
-    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
+    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt", "pmb"]);
     return {
-      avatar: student.avatar,
-      email: student.email,
-      fullname: student.fullname,
+      avatar,
+      email,
+      fullname,
+      first_deparment_id: students?.pmb?.first_deparment_id,
+      second_deparment_id: students?.pmb?.second_deparment_id,
+      selection_path_id: students?.pmb?.selection_path_id,
+      degree_program_id: students?.pmb?.degree_program_id,
       ...studentData,
     };
   }
@@ -53,7 +62,7 @@ export class StudentService {
       first_deparment_id,
       second_deparment_id,
       selection_path_id,
-      degreeProgram_id,
+      degree_program_id,
       ...updateStudentPayload
     } = args;
     const student = await this.prisma.users.update({
@@ -70,7 +79,7 @@ export class StudentService {
                 first_deparment_id,
                 second_deparment_id,
                 selection_path_id,
-                degreeProgram_id,
+                degree_program_id,
                 registration_status_id: 2,
               },
             },

@@ -4,6 +4,10 @@ export interface IGetStudentRequest {
 }
 
 export interface IStudentData {
+  first_deparment_id?: number | null;
+  second_deparment_id?: number | null;
+  selection_path_id?: number | null;
+  degree_program_id?: number | null;
   email?: string;
   fullname?: string;
   nik?: string | null;
@@ -26,19 +30,19 @@ export interface IStudentData {
   graduation_year?: string | null;
   education_npsn?: string | null;
   father_name?: string | null;
-  father_status_id?: string | null;
+  father_status_id?: number | null;
   father_education_id?: number | null;
   father_occupation_id?: number | null;
   father_position_id?: number | null;
   father_salary_id?: number | null;
   mother_name?: string | null;
-  mother_status_id?: string | null;
+  mother_status_id?: number | null;
   mother_education_id?: number | null;
   mother_occupation_id?: number | null;
   mother_position_id?: number | null;
   mother_salary_id?: number | null;
   guardian_name?: string | null;
-  guardian_status_id?: string | null;
+  guardian_status_id?: number | null;
   guardian_education_id?: number | null;
   guardian_occupation_id?: number | null;
   guardian_position_id?: number | null;
@@ -70,10 +74,6 @@ export interface IUpdateStudentResponse extends IStudentData {
 }
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
   avatar: TFIle;
-  first_deparment_id?: number | null;
-  second_deparment_id?: number | null;
-  selection_path_id?: number | null;
-  degreeProgram_id?: number | null;
 }
 
 export type TGraduationStatusRequest = {

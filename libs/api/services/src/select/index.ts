@@ -96,9 +96,10 @@ export class SelectService {
     };
   }
 
-  async getDegreeProgram({ search }: ISelectRequest): Promise<TDegreeProgramResponse> {
+  async getDegreeProgram({ search, id }: ISelectRequest): Promise<TDegreeProgramResponse> {
     const degreeProgram = await this.prisma.degreeProgram.findMany({
       where: {
+        id: id && Number(id),
         name: {
           ...(search && { contains: search }),
           mode: "insensitive",
@@ -107,12 +108,6 @@ export class SelectService {
       select: {
         id: true,
         name: true,
-        department: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
       },
     });
 
@@ -126,11 +121,12 @@ export class SelectService {
   async getFaculty({
     search,
     degree_program_id,
+    id,
   }: ISelectFacultyRequest): Promise<TFacultyResponse> {
     const faculty = await this.prisma.faculty.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
-
         ...(degree_program_id && {
           degreeProgram_id: Number(degree_program_id),
         }),
@@ -152,9 +148,11 @@ export class SelectService {
     search,
     faculty_id,
     degree_program_id,
+    id,
   }: ISelectDepartmentRequest): Promise<TDepartmentResponse> {
     const department = await this.prisma.department.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
         ...(faculty_id && { faculty_id: Number(faculty_id) }),
         ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
@@ -172,9 +170,10 @@ export class SelectService {
     return { department };
   }
 
-  async getReligion({ search }: ISelectRequest): Promise<TReligionResponse> {
+  async getReligion({ search, id }: ISelectRequest): Promise<TReligionResponse> {
     const religion = await this.prisma.religion.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -190,9 +189,10 @@ export class SelectService {
     return { religion };
   }
 
-  async getMaritalStatus({ search }: ISelectRequest): Promise<TMaritalStatusResponse> {
+  async getMaritalStatus({ search, id }: ISelectRequest): Promise<TMaritalStatusResponse> {
     const maritalStatus = await this.prisma.maritalStatus.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -208,9 +208,10 @@ export class SelectService {
     return { maritalStatus };
   }
 
-  async getGender({ search }: ISelectRequest): Promise<TGenderResponse> {
+  async getGender({ search, id }: ISelectRequest): Promise<TGenderResponse> {
     const gender = await this.prisma.gender.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -226,9 +227,10 @@ export class SelectService {
     return { gender };
   }
 
-  async getCitizenship({ search }: ISelectRequest): Promise<TCitizenshipResponse> {
+  async getCitizenship({ search, id }: ISelectRequest): Promise<TCitizenshipResponse> {
     const citizenship = await this.prisma.citizenship.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -244,9 +246,10 @@ export class SelectService {
     return { citizenship };
   }
 
-  async getSelectionPath({ search }: ISelectRequest): Promise<TSelectionResponse> {
+  async getSelectionPath({ search, id }: ISelectRequest): Promise<TSelectionResponse> {
     const selection = await this.prisma.selectionPath.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -262,9 +265,10 @@ export class SelectService {
     return { selection };
   }
 
-  async getSalary({ search }: ISelectRequest): Promise<TSalaryResponse> {
+  async getSalary({ search, id }: ISelectRequest): Promise<TSalaryResponse> {
     const salary = await this.prisma.salary.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -283,9 +287,11 @@ export class SelectService {
   async getEducationHistory({
     search,
     npsn,
+    id,
   }: ISelectEducationHistoryRequest): Promise<TEducationHistoryResponse> {
     const educationHistory = await this.prisma.education.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
         npsn: { ...(npsn && { contains: npsn }) },
       },
@@ -307,9 +313,10 @@ export class SelectService {
     return { education_history: educationHistory };
   }
 
-  async getCountry({ search, citizenship_id }: ICountryRequest): Promise<TCountryResponse> {
+  async getCountry({ search, citizenship_id, id }: ICountryRequest): Promise<TCountryResponse> {
     const country = await this.prisma.country.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
         ...(citizenship_id && { citizenship_id: Number(citizenship_id) }),
       },
@@ -326,9 +333,10 @@ export class SelectService {
     return { country };
   }
 
-  async getOccupation({ search }: ISelectRequest): Promise<TOccupationResponse> {
+  async getOccupation({ search, id }: ISelectRequest): Promise<TOccupationResponse> {
     const occupation = await this.prisma.ocupation.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -346,9 +354,11 @@ export class SelectService {
   async getOccupationPosition({
     search,
     occupation_id,
+    id,
   }: IOccupationPositionRequest): Promise<TOccupationPositionResponse> {
     const occupationPosition = await this.prisma.ocupationPosition.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
         ...(occupation_id && { occupation_id: Number(occupation_id) }),
       },
@@ -364,9 +374,10 @@ export class SelectService {
     return { occupation_position: occupationPosition };
   }
 
-  async getDisabilites({ search }: ISelectRequest): Promise<TDisabilitiesResponse> {
+  async getDisabilites({ search, id }: ISelectRequest): Promise<TDisabilitiesResponse> {
     const disabilities = await this.prisma.disabilities.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -394,9 +405,10 @@ export class SelectService {
     return { year };
   }
 
-  async getScholarship({ search }: ISelectRequest): Promise<TScholarshipResponse> {
+  async getScholarship({ search, id }: ISelectRequest): Promise<TScholarshipResponse> {
     const scholarship = await this.prisma.scholarship.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -412,9 +424,10 @@ export class SelectService {
     return { scholarship };
   }
 
-  async getSchoolType({ search }: ISelectRequest): Promise<TSchoolTypeResponse> {
+  async getSchoolType({ search, id }: ISelectRequest): Promise<TSchoolTypeResponse> {
     const schoolTypes = await this.prisma.educationTypes.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -430,9 +443,10 @@ export class SelectService {
     return { school_type: schoolTypes };
   }
 
-  async getParentStatus({ search }: ISelectRequest): Promise<TParentStatusResponse> {
+  async getParentStatus({ search, id }: ISelectRequest): Promise<TParentStatusResponse> {
     const parentStatusTypes = await this.prisma.parentStatus.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -451,9 +465,11 @@ export class SelectService {
   async getSchoolMajor({
     search,
     school_type_id,
+    id,
   }: ISelectSchoolMajorRequest): Promise<TSchoolMajorResponse> {
     const schoolMajorTypes = await this.prisma.educationMajor.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
         ...(school_type_id && { school_type_id: Number(school_type_id) }),
       },
