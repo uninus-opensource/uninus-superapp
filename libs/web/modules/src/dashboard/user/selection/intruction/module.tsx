@@ -33,7 +33,7 @@ export const IntructionTestModule: FC = (): ReactElement => {
               menyelesaikan tes sesuai atau dibawah waktu yang ditentukan.
             </li>
             <li className="text-justify">
-              <span className="font-bold text-primary-green">Submit Test</span> : Pastikan Anda anda
+              <span className="font-bold text-primary-green">Submit Test</span> : Pastikan Anda
               menekan tombol “Selesaikan Tes” jika sudah menyelesaikan test/sebelum waktu test habis
             </li>
             <li className="text-justify">
