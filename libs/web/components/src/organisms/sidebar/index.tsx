@@ -1,5 +1,5 @@
 "use client";
-import { FC, ReactElement, useState, useMemo, Fragment } from "react";
+import { FC, ReactElement, useState, useMemo, Fragment, useEffect } from "react";
 import Image from "next/image";
 import { TSideBarProps } from "./type";
 import { AiOutlineLogout } from "react-icons/ai";
@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { Modal } from "../modal";
 import { MenuOutlined, AppstoreFilled } from "@ant-design/icons";
+import { useStudentGet } from "./hooks";
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -35,6 +36,12 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
     const userName = session?.user?.avatar;
     return userName;
   }, [session]);
+
+  const { data } = useStudentGet();
+  const userStatus = useMemo(() => {
+    const userStatus = data?.registration_status;
+    return userStatus;
+  }, [data]);
 
   const pathname = usePathname();
 
@@ -73,12 +80,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
           </div>
         </div>
       </Modal>
-      {showModal && (
-        <div
-          className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-50 z-40"
-          onClick={handleCloseModal}
-        />
-      )}
+
       {/* Desktop */}
       <aside
         data-testid="sidebar"
@@ -105,8 +107,18 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
           </figure>
           {/* Status pendaftaran */}
           {process.env.NEXT_PUBLIC_WORKSPACE === "user" && (
-            <div className="w-3/5 mt-2 font-bold bg-red-3 text-red-4 p-2 rounded-md text-center text-xs">
-              Belum Mendaftar
+            <div
+              className={`w-3/5 mt-2 font-bold ${
+                userStatus === "Belum Membayar" ||
+                userStatus === "Tidak Lulus" ||
+                userStatus === "Belum Mendaftar"
+                  ? "bg-red-3 text-red-4"
+                  : userStatus === "Sudah Membayar" || userStatus === "Lulus"
+                  ? "bg-[#CCEADA] text-grayscale-9"
+                  : "bg-[#FFECB4] text-grayscale-9"
+              }  p-2 rounded-md text-center text-xs`}
+            >
+              {userStatus}
             </div>
           )}
           {/* End Status pendaftaran */}
