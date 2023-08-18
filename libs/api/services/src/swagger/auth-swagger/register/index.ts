@@ -22,5 +22,5 @@ export class RegisterSwagger {
   public phone_number!: string;
 
   @ApiProperty()
-  public role_id!: number;
+  public role_id?: number;
 }

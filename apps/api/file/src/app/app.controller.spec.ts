@@ -16,29 +16,30 @@ describe("AppController", () => {
         AppService,
         {
           provide: ConfigService,
-          useValue:{
-            getOrThrow: jest.fn((key:string)=>{
-              return key
-            })
-          }
-        }
+          useValue: {
+            getOrThrow: jest.fn((key: string) => {
+              return key;
+            }),
+          },
+        },
       ],
     }).compile();
   });
 
   describe("uploadFile", () => {
-    it('should return path', async () => {
+    it("should return path", async () => {
       const appController = app.get<AppController>(AppController);
       const appService = app.get<AppService>(AppService);
-      const payload:TFileUploadRequest ={
+      const payload: TFileUploadRequest = {
         filename: "rafli.txt",
-        buffer: Buffer.from('Ini isi file')
-      }
+        buffer: Buffer.from("Ini isi file"),
+      };
       const expectedResult: TFileUploadResponse = {
-        path: "http://path.to/file"
-      }
-      jest.spyOn(appService, 'uploadFile').mockImplementation(
-       async ()=>{ return expectedResult})
+        path: "http://path.to/file",
+      };
+      jest.spyOn(appService, "uploadFile").mockImplementation(async () => {
+        return expectedResult;
+      });
       expect(await appController.uploadFile(payload)).toEqual(expectedResult);
     });
   });

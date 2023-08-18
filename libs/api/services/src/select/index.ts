@@ -32,6 +32,7 @@ import {
   TParentStatusResponse,
   ISelectSchoolMajorRequest,
   TSchoolMajorResponse,
+  TTotalRegistransResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -483,5 +484,36 @@ export class SelectService {
     }
 
     return { school_major: schoolMajorTypes };
+  }
+
+  async getTotalRegistrans(): Promise<TTotalRegistransResponse> {
+    const [total_registrans, accepted_registrans] = await Promise.all([
+      await this.prisma.users.count({
+        select: {
+          _all: true,
+        },
+      }),
+      await this.prisma.pMB.findMany({
+        where: {
+          registration_status: {
+            name: {
+              contains: "lulus",
+              mode: "insensitive",
+            },
+          },
+        },
+      }),
+    ]);
+
+    if (!accepted_registrans && !total_registrans) {
+      throw new NotFoundException("Data tidak ditemukan");
+    }
+
+    return {
+      total_registrans: total_registrans._all,
+      paids: 0,
+      unpaids: 0,
+      accepted_registrans: accepted_registrans.length,
+    };
   }
 }

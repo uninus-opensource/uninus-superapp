@@ -245,3 +245,10 @@ export type TSchoolMajorResponse = {
     name?: string;
   }>;
 };
+
+export type TTotalRegistransResponse = {
+  total_registrans: number;
+  paids: number;
+  unpaids: number;
+  accepted_registrans: number;
+};
