@@ -3422,6 +3422,13 @@
   dependencies:
     "@nx/jest" "16.7.0"
 
+"@nrwl/jest@16.7.1":
+  version "16.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-16.7.1.tgz#401bc05f0c3b3904eba64d59f187110768c72c50"
+  integrity sha512-YzFuMei+ZeRtadXAQUdBvjnuiATrfl//2p6t+sVkMX2ywwO+V8KVnMQhYNlBq/aSGYAyU+L8ueVMioRNqh2S7g==
+  dependencies:
+    "@nx/jest" "16.7.1"
+
 "@nrwl/js@16.7.0":
   version "16.7.0"
   resolved "https://registry.yarnpkg.com/@nrwl/js/-/js-16.7.0.tgz#e687eec25ee51490a9182c3089f34801cdd62895"
@@ -3450,12 +3457,12 @@
   dependencies:
     "@nx/linter" "16.7.1"
 
-"@nrwl/nest@16.7.0":
-  version "16.7.0"
-  resolved "https://registry.yarnpkg.com/@nrwl/nest/-/nest-16.7.0.tgz#ae3e4db5197db0dce1295c5c08dcaf66ca68253d"
-  integrity sha512-CquGwF8h5udCRVLhj6r+NOzDFhwYs/J7udR4FXNcABuCBeijCZ69TrvST51SS294DVQqwJ8kzwZFX3n/e4ihdg==
+"@nrwl/nest@16.7.1":
+  version "16.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/nest/-/nest-16.7.1.tgz#497dd93b7b747c95060672b6580cf87418e7e219"
+  integrity sha512-Ad0xGLxJuhnEVPhGzNtmDJo/Cvzs6Z/W3XTgo3BL/WzCqjbDewcH9iU6he6pdYOEcYreIySc07Dz9eGdcy8Ufw==
   dependencies:
-    "@nx/nest" "16.7.0"
+    "@nx/nest" "16.7.1"
 
 "@nrwl/next@16.7.0":
   version "16.7.0"
@@ -3470,6 +3477,13 @@
   integrity sha512-eH5BdjRHyPpv8U2XiFMgYPhtz3bic4auTF+cQJCXiXCVnM3Fk2Ys7XZnwkiCQhk8BgDSMCy3cKSVGDLkPI1N2g==
   dependencies:
     "@nx/node" "16.7.0"
+
+"@nrwl/node@16.7.1":
+  version "16.7.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/node/-/node-16.7.1.tgz#e3caa4b6a0a83d2364177e77113dbec7fba0084c"
+  integrity sha512-TcwX1diGs1CXXK498rgzywN2FIi//Dbwu+A5BfXUQKq6q4ypzlFyZRstop8oW48VMVGao2DttPhSIJxpU7qrng==
+  dependencies:
+    "@nx/node" "16.7.1"
 
 "@nrwl/nx-cloud@16.3.0":
   version "16.3.0"
@@ -3677,6 +3691,26 @@
     resolve.exports "1.1.0"
     tslib "^2.3.0"
 
+"@nx/jest@16.7.1":
+  version "16.7.1"
+  resolved "https://registry.yarnpkg.com/@nx/jest/-/jest-16.7.1.tgz#573cbc4dabb946c9449ff3deda92ae45b894f56e"
+  integrity sha512-iPcNlZPU9GqQztu/pakSB8QMbLM2i7G1wgozyHbIvIeO17ma0O0Ztl7rbA48rTzWr5+s8SmfXG/tKgcuq1RLBg==
+  dependencies:
+    "@jest/reporters" "^29.4.1"
+    "@jest/test-result" "^29.4.1"
+    "@nrwl/jest" "16.7.1"
+    "@nx/devkit" "16.7.1"
+    "@nx/js" "16.7.1"
+    "@phenomnomnominal/tsquery" "~5.0.1"
+    chalk "^4.1.0"
+    dotenv "~16.3.1"
+    identity-obj-proxy "3.0.0"
+    jest-config "^29.4.1"
+    jest-resolve "^29.4.1"
+    jest-util "^29.4.1"
+    resolve.exports "1.1.0"
+    tslib "^2.3.0"
+
 "@nx/js@16.7.0":
   version "16.7.0"
   resolved "https://registry.yarnpkg.com/@nx/js/-/js-16.7.0.tgz#a556829d0f92235a25b659e5dce5897b62a6682b"
@@ -3765,17 +3799,17 @@
     tmp "~0.2.1"
     tslib "^2.3.0"
 
-"@nx/nest@16.7.0":
-  version "16.7.0"
-  resolved "https://registry.yarnpkg.com/@nx/nest/-/nest-16.7.0.tgz#7928b5629dfaa2bf811ad275911debaf642ba4d9"
-  integrity sha512-McPgEINWQ9MOqGO5PVhMRDejTiOyFq5acEugHTiLLwmm3twpa5qZ5DTpm5sVPjlKFrEVQzSFiblucWMALCT24w==
+"@nx/nest@16.7.1":
+  version "16.7.1"
+  resolved "https://registry.yarnpkg.com/@nx/nest/-/nest-16.7.1.tgz#1ae10911c1ba2089a25d0209f7b95992f916327d"
+  integrity sha512-wK4DKE0LmUtIGcIQrNLGjHwUsuk4VFZkvp3tnYktjFOXn3qDtxraPbMDEww5f8pX8ZxNrdjm5Hj7Z4KAhZuFMw==
   dependencies:
     "@nestjs/schematics" "^9.1.0"
-    "@nrwl/nest" "16.7.0"
-    "@nx/devkit" "16.7.0"
-    "@nx/js" "16.7.0"
-    "@nx/linter" "16.7.0"
-    "@nx/node" "16.7.0"
+    "@nrwl/nest" "16.7.1"
+    "@nx/devkit" "16.7.1"
+    "@nx/js" "16.7.1"
+    "@nx/linter" "16.7.1"
+    "@nx/node" "16.7.1"
     "@phenomnomnominal/tsquery" "~5.0.1"
     enquirer "~2.3.6"
     semver "7.5.3"
@@ -3816,6 +3850,19 @@
     "@nx/js" "16.7.0"
     "@nx/linter" "16.7.0"
     "@nx/workspace" "16.7.0"
+    tslib "^2.3.0"
+
+"@nx/node@16.7.1":
+  version "16.7.1"
+  resolved "https://registry.yarnpkg.com/@nx/node/-/node-16.7.1.tgz#add5832be61343c09aa68e46eaf3b791481694b7"
+  integrity sha512-jbnWg61FFBsGaOBv9yCAnBTp259lqVCNstbyaMcZJATzQnjoZM3jkp2BCirxYC7nViIWHkqYe2P1ZGHy5sgrZw==
+  dependencies:
+    "@nrwl/node" "16.7.1"
+    "@nx/devkit" "16.7.1"
+    "@nx/jest" "16.7.1"
+    "@nx/js" "16.7.1"
+    "@nx/linter" "16.7.1"
+    "@nx/workspace" "16.7.1"
     tslib "^2.3.0"
 
 "@nx/nx-darwin-arm64@16.3.2":
