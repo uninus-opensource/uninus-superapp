@@ -5,7 +5,7 @@ import { MdChevronRight } from "react-icons/md";
 
 export const BreadCrumb: FC<TBreadCrumbProps> = ({
   items,
-  textColor = "text-grayscale-4",
+  textColor = "text-primary-green",
   bgColor = "bg-surface-primary",
 }): ReactElement => {
   return (
@@ -33,7 +33,7 @@ export const BreadCrumb: FC<TBreadCrumbProps> = ({
           } else {
             return (
               <Link key={index} href={crumb.link}>
-                <span className="text-primary-green font-[600] cursor-pointer">{crumb.name}</span>
+                <span className="text-grayscale-4 font-[600] cursor-pointer">{crumb.name}</span>
               </Link>
             );
           }

@@ -94,7 +94,6 @@ describe("Hero Banner Functionally", () => {
 
 describe("Test Slider Functionally", () => {
   it("Should be Defined", () => {
-    const { getByTestId } = render(<HeroBanner isSlider />);
     mockAllIsIntersecting(true);
     expect(getByTestId("hero-slider")).toBeDefined();
   });

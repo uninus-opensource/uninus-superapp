@@ -18,12 +18,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
           PMB <span className="text-secondary-green-4"> / Registrasi</span>
         </h1>
         <p className=" text-lg 2xl:text-2xl font-extrabold pt-2 text-secondary-green-4">
-          Pengisian Data Diri
+          Pengisian Data Registrasi
         </p>
       </div>
 
-      <section className="flex flex-col gap-4 w-full bg-primary-white p-8 rounded-lg shadow-lg">
-        <section className="flex flex-col gap-8 w-full justify-center py-2 items-center rounded-lg bg-primary-white overflow-x-hidden">
+      <section className="flex flex-col gap-4 w-full bg-primary-white p-4 rounded-lg shadow-lg">
+        <section className="flex flex-col gap-8 w-full justify-center items-center py-2 rounded-lg bg-primary-white overflow-x-hidden">
           {/* Accordion section */}
           <DataDiriSection />
           <DataPendidikanSection />
