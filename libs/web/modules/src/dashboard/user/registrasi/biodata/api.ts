@@ -5,6 +5,7 @@ import {
   TBiodataResponse,
   TBiodataUpdateRequest,
   TBiodataUpdateResponse,
+  IGetStudentResponse,
 } from "@uninus/entities";
 
 export const BiodataCreate = async (payload: TBiodataRequest): Promise<TBiodataResponse> => {
@@ -21,5 +22,9 @@ export const BiodataUpdate = async (
 
 export const BiodataGet = async (): Promise<IBiodataGetResponse> => {
   const { data } = await api.get<IBiodataGetResponse>("/student");
+  return data;
+};
+export const StudentGet = async (): Promise<IGetStudentResponse> => {
+  const { data } = await api.get<IGetStudentResponse>("/student");
   return data;
 };
