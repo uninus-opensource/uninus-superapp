@@ -18,10 +18,10 @@ import {
   useReligionGet,
   useStatusGet,
 } from "./hooks";
-import { useBiodataUpdate } from "../../hooks";
+import { useBiodataUpdate, useStudentGet } from "../../hooks";
 
 export const DataDiriSection: FC = (): ReactElement => {
-  const { control, handleSubmit, watch, setValue } = useForm<FieldValues>({
+  const { control, handleSubmit, watch, setValue, reset } = useForm<FieldValues>({
     mode: "all",
     defaultValues: { ...defaultValuesBiodata },
   });
@@ -70,7 +70,13 @@ export const DataDiriSection: FC = (): ReactElement => {
       })),
     [getSubdistrict?.sub_district],
   );
-
+  const { data } = useStudentGet();
+  const student = useMemo(() => {
+    return data;
+  }, [data]);
+  useEffect(() => {
+    reset(student);
+  }, [student, reset]);
   useEffect(() => {
     setValue("city", null);
   }, [watch("province")]);
@@ -206,6 +212,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               labelclassname="text-xl font-semibold"
               variant="sm"
               required
+              disabled
               inputWidth="w-70% lg:w-[17vw] xl:w-[15vw] md:w-[21vw]"
               inputHeight="h-10"
               type={biodata.type}
