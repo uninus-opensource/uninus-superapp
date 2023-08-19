@@ -21,6 +21,8 @@ import {
   newPasswordSwagger,
   verifyOtpSwagger,
 } from "@uninus/api/services";
+
+import { TRegisterRequest } from "@uninus/entities";
 import { ApiTags, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("auth")

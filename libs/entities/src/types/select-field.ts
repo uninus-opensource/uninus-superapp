@@ -49,7 +49,7 @@ export interface ISubDistrictRequest extends ISelectRequest {
 }
 
 export type TSubDistrictResponse = {
-  sub_district?: Array<{
+  subdistrict?: Array<{
     id?: number;
     name?: string;
   }>;
@@ -152,7 +152,7 @@ export type TSalaryResponse = {
 };
 
 export type TEducationHistoryResponse = {
-  education_history?: Array<{
+  education?: Array<{
     id?: number;
     npsn?: string;
     name?: string;
@@ -226,7 +226,7 @@ export type TScholarshipResponse = {
 };
 
 export type TSchoolTypeResponse = {
-  school_type?: Array<{
+  education_type?: Array<{
     id?: number;
     name?: string;
   }>;
@@ -238,9 +238,15 @@ export type TParentStatusResponse = {
     name?: string;
   }>;
 };
+export type TParentEducationResponse = {
+  parent_education?: Array<{
+    id?: number;
+    name?: string;
+  }>;
+};
 
 export type TSchoolMajorResponse = {
-  school_major?: Array<{
+  education_major?: Array<{
     id?: number;
     name?: string;
   }>;

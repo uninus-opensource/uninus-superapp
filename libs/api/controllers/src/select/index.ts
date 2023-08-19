@@ -7,52 +7,6 @@ import { SelectService } from "@uninus/api/services";
 export class SelectController {
   constructor(private readonly appService: SelectService) {}
 
-  @Get("province")
-  @ApiOperation({ summary: "Get Province" })
-  @ApiResponse({
-    status: 400,
-    description: "Location Not Found",
-  })
-  @ApiQuery({ name: "search", required: false })
-  @ApiQuery({ name: "id", required: false })
-  getProvince(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getProvince({ search, id });
-  }
-
-  @Get("city")
-  @ApiOperation({ summary: "Get City" })
-  @ApiResponse({
-    status: 400,
-    description: "Location Not Found",
-  })
-  @ApiQuery({ name: "search", required: false })
-  @ApiQuery({ name: "province_id", required: false })
-  @ApiQuery({ name: "id", required: false })
-  getCity(
-    @Query("id") id: number,
-    @Query("province_id") province_id: string,
-    @Query("search") search: string,
-  ) {
-    return this.appService.getCity({ province_id, search, id });
-  }
-
-  @Get("sub-district")
-  @ApiOperation({ summary: "Get Sub District" })
-  @ApiResponse({
-    status: 400,
-    description: "Location Not Found",
-  })
-  @ApiQuery({ name: "search", required: false })
-  @ApiQuery({ name: "city_id", required: false })
-  @ApiQuery({ name: "id", required: false })
-  getSubDistrict(
-    @Query("id") id: number,
-    @Query("city_id") city_id: string,
-    @Query("search") search: string,
-  ) {
-    return this.appService.getSubDistrict({ city_id, search, id });
-  }
-
   @Get("degree-program")
   @ApiOperation({ summary: "Get Degree Program" })
   @ApiResponse({
@@ -63,6 +17,18 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   getDegreeProgram(@Query("search") search: string, @Query("id") id: number) {
     return this.appService.getDegreeProgram({ search, id });
+  }
+
+  @Get("selection-path")
+  @ApiOperation({ summary: "Get Selection Path" })
+  @ApiResponse({
+    status: 400,
+    description: "Selection Path Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "id", required: false })
+  getSelectionPath(@Query("id") id: number, @Query("search") search: string) {
+    return this.appService.getSelectionPath({ search, id });
   }
 
   @Get("faculty")
@@ -99,6 +65,52 @@ export class SelectController {
     @Query("degree_program_id") degree_program_id: string,
   ) {
     return this.appService.getDepartment({ search, faculty_id, degree_program_id, id });
+  }
+
+  @Get("province")
+  @ApiOperation({ summary: "Get Province" })
+  @ApiResponse({
+    status: 400,
+    description: "Location Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "id", required: false })
+  getProvince(@Query("id") id: number, @Query("search") search: string) {
+    return this.appService.getProvince({ search, id });
+  }
+
+  @Get("city")
+  @ApiOperation({ summary: "Get City" })
+  @ApiResponse({
+    status: 400,
+    description: "Location Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "province_id", required: false })
+  @ApiQuery({ name: "id", required: false })
+  getCity(
+    @Query("id") id: number,
+    @Query("province_id") province_id: string,
+    @Query("search") search: string,
+  ) {
+    return this.appService.getCity({ province_id, search, id });
+  }
+
+  @Get("subdistrict")
+  @ApiOperation({ summary: "Get Sub District" })
+  @ApiResponse({
+    status: 400,
+    description: "Location Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "city_id", required: false })
+  @ApiQuery({ name: "id", required: false })
+  getSubDistrict(
+    @Query("id") id: number,
+    @Query("city_id") city_id: string,
+    @Query("search") search: string,
+  ) {
+    return this.appService.getSubDistrict({ city_id, search, id });
   }
 
   @Get("religion")
@@ -149,18 +161,6 @@ export class SelectController {
     return this.appService.getCitizenship({ search, id });
   }
 
-  @Get("selection-path")
-  @ApiOperation({ summary: "Get Selection Path" })
-  @ApiResponse({
-    status: 400,
-    description: "Selection Path Not Found",
-  })
-  @ApiQuery({ name: "search", required: false })
-  @ApiQuery({ name: "id", required: false })
-  getSelectionPath(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getSelectionPath({ search, id });
-  }
-
   @Get("salary")
   @ApiOperation({ summary: "Get Salary" })
   @ApiResponse({
@@ -173,11 +173,11 @@ export class SelectController {
     return this.appService.getSalary({ search, id });
   }
 
-  @Get("education-history")
-  @ApiOperation({ summary: "Get Education History" })
+  @Get("education")
+  @ApiOperation({ summary: "Get Education" })
   @ApiResponse({
     status: 400,
-    description: "Education History Not Found",
+    description: "Education  Not Found",
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "npsn", required: false })
@@ -187,7 +187,7 @@ export class SelectController {
     @Query("search") search: string,
     @Query("npsn") npsn: string,
   ) {
-    return this.appService.getEducationHistory({ search, npsn, id });
+    return this.appService.getEducation({ search, npsn, id });
   }
 
   @Get("country")
@@ -270,16 +270,33 @@ export class SelectController {
     return this.appService.getScholarship({ search, id });
   }
 
-  @Get("school-type")
-  @ApiOperation({ summary: "Get School Type" })
+  @Get("education-type")
+  @ApiOperation({ summary: "Get Education Type" })
   @ApiResponse({
     status: 400,
-    description: "School Type Not Found",
+    description: "Education Type Not Found",
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   getSchoolType(@Query("id") id: number, @Query("search") search: string) {
-    return this.appService.getSchoolType({ search, id });
+    return this.appService.getEducationType({ search, id });
+  }
+
+  @Get("education-major")
+  @ApiOperation({ summary: "Get Education Major" })
+  @ApiResponse({
+    status: 400,
+    description: "Education Major Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "education_type_id", required: false })
+  @ApiQuery({ name: "id", required: false })
+  getSchoolMajor(
+    @Query("id") id: number,
+    @Query("search") search: string,
+    @Query("school_type_id") school_type_id: string,
+  ) {
+    return this.appService.getEducationMajor({ search, school_type_id, id });
   }
 
   @Get("parent-status")
@@ -294,24 +311,20 @@ export class SelectController {
     return this.appService.getParentStatus({ search, id });
   }
 
-  @Get("school-type-major")
-  @ApiOperation({ summary: "Get School Type Major" })
+  @Get("parent-education")
+  @ApiOperation({ summary: "Get Parent Education" })
   @ApiResponse({
     status: 400,
-    description: "School Type Major Not Found",
+    description: "Parent Education Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  @ApiQuery({ name: "school_type_id", required: false })
   @ApiQuery({ name: "id", required: false })
-  getSchoolMajor(
-    @Query("id") id: number,
-    @Query("search") search: string,
-    @Query("school_type_id") school_type_id: string,
-  ) {
-    return this.appService.getSchoolMajor({ search, school_type_id, id });
+  getParentEducation(@Query("id") id: number, @Query("search") search: string) {
+    return this.appService.getParentEducation({ search, id });
   }
 
   @Get("registrans")
+  @ApiOperation({ summary: "Get Total Registrans" })
   async getRegistan() {
     return this.appService.getTotalRegistrans();
   }

@@ -33,6 +33,7 @@ import {
   ISelectSchoolMajorRequest,
   TSchoolMajorResponse,
   TTotalRegistransResponse,
+  TParentEducationResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -92,7 +93,7 @@ export class SelectService {
       throw new NotFoundException("Data tidak ditemukan");
     }
     return {
-      sub_district: subDistrict,
+      subdistrict: subDistrict,
     };
   }
 
@@ -284,12 +285,12 @@ export class SelectService {
     return { salary };
   }
 
-  async getEducationHistory({
+  async getEducation({
     search,
     npsn,
     id,
   }: ISelectEducationHistoryRequest): Promise<TEducationHistoryResponse> {
-    const educationHistory = await this.prisma.education.findMany({
+    const education = await this.prisma.education.findMany({
       where: {
         id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
@@ -306,11 +307,11 @@ export class SelectService {
       },
     });
 
-    if (!educationHistory || educationHistory.length === 0) {
+    if (!education || education.length === 0) {
       throw new NotFoundException("Data Pendidikan Tidak Ditemukan!");
     }
 
-    return { education_history: educationHistory };
+    return { education };
   }
 
   async getCountry({ search, citizenship_id, id }: ICountryRequest): Promise<TCountryResponse> {
@@ -424,8 +425,8 @@ export class SelectService {
     return { scholarship };
   }
 
-  async getSchoolType({ search, id }: ISelectRequest): Promise<TSchoolTypeResponse> {
-    const schoolTypes = await this.prisma.educationTypes.findMany({
+  async getEducationType({ search, id }: ISelectRequest): Promise<TSchoolTypeResponse> {
+    const education_type = await this.prisma.educationTypes.findMany({
       where: {
         id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
@@ -436,15 +437,15 @@ export class SelectService {
       },
     });
 
-    if (!schoolTypes) {
+    if (!education_type) {
       throw new NotFoundException("Data Jenis Sekola Tidak Ditemukan!");
     }
 
-    return { school_type: schoolTypes };
+    return { education_type };
   }
 
   async getParentStatus({ search, id }: ISelectRequest): Promise<TParentStatusResponse> {
-    const parentStatusTypes = await this.prisma.parentStatus.findMany({
+    const parentStatus = await this.prisma.parentStatus.findMany({
       where: {
         id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
@@ -455,19 +456,38 @@ export class SelectService {
       },
     });
 
-    if (!parentStatusTypes) {
+    if (!parentStatus) {
       throw new NotFoundException("Data Status Orang Tua Tidak Ditemukan!");
     }
 
-    return { parent_status: parentStatusTypes };
+    return { parent_status: parentStatus };
   }
 
-  async getSchoolMajor({
+  async getParentEducation({ search, id }: ISelectRequest): Promise<TParentEducationResponse> {
+    const parentEducation = await this.prisma.parentEducation.findMany({
+      where: {
+        id: id && Number(id),
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!parentEducation) {
+      throw new NotFoundException("Data Status Orang Tua Tidak Ditemukan!");
+    }
+
+    return { parent_education: parentEducation };
+  }
+
+  async getEducationMajor({
     search,
     school_type_id,
     id,
   }: ISelectSchoolMajorRequest): Promise<TSchoolMajorResponse> {
-    const schoolMajorTypes = await this.prisma.educationMajor.findMany({
+    const educationMajor = await this.prisma.educationMajor.findMany({
       where: {
         id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
@@ -479,11 +499,11 @@ export class SelectService {
       },
     });
 
-    if (!schoolMajorTypes) {
+    if (!educationMajor) {
       throw new NotFoundException("Data Jurusan Sekolah Tidak Ditemukan!");
     }
 
-    return { school_major: schoolMajorTypes };
+    return { education_major: educationMajor };
   }
 
   async getTotalRegistrans(): Promise<TTotalRegistransResponse> {

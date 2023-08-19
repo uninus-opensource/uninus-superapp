@@ -14,7 +14,7 @@ import { VSCreateUser, TReqToken, VSUpdateUser } from "@uninus/entities";
 import { ZodValidationPipe } from "@uninus/api/validator";
 import { JwtAuthGuard } from "@uninus/api/guard";
 import { CreateUserSwagger, UpdateUserSwagger, UserService } from "@uninus/api/services";
-import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
+import { ApiResponse, ApiQuery, ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("user")
 @ApiTags("User")
@@ -33,6 +33,11 @@ export class UserController {
 
   @Get()
   @ApiOperation({ summary: "Pagination List User" })
+  @ApiQuery({ name: "page", required: false })
+  @ApiQuery({ name: "per_page", required: false })
+  @ApiQuery({ name: "order_by", required: false })
+  @ApiQuery({ name: "filter_by", required: false })
+  @ApiQuery({ name: "search", required: false })
   getAllData(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
