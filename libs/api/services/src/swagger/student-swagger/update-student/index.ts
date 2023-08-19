@@ -156,4 +156,7 @@ export class UpdateStudentSwagger {
 
   @ApiProperty()
   selection_path_id!: number;
+
+  @ApiProperty()
+  utbk!: number;
 }
