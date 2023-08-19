@@ -97,6 +97,9 @@ export class AuthService {
               create: {
                 registration_number: String(Math.floor(1000000000 + Math.random() * 9000000000)),
                 registration_status_id: 1,
+                student_grade: {
+                  create: {},
+                },
               },
             },
           },
