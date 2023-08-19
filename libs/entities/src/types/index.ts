@@ -6,7 +6,6 @@ export * from "./register";
 export * from "./req-user";
 export * from "./rt-payload";
 export * from "./token";
-export * from "./biodata";
 export * from "./student";
 export * from "./user";
 export * from "./forgot-password";

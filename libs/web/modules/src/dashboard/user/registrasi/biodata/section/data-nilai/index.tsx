@@ -1,22 +1,21 @@
 import { FC, ReactElement } from "react";
 import { Accordion, Button, TextField, UploadField } from "@uninus/web/components";
-import { defaultValuesBiodata } from "../../store";
 import { useForm, FieldValues } from "react-hook-form";
 import { useBiodataUpdate } from "../../hooks";
 
 export const DataNilaiSection: FC = (): ReactElement => {
   const { control, handleSubmit } = useForm<FieldValues>({
     mode: "all",
-    defaultValues: { ...defaultValuesBiodata },
+    defaultValues: {},
   });
 
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
     try {
-      mutate({
-        ...data,
-      });
+      // mutate({
+      //   ...data,
+      // });
     } catch (error) {
       console.error(error);
     }

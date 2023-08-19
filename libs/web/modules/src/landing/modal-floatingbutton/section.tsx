@@ -150,6 +150,8 @@ export const ModalAndButtons: FC = (): ReactElement => {
             ? "bg-secondary-green-1"
             : data?.registration_status === "Tidak Lulus"
             ? "bg-red-7"
+            : data?.message
+            ? "bg-primary-orange"
             : ""
         }`}
       >
@@ -190,12 +192,16 @@ export const ModalAndButtons: FC = (): ReactElement => {
             className={`flex flex-col w-full h-[25em] md:h-[20em] px-4 md:px-10 items-center 
           ${data?.registration_status === "Tidak Lulus" ? "" : "justify-center lg:h-[22em]"}`}
           >
-            <section className="flex flex-col gap-2 w-full font-semibold py-2 px-4 md:px-0">
-              <h4 className="text-[10px] md:text-xs text-grayscale-9">
-                No Registrasi : {data?.registration_number}
-              </h4>
-              <h2 className="text-secondary-green-4 font-extrabold md:text-xl">{data?.fullname}</h2>
-            </section>
+            {data?.registration_number && (
+              <section className="flex flex-col gap-2 w-full font-semibold py-2 px-4 md:px-0">
+                <h4 className="text-[10px] md:text-xs text-grayscale-9">
+                  No Registrasi : {data?.registration_number}
+                </h4>
+                <h2 className="text-secondary-green-4 font-extrabold md:text-xl">
+                  {data?.fullname}
+                </h2>
+              </section>
+            )}
 
             {/* Ketika Lulus */}
             {data?.registration_status === "Lulus" && (
@@ -249,6 +255,16 @@ export const ModalAndButtons: FC = (): ReactElement => {
                     reguler gelombang 3
                   </h2>
                 </div>
+              </section>
+            )}
+
+            {/* Ketika sedang dalam proses selesi */}
+            {!data?.registration_status && (
+              <section className="flex flex-col w-full items-center text-center">
+                <p className="text-xl md:text-3xl w-full text-secondary-green-1 font-medium">
+                  Sedang dalam proses{" "}
+                  <span className="text-primary-yellow font-semibold">seleksi</span>{" "}
+                </p>
               </section>
             )}
           </section>

@@ -77,7 +77,7 @@ export const Navbar: FC = (): ReactElement => {
             quality={100}
             alt="logo-uninus"
             priority
-            className="w-44 sm:w-56 lg:w-52"
+            className="w-44 sm:w-56 lg:w-40"
           />
         </figure>
         <nav>
@@ -109,7 +109,7 @@ export const Navbar: FC = (): ReactElement => {
               animate={{
                 y: isDropDown ? [-10, 0] : [0, -10],
               }}
-              className="hidden lg:flex absolute w-36 h-[8.5rem] z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-[5.6rem] bg-primary-green"
+              className="hidden lg:flex absolute w-36 h-[6.2rem] z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-[5.6rem] bg-primary-green"
               onMouseEnter={navList[1]?.state}
               onMouseLeave={navList[1]?.state2}
             >

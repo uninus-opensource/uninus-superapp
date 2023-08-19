@@ -18,7 +18,7 @@ export const ModulePeduli: FC = (): ReactElement => {
           width={100}
           height={100}
           layout="responsive"
-          style={{ paddingTop: "100px" }}
+          style={{ paddingTop: "80px" }}
           quality={100}
         />
 

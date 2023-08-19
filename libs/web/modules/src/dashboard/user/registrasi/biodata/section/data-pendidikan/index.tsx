@@ -1,6 +1,6 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { Accordion, TextField, SelectOption, Button } from "@uninus/web/components";
-import { defaultValuesBiodata } from "../../store";
+import { dataPendidikan } from "../../store";
 import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
@@ -9,7 +9,7 @@ import { useYearGraduationGet } from "./hooks";
 export const DataPendidikanSection: FC = (): ReactElement => {
   const { control, handleSubmit, watch, setValue } = useForm<FieldValues>({
     mode: "all",
-    defaultValues: { ...defaultValuesBiodata },
+    defaultValues: {},
   });
 
   const [locationMeta, setLocationMeta] = useState({
@@ -82,6 +82,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
     try {
       mutate({
         ...data,
+        avatar: null,
       });
     } catch (error) {
       console.error(error);

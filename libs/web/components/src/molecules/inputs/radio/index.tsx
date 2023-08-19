@@ -8,6 +8,7 @@ export const RadioButton = <T extends FieldValues>({
   variant = RADIO_VARIANT.PRIMARY,
   size = RADIO_SIZE.SM,
   labelSize = LABEL_SIZE.SM,
+  disabled = false,
   ...props
 }: TRadioButtonProps<T>): ReactElement => {
   const [value, setValue] = useState<string>("");
@@ -47,7 +48,7 @@ export const RadioButton = <T extends FieldValues>({
   return (
     <section className="flex flex-col gap-y-2 xl:gap-y-2">
       <h3 className="text-xs font-semibold">
-        {props.fieldName} <span className="ml-1 font-bold text-primary-green">*</span>
+        {props.fieldName} {props.required && <span className="text-red-4">*</span>}
       </h3>
       <div className="flex items-center gap-x-4 xl:gap-x-8 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start">
         {props.options?.map((item, idx) => (
@@ -60,8 +61,9 @@ export const RadioButton = <T extends FieldValues>({
               key={idx}
               value={item.value}
               name={props.name}
-              checked={item.value === value}
-              onChange={handleOnChange}
+              checked={props.buttonValue ? item.value === props.buttonValue : item.value === value}
+              onChange={props.onChange ? props.onChange : handleOnChange}
+              disabled={disabled}
             />
             <label htmlFor={`${item.value}-${idx}`} className={lblSize}>
               {item.label}

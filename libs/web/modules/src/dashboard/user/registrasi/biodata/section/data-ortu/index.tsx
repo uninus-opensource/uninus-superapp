@@ -1,6 +1,5 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { Accordion, TextField, SelectOption, Button, CheckBox } from "@uninus/web/components";
-import { defaultValuesBiodata } from "../../store";
 import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
@@ -9,7 +8,7 @@ import { useOccupationGet, useSalaryGet } from "./hooks";
 export const DataOrtuSection: FC = (): ReactElement => {
   const { control, handleSubmit, watch, setValue } = useForm<FieldValues>({
     mode: "all",
-    defaultValues: { ...defaultValuesBiodata },
+    defaultValues: {},
   });
 
   const [locationMeta, setLocationMeta] = useState({
@@ -95,9 +94,9 @@ export const DataOrtuSection: FC = (): ReactElement => {
 
   const onSubmit = handleSubmit((data) => {
     try {
-      mutate({
-        ...data,
-      });
+      // mutate({
+      //   ...data,
+      // });
     } catch (error) {
       console.error(error);
     }
