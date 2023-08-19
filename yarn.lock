@@ -3464,13 +3464,6 @@
   dependencies:
     "@nx/linter" "16.7.0"
 
-"@nrwl/linter@16.7.1":
-  version "16.7.1"
-  resolved "https://registry.yarnpkg.com/@nrwl/linter/-/linter-16.7.1.tgz#0dc3ab92ae41a0ef00206f2aa973a42b073a49ab"
-  integrity sha512-slUJjydlWXx+HH+maguORAV/GO0yohHBYR9YiopptYCHPpjPmgAXvmkXsxwUq4uYtoZECxFxduCCim5jDMVIRg==
-  dependencies:
-    "@nx/linter" "16.7.1"
-
 "@nrwl/linter@16.7.2":
   version "16.7.2"
   resolved "https://registry.yarnpkg.com/@nrwl/linter/-/linter-16.7.2.tgz#35d83244d3ab48c1f7722ab7714f9a8fcbb0d816"
@@ -3513,13 +3506,6 @@
   dependencies:
     nx-cloud "16.3.0"
 
-"@nrwl/react@16.7.1":
-  version "16.7.1"
-  resolved "https://registry.yarnpkg.com/@nrwl/react/-/react-16.7.1.tgz#aae162b47aa4078a9d4e222a5fa4db970a7a9bf4"
-  integrity sha512-/+BKLv5NRe+/9dKu1crV8EAK3t6NuVL656FRkWsUHDms544A7gpR4jMC7cCh/yylvhmtw19/6dyvjDKssMS5Rw==
-  dependencies:
-    "@nx/react" "16.7.1"
-
 "@nrwl/react@16.7.2":
   version "16.7.2"
   resolved "https://registry.yarnpkg.com/@nrwl/react/-/react-16.7.2.tgz#df2d8ed4f4d5eb7d16ee93ae3a25623f5bea4bd2"
@@ -3557,13 +3543,6 @@
   dependencies:
     nx "16.7.2"
     tslib "^2.3.0"
-
-"@nrwl/web@16.7.1":
-  version "16.7.1"
-  resolved "https://registry.yarnpkg.com/@nrwl/web/-/web-16.7.1.tgz#8649d24f866dd3c61c279132bbeae917b74651c5"
-  integrity sha512-B8iCZgs24JZLEI1FI2zN7dcVHBwhuaLNcwTmwR6c+B+1c743RFGFA1FEBHF+zkxCHWH2QL1AYOFXdDz/49p0+Q==
-  dependencies:
-    "@nx/web" "16.7.1"
 
 "@nrwl/web@16.7.2":
   version "16.7.2"
@@ -3868,18 +3847,6 @@
     tmp "~0.2.1"
     tslib "^2.3.0"
 
-"@nx/linter@16.7.1":
-  version "16.7.1"
-  resolved "https://registry.yarnpkg.com/@nx/linter/-/linter-16.7.1.tgz#d371626d196bde1b718cc3c24611d8c03caf6d83"
-  integrity sha512-vjhbLhioBtp286JYowV5VxjxaRGwLRgsElGzo2i0AbiFCG49bxnBb19YXThroT+uh6+dNENuTWsIcrrojYSmyg==
-  dependencies:
-    "@nrwl/linter" "16.7.1"
-    "@nx/devkit" "16.7.1"
-    "@nx/js" "16.7.1"
-    "@phenomnomnominal/tsquery" "~5.0.1"
-    tmp "~0.2.1"
-    tslib "^2.3.0"
-
 "@nx/linter@16.7.2":
   version "16.7.2"
   resolved "https://registry.yarnpkg.com/@nx/linter/-/linter-16.7.2.tgz#49d960cf1509a9ae5ccb9967c69c7cf04085f936"
@@ -4158,23 +4125,6 @@
   resolved "https://registry.yarnpkg.com/@nx/nx-win32-x64-msvc/-/nx-win32-x64-msvc-16.7.2.tgz#1b0a286a5b0cb9c8545c7c49e7514aaf464fe9a7"
   integrity sha512-+n01cT9/P3o95x+FlRWYf9sFZ29ooxYD/WLcmxACeXN0V1bdbnZxKVSuJqrXZhmpHe7P+/+IRmniv9cdpkxz7g==
 
-"@nx/react@16.7.1":
-  version "16.7.1"
-  resolved "https://registry.yarnpkg.com/@nx/react/-/react-16.7.1.tgz#347b0c623a986e9351c1b582d11fa8cfbb4ef391"
-  integrity sha512-yLt2f6qKGWhoaxSpwC0ahRXR3TEz7JdDofI+AkFVpvSwgQBtnfgeCfTfCKR18M/iimauDHtmlwp3ev6e+xMeOA==
-  dependencies:
-    "@nrwl/react" "16.7.1"
-    "@nx/devkit" "16.7.1"
-    "@nx/js" "16.7.1"
-    "@nx/linter" "16.7.1"
-    "@nx/web" "16.7.1"
-    "@phenomnomnominal/tsquery" "~5.0.1"
-    "@svgr/webpack" "^8.0.1"
-    chalk "^4.1.0"
-    file-loader "^6.2.0"
-    minimatch "3.0.5"
-    tslib "^2.3.0"
-
 "@nx/react@16.7.2":
   version "16.7.2"
   resolved "https://registry.yarnpkg.com/@nx/react/-/react-16.7.2.tgz#6bd240257fcc15e39173f4917c68ff5fe1a9b5fd"
@@ -4190,21 +4140,6 @@
     chalk "^4.1.0"
     file-loader "^6.2.0"
     minimatch "3.0.5"
-    tslib "^2.3.0"
-
-"@nx/web@16.7.1":
-  version "16.7.1"
-  resolved "https://registry.yarnpkg.com/@nx/web/-/web-16.7.1.tgz#606264eaf57e2cf070f1380e79f0ea638e828cfd"
-  integrity sha512-lzzQuJ/p4ehBO3P0/JwW3xYq54EnMpdG+YRiaEdvXwwnxeiiWrwEL7x6KQK7JC7EIX+3jRBWosPU0DUEVtUvCw==
-  dependencies:
-    "@nrwl/web" "16.7.1"
-    "@nx/devkit" "16.7.1"
-    "@nx/js" "16.7.1"
-    chalk "^4.1.0"
-    chokidar "^3.5.1"
-    detect-port "^1.5.1"
-    http-server "^14.1.0"
-    ignore "^5.0.4"
     tslib "^2.3.0"
 
 "@nx/web@16.7.2":
