@@ -40,7 +40,7 @@ module.exports = {
         18: "72px",
         26: "105px",
         "navbar-mobile": "160px",
-        navbarlg: "120px",
+        navbarlg: "80px",
         footerHeight: "360px",
         bannerLg: "520px",
       },

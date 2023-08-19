@@ -1,48 +1,27 @@
 import { useMutation, useQuery, UseMutationResult, UseQueryResult } from "@tanstack/react-query";
-import { BiodataCreate, BiodataGet, BiodataUpdate, StudentGet } from "./api";
+import { BiodataUpdate, BiodatatGet } from "./api";
 import {
-  IBiodataGetResponse,
   IGetStudentResponse,
-  TBiodataRequest,
-  TBiodataResponse,
-  TBiodataUpdateRequest,
-  TBiodataUpdateResponse,
+  IUpdateStudentRequestFE,
+  IUpdateStudentResponse,
   TMetaErrorResponse,
 } from "@uninus/entities";
 
-export const useBiodataCreate = (): UseMutationResult<
-  TBiodataRequest,
-  TMetaErrorResponse,
-  TBiodataResponse
-> =>
-  useMutation({
-    mutationKey: ["createBiodata"],
-    mutationFn: async (payload: TBiodataRequest) => {
-      return await BiodataCreate(payload);
-    },
-  });
-
 export const useBiodataUpdate = (): UseMutationResult<
-  TBiodataUpdateRequest,
+  IUpdateStudentResponse,
   TMetaErrorResponse,
-  TBiodataUpdateResponse
+  IUpdateStudentRequestFE
 > =>
   useMutation({
     mutationKey: ["updateBiodata"],
-    mutationFn: async (payload: TBiodataUpdateRequest) => {
+    mutationFn: async (payload: IUpdateStudentRequestFE) => {
       return await BiodataUpdate(payload);
     },
   });
 
-export const useBiodataGet = (): UseQueryResult<IBiodataGetResponse, TMetaErrorResponse> => {
+export const useGetBiodata = (): UseQueryResult<IGetStudentResponse, TMetaErrorResponse> => {
   return useQuery({
-    queryKey: ["getBiodata"],
-    queryFn: async () => await BiodataGet(),
-  });
-};
-export const useStudentGet = (): UseQueryResult<IGetStudentResponse, TMetaErrorResponse> => {
-  return useQuery({
-    queryKey: ["getStudent"],
-    queryFn: async () => await StudentGet(),
+    queryKey: ["getStudentBiodata"],
+    queryFn: async () => await BiodatatGet(),
   });
 };

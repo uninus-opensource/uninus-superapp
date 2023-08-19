@@ -14,4 +14,6 @@ export type TRadioButtonProps<T extends FieldValues> = UseControllerProps<T> & {
   required?: boolean;
   message?: "primary" | "error" | "warning";
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  buttonValue?: string | null | void;
+  disabled?: boolean;
 };

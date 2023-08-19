@@ -76,7 +76,7 @@ export const TextField = <T extends FieldValues>({
   });
 
   return (
-    <section className="flex flex-col w-auto my-1 gap-y-2 ">
+    <section className="flex flex-col w-auto my-1 gap-y-2">
       {props.label && (
         <label htmlFor={props.name} className={`${labelVariant} ${props.labelclassname}`}>
           {props.label}
