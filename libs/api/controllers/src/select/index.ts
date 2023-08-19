@@ -202,7 +202,7 @@ export class SelectController {
   getCountry(
     @Query("id") id: number,
     @Query("search") search: string,
-    @Query("citizenship") citizenship_id: string,
+    @Query("citizenship_id") citizenship_id: string,
   ) {
     return this.appService.getCountry({ search, citizenship_id, id });
   }
@@ -294,9 +294,9 @@ export class SelectController {
   getSchoolMajor(
     @Query("id") id: number,
     @Query("search") search: string,
-    @Query("school_type_id") school_type_id: string,
+    @Query("education_type_id") education_type_id: string,
   ) {
-    return this.appService.getEducationMajor({ search, school_type_id, id });
+    return this.appService.getEducationMajor({ search, education_type_id, id });
   }
 
   @Get("parent-status")
