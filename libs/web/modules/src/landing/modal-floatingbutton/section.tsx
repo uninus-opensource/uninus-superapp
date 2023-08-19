@@ -5,10 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TSeleksiProps } from "./type";
 import { Button, Modal, PopUp, TextField } from "@uninus/web/components";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { BsCalendarCheck, BsTelephone } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { FaCircleUser } from "react-icons/fa6";
 import { useCheckRegistration } from "./hook";
+import { KartuKelulusan } from "./pdf";
 
 /*
 Untuk cek kelulusan sementara pakai nomor berikut
@@ -18,6 +20,13 @@ Untuk cek kelulusan sementara pakai nomor berikut
 4354366788
 5465486799
 */
+const PDFDownloadLink = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  {
+    ssr: false,
+    loading: () => <p className="text-primary-green">Menyiapkan dokumen..</p>,
+  },
+);
 
 export const ModalAndButtons: FC = (): ReactElement => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
@@ -232,9 +241,22 @@ export const ModalAndButtons: FC = (): ReactElement => {
                     Silahkan melakukan tahapan berikutnya dengan mengunduh bukti kelulusan di bawah
                     ini
                   </p>
-                  <Button variant="filled" width="w-full" height="md:h-8 lg:h-6">
-                    Unduh Bukti Kelulusan
-                  </Button>
+                  <PDFDownloadLink
+                    document={<KartuKelulusan />}
+                    fileName="4103700434832748_Kartu Kelulusan.pdf"
+                  >
+                    {({ loading }) =>
+                      loading ? (
+                        <p className="text-primary-green">hampir selesai...</p>
+                      ) : (
+                        <Button variant="filled" width="w-full" height="md:h-8 lg:h-6">
+                          <div className="flex justify-center items-center gap-2">
+                            Unduh Bukti Kelulusan
+                          </div>
+                        </Button>
+                      )
+                    }
+                  </PDFDownloadLink>
                 </div>
               </Fragment>
             )}
