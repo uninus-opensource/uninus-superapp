@@ -231,6 +231,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             className="grid lg:flex lg:items-center lg:gap-6 w-full justify-center lg:justify-start items-center h-full gap-y-6 lg:gap-y-0"
             classNameField="w-70% lg:w-auto"
             control={control}
+            variant="default"
             name="image"
             defaultImage="/illustrations/dummy-avatar.webp"
             previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full "

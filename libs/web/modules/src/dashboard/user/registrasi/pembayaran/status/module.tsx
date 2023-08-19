@@ -104,9 +104,9 @@ export const Pembayaran: FC = (): ReactElement => {
         <div className="bg-primary-green w-full h-[3px] mt-3"></div>
         <div className="px-4 md:px-8">
           <StatusAlert
-            status="pending"
-            message="Sistem sedang memverifikasi pembayaran anda"
-            messageDetails="Harap menunggu proses verifikasi paling lambat 1x24 jam"
+            status="unpaid"
+            message="Segera Selesaikan Pembayaranmu!"
+            messageDetails="Sedikit Lagi Kamu akan terdaftar di Universitas Islam Nusantara"
           />
           <div className="mt-2 flex justify-between flex-col  gap-y-2">
             <h2 className="text-grayscale-6 text-xs md:text-base">Metode Pembayaran</h2>

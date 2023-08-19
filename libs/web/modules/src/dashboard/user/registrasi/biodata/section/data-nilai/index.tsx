@@ -32,15 +32,15 @@ export const DataNilaiSection: FC = (): ReactElement => {
           Nilai Rapor
         </h1>
         <div className="w-full overflow-x-auto lg:overflow-x-hidden gap-x-4">
-          <section className="grid grid-cols-5 gap-x-24 lg:gap-x-4 w-60% py-4 ">
-            <div className="grid grid-rows-5 gap-2 font-bold text-xs  lg:text-md pr-4">
+          <section className="grid grid-cols-5 gap-x-24 lg:gap-x-4 w-60% py-4">
+            <div className="grid grid-rows-5 gap-2 font-bold text-xs items-center lg:text-md pr-4">
               <p className="py-2"></p>
               <p>Matematika</p>
               <p>B. Indonesia</p>
               <p>B. Inggris</p>
               <p>Upload File</p>
             </div>
-            <div className="grid grid-rows-5 gap-2">
+            <div className="grid grid-rows-5 gap-2 items-center">
               <p>Semester 1</p>
               <TextField
                 inputHeight="h-10"
@@ -69,14 +69,9 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 inputWidth="lg:w-26 w-14 text-base"
                 control={control}
               />
-              <UploadField
-                control={control}
-                name="dokumen"
-                classNameField="file:bg-primary-green file:text-primary-white file:rounded-[3px] file:border-none w-[59vw] md:w-[29vw] lg:w-[22vw] xl:w-[18vw] xl:w-[17vw] file:cursor-pointer "
-                preview={false}
-              />
+              <UploadField control={control} name="dokumen" variant="custom" preview={false} />
             </div>
-            <div className="grid grid-rows-5 gap-2">
+            <div className="grid grid-rows-5 gap-2 items-center">
               <p>Semester 2</p>
               <TextField
                 inputHeight="h-10"
@@ -105,15 +100,10 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 inputWidth="lg:w-26 w-14 text-base"
                 control={control}
               />
-              <UploadField
-                control={control}
-                name="dokumen2"
-                classNameField="file:bg-primary-green file:text-primary-white file:rounded-[3px] file:border-none w-[59vw] md:w-[29vw] lg:w-[22vw] xl:w-[18vw] xl:w-[17vw] file:cursor-pointer "
-                preview={false}
-              />
+              <UploadField control={control} name="dokumen2" variant="custom" preview={false} />
             </div>
 
-            <div className="grid grid-rows-5 gap-2">
+            <div className="grid grid-rows-5 gap-2 items-center">
               <p>Semester 3</p>
               <TextField
                 inputHeight="h-10"
@@ -142,14 +132,9 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 inputWidth="lg:w-26 w-14 text-base"
                 control={control}
               />
-              <UploadField
-                control={control}
-                name="dokumen3"
-                classNameField="file:bg-primary-green file:text-primary-white file:rounded-[3px] file:border-none w-[59vw] md:w-[29vw] lg:w-[22vw] xl:w-[18vw] xl:w-[17vw] file:cursor-pointer "
-                preview={false}
-              />
+              <UploadField control={control} name="dokumen3" variant="custom" preview={false} />
             </div>
-            <div className="grid grid-rows-5 gap-2">
+            <div className="grid grid-rows-5 gap-2 items-center">
               <p>Semester 4</p>
               <TextField
                 inputHeight="h-10"
@@ -178,12 +163,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 inputWidth="lg:w-26 w-14 text-base"
                 control={control}
               />
-              <UploadField
-                control={control}
-                name="dokumen4"
-                classNameField="file:bg-primary-green file:text-primary-white file:rounded-[3px] file:border-none w-[59vw] md:w-[29vw] lg:w-[22vw] xl:w-[18vw] xl:w-[17vw] file:cursor-pointer "
-                preview={false}
-              />
+              <UploadField control={control} name="dokumen4" variant="custom" preview={false} />
             </div>
           </section>
         </div>
@@ -205,12 +185,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
           </div>
           <div className="flex items-center font-bold gap-8">
             <p>Sertifikat UTBK : </p>
-            <UploadField
-              control={control}
-              name="UTBK"
-              classNameField="file:bg-primary-green file:text-primary-white file:rounded-[3px] file:border-none w-[59vw] md:w-[29vw] lg:w-[22vw] xl:w-[18vw] xl:w-[17vw] file:cursor-pointer "
-              preview={false}
-            />
+            <UploadField control={control} name="UTBK" variant="default" preview={false} />
           </div>
         </section>
 

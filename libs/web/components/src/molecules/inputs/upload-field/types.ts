@@ -9,4 +9,5 @@ export type TUploadFile = {
   labels?: string;
   labelClassName?: string;
   required?: boolean;
+  variant: string;
 };
