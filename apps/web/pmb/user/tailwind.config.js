@@ -101,6 +101,12 @@ module.exports = {
         6: "#a70000",
         7: "#BB2D3B",
       },
+      conditional: {
+        disable: "#B3B3B3",
+        success: "#198754",
+        warning: "#FFC107",
+        error: "#BB2D3B",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],

@@ -6,6 +6,8 @@ import {
   TDepartmentResponse,
   ISelectionRequest,
   TSelectionResponse,
+  IStudentData,
+  IGetStudentResponse,
 } from "@uninus/entities";
 
 export const DegreeProgramGet = async (
@@ -36,5 +38,10 @@ export const SelectionGet = async (params: ISelectionRequest): Promise<TSelectio
     params,
     url: "/selection-path",
   });
+  return data;
+};
+
+export const StudentUpdate = async (payload: IStudentData): Promise<IStudentData> => {
+  const { data } = await api.put<IStudentData>("/student", payload);
   return data;
 };

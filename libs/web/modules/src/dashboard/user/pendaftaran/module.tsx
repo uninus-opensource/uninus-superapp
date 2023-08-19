@@ -2,24 +2,24 @@
 import { ReactElement, FC, useEffect, useMemo, useState } from "react";
 import { Button, SelectOption } from "@uninus/web/components";
 import { FieldValues, useForm } from "react-hook-form";
-import { useDegreeProgramGet, useDepartmentGet, useSelectionGet } from "./hooks";
+import { useDegreeProgramGet, useDepartmentGet, useSelectionGet, useStudentUpdate } from "./hooks";
+import { studentData } from "./type";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import { useGetBiodata } from "../registrasi";
 
 export const ModulePendaftaran: FC = (): ReactElement => {
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
   const {
     control,
     handleSubmit,
     watch,
     setValue,
     formState: { isValid },
+    reset,
   } = useForm<FieldValues>({
-    defaultValues: {
-      program: undefined,
-      seleksi: undefined,
-      prodi1: undefined,
-      prodi2: undefined,
-      pembayaran: undefined,
-      draggableComponent: undefined,
-    },
+    defaultValues: {},
   });
 
   const [programMeta] = useState({
@@ -54,9 +54,19 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     [getDepartment?.department],
   );
 
+  const { data } = useGetBiodata();
+
+  const student = useMemo(() => {
+    return data;
+  }, [data]);
+
   useEffect(() => {
     setValue("department", null);
   }, [watch("program")]);
+
+  useEffect(() => {
+    reset(student);
+  }, [student, reset]);
 
   const [selection] = useState({
     search: "",
@@ -73,8 +83,62 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     [getSelection?.selection],
   );
 
+  const { mutate } = useStudentUpdate();
+
+  const selectionDegreeProgram = getDegreeProgram?.degree_program.find(
+    (degree) => degree.id === data?.degree_program_id,
+  );
+  const selectionFirstDepartement = getDepartment?.department.find(
+    (degree) => degree.id === data?.first_deparment_id,
+  );
+  const selectionSecondDepartement = getDepartment?.department.find(
+    (degree) => degree.id === data?.second_deparment_id,
+  );
+  const selectionType = getSelection?.selection.find(
+    (degree) => degree.id === data?.selection_path_id,
+  );
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    studentData.degree_program_id = Number(data.program);
+    studentData.first_deparment_id = Number(data.prodi1);
+    studentData.second_deparment_id = Number(data.prodi2);
+    studentData.selection_path_id = Number(data.seleksi);
+
+    try {
+      mutate(studentData, {
+        onSuccess: () => {
+          setIsFormSubmitted(true);
+          setTimeout(() => {
+            toast.success("Berhasil mengisi formulir", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          }, 500);
+        },
+        onError: () => {
+          setTimeout(() => {
+            toast.error("Gagal mengisi formulir", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          }, 500);
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   });
 
   return (
@@ -91,11 +155,32 @@ export const ModulePendaftaran: FC = (): ReactElement => {
         </p>
       </div>
       <div className="flex flex-col gap-4 w-full bg-primary-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold">Formulir Pendaftaran</h1>
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-bold">Formulir Pendaftaran</h1>
+          <p className="text-conditional-error font-bold">
+            Perhatian :{" "}
+            <span className="text-primary-black font-normal">
+              Data telah disubmit tidak dapat di edit
+            </span>
+          </p>
+        </div>
+
         <form onSubmit={onSubmit}>
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           <div className="flex flex-col gap-y-4">
             <SelectOption
-              placeholder="Pilih Program Pendidikan"
+              placeholder={selectionDegreeProgram?.name || "Pilih Program Pendidikan"}
               labels="Program Pendidikan"
               labelClassName="md:text-base"
               control={control}
@@ -105,9 +190,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
+              disabled={!!selectionDegreeProgram || isFormSubmitted}
             />
             <SelectOption
-              placeholder="Pilih Program Studi"
+              placeholder={selectionFirstDepartement?.name || "Pilih Program Studi"}
               labelClassName="md:text-base"
               labels="Pilihan Program Studi 1"
               control={control}
@@ -117,10 +203,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={!watch("program")}
+              disabled={!watch("program") || isFormSubmitted}
             />
             <SelectOption
-              placeholder="Pilih Program Studi"
+              placeholder={selectionSecondDepartement?.name || "Pilih Program Studi"}
               labels="Pilihan Program Studi 2"
               labelClassName="md:text-base"
               control={control}
@@ -130,10 +216,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={!watch("program")}
+              disabled={!watch("program") || isFormSubmitted}
             />
             <SelectOption
-              placeholder="Pilih Jalur Seleksi"
+              placeholder={selectionType?.name || "Pilih Jalur Seleksi"}
               labels="Jalur Seleksi"
               labelClassName="md:text-base"
               control={control}
@@ -143,6 +229,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
+              disabled={!!selectionType || isFormSubmitted}
             />
           </div>
           <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-end">
@@ -151,7 +238,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               size="sm"
               width="w-48"
               height="h-12"
-              disabled={!isValid}
+              disabled={!isValid || isFormSubmitted}
               className={`${
                 isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"
               } text-white rounded-md`}
