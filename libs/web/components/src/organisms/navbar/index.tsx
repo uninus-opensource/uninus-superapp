@@ -67,17 +67,17 @@ export const Navbar: FC = (): ReactElement => {
     <Fragment>
       <header
         data-testid="navbarLanding"
-        className="z-40 px-8 lg:px-14 flex justify-between items-center h-[100px] lg:h-navbarlg text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold"
+        className="z-40 px-8 lg:px-14 flex justify-between items-center h-[86px] text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold"
       >
         <figure>
           <Image
             src={"/illustrations/Neo-Uninus.webp"}
-            width={500}
-            height={500}
+            width={300}
+            height={300}
             quality={100}
             alt="logo-uninus"
             priority
-            className="w-44 sm:w-56 lg:w-52"
+            className="w-36 sm:w-30 lg:w-40"
           />
         </figure>
         <nav>
@@ -109,7 +109,7 @@ export const Navbar: FC = (): ReactElement => {
               animate={{
                 y: isDropDown ? [-10, 0] : [0, -10],
               }}
-              className="hidden lg:flex absolute w-36 h-[8.5rem] z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-[5.6rem] bg-primary-green"
+              className="hidden lg:flex absolute w-36 h-[6.5rem] z-50 text-base text-primary-black items-center justify-center flex-col rounded-sm ml-[5.6rem] bg-primary-green"
               onMouseEnter={navList[1]?.state}
               onMouseLeave={navList[1]?.state2}
             >
@@ -132,8 +132,8 @@ export const Navbar: FC = (): ReactElement => {
             <Button
               href="/auth/login"
               variant="custom"
-              styling="bg-grayscale-1 text-secondary-green-4"
-              width="w-26"
+              styling="bg-grayscale-1 text-secondary-green-4 px-2"
+              width="w-28"
               height="h-9"
             >
               Login

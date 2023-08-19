@@ -7,6 +7,7 @@ export const Accordion: FC<AccordionType> = ({
   children,
   newIcon,
   title,
+  titleClassName,
   className,
   showIcon = true,
 }): ReactElement => {
@@ -25,7 +26,7 @@ export const Accordion: FC<AccordionType> = ({
         className="flex justify-between items-center cursor-pointer select-none px-5"
         onClick={toggleAccordion}
       >
-        <h2 className="text-[1rem] font-extrabold text-secondary-green-4">{title}</h2>
+        <h2 className={titleClassName}>{title}</h2>
         {showIcon ? (
           <CaretUpFilled
             className={`text-secondary-green-4 text-[1.7rem] duration-300 ${
@@ -33,7 +34,7 @@ export const Accordion: FC<AccordionType> = ({
             }`}
           />
         ) : (
-          <span className="font-semibold">{newIcon}</span>
+          <span className="text-sm">{newIcon}</span>
         )}
       </div>
       {isOpen && <div className={className}>{children}</div>}

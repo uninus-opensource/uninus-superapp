@@ -23,6 +23,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
         showModal={showModal}
         onClose={handleCloseModal}
         closeClassName="text-primary-white"
+        bodyClassName="overflow-y-auto p-8"
         headerColor="bg-primary-green"
         footerColor="bg-primary-green"
         modalTitle={
@@ -35,24 +36,33 @@ export const ProgramStudyModule: FC = (): ReactElement => {
           </div>
         }
       >
-        <div className="modal flex flex-col  h-full max-h-[50vh] overflow-y-auto overflow-hidden ">
-          <h1 className="font-semibold py-5 text-xl">Visi</h1>
-          {activeItem && <p className="text-justify">{activeItem.visi}</p>}
-          <div className="prodi py-5">
-            <div className="flex justify-between flex-row px-3">
-              <p className="font-semibold">Nama Prodi</p>
-              <p className="font-semibold">Akreditasi</p>
+        <div className="modal flex flex-col h-full max-h-[50vh] ">
+          <h1 className="font-semibold text-lg">Visi</h1>
+          {activeItem && <p className="text-justify-start text-md">{activeItem.visi}</p>}
+          <div className="py-5">
+            <div className="flex justify-between text-lg font-extrabold flex-row py-4">
+              <p>Nama Prodi</p>
+              <p>Akreditasi</p>
             </div>
             {activeItem && (
-              <div className="flex flex-col justify-between items-center overflow-y-auto max-h-[40vh] overflow-hidden xl:w-full">
+              <div className="flex flex-col gap-4 justify-between items-center max-h-[50vh] xl:w-full ">
                 {activeItem.prodi?.map((item, idx) => (
-                  <Accordion showIcon={false} key={idx} title={item.prod} newIcon={item.akreditasi}>
-                    <div className="p-5 lg:px-10">
-                      <h1 className="font-bold text-xl text-primary-green pb-5">Deskripsi Prodi</h1>
-                      <p className="text-sm text-justify">{item.about}</p>
-                      <h1 className="font-bold text-xl text-primary-green py-5">Spesialisasi</h1>
-                      <div className="pb-2 w-[90%] ">
-                        <ul className=" list-disc md:grid md:grid-cols-2 flex flex-col  items-start justify-center ">
+                  <Accordion
+                    showIcon={false}
+                    key={idx}
+                    title={item.prod}
+                    titleClassName="text-slate-7 hover:text-primary-green font-normal"
+                    newIcon={item.akreditasi}
+                  >
+                    <div className="bg-slate-4 w-full h-[2px] mt-3"></div>
+                    <div className="px-5">
+                      <h1 className="font-bold text-lg text-primary-green pb-5 py-4">
+                        Deskripsi Prodi
+                      </h1>
+                      <p className="text-sm text-justify-start">{item.about}</p>
+                      <h1 className="font-bold text-xl py-5 text-primary-green">Spesialisasi</h1>
+                      <div className="pb-2 w-[90%] px-5">
+                        <ul className="list-disc md:grid md:grid-cols-2 flex flex-col pb-4  items-start justify-center ">
                           {item.specials?.map((item, idx) => (
                             <li key={idx} className="text-sm pl-2">
                               {item.special}

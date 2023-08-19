@@ -18,6 +18,7 @@ describe("Test Tab Component", () => {
     jest.runOnlyPendingTimers();
     jest.useRealTimers();
   });
+
   it("Should render correctly", () => {
     const { getByTestId, getAllByText } = render(<TabJalurSeleksi />);
     expect(getByTestId("Tab")).toBeInTheDocument();
@@ -27,6 +28,7 @@ describe("Test Tab Component", () => {
 
     expect(getAllByText("jalur seleksi pmb uninus")).toBeDefined();
   });
+
   it("cycles through buttonList on timer", () => {
     const { getByText } = render(<TabJalurSeleksi />);
 
@@ -42,6 +44,7 @@ describe("Test Tab Component", () => {
     activeText = getByText("ST");
     expect(activeText).toBeInTheDocument();
   });
+
   it("shows display All Persyaratan Text", () => {
     const { getByTestId, getByText } = render(<TabJalurSeleksi />);
     const persyaratanText = getByTestId("content-text");
@@ -49,14 +52,17 @@ describe("Test Tab Component", () => {
     expect(getByText("Persyaratan")).toBeDefined();
     expect(persyaratanText).toHaveClass("flex flex-col justify-center gap-2 text-sm");
   });
+
   it("Should render persyaratan by content1", () => {
     const { getByTestId } = render(<TabJalurSeleksi />);
     expect(getByTestId("content-1")).toBeDefined();
   });
+
   it("Should render persyaratan by content2", () => {
     const { getByTestId } = render(<TabJalurSeleksi />);
     expect(getByTestId("content-2")).toBeDefined();
   });
+
   it("Should render persyaratan by content3", () => {
     const { getByTestId } = render(<TabJalurSeleksi />);
     expect(getByTestId("content-3")).toBeDefined();
