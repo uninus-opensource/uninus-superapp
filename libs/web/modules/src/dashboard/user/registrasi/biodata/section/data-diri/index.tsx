@@ -221,7 +221,8 @@ export const DataDiriSection: FC = (): ReactElement => {
 
   return (
     <Accordion
-      title="Data diri pendaftar"
+      title="Data Diri Pendaftar"
+      titleClassName="text-lg font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] gap-5"
     >
       <form onSubmit={onSubmit}>

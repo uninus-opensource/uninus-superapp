@@ -4,7 +4,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import {
   Button,
   CheckBox,
-  Modal,
   UploadField,
   DraggableComponent,
   TabJalurSeleksi,

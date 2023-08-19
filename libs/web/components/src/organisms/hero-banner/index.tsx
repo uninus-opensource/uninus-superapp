@@ -82,7 +82,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute mt-24 lg:mt-20 lg:h-auto lg:w-full`}
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 lg:h-auto lg:w-full`}
         />
       ),
     },
@@ -94,7 +94,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute mt-24 lg:mt-20 lg:h-auto lg:w-full`}
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 lg:h-auto lg:w-full`}
         />
       ),
     },
@@ -106,7 +106,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute mt-24 lg:mt-20 lg:h-auto lg:w-full`}
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 lg:h-auto lg:w-full`}
         />
       ),
     },
@@ -118,7 +118,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute mt-24 lg:mt-20 lg:h-auto lg:w-full`}
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 lg:h-auto lg:w-full`}
         />
       ),
     },

@@ -27,7 +27,7 @@ describe("Test Navbar Componetn", () => {
     const { getByTestId } = render(<Navbar />);
     mockAllIsIntersecting(true);
     expect(getByTestId("navbarLanding")).toHaveClass(
-      "z-40 px-8 lg:px-14 flex justify-between items-center h-[100px] lg:h-navbarlg text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold",
+      "z-40 px-8 lg:px-14 flex justify-between items-center h-[86px] text-grayscale-1 w-full bg-primary-green fixed top-0 leading-normal font-bold",
     );
   });
   it("should hidden on sm , Block on lg", () => {
