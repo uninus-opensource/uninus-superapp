@@ -18,7 +18,7 @@ export interface ISelectFacultyRequest extends ISelectRequest {
 }
 
 export interface ISelectSchoolMajorRequest extends ISelectRequest {
-  school_type_id?: string;
+  education_type_id?: string;
 }
 
 export type TProvinceResponse = {

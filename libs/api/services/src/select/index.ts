@@ -491,14 +491,14 @@ export class SelectService {
 
   async getEducationMajor({
     search,
-    school_type_id,
+    education_type_id,
     id,
   }: ISelectSchoolMajorRequest): Promise<TSchoolMajorResponse> {
     const educationMajor = await this.prisma.educationMajor.findMany({
       where: {
         id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
-        ...(school_type_id && { school_type_id: Number(school_type_id) }),
+        ...(education_type_id && { education_type_id: Number(education_type_id) }),
       },
       select: {
         id: true,
