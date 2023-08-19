@@ -40,9 +40,10 @@ import {
 export class SelectService {
   constructor(private prisma: PrismaService) {}
 
-  async getProvince({ search }: ISelectRequest): Promise<TProvinceResponse> {
+  async getProvince({ search, id }: any): Promise<any> {
     const province = await this.prisma.province.findMany({
       where: {
+        id: id && Number(id),
         name: {
           ...(search && { contains: search }),
           mode: "insensitive",
@@ -61,9 +62,10 @@ export class SelectService {
     };
   }
 
-  async getCity({ province_id, search }: ICityRequest): Promise<TCityResponse> {
+  async getCity({ province_id, search, id }: ICityRequest): Promise<TCityResponse> {
     const city = await this.prisma.city.findMany({
       where: {
+        id: id && Number(id),
         name: {
           ...(search && { contains: search }),
           mode: "insensitive",
@@ -79,9 +81,14 @@ export class SelectService {
     };
   }
 
-  async getSubDistrict({ city_id, search }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
+  async getSubDistrict({
+    city_id,
+    search,
+    id,
+  }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
     const subDistrict = await this.prisma.subDistrict.findMany({
       where: {
+        id: id && Number(id),
         name: {
           ...(search && { contains: search }),
           mode: "insensitive",
@@ -335,7 +342,7 @@ export class SelectService {
   }
 
   async getOccupation({ search, id }: ISelectRequest): Promise<TOccupationResponse> {
-    const occupation = await this.prisma.ocupation.findMany({
+    const occupation = await this.prisma.occupation.findMany({
       where: {
         id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
@@ -357,7 +364,7 @@ export class SelectService {
     occupation_id,
     id,
   }: IOccupationPositionRequest): Promise<TOccupationPositionResponse> {
-    const occupationPosition = await this.prisma.ocupationPosition.findMany({
+    const occupationPosition = await this.prisma.occupationPosition.findMany({
       where: {
         id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
