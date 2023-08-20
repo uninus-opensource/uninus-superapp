@@ -27,7 +27,11 @@ export class StudentService {
         fullname: true,
         students: {
           include: {
-            pmb: true,
+            pmb: {
+              include: {
+                student_grade: true,
+              },
+            },
           },
         },
       },
@@ -49,6 +53,7 @@ export class StudentService {
       second_deparment_id: students?.pmb?.second_deparment_id,
       selection_path_id: students?.pmb?.selection_path_id,
       degree_program_id: students?.pmb?.degree_program_id,
+      student_grade: students?.pmb?.student_grade,
       ...studentData,
     };
   }
@@ -63,6 +68,8 @@ export class StudentService {
       second_deparment_id,
       selection_path_id,
       degree_program_id,
+      utbk,
+      student_grade,
       ...updateStudentPayload
     } = args;
     const student = await this.prisma.users.update({
@@ -80,6 +87,12 @@ export class StudentService {
                 second_deparment_id,
                 selection_path_id,
                 degree_program_id,
+                utbk,
+                student_grade: {
+                  createMany: {
+                    data: student_grade,
+                  },
+                },
                 registration_status_id: 2,
               },
             },
@@ -92,7 +105,11 @@ export class StudentService {
         fullname: true,
         students: {
           select: {
-            pmb: true,
+            pmb: {
+              include: {
+                student_grade: true,
+              },
+            },
           },
         },
       },
