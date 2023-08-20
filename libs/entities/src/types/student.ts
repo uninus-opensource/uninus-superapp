@@ -56,6 +56,7 @@ export interface IStudentData {
   department_id?: number | null;
   academic_year?: string | null;
   utbk?: number | null;
+  average_grade?: number | null;
 }
 
 export interface IGetStudentResponse extends IStudentData {
@@ -95,9 +96,9 @@ export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData 
   avatar: TFIle;
   student_grade: Array<{
     id: string;
-    subject: string | null;
-    semester: string | null;
-    grade: number | null;
+    subject: string;
+    semester: string;
+    grade: number;
   }>;
 }
 
