@@ -159,4 +159,16 @@ export class UpdateStudentSwagger {
 
   @ApiProperty()
   utbk!: number;
+
+  @ApiProperty({
+    isArray: true,
+    example: [
+      {
+        subject: "matematika",
+        semester: "1",
+        grade: 90,
+      },
+    ],
+  })
+  student_grade!: [];
 }

@@ -55,10 +55,17 @@ export interface IStudentData {
   faculty_id?: number | null;
   department_id?: number | null;
   academic_year?: string | null;
+  utbk?: number | null;
 }
 
 export interface IGetStudentResponse extends IStudentData {
   avatar: string | null;
+  student_grade?: Array<{
+    id: string;
+    subject: string | null;
+    semester: string | null;
+    grade: number | null;
+  }>;
 }
 
 export interface IDeleteStudentRequest extends IGetStudentRequest {
@@ -74,6 +81,12 @@ export interface IUpdateStudentResponse extends IStudentData {
 }
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
   avatar: TFIle;
+  student_grade: Array<{
+    id: string;
+    subject: string | null;
+    semester: string | null;
+    grade: number | null;
+  }>;
 }
 
 export type TGraduationStatusRequest = {
