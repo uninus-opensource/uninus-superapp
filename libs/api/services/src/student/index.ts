@@ -73,6 +73,9 @@ export class StudentService {
       student_grade,
       ...updateStudentPayload
     } = args;
+    const average =
+      student_grade &&
+      (await student_grade.reduce((acc, curr) => acc + curr?.grade, 0)) / student_grade.length;
     const student = await this.prisma.users.update({
       where: {
         id,
@@ -96,6 +99,7 @@ export class StudentService {
                       data: student_grade,
                     },
                   },
+                  average_grade: Number(average.toFixed(1)),
                 }),
               },
             },
@@ -123,18 +127,11 @@ export class StudentService {
         cause: new Error(),
       });
     }
-    const { students } = student;
     const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
     return {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
-      first_deparment_id: students?.pmb?.first_deparment_id,
-      second_deparment_id: students?.pmb?.second_deparment_id,
-      selection_path_id: students?.pmb?.selection_path_id,
-      degree_program_id: students?.pmb?.degree_program_id,
-      student_grade: students?.pmb?.student_grade,
-      utbk: students?.pmb?.utbk,
       ...studentData,
     };
   }
