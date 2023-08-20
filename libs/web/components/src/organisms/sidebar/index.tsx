@@ -1,5 +1,5 @@
 "use client";
-import { FC, ReactElement, useState, useMemo, Fragment, useEffect } from "react";
+import { FC, ReactElement, useState, useMemo, Fragment } from "react";
 import Image from "next/image";
 import { TSideBarProps } from "./type";
 import { AiOutlineLogout } from "react-icons/ai";
@@ -195,12 +195,14 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
             style={{ pointerEvents: onToogle ? "auto" : "none" }}
           >
             <section className={` w-full flex flex-col items-center  gap-y-6`}>
-              <h1 className="text-secondary-green-4 text-lg font-bold">PMB UNINUS</h1>
+              <h1 className="text-secondary-green-4 text-lg font-bold">
+                {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
+              </h1>
               <div className="flex flex-row  items-center gap-x-6">
                 <figure className="flex flex-col">
                   <Image
                     className="rounded-full mx-auto"
-                    src={"/illustrations/dummy-avatar.webp"}
+                    src={userAvatar || "/illustrations/dummy-avatar.webp"}
                     alt="profile picture"
                     width={70}
                     height={70}
