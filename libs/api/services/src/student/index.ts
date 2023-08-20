@@ -54,6 +54,7 @@ export class StudentService {
       selection_path_id: students?.pmb?.selection_path_id,
       degree_program_id: students?.pmb?.degree_program_id,
       student_grade: students?.pmb?.student_grade,
+      utbk: students?.pmb?.utbk,
       ...studentData,
     };
   }
@@ -88,12 +89,14 @@ export class StudentService {
                 selection_path_id,
                 degree_program_id,
                 utbk,
-                student_grade: {
-                  createMany: {
-                    data: student_grade,
-                  },
-                },
                 registration_status_id: 2,
+                ...(student_grade && {
+                  student_grade: {
+                    createMany: {
+                      data: student_grade,
+                    },
+                  },
+                }),
               },
             },
           },
@@ -120,12 +123,18 @@ export class StudentService {
         cause: new Error(),
       });
     }
-
+    const { students } = student;
     const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
     return {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
+      first_deparment_id: students?.pmb?.first_deparment_id,
+      second_deparment_id: students?.pmb?.second_deparment_id,
+      selection_path_id: students?.pmb?.selection_path_id,
+      degree_program_id: students?.pmb?.degree_program_id,
+      student_grade: students?.pmb?.student_grade,
+      utbk: students?.pmb?.utbk,
       ...studentData,
     };
   }
