@@ -1,7 +1,7 @@
 "use client";
-import { BreadCrumb, Button, CheckBox, RadioButton } from "@uninus/web/components";
+import { BreadCrumb, Button, RadioButton } from "@uninus/web/components";
 import Image from "next/image";
-import { FC, ReactElement, SetStateAction, useState } from "react";
+import { FC, ReactElement, useState } from "react";
 import { Modal } from "@uninus/web/components";
 import { FieldValues, useForm } from "react-hook-form";
 import Link from "next/link";
@@ -61,13 +61,6 @@ export const DetailPembayaran: FC = (): ReactElement => {
   const [showModal, setShowModal] = useState(false);
 
   const handleShowModal = () => setShowModal(!showModal);
-  const [selectedOption, setSelectedOption] = useState("");
-
-  const handleCheckboxChange = (option: SetStateAction<string>) => {
-    setSelectedOption(option);
-  };
-
-  const isButtonDisabled = selectedOption === "";
 
   return (
     <section

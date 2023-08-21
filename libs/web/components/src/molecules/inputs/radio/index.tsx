@@ -20,9 +20,9 @@ export const RadioButton = <T extends FieldValues>({
   });
 
   const radioButtonVariant = clsx(
-    "bg-grayscale-4 border-grayscale-8 duration-300 appearance-none",
+    "bg-grayscale-4 border-grayscale-8 duration-300 appearance-none focus:bg-primary-green focus:ring-primary-green focus:text-primary-green",
     {
-      "checked:bg-primary-green focus:bg-primary-green": variant === RADIO_VARIANT.PRIMARY,
+      "checked:bg-primary-green ": variant === RADIO_VARIANT.PRIMARY,
       "accent-primary-yellow focus:accent--primary-yellow": variant === RADIO_VARIANT.WARNING,
     },
   );
