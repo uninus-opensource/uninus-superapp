@@ -77,7 +77,7 @@ export const dataDiri = {
   gender_id: 1,
   phone_number: "",
   religion_id: 0,
-  citizenship_id: 1,
+  citizenship_id: 0,
   marital_status_id: 0,
   country_id: 0,
   address: "",

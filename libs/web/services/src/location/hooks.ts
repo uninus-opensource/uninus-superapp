@@ -33,7 +33,7 @@ export const useSubdistrictGet = (
   params: ISubDistrictRequest,
 ): UseQueryResult<TSubDistrictResponse, TMetaErrorResponse> => {
   return useQuery({
-    queryKey: ["getSubdstrict", params],
+    queryKey: ["getSubdistrict", params],
     queryFn: async () => await SubDistrictGet(params),
     enabled: !!params,
   });

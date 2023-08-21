@@ -28,37 +28,61 @@ export const DataOrtuSection: FC = (): ReactElement => {
     [getProvincies?.province],
   );
 
-  const { data: getCity } = useCityGet({
-    province_id: watch("province"),
+  const { data: getCityParent } = useCityGet({
+    province_id: watch("adress_province_parent"),
+    search: "",
+  });
+  const { data: getCityGuard } = useCityGet({
+    province_id: watch("adress_province_guard"),
     search: "",
   });
 
-  const cityOptions = useMemo(
+  const cityOptionsParent = useMemo(
     () =>
-      getCity?.city?.map((city) => ({
+      getCityParent?.city?.map((city) => ({
         label: city?.name,
         value: city?.id.toString(),
       })),
-    [getCity?.city],
+    [getCityParent?.city],
+  );
+  const cityOptionsGuard = useMemo(
+    () =>
+      getCityGuard?.city?.map((city) => ({
+        label: city?.name,
+        value: city?.id.toString(),
+      })),
+    [getCityGuard?.city],
   );
 
-  const { data: getSubdistrict } = useSubdistrictGet({
-    city_id: watch("city"),
+  const { data: getSubdistrictParent } = useSubdistrictGet({
+    city_id: watch("adress_city_parent"),
+    search: "",
+  });
+  const { data: getSubdistrictGuard } = useSubdistrictGet({
+    city_id: watch("adress_city_guard"),
     search: "",
   });
 
-  const subDistrictOptions = useMemo(
+  const subDistrictOptionsParent = useMemo(
     () =>
-      getSubdistrict?.sub_district?.map((subdistrict) => ({
+      getSubdistrictParent?.subdistrict?.map((subdistrict) => ({
         label: subdistrict?.name,
         value: subdistrict?.id.toString(),
       })),
-    [getSubdistrict?.sub_district],
+    [getSubdistrictParent?.subdistrict],
+  );
+  const subDistrictOptionsGuard = useMemo(
+    () =>
+      getSubdistrictGuard?.subdistrict?.map((subdistrict) => ({
+        label: subdistrict?.name,
+        value: subdistrict?.id.toString(),
+      })),
+    [getSubdistrictGuard?.subdistrict],
   );
 
   useEffect(() => {
     setValue("city", null);
-  }, [watch("province")]);
+  }, [watch("address_province_parent")]);
 
   const [salary] = useState({
     search: "",
@@ -298,7 +322,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             options={provinceOptions || []}
             placeholder="Provinsi"
             isSearchable={true}
-            name="address_province"
+            name="address_province_parent"
             isClearable={true}
             control={control}
             isMulti={false}
@@ -307,27 +331,27 @@ export const DataOrtuSection: FC = (): ReactElement => {
             labels="Kota/Kabupaten"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
             labelClassName="font-bold text-xs py-2"
-            options={cityOptions || []}
+            options={cityOptionsParent || []}
             placeholder="Kota/Kabupaten"
             isSearchable={true}
-            name="adress_city"
+            name="address_city_parent"
             isClearable={true}
             control={control}
             isMulti={false}
-            disabled={!watch("province")}
+            disabled={!watch("adress_province_parent")}
           />
           <SelectOption
             labels="Kecamatan"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
             labelClassName="font-bold text-xs py-2"
-            options={subDistrictOptions || []}
+            options={subDistrictOptionsParent || []}
             placeholder="Kecamatan"
             isSearchable={true}
-            name="adress_subdistrict"
+            name="address_subdistrict_parent"
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={!watch("city")}
+            disabled={!watch("adress_city_parent")}
           />
 
           <div className="px-14 md:px-0 lg:px-0 w-full">
@@ -466,7 +490,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             options={provinceOptions || []}
             placeholder="Provinsi"
             isSearchable={true}
-            name="address2_province"
+            name="address_province_guard"
             isClearable={true}
             control={control}
             isMulti={false}
@@ -475,10 +499,10 @@ export const DataOrtuSection: FC = (): ReactElement => {
             labels="Kota/Kabupaten"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
             labelClassName="font-bold text-xs py-2"
-            options={cityOptions || []}
+            options={cityOptionsGuard || []}
             placeholder="Kota/Kabupaten"
             isSearchable={true}
-            name="adress2_city"
+            name="adress_city_guard"
             isClearable={true}
             control={control}
             isMulti={false}
@@ -488,10 +512,10 @@ export const DataOrtuSection: FC = (): ReactElement => {
             labels="Kecamatan"
             className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
             labelClassName="font-bold text-xs py-2"
-            options={subDistrictOptions || []}
+            options={subDistrictOptionsGuard || []}
             placeholder="Kecamatan"
             isSearchable={true}
-            name="adress2_subdistrict"
+            name="adress_subdistrict_guard"
             control={control}
             isMulti={false}
             isClearable={true}
