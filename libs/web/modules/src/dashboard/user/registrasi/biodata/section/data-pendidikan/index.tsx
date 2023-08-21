@@ -50,11 +50,11 @@ export const DataPendidikanSection: FC = (): ReactElement => {
 
   const subDistrictOptions = useMemo(
     () =>
-      getSubdistrict?.sub_district?.map((subdistrict) => ({
+      getSubdistrict?.subdistrict?.map((subdistrict) => ({
         label: subdistrict?.name,
         value: subdistrict?.id.toString(),
       })),
-    [getSubdistrict?.sub_district],
+    [getSubdistrict?.subdistrict],
   );
 
   useEffect(() => {

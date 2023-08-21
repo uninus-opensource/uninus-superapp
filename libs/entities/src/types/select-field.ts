@@ -43,7 +43,7 @@ export interface ISubDistrictRequest extends ISelectRequest {
 }
 
 export type TSubDistrictResponse = {
-  sub_district: Array<{
+  subdistrict: Array<{
     id: number;
     name: string;
   }>;

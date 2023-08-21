@@ -64,7 +64,7 @@ export class AppService {
       throw new NotFoundException("Data tidak ditemukan");
     }
     return {
-      sub_district: subDistrict,
+      subdistrict: subDistrict,
     };
   }
 

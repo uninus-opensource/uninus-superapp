@@ -53,7 +53,7 @@ export const DataDiriSection: FC = (): ReactElement => {
   );
 
   const { data: getCity } = useCityGet({
-    province_id: watch("province"),
+    province_id: watch("province_id"),
     search: "",
   });
 
@@ -67,22 +67,22 @@ export const DataDiriSection: FC = (): ReactElement => {
   );
 
   const { data: getSubdistrict } = useSubdistrictGet({
-    city_id: watch("city"),
+    city_id: watch("city_id"),
     search: "",
   });
 
   const subDistrictOptions = useMemo(
     () =>
-      getSubdistrict?.sub_district?.map((subdistrict) => ({
+      getSubdistrict?.subdistrict?.map((subdistrict) => ({
         label: subdistrict?.name,
         value: subdistrict?.id.toString(),
       })),
-    [getSubdistrict?.sub_district],
+    [getSubdistrict?.subdistrict],
   );
 
   useEffect(() => {
-    setValue("city", null);
-  }, [watch("province")]);
+    setValue("city_id", null);
+  }, [watch("province_id")]);
 
   const [religion] = useState({
     search: "",
@@ -160,7 +160,7 @@ export const DataDiriSection: FC = (): ReactElement => {
   );
 
   const { data: getCountry } = useCountryGet({
-    citizenship_id: watch("citizen"),
+    citizenship_id: watch("citizen_id"),
     search: "",
   });
 
@@ -460,14 +460,14 @@ export const DataDiriSection: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            disabled={isDisabled || student?.city_id ? true : !watch("province")}
+            disabled={isDisabled || student?.city_id ? true : !watch("province_id")}
           />
           <SelectOption
             name="subdistrict_id"
             labels="Kecamatan"
             placeholder={
               student?.subdistrict_id
-                ? getSubdistrict?.sub_district?.find(
+                ? getSubdistrict?.subdistrict?.find(
                     (subdistrict) => subdistrict.id === student?.subdistrict_id,
                   )?.name
                 : "Kecamatan"
@@ -479,7 +479,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isDisabled || student?.subdistrict_id ? true : !watch("city")}
+            disabled={isDisabled || student?.subdistrict_id ? true : !watch("city_id")}
           />
           <div className="px-14 md:px-0 lg:px-0 w-full">
             <TextField
