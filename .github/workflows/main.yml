@@ -5,14 +5,14 @@ on:
     types: [opened]
 
 jobs:
-  lint:
+  lint-test-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           node-version: 18
       - run: yarn install
-      - run: yarn run nx run-many --target=lint --projects=web-akreditasi,web-evaluasi,web-keuangan,web-neo-feeder,web-pegawai,web-pmb-user,web-pmb-admin,web-siakad,web-smart-dashboard,web-tata-usaha,web-tracer-alumni,web-lms,api,api-auth,api-location,api-pmb,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts
+      - run: yarn run nx affected -t lint test build --run-many
 
   format-write:
     runs-on: ubuntu-latest
@@ -22,21 +22,3 @@ jobs:
           node-version: 18
       - run: yarn install
       - run: yarn run nx format:write
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          node-version: 18
-      - run: yarn install
-      - run: yarn run nx run-many --target=build --projects=web-akreditasi,web-evaluasi,web-keuangan,web-neo-feeder,web-pegawai,web-pmb-user,web-pmb-admin,web-siakad,web-smart-dashboard,web-tata-usaha,web-tracer-alumni,web-lms,api,api-auth,api-location,api-pmb,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts
-
-  unit-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          node-version: 18
-      - run: yarn install
-      - run: yarn run nx run-many --target=test --projects=web-akreditasi,web-evaluasi,web-keuangan,web-neo-feeder,web-pegawai,web-pmb-user,web-pmb-admin,web-siakad,web-smart-dashboard,web-tata-usaha,web-tracer-alumni,web-lms,api,api-auth,api-location,api-pmb,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts

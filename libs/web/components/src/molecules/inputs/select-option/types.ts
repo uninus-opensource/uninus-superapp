@@ -1,12 +1,13 @@
 import { Control, UseControllerProps } from "react-hook-form";
+import { Ref } from "react";
 
-export type SelectOption = {
+export type TSelectOption = {
   label: string;
   value: string;
 };
 
 export interface SelectInputProps extends UseControllerProps {
-  options: SelectOption[];
+  options: TSelectOption[];
   disabled?: boolean;
   className?: string;
   labelName?: string;
@@ -18,4 +19,5 @@ export interface SelectInputProps extends UseControllerProps {
   isSearchable?: boolean;
   isClearable?: boolean;
   isMulti?: boolean;
+  ref?: Ref<any>;
 }

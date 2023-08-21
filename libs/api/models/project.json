@@ -8,14 +8,14 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/models/**/*.ts"]
+        "lintFilePatterns": ["libs/api/models/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/models/jest.config.ts",
+        "jestConfig": "libs/api/models/jest.config.ts",
         "passWithNoTests": true
       },
       "migrate-save": {

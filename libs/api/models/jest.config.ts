@@ -1,11 +1,11 @@
 /* eslint-disable */
 export default {
-  displayName: "models",
-  preset: "../../jest.preset.js",
+  displayName: "api-guard",
+  preset: "../../../jest.preset.js",
   testEnvironment: "node",
   transform: {
     "^.+\\.[tj]s$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.spec.json" }],
   },
   moduleFileExtensions: ["ts", "js", "html"],
-  coverageDirectory: "../../coverage/libs/models",
+  coverageDirectory: "../../../coverage/libs/api/models",
 };
