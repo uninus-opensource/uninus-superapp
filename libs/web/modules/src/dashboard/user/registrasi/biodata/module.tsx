@@ -35,7 +35,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
             <Button
               variant="filled"
               size="md"
-              width="w-30% lg:w-25% xl:w-15%"
+              width="w-25% lg:w-25% xl:w-15%"
               styling="text-sm lg:text-base"
             >
               Reguler
@@ -45,7 +45,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
             <Button
               variant="filled"
               size="md"
-              width="w-30% lg:w-25% xl:w-15%"
+              width="w-25% lg:w-25% xl:w-15%"
               styling="text-sm lg:text-base"
             >
               Beasiswa

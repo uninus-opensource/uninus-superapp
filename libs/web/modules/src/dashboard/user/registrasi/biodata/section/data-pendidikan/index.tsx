@@ -1,6 +1,5 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { Accordion, TextField, SelectOption, Button } from "@uninus/web/components";
-import { dataPendidikan } from "../../store";
 import { useForm, FieldValues } from "react-hook-form";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
@@ -92,7 +91,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
   return (
     <Accordion
       title="Data Pendidikan"
-      titleClassName="text-lg font-extrabold text-secondary-green-4"
+      titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
     >
       <form onSubmit={onSubmit}>

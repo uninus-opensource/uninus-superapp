@@ -129,7 +129,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
   return (
     <Accordion
       title="Data Orang Tua "
-      titleClassName="text-lg font-extrabold text-secondary-green-4"
+      titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] text-left"
     >
       <form onSubmit={onSubmit}>

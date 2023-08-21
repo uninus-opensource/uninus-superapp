@@ -120,19 +120,19 @@ export const DetailPembayaran: FC = (): ReactElement => {
           >
             {payment.map((x, i) => (
               <div key={i} className="flex flex-col gap-2 px-2">
-                <div className="flex justify-between gap-3 border border-slate-3 rounded-md px-6 h-[60px] p-2">
+                <div className="flex justify-between gap-3 border border-slate-3 rounded-md px-6  h-auto p-2">
                   <div className="flex gap-2">
-                    <CheckBox
-                      name="mandiri"
+                    <RadioButton
+                      name="payment method"
+                      label="payment"
+                      fieldName=""
                       control={control}
-                      label=""
-                      variant="primary"
+                      options={[{ label: "", value: "" }]}
                       size="md"
-                      // checked={selectedOption === x.select}
-                      onChange={() => handleCheckboxChange(x.select)}
+                      variant="primary"
                     />
 
-                    <div>
+                    <div className="lg:text-md tsext-sm">
                       <h1 className="font-semibold text-primary-green">{x.name}</h1>
                       <p className="text-slate-5">{x.desc}</p>
                     </div>
