@@ -173,7 +173,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
       {/* mobile */}
       <Button
         variant="text-icon"
-        styling="shadow-[0_3px_10px_rgb(0,0,0,0.2)] bg-primary-green fixed z-50 inline-flex items-center text-primary-white top-5/6 flex bottom-10 right-8 rounded-md lg:hidden self-end justify-end items-end"
+        styling="shadow-md bg-primary-green fixed z-50 inline-flex items-center text-primary-white top-5/6 flex bottom-10 right-8 rounded-md lg:hidden self-end justify-end items-end"
         onClick={() => setOnToogle(!onToogle)}
       >
         <MenuOutlined className="md:hidden mx-auto text-center cursor-pointer text-primary-white text-[1.5rem]" />
@@ -217,49 +217,54 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
               </div>
               {/* Status pendaftaran */}
               {process.env.NEXT_PUBLIC_WORKSPACE === "user" && (
-                <div className="w-3/5 mt-2 bg-red-3 text-red-4  p-2 font-bold rounded-md text-center text-xs">
-                  Belum Mendaftar
+                <div
+                  className={`w-3/5 mt-2 font-bold ${
+                    userStatus === "Belum Membayar" ||
+                    userStatus === "Tidak Lulus" ||
+                    userStatus === "Belum Mendaftar"
+                      ? "bg-red-3 text-red-4"
+                      : userStatus === "Sudah Membayar" || userStatus === "Lulus"
+                      ? "bg-[#CCEADA] text-grayscale-9"
+                      : "bg-[#FFECB4] text-grayscale-9"
+                  }  p-2 rounded-md text-center text-xs`}
+                >
+                  {userStatus}
                 </div>
               )}
               {/* End Status pendaftaran */}
               <div className="w-[60%]  px-3 h-[1px] bg-slate-4"></div>
               <nav>
-                <ul className="flex flex-col gap-y-6">
-                  {sideList?.map((sideList, idx) => (
-                    <li key={idx} className="flex flex-col gap-y-6">
-                      <Link
-                        href={sideList.link}
-                        role="link"
-                        className={`flex gap-x-3 text-lg capitalize ${
-                          pathname === sideList.link && "bg-primary-white drop-shadow-md "
-                        }hover:bg-primary-white hover:text-secondary-green-1 items-center p-2  rounded-md`}
-                      >
-                        <p
-                          className={`${
-                            pathname === sideList.link &&
-                            "bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white"
-                          } text-primary-green w-fit h-fit p-3 bg-primary-white drop-shadow-md rounded-lg`}
+                <ul className="flex flex-col h-full justify-between gap-y-3">
+                  <div>
+                    {sideList?.map((sideList, idx) => (
+                      <li key={idx} className="flex flex-col gap-y-6">
+                        <Link
+                          href={sideList.link}
+                          role="link"
+                          className={`flex gap-x-3 text-lg capitalize ${
+                            pathname === sideList.link && "bg-primary-white drop-shadow-md h-auto"
+                          }hover:bg-primary-white hover:text-secondary-green-1 items-center p-2  rounded-md`}
                         >
-                          {sideList.icon}
-                        </p>
-                        <p className="text-primary-green text-sm font-normal">{sideList.label}</p>
-                      </Link>
-                    </li>
-                  ))}
+                          <p
+                            className={`${
+                              pathname === sideList.link &&
+                              "bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white"
+                            } text-primary-green w-fit justify-center p-3 bg-primary-white drop-shadow-md rounded-lg`}
+                          >
+                            {sideList.icon}
+                          </p>
+                          <p className="text-primary-green text-sm font-normal">{sideList.label}</p>
+                        </Link>
+                      </li>
+                    ))}
+                  </div>
                 </ul>
-                <div className="flex text-sm relative bottom-0 items-start my-8 py-2 rounded-md">
-                  <Button
-                    variant="sidebarbutton"
-                    size="sm"
-                    styling="text-sm font-normal text-primary-green mt-0 p-0 group "
-                    onClick={handleOpenModal}
-                  >
-                    <AiOutlineLogout
-                      size={45}
-                      className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green group-hover:text-primary-white rounded-lg "
-                    />
-                    <p className="text-primary-green">Keluar</p>
-                  </Button>
+                <div className="flex px-2 w-full h-full items-center pt-16">
+                  <AiOutlineLogout
+                    size={45}
+                    className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green group-hover:text-primary-white rounded-lg "
+                  />
+                  <p className="h-ful text-center text-primary-green text-sm font-normal">Keluar</p>
                 </div>
               </nav>
             </section>

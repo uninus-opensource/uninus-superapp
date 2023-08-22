@@ -1,7 +1,9 @@
 import { ReactElement, FC, forwardRef, Ref } from "react";
 import { useController } from "react-hook-form";
 import { SelectInputProps, TSelectOption } from "./types";
-import Select, { MultiValue, SingleValue } from "react-select";
+import Select, { GroupBase, MultiValue, SelectInstance, SingleValue } from "react-select";
+
+export * from "./types";
 
 export const SelectOption: FC<SelectInputProps> = forwardRef(
   (
@@ -22,7 +24,7 @@ export const SelectOption: FC<SelectInputProps> = forwardRef(
       message,
       ...rest
     }: SelectInputProps,
-    ref?: Ref<any> | undefined,
+    ref?: Ref<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>,
   ): ReactElement => {
     const {
       field: { value, onChange },
