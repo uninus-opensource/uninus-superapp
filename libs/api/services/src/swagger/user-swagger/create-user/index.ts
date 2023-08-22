@@ -5,7 +5,7 @@ export class CreateUserSwagger {
   public email!: string;
 
   @ApiProperty()
-  public nik!: string;
+  public phone_number!: string;
 
   @ApiProperty()
   public fullname!: string;
@@ -14,4 +14,7 @@ export class CreateUserSwagger {
     example: "min length 6, upper case 1, numbers 1",
   })
   public password!: string;
+
+  @ApiProperty()
+  public role_id!: number;
 }

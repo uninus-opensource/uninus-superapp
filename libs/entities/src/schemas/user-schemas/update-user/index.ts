@@ -9,9 +9,6 @@ export const VSUpdateUser = z.object({
     .nonempty({
       message: "Email tidak boleh kosong",
     }),
-  nik: z.string().nonempty({
-    message: "NIK tidak boleh kosong",
-  }),
   fullname: z.string().nonempty({
     message: "Nama lengkap tidak boleh kosong",
   }),
@@ -26,6 +23,8 @@ export const VSUpdateUser = z.object({
     }),
   role_id: z.number().optional(),
   photo: z.string().optional(),
+  employee_id: z.number().optional(),
+  lecture_id: z.number().optional(),
 });
 
 export type TVSUpdateUser = z.infer<typeof VSUpdateUser>;
