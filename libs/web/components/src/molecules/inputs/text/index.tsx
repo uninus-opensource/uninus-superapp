@@ -93,7 +93,27 @@ export const TextField = <T extends FieldValues>({
             {props.prepend}
           </label>
         )}
-        {!isTextArea ? (
+
+        {props.onChange ? (
+          !isTextArea ? (
+            <input
+              type={type === "password" ? (!showPassword ? type : "text") : type}
+              {...{ ...props, ...field }}
+              className={`${inputStatus} ${inputVariant} ${inputExtras}`}
+              maxLength={props.maxlenght}
+              inputMode={props.inputMode}
+              onChange={props.onChange}
+            />
+          ) : (
+            <textarea
+              rows={textAreaRow}
+              {...{ ...props, ...field }}
+              className={`bg-opacity-30 w-full ${inputStatus} ${props.className}`}
+              cols={textAreaCols}
+              onChange={props.onChange}
+            />
+          )
+        ) : !isTextArea ? (
           <input
             type={type === "password" ? (!showPassword ? type : "text") : type}
             {...{ ...props, ...field }}
@@ -129,7 +149,7 @@ export const TextField = <T extends FieldValues>({
       <div className="flex flex-col items-start w-full gap-x-1">
         <span className={labelVariant}>{props.hint}</span>
         <span className={`${messageStatus} xl:text-xs lg:text-[8px] text-xs ${messageClassName}`}>
-          {props.message}
+          {`${props.message}`}
         </span>
       </div>
     </section>

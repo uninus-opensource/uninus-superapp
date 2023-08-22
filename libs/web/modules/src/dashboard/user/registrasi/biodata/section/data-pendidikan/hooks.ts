@@ -3,8 +3,14 @@ import {
   TYearGraduationResponse,
   IYearGraduationRequest,
   TMetaErrorResponse,
+  IEducationTypeRequest,
+  TEducationTypeResponse,
+  TEducationHistoryResponse,
+  ISelectEducationHistoryRequest,
+  TEducationMajorResponse,
+  IEducationMajorRequest,
 } from "@uninus/entities";
-import { YearGraduationGet } from "./api";
+import { YearGraduationGet, educationHistoryGet, educationMajorGet, educationTypeGet } from "./api";
 
 export const useYearGraduationGet = (
   params: IYearGraduationRequest,
@@ -12,5 +18,32 @@ export const useYearGraduationGet = (
   return useQuery({
     queryKey: ["getYearGraduation", params],
     queryFn: async () => await YearGraduationGet(params),
+  });
+};
+
+export const useEducationTypeGet = (
+  params: IEducationTypeRequest,
+): UseQueryResult<TEducationTypeResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getEducationType", params],
+    queryFn: async () => await educationTypeGet(params),
+  });
+};
+
+export const useEducationHistoryGet = (
+  params: ISelectEducationHistoryRequest,
+): UseQueryResult<TEducationHistoryResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getEducationHistory", params],
+    queryFn: async () => await educationHistoryGet(params),
+  });
+};
+
+export const useEducationMajorGet = (
+  params: IEducationMajorRequest,
+): UseQueryResult<TEducationMajorResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getEducationMajor", params],
+    queryFn: async () => await educationMajorGet(params),
   });
 };

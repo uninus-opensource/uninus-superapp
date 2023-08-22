@@ -1,5 +1,5 @@
 import { ChangeEventHandler, ReactNode } from "react";
-import { FieldValues, UseControllerProps } from "react-hook-form";
+import { FieldError, FieldValues, UseControllerProps } from "react-hook-form";
 import { StaticImageData } from "next/image";
 
 export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
@@ -14,9 +14,9 @@ export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   value?: string;
   className?: string;
   labelclassname?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   status?: "success" | "error" | "warning" | "none";
-  message?: string;
+  message?: string | FieldValues;
   variant: "lg" | "md" | "sm" | "otp" | "telp";
   icon?: ReactNode | StaticImageData;
   prepend?: ReactNode;

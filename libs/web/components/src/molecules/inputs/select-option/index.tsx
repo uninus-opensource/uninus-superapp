@@ -21,6 +21,7 @@ export const SelectOption: FC<SelectInputProps> = forwardRef(
       isSearchable,
       isClearable,
       isMulti,
+      message,
       ...rest
     }: SelectInputProps,
     ref?: Ref<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>,
@@ -60,7 +61,7 @@ export const SelectOption: FC<SelectInputProps> = forwardRef(
           onChange={handleChange}
           ref={ref}
         />
-        {invalid && <span>{error?.message}</span>}
+        {invalid && <span className="text-red-5 text-xs pt-1">{`${message}`}</span>}
       </div>
     );
   },
