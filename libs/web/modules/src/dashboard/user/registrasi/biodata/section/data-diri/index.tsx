@@ -40,7 +40,7 @@ export const DataDiriSection: FC = (): ReactElement => {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<TVSDataDiri | FieldValues>({
+  } = useForm<FieldValues | TVSDataDiri>({
     mode: "all",
     resolver: zodResolver(VSDataDiri),
     defaultValues: {},

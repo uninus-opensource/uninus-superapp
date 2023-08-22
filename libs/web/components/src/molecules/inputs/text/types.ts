@@ -1,5 +1,5 @@
 import { ChangeEventHandler, ReactNode } from "react";
-import { FieldError, FieldValues, UseControllerProps } from "react-hook-form";
+import { FieldValues, UseControllerProps } from "react-hook-form";
 import { StaticImageData } from "next/image";
 
 export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
