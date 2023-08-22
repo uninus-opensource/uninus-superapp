@@ -1,5 +1,5 @@
 "use client";
-import { ReactElement, FC, useEffect, useMemo, useState } from "react";
+import { ReactElement, FC, useEffect, useMemo, useState, useRef } from "react";
 import { Button, SelectOption } from "@uninus/web/components";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDegreeProgramGet, useDepartmentGet, useSelectionGet, useStudentUpdate } from "./hooks";
@@ -7,6 +7,14 @@ import { studentData } from "./type";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useGetBiodata } from "../registrasi";
+import { GroupBase, SelectInstance } from "react-select";
+import { TSelectOption } from "@uninus/web/components";
+
+export type CustomSelectInstance = {
+  select: {
+    clearValue: () => void;
+  };
+};
 
 export const ModulePendaftaran: FC = (): ReactElement => {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
@@ -19,7 +27,12 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     formState: { isValid },
     reset,
   } = useForm<FieldValues>({
-    defaultValues: {},
+    defaultValues: {
+      program: undefined,
+      prodi1: undefined,
+      prodi2: undefined,
+      seleksi: undefined,
+    },
   });
 
   const [programMeta] = useState({
@@ -59,6 +72,18 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   const student = useMemo(() => {
     return data;
   }, [data]);
+
+  const prodi1Ref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+  const prodi2Ref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+
+  useEffect(() => {
+    if (prodi1Ref.current) {
+      prodi1Ref.current.clearValue();
+    }
+    if (prodi2Ref.current) {
+      prodi2Ref.current.clearValue();
+    }
+  }, [watch("program")]);
 
   useEffect(() => {
     setValue("department", null);
@@ -182,7 +207,8 @@ export const ModulePendaftaran: FC = (): ReactElement => {
             <SelectOption
               placeholder={selectionDegreeProgram?.name || "Pilih Program Pendidikan"}
               labels="Program Pendidikan"
-              labelClassName="md:text-base"
+              className="text-left"
+              labelClassName="text-left py-2"
               control={control}
               name="program"
               options={DegreeProgramOptions || []}
@@ -193,8 +219,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               disabled={!!selectionDegreeProgram || isFormSubmitted}
             />
             <SelectOption
+              ref={prodi1Ref}
               placeholder={selectionFirstDepartement?.name || "Pilih Program Studi"}
-              labelClassName="md:text-base"
+              className="text-left"
+              labelClassName="text-left py-2"
               labels="Pilihan Program Studi 1"
               control={control}
               name="prodi1"
@@ -208,7 +236,8 @@ export const ModulePendaftaran: FC = (): ReactElement => {
             <SelectOption
               placeholder={selectionSecondDepartement?.name || "Pilih Program Studi"}
               labels="Pilihan Program Studi 2"
-              labelClassName="md:text-base"
+              className="text-left"
+              labelClassName="text-left py-2"
               control={control}
               name="prodi2"
               options={DepartmentOptions || []}
@@ -217,11 +246,13 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isClearable={true}
               required={true}
               disabled={!watch("program") || isFormSubmitted}
+              ref={prodi2Ref}
             />
             <SelectOption
               placeholder={selectionType?.name || "Pilih Jalur Seleksi"}
               labels="Jalur Seleksi"
-              labelClassName="md:text-base"
+              className="text-left"
+              labelClassName="text-left py-2"
               control={control}
               name="seleksi"
               options={SelectionOptions || []}
