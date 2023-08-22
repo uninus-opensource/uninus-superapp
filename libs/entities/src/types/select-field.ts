@@ -2,8 +2,7 @@ export interface ISelectRequest {
   search: string;
 }
 
-export interface ISelectEducationHistoryRequest {
-  search: string;
+export interface ISelectEducationHistoryRequest extends ISelectRequest {
   npsn: string;
 }
 
@@ -24,11 +23,6 @@ export type TProvinceResponse = {
 
 export interface ICityRequest extends ISelectRequest {
   province_id: string;
-}
-
-export interface ICountryRequest extends ISelectRequest {
-  citizenship_id: string;
-  citizenship?: string;
 }
 
 export type TCityResponse = {
@@ -146,7 +140,7 @@ export type TSalaryResponse = {
 };
 
 export type TEducationHistoryResponse = {
-  education_history: Array<{
+  education: Array<{
     id: number;
     npsn: string;
     name: string;
@@ -157,8 +151,31 @@ export type TEducationHistoryResponse = {
   }>;
 };
 
-export interface ICountryRequest {
+export interface IEducationTypeRequest {
   search: string;
+}
+
+export type TEducationTypeResponse = {
+  education_type: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface IEducationMajorRequest {
+  search: string;
+  education_type_id: string;
+}
+
+export type TEducationMajorResponse = {
+  education_major: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface ICountryRequest extends ISelectRequest {
+  citizenship_id: string;
 }
 
 export type TCountryResponse = {
