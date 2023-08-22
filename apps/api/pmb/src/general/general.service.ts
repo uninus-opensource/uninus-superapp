@@ -239,7 +239,7 @@ export class GeneralService {
       throw new NotFoundException("Data Pendidikan Tidak Ditemukan!");
     }
 
-    return { education_history: educationHistory };
+    return { education: educationHistory };
   }
 
   async getOccupation({ search }: ISelectRequest): Promise<TOccupationResponse> {

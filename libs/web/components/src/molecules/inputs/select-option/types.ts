@@ -1,4 +1,4 @@
-import { Control, UseControllerProps } from "react-hook-form";
+import { Control, FieldValues, UseControllerProps } from "react-hook-form";
 import { Ref } from "react";
 
 export type TSelectOption = {
@@ -20,4 +20,5 @@ export interface SelectInputProps extends UseControllerProps {
   isClearable?: boolean;
   isMulti?: boolean;
   ref?: Ref<any>;
+  message?: string | FieldValues;
 }

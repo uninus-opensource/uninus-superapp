@@ -71,14 +71,14 @@ export interface IDeleteStudentResponse extends IStudentData {
 }
 
 export interface IUpdateStudentResponse extends IStudentData {
-  avatar: string | null | TFIle;
+  avatar?: string | null | TFIle;
 }
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
   avatar: TFIle;
 }
 
 export interface IUpdateStudentRequestFE extends IStudentData {
-  avatar: TFIle | null;
+  avatar?: TFIle | null;
 }
 
 export type TGraduationStatusRequest = {
