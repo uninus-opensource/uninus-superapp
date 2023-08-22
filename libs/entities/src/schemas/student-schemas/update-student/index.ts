@@ -127,17 +127,17 @@ export const VSDataDiri = z.object({
   ),
 
   gender_id: z.nullable(z.string().nonempty({ message: "Jenis Kelamin harus dipilih" })),
-  religion_id: z.string().min(1, { message: "Religion harus dipilih" }),
+  religion_id: z.nullable(z.string().min(1, { message: "Religion harus dipilih" })),
   birth_place: z.nullable(z.string().nonempty({ message: "Tempat Lahir tidak boleh kosong" })),
-  birth_date: z.string().optional(),
-  martial_status_id: z.string().min(1, { message: "Status harus dipilih" }),
-  citizenship_id: z.string().min(1, { message: "Kewarganegaraan harus dipilih" }),
-  country_id: z.string().min(1, { message: "Negara harus dipilih" }),
-  province_id: z.string().min(1, { message: "Provinsi harus dipilih" }),
-  subdistrict_id: z.string().min(1, { message: "Kecamatan harus dipilih" }),
+  birth_date: z.nullable(z.string().optional()),
+  martial_status_id: z.nullable(z.string().min(1, { message: "Status harus dipilih" })),
+  citizenship_id: z.nullable(z.string().min(1, { message: "Kewarganegaraan harus dipilih" })),
+  country_id: z.nullable(z.string().min(1, { message: "Negara harus dipilih" })),
+  province_id: z.nullable(z.string().min(1, { message: "Provinsi harus dipilih" })),
+  subdistrict_id: z.nullable(z.string().min(1, { message: "Kecamatan harus dipilih" })),
   address: z.nullable(z.string().nonempty({ message: "Alamat tidak boleh kosong" })),
-  disabilities_id: z.string().optional(),
-  city_id: z.string().min(1, { message: "Kota harus dipilih" }),
+  disabilities_id: z.nullable(z.string().optional()),
+  city_id: z.nullable(z.string().min(1, { message: "Kota harus dipilih" })),
 });
 
 export type TVSDataDiri = z.infer<typeof VSDataDiri>;

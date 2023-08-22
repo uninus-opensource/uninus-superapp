@@ -333,7 +333,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputHeight="h-10"
             name="nik"
             variant="sm"
-            required
             type="text"
             placeholder="Nomor dapat dilihat dari KK atau KTP"
             labelclassname="text-sm font-semibold"
@@ -350,7 +349,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             variant="sm"
             type="text"
             placeholder="Nomor Induk Siswa Nasional"
-            required
             labelclassname="text-sm font-semibold"
             label="NISN"
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
@@ -364,7 +362,6 @@ export const DataDiriSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="no_kk"
               variant="sm"
-              required
               type="text"
               placeholder="Nomor dapat dilihat di KK"
               labelclassname="text-sm font-semibold"
@@ -420,7 +417,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             variant="sm"
             type="text"
             placeholder="Masukan Kota tempat lahir"
-            required
             labelclassname="text-sm font-semibold"
             label="Tempat Lahir"
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
@@ -436,7 +432,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             type="date"
             labelclassname="text-xl font-semibold"
             label="Tanggal Lahir"
-            required
             inputWidth="lg:w-[27vw] xl:w-[25vw] md:w-[33vw] w-[70vw]"
             control={control}
             disabled={isDisabled || student?.birth_date ? true : false}
