@@ -134,7 +134,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
     >
       <form onSubmit={onSubmit}>
         {/* Ayah */}
-        <h1 className="font-bold text-xl my-6  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-xl my-6 lg:pl-0 md:pl-[11vw] place-self-start pl-4">
           Profil Ayah
         </h1>
 
@@ -154,6 +154,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <SelectOption
             name="school_subdistrict"
             labels="Status Ayah"
+            required={true}
             labelClassName="font-bold text-xs py-2"
             placeholder="Status Ayah"
             options={[
@@ -223,7 +224,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           />
         </section>
         {/* Ibu */}
-        <h1 className="font-bold text-xl my-6  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-xl my-6  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-4">
           Profil Ibu
         </h1>
         <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
@@ -311,7 +312,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           />
         </section>
         {/* Parent Address */}
-        <h1 className="font-bold text-xl my-6 lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-xl my-6 lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-4">
           Alamat Orang Tua
         </h1>
         <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
@@ -354,7 +355,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             disabled={!watch("adress_city_parent")}
           />
 
-          <div className="px-14 md:px-0 lg:px-0 w-full">
+          <div className="px-4 md:px-0 lg:px-0 w-full">
             <TextField
               name="parent_address"
               variant="sm"
@@ -362,6 +363,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               labelclassname="text-xl font-semibold"
               label="Alamat Domisili"
               control={control}
+              required
               isTextArea
               textAreaRow={5}
               textAreaCols={30}
@@ -375,6 +377,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="parent_postal_code"
               variant="md"
+              required
               type="text"
               labelclassname="text-sm "
               label="Kode Pos"
@@ -393,7 +396,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           </div>
         </section>
 
-        <h1 className="font-bold text-xl my-6  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-xl my-6  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-4">
           Profil Wali
         </h1>
         <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
@@ -479,7 +482,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isClearable={true}
           />
         </section>
-        <h1 className="font-bold text-xl my-6 lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-xl my-6 lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-4">
           Alamat Wali
         </h1>
         <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
@@ -490,6 +493,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             options={provinceOptions || []}
             placeholder="Provinsi"
             isSearchable={true}
+            required={false}
             name="address_province_guard"
             isClearable={true}
             control={control}
@@ -501,6 +505,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             labelClassName="font-bold text-xs py-2"
             options={cityOptionsGuard || []}
             placeholder="Kota/Kabupaten"
+            required={false}
             isSearchable={true}
             name="adress_city_guard"
             isClearable={true}
@@ -514,6 +519,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             labelClassName="font-bold text-xs py-2"
             options={subDistrictOptionsGuard || []}
             placeholder="Kecamatan"
+            required={false}
             isSearchable={true}
             name="adress_subdistrict_guard"
             control={control}
@@ -521,7 +527,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isClearable={true}
             disabled={!watch("city")}
           />
-          <div className="px-14 md:px-0 lg:px-0 w-full">
+          <div className="px-4 md:px-0 lg:px-0 w-full">
             <TextField
               name="guardian_address"
               variant="sm"

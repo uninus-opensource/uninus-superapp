@@ -1,7 +1,6 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { Accordion, TextField, SelectOption, Button } from "@uninus/web/components";
 import { useForm, FieldValues } from "react-hook-form";
-import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 import { useBiodataUpdate, useGetBiodata } from "../../hooks";
 import {
   useEducationHistoryGet,
@@ -218,7 +217,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           pauseOnHover
           theme="light"
         />
-        <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
+        <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between text-left">
           <SelectOption
             name="education_type_id"
             labels="Jenis Pendidikan Asal"
@@ -261,6 +260,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             inputHeight="h-10"
             name="education_npsn"
             variant="sm"
+            required
             type="text"
             labelclassname="text-sm font-semibold"
             label="NPSN"
@@ -281,6 +281,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             name="school_name"
             variant="sm"
             type="text"
+            required
             labelclassname="text-sm font-semibold"
             label="Nama Pendidikan Asal"
             placeholder="Nama Sekolah"
@@ -334,6 +335,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             <SelectOption
               name="education_major_id"
               labels="Jurusan Pendidikan Asal"
+              required={true}
               labelClassName="font-bold text-xs py-2"
               placeholder={
                 student?.education_major_id
@@ -351,13 +353,14 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             />
           </div>
 
-          <div className="px-14 md:px-0 lg:px-0 w-full md:w-fit">
+          <div className="px-4 md:px-0 lg:px-0 w-full md:w-fit">
             <TextField
               name="school_address"
               variant="sm"
               type="text"
               labelclassname="text-xl font-semibold"
               label="Alamat Pendidikan Asal"
+              required
               control={control}
               isTextArea
               textAreaRow={5}
