@@ -28,6 +28,7 @@ export const BerkasKhususSection: FC = (): ReactElement => {
     try {
       mutate({
         ...data,
+        avatar: null,
       });
     } catch (error) {
       console.error(error);
@@ -47,6 +48,7 @@ export const BerkasKhususSection: FC = (): ReactElement => {
               <h3 className="font-bold text-xl">{documentType.label}</h3>
               <UploadField
                 control={control}
+                variant="default"
                 name={documentType.name}
                 classNameField="file:bg-primary-green file:text-primary-white file:rounded-md  file:border-none border-primary-green w-[59vw] md:w-[29vw] lg:w-[18vw] xl:w-[17vw] file:cursor-pointer "
                 preview={false}

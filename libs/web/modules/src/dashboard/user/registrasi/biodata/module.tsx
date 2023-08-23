@@ -6,6 +6,7 @@ import { DataOrtuSection } from "./section/data-ortu";
 import { DataNilaiSection } from "./section/data-nilai";
 import { Button } from "@uninus/web/components";
 import Link from "next/link";
+import { BerkasKhususSection } from "./section/berkas-khusus";
 
 export const ModuleBiodata: FC = (): ReactElement => {
   return (
@@ -29,6 +30,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
           <DataPendidikanSection />
           <DataNilaiSection />
           <DataOrtuSection />
+          <BerkasKhususSection />
         </section>
         <div className="flex gap-6 justify-end px-8 py-4">
           <Link href="/dashboard/registrasi/pembayaran/detail">
