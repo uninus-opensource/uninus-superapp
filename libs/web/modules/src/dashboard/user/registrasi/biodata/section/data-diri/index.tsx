@@ -17,6 +17,9 @@ import {
   useGenderGet,
   useReligionGet,
   useStatusGet,
+  useOccupationGet,
+  useOccupationPositionGet,
+  useSalaryGet,
 } from "./hooks";
 import { useBiodataUpdate, useGetBiodata } from "../../hooks";
 import { ToastContainer, toast } from "react-toastify";
@@ -26,7 +29,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export const DataDiriSection: FC = (): ReactElement => {
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
   const [disValue, setDisValue] = useState<string | null>(null);
-
+  const [occValue, setOccValue] = useState<string | null>(null);
   const { data } = useGetBiodata();
 
   const student = useMemo(() => {
@@ -184,6 +187,50 @@ export const DataDiriSection: FC = (): ReactElement => {
     [getCountry?.country],
   );
 
+  const [occupation] = useState({
+    search: "",
+  });
+
+  const { data: getOccupation } = useOccupationGet(occupation);
+
+  const occupationOptions = useMemo(
+    () =>
+      getOccupation?.occupation?.map((occupation) => ({
+        label: occupation?.name,
+        value: occupation?.id.toString(),
+      })),
+    [getOccupation?.occupation],
+  );
+
+  useEffect(() => {
+    setValue("occupation_id", null);
+  }, [setValue, occValue]);
+  const { data: getOccupationPosition } = useOccupationPositionGet({
+    search: "",
+    occupation_id: watch("occupation_id"),
+  });
+
+  const occupationPositionOptions = useMemo(
+    () =>
+      getOccupationPosition?.occupation_position?.map((occupationPosition) => ({
+        label: occupationPosition?.name,
+        value: occupationPosition?.id.toString(),
+      })),
+    [getOccupationPosition?.occupation_position],
+  );
+  const [salary] = useState({
+    search: "",
+  });
+  const { data: getSalary } = useSalaryGet(salary);
+
+  const salaryOptions = useMemo(
+    () =>
+      getSalary?.salary?.map((salary) => ({
+        label: salary?.name,
+        value: salary?.id.toString(),
+      })),
+    [getSalary?.salary],
+  );
   useEffect(() => {
     reset(student);
 
@@ -191,6 +238,11 @@ export const DataDiriSection: FC = (): ReactElement => {
       setDisValue("Ya");
     } else {
       setDisValue("Tidak");
+    }
+    if (data?.occupation_id) {
+      setOccValue("Sudah");
+    } else {
+      setOccValue("Belum");
     }
   }, [student, reset, data]);
 
@@ -203,7 +255,10 @@ export const DataDiriSection: FC = (): ReactElement => {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setDisValue(e.target.value);
   };
-
+  const handleOccupation = (e: ChangeEvent<HTMLInputElement>): void => {
+    setOccValue(e.target.value);
+    localStorage.setItem("occValue", e.target.value);
+  };
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
@@ -226,7 +281,12 @@ export const DataDiriSection: FC = (): ReactElement => {
     dataDiri.address = data?.address;
     dataDiri.disabilities_id = Number(data?.disabilities_id);
     dataDiri.city_id = Number(data?.city_id);
-
+    dataDiri.occupation_id = Number(data?.occupation_id);
+    dataDiri.occupation_position_id = Number(data?.occupation_position_id);
+    dataDiri.company_name = data?.company_name;
+    dataDiri.company_address = data?.company_address;
+    dataDiri.salary_id = Number(data?.salary_id);
+    console.log(data);
     try {
       mutate(
         { ...dataDiri },
@@ -564,8 +624,144 @@ export const DataDiriSection: FC = (): ReactElement => {
               disabled={isDisabled || student?.address ? true : false}
             />
           </div>
+          {data?.degree_program_id !== 1 && (
+            <>
+              <div className="w-full">
+                <h1 className="text-left font-bold text-xl pl-6 md:pl-0">Pekerjaan</h1>
+              </div>
+              <div className="w-full lg:w-[30%] px-6 md:px-0">
+                <RadioButton
+                  name="bekerja"
+                  label="Sudah"
+                  fieldName="Status Bekerja"
+                  control={control}
+                  options={[
+                    { label: "Sudah", value: "Sudah" },
+                    { label: "Belum", value: "Belum" },
+                  ]}
+                  size="lg"
+                  variant="primary"
+                  onChange={handleOccupation}
+                  buttonValue={occValue}
+                  disabled={
+                    isDisabled || (student?.occupation_id && occValue === "Sudah") ? true : false
+                  }
+                />
+              </div>
 
-          <div className="w-full lg:w-[30%] px-6 lg:px-0">
+              <SelectOption
+                name="occupation_id"
+                labels="Pekerjaan"
+                className="rounded-md text-primary-black lg:w-auto w-70% xl:w-[25vw] md:w-[33vw]"
+                placeholder={
+                  data?.occupation_id
+                    ? getOccupation?.occupation?.find(
+                        (occupation) => occupation.id === data?.occupation_id,
+                      )?.name
+                    : "Pekerjaan"
+                }
+                labelClassName="text-left font-bold text-xs py-2"
+                options={occupationOptions || []}
+                isClearable={true}
+                isSearchable={true}
+                required={false}
+                control={control}
+                isMulti={false}
+                disabled={
+                  occValue === "Sudah" && data?.occupation_id
+                    ? true
+                    : occValue === "Belum" && student?.occupation_id
+                    ? true
+                    : occValue === "Sudah"
+                    ? false
+                    : occValue === "Belum"
+                    ? true
+                    : false
+                }
+              />
+
+              <SelectOption
+                name="occupation_position_id"
+                labels="Jabatan"
+                className="rounded-md text-primary-black lg:w-auto w-70% xl:w-[25vw] md:w-[33vw]"
+                placeholder={
+                  student?.occupation_position_id
+                    ? getOccupationPosition?.occupation_position?.find(
+                        (occupation_position) =>
+                          occupation_position.id === student?.occupation_position_id,
+                      )?.name
+                    : "Pilih Jabatan"
+                }
+                labelClassName="text-left font-bold text-xs py-2"
+                options={occupationPositionOptions || []}
+                isClearable={true}
+                isSearchable={true}
+                required={false}
+                control={control}
+                isMulti={false}
+                disabled={
+                  occValue === "Belum" || isDisabled || !watch("occupation_id")
+                    ? true
+                    : false ||
+                      occupationPositionOptions?.length === 0 ||
+                      student?.occupation_position_id
+                    ? true
+                    : false
+                }
+              />
+              <TextField
+                inputHeight="h-10"
+                name="company_name"
+                variant="sm"
+                required
+                type="text"
+                placeholder="Nama Perusahaan"
+                labelclassname="text-left text-sm font-semibold"
+                label="Nama Perusahaan"
+                inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+                control={control}
+                disabled={
+                  occValue === "Belum" || isDisabled || student?.company_name ? true : false
+                }
+              />
+              <div className="px-6 md:px-0 lg:px-0 w-full">
+                <TextField
+                  name="company_address"
+                  variant="sm"
+                  type="text"
+                  labelclassname="text-left text-xl font-semibold"
+                  label="Alamat Perusahaan"
+                  control={control}
+                  isTextArea
+                  textAreaCols={30}
+                  inputHeight="h-20"
+                  inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
+                  className="resize-none bg-grayscale-2  "
+                  disabled={
+                    occValue === "Belum" || isDisabled || student?.company_address ? true : false
+                  }
+                />
+              </div>
+              <SelectOption
+                name="salary_id"
+                labels="Penghasilan Per Bulan"
+                labelClassName="text-left font-bold text-xs py-2"
+                placeholder={
+                  student?.salary_id
+                    ? getSalary?.salary?.find((salary) => salary.id === student?.salary_id)?.name
+                    : "Pilih Pendapatan"
+                }
+                options={salaryOptions || []}
+                className=" rounded-md text-primary-black md:w-[80vw] lg:w-55% w-[70vw]"
+                isSearchable={false}
+                control={control}
+                isMulti={false}
+                isClearable={true}
+                disabled={occValue === "Belum" || isDisabled || student?.salary_id ? true : false}
+              />
+            </>
+          )}
+          <div className="w-full lg:w-[30%] px-6 md:px-0">
             <RadioButton
               name="difabel"
               label="Ya"

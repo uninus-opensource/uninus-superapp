@@ -102,6 +102,11 @@ export const VSDataDiri = z.object({
   province_id: z.nullable(z.string().min(1, { message: "Provinsi harus dipilih" })),
   subdistrict_id: z.nullable(z.string().min(1, { message: "Kecamatan harus dipilih" })),
   address: z.nullable(z.string().nonempty({ message: "Alamat tidak boleh kosong" })),
+  occupation_id: z.nullable(z.string().min(1, { message: "Pekerjaan harus dipilih" })),
+  occupation_position_id: z.nullable(z.string().min(1, { message: "Jabatan harus dipilih" })),
+  company_name: z.nullable(z.string().optional()),
+  company_address: z.nullable(z.string().optional()),
+  salary_id: z.nullable(z.string().optional()),
   disabilities_id: z.nullable(z.string().optional()),
   city_id: z.nullable(z.string().min(1, { message: "Kota harus dipilih" })),
 });

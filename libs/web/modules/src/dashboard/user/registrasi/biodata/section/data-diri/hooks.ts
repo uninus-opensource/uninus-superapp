@@ -12,9 +12,25 @@ import {
   ICitizenshipRequest,
   TCitizenshipResponse,
   ICountryRequest,
+  IOccupationRequest,
+  TOccupationResponse,
   TCountryResponse,
+  IOccupationPositionRequest,
+  TOccupationPositionResponse,
+  ISalaryRequest,
+  TSalaryResponse,
 } from "@uninus/entities";
-import { DisabilitiesGet, ReligionGet, StatusGet, GenderGet, CitizeGet, CountryGet } from "./api";
+import {
+  DisabilitiesGet,
+  ReligionGet,
+  StatusGet,
+  GenderGet,
+  CitizeGet,
+  CountryGet,
+  OccupationGet,
+  OccupationPositionGet,
+  SalaryGet,
+} from "./api";
 
 export const useReligionGet = (
   params: IReligionRequest,
@@ -67,5 +83,30 @@ export const useCountryGet = (
   return useQuery({
     queryKey: ["getCountry", params],
     queryFn: async () => await CountryGet(params),
+  });
+};
+export const useOccupationGet = (
+  params: IOccupationRequest,
+): UseQueryResult<TOccupationResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getOccupation", params],
+    queryFn: async () => await OccupationGet(params),
+  });
+};
+export const useOccupationPositionGet = (
+  params: IOccupationPositionRequest,
+): UseQueryResult<TOccupationPositionResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getOccupationPosition", params],
+    queryFn: async () => await OccupationPositionGet(params),
+  });
+};
+
+export const useSalaryGet = (
+  params: ISalaryRequest,
+): UseQueryResult<TSalaryResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getSalary", params],
+    queryFn: async () => await SalaryGet(params),
   });
 };
