@@ -340,8 +340,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
             control={control}
             disabled={isDisabled || student?.nik ? true : false}
-            status={errors?.nik ? "error" : undefined}
-            message={errors?.nik?.message}
           />
           <TextField
             inputHeight="h-10"
@@ -354,8 +352,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             control={control}
             disabled={isDisabled || student?.nisn ? true : false}
-            status={errors?.nisn ? "error" : undefined}
-            message={errors?.nisn?.message}
           />
           <div className="lg:w-full">
             <TextField
@@ -369,8 +365,6 @@ export const DataDiriSection: FC = (): ReactElement => {
               inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
               control={control}
               disabled={isDisabled || student?.no_kk ? true : false}
-              status={errors?.no_kk ? "error" : undefined}
-              message={errors?.no_kk?.message}
             />
           </div>
           <SelectOption
@@ -389,7 +383,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             name="gender_id"
             control={control}
             disabled={isDisabled || student?.gender_id ? true : false}
-            message={errors?.gender_id?.message}
           />
           <SelectOption
             labels="Agama"
@@ -409,7 +402,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={isDisabled || student?.religion_id ? true : false}
-            message={errors?.religion_id?.message}
           />
           <TextField
             inputHeight="h-10"
@@ -422,8 +414,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             control={control}
             disabled={isDisabled || student?.birth_place ? true : false}
-            status={errors?.birth_place ? "error" : undefined}
-            message={errors?.birth_place?.message}
           />
           <TextField
             inputHeight="h-10"
@@ -435,8 +425,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="lg:w-[27vw] xl:w-[25vw] md:w-[33vw] w-[70vw]"
             control={control}
             disabled={isDisabled || student?.birth_date ? true : false}
-            status={errors?.birth_date ? "error" : undefined}
-            message={errors?.birth_date?.message}
           />
           <div className="mr-2">
             <SelectOption
@@ -457,7 +445,6 @@ export const DataDiriSection: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               disabled={isDisabled || student?.marital_status_id ? true : false}
-              message={errors?.martial_status_id?.message}
             />
           </div>
           <SelectOption
@@ -479,7 +466,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             isMulti={false}
             required={false}
             disabled={isDisabled || student?.citizenship_id ? true : false}
-            message={errors?.citizenship_id?.message}
           />
           <SelectOption
             name="country_id"
@@ -499,7 +485,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             isMulti={false}
             required={false}
             disabled={isDisabled || student?.country_id ? true : !watch("citizenship_id")}
-            message={errors?.country_id?.message}
           />
           <SelectOption
             name="province_id"
@@ -519,7 +504,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={isDisabled || student?.province_id ? true : false}
-            message={errors?.province_id?.message}
           />
           <SelectOption
             name="city_id"
@@ -537,7 +521,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={isDisabled || student?.city_id ? true : !watch("province_id")}
-            message={errors?.city_id?.message}
           />
           <SelectOption
             name="subdistrict_id"
@@ -557,7 +540,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             disabled={isDisabled || student?.subdistrict_id ? true : !watch("city_id")}
-            message={errors?.subdistrict_id?.message}
           />
           <div className="px-14 md:px-0 lg:px-0 w-full">
             <TextField
@@ -573,8 +555,6 @@ export const DataDiriSection: FC = (): ReactElement => {
               inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2  "
               disabled={isDisabled || student?.address ? true : false}
-              status={errors?.address ? "error" : undefined}
-              message={errors?.address?.message}
             />
           </div>
           <RadioButton

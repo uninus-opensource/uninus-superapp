@@ -237,7 +237,6 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={isDisabled || student?.education_type_id ? true : false}
-            message={errors?.education_type_id?.message}
           />
           <SelectOption
             name="graduation_year"
@@ -254,7 +253,6 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={isDisabled || student?.graduation_year ? true : false}
-            message={errors?.graduation_year?.message}
           />
 
           <TextField
@@ -273,7 +271,6 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             }}
             disabled={isDisabled || student?.education_npsn ? true : false}
             status={errors?.education_npsn ? "error" : undefined}
-            message={errors?.education_npsn?.message}
           />
 
           <TextField
@@ -347,7 +344,6 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               control={control}
               isMulti={false}
               disabled={isDisabled || !watch("education_type_id")}
-              message={errors?.education_major_id?.message}
             />
           </div>
 
