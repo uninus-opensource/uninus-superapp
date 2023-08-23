@@ -299,7 +299,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           />
         </div>
 
-        <section className="flex flex-wrap w-full gap-x-1 justify-center items-center lg:flex lg:justify-between lg:items-center gap-y-4 mt-8 lg:mt-6 lg:w-55% md:w-80% md:flex md:flex-wrap md:justify-between">
+        <section className="flex flex-wrap w-full gap-x-1 justify-center items-center lg:flex lg:justify-between lg:items-center gap-y-4 mt-8 lg:mt-6 lg:w-55% md:w-80% md:flex md:flex-wrap md:justify-between text-left">
           {formBiodataOne.map((biodata, idx) => (
             <TextField
               key={idx}
@@ -337,6 +337,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             placeholder="Nomor dapat dilihat dari KK atau KTP"
             labelclassname="text-sm font-semibold"
             label="NIK"
+            required
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
             control={control}
             disabled={isDisabled || student?.nik ? true : false}
@@ -349,6 +350,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             placeholder="Nomor Induk Siswa Nasional"
             labelclassname="text-sm font-semibold"
             label="NISN"
+            required
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             control={control}
             disabled={isDisabled || student?.nisn ? true : false}
@@ -357,6 +359,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             <TextField
               inputHeight="h-10"
               name="no_kk"
+              required
               variant="sm"
               type="text"
               placeholder="Nomor dapat dilihat di KK"
@@ -408,6 +411,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             name="birth_place"
             variant="sm"
             type="text"
+            required
             placeholder="Masukan Kota tempat lahir"
             labelclassname="text-sm font-semibold"
             label="Tempat Lahir"
@@ -419,6 +423,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputHeight="h-10"
             name="birth_date"
             variant="sm"
+            required
             type="date"
             labelclassname="text-xl font-semibold"
             label="Tanggal Lahir"
@@ -464,7 +469,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             isSearchable={true}
             control={control}
             isMulti={false}
-            required={false}
+            required={true}
             disabled={isDisabled || student?.citizenship_id ? true : false}
           />
           <SelectOption
@@ -541,7 +546,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             isClearable={true}
             disabled={isDisabled || student?.subdistrict_id ? true : !watch("city_id")}
           />
-          <div className="px-14 md:px-0 lg:px-0 w-full">
+          <div className="px-4 md:px-0 lg:px-0 w-full">
             <TextField
               name="address"
               variant="sm"
@@ -549,6 +554,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               labelclassname="text-xl font-semibold"
               label="Alamat Domisili"
               control={control}
+              required
               isTextArea
               textAreaCols={30}
               inputHeight="h-20"
@@ -557,21 +563,25 @@ export const DataDiriSection: FC = (): ReactElement => {
               disabled={isDisabled || student?.address ? true : false}
             />
           </div>
-          <RadioButton
-            name="difabel"
-            label="Ya"
-            fieldName="Berkebutuhan Khusus"
-            control={control}
-            options={[
-              { label: "Ya", value: "Ya" },
-              { label: "Tidak", value: "Tidak" },
-            ]}
-            size="lg"
-            variant="primary"
-            onChange={handleOnChange}
-            buttonValue={disValue}
-            disabled={isDisabled || (student?.disabilities_id && disValue === "Ya") ? true : false}
-          />
+          <div className="w-full lg:w-[30%] px-4 lg:px-0">
+            <RadioButton
+              name="difabel"
+              label="Ya"
+              fieldName="Berkebutuhan Khusus"
+              control={control}
+              options={[
+                { label: "Ya", value: "Ya" },
+                { label: "Tidak", value: "Tidak" },
+              ]}
+              size="lg"
+              variant="primary"
+              onChange={handleOnChange}
+              buttonValue={disValue}
+              disabled={
+                isDisabled || (student?.disabilities_id && disValue === "Ya") ? true : false
+              }
+            />
+          </div>
 
           <SelectOption
             name="disabilities_id"
