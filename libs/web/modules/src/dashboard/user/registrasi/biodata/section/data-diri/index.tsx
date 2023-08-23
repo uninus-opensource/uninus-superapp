@@ -546,7 +546,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             isClearable={true}
             disabled={isDisabled || student?.subdistrict_id ? true : !watch("city_id")}
           />
-          <div className="px-4 md:px-0 lg:px-0 w-full">
+          <div className="px-6 md:px-0 lg:px-0 w-full">
             <TextField
               name="address"
               variant="sm"
@@ -563,7 +563,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               disabled={isDisabled || student?.address ? true : false}
             />
           </div>
-          <div className="w-full lg:w-[30%] px-4 lg:px-0">
+          <div className="w-full lg:w-[30%] px-6 lg:px-0">
             <RadioButton
               name="difabel"
               label="Ya"

@@ -170,7 +170,6 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
         </section>
       </aside>
 
-      {/* mobile */}
       <Button
         variant="text-icon"
         styling="shadow-md bg-primary-green fixed z-50 inline-flex items-center text-primary-white top-5/6 flex bottom-10 right-8 rounded-md lg:hidden self-end justify-end items-end"
@@ -179,7 +178,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
         <MenuOutlined className="md:hidden mx-auto text-center cursor-pointer text-primary-white text-[1.5rem]" />
         <AppstoreFilled className="hidden md:block mx-auto text-center cursor-pointer text-primary-white text-[1.5rem]" />
       </Button>
-
+      {/* mobile */}
       {onToogle && (
         <Fragment>
           <div
@@ -259,12 +258,16 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                     ))}
                   </div>
                 </ul>
-                <div className="flex px-2 w-full h-full items-center pt-16">
-                  <AiOutlineLogout
-                    size={45}
-                    className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green group-hover:text-primary-white rounded-lg "
-                  />
-                  <p className="h-ful text-center text-primary-green text-sm font-normal">Keluar</p>
+                <div className="flex w-full h-full items-center pt-16">
+                  <Button variant="sidebarbutton" size="sm" onClick={handleOpenModal}>
+                    <AiOutlineLogout
+                      size={45}
+                      className="mr-3 text-primary-green w-fit p-3 drop-shadow-lg bg-primary-white group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green group-hover:text-primary-white rounded-lg "
+                    />
+                    <p className="h-ful text-center text-primary-green text-sm font-normal">
+                      Keluar
+                    </p>
+                  </Button>
                 </div>
               </nav>
             </section>
