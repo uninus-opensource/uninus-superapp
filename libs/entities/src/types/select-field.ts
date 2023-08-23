@@ -246,3 +246,25 @@ export type TSchoolTypeResponse = {
     name: string;
   }>;
 };
+
+export interface IParentStatusRequest {
+  search: string;
+}
+
+export type TParentStatusResponse = {
+  parent_status: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface IParentEducationRequest {
+  search: string;
+}
+
+export type TParentEducationResponse = {
+  parent_education: Array<{
+    id: number;
+    name: string;
+  }>;
+};
