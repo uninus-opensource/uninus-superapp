@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export const EndTestModule: FC = (): ReactElement => {
   return (
-    <section key="endtest" className="flex flex-col w-full h-auto justify-center items-center ">
+    <section key="endtest" className="flex flex-col w-full h-full justify-center items-center ">
       {/* header */}
       <div className="w-[80%] lg:w-full flex flex-col justify-start items-start">
         <h1 className="text-slate-5">
@@ -14,7 +14,7 @@ export const EndTestModule: FC = (): ReactElement => {
       </div>
 
       {/* body */}
-      <div className="w-[80%] lg:w-full relative rounded-lg h-auto md:h-[30rem] lg:h-[27rem] xl:h-[83vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex items-center lg:p-16 ">
+      <div className="w-[80%] lg:w-full relative rounded-lg h-full md:h-[30rem] lg:h-[27rem] xl:h-[83vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex items-center lg:p-16 ">
         <div className="w-full h-full flex flex-col lg:flex-row justify-center items-center ">
           {/* Image */}
           <figure className="w-full lg:w-1/2 relative ">
@@ -31,9 +31,7 @@ export const EndTestModule: FC = (): ReactElement => {
 
           {/* heading */}
           <div className="flex flex-col gap-y-2 items-center shadow-[0px_4px_8px_0px_rgba(0, 0, 0, 0.1)] text-center ">
-            <h1 className=" text-primary-green font-bold text-2xl lg:text-3xl w-full">
-              Terima kasih
-            </h1>
+            <h1 className="font-extrabold text-2xl lg:text-3xl w-full">Terima kasih</h1>
             <div className="w-full">
               <h2 className="lg:text-base xl:text-lg">
                 Telah Mengikuti Seleksi Test <br />{" "}

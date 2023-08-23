@@ -4,7 +4,7 @@ import { Button } from "@uninus/web/components";
 import Image from "next/image";
 export const ModuleSelectionTest: FC = (): ReactElement => {
   return (
-    <section key="seleksi" className="flex flex-col w-full h-auto justify-center items-center ">
+    <section key="seleksi" className="flex flex-col w-full h-full justify-center items-center ">
       {/* header */}
       <div className="w-[80%] lg:w-full flex flex-col justify-start items-start">
         <h1 className="text-slate-5">
@@ -14,7 +14,7 @@ export const ModuleSelectionTest: FC = (): ReactElement => {
       </div>
 
       {/* body */}
-      <div className="w-[80%] lg:w-full rounded-lg h-auto md:h-[30rem] lg:h-[27rem] xl:h-[75vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex flex-col md:flex-row items-center ">
+      <div className="w-[80%] lg:w-full rounded-lg h-full md:h-[30rem] lg:h-[27rem] xl:h-[75vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex flex-col md:flex-row items-center ">
         <div className="w-full relative h-full flex items-center justify-center flex-col">
           <figure className="relative">
             <Image
