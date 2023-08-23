@@ -85,6 +85,11 @@ export const dataDiri = {
   province_id: 0,
   city_id: 0,
   disabilities_id: 0,
+  occupation_id: 0,
+  occupation_position_id: 0,
+  company_name: "",
+  salary_id: 0,
+  company_address: "",
 };
 
 export const dataPendidikan = {

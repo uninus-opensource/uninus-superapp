@@ -56,6 +56,11 @@ export interface IStudentData {
   faculty_id?: number | null;
   department_id?: number | null;
   academic_year?: string | null;
+  salary_id?: number | null;
+  occupation_id?: number | null;
+  company_name?: string | null;
+  company_address?: string | null;
+  occupation_position_id?: number | null;
 }
 
 export interface IGetStudentResponse extends IStudentData {
