@@ -111,7 +111,7 @@ export class StudentService {
         email: true,
         fullname: true,
         students: {
-          select: {
+          include: {
             pmb: {
               include: {
                 student_grade: true,

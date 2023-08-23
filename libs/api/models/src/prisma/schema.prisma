@@ -26,98 +26,105 @@ model Users {
 }
 
 model Students {
-  id                     String              @unique @default(uuid())
-  nik                    String?
-  nisn                   String?
-  no_kk                  String?
-  gender                 Gender?             @relation(fields: [gender_id], references: [id], onUpdate: Cascade)
-  gender_id              Int?
-  religion               Religion?           @relation(fields: [religion_id], references: [id], onUpdate: Cascade)
-  religion_id            Int?
-  birth_place            String?
-  birth_date             String?
-  phone_number           String?             @unique
-  citizenship            Citizenship?        @relation(fields: [citizenship_id], references: [id], onUpdate: Cascade)
-  citizenship_id         Int?
-  marital_status         MaritalStatus?      @relation(fields: [marital_status_id], references: [id], onUpdate: Cascade)
-  marital_status_id      Int?
-  country                Country?            @relation(fields: [country_id], references: [id], onUpdate: Cascade)
-  country_id             Int?
-  address                String?
-  subdistrict            SubDistrict?        @relation("student", fields: [subdistrict_id], references: [id], onUpdate: Cascade)
-  subdistrict_id         Int?
-  province               Province?           @relation("student", fields: [province_id], references: [id], onUpdate: Cascade)
-  province_id            Int?
-  city                   City?               @relation("student", fields: [city_id], references: [id], onUpdate: Cascade)
-  city_id                Int?
-  education_type         EducationTypes?     @relation(fields: [education_type_id], references: [id], onUpdate: Cascade)
-  education_type_id      Int?
-  education_major        EducationMajor?     @relation(fields: [education_major_id], references: [id], onUpdate: Cascade)
-  education_major_id     Int?
-  graduation_year        String?
-  education_npsn         String?
-  education              Education?          @relation(fields: [education_npsn], references: [npsn], onUpdate: Cascade)
-  salary                 Salary?             @relation("student", fields: [salary_id], references: [id], onUpdate: Cascade)
-  salary_id              Int?
-  occupation             Occupation?         @relation("student", fields: [occupation_id], references: [id], onUpdate: Cascade)
-  occupation_id          Int?
-  occupation_position    OccupationPosition? @relation("student", fields: [occupation_position_id], references: [id], onUpdate: Cascade)
-  occupation_position_id Int?
-  company_name           String?
-  company_address        String?
-  father_name            String?
-  father_status          ParentStatus?       @relation("father", fields: [father_status_id], references: [id], onUpdate: Cascade)
-  father_status_id       Int?
-  father_education       ParentEducation?    @relation("father", fields: [father_education_id], references: [id], onUpdate: Cascade)
-  father_education_id    Int?
-  father_occupation      Occupation?         @relation("father", fields: [father_occupation_id], references: [id], onUpdate: Cascade)
-  father_occupation_id   Int?
-  father_position        OccupationPosition? @relation("father", fields: [father_position_id], references: [id], onUpdate: Cascade)
-  father_position_id     Int?
-  father_salary          Salary?             @relation("father", fields: [father_salary_id], references: [id], onUpdate: Cascade)
-  father_salary_id       Int?
-  mother_name            String?
-  mother_status          ParentStatus?       @relation("mother", fields: [mother_status_id], references: [id], onUpdate: Cascade)
-  mother_status_id       Int?
-  mother_education       ParentEducation?    @relation("mother", fields: [mother_education_id], references: [id], onUpdate: Cascade)
-  mother_education_id    Int?
-  mother_occupation      Occupation?         @relation("mother", fields: [mother_occupation_id], references: [id], onUpdate: Cascade)
-  mother_occupation_id   Int?
-  mother_position        OccupationPosition? @relation("mother", fields: [mother_position_id], references: [id], onUpdate: Cascade)
-  mother_position_id     Int?
-  mother_salary          Salary?             @relation("mother", fields: [mother_salary_id], references: [id], onUpdate: Cascade)
-  mother_salary_id       Int?
-  guardian_name          String?
-  guardian_status        ParentStatus?       @relation("guardian", fields: [guardian_status_id], references: [id], onUpdate: Cascade)
-  guardian_status_id     Int?
-  guardian_education     ParentEducation?    @relation("guardian", fields: [guardian_education_id], references: [id], onUpdate: Cascade)
-  guardian_education_id  Int?
-  guardian_occupation    Occupation?         @relation("guardian", fields: [guardian_occupation_id], references: [id], onUpdate: Cascade)
-  guardian_occupation_id Int?
-  guardian_position      OccupationPosition? @relation("guardian", fields: [guardian_position_id], references: [id], onUpdate: Cascade)
-  guardian_position_id   Int?
-  guardian_salary        Salary?             @relation("guardian", fields: [guardian_salary_id], references: [id], onUpdate: Cascade)
-  guardian_salary_id     Int?
-  parent_province        Province?           @relation("parent", fields: [parent_province_id], references: [id], onUpdate: Cascade)
-  parent_province_id     Int?
-  parent_subdistrict     SubDistrict?        @relation("parent", fields: [parent_subdistrict_id], references: [id], onUpdate: Cascade)
-  parent_subdistrict_id  Int?
-  parent_city            City?               @relation("parent", fields: [parent_city_id], references: [id], onUpdate: Cascade)
-  parent_city_id         Int?
-  parent_address         String?
-  scholarship            Scholarship?        @relation(fields: [scholarship_id], references: [id], onUpdate: Cascade)
-  scholarship_id         Int?
-  disabilities           Disabilities?       @relation(fields: [disabilities_id], references: [id], onUpdate: Cascade)
-  disabilities_id        Int?
-  faculty                Faculty?            @relation(fields: [faculty_id], references: [id], onUpdate: Cascade)
-  faculty_id             Int?
-  department             Department?         @relation("student", fields: [department_id], references: [id], onUpdate: Cascade)
-  department_id          Int?
-  academic_year          String?
-  user                   Users               @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user_id                String              @unique
-  createdAt              DateTime            @default(now())
-  pmb                    PMB?
+  id                      String              @unique @default(uuid())
+  nik                     String?
+  nisn                    String?
+  no_kk                   String?
+  gender                  Gender?             @relation(fields: [gender_id], references: [id], onUpdate: Cascade)
+  gender_id               Int?
+  religion                Religion?           @relation(fields: [religion_id], references: [id], onUpdate: Cascade)
+  religion_id             Int?
+  birth_place             String?
+  birth_date              String?
+  phone_number            String?             @unique
+  citizenship             Citizenship?        @relation(fields: [citizenship_id], references: [id], onUpdate: Cascade)
+  citizenship_id          Int?
+  marital_status          MaritalStatus?      @relation(fields: [marital_status_id], references: [id], onUpdate: Cascade)
+  marital_status_id       Int?
+  country                 Country?            @relation(fields: [country_id], references: [id], onUpdate: Cascade)
+  country_id              Int?
+  address                 String?
+  subdistrict             SubDistrict?        @relation("student", fields: [subdistrict_id], references: [id], onUpdate: Cascade)
+  subdistrict_id          Int?
+  province                Province?           @relation("student", fields: [province_id], references: [id], onUpdate: Cascade)
+  province_id             Int?
+  city                    City?               @relation("student", fields: [city_id], references: [id], onUpdate: Cascade)
+  city_id                 Int?
+  education_type          EducationTypes?     @relation(fields: [education_type_id], references: [id], onUpdate: Cascade)
+  education_type_id       Int?
+  education_major         EducationMajor?     @relation(fields: [education_major_id], references: [id], onUpdate: Cascade)
+  education_major_id      Int?
+  graduation_year         String?
+  education_npsn          String?
+  education               Education?          @relation(fields: [education_npsn], references: [npsn], onUpdate: Cascade)
+  salary                  Salary?             @relation("student", fields: [salary_id], references: [id], onUpdate: Cascade)
+  salary_id               Int?
+  occupation              Occupation?         @relation("student", fields: [occupation_id], references: [id], onUpdate: Cascade)
+  occupation_id           Int?
+  occupation_position     OccupationPosition? @relation("student", fields: [occupation_position_id], references: [id], onUpdate: Cascade)
+  occupation_position_id  Int?
+  company_name            String?
+  company_address         String?
+  father_name             String?
+  father_status           ParentStatus?       @relation("father", fields: [father_status_id], references: [id], onUpdate: Cascade)
+  father_status_id        Int?
+  father_education        ParentEducation?    @relation("father", fields: [father_education_id], references: [id], onUpdate: Cascade)
+  father_education_id     Int?
+  father_occupation       Occupation?         @relation("father", fields: [father_occupation_id], references: [id], onUpdate: Cascade)
+  father_occupation_id    Int?
+  father_position         OccupationPosition? @relation("father", fields: [father_position_id], references: [id], onUpdate: Cascade)
+  father_position_id      Int?
+  father_salary           Salary?             @relation("father", fields: [father_salary_id], references: [id], onUpdate: Cascade)
+  father_salary_id        Int?
+  mother_name             String?
+  mother_status           ParentStatus?       @relation("mother", fields: [mother_status_id], references: [id], onUpdate: Cascade)
+  mother_status_id        Int?
+  mother_education        ParentEducation?    @relation("mother", fields: [mother_education_id], references: [id], onUpdate: Cascade)
+  mother_education_id     Int?
+  mother_occupation       Occupation?         @relation("mother", fields: [mother_occupation_id], references: [id], onUpdate: Cascade)
+  mother_occupation_id    Int?
+  mother_position         OccupationPosition? @relation("mother", fields: [mother_position_id], references: [id], onUpdate: Cascade)
+  mother_position_id      Int?
+  mother_salary           Salary?             @relation("mother", fields: [mother_salary_id], references: [id], onUpdate: Cascade)
+  mother_salary_id        Int?
+  guardian_name           String?
+  guardian_status         ParentStatus?       @relation("guardian", fields: [guardian_status_id], references: [id], onUpdate: Cascade)
+  guardian_status_id      Int?
+  guardian_education      ParentEducation?    @relation("guardian", fields: [guardian_education_id], references: [id], onUpdate: Cascade)
+  guardian_education_id   Int?
+  guardian_occupation     Occupation?         @relation("guardian", fields: [guardian_occupation_id], references: [id], onUpdate: Cascade)
+  guardian_occupation_id  Int?
+  guardian_position       OccupationPosition? @relation("guardian", fields: [guardian_position_id], references: [id], onUpdate: Cascade)
+  guardian_position_id    Int?
+  guardian_salary         Salary?             @relation("guardian", fields: [guardian_salary_id], references: [id], onUpdate: Cascade)
+  guardian_salary_id      Int?
+  guardian_province       Province?           @relation("guardian", fields: [guardian_province_id], references: [id], onUpdate: Cascade)
+  guardian_province_id    Int?
+  guardian_subdistrict    SubDistrict?        @relation("guardian", fields: [guardian_subdistrict_id], references: [id], onUpdate: Cascade)
+  guardian_subdistrict_id Int?
+  guardian_city           City?               @relation("guardian", fields: [guardian_city_id], references: [id], onUpdate: Cascade)
+  guardian_city_id        Int?
+  guardian_address        String?
+  parent_province         Province?           @relation("parent", fields: [parent_province_id], references: [id], onUpdate: Cascade)
+  parent_province_id      Int?
+  parent_subdistrict      SubDistrict?        @relation("parent", fields: [parent_subdistrict_id], references: [id], onUpdate: Cascade)
+  parent_subdistrict_id   Int?
+  parent_city             City?               @relation("parent", fields: [parent_city_id], references: [id], onUpdate: Cascade)
+  parent_city_id          Int?
+  parent_address          String?
+  scholarship             Scholarship?        @relation(fields: [scholarship_id], references: [id], onUpdate: Cascade)
+  scholarship_id          Int?
+  disabilities            Disabilities?       @relation(fields: [disabilities_id], references: [id], onUpdate: Cascade)
+  disabilities_id         Int?
+  faculty                 Faculty?            @relation(fields: [faculty_id], references: [id], onUpdate: Cascade)
+  faculty_id              Int?
+  department              Department?         @relation("student", fields: [department_id], references: [id], onUpdate: Cascade)
+  department_id           Int?
+  academic_year           String?
+  user                    Users               @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id                 String              @unique
+  createdAt               DateTime            @default(now())
+  pmb                     PMB?
 }
 
 model StudentGrade {
@@ -183,8 +190,8 @@ model EducationMajor {
 model ParentEducation {
   id       Int        @id @default(autoincrement())
   name     String
-  father   Students[] @relation("father")
   mother   Students[] @relation("mother")
+  father   Students[] @relation("father")
   guardian Students[] @relation("guardian")
 }
 
@@ -202,6 +209,7 @@ model Province {
   cities   City[]
   students Students[] @relation("student")
   parent   Students[] @relation("parent")
+  guardian Students[] @relation("guardian")
 }
 
 model City {
@@ -212,6 +220,7 @@ model City {
   sub_district SubDistrict[]
   students     Students[]    @relation("student")
   parent       Students[]    @relation("parent")
+  guardian     Students[]    @relation("guardian")
 }
 
 model SubDistrict {
@@ -221,6 +230,7 @@ model SubDistrict {
   city     City       @relation(fields: [city_id], references: [id], onDelete: Cascade)
   students Students[] @relation("student")
   parent   Students[] @relation("parent")
+  guardian Students[] @relation("guardian")
 }
 
 model Roles {
