@@ -702,7 +702,11 @@ export const DataDiriSection: FC = (): ReactElement => {
                 disabled={
                   occValue === "Belum" || isDisabled || !watch("occupation_id")
                     ? true
-                    : false || occupationPositionOptions?.length === 0
+                    : false ||
+                      occupationPositionOptions?.length === 0 ||
+                      student?.occupation_position_id
+                    ? true
+                    : false
                 }
               />
               <TextField
