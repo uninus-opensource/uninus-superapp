@@ -371,6 +371,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
         </section>
         <div className="flex w-full justify-center lg:justify-end py-4">
           <Button
+            type="submit"
             variant="filled"
             size="md"
             width="w-50% lg:w-25% xl:w-15%"
