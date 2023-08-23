@@ -106,6 +106,7 @@ export class UserService {
   }
 
   async updateUser(id: string, payload: IUserRequest): Promise<IUserResponse> {
+    const password = await encryptPassword(payload.password);
     const user = await this.prisma.users.update({
       where: {
         id,
@@ -113,7 +114,7 @@ export class UserService {
       data: {
         email: payload.email,
         fullname: payload.fullname,
-        password: payload.password,
+        password,
       },
     });
     if (!user) {

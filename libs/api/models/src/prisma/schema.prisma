@@ -57,6 +57,14 @@ model Students {
   graduation_year        String?
   education_npsn         String?
   education              Education?          @relation(fields: [education_npsn], references: [npsn], onUpdate: Cascade)
+  salary                 Salary?             @relation("student", fields: [salary_id], references: [id], onUpdate: Cascade)
+  salary_id              Int?
+  occupation             Occupation?         @relation("student", fields: [occupation_id], references: [id], onUpdate: Cascade)
+  occupation_id          Int?
+  occupation_position    OccupationPosition? @relation("student", fields: [occupation_position_id], references: [id], onUpdate: Cascade)
+  occupation_position_id Int?
+  company_name           String?
+  company_address        String?
   father_name            String?
   father_status          ParentStatus?       @relation("father", fields: [father_status_id], references: [id], onUpdate: Cascade)
   father_status_id       Int?
@@ -309,6 +317,7 @@ model Salary {
   father   Students[] @relation("father")
   mother   Students[] @relation("mother")
   guardian Students[] @relation("guardian")
+  Students Students[] @relation("student")
 }
 
 model SelectionPath {
@@ -345,6 +354,7 @@ model Occupation {
   father             Students[]           @relation("father")
   mother             Students[]           @relation("mother")
   guardian           Students[]           @relation("guardian")
+  Students           Students[]           @relation("student")
 }
 
 model OccupationPosition {
@@ -355,6 +365,7 @@ model OccupationPosition {
   father        Students[]  @relation("father")
   mother        Students[]  @relation("mother")
   guardian      Students[]  @relation("guardian")
+  Students      Students[]  @relation("student")
 }
 
 model Disabilities {
