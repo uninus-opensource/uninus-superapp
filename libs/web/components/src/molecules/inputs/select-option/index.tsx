@@ -61,7 +61,6 @@ export const SelectOption: FC<SelectInputProps> = forwardRef(
           onChange={handleChange}
           ref={ref}
         />
-        {invalid && <span className="text-red-5 text-xs pt-1">{`${message}`}</span>}
       </div>
     );
   },
