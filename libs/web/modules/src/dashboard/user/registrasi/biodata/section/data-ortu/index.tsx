@@ -355,7 +355,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
             disabled={!watch("adress_city_parent")}
           />
 
-          <div className="px-4 md:px-0 lg:px-0 w-full">
+
+          <div className="px-6 md:px-0 lg:px-0 w-full">
             <TextField
               name="parent_address"
               variant="sm"
@@ -527,7 +528,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isClearable={true}
             disabled={!watch("city")}
           />
-          <div className="px-4 md:px-0 lg:px-0 w-full">
+
+          <div className="px-6 md:px-0 lg:px-0 w-full">
             <TextField
               name="guardian_address"
               variant="sm"
