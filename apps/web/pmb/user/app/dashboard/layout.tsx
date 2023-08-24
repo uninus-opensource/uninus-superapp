@@ -1,5 +1,5 @@
 "use client";
-import { FC, PropsWithChildren, ReactElement } from "react";
+import { FC, PropsWithChildren, ReactElement, useMemo } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
@@ -11,6 +11,8 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
+import { useGetBiodata, useStudentGet } from "@uninus/web/modules";
+import { useStudentData } from "@uninus/web/services";
 
 const monserrat = Montserrat({
   subsets: ["latin"],
@@ -25,23 +27,40 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     mutate(session?.user?.refresh_token);
   };
 
+  const { data: student } = useGetBiodata();
+
+  const { getStudent, setStudent } = useStudentData();
+  setStudent(student);
+
+  const studentFormStatus = useMemo(() => {
+    return getStudent?.degree_program_id;
+  }, [getStudent?.degree_program_id]);
+
+  const { data: user } = useStudentGet();
+  const userStatus = useMemo(() => {
+    return user?.registration_status;
+  }, [user?.registration_status]);
+
   const sideLists = [
-    { label: "Beranda", link: "/dashboard", icon: <HomeOutlined /> },
+    { label: "Beranda", link: "/dashboard", icon: <HomeOutlined />, disabledStatus: false },
     {
       label: "Formulir",
       link: "/dashboard/pendaftaran",
       icon: <FileTextOutlined />,
+      disabledStatus: false,
     },
-    { label: "Registrasi", link: "/dashboard/registrasi/biodata", icon: <FormOutlined /> },
+    {
+      label: "Registrasi",
+      link: "/dashboard/registrasi/biodata",
+      icon: <FormOutlined />,
+      disabledStatus: studentFormStatus ? false : true,
+    },
     {
       label: "Upload Berkas",
       link: "/dashboard/dokumen",
       icon: <UploadOutlined />,
-    },
-    {
-      label: "Tes Seleksi",
-      link: "/dashboard/selection",
-      icon: <AuditOutlined />,
+      disabledStatus:
+        userStatus === "Belum Mendaftar" || userStatus === "Belum Membayar" ? true : false,
     },
   ];
 

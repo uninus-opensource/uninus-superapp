@@ -1,8 +1,13 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { Accordion, TextField, SelectOption, Button, CheckBox } from "@uninus/web/components";
 import { useForm, FieldValues } from "react-hook-form";
-import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
-import { useBiodataUpdate, useGetBiodata } from "../../hooks";
+import {
+  useCityGet,
+  useProvinceGet,
+  useStudentData,
+  useSubdistrictGet,
+} from "@uninus/web/services";
+import { useBiodataUpdate } from "../../hooks";
 import { useOccupationGet, useParentEducationGet, useParentStatusGet, useSalaryGet } from "./hooks";
 import { studentData } from "./type";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,19 +35,13 @@ export const DataOrtuSection: FC = (): ReactElement => {
   const [guardianAddressSame, setGuardianAddressSame] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    reset,
-    formState: { errors },
-  } = useForm<FieldValues>({
+  const { control, handleSubmit, watch, setValue, reset } = useForm<FieldValues>({
     mode: "all",
     defaultValues: {},
   });
 
-  const { data } = useGetBiodata();
+  const { getStudent } = useStudentData();
+
   const { data: getParentStatus } = useParentStatusGet(parentStatus);
   const { data: getParentEducation } = useParentEducationGet(parentEducation);
   const { data: getOccupation } = useOccupationGet(occupation);
@@ -66,8 +65,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
   });
 
   const student = useMemo(() => {
-    return data;
-  }, [data]);
+    return getStudent;
+  }, [getStudent]);
 
   const addressStudent = student?.address;
 
@@ -161,7 +160,6 @@ export const DataOrtuSection: FC = (): ReactElement => {
 
   useEffect(() => {
     reset(student);
-    console.log(student);
   }, [student, reset]);
 
   useEffect(() => {
@@ -522,7 +520,6 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : false
             }
           />
-
 
           <div className="px-6 md:px-0 lg:px-0 w-full">
             <TextField
