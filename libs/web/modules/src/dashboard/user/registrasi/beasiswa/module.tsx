@@ -3,12 +3,13 @@ import { BreadCrumb, SelectOption, Button, UploadField } from "@uninus/web/compo
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
-import { useBiodataUpdate, useGetBiodata, useScholarshipGet } from "./hooks";
+import { useBiodataUpdate, useScholarshipGet } from "./hooks";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { beasiswa } from "./type";
+import { useStudentData } from "@uninus/web/services";
 
 export const beasiswaBreadcrumb = [
   {
@@ -76,11 +77,11 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
 
   const { mutate } = useBiodataUpdate();
 
-  const { data } = useGetBiodata();
+  const { getStudent } = useStudentData();
 
   const student = useMemo(() => {
-    return data;
-  }, [data]);
+    return getStudent;
+  }, [getStudent]);
 
   const [isSubmitClicked, setIsSubmitClicked] = useState(false);
 
@@ -126,11 +127,11 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
   });
   useEffect(() => {
     reset(student);
-  }, [student, reset, data]);
+  }, [student, reset, getStudent]);
 
   const scholarsipProgram = useMemo(() => {
-    return data?.scholarship_id;
-  }, [data?.scholarship_id]);
+    return student?.scholarship_id;
+  }, [student?.scholarship_id]);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const handleButtonClick = () => {
@@ -155,7 +156,9 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
           <Image src={"/illustrations/beasiswa.webp"} width={130} height={112} alt="mandiri" />
         </div>
         <div className="flex flex-col gap-2 h-full justify-center pl-14 items-start">
-          <h1 className="text-primary-green font-extrabold text-3xl">Selamat {data?.fullname}</h1>
+          <h1 className="text-primary-green font-extrabold text-3xl">
+            Selamat {student?.fullname}
+          </h1>
           <p>Anda berhak mendapatkan beasiswa di bawah ini</p>
         </div>
       </div>

@@ -9,7 +9,12 @@ import {
 import { dataDiri, formBiodataOne } from "../../store";
 import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
-import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
+import {
+  useCityGet,
+  useProvinceGet,
+  useStudentData,
+  useSubdistrictGet,
+} from "@uninus/web/services";
 import {
   useCitizenGet,
   useCountryGet,
@@ -21,33 +26,28 @@ import {
   useOccupationPositionGet,
   useSalaryGet,
 } from "./hooks";
-import { useBiodataUpdate, useGetBiodata } from "../../hooks";
+import { useBiodataUpdate } from "../../hooks";
 import { ToastContainer, toast } from "react-toastify";
-import { TVSDataDiri, VSDataDiri } from "@uninus/entities";
+import { TVSUpdateStudent, VSUpdateStudent } from "@uninus/entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export const DataDiriSection: FC = (): ReactElement => {
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
   const [disValue, setDisValue] = useState<string | null>(null);
   const [occValue, setOccValue] = useState<string | null>(null);
-  const { data } = useGetBiodata();
+  const { getStudent } = useStudentData();
 
   const student = useMemo(() => {
-    return data;
-  }, [data]);
+    return getStudent;
+  }, [getStudent]);
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    reset,
-    formState: { errors },
-  } = useForm<FieldValues | TVSDataDiri>({
-    mode: "all",
-    resolver: zodResolver(VSDataDiri),
-    defaultValues: {},
-  });
+  const { control, handleSubmit, watch, setValue, reset } = useForm<FieldValues | TVSUpdateStudent>(
+    {
+      mode: "all",
+      resolver: zodResolver(VSUpdateStudent),
+      defaultValues: {},
+    },
+  );
 
   const [locationMeta, setLocationMeta] = useState({
     search: "",
@@ -239,12 +239,12 @@ export const DataDiriSection: FC = (): ReactElement => {
     } else {
       setDisValue("Tidak");
     }
-    if (data?.occupation_id) {
+    if (student?.occupation_id) {
       setOccValue("Sudah");
     } else {
       setOccValue("Belum");
     }
-  }, [student, reset, data]);
+  }, [student, reset, getStudent]);
 
   useEffect(() => {
     if (disValue === "Tidak") {
@@ -283,15 +283,20 @@ export const DataDiriSection: FC = (): ReactElement => {
     dataDiri.city_id = Number(data?.city_id);
     dataDiri.occupation_id = Number(data?.occupation_id);
     dataDiri.occupation_position_id = Number(data?.occupation_position_id);
-    dataDiri.company_name = data?.company_name;
-    dataDiri.company_address = data?.company_address;
-    dataDiri.salary_id = Number(data?.salary_id);
-    console.log(data);
+    if (student?.degree_program_id !== 1) {
+      dataDiri.company_name = data?.company_name;
+      dataDiri.company_address = data?.company_address;
+      dataDiri.salary_id = Number(data?.salary_id);
+    }
+
+    console.log(dataDiri);
+
     try {
       mutate(
         { ...dataDiri },
         {
           onSuccess: () => {
+            console.log("Success");
             setIsdisabled(true);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
@@ -307,6 +312,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             }, 500);
           },
           onError: () => {
+            console.log("Error");
             setTimeout(() => {
               toast.error("Gagal mengisi formulir", {
                 position: "top-center",
@@ -624,7 +630,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               disabled={isDisabled || student?.address ? true : false}
             />
           </div>
-          {data?.degree_program_id !== 1 && (
+          {student?.degree_program_id !== 1 && (
             <>
               <div className="w-full">
                 <h1 className="text-left font-bold text-xl pl-6 md:pl-0">Pekerjaan</h1>
@@ -654,9 +660,9 @@ export const DataDiriSection: FC = (): ReactElement => {
                 labels="Pekerjaan"
                 className="rounded-md text-primary-black lg:w-auto w-70% xl:w-[25vw] md:w-[33vw]"
                 placeholder={
-                  data?.occupation_id
+                  student?.occupation_id
                     ? getOccupation?.occupation?.find(
-                        (occupation) => occupation.id === data?.occupation_id,
+                        (occupation) => occupation.id === student?.occupation_id,
                       )?.name
                     : "Pekerjaan"
                 }
@@ -668,7 +674,7 @@ export const DataDiriSection: FC = (): ReactElement => {
                 control={control}
                 isMulti={false}
                 disabled={
-                  occValue === "Sudah" && data?.occupation_id
+                  occValue === "Sudah" && student?.occupation_id
                     ? true
                     : occValue === "Belum" && student?.occupation_id
                     ? true
