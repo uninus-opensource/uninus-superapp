@@ -119,7 +119,7 @@
     "schema": "libs/api/models/src/prisma/schema.prisma"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.10",
+    "@babel/core": "^7.22.11",
     "@nestjs/schematics": "^10.0.2",
     "@nestjs/testing": "^10.1.3",
     "@nx-extend/strapi": "^6.1.3",
