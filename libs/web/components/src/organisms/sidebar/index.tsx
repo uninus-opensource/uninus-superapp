@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import { Modal } from "../modal";
 import { MenuOutlined, AppstoreFilled } from "@ant-design/icons";
 import { useStudentGet } from "./hooks";
+import { useUserData } from "@uninus/web/services";
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -38,10 +39,14 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
   }, [session]);
 
   const { data } = useStudentGet();
+
+  const { getUser, setUser } = useUserData();
+  setUser(data);
+
   const userStatus = useMemo(() => {
-    const userStatus = data?.registration_status;
+    const userStatus = getUser?.registration_status;
     return userStatus;
-  }, [data]);
+  }, [getUser]);
 
   const pathname = usePathname();
 
@@ -127,29 +132,65 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
           <div className="flex flex-col h-full justify-between 2xl:h-full">
             <nav>
               <ul className="flex flex-col gap-y-1 items-start">
-                {sideList?.map((sideList, idx) => (
-                  <li key={idx} className="flex flex-col gap-y-6">
-                    <Link
-                      href={sideList?.link}
-                      role="link"
-                      className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
-                        pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
-                      }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
-                    >
-                      <p
-                        className={`${
-                          pathname === sideList?.link &&
-                          "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
-                        } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                {process.env.NEXT_PUBLIC_WORKSPACE === "user" &&
+                  sideList?.map((sideList, idx) => (
+                    <li key={idx} className="flex flex-col gap-y-6">
+                      <Link
+                        href={sideList?.link}
+                        role="link"
+                        className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto items-center p-2 rounded-md ${
+                          pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
+                        } ${
+                          sideList.disabledStatus
+                            ? "pointer-events-none "
+                            : "hover:bg-primary-white group hover:shadow-md hover:text-secondary-green-1"
+                        }`}
                       >
-                        {sideList?.icon}
-                      </p>
-                      <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
-                        {sideList?.label}
-                      </p>
-                    </Link>
-                  </li>
-                ))}
+                        <p
+                          className={`w-11 h-9 xl:w-fit xl:h-fit p-3 drop-shadow-md rounded-lg flex justify-center items-center ${
+                            pathname === sideList?.link &&
+                            "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg text-primary-white"
+                          }  group-hover:bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white ${
+                            sideList.disabledStatus ? "text-grayscale-2" : "text-primary-green"
+                          } `}
+                        >
+                          {sideList?.icon}
+                        </p>
+                        <p
+                          className={`${
+                            sideList.disabledStatus ? "text-grayscale-2" : "text-primary-green"
+                          } text-xs xl:text-base w-[22vh] font-normal`}
+                        >
+                          {sideList?.label}
+                        </p>
+                      </Link>
+                    </li>
+                  ))}
+
+                {process.env.NEXT_PUBLIC_WORKSPACE === "admin" &&
+                  sideList?.map((sideList, idx) => (
+                    <li key={idx} className="flex flex-col gap-y-6">
+                      <Link
+                        href={sideList?.link}
+                        role="link"
+                        className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
+                          pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
+                        }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                      >
+                        <p
+                          className={`${
+                            pathname === sideList?.link &&
+                            "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
+                          } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                        >
+                          {sideList?.icon}
+                        </p>
+                        <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
+                          {sideList?.label}
+                        </p>
+                      </Link>
+                    </li>
+                  ))}
               </ul>
             </nav>
             <div className="flex relative bottom-0 ml-2 hover:shadow-md text-primary-green font-normal rounded-md mt-2 ">

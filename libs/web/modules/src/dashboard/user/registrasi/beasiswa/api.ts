@@ -22,7 +22,3 @@ export const BiodataUpdate = async (
   const { data } = await api.put<IUpdateStudentRequestFE>("/student", payload);
   return data;
 };
-export const BiodatatGet = async (): Promise<IGetStudentResponse> => {
-  const { data } = await api.get<IGetStudentResponse>("/student");
-  return data;
-};
