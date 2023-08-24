@@ -3,13 +3,7 @@ import { FC, PropsWithChildren, ReactElement } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
-import {
-  AuditOutlined,
-  FileTextOutlined,
-  FormOutlined,
-  HomeOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { FileTextOutlined, FormOutlined, HomeOutlined, UploadOutlined } from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
 
 const monserrat = Montserrat({
@@ -37,11 +31,6 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       label: "Upload Berkas",
       link: "/dashboard/dokumen",
       icon: <UploadOutlined />,
-    },
-    {
-      label: "Tes Seleksi",
-      link: "/dashboard/selection",
-      icon: <AuditOutlined />,
     },
   ];
 

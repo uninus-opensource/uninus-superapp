@@ -3,6 +3,8 @@ import { FC, ReactElement, useMemo } from "react";
 import { Button, UploadField } from "@uninus/web/components";
 import { useForm } from "react-hook-form";
 import { useGetBiodata } from "../registrasi";
+import Link from "next/link";
+import { CaretRightFilled } from "@ant-design/icons";
 
 export const ModuleDokumen: FC = (): ReactElement => {
   const { control } = useForm({
@@ -14,6 +16,10 @@ export const ModuleDokumen: FC = (): ReactElement => {
   const degreeProgram = useMemo(() => {
     return data?.degree_program_id;
   }, [data?.degree_program_id]);
+
+  const selectionType = useMemo(() => {
+    return data?.selection_path_id;
+  }, [data?.selection_path_id]);
 
   const documentS1 = [
     { label: "Kartu Keluarga", name: "kartu_keluarga" },
@@ -109,14 +115,24 @@ export const ModuleDokumen: FC = (): ReactElement => {
             </div>
           </section>
         </section>
-
         {/* Button */}
-        <section className="w-full lg:w-[70vw] xl:w-[70vw] lg:pl-[2vw] flex justify-end mt-16 md:mt-10 items-center rounde pr-5">
+        <section className="w-full lg:w-[70vw] xl:w-[70vw] lg:pl-[2vw] flex justify-end mt-16 md:mt-10 items-center rounde pr-5 mb-[30px]">
           <Button styling="bg-primary-green px-2 py-1 rounded-[3px] w-40% lg:w-25% xl:w-15% ">
             Submit Berkas
           </Button>
         </section>
       </section>
+      {selectionType === 3 && (
+        <section className="w-full flex justify-end pr-[3rem]">
+          <Link
+            href="/dashboard/selection"
+            className="bg-primary-green text-primary-white rounded-[5px] px-2 py-1 flex justify-center items-center gap-2"
+          >
+            Tes seleksi
+            <CaretRightFilled />
+          </Link>
+        </section>
+      )}
     </form>
   );
 };
