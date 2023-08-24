@@ -76,6 +76,41 @@ export class StudentService {
       ...updateStudentPayload
     } = args;
 
+    if (student_grade) {
+      for await (const data of student_grade) {
+        const updateStudentGrade = await this.prisma.users.update({
+          where: {
+            id,
+          },
+          data: {
+            students: {
+              update: {
+                pmb: {
+                  update: {
+                    student_grade: {
+                      updateMany: {
+                        where: {
+                          subject: data.subject,
+                          semester: data.semester,
+                        },
+                        data: {
+                          grade: data.grade,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+        if (!updateStudentGrade) {
+          throw new BadRequestException("Gagal update nilai", {
+            cause: new Error(),
+          });
+        }
+      }
+    }
     const student = await this.prisma.users.update({
       where: {
         id,
@@ -94,13 +129,6 @@ export class StudentService {
                 utbk,
                 registration_status_id: 2,
                 ...(average_grade && { average_grade: Number(average_grade.toFixed(1)) }),
-                ...(student_grade && {
-                  student_grade: {
-                    createMany: {
-                      data: student_grade,
-                    },
-                  },
-                }),
               },
             },
           },
@@ -127,7 +155,7 @@ export class StudentService {
         cause: new Error(),
       });
     }
-    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
+    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt", "pmb"]);
     return {
       avatar: student.avatar,
       email: student.email,
