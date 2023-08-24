@@ -50,16 +50,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
               <CaretRightOutlined />
             </Button>
           </Link>
-          {/* <Link href="/dashboard/registrasi/beasiswa" className="grid place-items-center">
-            <Button
-              variant="filled"
-              size="md"
-              width="w-25% lg:w-25% xl:w-15%"
-              styling="text-sm lg:text-base"
-            >
-              Beasiswa
-            </Button>
-          </Link> */}
         </div>
       </section>
     </section>
