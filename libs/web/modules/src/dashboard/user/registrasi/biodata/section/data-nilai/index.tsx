@@ -253,7 +253,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               control={control}
             />
           </div>
-          <div className="flex items-center font-bold gap-8 lg:text-base text-xs">
+          <div className="flex items-center gap-8 lg:text-base text-xs">
             <p>Sertifikat UTBK : </p>
             <UploadField control={control} name="UTBK" variant="default" preview={false} />
           </div>

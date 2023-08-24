@@ -83,8 +83,6 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
     return getStudent;
   }, [getStudent]);
 
-  const [isSubmitClicked, setIsSubmitClicked] = useState(false);
-
   const onSubmit = handleSubmit((data) => {
     beasiswa.scholarship_id = Number(data.scholarship_id);
 
@@ -103,7 +101,6 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
               theme: "light",
             });
           }, 500);
-          setIsSubmitClicked(true);
         },
         onError: () => {
           setTimeout(() => {
@@ -151,22 +148,24 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
       <h1 className="text-lg 2xl:text-2xl pt-2 font-extrabold text-secondary-green-4">
         Halaman Beasiswa
       </h1>
-      <div className="flex flex-col lg:flex-row p-8 bg-primary-white shadow-lg rounded-md w-full lg:h-[180px] h-auto">
-        <div className="px-20 lg:px-0">
+      <div className="flex flex-col lg:flex-row md:flex-row p-8 bg-primary-white shadow-lg rounded-md w-full lg:h-[180px] sm:h-auto items-center lg:items-start">
+        <div>
           <Image src={"/illustrations/beasiswa.webp"} width={130} height={112} alt="mandiri" />
         </div>
-        <div className="flex flex-col gap-2 h-full justify-center pl-14 items-start">
-          <h1 className="text-primary-green font-extrabold text-3xl">
+        <div className="flex flex-col gap-2 h-full justify-center lg:pl-14 md:pl-8 pl-2 lg:items-start md:items-start sm:items-center">
+          <h1 className="text-primary-green font-extrabold lg:text-3xl md:text-2xl">
             Selamat {student?.fullname}
           </h1>
-          <p>Anda berhak mendapatkan beasiswa di bawah ini</p>
+          <p className="lg:text-lg md:text-lg text-xs">
+            Anda berhak mendapatkan beasiswa di bawah ini
+          </p>
         </div>
       </div>
       <form onSubmit={onSubmit}>
         <div className="flex flex-col p-8 bg-primary-white shadow-lg rounded-md w-full lg:h-[240px] h-auto">
           <SelectOption
             labels="Pilih salah satu beasiswa yang tersedia"
-            labelClassName="text-xl py-2"
+            labelClassName="lg:text-xl text-sm py-2"
             className="shadow-md bg-slate-4 rounded-md text-primary-black w-full"
             placeholder={
               student?.scholarship_id
@@ -211,93 +210,93 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
           </div>
         </div>
       </form>
-      {isSubmitClicked && (
-        <div className="flex flex-col p-8 bg-primary-white shadow-lg rounded-md w-full h-auto">
-          <h1 className="text-lg lg:text-xl py-3">
-            Upload Berkas Khusus <span className="text-primary-green">*</span> (Wajib Diisi)
-          </h1>
-          <p>Upload File Dengan Format .jpg/.png/.pdf</p>
-          <form>
-            <section className="flex flex-col h-auto md:items-center mt-5">
-              <div className="md:w-[80vw] lg:w-[66vw] xl:w-[66vw] md:h-auto flex">
-                <section className="grid grid-cols-2 gap-10 w-50% ">
-                  {scholarsipProgram === 1 &&
-                    nusantaraUnggul.map((documentType) => (
-                      <div key={documentType.name} className="flex flex-col gap-2">
-                        <h3 className="font-semibold text-xs md:text-base py-3">
-                          {documentType.label}
-                        </h3>
-                        <UploadField
-                          control={control}
-                          name={documentType.name}
-                          variant="custom"
-                          preview={true}
-                        />
-                      </div>
-                    ))}
-                  {scholarsipProgram === 2 &&
-                    nusantaraBerprestasi.map((documentType) => (
-                      <div key={documentType.name} className="flex flex-col gap-2">
-                        <h3 className="font-semibold text-xs md:text-base">{documentType.label}</h3>
-                        <h1 className="pb-3 text-sm">{documentType.desc}</h1>
-                        <UploadField
-                          control={control}
-                          required
-                          name={documentType.name}
-                          variant="custom"
-                          preview={true}
-                        />
-                      </div>
-                    ))}
 
-                  {scholarsipProgram === 4 &&
-                    mitraNusantara.map((documentType) => (
-                      <div key={documentType.name} className="flex flex-col gap-2">
-                        <h3 className="font-semibold text-xs md:text-base py-3">
-                          {documentType.label}
-                        </h3>
-                        <UploadField
-                          control={control}
-                          name={documentType.name}
-                          required
-                          variant="custom"
-                          preview={true}
-                        />
-                      </div>
-                    ))}
+      <div className="flex flex-col p-8 bg-primary-white shadow-lg rounded-md w-full h-auto">
+        <h1 className="text-md lg:text-xl py-3">
+          Upload Berkas Khusus <span className="text-primary-green">*</span> (Wajib Diisi)
+        </h1>
+        <p className="text-md sm:text-xs">Upload File Dengan Format .jpg/.png/.pdf</p>
+        <form>
+          <section className="flex flex-col h-auto mt-5">
+            <div className="md:w-full lg:w-[66vw] xl:w-[66vw] md:h-auto flex">
+              <section className="flex gap-10 w-50% ">
+                {scholarsipProgram === 1 &&
+                  nusantaraUnggul.map((documentType) => (
+                    <div key={documentType.name} className="flex flex-col gap-2">
+                      <h3 className="font-semibold text-xs md:text-base py-3">
+                        {documentType.label}
+                      </h3>
+                      <UploadField
+                        control={control}
+                        name={documentType.name}
+                        variant="custom"
+                        preview={true}
+                      />
+                    </div>
+                  ))}
+                {scholarsipProgram === 2 &&
+                  nusantaraBerprestasi.map((documentType) => (
+                    <div key={documentType.name} className="flex flex-col gap-2">
+                      <h3 className="font-semibold text-xs md:text-base">{documentType.label}</h3>
+                      <h1 className="pb-3 text-sm">{documentType.desc}</h1>
+                      <UploadField
+                        control={control}
+                        required
+                        name={documentType.name}
+                        variant="custom"
+                        preview={true}
+                      />
+                    </div>
+                  ))}
 
-                  {scholarsipProgram === 3 &&
-                    beasiswaDifabel.map((documentType) => (
-                      <div key={documentType.name} className="flex flex-col gap-2">
-                        <h3 className="font-semibold text-xs md:text-base py-3">
-                          {documentType.label}
-                        </h3>
-                        <UploadField
-                          control={control}
-                          name={documentType.name}
-                          variant="custom"
-                          preview={true}
-                          required
-                        />
-                      </div>
-                    ))}
-                </section>
-              </div>
-            </section>
-            <div className="flex w-full justify-end items-end py-4">
-              <Button
-                onClick={handleButtonClick}
-                disabled={isButtonDisabled}
-                variant="filled"
-                size="md"
-                width="w-50% lg:w-25% xl:w-15%"
-              >
-                Submit
-              </Button>
+                {scholarsipProgram === 4 &&
+                  mitraNusantara.map((documentType) => (
+                    <div key={documentType.name} className="flex flex-col gap-2">
+                      <h3 className="font-semibold text-xs md:text-base py-3">
+                        {documentType.label}
+                      </h3>
+                      <UploadField
+                        control={control}
+                        name={documentType.name}
+                        required
+                        variant="custom"
+                        preview={true}
+                      />
+                    </div>
+                  ))}
+
+                {scholarsipProgram === 3 &&
+                  beasiswaDifabel.map((documentType) => (
+                    <div key={documentType.name} className="flex flex-col gap-2">
+                      <h3 className="font-semibold text-xs md:text-base py-3">
+                        {documentType.label}
+                      </h3>
+                      <UploadField
+                        control={control}
+                        name={documentType.name}
+                        variant="custom"
+                        preview={true}
+                        required
+                      />
+                    </div>
+                  ))}
+              </section>
             </div>
-          </form>
-        </div>
-      )}
+          </section>
+          <div className="flex w-full justify-end items-end py-4">
+            <Button
+              onClick={handleButtonClick}
+              disabled={isButtonDisabled}
+              variant="filled"
+              size="md"
+              width="w-50% lg:w-25% xl:w-15%"
+            >
+              Submit
+            </Button>
+          </div>
+        </form>
+      </div>
+
       <div className="flex w-full justify-between py-8">
         <Link href="/dashboard/registrasi/biodata">
           <Button type="button" variant="filled" size="md" width="w-auto">

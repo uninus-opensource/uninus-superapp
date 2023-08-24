@@ -60,61 +60,61 @@ export const ModuleDokumen: FC = (): ReactElement => {
       </div>
 
       {/* body */}
-      <section className="flex flex-col justify-between shadow-lg w-[90vw] rounded-md h-[61rem] md:h-[35rem] mt-5 lg:w-[70vw] xl:w-[70vw]">
+      <section className="flex flex-col justify-between shadow-lg w-[90vw] rounded-md h-full py-2 mt-5 lg:w-[70vw] xl:w-[70vw]">
         {/* Upload sections */}
-        <section className="w-full">
-          <section className="flex flex-col lg:items-start lg:pl-[2vw] gap-2 mt-5 lg:w-full">
-            <h1 className="font-bold text-[1.3rem] text-center">Upload berkas pendaftaran</h1>
-            <h2 className="text-center text-grayscale-7 text-[11px] md:text-sm">
-              Upload Berkas di bawah ini dengan format berikut : .jpg/.jpeg/.png/.pdf
-            </h2>
-          </section>
 
-          <section className="flex flex-col h-auto md:items-center mt-5">
-            <div className="md:w-[80vw] lg:w-[66vw] xl:w-[66vw] md:h-auto flex">
-              <section className="grid grid-cols-2 gap-10 w-50% ">
-                {degreeProgram === 1 &&
-                  documentS1.map((documentType) => (
-                    <div key={documentType.name} className="flex flex-col gap-2">
-                      <h3 className="font-bold text-xs md:text-base">{documentType.label}</h3>
-                      <UploadField
-                        control={control}
-                        name={documentType.name}
-                        variant="custom"
-                        preview={false}
-                      />
-                    </div>
-                  ))}
-
-                {degreeProgram === 2 &&
-                  documentS2.map((documentType) => (
-                    <div key={documentType.name} className="flex flex-col gap-2">
-                      <h3 className="font-bold text-xs md:text-base">{documentType.label}</h3>
-                      <UploadField
-                        control={control}
-                        name={documentType.name}
-                        variant="custom"
-                        preview={false}
-                      />
-                    </div>
-                  ))}
-
-                {degreeProgram === 3 &&
-                  documentS3.map((documentType) => (
-                    <div key={documentType.name} className="flex flex-col gap-2">
-                      <h3 className="font-bold text-xs md:text-base">{documentType.label}</h3>
-                      <UploadField
-                        control={control}
-                        name={documentType.name}
-                        variant="custom"
-                        preview={false}
-                      />
-                    </div>
-                  ))}
-              </section>
-            </div>
-          </section>
+        <section className="flex flex-col lg:items-start lg:pl-[2vw] gap-2 mt-5 lg:w-full">
+          <h1 className="font-bold text-[1.3rem] text-center">Upload berkas pendaftaran</h1>
+          <h2 className="text-center text-grayscale-7 text-[11px] md:text-sm">
+            Upload Berkas di bawah ini dengan format berikut : .jpg/.jpeg/.png/.pdf
+          </h2>
         </section>
+
+        <section className="flex flex-col h-auto mt-5 px-8">
+          <div className="w-full md:h-auto flex ">
+            <section className="grid lg:grid-cols-2 grid-cols-1 md:grid-cols-2 gap-10 w-full justify-start items-start px-2">
+              {degreeProgram === 1 &&
+                documentS1.map((documentType) => (
+                  <div key={documentType.name} className="flex flex-col gap-2">
+                    <h3 className="font-bold text-xs text-left">{documentType.label}</h3>
+                    <UploadField
+                      control={control}
+                      name={documentType.name}
+                      variant="default"
+                      preview={false}
+                    />
+                  </div>
+                ))}
+
+              {degreeProgram === 2 &&
+                documentS2.map((documentType) => (
+                  <div key={documentType.name} className="flex flex-col gap-2">
+                    <h3 className="font-bold text-xs text-lef">{documentType.label}</h3>
+                    <UploadField
+                      control={control}
+                      name={documentType.name}
+                      variant="default"
+                      preview={false}
+                    />
+                  </div>
+                ))}
+
+              {degreeProgram === 3 &&
+                documentS3.map((documentType) => (
+                  <div key={documentType.name} className="flex flex-col gap-2">
+                    <h3 className="font-bold text-xs text-lef">{documentType.label}</h3>
+                    <UploadField
+                      control={control}
+                      name={documentType.name}
+                      variant="default"
+                      preview={false}
+                    />
+                  </div>
+                ))}
+            </section>
+          </div>
+        </section>
+
         {/* Button */}
         <section className="w-full lg:w-[70vw] xl:w-[70vw] lg:pl-[2vw] flex justify-end mt-16 md:mt-10 items-center rounde pr-5 mb-[30px]">
           <Button styling="bg-primary-green px-2 py-1 rounded-[3px] w-40% lg:w-25% xl:w-15% ">
