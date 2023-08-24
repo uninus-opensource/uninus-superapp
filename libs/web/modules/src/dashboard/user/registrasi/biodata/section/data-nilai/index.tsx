@@ -208,7 +208,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="mtk1"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-xs md:text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -221,7 +221,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="bind1"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-xs md:text-sm  "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -234,7 +234,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="bing1"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-xs md:text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -247,7 +247,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="mtk2"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-xs md:text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -260,7 +260,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="bind2"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-xs md:text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -273,7 +273,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="bing2"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -286,7 +286,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="mtk3"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -299,7 +299,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="bind3"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -312,7 +312,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="bing3"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -325,7 +325,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="mtk4"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -338,7 +338,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="bind4"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -351,7 +351,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="bing4"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
@@ -363,7 +363,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="average_grade"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-sm "
               inputWidth="w-full text-base text-center"
               control={control}
@@ -399,7 +399,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="utbk"
               variant="md"
-              type="text"
+              type="number"
               labelclassname="text-sm "
               inputWidth="w-26 text-base"
               control={control}
