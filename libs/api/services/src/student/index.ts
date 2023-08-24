@@ -54,6 +54,7 @@ export class StudentService {
       selection_path_id: students?.pmb?.selection_path_id,
       degree_program_id: students?.pmb?.degree_program_id,
       student_grade: students?.pmb?.student_grade,
+      average_grade: students?.pmb?.average_grade,
       utbk: students?.pmb?.utbk,
       ...studentData,
     };
