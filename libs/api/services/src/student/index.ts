@@ -132,6 +132,13 @@ export class StudentService {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
+      first_deparment_id: student.students?.pmb?.first_deparment_id,
+      second_deparment_id: student.students?.pmb?.second_deparment_id,
+      selection_path_id: student.students?.pmb?.selection_path_id,
+      degree_program_id: student.students?.pmb?.degree_program_id,
+      student_grade: student.students?.pmb?.student_grade,
+      average_grade: student.students?.pmb?.average_grade,
+      utbk: student.students?.pmb?.utbk,
       ...studentData,
     };
   }
