@@ -65,6 +65,8 @@ export interface IStudentData {
   company_name?: string | null;
   company_address?: string | null;
   occupation_position_id?: number | null;
+  average_grade?: number | null;
+  utbk?: number | null;
 }
 
 export interface IGetStudentResponse extends IStudentData {
@@ -88,6 +90,21 @@ export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData 
 
 export interface IUpdateStudentRequestFE extends IStudentData {
   avatar?: TFIle | null;
+}
+
+export interface IUpdateStudentGradeResponse extends IStudentData {
+  student_grade: Array<{
+    subject: string;
+    semester: string;
+    grade: number;
+  }>;
+}
+export interface IUpdateStudentGradeRequest extends IStudentData {
+  student_grade: Array<{
+    subject: string;
+    semester: string;
+    grade: number;
+  }>;
 }
 
 export type TGraduationStatusRequest = {
