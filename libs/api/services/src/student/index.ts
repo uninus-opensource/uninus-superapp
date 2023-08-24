@@ -60,7 +60,7 @@ export class StudentService {
   }
 
   async updateStudent(args: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
-    const {
+    let {
       id,
       fullname,
       avatar,
@@ -71,11 +71,14 @@ export class StudentService {
       degree_program_id,
       utbk,
       student_grade,
+      average_grade,
       ...updateStudentPayload
     } = args;
-    const average =
-      student_grade &&
-      (await student_grade.reduce((acc, curr) => acc + curr?.grade, 0)) / student_grade.length;
+
+    if (!average_grade) {
+      average_grade =
+        student_grade.reduce((acc, curr) => acc + curr?.grade, 0) / student_grade.length;
+    }
     const student = await this.prisma.users.update({
       where: {
         id,
@@ -99,7 +102,7 @@ export class StudentService {
                       data: student_grade,
                     },
                   },
-                  average_grade: Number(average.toFixed(1)),
+                  ...(average_grade && { average_grade: Number(average_grade.toFixed(1)) }),
                 }),
               },
             },
