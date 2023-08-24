@@ -3,13 +3,7 @@ import { FC, PropsWithChildren, ReactElement, useMemo } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
-import {
-  AuditOutlined,
-  FileTextOutlined,
-  FormOutlined,
-  HomeOutlined,
-  UploadOutlined,
-} from "@ant-design/icons";
+import { FileTextOutlined, FormOutlined, HomeOutlined, UploadOutlined } from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
 import { useGetBiodata, useStudentGet } from "@uninus/web/modules";
 import { useStudentData } from "@uninus/web/services";
