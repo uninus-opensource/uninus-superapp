@@ -131,7 +131,7 @@ model StudentGrade {
   id       String  @unique @default(uuid())
   subject  String?
   semester String?
-  grade    Float?
+  grade    Float?  @default(0)
   pmb      PMB?    @relation(fields: [pmb_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   pmb_id   String?
 }
@@ -151,8 +151,8 @@ model PMB {
   selection_path_id      Int?
   student_id             String?             @unique
   student                Students?           @relation(fields: [student_id], references: [id], onDelete: Cascade)
-  utbk                   Float?
-  average_grade          Float?
+  utbk                   Float?              @default(0)
+  average_grade          Float?              @default(0)
   student_grade          StudentGrade[]
   document               Documents?
 }
