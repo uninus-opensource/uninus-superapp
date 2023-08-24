@@ -1,7 +1,7 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { Accordion, TextField, SelectOption, Button } from "@uninus/web/components";
 import { useForm, FieldValues } from "react-hook-form";
-import { useBiodataUpdate, useGetBiodata } from "../../hooks";
+import { useBiodataUpdate } from "../../hooks";
 import {
   useEducationHistoryGet,
   useEducationMajorGet,
@@ -10,31 +10,26 @@ import {
 } from "./hooks";
 import { dataPendidikan } from "../../store";
 import { ToastContainer, toast } from "react-toastify";
-import { TVSDataPendidikan, VSDataPendidikan } from "@uninus/entities";
+import { TVSUpdateStudent, VSUpdateStudent } from "@uninus/entities";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useStudentData } from "@uninus/web/services";
 
 export const DataPendidikanSection: FC = (): ReactElement => {
   const [education, setEducation] = useState<string>("");
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
 
-  const { data } = useGetBiodata();
-
+  const { getStudent } = useStudentData();
   const student = useMemo(() => {
-    return data;
-  }, [data]);
+    return getStudent;
+  }, [getStudent]);
 
-  const {
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    reset,
-    formState: { errors },
-  } = useForm<FieldValues | TVSDataPendidikan>({
-    mode: "all",
-    resolver: zodResolver(VSDataPendidikan),
-    defaultValues: {},
-  });
+  const { control, handleSubmit, watch, setValue, reset } = useForm<FieldValues | TVSUpdateStudent>(
+    {
+      mode: "all",
+      resolver: zodResolver(VSUpdateStudent),
+      defaultValues: {},
+    },
+  );
 
   // Education Type
   const [educationType] = useState({
@@ -270,7 +265,6 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               setEducation(e.target.value);
             }}
             disabled={isDisabled || student?.education_npsn ? true : false}
-            status={errors?.education_npsn ? "error" : undefined}
           />
 
           <TextField
@@ -348,7 +342,6 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               disabled={isDisabled || !watch("education_type_id")}
             />
           </div>
-
 
           <div className="px-6 md:px-0 lg:px-0 w-full md:w-fit">
             <TextField

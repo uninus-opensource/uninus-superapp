@@ -1,5 +1,5 @@
 import { useMutation, useQuery, UseMutationResult, UseQueryResult } from "@tanstack/react-query";
-import { BiodataUpdate, BiodatatGet } from "./api";
+import { BiodataUpdate } from "./api";
 import {
   IScholarshipRequest,
   TScholarshipResponse,
@@ -30,9 +30,3 @@ export const useBiodataUpdate = (): UseMutationResult<
       return await BiodataUpdate(payload);
     },
   });
-export const useGetBiodata = (): UseQueryResult<IGetStudentResponse, TMetaErrorResponse> => {
-  return useQuery({
-    queryKey: ["getStudentBiodata"],
-    queryFn: async () => await BiodatatGet(),
-  });
-};

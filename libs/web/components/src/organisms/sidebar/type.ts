@@ -11,4 +11,5 @@ export type TSideBarList = {
   label: string;
   link: string;
   icon: ReactNode;
+  disabledStatus?: boolean;
 };

@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useGetBiodata } from "../registrasi";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
+import { useStudentData } from "@uninus/web/services";
 
 export type CustomSelectInstance = {
   select: {
@@ -67,11 +68,11 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     [getDepartment?.department],
   );
 
-  const { data } = useGetBiodata();
+  const { getStudent } = useStudentData();
 
   const student = useMemo(() => {
-    return data;
-  }, [data]);
+    return getStudent;
+  }, [getStudent]);
 
   const prodi1Ref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
   const prodi2Ref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
@@ -111,16 +112,16 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   const { mutate } = useStudentUpdate();
 
   const selectionDegreeProgram = getDegreeProgram?.degree_program.find(
-    (degree) => degree.id === data?.degree_program_id,
+    (degree) => degree.id === student?.degree_program_id,
   );
   const selectionFirstDepartement = getDepartment?.department.find(
-    (degree) => degree.id === data?.first_deparment_id,
+    (degree) => degree.id === student?.first_deparment_id,
   );
   const selectionSecondDepartement = getDepartment?.department.find(
-    (degree) => degree.id === data?.second_deparment_id,
+    (degree) => degree.id === student?.second_deparment_id,
   );
   const selectionType = getSelection?.selection.find(
-    (degree) => degree.id === data?.selection_path_id,
+    (degree) => degree.id === student?.selection_path_id,
   );
 
   const onSubmit = handleSubmit((data) => {
@@ -216,7 +217,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={!!selectionDegreeProgram || isFormSubmitted}
+              disabled={isFormSubmitted || !!student?.degree_program_id}
             />
             <SelectOption
               ref={prodi1Ref}
@@ -260,7 +261,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={!!selectionType || isFormSubmitted}
+              disabled={isFormSubmitted || !!student?.selection_path_id || !watch("program")}
             />
           </div>
           <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-end">
