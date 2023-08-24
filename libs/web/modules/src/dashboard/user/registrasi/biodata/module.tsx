@@ -40,7 +40,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
         <div className="flex gap-6 justify-end px-8 py-4">
           <Link
             href={
-              student?.disabilities_id != null
+              student?.disabilities_id !== null
                 ? "/dashboard/registrasi/beasiswa"
                 : "/dashboard/registrasi/pembayaran/detail"
             }
