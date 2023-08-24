@@ -7,8 +7,18 @@ import {
   TOccupationResponse,
   IOccupationPositionRequest,
   TOccupationPositionResponse,
+  IParentStatusRequest,
+  TParentStatusResponse,
+  IParentEducationRequest,
+  TParentEducationResponse,
 } from "@uninus/entities";
-import { OccupationGet, OccupationPositionGet, SalaryGet } from "./api";
+import {
+  OccupationGet,
+  OccupationPositionGet,
+  ParentEducationGet,
+  ParentStatusGet,
+  SalaryGet,
+} from "./api";
 
 export const useSalaryGet = (
   params: ISalaryRequest,
@@ -34,5 +44,23 @@ export const useOccupationPositionGet = (
   return useQuery({
     queryKey: ["getOccupationPosition", params],
     queryFn: async () => await OccupationPositionGet(params),
+  });
+};
+
+export const useParentStatusGet = (
+  params: IParentStatusRequest,
+): UseQueryResult<TParentStatusResponse, TParentStatusResponse> => {
+  return useQuery({
+    queryKey: ["getParentStatus", params],
+    queryFn: async () => await ParentStatusGet(params),
+  });
+};
+
+export const useParentEducationGet = (
+  params: IParentEducationRequest,
+): UseQueryResult<TParentEducationResponse, TParentEducationResponse> => {
+  return useQuery({
+    queryKey: ["getParentEducation", params],
+    queryFn: async () => await ParentEducationGet(params),
   });
 };

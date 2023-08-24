@@ -47,6 +47,10 @@ export interface IStudentData {
   guardian_occupation_id?: number | null;
   guardian_position_id?: number | null;
   guardian_salary_id?: number | null;
+  guardian_province_id?: number | null;
+  guardian_subdistrict_id?: number | null;
+  guardian_city_id?: number | null;
+  guardian_address?: null;
   parent_province_id?: number | null;
   parent_subdistrict_id?: number | null;
   parent_city_id?: number | null;
