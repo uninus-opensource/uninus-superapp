@@ -12075,10 +12075,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@^10.15.2:
-  version "10.15.2"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-10.15.2.tgz#703e31b78b3ca06ca9fb41e6da89c1c342fc02e8"
-  integrity sha512-z14GYH4WQXnuTgggwf0qyX0vo98PDE+dw21F7aLzUqEcrsmfLovy4jPiA82Cp/X0juWuEHte7rJGOjds9GAQFA==
+framer-motion@^10.16.1:
+  version "10.16.1"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-10.16.1.tgz#0ff5de554bbb35ee6605357d80f92b27d0271a94"
+  integrity sha512-K6TXr5mZtitC/dxQCBdg7xzdN0d5IAIrlaqCPKtIQVdzVPGC0qBuJKXggHX1vjnP5gPOFwB1KbCCTWcnFc3kWg==
   dependencies:
     tslib "^2.4.0"
   optionalDependencies:
