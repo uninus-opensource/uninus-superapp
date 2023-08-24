@@ -18,7 +18,8 @@ export const DataNilaiSection: FC = (): ReactElement => {
   const onSubmit = handleSubmit((data) => {
     //student grade object to array of object
     try {
-      const studentGrade = JSON.stringify(data)
+      const { average_grade, utbk, ...dataGrade } = data;
+      const studentGrade = JSON.stringify(dataGrade)
         .replace(/{|}/gi, "")
         .split(",")
         .map((el) => {
@@ -47,8 +48,8 @@ export const DataNilaiSection: FC = (): ReactElement => {
       mutate(
         {
           student_grade: studentGrade,
-          average_grade: Number(data?.average_grade),
-          utbk: Number(data?.utbk),
+          average_grade: Number(average_grade),
+          utbk: Number(utbk),
         },
         {
           onSuccess: () => {
