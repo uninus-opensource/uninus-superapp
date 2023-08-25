@@ -189,7 +189,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
           <p className="text-conditional-error font-bold">
             Perhatian :{" "}
             <span className="text-primary-black font-normal">
-              Data telah disubmit tidak dapat di edit
+              Data yang telah disubmit tidak dapat di edit
             </span>
           </p>
         </div>

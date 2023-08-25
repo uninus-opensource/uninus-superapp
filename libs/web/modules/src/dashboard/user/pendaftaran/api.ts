@@ -42,6 +42,6 @@ export const SelectionGet = async (params: ISelectionRequest): Promise<TSelectio
 };
 
 export const StudentUpdate = async (payload: IStudentData): Promise<IStudentData> => {
-  const { data } = await api.put<IStudentData>("/student", payload);
+  const { data } = await api.patch<IStudentData>("/student", payload);
   return data;
 };
