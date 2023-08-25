@@ -6,7 +6,6 @@ import { useDegreeProgramGet, useDepartmentGet, useSelectionGet, useStudentUpdat
 import { studentData } from "./type";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { useGetBiodata } from "../registrasi";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
 import { useStudentData } from "@uninus/web/services";

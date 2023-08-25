@@ -5,7 +5,7 @@ export const VSUpdateStudent = z.object({
   avatar: z.any().optional(),
   fullname: z.string().optional(),
   email: z.string().optional(),
-  nik: z.string().min(16).max(16).optional(),
+  nik: z.string().min(16, { message: "Minimal" }).max(16).optional(),
   nisn: z.string().min(10).max(10).optional(),
   no_kk: z.string().min(16).max(16).optional(),
   birth_place: z.string().optional(),
