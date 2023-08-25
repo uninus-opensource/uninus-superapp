@@ -1,5 +1,5 @@
 "use client";
-import { FC, PropsWithChildren, ReactElement, useEffect, useMemo } from "react";
+import { FC, PropsWithChildren, ReactElement, useEffect, useMemo, useState } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
@@ -17,6 +17,8 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { mutate } = useLogout();
   const { data: session } = useSession();
 
+  const [formStatus, setFormStatus] = useState<number | null | undefined>(null);
+
   const handleLogout = async () => {
     mutate(session?.user?.refresh_token);
   };
@@ -26,18 +28,14 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { getStudent, setStudent } = useStudentData();
   setStudent(student);
 
-  const studentFormStatus = useMemo(() => {
-    return getStudent?.degree_program_id;
-  }, [getStudent?.degree_program_id]);
-
   const { data: user } = useStudentGet();
   const userStatus = useMemo(() => {
     return user?.registration_status;
   }, [user?.registration_status]);
 
   useEffect(() => {
-    studentFormStatus && setStudent(student);
-  }, [setStudent, student, studentFormStatus]);
+    setFormStatus(getStudent?.degree_program_id);
+  }, [getStudent?.degree_program_id]);
 
   const sideLists = [
     { label: "Beranda", link: "/dashboard", icon: <HomeOutlined />, disabledStatus: false },
@@ -51,7 +49,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       label: "Registrasi",
       link: "/dashboard/registrasi/biodata",
       icon: <FormOutlined />,
-      disabledStatus: studentFormStatus ? false : true,
+      disabledStatus: formStatus ? false : true,
     },
     {
       label: "Upload Berkas",

@@ -89,7 +89,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
       {/* Desktop */}
       <aside
         data-testid="sidebar"
-        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[22vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
+        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[25vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
         <section className={` w-full flex flex-col items-center gap-y-2`}>
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
@@ -131,7 +131,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
 
           <div className="flex flex-col h-full justify-between 2xl:h-full">
             <nav>
-              <ul className="flex flex-col gap-y-1 items-start">
+              <ul className="flex flex-col gap-y-1 xl:gap-y-2 items-start">
                 {process.env.NEXT_PUBLIC_WORKSPACE === "user" &&
                   sideList?.map((sideList, idx) => (
                     <li key={idx} className="flex flex-col gap-y-6">
@@ -219,6 +219,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
         <MenuOutlined className="md:hidden mx-auto text-center cursor-pointer text-primary-white text-[1.5rem]" />
         <AppstoreFilled className="hidden md:block mx-auto text-center cursor-pointer text-primary-white text-[1.5rem]" />
       </Button>
+
       {/* mobile */}
       {onToogle && (
         <Fragment>
@@ -272,24 +273,59 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                 </div>
               )}
               {/* End Status pendaftaran */}
-              <div className="w-[60%]  px-3 h-[1px] bg-slate-4"></div>
+              <div className="w-[60%] px-3 h-[1px] bg-slate-4"></div>
               <nav>
-                <ul className="flex flex-col h-full justify-between gap-y-3">
-                  <div>
-                    {sideList?.map((sideList, idx) => (
+                <ul className="flex flex-col h-full justify-between gap-y-1">
+                  {process.env.NEXT_PUBLIC_WORKSPACE === "user" &&
+                    sideList?.map((sideList, idx) => (
                       <li key={idx} className="flex flex-col gap-y-6">
                         <Link
                           href={sideList.link}
                           role="link"
-                          className={`flex gap-x-3 text-lg capitalize ${
-                            pathname === sideList.link && "bg-primary-white drop-shadow-md h-auto"
-                          }hover:bg-primary-white hover:text-secondary-green-1 items-center p-2  rounded-md`}
+                          className={`flex gap-x-3 text-lg capitalize items-center p-2 rounded-md h-auto${
+                            pathname === sideList.link && "bg-primary-white drop-shadow-md "
+                          } ${
+                            sideList.disabledStatus
+                              ? "pointer-events-none "
+                              : "hover:bg-primary-white group hover:shadow-md hover:text-secondary-green-1"
+                          }`}
                         >
                           <p
-                            className={`${
+                            className={`flex items-center w-fit justify-center p-3 shadow-lg rounded-lg ${
                               pathname === sideList.link &&
-                              "bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg  text-primary-white"
-                            } text-primary-green w-fit justify-center p-3 bg-primary-white drop-shadow-md rounded-lg`}
+                              " bg-gradient-to-br from-[#60ffab] to-primary-green text-primary-white"
+                            }  bg-primary-white drop-shadow-md ${
+                              sideList.disabledStatus ? "text-grayscale-2" : "text-primary-green"
+                            } `}
+                          >
+                            {sideList.icon}
+                          </p>
+                          <p
+                            className={`${
+                              sideList.disabledStatus ? "text-grayscale-2" : "text-primary-green"
+                            } text-sm font-normal`}
+                          >
+                            {sideList.label}
+                          </p>
+                        </Link>
+                      </li>
+                    ))}
+
+                  {process.env.NEXT_PUBLIC_WORKSPACE === "admin" &&
+                    sideList?.map((sideList, idx) => (
+                      <li key={idx} className="flex flex-col gap-y-6">
+                        <Link
+                          href={sideList.link}
+                          role="link"
+                          className={`flex gap-x-3 text-lg capitalize items-center p-2 rounded-md h-auto${
+                            pathname === sideList.link && "bg-primary-white drop-shadow-md "
+                          }hover:bg-primary-white hover:text-secondary-green-1 `}
+                        >
+                          <p
+                            className={`flex items-center w-fit justify-center p-3 shadow-lg rounded-lg ${
+                              pathname === sideList.link &&
+                              " bg-gradient-to-br from-[#60ffab] to-primary-green  text-primary-white"
+                            } text-primary-green bg-primary-white drop-shadow-md `}
                           >
                             {sideList.icon}
                           </p>
@@ -297,7 +333,6 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                         </Link>
                       </li>
                     ))}
-                  </div>
                 </ul>
                 <div className="flex w-full h-full items-center pt-16">
                   <Button variant="sidebarbutton" size="sm" onClick={handleOpenModal}>
