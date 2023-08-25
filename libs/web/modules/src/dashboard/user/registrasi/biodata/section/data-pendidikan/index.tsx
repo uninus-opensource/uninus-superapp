@@ -23,20 +23,27 @@ export const DataPendidikanSection: FC = (): ReactElement => {
     return getStudent;
   }, [getStudent]);
 
-  const { control, handleSubmit, watch, setValue, reset } = useForm<FieldValues | TVSUpdateStudent>(
-    {
-      mode: "all",
-      resolver: zodResolver(VSUpdateStudent),
-      defaultValues: {},
-    },
-  );
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues | TVSUpdateStudent>({
+    mode: "all",
+    resolver: zodResolver(VSUpdateStudent),
+    defaultValues: {},
+  });
 
   // Education Type
   const [educationType] = useState({
     search: "",
   });
 
-  const { data: getEducationType } = useEducationTypeGet(educationType);
+  const { data: getEducationType } = useEducationTypeGet({
+    degree_program_id: watch("degree_program_id"),
+  });
 
   const educationTypeOptions = useMemo(
     () =>
@@ -193,6 +200,8 @@ export const DataPendidikanSection: FC = (): ReactElement => {
     }
   });
 
+  console.log(errors?.education_npsn);
+
   return (
     <Accordion
       title="Data Pendidikan"
@@ -253,13 +262,14 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             inputHeight="h-10"
             name="education_npsn"
             variant="sm"
-            required
+            required={"Harus diisi"}
             type="text"
             labelclassname="text-sm font-semibold"
             label="NPSN"
             placeholder="Masukan NPSN"
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
             control={control}
+            message={errors?.education_npsn?.message}
             onChange={(e) => {
               setValue("education_npsn", e.target.value);
               setEducation(e.target.value);

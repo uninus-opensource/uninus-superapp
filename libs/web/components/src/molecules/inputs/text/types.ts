@@ -9,7 +9,7 @@ export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   inputHeight?: string;
   name: string;
   placeholder?: string;
-  required?: boolean;
+  required?: boolean | string;
   disabled?: boolean;
   value?: string;
   className?: string;

@@ -152,7 +152,7 @@ export type TEducationHistoryResponse = {
 };
 
 export interface IEducationTypeRequest {
-  search: string;
+  degree_program_id: string;
 }
 
 export type TEducationTypeResponse = {

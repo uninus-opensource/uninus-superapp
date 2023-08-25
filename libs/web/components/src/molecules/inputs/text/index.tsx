@@ -17,7 +17,7 @@ export const TextField = <T extends FieldValues>({
   inputHeight = "h-auto",
   inputBackground = "bg-grayscale-2 bg-opacity-30",
   messageClassName = "",
-
+  required,
   ...props
 }: TTextFieldProps<T>): ReactElement => {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +29,7 @@ export const TextField = <T extends FieldValues>({
   const { field } = useController({
     ...props,
     rules: {
-      required: props.required,
+      required,
     },
   });
 
@@ -80,7 +80,7 @@ export const TextField = <T extends FieldValues>({
       {props.label && (
         <label htmlFor={props.name} className={`${labelVariant} ${props.labelclassname}`}>
           {props.label}
-          {props.required && <span className="ml-1 font-bold text-primary-green">*</span>}
+          {required && <span className="ml-1 font-bold text-primary-green">*</span>}
         </label>
       )}
 
