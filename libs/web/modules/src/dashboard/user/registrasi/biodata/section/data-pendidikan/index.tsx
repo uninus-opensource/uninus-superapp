@@ -205,6 +205,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
   return (
     <Accordion
       title="Data Pendidikan"
+      key="data-pendidikan-section"
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
     >

@@ -7,7 +7,7 @@ import {
   Button,
 } from "@uninus/web/components";
 import { dataDiri, formBiodataOne } from "../../store";
-import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useState, useRef } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import {
   useCityGet,
@@ -26,6 +26,8 @@ import {
   useOccupationPositionGet,
   useSalaryGet,
 } from "./hooks";
+import { GroupBase, SelectInstance } from "react-select";
+import { TSelectOption } from "@uninus/web/components";
 import { useBiodataUpdate } from "../../hooks";
 import { ToastContainer, toast } from "react-toastify";
 // import { TVSUpdateStudent, VSUpdateStudent } from "@uninus/entities";
@@ -255,6 +257,24 @@ export const DataDiriSection: FC = (): ReactElement => {
   const handleOccupation = (e: ChangeEvent<HTMLInputElement>): void => {
     setOccValue(e.target.value);
   };
+  const citizenref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+  const provinceref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+  const subdisref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+  const countryref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+  useEffect(() => {
+    if (citizenref.current) {
+      citizenref.current.clearValue();
+    }
+    if (provinceref.current) {
+      provinceref.current.clearValue();
+    }
+    if (subdisref.current) {
+      subdisref.current.clearValue();
+    }
+    if (countryref.current) {
+      countryref.current.clearValue();
+    }
+  }, [watch("citizenship_id")]);
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
@@ -334,6 +354,7 @@ export const DataDiriSection: FC = (): ReactElement => {
 
   return (
     <Accordion
+      key="data-diri-section"
       title="Data Diri Pendaftar"
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] gap-5"
@@ -551,6 +572,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             options={countryOptions || []}
             isClearable={true}
             isSearchable={true}
+            ref={countryref}
             control={control}
             isMulti={false}
             required={false}
@@ -572,8 +594,9 @@ export const DataDiriSection: FC = (): ReactElement => {
             isSearchable={true}
             isClearable={true}
             control={control}
+            ref={citizenref}
             isMulti={false}
-            disabled={isDisabled || !!student?.province_id}
+            disabled={isDisabled || !!student?.province_id || countryOptions?.length !== 1}
           />
           <SelectOption
             name="city_id"
@@ -588,9 +611,15 @@ export const DataDiriSection: FC = (): ReactElement => {
             options={cityOptions || []}
             isSearchable={true}
             isClearable={true}
+            ref={provinceref}
             control={control}
             isMulti={false}
-            disabled={isDisabled || !!student?.city_id || !watch("province_id")}
+            disabled={
+              isDisabled ||
+              !!student?.city_id ||
+              !watch("province_id") ||
+              countryOptions?.length !== 1
+            }
           />
           <SelectOption
             name="subdistrict_id"
@@ -606,10 +635,16 @@ export const DataDiriSection: FC = (): ReactElement => {
             labelClassName="font-bold text-xs py-2"
             options={subDistrictOptions || []}
             isSearchable={true}
+            ref={subdisref}
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isDisabled || !!student?.subdistrict_id || !watch("city_id")}
+            disabled={
+              isDisabled ||
+              !!student?.subdistrict_id ||
+              !watch("city_id") ||
+              countryOptions?.length !== 1
+            }
           />
 
           <div className="px-6 md:px-0 lg:px-0 w-full">
