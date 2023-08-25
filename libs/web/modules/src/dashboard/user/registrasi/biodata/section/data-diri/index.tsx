@@ -574,7 +574,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            disabled={isDisabled || student?.province_id ? true : false}
+            disabled={isDisabled || !!student?.province_id}
           />
           <SelectOption
             name="city_id"
@@ -627,7 +627,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               inputHeight="h-20"
               inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2  "
-              disabled={isDisabled || student?.address ? true : false}
+              disabled={isDisabled || !!student?.address}
             />
           </div>
           {student?.degree_program_id !== 1 && (
