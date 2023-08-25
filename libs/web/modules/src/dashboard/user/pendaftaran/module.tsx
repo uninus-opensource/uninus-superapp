@@ -217,7 +217,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={isFormSubmitted || !!student?.degree_program_id}
+              disabled={isFormSubmitted || student?.degree_program_id ? true : false}
             />
             <SelectOption
               ref={prodi1Ref}
@@ -261,7 +261,9 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={isFormSubmitted || !!student?.selection_path_id || !watch("program")}
+              disabled={
+                isFormSubmitted || student?.selection_path_id ? true : false || !watch("program")
+              }
             />
           </div>
           <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-end">
