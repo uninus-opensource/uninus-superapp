@@ -736,7 +736,7 @@ export const DataDiriSection: FC = (): ReactElement => {
                   variant="sm"
                   type="text"
                   labelclassname="text-left text-xl font-semibold"
-                  label="Alamat Perusahaan"
+                  label="Alamat Instansi"
                   control={control}
                   isTextArea
                   textAreaCols={30}

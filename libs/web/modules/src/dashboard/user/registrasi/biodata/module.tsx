@@ -1,13 +1,20 @@
 "use client";
-import { ReactElement, FC } from "react";
+import { ReactElement, FC, useMemo } from "react";
 import { DataDiriSection } from "./section/data-diri";
+import { CaretRightOutlined } from "@ant-design/icons";
 import { DataPendidikanSection } from "./section/data-pendidikan";
 import { DataOrtuSection } from "./section/data-ortu";
 import { DataNilaiSection } from "./section/data-nilai";
 import { Button } from "@uninus/web/components";
 import Link from "next/link";
+import { useStudentData } from "@uninus/web/services";
 
 export const ModuleBiodata: FC = (): ReactElement => {
+  const { getStudent } = useStudentData();
+  const student = useMemo(() => {
+    return getStudent;
+  }, [getStudent]);
+
   return (
     <section
       key="dashboard-biodata"
@@ -31,24 +38,16 @@ export const ModuleBiodata: FC = (): ReactElement => {
           <DataOrtuSection />
         </section>
         <div className="flex gap-6 justify-end px-8 py-4">
-          <Link href="/dashboard/registrasi/pembayaran/detail">
-            <Button
-              variant="filled"
-              size="md"
-              width="w-25% lg:w-25% xl:w-15%"
-              styling="text-sm lg:text-base"
-            >
-              Reguler
-            </Button>
-          </Link>
-          <Link href="/dashboard/registrasi/beasiswa" className="grid place-items-center">
-            <Button
-              variant="filled"
-              size="md"
-              width="w-25% lg:w-25% xl:w-15%"
-              styling="text-sm lg:text-base"
-            >
-              Beasiswa
+          <Link
+            href={
+              student?.disabilities_id !== null
+                ? "/dashboard/registrasi/beasiswa"
+                : "/dashboard/registrasi/pembayaran/detail"
+            }
+          >
+            <Button variant="filled" size="md" width="w-auto" styling="text-sm lg:text-base">
+              <p className="px-2 md:flex hidden">Lakukan Pembayaran</p>
+              <CaretRightOutlined />
             </Button>
           </Link>
         </div>
