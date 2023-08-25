@@ -37,6 +37,11 @@ export const pembayaranBreadcrumb = [
 
 export const Pembayaran: FC = (): ReactElement => {
   const [textToCopy, setTextToCopy] = useState("4444081904377804");
+  const [status, setStatus] = useState("unpaid"); // Status dummy
+
+  const handleStatusChange = (newStatus: string) => {
+    setStatus(newStatus);
+  };
 
   const copyText = () => {
     navigator.clipboard
@@ -80,25 +85,27 @@ export const Pembayaran: FC = (): ReactElement => {
         />
         <div className="flex justify-between items-center w-full px-3 md:px-5">
           <h1 className="font-bold text-[1.2rem]">Pembayaran</h1>
-          <div className="h-auto">
-            <PDFDownloadLink
-              document={<KartuPembayaran />}
-              fileName="4103700434832748_Kartu Pembayaran.pdf"
-            >
-              {({ loading }) =>
-                loading ? (
-                  <p className="text-primary-green">hampir selesai...</p>
-                ) : (
-                  <Button variant="green-outline" size="sm">
-                    <div className="flex justify-center items-center gap-2">
-                      <DownloadOutlined />
-                      Download Bukti
-                    </div>
-                  </Button>
-                )
-              }
-            </PDFDownloadLink>
-          </div>
+          {status === "success" && (
+            <div className="h-auto">
+              <PDFDownloadLink
+                document={<KartuPembayaran />}
+                fileName="4103700434832748_Kartu Pembayaran.pdf"
+              >
+                {({ loading }) =>
+                  loading ? (
+                    <p className="text-primary-green">hampir selesai...</p>
+                  ) : (
+                    <Button variant="green-outline" size="sm">
+                      <div className="flex justify-center items-center gap-2">
+                        <DownloadOutlined />
+                        Download Bukti
+                      </div>
+                    </Button>
+                  )
+                }
+              </PDFDownloadLink>
+            </div>
+          )}
         </div>
 
         <div className="bg-primary-green w-full h-[3px] mt-3"></div>
@@ -107,6 +114,7 @@ export const Pembayaran: FC = (): ReactElement => {
             status="unpaid"
             message="Segera Selesaikan Pembayaranmu!"
             messageDetails="Sedikit Lagi Kamu akan terdaftar di Universitas Islam Nusantara"
+            onStatusChange={handleStatusChange}
           />
           <div className="mt-2 flex justify-between flex-col  gap-y-2">
             <h2 className="text-grayscale-6 text-xs md:text-base">Metode Pembayaran</h2>

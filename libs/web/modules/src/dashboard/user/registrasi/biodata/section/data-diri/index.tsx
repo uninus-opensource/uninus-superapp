@@ -721,9 +721,9 @@ export const DataDiriSection: FC = (): ReactElement => {
                 variant="sm"
                 required
                 type="text"
-                placeholder="Nama Perusahaan"
+                placeholder="Nama Instansi"
                 labelclassname="text-left text-sm font-semibold"
-                label="Nama Perusahaan"
+                label="Nama Instansi"
                 inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
                 control={control}
                 disabled={
