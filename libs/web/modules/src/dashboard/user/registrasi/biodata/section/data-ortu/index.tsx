@@ -12,6 +12,7 @@ import { useOccupationGet, useParentEducationGet, useParentStatusGet, useSalaryG
 import { studentData } from "./type";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export const DataOrtuSection: FC = (): ReactElement => {
   const [parentStatus] = useState({
@@ -150,6 +151,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
     setGuardianAddressSame(!guardianAddressSame);
   };
 
+  const router = useRouter();
+
   useEffect(() => {
     setValue("address_city_parent", null);
   }, [watch("address_province_parent")]);
@@ -219,6 +222,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               theme: "light",
             });
           }, 500);
+          router.push("/dashboard/registrasi/biodata");
         },
         onError: () => {
           setTimeout(() => {
@@ -372,7 +376,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             label="Nama Ibu"
             inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
             control={control}
-            disabled={isSubmitted || student?.father_name ? true : false}
+            disabled={isSubmitted || student?.mother_name ? true : false}
           />
           <SelectOption
             name="status_mother"
