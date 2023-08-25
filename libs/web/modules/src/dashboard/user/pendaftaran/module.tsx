@@ -10,6 +10,7 @@ import { useGetBiodata } from "../registrasi";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
 import { useStudentData } from "@uninus/web/services";
+import { useRouter } from "next/navigation";
 
 export type CustomSelectInstance = {
   select: {
@@ -124,6 +125,8 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     (degree) => degree.id === student?.selection_path_id,
   );
 
+  const router = useRouter();
+
   const onSubmit = handleSubmit((data) => {
     studentData.degree_program_id = Number(data.program);
     studentData.first_deparment_id = Number(data.prodi1);
@@ -146,6 +149,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               theme: "light",
             });
           }, 500);
+          router.push("/dashboard/registrasi/biodata");
         },
         onError: () => {
           setTimeout(() => {
