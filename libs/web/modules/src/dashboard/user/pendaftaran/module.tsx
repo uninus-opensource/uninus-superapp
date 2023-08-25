@@ -10,6 +10,7 @@ import { useGetBiodata } from "../registrasi";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
 import { useStudentData } from "@uninus/web/services";
+import { useRouter } from "next/navigation";
 
 export type CustomSelectInstance = {
   select: {
@@ -124,6 +125,8 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     (degree) => degree.id === student?.selection_path_id,
   );
 
+  const router = useRouter();
+
   const onSubmit = handleSubmit((data) => {
     studentData.degree_program_id = Number(data.program);
     studentData.first_deparment_id = Number(data.prodi1);
@@ -146,6 +149,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               theme: "light",
             });
           }, 500);
+          router.push("/dashboard/registrasi/biodata");
         },
         onError: () => {
           setTimeout(() => {
@@ -217,7 +221,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={isFormSubmitted || student?.degree_program_id ? true : false}
+              disabled={isFormSubmitted || !!student?.degree_program_id}
             />
             <SelectOption
               ref={prodi1Ref}
@@ -261,9 +265,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={
-                isFormSubmitted || student?.selection_path_id ? true : false || !watch("program")
-              }
+              disabled={isFormSubmitted || !!student?.selection_path_id || !watch("program")}
             />
           </div>
           <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-end">
