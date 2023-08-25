@@ -84,7 +84,7 @@ export const dataDiri = {
   subdistrict_id: 0,
   province_id: 0,
   city_id: 0,
-  disabilities_id: 0,
+  disabilities_id: null as number | null,
   occupation_id: 0,
   occupation_position_id: 0,
   company_name: "",
