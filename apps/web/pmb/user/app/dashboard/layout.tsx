@@ -1,5 +1,5 @@
 "use client";
-import { FC, PropsWithChildren, ReactElement, useMemo } from "react";
+import { FC, PropsWithChildren, ReactElement, useEffect, useMemo } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
@@ -34,6 +34,10 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const userStatus = useMemo(() => {
     return user?.registration_status;
   }, [user?.registration_status]);
+
+  useEffect(() => {
+    studentFormStatus && setStudent(student);
+  }, [setStudent, student, studentFormStatus]);
 
   const sideLists = [
     { label: "Beranda", link: "/dashboard", icon: <HomeOutlined />, disabledStatus: false },

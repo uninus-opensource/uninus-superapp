@@ -230,7 +230,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            disabled={isDisabled || student?.education_type_id ? true : false}
+            disabled={isDisabled || !!student?.education_type_id}
           />
           <SelectOption
             name="graduation_year"
@@ -246,7 +246,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             isSearchable={false}
             control={control}
             isMulti={false}
-            disabled={isDisabled || student?.graduation_year ? true : false}
+            disabled={isDisabled || !!student?.graduation_year}
           />
 
           <TextField
@@ -264,7 +264,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               setValue("education_npsn", e.target.value);
               setEducation(e.target.value);
             }}
-            disabled={isDisabled || student?.education_npsn ? true : false}
+            disabled={isDisabled || !!student?.education_npsn}
           />
 
           <TextField
@@ -368,7 +368,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             variant="filled"
             size="md"
             width="w-50% lg:w-25% xl:w-15%"
-            disabled={isDisabled || student?.education_npsn ? true : false}
+            disabled={isDisabled || !!student?.education_npsn}
           >
             Submit
           </Button>

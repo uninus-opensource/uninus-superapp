@@ -28,8 +28,8 @@ import {
 } from "./hooks";
 import { useBiodataUpdate } from "../../hooks";
 import { ToastContainer, toast } from "react-toastify";
-import { TVSUpdateStudent, VSUpdateStudent } from "@uninus/entities";
-import { zodResolver } from "@hookform/resolvers/zod";
+// import { TVSUpdateStudent, VSUpdateStudent } from "@uninus/entities";
+// import { zodResolver } from "@hookform/resolvers/zod";
 
 export const DataDiriSection: FC = (): ReactElement => {
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
@@ -41,13 +41,10 @@ export const DataDiriSection: FC = (): ReactElement => {
     return getStudent;
   }, [getStudent]);
 
-  const { control, handleSubmit, watch, setValue, reset } = useForm<FieldValues | TVSUpdateStudent>(
-    {
-      mode: "all",
-      resolver: zodResolver(VSUpdateStudent),
-      defaultValues: {},
-    },
-  );
+  const { control, handleSubmit, watch, setValue, reset } = useForm<FieldValues>({
+    mode: "all",
+    defaultValues: {},
+  });
 
   const [locationMeta, setLocationMeta] = useState({
     search: "",
@@ -257,7 +254,6 @@ export const DataDiriSection: FC = (): ReactElement => {
   };
   const handleOccupation = (e: ChangeEvent<HTMLInputElement>): void => {
     setOccValue(e.target.value);
-    localStorage.setItem("occValue", e.target.value);
   };
   const { mutate } = useBiodataUpdate();
 
@@ -277,21 +273,24 @@ export const DataDiriSection: FC = (): ReactElement => {
     dataDiri.citizenship_id = Number(data?.citizenship_id);
     dataDiri.country_id = Number(data?.country_id);
     dataDiri.province_id = Number(data?.province_id);
+    dataDiri.city_id = Number(data?.city_id);
     dataDiri.subdistrict_id = Number(data?.subdistrict_id);
     dataDiri.address = data?.address;
-    dataDiri.disabilities_id = Number(data?.disabilities_id);
-    dataDiri.city_id = Number(data?.city_id);
-    dataDiri.occupation_id = Number(data?.occupation_id);
-    dataDiri.occupation_position_id = Number(data?.occupation_position_id);
+    if (Number(data?.disabilities_id)) {
+      dataDiri.disabilities_id = Number(data?.disabilities_id);
+    } else {
+      dataDiri.disabilities_id = null;
+    }
     if (student?.degree_program_id !== 1) {
+      dataDiri.occupation_id = Number(data?.occupation_id);
+      dataDiri.occupation_position_id = Number(data?.occupation_position_id);
       dataDiri.company_name = data?.company_name;
       dataDiri.company_address = data?.company_address;
       dataDiri.salary_id = Number(data?.salary_id);
     }
 
-    console.log(dataDiri);
-
     try {
+      console.log(dataDiri);
       mutate(
         { ...dataDiri },
         {
@@ -354,11 +353,11 @@ export const DataDiriSection: FC = (): ReactElement => {
         />
         <div className="flex flex-col gap-7">
           <UploadField
+            name="image"
             className="grid lg:flex lg:items-center lg:gap-6 w-full justify-center lg:justify-start items-center h-full gap-y-6 lg:gap-y-0"
             classNameField="w-70% lg:w-auto"
             control={control}
             variant="default"
-            name="image"
             defaultImage="/illustrations/dummy-avatar.webp"
             previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full "
             preview={true}
@@ -406,7 +405,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             required
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
             control={control}
-            disabled={isDisabled || student?.nik ? true : false}
+            disabled={isDisabled || !!student?.nik}
           />
           <TextField
             inputHeight="h-10"
@@ -419,7 +418,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             required
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             control={control}
-            disabled={isDisabled || student?.nisn ? true : false}
+            disabled={isDisabled || !!student?.nisn}
           />
           <div className="lg:w-full">
             <TextField
@@ -433,11 +432,12 @@ export const DataDiriSection: FC = (): ReactElement => {
               label="No Kartu Keluarga"
               inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
               control={control}
-              disabled={isDisabled || student?.no_kk ? true : false}
+              disabled={isDisabled || !!student?.no_kk}
             />
           </div>
           <SelectOption
             labels="Jenis Kelamin"
+            name="gender_id"
             labelClassName="font-bold text-xs py-2"
             placeholder={
               student?.gender_id
@@ -449,11 +449,11 @@ export const DataDiriSection: FC = (): ReactElement => {
             options={genderOptions || []}
             isClearable={true}
             isSearchable={false}
-            name="gender_id"
             control={control}
-            disabled={isDisabled || student?.gender_id ? true : false}
+            disabled={isDisabled || !!student?.gender_id}
           />
           <SelectOption
+            name="religion_id"
             labels="Agama"
             labelClassName="font-bold text-xs py-2"
             className=" rounded-md text-primary-black w-70% lg:w-auto xl:w-[25vw] md:w-[33vw]"
@@ -467,10 +467,9 @@ export const DataDiriSection: FC = (): ReactElement => {
             options={religionOptions || []}
             isClearable={true}
             isSearchable={true}
-            name="religion_id"
             control={control}
             isMulti={false}
-            disabled={isDisabled || student?.religion_id ? true : false}
+            disabled={isDisabled || !!student?.religion_id}
           />
           <TextField
             inputHeight="h-10"
@@ -483,7 +482,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             label="Tempat Lahir"
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             control={control}
-            disabled={isDisabled || student?.birth_place ? true : false}
+            disabled={isDisabled || !!student?.birth_place}
           />
           <TextField
             inputHeight="h-10"
@@ -495,7 +494,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             label="Tanggal Lahir"
             inputWidth="lg:w-[27vw] xl:w-[25vw] md:w-[33vw] w-[70vw]"
             control={control}
-            disabled={isDisabled || student?.birth_date ? true : false}
+            disabled={isDisabled || !!student?.birth_date}
           />
           <div className="mr-2">
             <SelectOption
@@ -515,7 +514,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               control={control}
               isMulti={false}
               isClearable={true}
-              disabled={isDisabled || student?.marital_status_id ? true : false}
+              disabled={isDisabled || !!student?.marital_status_id}
             />
           </div>
           <SelectOption
@@ -536,7 +535,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             required={true}
-            disabled={isDisabled || student?.citizenship_id ? true : false}
+            disabled={isDisabled || !!student?.citizenship_id}
           />
           <SelectOption
             name="country_id"
@@ -555,7 +554,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             required={false}
-            disabled={isDisabled || student?.country_id ? true : !watch("citizenship_id")}
+            disabled={isDisabled || !!student?.country_id || !watch("citizenship_id")}
           />
           <SelectOption
             name="province_id"
@@ -574,7 +573,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            disabled={isDisabled || student?.province_id ? true : false}
+            disabled={isDisabled || !!student?.province_id}
           />
           <SelectOption
             name="city_id"
@@ -591,7 +590,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            disabled={isDisabled || student?.city_id ? true : !watch("province_id")}
+            disabled={isDisabled || !!student?.city_id || !watch("province_id")}
           />
           <SelectOption
             name="subdistrict_id"
@@ -610,7 +609,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isDisabled || student?.subdistrict_id ? true : !watch("city_id")}
+            disabled={isDisabled || !!student?.subdistrict_id || !watch("city_id")}
           />
 
           <div className="px-6 md:px-0 lg:px-0 w-full">
@@ -627,7 +626,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               inputHeight="h-20"
               inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2  "
-              disabled={isDisabled || student?.address ? true : false}
+              disabled={isDisabled || !!student?.address}
             />
           </div>
           {student?.degree_program_id !== 1 && (
@@ -650,7 +649,9 @@ export const DataDiriSection: FC = (): ReactElement => {
                   onChange={handleOccupation}
                   buttonValue={occValue}
                   disabled={
-                    isDisabled || (student?.occupation_id && occValue === "Sudah") ? true : false
+                    isDisabled ||
+                    !!(student?.occupation_id && occValue === "Sudah") ||
+                    !!student?.nik
                   }
                 />
               </div>
@@ -726,9 +727,7 @@ export const DataDiriSection: FC = (): ReactElement => {
                 label="Nama Instansi"
                 inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
                 control={control}
-                disabled={
-                  occValue === "Belum" || isDisabled || student?.company_name ? true : false
-                }
+                disabled={occValue === "Belum" || isDisabled || !!student?.company_name}
               />
               <div className="px-6 md:px-0 lg:px-0 w-full">
                 <TextField
@@ -743,9 +742,7 @@ export const DataDiriSection: FC = (): ReactElement => {
                   inputHeight="h-20"
                   inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
                   className="resize-none bg-grayscale-2  "
-                  disabled={
-                    occValue === "Belum" || isDisabled || student?.company_address ? true : false
-                  }
+                  disabled={occValue === "Belum" || isDisabled || !!student?.company_address}
                 />
               </div>
               <SelectOption
@@ -763,7 +760,7 @@ export const DataDiriSection: FC = (): ReactElement => {
                 control={control}
                 isMulti={false}
                 isClearable={true}
-                disabled={occValue === "Belum" || isDisabled || student?.salary_id ? true : false}
+                disabled={occValue === "Belum" || isDisabled || !!student?.salary_id}
               />
             </>
           )}
@@ -782,7 +779,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               onChange={handleOnChange}
               buttonValue={disValue}
               disabled={
-                isDisabled || (student?.disabilities_id && disValue === "Ya") ? true : false
+                isDisabled || !!(student?.disabilities_id && disValue === "Ya") || !!student?.nik
               }
             />
           </div>
@@ -824,7 +821,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             variant="filled"
             size="md"
             width="w-50% lg:w-25% xl:w-15%"
-            disabled={isDisabled || student?.nik ? true : false}
+            disabled={isDisabled || !!student?.nik}
           >
             Submit
           </Button>
