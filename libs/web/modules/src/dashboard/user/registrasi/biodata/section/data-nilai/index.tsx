@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
-import { Accordion, Button, TextField, UploadField } from "@uninus/web/components";
+import { Accordion, Button, TextField } from "@uninus/web/components";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { NilaiValues } from "./type";
@@ -16,32 +16,31 @@ export const DataNilaiSection: FC = (): ReactElement => {
   const { mutate } = useStudentGradeUpdate();
 
   const onSubmit = handleSubmit((data) => {
-    //student grade object to array of object
     try {
       const { average_grade, utbk, ...dataGrade } = data;
       const studentGrade = JSON.stringify(dataGrade)
         .replace(/{|}/gi, "")
         .split(",")
         .map((el) => {
-          const data = el.split(":");
+          const data = el?.split(":");
           return {
-            subject: data[0].includes("mtk")
+            subject: data?.[0]?.includes("mtk")
               ? "matematika"
-              : data[0].includes("bind")
+              : data?.[0]?.includes("bind")
               ? "indonesia"
-              : data[0].includes("bing")
+              : data?.[0]?.includes("bing")
               ? "inggris"
               : "",
-            semester: data[0].includes("1")
+            semester: data?.[0]?.includes("1")
               ? "1"
-              : data[0].includes("2")
+              : data?.[0]?.includes("2")
               ? "2"
-              : data[0].includes("3")
+              : data?.[0]?.includes("3")
               ? "3"
-              : data[0].includes("4")
+              : data?.[0]?.includes("4")
               ? "4"
               : "0",
-            grade: Number(data[1].replace(/"|'/gi, "")),
+            grade: Number(data?.[1]?.replace(/"|'/gi, "")),
           };
         });
 
@@ -96,18 +95,17 @@ export const DataNilaiSection: FC = (): ReactElement => {
   const student = useMemo(() => {
     return data;
   }, [data]);
-  // student grade array of object to object
   const dataStudentGrade = useMemo(
     () =>
       student?.student_grade.reduce(
         (obj, item) => (
           (obj[
             `${
-              item.subject.includes("indonesia")
+              item?.subject?.includes("indonesia")
                 ? `bind${item.semester}`
-                : item.subject.includes("matematika")
-                ? `mtk${item.semester}`
-                : item.subject.includes("inggris") && `bing${item.semester}`
+                : item?.subject?.includes("matematika")
+                ? `mtk${item?.semester}`
+                : item?.subject?.includes("inggris") && `bing${item?.semester}`
             }`
           ] = item.grade),
           obj
@@ -205,7 +203,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             <p className={labelCourseStyle}>Upload Rapor</p>
           </div>
           <div className="col-start-2 row-start-2 my-auto">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="mtk1"
@@ -218,7 +215,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-2 row-start-3">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="bind1"
@@ -231,7 +227,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-2 row-start-4">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="bing1"
@@ -244,7 +239,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-3 row-start-2">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="mtk2"
@@ -257,7 +251,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-3 row-start-3">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="bind2"
@@ -270,7 +263,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-3 row-start-4">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="bing2"
@@ -283,7 +275,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-4 row-start-2">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="mtk3"
@@ -296,7 +287,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-4 row-start-3">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="bind3"
@@ -309,7 +299,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-4 row-start-4">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="bing3"
@@ -322,7 +311,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-5 row-start-2">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="mtk4"
@@ -335,7 +323,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-5 row-start-3">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="bind4"
@@ -348,7 +335,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className="col-start-5 row-start-4">
-            {" "}
             <TextField
               inputHeight="h-10"
               name="bing4"
@@ -372,25 +358,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               disabled
             />
           </div>
-
-          {/* <div className="col-start-2 row-start-6">
-            {" "}
-            <UploadField control={control} name="dokumen1" variant="custom" preview={false} />
-          </div>
-          <div className="col-start-3 row-start-6">
-            {" "}
-            <UploadField control={control} name="dokumen2" variant="custom" preview={false} />
-          </div>
-          <div className="col-start-4 row-start-6">
-            {" "}
-            <UploadField control={control} name="dokumen3" variant="custom" preview={false} />
-          </div>
-          <div className="col-start-5 row-start-6">
-            {" "}
-            <UploadField control={control} name="dokumen4" variant="custom" preview={false} />
-          </div> */}
         </div>
-
         <h1 className="font-bold text-2xl lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10 mt-10">
           Skor UTBK
         </h1>
@@ -410,12 +378,17 @@ export const DataNilaiSection: FC = (): ReactElement => {
           </div>
           <div className="flex items-center gap-8 lg:text-base text-xs">
             <p>Sertifikat UTBK : </p>
-            {/* <UploadField control={control} name="UTBK" variant="default" preview={false} /> */}
           </div>
         </section>
 
         <div className="flex w-full justify-end p-4">
-          <Button type="submit" variant="filled" size="md" width="w-40% lg:w-25% xl:w-15%">
+          <Button
+            type="submit"
+            variant="filled"
+            size="md"
+            width="w-40% lg:w-25% xl:w-15%"
+            disabled={isDisabled || !!student?.utbk}
+          >
             Submit
           </Button>
         </div>

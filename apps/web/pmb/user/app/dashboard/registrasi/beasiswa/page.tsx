@@ -8,6 +8,8 @@ export const metadata: Metadata = {
 };
 
 const DashboardBeasiswa: NextPage = (): ReactElement => (
-  <BeasiswaDashboardModule key={"beasiswa"} />
+  <section key="dashboard-beasiswa">
+    <BeasiswaDashboardModule key={"beasiswa"} />
+  </section>
 );
 export default DashboardBeasiswa;

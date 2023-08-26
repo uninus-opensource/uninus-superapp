@@ -5,10 +5,11 @@ import {
   RadioButton,
   SelectOption,
   Button,
+  SelectField,
 } from "@uninus/web/components";
-import { dataDiri, formBiodataOne } from "../../store";
-import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useState, useRef } from "react";
-import { useForm, FieldValues } from "react-hook-form";
+import { dataDiri, occupationS2S3, formBiodataOne, disabilitiesDataDiri } from "../../store";
+import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useRef, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import {
   useCityGet,
   useProvinceGet,
@@ -30,8 +31,9 @@ import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
 import { useBiodataUpdate } from "../../hooks";
 import { ToastContainer, toast } from "react-toastify";
-// import { TVSUpdateStudent, VSUpdateStudent } from "@uninus/entities";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { TVSDataDiri, VSDataDiri } from "./schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { match } from "ts-pattern";
 
 export const DataDiriSection: FC = (): ReactElement => {
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
@@ -43,12 +45,19 @@ export const DataDiriSection: FC = (): ReactElement => {
     return getStudent;
   }, [getStudent]);
 
-  const { control, handleSubmit, watch, setValue, reset } = useForm<FieldValues>({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    resolver: zodResolver(VSDataDiri),
     mode: "all",
-    defaultValues: {},
   });
 
-  const [locationMeta, setLocationMeta] = useState({
+  const [locationMeta] = useState({
     search: "",
     province_id: "",
     city_id: "",
@@ -93,9 +102,11 @@ export const DataDiriSection: FC = (): ReactElement => {
     [getSubdistrict?.subdistrict],
   );
 
+  const provinceId = watch("province_id");
+
   useEffect(() => {
     setValue("city_id", null);
-  }, [watch("province_id")]);
+  }, [provinceId, setValue]);
 
   const [religion] = useState({
     search: "",
@@ -202,8 +213,9 @@ export const DataDiriSection: FC = (): ReactElement => {
   );
 
   useEffect(() => {
-    setValue("occupation_id", null);
+    setValue("occupation_id", undefined);
   }, [setValue, occValue]);
+
   const { data: getOccupationPosition } = useOccupationPositionGet({
     search: "",
     occupation_id: watch("occupation_id"),
@@ -217,9 +229,11 @@ export const DataDiriSection: FC = (): ReactElement => {
       })),
     [getOccupationPosition?.occupation_position],
   );
+
   const [salary] = useState({
     search: "",
   });
+
   const { data: getSalary } = useSalaryGet(salary);
 
   const salaryOptions = useMemo(
@@ -230,8 +244,30 @@ export const DataDiriSection: FC = (): ReactElement => {
       })),
     [getSalary?.salary],
   );
+
   useEffect(() => {
-    reset(student);
+    reset({
+      avatar: student?.avatar,
+      citizenship_id: student?.citizenship_id,
+      city_id: student?.city_id,
+      religion_id: student?.religion_id,
+      marital_status_id: student?.marital_status_id,
+      gender_id: student?.gender_id,
+      disabilities_id: student?.disabilities_id,
+      occupation_id: student?.occupation_id,
+      occupation_position_id: student?.occupation_position_id,
+      salary_id: student?.salary_id,
+      degree_program_id: student?.degree_program_id,
+      fullname: student?.fullname,
+      email: student?.email,
+      phone_number: student?.phone_number,
+      address: student?.address,
+      province_id: student?.province_id,
+      subdistrict_id: student?.subdistrict_id,
+      country_id: student?.country_id,
+      birth_date: student?.birth_date,
+      birth_place: student?.birth_place,
+    });
 
     if (student?.disabilities_id) {
       setDisValue("Ya");
@@ -247,75 +283,72 @@ export const DataDiriSection: FC = (): ReactElement => {
 
   useEffect(() => {
     if (disValue === "Tidak") {
-      setValue("disabilities_id", null);
+      setValue("disabilities_id", undefined);
     }
   }, [disValue, setValue]);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setDisValue(e.target.value);
   };
+
   const handleOccupation = (e: ChangeEvent<HTMLInputElement>): void => {
     setOccValue(e.target.value);
   };
+
   const citizenref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
   const provinceref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
   const subdisref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
   const countryref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+
+  const citizenshipId = watch("citizenship_id");
+
   useEffect(() => {
     if (citizenref.current) {
       citizenref.current.clearValue();
     }
+
     if (provinceref.current) {
       provinceref.current.clearValue();
     }
+
     if (subdisref.current) {
       subdisref.current.clearValue();
     }
+
     if (countryref.current) {
       countryref.current.clearValue();
     }
-  }, [watch("citizenship_id")]);
+  }, [citizenshipId]);
+
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
-    dataDiri.avatar = data?.avatar;
-    dataDiri.fullname = data?.fullname;
-    dataDiri.email = data?.email;
-    dataDiri.phone_number = data?.phone_number;
-    dataDiri.nik = data?.nik;
-    dataDiri.nisn = data?.nisn;
-    dataDiri.no_kk = data?.no_kk;
-    dataDiri.gender_id = Number(data?.gender_id);
-    dataDiri.religion_id = Number(data?.religion_id);
-    dataDiri.birth_place = data?.birth_place;
-    dataDiri.birth_date = data?.birth_date;
-    dataDiri.marital_status_id = Number(data?.martial_status_id);
-    dataDiri.citizenship_id = Number(data?.citizenship_id);
-    dataDiri.country_id = Number(data?.country_id);
-    dataDiri.province_id = Number(data?.province_id);
-    dataDiri.city_id = Number(data?.city_id);
-    dataDiri.subdistrict_id = Number(data?.subdistrict_id);
-    dataDiri.address = data?.address;
-    if (Number(data?.disabilities_id)) {
-      dataDiri.disabilities_id = Number(data?.disabilities_id);
-    } else {
-      dataDiri.disabilities_id = null;
-    }
-    if (student?.degree_program_id !== 1) {
-      dataDiri.occupation_id = Number(data?.occupation_id);
-      dataDiri.occupation_position_id = Number(data?.occupation_position_id);
-      dataDiri.company_name = data?.company_name;
-      dataDiri.company_address = data?.company_address;
-      dataDiri.salary_id = Number(data?.salary_id);
-    }
-
     try {
-      console.log(dataDiri);
       mutate(
-        { ...dataDiri },
+        match({
+          disable: disValue,
+          occ: occValue,
+          degreeId: student?.degree_program_id,
+        })
+          .with(
+            {
+              disable: "Tidak",
+              occ: "Sudah",
+              degreeId: 1,
+            },
+            () => {
+              return {
+                ...data,
+              };
+            },
+          )
+          .otherwise(() => {
+            return {
+              ...data,
+            };
+          }),
         {
           onSuccess: () => {
-            console.log("Success");
             setIsdisabled(true);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
@@ -331,7 +364,6 @@ export const DataDiriSection: FC = (): ReactElement => {
             }, 500);
           },
           onError: () => {
-            console.log("Error");
             setTimeout(() => {
               toast.error("Gagal mengisi formulir", {
                 position: "top-center",
@@ -348,9 +380,20 @@ export const DataDiriSection: FC = (): ReactElement => {
         },
       );
     } catch (error) {
-      console.error(error);
+      toast.error(error as string, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   });
+
+  console.log(errors?.nik?.message);
 
   return (
     <Accordion
@@ -359,7 +402,7 @@ export const DataDiriSection: FC = (): ReactElement => {
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] gap-5"
     >
-      <form onSubmit={onSubmit}>
+      <form key="data-diri-form" onSubmit={onSubmit} noValidate>
         <ToastContainer
           position="top-center"
           autoClose={5000}
@@ -385,7 +428,10 @@ export const DataDiriSection: FC = (): ReactElement => {
           />
         </div>
 
-        <section className="flex flex-wrap w-full gap-x-1 justify-center items-center lg:flex lg:justify-between lg:items-center gap-y-4 mt-8 lg:mt-6 lg:w-55% md:w-80% md:flex md:flex-wrap md:justify-between text-left">
+        <section
+          key="form-biodata"
+          className="flex flex-wrap w-full gap-x-1 justify-center items-center lg:flex lg:justify-between lg:items-center gap-y-4 mt-8 lg:mt-6 lg:w-55% md:w-80% md:flex md:flex-wrap md:justify-between text-left"
+        >
           {formBiodataOne.map((biodata, idx) => (
             <TextField
               key={idx}
@@ -427,6 +473,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
             control={control}
             disabled={isDisabled || !!student?.nik}
+            message={errors?.nik?.message}
+            status={errors?.nik?.message ? "error" : "none"}
           />
           <TextField
             inputHeight="h-10"
@@ -440,6 +488,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             control={control}
             disabled={isDisabled || !!student?.nisn}
+            message={errors?.nisn?.message}
+            status={errors?.nisn?.message ? "error" : "none"}
           />
           <div className="lg:w-full">
             <TextField
@@ -472,6 +522,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             isSearchable={false}
             control={control}
             disabled={isDisabled || !!student?.gender_id}
+            status={"error"}
+            size={"lg"}
           />
           <SelectOption
             name="religion_id"
@@ -491,6 +543,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={isDisabled || !!student?.religion_id}
+            status={"error"}
+            size={"lg"}
           />
           <TextField
             inputHeight="h-10"
@@ -519,7 +573,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           />
           <div className="mr-2">
             <SelectOption
-              name="martial_status_id"
+              name="marital_status_id"
               labels="Status"
               labelClassName="font-bold text-xs py-2"
               placeholder={
@@ -536,6 +590,8 @@ export const DataDiriSection: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               disabled={isDisabled || !!student?.marital_status_id}
+              status={"error"}
+              size={"lg"}
             />
           </div>
           <SelectOption
@@ -557,6 +613,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             isMulti={false}
             required={true}
             disabled={isDisabled || !!student?.citizenship_id}
+            status={"error"}
+            size={"lg"}
           />
           <SelectOption
             name="country_id"
@@ -577,6 +635,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             isMulti={false}
             required={false}
             disabled={isDisabled || !!student?.country_id || !watch("citizenship_id")}
+            status={"error"}
+            size={"lg"}
           />
           <SelectOption
             name="province_id"
@@ -597,6 +657,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             ref={citizenref}
             isMulti={false}
             disabled={isDisabled || !!student?.province_id || countryOptions?.length !== 1}
+            status={"error"}
+            size={"lg"}
           />
           <SelectOption
             name="city_id"
@@ -620,6 +682,8 @@ export const DataDiriSection: FC = (): ReactElement => {
               !watch("province_id") ||
               countryOptions?.length !== 1
             }
+            status={"error"}
+            size={"lg"}
           />
           <SelectOption
             name="subdistrict_id"
@@ -645,6 +709,8 @@ export const DataDiriSection: FC = (): ReactElement => {
               !watch("city_id") ||
               countryOptions?.length !== 1
             }
+            status={"error"}
+            size={"lg"}
           />
 
           <div className="px-6 md:px-0 lg:px-0 w-full">
@@ -665,7 +731,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             />
           </div>
           {student?.degree_program_id !== 1 && (
-            <>
+            <section key="education">
               <div className="w-full">
                 <h1 className="text-left font-bold text-xl pl-6 md:pl-0">Pekerjaan</h1>
               </div>
@@ -720,6 +786,8 @@ export const DataDiriSection: FC = (): ReactElement => {
                     ? true
                     : false
                 }
+                status={"error"}
+                size={"lg"}
               />
 
               <SelectOption
@@ -750,6 +818,8 @@ export const DataDiriSection: FC = (): ReactElement => {
                     ? true
                     : false
                 }
+                status={"error"}
+                size={"lg"}
               />
               <TextField
                 inputHeight="h-10"
@@ -780,24 +850,19 @@ export const DataDiriSection: FC = (): ReactElement => {
                   disabled={occValue === "Belum" || isDisabled || !!student?.company_address}
                 />
               </div>
-              <SelectOption
+              <SelectField
                 name="salary_id"
-                labels="Penghasilan Per Bulan"
-                labelClassName="text-left font-bold text-xs py-2"
+                label="Penghasilan Per Bulan"
                 placeholder={
                   student?.salary_id
                     ? getSalary?.salary?.find((salary) => salary.id === student?.salary_id)?.name
                     : "Pilih Pendapatan"
                 }
                 options={salaryOptions || []}
-                className=" rounded-md text-primary-black md:w-[80vw] lg:w-55% w-[70vw]"
-                isSearchable={false}
                 control={control}
-                isMulti={false}
-                isClearable={true}
                 disabled={occValue === "Belum" || isDisabled || !!student?.salary_id}
               />
-            </>
+            </section>
           )}
           <div className="w-full lg:w-[30%] px-6 md:px-0">
             <RadioButton
@@ -848,6 +913,8 @@ export const DataDiriSection: FC = (): ReactElement => {
                 ? true
                 : false
             }
+            status={"error"}
+            size={"lg"}
           />
         </section>
         <div className="flex w-full justify-center lg:justify-end py-4 mt-8">

@@ -50,7 +50,7 @@ export const SelectField = <T extends FieldValues>({
         {props.label}
         {props.required && <span className="ml-1 font-bold text-primary-green">*</span>}
       </label>
-      <select role="select" className={selectClassName} {...field}>
+      <select disabled={props.disabled} role="select" className={selectClassName} {...field}>
         <option disabled value={props.placeholder}>
           {props.placeholder}
         </option>
