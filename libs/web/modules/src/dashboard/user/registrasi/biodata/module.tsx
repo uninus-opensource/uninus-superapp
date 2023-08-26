@@ -45,14 +45,13 @@ export const ModuleBiodata: FC = (): ReactElement => {
             <DataOrtuSection />
           </section>
         )}
-        {degreeProgram === 2 ||
-          (degreeProgram === 3 && (
-            <section className="flex flex-col gap-8 w-full justify-center items-center py-2 rounded-lg bg-primary-white overflow-x-hidden">
-              <DataDiriSection />
-              <DataPendidikanSection />
-              <DataOrtuSection />
-            </section>
-          ))}
+        {degreeProgram !== 1 && (
+          <section className="flex flex-col gap-8 w-full justify-center items-center py-2 rounded-lg bg-primary-white overflow-x-hidden">
+            <DataDiriSection />
+            <DataPendidikanSection />
+            <DataOrtuSection />
+          </section>
+        )}
 
         <div className="flex gap-6 justify-end px-8 py-4">
           <Link

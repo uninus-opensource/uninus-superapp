@@ -151,6 +151,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
 
   return (
     <Accordion
+      key="data-nilai-section"
       title="Nilai Rapor dan Skor UTBK"
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4 text-left"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
