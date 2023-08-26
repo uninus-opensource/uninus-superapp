@@ -1,4 +1,4 @@
-import { Control, FieldValues, UseControllerProps } from "react-hook-form";
+import { FieldValues, UseControllerProps } from "react-hook-form";
 import { Ref } from "react";
 import { GroupBase, SelectInstance } from "react-select";
 
@@ -7,19 +7,20 @@ export type TSelectOption = {
   value: string;
 };
 
-export interface SelectInputProps extends UseControllerProps {
+export type TSelectFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   options: TSelectOption[];
   disabled?: boolean;
   className?: string;
   labelName?: string;
   labelClassName?: string;
   labels?: string;
-  control: Control;
   required?: boolean;
+  size?: "sm" | "md" | "lg";
+  status?: "error" | "warning" | "success" | "none";
   placeholder?: string;
   isSearchable?: boolean;
   isClearable?: boolean;
   isMulti?: boolean;
   ref?: Ref<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>;
-  message?: string | FieldValues;
-}
+  message?: string;
+};

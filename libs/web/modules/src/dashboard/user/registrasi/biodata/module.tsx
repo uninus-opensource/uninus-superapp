@@ -36,21 +36,22 @@ export const ModuleBiodata: FC = (): ReactElement => {
       </div>
 
       <section className="flex flex-col gap-4 w-full bg-primary-white p-4 rounded-lg shadow-lg">
-        {degreeProgram === 1 && (
-          <section className="flex flex-col gap-8 w-full justify-center items-center py-2 rounded-lg bg-primary-white overflow-x-hidden">
-            <DataDiriSection />
-            <DataPendidikanSection />
-            <DataNilaiSection />
-            <DataOrtuSection />
-          </section>
-        )}
-        {degreeProgram !== 1 && (
-          <section className="flex flex-col gap-8 w-full justify-center items-center py-2 rounded-lg bg-primary-white overflow-x-hidden">
-            <DataDiriSection />
-            <DataPendidikanSection />
-            <DataOrtuSection />
-          </section>
-        )}
+        <section className="flex flex-col gap-8 w-full justify-center items-center py-2 rounded-lg bg-primary-white overflow-x-hidden">
+          {degreeProgram === 1 ? (
+            <section key="s1" className="w-full flex flex-col gap-y-2">
+              <DataDiriSection />
+              <DataPendidikanSection />
+              <DataNilaiSection />
+              <DataOrtuSection />
+            </section>
+          ) : (
+            <section key="s2" className="w-full flex flex-col gap-y-2">
+              <DataDiriSection />
+              <DataPendidikanSection />
+              <DataOrtuSection />
+            </section>
+          )}
+        </section>
 
         <div className="flex gap-6 justify-end px-8 py-4">
           <Link
