@@ -19,6 +19,7 @@ export type CustomSelectInstance = {
 
 export const ModulePendaftaran: FC = (): ReactElement => {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [isS3Selected, setIs3Selected] = useState(false);
 
   const {
     control,
@@ -93,6 +94,17 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   useEffect(() => {
     reset(student);
   }, [student, reset]);
+
+  useEffect(() => {
+    const program = watch("program");
+    setIs3Selected(program);
+
+    if (program === "3") {
+      setIs3Selected(true);
+    } else {
+      setIs3Selected(false);
+    }
+  }, [watch("program")]);
 
   const [selection] = useState({
     search: "",
@@ -227,7 +239,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               placeholder={selectionFirstDepartement?.name || "Pilih Program Studi"}
               className="text-left"
               labelClassName="text-left py-2"
-              labels="Pilihan Program Studi 1"
+              labels={isS3Selected ? "Pilih Program Studi" : "Pilihan Program Studi 1"}
               control={control}
               name="prodi1"
               options={DepartmentOptions || []}
@@ -237,21 +249,25 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               required={true}
               disabled={!watch("program") || isFormSubmitted}
             />
-            <SelectOption
-              placeholder={selectionSecondDepartement?.name || "Pilih Program Studi"}
-              labels="Pilihan Program Studi 2"
-              className="text-left"
-              labelClassName="text-left py-2"
-              control={control}
-              name="prodi2"
-              options={DepartmentOptions || []}
-              isSearchable={true}
-              isMulti={false}
-              isClearable={true}
-              required={true}
-              disabled={!watch("program") || isFormSubmitted}
-              ref={prodi2Ref}
-            />
+            {!isS3Selected ||
+              (student?.degree_program_id === 3 && (
+                <SelectOption
+                  placeholder={selectionSecondDepartement?.name || "Pilih Program Studi"}
+                  labels="Pilihan Program Studi 2"
+                  className="text-left"
+                  labelClassName="text-left py-2"
+                  control={control}
+                  name="prodi2"
+                  options={DepartmentOptions || []}
+                  isSearchable={true}
+                  isMulti={false}
+                  isClearable={true}
+                  required={true}
+                  disabled={!watch("program") || isFormSubmitted}
+                  ref={prodi2Ref}
+                />
+              ))}
+
             <SelectOption
               placeholder={selectionType?.name || "Pilih Jalur Seleksi"}
               labels="Jalur Seleksi"
