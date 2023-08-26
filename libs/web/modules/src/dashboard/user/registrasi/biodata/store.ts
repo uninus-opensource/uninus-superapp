@@ -66,8 +66,6 @@ export const formBioadataIbu: TTextFieldIbu[] = [
 ];
 
 export const dataDiri = {
-  avatar: null,
-  email: "",
   fullname: "",
   nik: "",
   nisn: "",
@@ -75,7 +73,6 @@ export const dataDiri = {
   birth_date: "",
   no_kk: "",
   gender_id: 1,
-  phone_number: "",
   religion_id: 0,
   citizenship_id: 0,
   marital_status_id: 0,
@@ -84,7 +81,13 @@ export const dataDiri = {
   subdistrict_id: 0,
   province_id: 0,
   city_id: 0,
+};
+
+export const disabilitiesDataDiri = {
   disabilities_id: null as number | null,
+};
+
+export const occupationS2S3 = {
   occupation_id: 0,
   occupation_position_id: 0,
   company_name: "",

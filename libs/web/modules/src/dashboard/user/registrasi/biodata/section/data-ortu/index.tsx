@@ -12,7 +12,6 @@ import { useOccupationGet, useParentEducationGet, useParentStatusGet, useSalaryG
 import { studentData } from "./type";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 
 export const DataOrtuSection: FC = (): ReactElement => {
   const [parentStatus] = useState({
@@ -178,7 +177,22 @@ export const DataOrtuSection: FC = (): ReactElement => {
     } else {
       setValue("guardian_address", addressStudent);
     }
-  }, [parentAddressSame, guardianAddressSame, setValue]);
+  }, [parentAddressSame, guardianAddressSame, setValue, addressStudent]);
+
+  useEffect(() => {
+    if (student?.parent_address) {
+      setValue("parent_address", student?.parent_address);
+      if (student?.parent_address === addressStudent) {
+        setValue("check_parent_address", true);
+      }
+    }
+    if (student?.guardian_address) {
+      setValue("guardian_address", student?.guardian_address);
+      if (student?.guardian_address === addressStudent) {
+        setValue("check_guardian_address", true);
+      }
+    }
+  }, [student, setValue, addressStudent]);
 
   const { mutate } = useBiodataUpdate();
 
@@ -536,7 +550,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2"
               disabled={!parentAddressSame || isSubmitted || !!student?.parent_address}
-              placeholder={studentData.parent_address}
+              placeholder={"Masukan Alamat Domisili Orang Tua"}
             />
           </div>
           <div className="w-70% md:w-26 lg:w-26">
@@ -740,6 +754,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2"
               disabled={!guardianAddressSame || isSubmitted || !!student?.guardian_address}
+              placeholder={"Masukan Alamat Domisili Wali"}
             />
           </div>
           <div className="w-70% md:w-26 lg:w-26"></div>

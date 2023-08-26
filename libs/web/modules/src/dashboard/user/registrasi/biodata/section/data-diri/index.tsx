@@ -6,8 +6,8 @@ import {
   SelectOption,
   Button,
 } from "@uninus/web/components";
-import { dataDiri, formBiodataOne } from "../../store";
-import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useState, useRef } from "react";
+import { dataDiri, occupationS2S3, formBiodataOne, disabilitiesDataDiri } from "../../store";
+import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import {
   useCityGet,
@@ -278,10 +278,7 @@ export const DataDiriSection: FC = (): ReactElement => {
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
-    dataDiri.avatar = data?.avatar;
     dataDiri.fullname = data?.fullname;
-    dataDiri.email = data?.email;
-    dataDiri.phone_number = data?.phone_number;
     dataDiri.nik = data?.nik;
     dataDiri.nisn = data?.nisn;
     dataDiri.no_kk = data?.no_kk;
@@ -289,7 +286,7 @@ export const DataDiriSection: FC = (): ReactElement => {
     dataDiri.religion_id = Number(data?.religion_id);
     dataDiri.birth_place = data?.birth_place;
     dataDiri.birth_date = data?.birth_date;
-    dataDiri.marital_status_id = Number(data?.martial_status_id);
+    dataDiri.marital_status_id = Number(data?.marital_status_id);
     dataDiri.citizenship_id = Number(data?.citizenship_id);
     dataDiri.country_id = Number(data?.country_id);
     dataDiri.province_id = Number(data?.province_id);
@@ -297,22 +294,28 @@ export const DataDiriSection: FC = (): ReactElement => {
     dataDiri.subdistrict_id = Number(data?.subdistrict_id);
     dataDiri.address = data?.address;
     if (Number(data?.disabilities_id)) {
-      dataDiri.disabilities_id = Number(data?.disabilities_id);
+      disabilitiesDataDiri.disabilities_id = Number(data?.disabilities_id);
     } else {
-      dataDiri.disabilities_id = null;
+      disabilitiesDataDiri.disabilities_id = null;
     }
+
     if (student?.degree_program_id !== 1) {
-      dataDiri.occupation_id = Number(data?.occupation_id);
-      dataDiri.occupation_position_id = Number(data?.occupation_position_id);
-      dataDiri.company_name = data?.company_name;
-      dataDiri.company_address = data?.company_address;
-      dataDiri.salary_id = Number(data?.salary_id);
+      occupationS2S3.occupation_id = Number(data?.occupation_id);
+      occupationS2S3.occupation_position_id = Number(data?.occupation_position_id);
+      occupationS2S3.salary_id = Number(data?.salary_id);
+      occupationS2S3.company_name = data?.company_name;
     }
 
     try {
       console.log(dataDiri);
       mutate(
-        { ...dataDiri },
+        disValue === "Tidak"
+          ? student?.degree_program_id !== 1 || occValue === "Sudah"
+            ? { ...dataDiri, ...occupationS2S3 }
+            : { ...dataDiri }
+          : student?.degree_program_id !== 1 || occValue === "Sudah"
+          ? { ...dataDiri, ...occupationS2S3, ...disabilitiesDataDiri }
+          : { ...dataDiri, ...disabilitiesDataDiri },
         {
           onSuccess: () => {
             console.log("Success");
@@ -519,7 +522,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           />
           <div className="mr-2">
             <SelectOption
-              name="martial_status_id"
+              name="marital_status_id"
               labels="Status"
               labelClassName="font-bold text-xs py-2"
               placeholder={

@@ -415,7 +415,13 @@ export const DataNilaiSection: FC = (): ReactElement => {
         </section>
 
         <div className="flex w-full justify-end p-4">
-          <Button type="submit" variant="filled" size="md" width="w-40% lg:w-25% xl:w-15%">
+          <Button
+            type="submit"
+            variant="filled"
+            size="md"
+            width="w-40% lg:w-25% xl:w-15%"
+            disabled={isDisabled || !!student?.utbk}
+          >
             Submit
           </Button>
         </div>
