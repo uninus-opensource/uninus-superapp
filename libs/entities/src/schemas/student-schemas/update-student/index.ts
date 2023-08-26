@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { EGender, EReligion, ECitizenship } from "../../../enum";
 
 export const VSUpdateStudent = z.object({
   avatar: z.any().optional(),
@@ -11,8 +10,8 @@ export const VSUpdateStudent = z.object({
   birth_place: z.string().optional(),
   birth_date: z.string().optional(),
   gender_id: z.number().int().optional(),
-  martial_status_id: z.number().int().optional(),
   phone_number: z.string().optional(),
+  martial_status_id: z.number().int().optional(),
   religion_id: z.number().int().optional(),
   citizenship_id: z.number().int().optional(),
   marital_status_id: z.number().int().optional(),
@@ -61,3 +60,70 @@ export const VSUpdateStudent = z.object({
 });
 
 export type TVSUpdateStudent = z.infer<typeof VSUpdateStudent>;
+
+export const VSDataDiri = z.object({
+  avatar: z.any().optional(),
+  fullname: z.string().optional(),
+  email: z.string().optional(),
+  phone_number: z.string().optional(),
+  nik: z
+    .string()
+    .nonempty({ message: "NIk harus diisi" })
+    .min(16, { message: "NIk harus 16 karakter" })
+    .max(16, { message: "NIk harusl 16 karakter" })
+    .refine((data) => data.match(/[0-9]/g), {
+      message: "NIK harus angka",
+    }),
+  nisn: z
+    .string()
+    .nonempty({ message: "NISN harus diisi" })
+    .min(10, { message: "NISN harus 10 karakter" })
+    .max(10, { message: "NISN harus 10 karakter" })
+    .refine((data) => data.match(/[0-9]/g), {
+      message: "NISN harus angka",
+    }),
+  no_kk: z
+    .string()
+    .nonempty({ message: "Nomor KK harus diisi" })
+    .min(16, { message: "Nomor KK harus 16 karakter" })
+    .max(16, { message: "Nomor KK harusl 16 karakter" })
+    .refine((data) => data.match(/[0-9]/g), {
+      message: "Nomor KK harus angka",
+    }),
+  birth_place: z.string().nonempty({ message: "Tempat lahir harus diisi" }),
+  birth_date: z.string().nonempty({ message: "Tanggal lahir harus diisi" }),
+  gender_id: z.number().min(1, { message: "Jenis kelamin harus diisi" }).max(1, {
+    message: "Jenis kelamin harus diisi",
+  }),
+  martial_status_id: z
+    .number()
+    .min(1, { message: "Status pernikahan harus diisi" })
+    .max(1, { message: "Status pernikahan harus diisi" }),
+  religion_id: z.number().min(1, { message: "Agama harus diisi" }).max(1, {
+    message: "Agama harus diisi",
+  }),
+  citizenship_id: z.number().int().min(1, { message: "Kewarganegaraan harus diisi" }).max(1, {
+    message: "Kewarganegaraan harus diisi",
+  }),
+  country_id: z.number().int().min(1, { message: "Negara asal harus diisi" }).max(1, {
+    message: "Negara asal harus diisi",
+  }),
+  province_id: z.number().int().min(1, { message: "Provinsi harus diisi" }).max(1, {
+    message: "Provinsi harus diisi",
+  }),
+  city_id: z.number().int().min(1, { message: "Kota harus diisi" }).max(1, {
+    message: "Kota harus diisi",
+  }),
+  subdistrict_id: z.number().int().min(1, { message: "Kecamatan harus diisi" }).max(1, {
+    message: "Kecamatan harus diisi",
+  }),
+  address: z.string().nonempty({ message: "Alamat harus diisi" }),
+  disabilities_id: z.number().int().optional(),
+  occupation_id: z.number().int().optional(),
+  occupation_position_id: z.number().int().optional(),
+  company_name: z.string().optional(),
+  company_address: z.string().optional(),
+  salary_id: z.number().int().optional(),
+});
+
+export type TVSDataDiri = z.infer<typeof VSDataDiri>;
