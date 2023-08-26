@@ -16,10 +16,10 @@
     debug "^4.3.4"
     safe-buffer "~5.1.2"
 
-"@adobe/css-tools@^4.0.1":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@adobe/css-tools/-/css-tools-4.2.0.tgz#e1a84fca468f4b337816fcb7f0964beb620ba855"
-  integrity sha512-E09FiIft46CmH5Qnjb0wsW54/YQd69LsxeKUOWawmws1XWvyFGURnAChH0mlr7YPFR1ofwvUQfcL0J3lMxXqPA==
+"@adobe/css-tools@^4.0.1", "@adobe/css-tools@^4.3.0":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@adobe/css-tools/-/css-tools-4.3.1.tgz#abfccb8ca78075a2b6187345c26243c1a0842f28"
+  integrity sha512-/62yikz7NLScCGAAST5SHdnjaDJQBDq0M2muyRTpf2VQhw6StBg2ALiu73zSJQ4fMVLA+0uBhBHAle7Wg+2kSg==
 
 "@alloc/quick-lru@^5.2.0":
   version "5.2.0"
@@ -3087,10 +3087,10 @@
     iterare "1.2.1"
     tslib "2.6.1"
 
-"@nestjs/passport@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-10.0.0.tgz#92d36d4b8796b373da3f4d1a055db03cb246b127"
-  integrity sha512-IlKKc6M7JOe+4dBbW6gZsXBSD05ZYgwfGf3GJhgCmUGYVqffpDdALQSS6JftnExrE+12rACoEmHkzYwKAGVK0Q==
+"@nestjs/passport@^10.0.1":
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/passport/-/passport-10.0.1.tgz#4a745cb4acf01ef8fd56b9ec1349ac74165b098f"
+  integrity sha512-hS22LeNj0LByS9toBPkpKyZhyKAXoHACLS1EQrjbAJJEQjhocOskVGwcMwvMlz+ohN+VU804/nMF1Zlya4+TiQ==
 
 "@nestjs/platform-express@^10.1.3":
   version "10.1.3"
@@ -3548,6 +3548,13 @@
   dependencies:
     "@nx/react" "16.7.2"
 
+"@nrwl/react@16.7.4":
+  version "16.7.4"
+  resolved "https://registry.yarnpkg.com/@nrwl/react/-/react-16.7.4.tgz#8fa64ed730119a4c9fa6c89fd27e1631385fbcc1"
+  integrity sha512-Y3Y+JLjYLrqkSdky/63jg3w3PMwlzD8jrJO83dTb6EjVXd9quT5AxKSwPQLfDklg0Sjd9Y7MqVUT4R58sUAENg==
+  dependencies:
+    "@nx/react" "16.7.4"
+
 "@nrwl/tao@16.3.2":
   version "16.3.2"
   resolved "https://registry.yarnpkg.com/@nrwl/tao/-/tao-16.3.2.tgz#eefc1974342afbbe48e4e5351d6707ad2f9fb179"
@@ -3593,6 +3600,13 @@
   integrity sha512-hjFacN2WOdyVqVnN8SauOc9jKZ79sfQOrUZX75bfrWzUeZmXVG+DAGFhvtEroczm4B1MDxpx62tcZ0nC9m+zSA==
   dependencies:
     "@nx/web" "16.7.2"
+
+"@nrwl/web@16.7.4":
+  version "16.7.4"
+  resolved "https://registry.yarnpkg.com/@nrwl/web/-/web-16.7.4.tgz#5fca83ad10abd7254ef2db0b4b60810fc45b81a3"
+  integrity sha512-HB3dYp2gJTl/bw5jn4gIcoyBGU2rfJ3OrIyBRjlUMRwgFayAadweyqfIFirHSPc+S7E6NNKhTRxifGJOrwyYTQ==
+  dependencies:
+    "@nx/web" "16.7.4"
 
 "@nrwl/webpack@16.7.0":
   version "16.7.0"
@@ -4319,6 +4333,23 @@
     minimatch "3.0.5"
     tslib "^2.3.0"
 
+"@nx/react@16.7.4":
+  version "16.7.4"
+  resolved "https://registry.yarnpkg.com/@nx/react/-/react-16.7.4.tgz#ff72f5fa64427e07c9bb1f4c0b518ed5e35a8f34"
+  integrity sha512-dsNNoz8mod6SGLQwsxsd24Wt6hUtfnJrB2EhM1yDOMxPR6v33TFSCok3kT/W3uckH3XBQYIiXNEEF9sfwGaT/g==
+  dependencies:
+    "@nrwl/react" "16.7.4"
+    "@nx/devkit" "16.7.4"
+    "@nx/js" "16.7.4"
+    "@nx/linter" "16.7.4"
+    "@nx/web" "16.7.4"
+    "@phenomnomnominal/tsquery" "~5.0.1"
+    "@svgr/webpack" "^8.0.1"
+    chalk "^4.1.0"
+    file-loader "^6.2.0"
+    minimatch "3.0.5"
+    tslib "^2.3.0"
+
 "@nx/web@16.7.2":
   version "16.7.2"
   resolved "https://registry.yarnpkg.com/@nx/web/-/web-16.7.2.tgz#08a17330a5ad79d3b19d45d663c049a227022103"
@@ -4327,6 +4358,21 @@
     "@nrwl/web" "16.7.2"
     "@nx/devkit" "16.7.2"
     "@nx/js" "16.7.2"
+    chalk "^4.1.0"
+    chokidar "^3.5.1"
+    detect-port "^1.5.1"
+    http-server "^14.1.0"
+    ignore "^5.0.4"
+    tslib "^2.3.0"
+
+"@nx/web@16.7.4":
+  version "16.7.4"
+  resolved "https://registry.yarnpkg.com/@nx/web/-/web-16.7.4.tgz#09f6233e7ff81b6ea7b51c90565a0b475c917653"
+  integrity sha512-keR+jZES/H9MZBOIvN3zLyOw7qP05cOs14NNHc7tkj5jOvifQxslLQRdx+h62tJigmS6TZY43mlJfVCWvYwdXg==
+  dependencies:
+    "@nrwl/web" "16.7.4"
+    "@nx/devkit" "16.7.4"
+    "@nx/js" "16.7.4"
     chalk "^4.1.0"
     chokidar "^3.5.1"
     detect-port "^1.5.1"
@@ -6309,12 +6355,12 @@
     lz-string "^1.5.0"
     pretty-format "^27.0.2"
 
-"@testing-library/jest-dom@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-6.0.1.tgz#60c2aa05e0e3c07cbfaa319689e43227d95fa7c4"
-  integrity sha512-0hx/AWrJp8EKr8LmC5jrV3Lx8TZySH7McU1Ix2czBPQnLd458CefSEGjZy7w8kaBRA6LhoPkGjoZ3yqSs338IQ==
+"@testing-library/jest-dom@^6.1.2":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@testing-library/jest-dom/-/jest-dom-6.1.2.tgz#3e7422904349223cb1e04968adada63f65f40d5b"
+  integrity sha512-NP9jl1Q2qDDtx+cqogowtQtmgD2OVs37iMSIsTv5eN5ETRkf26Kj6ugVwA93/gZzzFWQAsgkKkcftDe91BJCkQ==
   dependencies:
-    "@adobe/css-tools" "^4.0.1"
+    "@adobe/css-tools" "^4.3.0"
     "@babel/runtime" "^7.9.2"
     aria-query "^5.0.0"
     chalk "^3.0.0"
@@ -10569,13 +10615,13 @@ dot-prop@^5.2.0:
   dependencies:
     is-obj "^2.0.0"
 
-dotenv-cli@^7.2.1:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/dotenv-cli/-/dotenv-cli-7.2.1.tgz#e595afd9ebfb721df9da809a435b9aa966c92062"
-  integrity sha512-ODHbGTskqRtXAzZapDPvgNuDVQApu4oKX8lZW7Y0+9hKA6le1ZJlyRS687oU9FXjOVEDU/VFV6zI125HzhM1UQ==
+dotenv-cli@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/dotenv-cli/-/dotenv-cli-7.3.0.tgz#21e33e7944713001677658d68856063968edfbd2"
+  integrity sha512-314CA4TyK34YEJ6ntBf80eUY+t1XaFLyem1k9P0sX1gn30qThZ5qZr/ZwE318gEnzyYP9yj9HJk6SqwE0upkfw==
   dependencies:
     cross-spawn "^7.0.3"
-    dotenv "^16.0.0"
+    dotenv "^16.3.0"
     dotenv-expand "^10.0.0"
     minimist "^1.2.6"
 
@@ -10594,7 +10640,7 @@ dotenv@16.1.4:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.1.4.tgz#67ac1a10cd9c25f5ba604e4e08bc77c0ebe0ca8c"
   integrity sha512-m55RtE8AsPeJBpOIFKihEmqUcoVncQIwo7x9U8ZwLEZw9ZpXboz2c+rvog+jUaJvVrZ5kBOeYQBX5+8Aa/OZQw==
 
-dotenv@^16.0.0, dotenv@^16.3.1, dotenv@~16.3.1:
+dotenv@^16.3.0, dotenv@^16.3.1, dotenv@~16.3.1:
   version "16.3.1"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.3.1.tgz#369034de7d7e5b120972693352a3bf112172cc3e"
   integrity sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==
@@ -17257,10 +17303,10 @@ netmask@^2.0.2:
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-2.0.2.tgz#8b01a07644065d536383835823bc52004ebac5e7"
   integrity sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==
 
-next-auth@^4.23.0:
-  version "4.23.0"
-  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.23.0.tgz#1aeeb57f4fb2edf8e3ffb660e1016374e11b7237"
-  integrity sha512-RgukcJkBdvsJwEfA+B80Wcowvtgy6tk8KKWffb7CMCdzcLO4fCCA6aB6sp/DZ2I0ISvWGnbVcO5KXmlan71igw==
+next-auth@^4.23.1:
+  version "4.23.1"
+  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.23.1.tgz#7a82f5327cf4c7e32819da4eb977f2251a23c3cf"
+  integrity sha512-mL083z8KgRtlrIV6CDca2H1kduWJuK/3pTS0Fe2og15KOm4v2kkLGdSDfc2g+019aEBrJUT0pPW2Xx42ImN1WA==
   dependencies:
     "@babel/runtime" "^7.20.13"
     "@panva/hkdf" "^1.0.2"

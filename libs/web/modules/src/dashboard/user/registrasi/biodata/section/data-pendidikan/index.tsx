@@ -30,20 +30,17 @@ export const DataPendidikanSection: FC = (): ReactElement => {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<FieldValues | TVSUpdateStudent>({
+  } = useForm<FieldValues>({
     mode: "all",
-    resolver: zodResolver(VSUpdateStudent),
     defaultValues: {},
   });
 
   // Education Type
   const [educationType] = useState({
-    search: "",
+    degree_program_id: getStudent?.degree_program_id as unknown as string,
   });
 
-  const { data: getEducationType } = useEducationTypeGet({
-    degree_program_id: watch("degree_program_id"),
-  });
+  const { data: getEducationType } = useEducationTypeGet(educationType);
 
   const educationTypeOptions = useMemo(
     () =>
@@ -199,8 +196,6 @@ export const DataPendidikanSection: FC = (): ReactElement => {
       console.error(error);
     }
   });
-
-  console.log(errors?.education_npsn);
 
   return (
     <Accordion
