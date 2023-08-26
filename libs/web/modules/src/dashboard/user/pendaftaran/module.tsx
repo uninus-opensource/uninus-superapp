@@ -249,24 +249,23 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               required={true}
               disabled={!watch("program") || isFormSubmitted}
             />
-            {!isS3Selected ||
-              (student?.degree_program_id === 3 && (
-                <SelectOption
-                  placeholder={selectionSecondDepartement?.name || "Pilih Program Studi"}
-                  labels="Pilihan Program Studi 2"
-                  className="text-left"
-                  labelClassName="text-left py-2"
-                  control={control}
-                  name="prodi2"
-                  options={DepartmentOptions || []}
-                  isSearchable={true}
-                  isMulti={false}
-                  isClearable={true}
-                  required={true}
-                  disabled={!watch("program") || isFormSubmitted}
-                  ref={prodi2Ref}
-                />
-              ))}
+            {!isS3Selected && (
+              <SelectOption
+                placeholder={selectionSecondDepartement?.name || "Pilih Program Studi"}
+                labels="Pilihan Program Studi 2"
+                className="text-left"
+                labelClassName="text-left py-2"
+                control={control}
+                name="prodi2"
+                options={DepartmentOptions || []}
+                isSearchable={true}
+                isMulti={false}
+                isClearable={true}
+                required={true}
+                disabled={!watch("program") || isFormSubmitted}
+                ref={prodi2Ref}
+              />
+            )}
 
             <SelectOption
               placeholder={selectionType?.name || "Pilih Jalur Seleksi"}
