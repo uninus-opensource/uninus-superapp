@@ -34,6 +34,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { TVSDataDiri, VSDataDiri } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { match } from "ts-pattern";
+import { EditOutlined } from "@ant-design/icons";
 
 export const DataDiriSection: FC = (): ReactElement => {
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
@@ -418,12 +419,14 @@ export const DataDiriSection: FC = (): ReactElement => {
         <div className="flex flex-col gap-7">
           <UploadField
             name="image"
-            className="grid lg:flex lg:items-center lg:gap-6 w-full justify-center lg:justify-start items-center h-full gap-y-6 lg:gap-y-0"
+            className="w-1/2 h-1/2 md:w-[9.5rem] md:h-[9.5rem] xl:w-1/5 xl:h-1/5 2xl:w-[16%] 2xl:h-[16%] relative"
             classNameField="w-70% lg:w-auto"
             control={control}
-            variant="default"
+            variant="custom"
+            labelClassName="iconUpload"
+            labels={<EditOutlined className="text-2xl rounded-full" />}
             defaultImage="/illustrations/dummy-avatar.webp"
-            previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full "
+            previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full -z-10"
             preview={true}
           />
         </div>
