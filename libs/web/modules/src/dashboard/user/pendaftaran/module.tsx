@@ -19,6 +19,7 @@ export type CustomSelectInstance = {
 
 export const ModulePendaftaran: FC = (): ReactElement => {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [isS3Selected, setIs3Selected] = useState(false);
 
   const {
     control,
@@ -93,6 +94,17 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   useEffect(() => {
     reset(student);
   }, [student, reset]);
+
+  useEffect(() => {
+    const program = watch("program");
+    setIs3Selected(program);
+
+    if (program === "3") {
+      setIs3Selected(true);
+    } else {
+      setIs3Selected(false);
+    }
+  }, [watch("program")]);
 
   const [selection] = useState({
     search: "",
@@ -238,7 +250,11 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               disabled={!watch("program") || isFormSubmitted}
             />
             <SelectOption
-              placeholder={selectionSecondDepartement?.name || "Pilih Program Studi"}
+              placeholder={
+                selectionSecondDepartement?.name || isS3Selected
+                  ? "Pilihan tidak tersedia"
+                  : "Pilih Program Studi"
+              }
               labels="Pilihan Program Studi 2"
               className="text-left"
               labelClassName="text-left py-2"
@@ -249,7 +265,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={!watch("program") || isFormSubmitted}
+              disabled={!watch("program") || isFormSubmitted || isS3Selected}
               ref={prodi2Ref}
             />
             <SelectOption
