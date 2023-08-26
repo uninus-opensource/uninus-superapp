@@ -9,7 +9,7 @@ import {
 } from "@uninus/web/components";
 import { dataDiri, occupationS2S3, formBiodataOne, disabilitiesDataDiri } from "../../store";
 import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useRef, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm, FieldValues } from "react-hook-form";
 import {
   useCityGet,
   useProvinceGet,

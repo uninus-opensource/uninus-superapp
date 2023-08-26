@@ -72,9 +72,9 @@ export const DetailPembayaran: FC = (): ReactElement => {
         Pembayaran Registrasi
       </h1>
 
-      <section className="h-auto w-[90vw] lg:w-[60vw] xl:w-[70vw] shadow-md flex flex-col ">
+      <section className="h-auto w-[90vw] lg:w-[60vw] xl:w-[70vw] shadow-md flex flex-col rounded-md bg-primary-white">
         <div className="flex flex-col w-full px-4 md:px-5">
-          <h1 className="font-bold text-[1.2rem]">Detail Pembayaran</h1>
+          <h1 className="font-bold text-[1.2rem] mt-5">Detail Pembayaran</h1>
           <p className="py-2">
             Silahkan memilih metode pembayaran, dan segera selesaikan pembayaran
           </p>
@@ -113,7 +113,7 @@ export const DetailPembayaran: FC = (): ReactElement => {
           >
             {payment.map((x, i) => (
               <div key={i} className="flex flex-col gap-2 px-2">
-                <div className="flex justify-between gap-3 border border-slate-3 rounded-md px-6  h-auto p-2">
+                <div className="flex justify-between gap-3 border border-slate-3 rounded-md px-6 h-auto p-2">
                   <div className="flex gap-2">
                     <RadioButton
                       name="payment method"
@@ -125,7 +125,7 @@ export const DetailPembayaran: FC = (): ReactElement => {
                       variant="primary"
                     />
 
-                    <div className="lg:text-md tsext-sm">
+                    <div className="lg:text-md text-sm">
                       <h1 className="font-semibold text-primary-green">{x.name}</h1>
                       <p className="text-slate-5">{x.desc}</p>
                     </div>
