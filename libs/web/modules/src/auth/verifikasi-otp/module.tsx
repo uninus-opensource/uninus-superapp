@@ -36,6 +36,7 @@ export const VerifEmailModule: FC = (): ReactElement => {
           },
           onError: () => {
             setOtp("");
+            setTimer(120);
             setIsError(true);
           },
         },
@@ -61,7 +62,7 @@ export const VerifEmailModule: FC = (): ReactElement => {
           Verifikasi Kode OTP
         </h1>
 
-        <p className="text-grayscale-5 lg:text-sm w-60%">
+        <p className="text-grayscale-5 lg:text-sm w-40%">
           {`Masukkan kode OTP yang sudah dikirimkan melalui email ${email}`}
         </p>
 
