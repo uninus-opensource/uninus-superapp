@@ -7,4 +7,5 @@ export enum SELECT_STATUS {
 export enum SELECT_SIZE {
   SM = "sm",
   MD = "md",
+  LG = "lg",
 }

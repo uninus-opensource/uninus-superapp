@@ -10,7 +10,7 @@ import {
 } from "./hooks";
 import { dataPendidikan } from "../../store";
 import { ToastContainer, toast } from "react-toastify";
-import { TVSUpdateStudent, VSUpdateStudent } from "@uninus/entities";
+import { VSDataPendidikan } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useStudentData } from "@uninus/web/services";
 
@@ -31,6 +31,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
     reset,
     formState: { errors },
   } = useForm<FieldValues>({
+    resolver: zodResolver(VSDataPendidikan),
     mode: "all",
     defaultValues: {},
   });
@@ -146,8 +147,13 @@ export const DataPendidikanSection: FC = (): ReactElement => {
   }, [setValue, education, educationHistoryOptions, student?.education_npsn]);
 
   useEffect(() => {
-    reset(student);
-  }, [student, reset]);
+    reset({
+      education_type_id: student?.education_type_id,
+      graduation_year: student?.graduation_year,
+      education_npsn: student?.education_npsn,
+      education_major_id: student?.education_major_id,
+    });
+  }, [student, reset, getStudent]);
 
   const { mutate } = useBiodataUpdate();
 
@@ -204,7 +210,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
     >
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} noValidate>
         <ToastContainer
           position="top-center"
           autoClose={5000}
@@ -217,6 +223,9 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           pauseOnHover
           theme="light"
         />
+        <h1 className="text-red-4 pb-4">
+          *Data Pendidikan akan terisi otomatis ketika mengisi NPSN Sekolah
+        </h1>
         <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between text-left">
           <SelectOption
             name="education_type_id"
@@ -229,7 +238,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
                   )?.label
                 : "Jenis Pendidikan"
             }
-            className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
+            size="md"
             options={educationTypeOptions || []}
             isSearchable={false}
             isClearable={true}
@@ -247,7 +256,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
                 : "Tahun Lulus"
             }
             options={graduateOptions || []}
-            className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -265,7 +274,8 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             placeholder="Masukan NPSN"
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
             control={control}
-            message={errors?.education_npsn?.message}
+            message={errors?.education_npsn?.message as string}
+            status={errors?.education_npsn?.message ? "error" : "none"}
             onChange={(e) => {
               setValue("education_npsn", e.target.value);
               setEducation(e.target.value);
@@ -341,7 +351,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
                   : "Jurusan Pendidikan"
               }
               options={majorOptions || []}
-              className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+              size="md"
               isSearchable={false}
               control={control}
               isMulti={false}
