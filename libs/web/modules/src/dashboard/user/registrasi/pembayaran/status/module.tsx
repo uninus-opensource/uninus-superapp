@@ -2,11 +2,12 @@
 import { CopyOutlined, DownloadOutlined } from "@ant-design/icons";
 import { BreadCrumb, Button } from "@uninus/web/components";
 import dynamic from "next/dynamic";
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { KartuPembayaran } from "../pdf";
 import { StatusAlert } from "./alertStatus";
+import { useUserData } from "@uninus/web/services";
 const PDFDownloadLink = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
   {
@@ -37,11 +38,21 @@ export const pembayaranBreadcrumb = [
 
 export const Pembayaran: FC = (): ReactElement => {
   const [textToCopy, setTextToCopy] = useState("4444081904377804");
-  const [status, setStatus] = useState("unpaid"); // Status dummy
+  const [status, setStatus] = useState<string | null>("unpaid"); // Status dummy
 
-  const handleStatusChange = (newStatus: string) => {
-    setStatus(newStatus);
-  };
+  const { getUser } = useUserData();
+
+  const registrationStatus = useMemo(() => {
+    return getUser?.registration_status;
+  }, [getUser?.registration_status]);
+
+  useEffect(() => {
+    if (registrationStatus === "Sudah Membayar") {
+      setStatus("success");
+    } else {
+      setStatus("unpaid");
+    }
+  }, [registrationStatus]);
 
   const copyText = () => {
     navigator.clipboard
@@ -84,7 +95,7 @@ export const Pembayaran: FC = (): ReactElement => {
           theme="light"
         />
         <div className="flex justify-between items-center w-full px-3 md:px-5">
-          <h1 className="font-bold text-[1.2rem]">Pembayaran</h1>
+          <h1 className="font-bold text-[1.2rem] mt-3">Pembayaran</h1>
           {status === "success" && (
             <div className="h-auto">
               <PDFDownloadLink
@@ -109,13 +120,21 @@ export const Pembayaran: FC = (): ReactElement => {
         </div>
 
         <div className="bg-primary-green w-full h-[3px] mt-3"></div>
-        <div className="px-4 md:px-8">
-          <StatusAlert
-            status="unpaid"
-            message="Segera Selesaikan Pembayaranmu!"
-            messageDetails="Sedikit Lagi Kamu akan terdaftar di Universitas Islam Nusantara"
-            onStatusChange={handleStatusChange}
-          />
+        <div className="px-4 md:px-8 pb-6">
+          {status === "unpaid" ? (
+            <StatusAlert
+              status="unpaid"
+              message="Segera Selesaikan Pembayaranmu!"
+              messageDetails="Sedikit Lagi Kamu akan terdaftar di Universitas Islam Nusantara"
+            />
+          ) : (
+            <StatusAlert
+              status="success"
+              message="Pembayaran berhasil"
+              messageDetails="Proses verifikasi oleh sistem selesai dilakukan, dan silahkan melanjutkan proses registrasi"
+            />
+          )}
+
           <div className="mt-2 flex justify-between flex-col  gap-y-2">
             <h2 className="text-grayscale-6 text-xs md:text-base">Metode Pembayaran</h2>
             <h2 className="font-bold text-xs md:text-base">Mandiri</h2>
