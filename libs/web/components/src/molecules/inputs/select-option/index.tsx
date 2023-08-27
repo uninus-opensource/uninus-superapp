@@ -64,6 +64,7 @@ export const SelectOption = forwardRef(
           value={props.options.find((option) => option.value === field.value)}
           onChange={handleChange}
           ref={ref}
+          isDisabled={props.disabled}
         />
         {props.message && (
           <span className={messageClassName}>
