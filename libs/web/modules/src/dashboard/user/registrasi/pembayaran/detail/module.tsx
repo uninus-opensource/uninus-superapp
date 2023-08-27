@@ -1,10 +1,12 @@
 "use client";
 import { BreadCrumb, Button, RadioButton } from "@uninus/web/components";
 import Image from "next/image";
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement, useMemo, useState } from "react";
 import { Modal } from "@uninus/web/components";
 import { FieldValues, useForm } from "react-hook-form";
 import Link from "next/link";
+import { useStudentData } from "@uninus/web/services";
+import { useDegreeProgramGet } from "../../../pendaftaran";
 
 export const detailBreadcrumb = [
   {
@@ -55,6 +57,29 @@ export const payment = [
 ];
 
 export const DetailPembayaran: FC = (): ReactElement => {
+  const { getStudent } = useStudentData();
+
+  const degreeProgram = useMemo(() => {
+    return getStudent?.degree_program_id;
+  }, [getStudent?.degree_program_id]);
+
+  const [programMeta] = useState({
+    search: "",
+    degree_program_id: "",
+    department_id: "",
+  });
+
+  const { data: getDegreeProgram } = useDegreeProgramGet(programMeta);
+
+  const DegreeProgramOptions = useMemo(
+    () =>
+      getDegreeProgram?.degree_program?.map((program) => ({
+        label: program?.name,
+        value: program?.id,
+      })),
+    [getDegreeProgram?.degree_program],
+  );
+
   const { control } = useForm<FieldValues>({
     mode: "all",
   });
@@ -83,7 +108,12 @@ export const DetailPembayaran: FC = (): ReactElement => {
         <div className="bg-primary-green w-full h-[3px] mt-3"></div>
         <div className="p-4">
           <div className="flex justify-between p-4 text-left">
-            <h1>Biaya Formulir - Program Pascasarjana(S3)</h1>
+            <h1 className="font-extramedium">
+              Biaya Formulir - {""}
+              {degreeProgram
+                ? DegreeProgramOptions?.find((x) => x.value === degreeProgram)?.label
+                : "loading data program pendidikan..."}
+            </h1>
             <p className="font-bold">Rp. 750.000</p>
           </div>
           <div className="bg-slate-5 w-full h-[2px] "></div>
