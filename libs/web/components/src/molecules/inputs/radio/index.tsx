@@ -36,7 +36,6 @@ export const RadioButton = <T extends FieldValues>({
   const className = `${radioButtonSize} ${radioButtonVariant}`;
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue(e.target.value);
-    console.log(e.target.value);
   };
   const { field } = useController({
     ...props,

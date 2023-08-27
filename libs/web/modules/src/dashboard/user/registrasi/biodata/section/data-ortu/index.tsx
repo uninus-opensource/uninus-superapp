@@ -18,6 +18,8 @@ import {
 import { studentData } from "./type";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { VSDataOrtu } from "./schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const DataOrtuSection: FC = (): ReactElement => {
   const [parentStatus] = useState({
@@ -41,7 +43,15 @@ export const DataOrtuSection: FC = (): ReactElement => {
   const [guardianAddressSame, setGuardianAddressSame] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const { control, handleSubmit, watch, setValue, reset } = useForm<FieldValues>({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    resolver: zodResolver(VSDataOrtu),
     mode: "all",
     defaultValues: {},
   });
@@ -204,8 +214,21 @@ export const DataOrtuSection: FC = (): ReactElement => {
   }, [addressProvinceGuard]);
 
   useEffect(() => {
-    reset(student);
-  }, [student, reset]);
+    reset({
+      father_name: student?.father_name,
+      father_status_id: student?.father_status_id,
+      father_education_id: student?.father_education_id,
+      father_occupation_id: student?.father_occupation_id,
+      father_occupation_position_id: student?.father_position_id,
+      father_income: student?.father_salary_id,
+      mother_name: student?.mother_name,
+      mother_status_id: student?.mother_status_id,
+      mother_education_id: student?.mother_education_id,
+      mother_occupation_id: student?.mother_occupation_id,
+      mother_occupation_position_id: student?.mother_position_id,
+      mother_income: student?.mother_salary_id,
+    });
+  }, [student, reset, getStudent]);
 
   useEffect(() => {
     if (parentAddressSame) {
@@ -338,6 +361,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
             placeholder="Nama Lengkap Ayah Kandung"
             labelclassname="text-sm font-semibold"
             label="Nama Ayah"
+            message={errors?.father_name?.message as string}
+            status={errors?.father_name?.message ? "error" : "none"}
             inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
             control={control}
             disabled={isSubmitted || !!student?.father_name}
@@ -466,6 +491,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
             inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
             control={control}
             disabled={isSubmitted || !!student?.mother_name}
+            message={errors?.mother_name?.message as string}
+            status={errors?.mother_name?.message ? "error" : "none"}
           />
           <SelectOption
             name="status_mother"
@@ -480,6 +507,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             labelClassName="font-bold text-xs py-2"
             options={parentStatusOptions || []}
             size="md"
+            required
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -643,9 +671,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
               variant="sm"
               type="text"
               labelclassname="text-xl font-semibold"
-              label="Alamat Domisili"
+              label="Alamat Orang Tua"
               control={control}
-              required
               isTextArea
               textAreaRow={5}
               textAreaCols={30}
