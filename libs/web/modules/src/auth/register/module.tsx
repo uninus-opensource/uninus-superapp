@@ -1,14 +1,17 @@
 "use client";
 import { Button, TextField } from "@uninus/web/components";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRegister } from "./hook";
 import { useRouter } from "next/navigation";
 import { VSRegister, TVSRegister } from "@uninus/entities";
+import { ToastContainer, toast } from "react-toastify";
 
 export const RegisterModule: FC = (): ReactElement => {
+  const [getError, setError] = useState<string | undefined>(undefined);
+
   const router = useRouter();
   const {
     control,
@@ -27,18 +30,38 @@ export const RegisterModule: FC = (): ReactElement => {
 
   const { mutate, isLoading } = useRegister();
 
-  const onSubmit = handleSubmit((data) => {
-    mutate(
-      {
-        email: data?.email,
-        password: data?.password,
-        phone_number: data?.phone_number,
-        fullname: data?.fullname,
-      },
-      {
-        onSuccess: () => router.push(`/auth/verifikasi-otp?email=${data?.email}`),
-      },
-    );
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      mutate(
+        {
+          email: data?.email,
+          password: data?.password,
+          phone_number: data?.phone_number,
+          fullname: data?.fullname,
+        },
+        {
+          onSuccess: () => router.push(`/auth/verifikasi-otp?email=${data?.email}`),
+          onError: (error) => {
+            const errMessage = error?.response?.data?.message;
+            setError(errMessage);
+            setTimeout(() => {
+              toast.error(`${errMessage}`, {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            });
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error);
+    }
   });
 
   return (
@@ -48,6 +71,20 @@ export const RegisterModule: FC = (): ReactElement => {
       className="w-full h-auto px-5 lg:px-12  flex flex-col py-8  md:gap-y-1"
     >
       <div className="w-full justify-start flex lg:mt-10">
+        {getError && (
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
+          />
+        )}
         <div className="flex flex-col justify-end lg:gap-y-1 py-2">
           <h1 className="font-bold text-base lg:text-xl 2xl:text-3xl">Registrasi</h1>
           <div className="border-2 border-primary-green w-2/3 rounded-md"></div>
