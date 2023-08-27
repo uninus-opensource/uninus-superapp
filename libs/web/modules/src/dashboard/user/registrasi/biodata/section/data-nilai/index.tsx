@@ -1,5 +1,5 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
-import { Accordion, Button, TextField } from "@uninus/web/components";
+import { Accordion, Button, TextField, UploadField } from "@uninus/web/components";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { NilaiValues } from "./type";
@@ -358,7 +358,52 @@ export const DataNilaiSection: FC = (): ReactElement => {
               disabled
             />
           </div>
+          <div className="col-start-2 row-start-6">
+            {" "}
+            <UploadField
+              control={control}
+              name="dokumen1"
+              variant="custom"
+              labels="Choose File"
+              labelClassName="labelText"
+              preview={false}
+            />
+          </div>
+          <div className="col-start-3 row-start-6">
+            {" "}
+            <UploadField
+              control={control}
+              name="dokumen2"
+              variant="custom"
+              labels="Choose File"
+              labelClassName="labelText"
+              preview={false}
+            />
+          </div>
+          <div className="col-start-4 row-start-6">
+            {" "}
+            <UploadField
+              control={control}
+              name="dokumen3"
+              variant="custom"
+              labels="Choose File"
+              labelClassName="labelText"
+              preview={false}
+            />
+          </div>
+          <div className="col-start-5 row-start-6">
+            {" "}
+            <UploadField
+              control={control}
+              name="dokumen4"
+              variant="custom"
+              labels="Choose File"
+              labelClassName="labelText"
+              preview={false}
+            />
+          </div>
         </div>
+
         <h1 className="font-bold text-2xl lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10 mt-10">
           Skor UTBK
         </h1>
@@ -378,6 +423,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
           </div>
           <div className="flex items-center gap-8 lg:text-base text-xs">
             <p>Sertifikat UTBK : </p>
+            <UploadField control={control} name="UTBK" variant="default" preview={false} />
           </div>
         </section>
 
