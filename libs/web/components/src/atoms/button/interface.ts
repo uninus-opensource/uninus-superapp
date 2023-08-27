@@ -17,6 +17,7 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "green-outline";
   loading?: boolean;
   href?: string;
+  target?: string;
   width?: string;
   height?: string;
   uppercase?: boolean;
