@@ -32,7 +32,7 @@ export const VerifEmailModule: FC = (): ReactElement => {
         },
         {
           onSuccess: () => {
-            push("/auth/login");
+            push(`/auth/verifikasi-berhasil?email=${email}`);
           },
           onError: () => {
             setOtp("");

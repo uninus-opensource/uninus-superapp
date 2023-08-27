@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <section className="w-screen bg-slate-2 h-screen z-50 overflow-x-hidden">
+    <section key="root-loading" className="w-screen bg-slate-2 h-screen z-50 overflow-x-hidden">
       <div className="w-full h-[100px] items-center justify-between px-7 lg:h-navbarlg lg:px-14 flex animate-pulse overflow-x-hidden">
         <div className="flex items-center gap-x-2">
           <div className="bg-grayscale-2 w-14 h-14 rounded-lg"></div>

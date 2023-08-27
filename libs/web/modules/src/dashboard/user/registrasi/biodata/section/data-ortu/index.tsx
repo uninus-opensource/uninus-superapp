@@ -265,7 +265,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
       titleClassName="text-lg font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] text-left"
     >
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} noValidate>
         <ToastContainer
           position="top-center"
           autoClose={5000}
@@ -310,7 +310,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Status ayah"
             }
             options={parentStatusOptions || []}
-            className="rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -329,7 +329,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Pendidikan"
             }
             options={parentEducationOptions || []}
-            className="rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -348,7 +348,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Pilih pekerjaan"
             }
             options={occupationOptions || []}
-            className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
+            size="md"
             isSearchable={true}
             control={control}
             isMulti={false}
@@ -367,7 +367,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Pilih pendapatan"
             }
             options={salaryOptions || []}
-            className="rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -405,7 +405,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             }
             labelClassName="font-bold text-xs py-2"
             options={parentStatusOptions || []}
-            className="rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -424,7 +424,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Pendidikan"
             }
             options={parentEducationOptions || []}
-            className="rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -443,7 +443,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             }
             options={occupationOptions || []}
             labelClassName="font-bold text-xs py-2"
-            className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
+            size="md"
             isSearchable={true}
             control={control}
             isMulti={false}
@@ -462,7 +462,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Pilih pendapatan"
             }
             options={salaryOptions || []}
-            className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -477,7 +477,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
         <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
           <SelectOption
             labels="Provinsi"
-            className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+            size="md"
             labelClassName="font-bold text-xs py-2"
             options={provinceOptions || []}
             placeholder={
@@ -496,7 +496,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           />
           <SelectOption
             labels="Kota/Kabupaten"
-            className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+            size="md"
             labelClassName="font-bold text-xs py-2"
             options={cityOptionsParent || []}
             placeholder={
@@ -514,7 +514,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           />
           <SelectOption
             labels="Kecamatan"
-            className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+            size="md"
             labelClassName="font-bold text-xs py-2"
             options={subDistrictOptionsParent || []}
             placeholder={
@@ -553,19 +553,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               placeholder={"Masukan Alamat Domisili Orang Tua"}
             />
           </div>
-          <div className="w-70% md:w-26 lg:w-26">
-            {/* <TextField
-              inputHeight="h-10"
-              name="parent_postal_code"
-              variant="md"
-              required
-              type="text"
-              labelclassname="text-sm "
-              label="Kode Pos"
-              inputWidth="w-26 text-base"
-              control={control}
-            /> */}
-          </div>
+
           <div className="col-span-4">
             <CheckBox
               name="check_parent_address"
@@ -607,7 +595,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Status wali"
             }
             options={parentStatusOptions || []}
-            className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -626,7 +614,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Pendidikan"
             }
             options={parentEducationOptions || []}
-            className=" rounded-md text-primary-black w-70% lg:w-[12vw] md:w-[16vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -645,7 +633,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Pilih Pekerjaan"
             }
             options={occupationOptions || []}
-            className=" rounded-md text-primary-black w-70% lg:w-[26vw] md:w-[33vw]"
+            size="md"
             isSearchable={true}
             control={control}
             isMulti={false}
@@ -664,7 +652,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Pilih pendapatan"
             }
             options={salaryOptions || []}
-            className=" rounded-md text-primary-black w-70% lg:w-[26.5vw] md:w-[33vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
@@ -678,7 +666,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
         <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
           <SelectOption
             labels="Provinsi"
-            className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+            size="md"
             labelClassName="font-bold text-xs py-2"
             options={provinceOptions || []}
             placeholder={
@@ -698,7 +686,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           />
           <SelectOption
             labels="Kota/Kabupaten"
-            className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+            size="md"
             labelClassName="font-bold text-xs py-2"
             options={cityOptionsGuard || []}
             placeholder={
@@ -718,7 +706,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           />
           <SelectOption
             labels="Kecamatan"
-            className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
+            size="md"
             labelClassName="font-bold text-xs py-2"
             options={subDistrictOptionsGuard || []}
             placeholder={
@@ -757,8 +745,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
               placeholder={"Masukan Alamat Domisili Wali"}
             />
           </div>
-          <div className="w-70% md:w-26 lg:w-26"></div>
-          <div className="col-span-4">
+
+          <div>
             <CheckBox
               name="check_guardian_address"
               control={control}

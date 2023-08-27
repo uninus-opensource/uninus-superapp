@@ -1,5 +1,5 @@
 "use client";
-import { Page, Text, View, Document, Image, Font, Link } from "@react-pdf/renderer";
+import { Page, Text, View, Document, Image, Font } from "@react-pdf/renderer";
 import { createTw } from "react-pdf-tailwind";
 
 const tw = createTw({
@@ -85,33 +85,39 @@ export const KartuPembayaran = () => {
         </Text>
 
         {/* Prospective student data */}
-        <View style={tw("h-[60px] flex flex-row")}>
-          <View style={tw("w-[34%] text-[#3D3D3D]  text-[1.1rem] flex justify-end gap-2 pl-10")}>
+        <View style={tw("h-[90px] flex flex-row")}>
+          <View style={tw("w-[34%] text-[#3D3D3D]  text-[12px] flex justify-end gap-2 pl-10")}>
             <Text style={tw("font-montserrat")}>No Regis</Text>
             <Text style={tw("font-montserrat")}>Nama Lengkap</Text>
+            <Text style={tw("font-montserrat")}>Jenis Kelamin</Text>
+            <Text style={tw("font-montserrat")}>Tanggal Lahir</Text>
           </View>
           <View
             style={tw(
-              "w-[64%] text-[#3D3D3D]  text-[1.1rem] flex justify-end gap-2 font-bold text-[#009647]",
+              "w-[34%] text-[#3D3D3D]  text-[12px] flex justify-end gap-2 font-bold text-[#009647]",
             )}
           >
             <Text style={tw("font-montserrat")}>{detailPembayaran.nomor_regis}</Text>
             <Text style={tw("font-montserrat")}>{detailPembayaran.nama_lengkap}</Text>
+            <Text style={tw("font-montserrat")}>{detailPembayaran.jenis_kelamin}</Text>
+            <Text style={tw("font-montserrat")}>{detailPembayaran.tanggal_lahir}</Text>
           </View>
         </View>
-
-        {/* Bio */}
-        <View style={tw("h-[130px] flex flex-row items-end")}>
-          <View style={tw("w-full h-[80px] flex flex-row justify-center items-center")}>
-            <View style={tw("w-[40%] h-full flex flex-col justify-between pl-10")}>
-              <View>
+        <Text style={tw("ml-10 font-bold mt-10 text-[1.2rem] font-montserrat")}>
+          Data Registrasi
+        </Text>
+        <View style={tw("h-[50px] flex flex-row ")}>
+          <View style={tw("w-full flex flex-row justify-center items-center mt-5")}>
+            <View style={tw("w-[40%] h-full flex flex-col justify-between pl-10 ")}>
+              <View style={tw("gap-2")}>
                 <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Tanggal Daftar</Text>
                 <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
                   {detailPembayaran.tanggal_daftar}
                 </Text>
               </View>
-
-              <View>
+            </View>
+            <View style={tw("w-[50%] h-full flex flex-col justify-between ")}>
+              <View style={tw("gap-2")}>
                 <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>
                   Jalur Pendaftaran
                 </Text>
@@ -120,38 +126,22 @@ export const KartuPembayaran = () => {
                 </Text>
               </View>
             </View>
-            <View style={tw("w-[30%] h-full flex flex-col justify-between")}>
-              <View>
-                <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Tanggal Lahir</Text>
-                <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-                  {detailPembayaran.tanggal_lahir}
-                </Text>
-              </View>
-
-              <View>
+            <View style={tw("w-[30%] h-full flex flex-col justify-between gap-2")}>
+              <View style={tw("gap-2")}>
                 <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Periode</Text>
                 <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-                  {detailPembayaran.periode}
-                </Text>
-              </View>
-            </View>
-            <View style={tw("w-[30%] h-full flex flex-col justify-between font-montserrat")}>
-              <View>
-                <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Jenis Kelamin</Text>
-                <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-                  {detailPembayaran.jenis_kelamin}
+                  2023/2024
                 </Text>
               </View>
             </View>
           </View>
         </View>
-
         {/* Line */}
-        <View style={tw("flex justify-center items-center mt-10")}>
+        <View style={tw("flex justify-center items-center mt-5")}>
           <View style={tw("h-[2px] bg-[#292929] w-[90%]")}></View>
         </View>
 
-        <Text style={tw("font-bold  mt-3 ml-10 text-[1.2rem] font-montserrat")}>
+        <Text style={tw("font-bold  mt-5 ml-10 text-[1.2rem] font-montserrat")}>
           Pilihan Jurusan
         </Text>
 
@@ -221,24 +211,17 @@ export const KartuPembayaran = () => {
           </Text>
         </View>
 
-        <View style={tw("ml-10 mt-8 flex flex-row gap-1")}>
-          <Text style={tw("text-[#525252] text-[1rem] font-montserrat")}>Batas Pembayaran</Text>
-          <Text style={tw("text-[#009647] font-bold text-[1rem] font-montserrat")}>
-            {detailPembayaran.batas_pembayaran}
-          </Text>
-        </View>
-        <View style={tw("ml-10 mt-4 flex flex-row gap-[3px]")}>
-          <Text style={tw("text-[#666666] text-[1rem] font-montserrat")}>
-            Untuk bantuan cara pembayaran silahkan
-          </Text>
-          <Text style={tw("text-[#F8BF02] font-bold text-[1rem] font-montserrat")}>
-            <Link src="https://pmb.uninus.dev/dashboard" style={tw("text-[#F8BF02]")}>
-              halaman berikut
-            </Link>
+        <View style={tw("w-[100%]  h-[90px] flex justify-center items-center")}>
+          <Text
+            style={tw(
+              "text-[#009647] font-bold text-center text-[1rem] border-[1px] border-[#009647] rounded-[5px] px-7 py-4 font-montserrat uppercase",
+            )}
+          >
+            pembayaran lunas
           </Text>
         </View>
 
-        <View style={tw("h-[62.5px] bg-[#009647] mt-10")}></View>
+        <View style={tw("h-[62.5px] bg-[#009647] mt-5")}></View>
         <Image
           src="/illustrations/pdfIllustrations/ring-bottom.png"
           style={tw("w-[90px] h-[90px] absolute left-[-4e0] bottom-0")}
