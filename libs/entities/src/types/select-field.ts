@@ -119,6 +119,7 @@ export type TCitizenshipResponse = {
 
 export interface ISelectionRequest {
   search: string;
+  degree_program_id: string;
 }
 
 export type TSelectionResponse = {
