@@ -288,7 +288,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               size="sm"
               width="w-48"
               height="h-12"
-              disabled={!isValid || isFormSubmitted}
+              disabled={!isValid || isFormSubmitted || !!student?.degree_program_id}
               className={`${
                 isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"
               } text-white rounded-md`}
