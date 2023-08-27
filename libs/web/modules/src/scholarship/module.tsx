@@ -9,22 +9,22 @@ export const ModulBeasiswa: FC = (): ReactElement => {
     {
       name: "beasiswa unggul",
       img: "/illustrations/beasiswaIllustrations/nusantara-unggul.webp",
-      link: "/beasiswa/beasiswaunggul ",
+      link: "/beasiswa/detail/beasiswa-unggul ",
     },
     {
       name: "beasiswa berprestasi",
       img: "/illustrations/beasiswaIllustrations/nusantara-berprestasi.webp",
-      link: "/beasiswa/beasiswaprestasi ",
+      link: "/beasiswa/detail/beasiswa-prestasi ",
     },
     {
       name: "beasiswa mitra nusantara",
       img: "/illustrations/beasiswaIllustrations/nusantara-mitra.webp",
-      link: "/beasiswa/beasiswamitra",
+      link: "/beasiswa/detail/beasiswa-mitra",
     },
     {
       name: "beasiswa nusantara peduli",
       img: "/illustrations/beasiswaIllustrations/nusantara-peduli.webp",
-      link: "/beasiswa/beasiswapeduli",
+      link: "/beasiswa/detail/beasiswa-peduli",
     },
   ];
 
