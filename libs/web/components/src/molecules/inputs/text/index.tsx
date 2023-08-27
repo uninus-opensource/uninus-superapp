@@ -5,6 +5,7 @@ import { TTextFieldProps } from "./types";
 import clsx from "clsx";
 import { MdCheck } from "react-icons/md";
 import { EyeOpen, EyeSlash } from "../../../atoms/";
+import Link from "next/link";
 
 export const TextField = <T extends FieldValues>({
   variant = "md",
@@ -149,7 +150,13 @@ export const TextField = <T extends FieldValues>({
       <div className="flex flex-col items-start w-full gap-x-1">
         <span className={labelVariant}>{props.hint}</span>
         <span className={`${messageStatus} xl:text-xs lg:text-[8px] text-xs ${messageClassName}`}>
-          {`${props.message}`}
+          {props.message?.includes("https") ? (
+            <Link target="_blank" href="https://dapo.kemdikbud.go.id/pencarian">
+              {props.message}
+            </Link>
+          ) : (
+            props.message
+          )}
         </span>
       </div>
     </section>
