@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const DashboardBiodata: NextPage = (): ReactElement => (
   <section key="dashboard-biodata">
-    <ModuleBiodata key="dashboard-biodata" />;
+    <ModuleBiodata key="dashboard-biodata" />
   </section>
 );
 export default DashboardBiodata;
