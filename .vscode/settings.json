@@ -1,4 +1,4 @@
 {
   "editor.formatOnSave": true,
-  "editor.fontFamily": "Consolas"
+  "editor.fontFamily": "'Source Code Pro', monospace"
 }
