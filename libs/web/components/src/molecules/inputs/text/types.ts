@@ -16,7 +16,7 @@ export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   labelclassname?: string;
   onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   status?: "success" | "error" | "warning" | "none";
-  message?: string | FieldValues;
+  message?: string;
   variant: "lg" | "md" | "sm" | "otp" | "telp";
   icon?: ReactNode | StaticImageData;
   prepend?: ReactNode;

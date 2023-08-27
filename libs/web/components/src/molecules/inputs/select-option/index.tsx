@@ -17,7 +17,7 @@ export const SelectOption = forwardRef(
     ref?: Ref<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>,
   ): ReactElement => {
     const selectClassName = clsx(
-      "border rounded-md outline-none",
+      "text-primary-black rounded-md outline-none",
       {
         "border-green-300 bg-green-100": props.status === SELECT_STATUS.SUCCESS,
         "border-amber-300 bg-amber-100": props.status === SELECT_STATUS.WARNING,
@@ -26,7 +26,8 @@ export const SelectOption = forwardRef(
       },
       {
         "p-1.5 text-sm": props.size === SELECT_SIZE.SM,
-        "p-2 text-base": props.size === SELECT_SIZE.MD,
+        "lg:w-[25vw] md:w-[33vw] w-[240px] text-base": props.size === SELECT_SIZE.MD,
+        "w-full text-base": props.size === SELECT_SIZE.LG,
       },
     );
 
