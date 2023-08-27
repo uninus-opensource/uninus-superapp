@@ -223,8 +223,14 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           pauseOnHover
           theme="light"
         />
-        <h1 className="text-red-4 pb-4">
-          *Data Pendidikan akan terisi otomatis ketika mengisi NPSN Sekolah
+        <h1 className="text-red-4 text-sm pb-4">
+          *Catatan :{" "}
+          <span className="text-primary-black">
+            Data NPSN dapat dilihat di{" "}
+            <a href="https://dapo.kemdikbud.go.id/pencarian">
+              https://dapo.kemdikbud.go.id/pencarian
+            </a>
+          </span>
         </h1>
         <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between text-left">
           <SelectOption

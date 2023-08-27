@@ -106,11 +106,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     }
   }, [watch("program")]);
 
-  const [selection] = useState({
+  const { data: getSelection } = useSelectionGet({
     search: "",
+    degree_program_id: watch("program"),
   });
-
-  const { data: getSelection } = useSelectionGet(selection);
 
   const SelectionOptions = useMemo(
     () =>
@@ -288,7 +287,12 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               size="sm"
               width="w-48"
               height="h-12"
-              disabled={!isValid || isFormSubmitted}
+              disabled={
+                !isValid ||
+                isFormSubmitted ||
+                !!student?.degree_program_id ||
+                !!student?.selection_path_id
+              }
               className={`${
                 isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"
               } text-white rounded-md`}
