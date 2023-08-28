@@ -116,6 +116,7 @@ export const DetailPembayaran: FC = (): ReactElement => {
             </h1>
             <p className="font-bold">Rp. 750.000</p>
           </div>
+          <p></p>
           <div className="bg-slate-5 w-full h-[2px] "></div>
           <div className="flex justify-between p-4 text-left">
             <h1 className="font-bold">Total Pembayaran</h1>
