@@ -1,6 +1,6 @@
 "use client";
-import { FC, ReactElement, useMemo } from "react";
-import { Button, UploadField } from "@uninus/web/components";
+import { FC, ReactElement, useMemo, useState } from "react";
+import { Button, UploadField, Modal } from "@uninus/web/components";
 import { useForm } from "react-hook-form";
 import { useGetBiodata } from "../registrasi";
 import Link from "next/link";
@@ -44,6 +44,15 @@ export const ModuleDokumen: FC = (): ReactElement => {
     { label: "Kartu Keluarga", name: "kartu_keluarga" },
     { label: "Porlap Dikti", name: "porlap_dikti" },
   ];
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <form
@@ -62,6 +71,28 @@ export const ModuleDokumen: FC = (): ReactElement => {
       {/* body */}
       <section className="flex flex-col justify-between shadow-lg w-[90vw] rounded-md h-full py-2 mt-5 lg:w-[70vw] xl:w-[70vw]">
         {/* Upload sections */}
+        <Modal
+          showModal={showModal}
+          onClose={handleCloseModal}
+          closeClassName="text-primary-white"
+          bodyClassName="overflow-y-auto p-8"
+          headerColor="bg-primary-green"
+          modalTitle={
+            <div className=" flex flex-row gap-x-2 items-center">
+              <h1 className="text-primary-white">Selamat Anda Berhasil Melakukan Pendaftaran</h1>
+            </div>
+          }
+        >
+          <div>
+            <p>Silahkan menunggu info kelulusan melalui email masing -masing</p>
+          </div>
+        </Modal>
+        {showModal && (
+          <div
+            className="fixed top-0 left-0 right-0 bottom-0 bg-black opacity-50 z-[50]"
+            onClick={handleCloseModal}
+          />
+        )}
 
         <section className="flex flex-col lg:items-start lg:pl-[2vw] gap-2 mt-5 lg:w-full">
           <h1 className="font-bold text-[1.3rem] text-center">Upload berkas pendaftaran</h1>
@@ -117,7 +148,11 @@ export const ModuleDokumen: FC = (): ReactElement => {
 
         {/* Button */}
         <section className="w-full lg:w-[70vw] xl:w-[70vw] lg:pl-[2vw] flex justify-end mt-16 md:mt-10 items-center rounde pr-5 mb-[30px]">
-          <Button styling="bg-primary-green px-2 py-1 rounded-[3px] w-40% lg:w-25% xl:w-15% ">
+          <Button
+            onClick={() => {
+              handleOpenModal();
+            }}
+          >
             Submit Berkas
           </Button>
         </section>
