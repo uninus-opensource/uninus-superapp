@@ -137,12 +137,10 @@ export const DataNilaiSection: FC = (): ReactElement => {
   useEffect(() => {
     const { average_grade, utbk, ...grades } = getValues();
     const average = Object.values(grades);
-    const result = (
-      Number(average.reduce((acc, curr) => Number(acc) + Number(curr), 0)) / average.length
-    ).toFixed(1);
+    const result = Number(average.reduce((acc, curr) => Number(acc) + Number(curr), 0));
     setValue(
       "average_grade",
-      Number(student?.average_grade === 0 ? result : student?.average_grade),
+      Number(student?.average_grade === 0 ? (result / 12).toFixed(1) : student?.average_grade),
     );
     setValue("utbk", utbk === undefined ? Number(student?.utbk) : Number(utbk));
   }, [getValues, setValue, student?.average_grade, student?.utbk, watchStudentGrade]);
