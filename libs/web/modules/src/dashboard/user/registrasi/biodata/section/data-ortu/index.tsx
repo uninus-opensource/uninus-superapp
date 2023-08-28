@@ -291,40 +291,44 @@ export const DataOrtuSection: FC = (): ReactElement => {
 
     try {
       mutate(studentData, {
-        onSuccess: () => {
-          setIsSubmitted(true);
-          setTimeout(() => {
-            toast.success("Berhasil mengisi formulir", {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }, 500);
-        },
-        onError: () => {
-          setTimeout(() => {
-            toast.error("Gagal mengisi formulir", {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }, 500);
-        },
+        // onSuccess: () => {
+        //   setIsSubmitted(true);
+        //   setTimeout(() => {
+        //     toast.success("Berhasil mengisi formulir", {
+        //       position: "top-center",
+        //       autoClose: 5000,
+        //       hideProgressBar: false,
+        //       closeOnClick: true,
+        //       pauseOnHover: true,
+        //       draggable: true,
+        //       progress: undefined,
+        //       theme: "light",
+        //     });
+        //   }, 500);
+        // },
+        // onError: () => {
+        //   setTimeout(() => {
+        //     toast.error("Gagal mengisi formulir", {
+        //       position: "top-center",
+        //       autoClose: 5000,
+        //       hideProgressBar: false,
+        //       closeOnClick: true,
+        //       pauseOnHover: true,
+        //       draggable: true,
+        //       progress: undefined,
+        //       theme: "light",
+        //     });
+        //   }, 500);
+        // },
       });
     } catch (error) {
       console.error(error);
     }
   });
+
+  const handleButtonClick = () => {
+    toast.success("Data Orang Tua Berhasil Disimpan!");
+  };
 
   return (
     <Accordion
@@ -922,6 +926,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <Button
             variant="filled"
             size="md"
+            onClick={handleButtonClick}
             width="w-50% lg:w-25% xl:w-15%"
             disabled={isSubmitted || !!student?.father_name}
           >

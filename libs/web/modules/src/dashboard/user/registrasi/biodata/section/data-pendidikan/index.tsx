@@ -167,41 +167,45 @@ export const DataPendidikanSection: FC = (): ReactElement => {
       mutate(
         { ...dataPendidikan },
         {
-          onSuccess: () => {
-            setIsdisabled(true);
-            setTimeout(() => {
-              toast.success("Berhasil mengisi formulir", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
-            }, 500);
-          },
-          onError: () => {
-            setTimeout(() => {
-              toast.error("Gagal mengisi formulir", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
-            }, 500);
-          },
+          // onSuccess: () => {
+          //   setIsdisabled(true);
+          //   setTimeout(() => {
+          //     toast.success("Berhasil mengisi formulir", {
+          //       position: "top-center",
+          //       autoClose: 5000,
+          //       hideProgressBar: false,
+          //       closeOnClick: true,
+          //       pauseOnHover: true,
+          //       draggable: true,
+          //       progress: undefined,
+          //       theme: "light",
+          //     });
+          //   }, 500);
+          // },
+          // onError: () => {
+          //   setTimeout(() => {
+          //     toast.error("Gagal mengisi formulir", {
+          //       position: "top-center",
+          //       autoClose: 5000,
+          //       hideProgressBar: false,
+          //       closeOnClick: true,
+          //       pauseOnHover: true,
+          //       draggable: true,
+          //       progress: undefined,
+          //       theme: "light",
+          //     });
+          //   }, 500);
+          // },
         },
       );
     } catch (error) {
       console.error(error);
     }
   });
+
+  const handleButtonClick = () => {
+    toast.success("Data Pendidikan Berhasil Disimpan!");
+  };
 
   return (
     <Accordion
@@ -387,6 +391,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
         <div className="flex w-full justify-center lg:justify-end py-4">
           <Button
             type="submit"
+            onClick={handleButtonClick}
             variant="filled"
             size="md"
             width="w-50% lg:w-25% xl:w-15%"
