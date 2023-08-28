@@ -12,8 +12,6 @@ const DetailTemplate: FC<PropsWithChildren> = ({ children }): ReactElement => {
 
   const router = usePathname();
 
-  console.log(router);
-
   const imagePathPrefix = (path: string): string => `/illustrations/${path}`;
 
   const pathnamePrefix = "/beasiswa/detail/";

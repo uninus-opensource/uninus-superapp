@@ -1,4 +1,3 @@
-"use client";
 import { Montserrat } from "next/font/google";
 import { AuthProvider, QueryProvider, RecoilProvider } from "@uninus/web/providers";
 import "./global.css";
@@ -15,8 +14,7 @@ export default function Layout(props: { children: React.ReactNode }) {
         <AuthProvider>
           <QueryProvider>
             <RecoilProvider>
-              <div key="landing-layout">{props.children}</div>
-
+              <main key="landing-layout">{props.children}</main>
               <div key="modal-logout" id="modal-logout" />
               <div key="modal-landing" id="modal-landing" />
             </RecoilProvider>
