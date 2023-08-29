@@ -42,6 +42,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
   const [parentAddressSame, setParentAddressSame] = useState(true);
   const [guardianAddressSame, setGuardianAddressSame] = useState(true);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isFatherStatus, setIsFatherStatus] = useState(false);
+  const [isMotherStatus, setIsMotherStatus] = useState(false);
+  const [isGuardianStatus, setIsGuardianStatus] = useState(false);
+  const [isUnemployedFather, setIsUnemployedFather] = useState(false);
+  const [isUnemployedMother, setIsUnemployedMother] = useState(false);
+  const [isUnemployedGuardian, setIsUnemployedGuardian] = useState(false);
 
   const {
     control,
@@ -259,6 +265,44 @@ export const DataOrtuSection: FC = (): ReactElement => {
     }
   }, [student, setValue, addressStudent]);
 
+  useEffect(() => {
+    const fatherStatus = watch("father_status_id");
+    const motherStatus = watch("status_mother");
+    const guardianStatus = watch("status_gardian");
+
+    if (fatherStatus === "2" || fatherStatus === null || fatherStatus === undefined) {
+      setIsFatherStatus(true);
+    } else {
+      setIsFatherStatus(false);
+    }
+
+    if (motherStatus === "2" || motherStatus === null || motherStatus === undefined) {
+      setIsMotherStatus(true);
+    } else {
+      setIsMotherStatus(false);
+    }
+
+    if (guardianStatus === "2" || guardianStatus === null || guardianStatus === undefined) {
+      setIsGuardianStatus(true);
+    } else {
+      setIsGuardianStatus(false);
+    }
+  }, [watch("father_status_id"), watch("status_mother"), watch("status_gardian")]);
+
+  useEffect(() => {
+    const statusProfecy = {
+      father: watch("father_profecy"),
+      mother: watch("mother_profecy"),
+      guardian: watch("guardian_profecy"),
+    };
+
+    statusProfecy.father === "14" ? setIsUnemployedFather(true) : setIsUnemployedFather(false);
+    statusProfecy.mother === "14" ? setIsUnemployedMother(true) : setIsUnemployedMother(false);
+    statusProfecy.guardian === "14"
+      ? setIsUnemployedGuardian(true)
+      : setIsUnemployedGuardian(false);
+  }, [watch("father_profecy"), watch("mother_profecy"), watch("guardian_profecy")]);
+
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
@@ -427,7 +471,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.father_occupation_id}
+            disabled={isSubmitted || !!student?.father_occupation_id || isFatherStatus}
           />
           <SelectOption
             name="father_occupation_position_id"
@@ -467,6 +511,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 ? salaryOptions?.find(
                     (salary) => Number(salary.value) === student?.father_salary_id,
                   )?.label
+                : isUnemployedFather
+                ? "0"
                 : "Pilih pendapatan"
             }
             options={salaryOptions || []}
@@ -475,7 +521,9 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.father_salary_id}
+            disabled={
+              isSubmitted || !!student?.father_salary_id || isFatherStatus || isUnemployedFather
+            }
           />
         </section>
         {/* Ibu */}
@@ -554,7 +602,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.mother_occupation_id}
+            disabled={isSubmitted || !!student?.mother_occupation_id || isMotherStatus}
           />
           <SelectOption
             name="mother_occupation_position_id"
@@ -594,6 +642,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 ? salaryOptions?.find(
                     (salary) => Number(salary.value) === student?.mother_salary_id,
                   )?.label
+                : isUnemployedMother
+                ? "0"
                 : "Pilih pendapatan"
             }
             options={salaryOptions || []}
@@ -602,7 +652,9 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.mother_salary_id}
+            disabled={
+              isSubmitted || !!student?.mother_salary_id || isMotherStatus || isUnemployedMother
+            }
           />
         </section>
         {/* Parent Address */}
@@ -772,7 +824,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.guardian_occupation_id}
+            disabled={isSubmitted || !!student?.guardian_occupation_id || isGuardianStatus}
           />
           <SelectOption
             name="guardian_occupation_position_id"
@@ -813,6 +865,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 ? salaryOptions?.find(
                     (salary) => Number(salary.value) === student?.guardian_salary_id,
                   )?.label
+                : isUnemployedGuardian
+                ? "0"
                 : "Pilih pendapatan"
             }
             options={salaryOptions || []}
@@ -821,7 +875,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.guardian_salary_id}
+            disabled={
+              isSubmitted ||
+              !!student?.guardian_salary_id ||
+              isGuardianStatus ||
+              isUnemployedGuardian
+            }
           />
         </section>
         <h1 className="font-bold text-xl my-6 lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-4">
