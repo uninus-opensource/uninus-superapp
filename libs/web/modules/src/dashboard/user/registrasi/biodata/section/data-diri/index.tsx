@@ -349,52 +349,55 @@ export const DataDiriSection: FC = (): ReactElement => {
             };
           }),
         {
-          onSuccess: () => {
-            setIsdisabled(true);
-            setTimeout(() => {
-              toast.success("Berhasil mengisi formulir", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
-            }, 500);
-          },
-          onError: () => {
-            setTimeout(() => {
-              toast.error("Gagal mengisi formulir", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
-            }, 500);
-          },
+          // onSuccess: () => {
+          //   setIsdisabled(true);
+          //   setTimeout(() => {
+          //     toast.success("Berhasil mengisi formulir", {
+          //       position: "top-center",
+          //       autoClose: 5000,
+          //       hideProgressBar: false,
+          //       closeOnClick: true,
+          //       pauseOnHover: true,
+          //       draggable: true,
+          //       progress: undefined,
+          //       theme: "light",
+          //     });
+          //   }, 500);
+          // },
+          // onError: () => {
+          //   setTimeout(() => {
+          //     toast.error("Gagal mengisi formulir", {
+          //       position: "top-center",
+          //       autoClose: 5000,
+          //       hideProgressBar: false,
+          //       closeOnClick: true,
+          //       pauseOnHover: true,
+          //       draggable: true,
+          //       progress: undefined,
+          //       theme: "light",
+          //     });
+          //   }, 500);
+          // },
         },
       );
     } catch (error) {
-      toast.error(error as string, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      // toast.error(error as string, {
+      //   position: "top-center",
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      //   theme: "light",
+      // });
     }
   });
 
   console.log(errors?.nik?.message);
+  const handleButtonClick = () => {
+    toast.success("Data Diri Berhasil Disimpan!");
+  };
 
   return (
     <Accordion
@@ -507,6 +510,8 @@ export const DataDiriSection: FC = (): ReactElement => {
               inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
               control={control}
               disabled={isDisabled || !!student?.no_kk}
+              message={errors?.no_kk?.message as string}
+              status={errors?.no_kk?.message ? "error" : "none"}
             />
           </div>
 
@@ -562,6 +567,8 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
             control={control}
             disabled={isDisabled || !!student?.birth_place}
+            message={errors?.birth_place?.message as string}
+            status={errors?.birth_place?.message ? "error" : "none"}
           />
           <TextField
             inputHeight="h-10"
@@ -726,6 +733,8 @@ export const DataDiriSection: FC = (): ReactElement => {
               inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2  "
               disabled={isDisabled || !!student?.address}
+              message={errors?.address?.message as string}
+              status={errors?.address?.message ? "error" : "none"}
             />
           </div>
           {student?.degree_program_id !== 1 && (
@@ -911,6 +920,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           <Button
             type="submit"
             variant="filled"
+            onClick={handleButtonClick}
             size="md"
             width="w-50% lg:w-25% xl:w-15%"
             disabled={isDisabled || !!student?.nik}

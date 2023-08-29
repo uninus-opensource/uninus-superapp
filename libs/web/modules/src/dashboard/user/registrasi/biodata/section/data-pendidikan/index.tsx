@@ -167,41 +167,45 @@ export const DataPendidikanSection: FC = (): ReactElement => {
       mutate(
         { ...dataPendidikan },
         {
-          onSuccess: () => {
-            setIsdisabled(true);
-            setTimeout(() => {
-              toast.success("Berhasil mengisi formulir", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
-            }, 500);
-          },
-          onError: () => {
-            setTimeout(() => {
-              toast.error("Gagal mengisi formulir", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
-            }, 500);
-          },
+          // onSuccess: () => {
+          //   setIsdisabled(true);
+          //   setTimeout(() => {
+          //     toast.success("Berhasil mengisi formulir", {
+          //       position: "top-center",
+          //       autoClose: 5000,
+          //       hideProgressBar: false,
+          //       closeOnClick: true,
+          //       pauseOnHover: true,
+          //       draggable: true,
+          //       progress: undefined,
+          //       theme: "light",
+          //     });
+          //   }, 500);
+          // },
+          // onError: () => {
+          //   setTimeout(() => {
+          //     toast.error("Gagal mengisi formulir", {
+          //       position: "top-center",
+          //       autoClose: 5000,
+          //       hideProgressBar: false,
+          //       closeOnClick: true,
+          //       pauseOnHover: true,
+          //       draggable: true,
+          //       progress: undefined,
+          //       theme: "light",
+          //     });
+          //   }, 500);
+          // },
         },
       );
     } catch (error) {
       console.error(error);
     }
   });
+
+  const handleButtonClick = () => {
+    toast.success("Data Pendidikan Berhasil Disimpan!");
+  };
 
   return (
     <Accordion
@@ -223,8 +227,14 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           pauseOnHover
           theme="light"
         />
-        <h1 className="text-red-4 pb-4">
-          *Data Pendidikan akan terisi otomatis ketika mengisi NPSN Sekolah
+        <h1 className="text-red-4 text-sm pb-4">
+          *Catatan :{" "}
+          <span className="text-primary-black">
+            Data NPSN dapat dilihat di{" "}
+            <a href="https://dapo.kemdikbud.go.id/pencarian">
+              https://dapo.kemdikbud.go.id/pencarian
+            </a>
+          </span>
         </h1>
         <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between text-left">
           <SelectOption
@@ -381,6 +391,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
         <div className="flex w-full justify-center lg:justify-end py-4">
           <Button
             type="submit"
+            onClick={handleButtonClick}
             variant="filled"
             size="md"
             width="w-50% lg:w-25% xl:w-15%"

@@ -16,7 +16,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
   const student = useMemo(() => {
     return getStudent;
   }, [getStudent]);
-
+  const routeCondition =
+    student?.disabilities_id !== null ||
+    Number(student?.average_grade) >= 80 ||
+    Number(student?.utbk) >= 500;
   useEffect(() => {
     setDegreeProgram(student?.degree_program_id);
   }, [student]);
@@ -56,15 +59,15 @@ export const ModuleBiodata: FC = (): ReactElement => {
         <div className="flex gap-6 justify-end px-8 py-4">
           <Link
             href={
-              student?.disabilities_id !== null ||
-              Number(student?.average_grade) >= 80 ||
-              Number(student?.utbk) >= 500
+              routeCondition
                 ? "/dashboard/registrasi/beasiswa"
                 : "/dashboard/registrasi/pembayaran/detail"
             }
           >
             <Button variant="filled" size="md" width="w-auto" styling="text-sm lg:text-base">
-              <p className="px-2 md:flex hidden">Lakukan Pembayaran</p>
+              <p className="px-2 md:flex hidden">
+                {routeCondition ? "Pilih Beasiswa" : "Lakukan Pembayaran"}
+              </p>
               <CaretRightOutlined />
             </Button>
           </Link>

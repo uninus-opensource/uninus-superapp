@@ -16,6 +16,7 @@ export const useProvinceGet = (
   return useQuery({
     queryKey: ["getProvince", params],
     queryFn: async () => await ProvinceGet(params),
+    keepPreviousData: true,
   });
 };
 
@@ -26,6 +27,7 @@ export const useCityGet = (
     queryKey: ["getCity", params],
     queryFn: async () => await CityGet(params),
     enabled: !!params,
+    keepPreviousData: true,
   });
 };
 
@@ -36,5 +38,6 @@ export const useSubdistrictGet = (
     queryKey: ["getSubdistrict", params],
     queryFn: async () => await SubDistrictGet(params),
     enabled: !!params,
+    keepPreviousData: true,
   });
 };

@@ -19,6 +19,6 @@ export const ScholarshipGet = async (
 export const BiodataUpdate = async (
   payload: IUpdateStudentRequestFE,
 ): Promise<IUpdateStudentRequestFE> => {
-  const { data } = await api.put<IUpdateStudentRequestFE>("/student", payload);
+  const { data } = await api.patch<IUpdateStudentRequestFE>("/student", payload);
   return data;
 };

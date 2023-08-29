@@ -19,10 +19,10 @@ export const VSDataPendidikan = z.object({
     .optional(),
   education_npsn: z
     .string()
-    .nonempty({ message: "Npsn dapat dicari pada laman https://dapo.kemdikbud.go.id/pencarian" })
-    .min(16, { message: "Nomor NPSN harus 8 karakter" })
-    .max(16, { message: "Nomor NPSN harusl 8 karakter" })
-    .refine((data) => data.match(/[0-9]/g), {
+    .nonempty({ message: "Npsn harus diisi" })
+    .min(8, { message: "Nomor NPSN harus 8 karakter" })
+    .max(8, { message: "Nomor NPSN harusl 8 karakter" })
+    .refine((data) => data.match(/[0-8]/g), {
       message: "Nomor NPSN harus angka",
     }),
   education_major_id: z
@@ -35,4 +35,4 @@ export const VSDataPendidikan = z.object({
     .optional(),
 });
 
-export type TVSDataDiri = z.infer<typeof VSDataPendidikan>;
+export type TVSDataPendidikan = z.infer<typeof VSDataPendidikan>;
