@@ -6,7 +6,8 @@ import { useSession } from "next-auth/react";
 import { FileTextOutlined, FormOutlined, HomeOutlined, UploadOutlined } from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
 import { useGetBiodata, useStudentGet } from "@uninus/web/modules";
-import { useStudentData } from "@uninus/web/services";
+import { CityGet, ProvinceGet, SubDistrictGet, useStudentData } from "@uninus/web/services";
+import { useQueryClient } from "@tanstack/react-query";
 
 const monserrat = Montserrat({
   subsets: ["latin"],
@@ -14,6 +15,31 @@ const monserrat = Montserrat({
 });
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
+  const queryClient = useQueryClient();
+
+  queryClient.prefetchQuery({
+    queryKey: ["getProvince"],
+    queryFn: async () => await ProvinceGet({ search: "" }),
+  });
+
+  queryClient.prefetchQuery({
+    queryKey: ["getCity"],
+    queryFn: async () =>
+      await CityGet({
+        province_id: "",
+        search: "",
+      }),
+  });
+
+  queryClient.prefetchQuery({
+    queryKey: ["getSubdistrict"],
+    queryFn: async () =>
+      await SubDistrictGet({
+        city_id: "",
+        search: "",
+      }),
+  });
+
   const { mutate } = useLogout();
   const { data: session } = useSession();
 
