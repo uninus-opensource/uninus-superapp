@@ -5,7 +5,7 @@ import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import { FileTextOutlined, FormOutlined, HomeOutlined, UploadOutlined } from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
-import { useGetBiodata, useStudentGet } from "@uninus/web/modules";
+import { useGetBiodata } from "@uninus/web/modules";
 import {
   CityGet,
   ProvinceGet,
