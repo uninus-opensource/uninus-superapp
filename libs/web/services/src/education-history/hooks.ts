@@ -18,6 +18,7 @@ export const useYearGraduationGet = (
   return useQuery({
     queryKey: ["getYearGraduation", params],
     queryFn: async () => await YearGraduationGet(params),
+    keepPreviousData: true,
   });
 };
 
@@ -27,6 +28,7 @@ export const useEducationTypeGet = (
   return useQuery({
     queryKey: ["getEducationType", params],
     queryFn: async () => await educationTypeGet(params),
+    keepPreviousData: true,
   });
 };
 
@@ -36,6 +38,7 @@ export const useEducationHistoryGet = (
   return useQuery({
     queryKey: ["getEducationHistory", params],
     queryFn: async () => await educationHistoryGet(params),
+    keepPreviousData: true,
   });
 };
 
@@ -45,5 +48,6 @@ export const useEducationMajorGet = (
   return useQuery({
     queryKey: ["getEducationMajor", params],
     queryFn: async () => await educationMajorGet(params),
+    keepPreviousData: true,
   });
 };
