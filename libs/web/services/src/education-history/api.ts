@@ -1,4 +1,4 @@
-import { api } from "@uninus/web/services";
+import { api } from "../axios";
 import {
   TYearGraduationResponse,
   IYearGraduationRequest,
