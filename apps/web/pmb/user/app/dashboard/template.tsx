@@ -6,8 +6,15 @@ import { useSession } from "next-auth/react";
 import { FileTextOutlined, FormOutlined, HomeOutlined, UploadOutlined } from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
 import { useGetBiodata, useStudentGet } from "@uninus/web/modules";
-import { CityGet, ProvinceGet, SubDistrictGet, useStudentData } from "@uninus/web/services";
+import {
+  CityGet,
+  ProvinceGet,
+  SubDistrictGet,
+  useStudentData,
+  useUserData,
+} from "@uninus/web/services";
 import { useQueryClient } from "@tanstack/react-query";
+import Loading from "./loading";
 
 const monserrat = Montserrat({
   subsets: ["latin"],
@@ -49,15 +56,16 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     mutate(session?.user?.refresh_token);
   };
 
-  const { data: student } = useGetBiodata();
+  const { data: student, isLoading } = useGetBiodata();
 
   const { getStudent, setStudent } = useStudentData();
   setStudent(student);
 
-  const { data: user } = useStudentGet();
+  const { getUser } = useUserData();
+
   const userStatus = useMemo(() => {
-    return user?.registration_status;
-  }, [user?.registration_status]);
+    return getUser?.registration_status;
+  }, [getUser?.registration_status]);
 
   useEffect(() => {
     setFormStatus(getStudent?.degree_program_id);
@@ -99,7 +107,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
         key="dashboard"
         className="w-full bg-gray-100 lg:p-10 py-4 bg-grayscale-1 h-screen overflow-y-auto"
       >
-        {children}
+        {isLoading ? <Loading /> : children}
       </section>
     </main>
   );
