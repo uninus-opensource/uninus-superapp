@@ -164,10 +164,10 @@ export const Pembayaran: FC = (): ReactElement => {
 
           <div className="mt-4 md:mt-2 flex justify-between flex-col  gap-y-2 ">
             <h2 className="text-grayscale-6 text-xs md:text-base">
-              Total Pembayaran (Belum termasuk admin)
+              Total Pembayaran (Sudah termasuk biaya admin)
             </h2>
             <div className="flex justify-between text-xs md:text-base">
-              <h2 className="font-bold">Rp. 250.000</h2>
+              <h2 className="font-bold">Rp. 253.000</h2>
               <div
                 className="flex gap-2 justify-between items-center hover:cursor-pointer"
                 onClick={copyText}
