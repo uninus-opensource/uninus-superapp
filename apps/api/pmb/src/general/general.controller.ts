@@ -10,6 +10,7 @@ import {
   IOccupationPositionRequest,
   TCreateQuestionRequest,
   TUpdateQuestionRequest,
+  IEducationMajorRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -62,7 +63,7 @@ export class GeneralController {
 
   @MessagePattern("get_education_history")
   getEducationHistory(payload: ISelectEducationHistoryRequest) {
-    return this.appService.getEducationHistory(payload);
+    return this.appService.getEducation(payload);
   }
 
   @MessagePattern("get_occupation")
@@ -90,9 +91,9 @@ export class GeneralController {
     return this.appService.getScholarship(payload);
   }
 
-  @MessagePattern("get_school_type")
+  @MessagePattern("get_education_type")
   getSchoolType(payload: ISelectRequest) {
-    return this.appService.getSchoolType(payload);
+    return this.appService.getEducationType(payload);
   }
 
   @MessagePattern("get_question")
@@ -113,5 +114,25 @@ export class GeneralController {
   @MessagePattern("delete_question")
   deleteQuestion(id: number) {
     return this.appService.deleteQuestion(id);
+  }
+
+  @MessagePattern("get_parent_status")
+  getParentStatus(payload: ISelectRequest) {
+    return this.appService.getParentStatus(payload);
+  }
+
+  @MessagePattern("get_parent_education")
+  getParentEducation(payload: ISelectRequest) {
+    return this.appService.getParentEducation(payload);
+  }
+
+  @MessagePattern("get_education_major")
+  getEducationMajor(payload: IEducationMajorRequest) {
+    return this.appService.getEducationMajor(payload);
+  }
+
+  @MessagePattern("get_registrans")
+  getRegistrans() {
+    return this.appService.getTotalRegistrans();
   }
 }

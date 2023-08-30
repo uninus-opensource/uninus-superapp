@@ -119,13 +119,10 @@ export interface IGetUserMeResponse extends IGetStudentRequest {
 }
 
 export type TGraduationStatusReponse = {
-  registration_number: string | null;
-  fullname: string | null;
-  registration_status: string | null;
-  message?: string | null;
-  birth_date: string | null;
-  birth_place: string | null;
-  city: string | null;
-  school_name: string | null;
-  province: string | null;
+  registration_number?: string | null;
+  fullname?: string | null;
+  department?: string | null;
+  selection_path?: string | null;
+  registration_status?: string | null;
+  message?: string;
 };

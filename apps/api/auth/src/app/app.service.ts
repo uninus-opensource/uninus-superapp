@@ -86,7 +86,13 @@ export class AppService {
           "https://res.cloudinary.com/dyominih0/image/upload/v1688846789/MaleProfileDefault_hxtqcy.png",
         students: {
           create: {
-            phone_number: data.phone_number,
+            phone_number: `62${data.phone_number}`,
+            pmb: {
+              create: {
+                registration_number: String(Math.floor(1000000000 + Math.random() * 9000000000)),
+                registration_status_id: 1
+              },
+            },
           },
         },
       },
@@ -144,9 +150,6 @@ export class AppService {
     const now = Date.now();
     const expirationTime = now + expiresIn;
 
-    if (now > expirationTime) {
-      throw new RpcException(new UnauthorizedException("Access Token telah berakhir"))
-    }
     return {
       message: "Berhasil Login",
       token: {

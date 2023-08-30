@@ -1,5 +1,6 @@
 export interface ISelectRequest {
   search: string;
+  id?: number;
 }
 
 export interface ISelectEducationHistoryRequest extends ISelectRequest {
@@ -268,4 +269,11 @@ export type TParentEducationResponse = {
     id: number;
     name: string;
   }>;
+};
+
+export type TTotalRegistransResponse = {
+  total_registrans: number;
+  paids: number;
+  unpaids: number;
+  accepted_registrans: number;
 };

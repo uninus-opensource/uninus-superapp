@@ -46,7 +46,17 @@ export class StudentService {
   }
 
   async updateStudent(args: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
-    const { id, fullname, avatar, ...updateStudentPayload } = args;
+    const {
+      id,
+      fullname,
+      avatar,
+      email,
+      first_deparment_id,
+      second_deparment_id,
+      selection_path_id,
+      degree_program_id,
+      ...updateStudentPayload
+    } = args;
     const student = await this.prisma.users.update({
       where: {
         id,
@@ -56,32 +66,34 @@ export class StudentService {
         students: {
           update: {
             ...updateStudentPayload,
+            pmb: {
+              update: {
+                first_deparment_id,
+                second_deparment_id,
+                selection_path_id,
+                degree_program_id,
+                registration_status_id: 2
+              },
+            },
           },
         },
       },
+
       select: {
         avatar: true,
         email: true,
         fullname: true,
-        students: true,
+        students: {
+          select: {
+            pmb: true,
+          },
+        },
       },
     });
 
     if (!student) {
       throw new BadRequestException("User tidak ditemukan", {
         cause: new Error(),
-      });
-    }
-    if (avatar) {
-      const avatar = await this.cloudinaryService.uploadImage(args.avatar);
-
-      await this.prisma.users.update({
-        where: {
-          id,
-        },
-        data: {
-          avatar: avatar?.secure_url,
-        },
       });
     }
 
@@ -125,30 +137,41 @@ export class StudentService {
   async checkGraduationStatus({
     registration_number,
   }: TGraduationStatusRequest): Promise<TGraduationStatusReponse> {
-    const graduationStatus = await this.prisma.students.findFirst({
+    const graduationStatus = await this.prisma.pMB.findFirst({
       where: {
         registration_number,
       },
       include: {
-        user: true,
+        student:{
+          include: {
+            user: true,
+            department: true
+          }
+        },
+        selection_path: true,
+        registration_status: true
       },
     });
 
     if (!graduationStatus) {
-      throw new BadRequestException("Data tidak ditemukan", {
+      throw new BadRequestException("Nomor registrasi tidak ditemukan", {
         cause: new Error(),
       });
     }
 
+    const { registration_status_id } = graduationStatus;
+    if ((registration_status_id as number) < 5) {
+      return {
+        message: "Sedang Dalam Proses Seleksi",
+      };
+    }
+
     return {
       registration_number: graduationStatus.registration_number,
-      fullname: graduationStatus.user.fullname,
-      birth_date: graduationStatus.birth_date,
-      birth_place: graduationStatus.birth_place,
-      city: graduationStatus.city,
-      school_name: graduationStatus.school_name,
-      province: graduationStatus.province,
-      registration_status: graduationStatus.registration_status
+      fullname: graduationStatus.student?.user.fullname,
+      department: graduationStatus.student?.department?.name,
+      selection_path: graduationStatus.selection_path?.name,
+      registration_status: graduationStatus.registration_status.name,
     };
   }
 }
