@@ -60,7 +60,7 @@ export const SelectOption = forwardRef(
         </label>
         <Select
           {...props}
-          className={selectClassName ?? props.className}
+          className={`${selectClassName} ${props.className}`}
           value={props.options.find((option) => option.value === field.value)}
           onChange={handleChange}
           ref={ref}
