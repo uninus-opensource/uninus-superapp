@@ -136,7 +136,7 @@ export const Pembayaran: FC = (): ReactElement => {
             />
           )}
 
-          <div className="mt-2 flex justify-between flex-col  gap-y-2">
+          <div className="mt-2 flex justify-between  gap-y-2">
             <h2 className="text-grayscale-6 text-xs md:text-base">Metode Pembayaran</h2>
             <div className="flex justify-between">
               <h2 className="font-bold text-xs md:text-base">Mandiri</h2>
@@ -191,7 +191,7 @@ export const Pembayaran: FC = (): ReactElement => {
               title="Mobile Banking Payment"
               titleClassName="text-slate-7 hover:text-primary-green font-normal"
             >
-              <div className="p-4">
+              <div className="p-4 lg:text-base sm:text-xs">
                 <li>
                   1. Masukan <span className="font-bold">User ID dan Password</span>
                 </li>
@@ -219,7 +219,7 @@ export const Pembayaran: FC = (): ReactElement => {
               title="ATM Payment"
               titleClassName="text-slate-7 hover:text-primary-green font-normal"
             >
-              <div className="p-4">
+              <div className="p-4 lg:text-base sm:text-xs">
                 <li>
                   1. Masukan <span className="font-bold">kartu ATM dan Pin</span>
                 </li>
