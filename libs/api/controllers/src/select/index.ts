@@ -365,4 +365,28 @@ export class SelectController {
       const response = await firstValueFrom(this.client.send("delete_question", { id }));
       return response;
   }
+
+  @Get("parent-status")
+  @ApiOperation({ summary: "Get Parent Status" })
+  @ApiResponse({
+    status: 400,
+    description: "Parent Status Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  async getParentStatus(@Query("search") search: string) {
+    const response = await firstValueFrom(this.client.send("get_parent_status", { search }));
+    return response;
+  }
+
+  @Get("school-type-major")
+  @ApiOperation({ summary: "Get School Type Major" })
+  @ApiResponse({
+    status: 400,
+    description: "School Type Major Not Found",
+  })
+  @ApiQuery({ name: "school_type_id", required: false })
+  async getSchoolMajor(@Query("search") search: string, @Query("school_type_id") school_type_id: string) {
+    const response = await firstValueFrom(this.client.send("get_school_type_major", { school_type_id}));
+    return response;
+  }
 }

@@ -10,6 +10,7 @@ import {
   IOccupationPositionRequest,
   TCreateQuestionRequest,
   TUpdateQuestionRequest,
+  ISelectSchoolMajorRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -113,5 +114,15 @@ export class GeneralController {
   @MessagePattern("delete_question")
   deleteQuestion(id: number) {
     return this.appService.deleteQuestion(id);
+  }
+
+  @MessagePattern("get_parent_status")
+  getParentStatus(payload: ISelectRequest) {
+    return this.appService.getParentStatus(payload);
+  }
+
+  @MessagePattern("get_school_type_major")
+  getSchoolTypeMajor(payload: ISelectSchoolMajorRequest) {
+    return this.appService.getEducationMajor(payload);
   }
 }

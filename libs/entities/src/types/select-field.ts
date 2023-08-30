@@ -1,6 +1,9 @@
 export interface ISelectRequest {
   search: string;
 }
+export interface ISelectEducationMajorRequest extends ISelectRequest {
+  school_type_id: number;
+}
 
 export interface ISelectEducationHistoryRequest extends ISelectRequest {
   npsn: string;
@@ -254,7 +257,7 @@ export interface IParentStatusRequest {
 
 export type TParentStatusResponse = {
   parent_status: Array<{
-    id: number;
+    id: string;
     name: string;
   }>;
 };
@@ -265,6 +268,17 @@ export interface IParentEducationRequest {
 
 export type TParentEducationResponse = {
   parent_education: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface ISelectSchoolMajorRequest extends ISelectRequest {
+  school_type_id: string;
+};
+
+export type TSchoolMajorResponse = {
+  school_major: Array<{
     id: number;
     name: string;
   }>;
