@@ -6,11 +6,12 @@ export interface ModalProps {
   iconClose?: boolean;
   modalTitle?: ReactNode;
   children?: ReactNode;
-  position?: string;
-  size?: string;
+  position?: "center" | "right-start" ;
+  size?: "full" | "modal-question";
   className?: string;
   closeClassName?: string;
-  headerColor?: string;
-  footerColor?: string;
+  headerColor?: "secondary-green" | "white-shadow" | "red" | "white" | "orange" | "green";
+
+  footerColor?: "green" | "white";
   bodyClassName?: string;
 }

@@ -24,8 +24,8 @@ export const ProgramStudyModule: FC = (): ReactElement => {
         onClose={handleCloseModal}
         closeClassName="text-primary-white"
         bodyClassName="overflow-y-auto p-8"
-        headerColor="bg-primary-green"
-        footerColor="bg-primary-green"
+        headerColor="green"
+        footerColor="green"
         modalTitle={
           <div className=" flex flex-row gap-x-2 items-center">
             <Image src="/illustrations/uninus-logo.webp" height={70} width={70} alt="logo" />

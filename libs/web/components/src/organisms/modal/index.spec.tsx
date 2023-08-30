@@ -115,7 +115,7 @@ describe("Test Modal Functionally", () => {
     const container = document.createElement("div");
     document.body.appendChild(container);
     ReactDOM.createPortal(
-      <Modal onClose={closeFn} showModal headerColor=" ">
+      <Modal onClose={closeFn} showModal headerColor="green">
         children
       </Modal>,
       container,
@@ -129,7 +129,7 @@ describe("Test Modal Functionally", () => {
     const container = document.createElement("div");
     document.body.appendChild(container);
     ReactDOM.createPortal(
-      <Modal onClose={closeFn} showModal footerColor=" ">
+      <Modal onClose={closeFn} showModal footerColor="green">
         children
       </Modal>,
       container,

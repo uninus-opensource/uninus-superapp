@@ -105,10 +105,10 @@ export const QuizModule: FC = (): ReactElement => {
             showModal={showList}
             modalTitle="Nomor Soal"
             onClose={handleShowList}
-            headerColor="bg-primary-white drop-shadow-md"
-            size="lg:w-30% w-full md:w-[60%]"
+            headerColor="white-shadow"
+            size="modal-question"
             bodyClassName="h-[80vh] p-6 space-y-8"
-            position="justify-end items-start"
+            position="right-start"
           >
             <Fragment>
               <div className="flex flex-wrap gap-3 items-center justify-center  ">
