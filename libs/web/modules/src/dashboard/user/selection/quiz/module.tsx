@@ -94,11 +94,10 @@ export const QuizModule: FC = (): ReactElement => {
       {mount && (
         <Fragment>
           {/* header */}
-          <div className="w-[80%] lg:w-full  flex-col justify-start items-start hidden md:flex">
+          <div className="w-[80%] lg:w-full  flex-col justify-start items-start flex">
             <h1 className="text-slate-5">
               PMB <span className="text-secondary-green-4"> / Seleksi Test</span>
             </h1>
-            <p className="text-lg 2xl:text-2xl font-bold text-secondary-green-4 ">Seleksi Test</p>
           </div>
 
           {/* body */}
