@@ -15,18 +15,16 @@ import {
   useProvinceGet,
   useStudentData,
   useSubdistrictGet,
-} from "@uninus/web/services";
-import {
-  useCitizenGet,
-  useCountryGet,
-  useDisabilitiesGet,
-  useGenderGet,
-  useReligionGet,
-  useStatusGet,
   useOccupationGet,
   useOccupationPositionGet,
   useSalaryGet,
-} from "./hooks";
+  useGenderGet,
+  useReligionGet,
+  useCitizenGet,
+  useCountryGet,
+  useDisabilitiesGet,
+  useStatusGet,
+} from "@uninus/web/services";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
 import { useBiodataUpdate } from "../../hooks";
@@ -349,55 +347,50 @@ export const DataDiriSection: FC = (): ReactElement => {
             };
           }),
         {
-          // onSuccess: () => {
-          //   setIsdisabled(true);
-          //   setTimeout(() => {
-          //     toast.success("Berhasil mengisi formulir", {
-          //       position: "top-center",
-          //       autoClose: 5000,
-          //       hideProgressBar: false,
-          //       closeOnClick: true,
-          //       pauseOnHover: true,
-          //       draggable: true,
-          //       progress: undefined,
-          //       theme: "light",
-          //     });
-          //   }, 500);
-          // },
-          // onError: () => {
-          //   setTimeout(() => {
-          //     toast.error("Gagal mengisi formulir", {
-          //       position: "top-center",
-          //       autoClose: 5000,
-          //       hideProgressBar: false,
-          //       closeOnClick: true,
-          //       pauseOnHover: true,
-          //       draggable: true,
-          //       progress: undefined,
-          //       theme: "light",
-          //     });
-          //   }, 500);
-          // },
+          onSuccess: () => {
+            setIsdisabled(true);
+            setTimeout(() => {
+              toast.success("Berhasil mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setTimeout(() => {
+              toast.error("Gagal mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
         },
       );
     } catch (error) {
-      // toast.error(error as string, {
-      //   position: "top-center",
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      //   theme: "light",
-      // });
+      toast.error(error as string, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   });
-
-  console.log(errors?.nik?.message);
-  const handleButtonClick = () => {
-    toast.success("Data Diri Berhasil Disimpan!");
-  };
 
   return (
     <Accordion
@@ -725,6 +718,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               type="text"
               labelclassname="text-xl font-semibold"
               label="Alamat Domisili"
+              placeholder="Masukan Alamat Lengkap Anda"
               control={control}
               required
               isTextArea
@@ -920,7 +914,6 @@ export const DataDiriSection: FC = (): ReactElement => {
           <Button
             type="submit"
             variant="filled"
-            onClick={handleButtonClick}
             size="md"
             width="w-50% lg:w-25% xl:w-15%"
             disabled={isDisabled || !!student?.nik}

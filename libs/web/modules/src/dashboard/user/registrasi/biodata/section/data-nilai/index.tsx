@@ -2,8 +2,8 @@ import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { Accordion, Button, TextField, UploadField } from "@uninus/web/components";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
-import { NilaiValues } from "./type";
-import { useGetStudentGrade, useStudentGradeUpdate } from "./hook";
+import { NilaiValues } from "../../type";
+import { useGetStudentGrade, useStudentGradeUpdate } from "../../hooks";
 
 export const DataNilaiSection: FC = (): ReactElement => {
   const [isDisabled, setIsdisabled] = useState<boolean>(false);

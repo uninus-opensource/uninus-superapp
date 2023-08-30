@@ -2,7 +2,6 @@ import { api } from "@uninus/web/services";
 import {
   TScholarshipResponse,
   IScholarshipRequest,
-  IGetStudentResponse,
   IUpdateStudentRequestFE,
 } from "@uninus/entities";
 

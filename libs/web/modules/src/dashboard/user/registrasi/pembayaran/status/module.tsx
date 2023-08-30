@@ -1,9 +1,10 @@
 "use client";
 import { CopyOutlined, DownloadOutlined } from "@ant-design/icons";
-import { BreadCrumb, Button } from "@uninus/web/components";
+import { BreadCrumb, Button, Accordion } from "@uninus/web/components";
 import dynamic from "next/dynamic";
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import Image from "next/image";
 import "react-toastify/dist/ReactToastify.css";
 import { KartuPembayaran } from "../pdf";
 import { StatusAlert } from "./alertStatus";
@@ -135,11 +136,19 @@ export const Pembayaran: FC = (): ReactElement => {
             />
           )}
 
-          <div className="mt-2 flex justify-between flex-col  gap-y-2">
+          <div className="mt-2 flex justify-between  gap-y-2">
             <h2 className="text-grayscale-6 text-xs md:text-base">Metode Pembayaran</h2>
-            <h2 className="font-bold text-xs md:text-base">Mandiri</h2>
+            <div className="flex justify-between">
+              <h2 className="font-bold text-xs md:text-base">Mandiri</h2>
+              <Image
+                src="/illustrations/payment/mandiri.webp"
+                width={100}
+                height={100}
+                alt="mandiri"
+              />
+            </div>
           </div>
-          <div className="mt-4 md:mt-2 flex justify-between flex-col  gap-y-2">
+          <div className="mt-4 md:mt-2 flex justify-between flex-col gap-y-2">
             <h2 className="text-grayscale-6 text-xs md:text-base">Nomor Virtual Account</h2>
             <div className="flex justify-between">
               <h2 className="font-bold text-xs md:text-base">4444081904377804</h2>
@@ -155,22 +164,17 @@ export const Pembayaran: FC = (): ReactElement => {
 
           <div className="mt-4 md:mt-2 flex justify-between flex-col  gap-y-2 ">
             <h2 className="text-grayscale-6 text-xs md:text-base">
-              Total Pembayaran (Belum termasuk admin)
+              Total Pembayaran (Sudah termasuk biaya admin)
             </h2>
             <div className="flex justify-between text-xs md:text-base">
-              <h2 className="font-bold">Rp. 250.000</h2>
-              <BlobProvider document={<KartuPembayaran />}>
-                {({ url }) => (
-                  <a
-                    href={url != null ? url : ""}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-primary-green "
-                  >
-                    Lihat Detail
-                  </a>
-                )}
-              </BlobProvider>
+              <h2 className="font-bold">Rp. 253.000</h2>
+              <div
+                className="flex gap-2 justify-between items-center hover:cursor-pointer"
+                onClick={copyText}
+              >
+                <p className="text-primary-green text-xs md:text-base">salin</p>
+                <CopyOutlined className="text-primary-green" />
+              </div>
             </div>
           </div>
           <h2 className="text-grayscale-6 text-xs md:text-base mt-5 ">
@@ -178,6 +182,69 @@ export const Pembayaran: FC = (): ReactElement => {
           </h2>
           <h2 className="font-bold py-2 text-xs md:text-base ">22 Agustus 2023, 23:59 WIB</h2>
         </div>
+        <div className="bg-slate-3 w-full h-[3px]"></div>
+        <section className="px-8 py-4">
+          <h1 className="font-bold text-xs md:text-base">Cara Pembayaran</h1>
+          <div className="py-4 gap-y-8">
+            <Accordion
+              showIcon={true}
+              title="Mobile Banking Payment"
+              titleClassName="text-slate-7 hover:text-primary-green font-normal"
+            >
+              <div className="p-4 lg:text-base sm:text-xs">
+                <li>
+                  1. Masukan <span className="font-bold">User ID dan Password</span>
+                </li>
+                <li>
+                  2. Pilih <span className="font-bold">Transfer</span>
+                </li>
+                <li>
+                  3. Pilih <span className="font-bold">ke rek. Bank lain</span>
+                </li>
+                <li>
+                  4. Pilih <span className="font-bold">bank tujuan</span>
+                </li>
+                <li>
+                  5. Masukan Nomor Virtual Account Anda{" "}
+                  <span className="font-bold">(Mandiri 88608 - nomor virtual account)</span>
+                </li>
+                <li>6. Input nominal yang ditagihkan sebagai Nominal Transfer</li>
+                <li>
+                  <span className="font-bold">7. Selesai </span>Transaksi berhasil
+                </li>
+              </div>
+            </Accordion>
+            <Accordion
+              showIcon={true}
+              title="ATM Payment"
+              titleClassName="text-slate-7 hover:text-primary-green font-normal"
+            >
+              <div className="p-4 lg:text-base sm:text-xs">
+                <li>
+                  1. Masukan <span className="font-bold">kartu ATM dan Pin</span>
+                </li>
+                <li>
+                  2. Pilih Menu <span className="font-bold">Bayar / Beli</span>
+                </li>
+                <li>
+                  3. Pilih Menu <span className="font-bold">Lainnya</span>
+                </li>
+                <li>
+                  4. Masukkan kode bank dilanjutkan dengan Nomor Virtual Account Anda{" "}
+                  <span className="font-bold">(Mandiri 88608 - nomor virtual account)</span>
+                </li>
+                <li>5. Input nominal yang ditagihkan sebagai Nominal Transfer</li>
+                <li>
+                  6. Konfirmasi Pembayaran <span className="font-bold">dan Transaksi berhasil</span>
+                </li>
+                <li>
+                  7. Setelah transaksi anda selesai, invoice ini akan diupdate secara otomatis.
+                  Proses ini mungkin memakan waktu hingga 5 menit
+                </li>
+              </div>
+            </Accordion>
+          </div>
+        </section>
       </section>
     </section>
   );

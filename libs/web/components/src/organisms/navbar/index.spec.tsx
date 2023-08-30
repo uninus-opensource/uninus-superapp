@@ -21,7 +21,7 @@ describe("Test Navbar Componetn", () => {
   it("Should Have a Login Button", () => {
     const { getAllByText } = render(<Navbar />);
     mockAllIsIntersecting(true);
-    expect(getAllByText("Login")).toBeDefined();
+    expect(getAllByText("Masuk")).toBeDefined();
   });
   it("Should Have a valid ClassName", () => {
     const { getByTestId } = render(<Navbar />);
