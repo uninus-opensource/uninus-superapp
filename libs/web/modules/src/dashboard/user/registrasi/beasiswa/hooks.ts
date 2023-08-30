@@ -6,7 +6,6 @@ import {
   IUpdateStudentRequestFE,
   IUpdateStudentResponse,
   TMetaErrorResponse,
-  IGetStudentResponse,
 } from "@uninus/entities";
 
 import { ScholarshipGet } from "./api";

@@ -2,17 +2,17 @@ import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { Accordion, TextField, SelectOption, Button } from "@uninus/web/components";
 import { useForm, FieldValues } from "react-hook-form";
 import { useBiodataUpdate } from "../../hooks";
-import {
-  useEducationHistoryGet,
-  useEducationMajorGet,
-  useEducationTypeGet,
-  useYearGraduationGet,
-} from "./hooks";
 import { dataPendidikan } from "../../store";
 import { ToastContainer, toast } from "react-toastify";
 import { VSDataPendidikan } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useStudentData } from "@uninus/web/services";
+import {
+  useStudentData,
+  useEducationHistoryGet,
+  useEducationMajorGet,
+  useEducationTypeGet,
+  useYearGraduationGet,
+} from "@uninus/web/services";
 
 export const DataPendidikanSection: FC = (): ReactElement => {
   const [education, setEducation] = useState<string>("");
@@ -167,45 +167,41 @@ export const DataPendidikanSection: FC = (): ReactElement => {
       mutate(
         { ...dataPendidikan },
         {
-          // onSuccess: () => {
-          //   setIsdisabled(true);
-          //   setTimeout(() => {
-          //     toast.success("Berhasil mengisi formulir", {
-          //       position: "top-center",
-          //       autoClose: 5000,
-          //       hideProgressBar: false,
-          //       closeOnClick: true,
-          //       pauseOnHover: true,
-          //       draggable: true,
-          //       progress: undefined,
-          //       theme: "light",
-          //     });
-          //   }, 500);
-          // },
-          // onError: () => {
-          //   setTimeout(() => {
-          //     toast.error("Gagal mengisi formulir", {
-          //       position: "top-center",
-          //       autoClose: 5000,
-          //       hideProgressBar: false,
-          //       closeOnClick: true,
-          //       pauseOnHover: true,
-          //       draggable: true,
-          //       progress: undefined,
-          //       theme: "light",
-          //     });
-          //   }, 500);
-          // },
+          onSuccess: () => {
+            setIsdisabled(true);
+            setTimeout(() => {
+              toast.success("Berhasil mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setTimeout(() => {
+              toast.error("Gagal mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
         },
       );
     } catch (error) {
       console.error(error);
     }
   });
-
-  const handleButtonClick = () => {
-    toast.success("Data Pendidikan Berhasil Disimpan!");
-  };
 
   return (
     <Accordion
@@ -391,7 +387,6 @@ export const DataPendidikanSection: FC = (): ReactElement => {
         <div className="flex w-full justify-center lg:justify-end py-4">
           <Button
             type="submit"
-            onClick={handleButtonClick}
             variant="filled"
             size="md"
             width="w-50% lg:w-25% xl:w-15%"

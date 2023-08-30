@@ -136,7 +136,7 @@ export const Navbar: FC = (): ReactElement => {
               width="w-28"
               height="h-9"
             >
-              Login
+              Masuk
             </Button>
           </div>
           <div className="block lg:hidden">
@@ -199,7 +199,7 @@ export const Navbar: FC = (): ReactElement => {
               width="w-full"
               height="h-10"
             >
-              Login
+              Masuk
             </Button>
           </li>
         </ul>

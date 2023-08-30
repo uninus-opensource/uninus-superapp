@@ -12,6 +12,7 @@ import { Modal } from "../modal";
 import { MenuOutlined, AppstoreFilled } from "@ant-design/icons";
 import { useStudentGet } from "./hooks";
 import { useUserData } from "@uninus/web/services";
+import { Loading } from "./loading";
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -38,7 +39,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
     return userName;
   }, [session]);
 
-  const { data } = useStudentGet();
+  const { data, isLoading } = useStudentGet();
 
   const { getUser, setUser } = useUserData();
   setUser(data);
@@ -111,21 +112,24 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
             </figcaption>
           </figure>
           {/* Status pendaftaran */}
-          {process.env.NEXT_PUBLIC_WORKSPACE === "user" && (
-            <div
-              className={`w-3/5 mt-2 font-bold ${
-                userStatus === "Belum Membayar" ||
-                userStatus === "Tidak Lulus" ||
-                userStatus === "Belum Mendaftar"
-                  ? "bg-red-3 text-red-4"
-                  : userStatus === "Sudah Membayar" || userStatus === "Lulus"
-                  ? "bg-[#CCEADA] text-grayscale-9"
-                  : "bg-[#FFECB4] text-grayscale-9"
-              }  p-2 rounded-md text-center text-xs`}
-            >
-              {userStatus}
-            </div>
-          )}
+          {process.env.NEXT_PUBLIC_WORKSPACE === "user" &&
+            (isLoading ? (
+              <div className="w-3/5 mt-2 font-bold p-2 rounded-md bg-grayscale-2 animate-pulse h-10"></div>
+            ) : (
+              <div
+                className={`w-3/5 mt-2 font-bold ${
+                  userStatus === "Belum Membayar" ||
+                  userStatus === "Tidak Lulus" ||
+                  userStatus === "Belum Mendaftar"
+                    ? "bg-red-3 text-red-4"
+                    : userStatus === "Sudah Membayar" || userStatus === "Lulus"
+                    ? "bg-[#CCEADA] text-grayscale-9"
+                    : "bg-[#FFECB4] text-grayscale-9"
+                }  p-2 rounded-md text-center text-xs`}
+              >
+                {userStatus}
+              </div>
+            ))}
           {/* End Status pendaftaran */}
           <hr className="w-3/4 my-2" />
 
@@ -133,38 +137,42 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
             <nav>
               <ul className="flex flex-col gap-y-1 xl:gap-y-2 items-start">
                 {process.env.NEXT_PUBLIC_WORKSPACE === "user" &&
-                  sideList?.map((sideList, idx) => (
-                    <li key={idx} className="flex flex-col gap-y-6">
-                      <Link
-                        href={sideList?.link}
-                        role="link"
-                        className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto items-center p-2 rounded-md ${
-                          pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
-                        } ${
-                          sideList.disabledStatus
-                            ? "pointer-events-none "
-                            : "hover:bg-primary-white group hover:shadow-md hover:text-secondary-green-1"
-                        }`}
-                      >
-                        <p
-                          className={`w-11 h-9 xl:w-fit xl:h-fit p-3 drop-shadow-md rounded-lg flex justify-center items-center ${
-                            pathname === sideList?.link &&
-                            "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg text-primary-white"
-                          }  group-hover:bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white ${
-                            sideList.disabledStatus ? "text-grayscale-2" : "text-primary-green"
-                          } `}
+                  (isLoading ? (
+                    <Loading />
+                  ) : (
+                    sideList?.map((sideList, idx) => (
+                      <li key={idx} className="flex flex-col gap-y-6">
+                        <Link
+                          href={sideList?.link}
+                          role="link"
+                          className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto items-center p-2 rounded-md ${
+                            pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
+                          } ${
+                            sideList.disabledStatus
+                              ? "pointer-events-none "
+                              : "hover:bg-primary-white group hover:shadow-md hover:text-secondary-green-1"
+                          }`}
                         >
-                          {sideList?.icon}
-                        </p>
-                        <p
-                          className={`${
-                            sideList.disabledStatus ? "text-grayscale-2" : "text-primary-green"
-                          } text-xs xl:text-base w-[22vh] font-normal`}
-                        >
-                          {sideList?.label}
-                        </p>
-                      </Link>
-                    </li>
+                          <p
+                            className={`w-11 h-9 xl:w-fit xl:h-fit p-3 drop-shadow-md rounded-lg flex justify-center items-center ${
+                              pathname === sideList?.link &&
+                              "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg text-primary-white"
+                            }  group-hover:bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white ${
+                              sideList.disabledStatus ? "text-grayscale-2" : "text-primary-green"
+                            } `}
+                          >
+                            {sideList?.icon}
+                          </p>
+                          <p
+                            className={`${
+                              sideList.disabledStatus ? "text-grayscale-2" : "text-primary-green"
+                            } text-xs xl:text-base w-[22vh] font-normal`}
+                          >
+                            {sideList?.label}
+                          </p>
+                        </Link>
+                      </li>
+                    ))
                   ))}
 
                 {process.env.NEXT_PUBLIC_WORKSPACE === "admin" &&
@@ -257,21 +265,24 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                 </figure>
               </div>
               {/* Status pendaftaran */}
-              {process.env.NEXT_PUBLIC_WORKSPACE === "user" && (
-                <div
-                  className={`w-3/5 mt-2 font-bold ${
-                    userStatus === "Belum Membayar" ||
-                    userStatus === "Tidak Lulus" ||
-                    userStatus === "Belum Mendaftar"
-                      ? "bg-red-3 text-red-4"
-                      : userStatus === "Sudah Membayar" || userStatus === "Lulus"
-                      ? "bg-[#CCEADA] text-grayscale-9"
-                      : "bg-[#FFECB4] text-grayscale-9"
-                  }  p-2 rounded-md text-center text-xs`}
-                >
-                  {userStatus}
-                </div>
-              )}
+              {process.env.NEXT_PUBLIC_WORKSPACE === "user" &&
+                (isLoading ? (
+                  <div className="w-3/5 mt-2 font-bold p-2 rounded-md bg-grayscale-2 animate-pulse h-10"></div>
+                ) : (
+                  <div
+                    className={`w-3/5 mt-2 font-bold ${
+                      userStatus === "Belum Membayar" ||
+                      userStatus === "Tidak Lulus" ||
+                      userStatus === "Belum Mendaftar"
+                        ? "bg-red-3 text-red-4"
+                        : userStatus === "Sudah Membayar" || userStatus === "Lulus"
+                        ? "bg-[#CCEADA] text-grayscale-9"
+                        : "bg-[#FFECB4] text-grayscale-9"
+                    }  p-2 rounded-md text-center text-xs`}
+                  >
+                    {userStatus}
+                  </div>
+                ))}
               {/* End Status pendaftaran */}
               <div className="w-[60%] px-3 h-[1px] bg-slate-4"></div>
               <nav>
