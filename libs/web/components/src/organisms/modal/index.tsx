@@ -9,7 +9,9 @@ export const Modal: FC<ModalProps> = ({
   onClose,
   iconClose = true,
   modalTitle,
+  position = "justify-center items-center",
   children,
+  size = "w-full",
   className = "max-w-2xl max-h-full rounded-lg bg-primary-white",
   closeClassName = "text-primary-black",
   headerColor = "",
@@ -23,8 +25,10 @@ export const Modal: FC<ModalProps> = ({
   return (
     showModal &&
     createPortal(
-      <div className="fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex items-center justify-center bg-primary-black bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 backdrop-blur-sm">
-        <div data-testid="modal-landing" className={`relative w-full ${className}`}>
+      <div
+        className={`fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex  ${position} bg-primary-black bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 backdrop-blur-sm`}
+      >
+        <div data-testid="modal-landing" className={`relative ${size} ${className}`}>
           <div className="relative bg-white rounded-lg shadow">
             <div className={`flex items-center justify-between py-4 px-4 rounded-t ${headerColor}`}>
               <div className="text-xl font-semibold text-gray-900 w-full md:px-10 lg:px-4 ">

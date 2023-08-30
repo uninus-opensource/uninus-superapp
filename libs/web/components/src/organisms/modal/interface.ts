@@ -6,6 +6,8 @@ export interface ModalProps {
   iconClose?: boolean;
   modalTitle?: ReactNode;
   children?: ReactNode;
+  position?: string;
+  size?: string;
   className?: string;
   closeClassName?: string;
   headerColor?: string;

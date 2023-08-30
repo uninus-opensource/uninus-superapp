@@ -14,15 +14,26 @@ export const QuizModule: FC = (): ReactElement => {
   const listDataQuestion = useRecoilValue(queyQuestionState);
   const timerQuiz = useRecoilValue(timerState);
   const [timer, setTimer] = useState<TTimer>();
+
   const [minutes, setMinutes] = useState<number>(timerQuiz);
   const [seconds, setSeconds] = useState<number>(timerQuiz);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [mount, setMount] = useState(false);
 
+  const [showList, setShowList] = useState<boolean>(false);
+  const handleShowList = () => {
+    setShowList(!showList);
+  };
+
   const getQuestionData = listDataQuestion?.map((el) => ({
+    no: el.no,
     question: el.question,
     options: [...el.incorrect_answers, el.correct_answer],
   }));
+  const handleSelectQuiz = (no: number) => {
+    setIsActiveQuestion(no - 1);
+    setShowList(false);
+  };
   const intervalRef = useRef<any>();
   useEffect(() => {
     intervalRef.current = setInterval(() => {
@@ -63,6 +74,7 @@ export const QuizModule: FC = (): ReactElement => {
   const onOptionSelected = (answer: string, idx: number): void => {
     setSelectedAnsweridx(idx);
   };
+
   const nextQuestion = (): void => {
     setSelectedAnsweridx(null);
 
@@ -82,31 +94,77 @@ export const QuizModule: FC = (): ReactElement => {
       {mount && (
         <Fragment>
           {/* header */}
-          <div className="w-[80%] lg:w-full flex flex-col justify-start items-start">
+          <div className="w-[80%] lg:w-full  flex-col justify-start items-start hidden md:flex">
             <h1 className="text-slate-5">
               PMB <span className="text-secondary-green-4"> / Seleksi Test</span>
             </h1>
-            <p className="text-lg 2xl:text-2xl font-bold text-secondary-green-4">Seleksi Test</p>
+            <p className="text-lg 2xl:text-2xl font-bold text-secondary-green-4 ">Seleksi Test</p>
           </div>
 
           {/* body */}
-          <div className="w-[80%] lg:w-full relative rounded-lg h-auto md:h-[30rem] lg:h-[27rem] xl:h-[83vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex flex-col p-4">
-            <div className="flex flex-col gap-y-3">
-              <div className="flex w-full pb-3 justify-between items-center border-b-[3px] border-b-slate-5">
-                <h1 className="text-primary-green text-lg lg:text-3xl py-3 font-extrabold">
-                  Seleksi Test
-                </h1>
-                <div className="px-2 lg:px-4 py-2 shadow-[0px_0px_2px_1px_#00000024] text-medium lg:text-2xl text-primary-green font-bold rounded-sm">
-                  {minutes === 0 && seconds === 0 ? null : (
-                    <h1>
-                      {minutes} : {seconds < 10 ? `0${seconds}` : seconds}
-                    </h1>
-                  )}
+          <Modal
+            showModal={showList}
+            modalTitle="Nomor Soal"
+            onClose={handleShowList}
+            headerColor="bg-primary-white drop-shadow-md"
+            size="lg:w-30% w-full md:w-[60%]"
+            bodyClassName="h-[80vh] p-6 space-y-8"
+            position="justify-end items-start"
+          >
+            <Fragment>
+              <div className="flex flex-wrap gap-3 items-center justify-center  ">
+                {getQuestionData.map((item, idx) => (
+                  <div
+                    className="bg-primary-green text-primary-white rounded-sm flex  items-center md:w-10 md:h-10 md:p-7 p-6 h-7 w-7 justify-center  cursor-pointer"
+                    key={idx}
+                    onClick={() => handleSelectQuiz(item.no)}
+                  >
+                    <p className="text-white text-center"> {item.no}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="instruction px-7 flex flex-col">
+                <div className="ansee flex flex-row gap-x-3  items-center">
+                  <div className="bg-primary-green w-4 h-4"></div>
+                  <p className="text-white text-center">= Sudah dijawab</p>
+                </div>
+                <div className="ansee flex flex-row gap-x-3  items-center">
+                  <div className="bg-primary-white border-2 border-primary-black w-4 h-4"></div>
+                  <p className="text-white text-center">= Belum dijawab</p>
                 </div>
               </div>
-              <h2 className="font-extrabold lg:text-2xl">{`Soal No. ${isActiveQuestion + 1} / ${
-                listDataQuestion?.length
-              }`}</h2>
+            </Fragment>
+          </Modal>
+          <div className="w-[80%] lg:w-full relative rounded-lg h-auto md:h-[30rem] lg:h-[27rem] xl:h-[83vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex flex-col  md:p-4">
+            <div className="flex flex-col gap-y-3">
+              <h1 className="text-primary-green text-lg lg:text-3xl py-3 font-extrabold">
+                Seleksi Test
+              </h1>
+
+              <div className="flex w-full pb-3 justify-between items-center border-b-[3px] border-b-slate-5">
+                <h2 className="font-extrabold lg:text-2xl">
+                  {`Soal No. ${isActiveQuestion + 1}`}{" "}
+                </h2>
+                <div className="flex flex-row justify-center items-center ">
+                  <div className="bg-[#BDBDBD] px-4 py-1">
+                    <p className="text-primary-white text-sm font-bold">Sisa Waktu</p>
+                  </div>
+                  <div className="px-2 lg:px-4 py-1  text-sm  text-primary-white bg-secondary-green-1 font-bold  mr-5">
+                    {minutes === 0 && seconds === 0 ? null : (
+                      <h1>
+                        {minutes} : {seconds < 10 ? `0${seconds}` : seconds}
+                      </h1>
+                    )}
+                  </div>
+                  <div
+                    className="icon p-2 rounded-full bg-primary-white shadow-lg cursor-pointer"
+                    onClick={handleShowList}
+                  >
+                    <BiSolidLeftArrow className="text-primary-green" />
+                  </div>
+                </div>
+              </div>
+
               <div>
                 {getQuestionData && isActiveQuestion < getQuestionData.length ? (
                   <div>
