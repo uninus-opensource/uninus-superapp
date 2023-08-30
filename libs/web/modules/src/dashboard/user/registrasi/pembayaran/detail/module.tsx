@@ -114,13 +114,13 @@ export const DetailPembayaran: FC = (): ReactElement => {
                 ? DegreeProgramOptions?.find((x) => x.value === degreeProgram)?.label
                 : "loading data program pendidikan..."}
             </h1>
-            <p className="font-bold">Rp. 750.000</p>
+            <p className="font-bold">Rp. 250.000</p>
           </div>
           <p></p>
           <div className="bg-slate-5 w-full h-[2px] "></div>
           <div className="flex justify-between p-4 text-left">
             <h1 className="font-bold">Total Pembayaran</h1>
-            <p className="font-bold">Rp. 750.000</p>
+            <p className="font-bold">Rp. 250.000</p>
           </div>
         </div>
         <div className="flex flex-col w-full items-center lg:items-end p-8">
