@@ -16369,10 +16369,10 @@ react-alice-carousel@^2.7.1:
   dependencies:
     vanilla-swipe "^2.4.1"
 
-react-data-table-component@^7.5.3:
-  version "7.5.3"
-  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-7.5.3.tgz#a008b4c281574cc1a81315e2c1b34107b5d18fe0"
-  integrity sha512-JhatRTgThAAa1HobPaPmkNPsjLT6+fnMIdtcXRCy+0bSYN7XJnTgob9Qyi4bjHh/8tMPTHtxZCV/TKiPwRvFMA==
+react-data-table-component@^7.5.4:
+  version "7.5.4"
+  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-7.5.4.tgz#82bcf828139f7a88464cd4f5f88b3bc6ba676b29"
+  integrity sha512-6DGVj3urJZfEEMuP652fSjxdRVKeyb+9d0YounVc+MX8jwoyXQW6KO10eyZqElE9QtVrKrCeJxR7vht9yxyJiw==
   dependencies:
     deepmerge "^4.2.2"
 
