@@ -86,4 +86,5 @@ export type TGraduationStatusReponse = {
   department?: string | null;
   selection_path?: string | null;
   registration_status?: string | null;
+  message?: string;
 };

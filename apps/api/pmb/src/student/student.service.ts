@@ -153,6 +153,15 @@ export class StudentService {
       });
     }
 
+    if (
+      String(graduationStatus.registration_status?.name?.toLowerCase) !== "lulus" ||
+      String(graduationStatus.registration_status?.name?.toLowerCase) !== "tidak lulus"
+    ) {
+      return {
+        message: "Sedang Dalam Proses Seleksi",
+      };
+    }
+
     return {
       registration_number: graduationStatus.registration_number,
       fullname: graduationStatus.student?.user.fullname,
