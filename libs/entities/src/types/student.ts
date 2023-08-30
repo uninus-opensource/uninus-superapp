@@ -4,12 +4,8 @@ export interface IGetStudentRequest {
 }
 
 export interface IStudentData {
-  email?: string | null;
-  fullname?: string | null;
-  first_deparment_id?: number | null;
-  second_deparment_id?: number | null;
-  selection_path_id?: number | null;
-  degree_program_id?: number | null;
+  email?: string;
+  fullname?: string;
   nik?: string | null;
   nisn?: string | null;
   no_kk?: string | null;
@@ -30,43 +26,31 @@ export interface IStudentData {
   graduation_year?: string | null;
   education_npsn?: string | null;
   father_name?: string | null;
-  father_status_id?: number | null;
+  father_status_id?: string | null;
   father_education_id?: number | null;
   father_occupation_id?: number | null;
   father_position_id?: number | null;
   father_salary_id?: number | null;
   mother_name?: string | null;
-  mother_status_id?: number | null;
+  mother_status_id?: string | null;
   mother_education_id?: number | null;
   mother_occupation_id?: number | null;
   mother_position_id?: number | null;
   mother_salary_id?: number | null;
   guardian_name?: string | null;
-  guardian_status_id?: number | null;
+  guardian_status_id?: string | null;
   guardian_education_id?: number | null;
   guardian_occupation_id?: number | null;
   guardian_position_id?: number | null;
   guardian_salary_id?: number | null;
-  guardian_province_id?: number | null;
-  guardian_subdistrict_id?: number | null;
-  guardian_city_id?: number | null;
-  guardian_address?: null;
   parent_province_id?: number | null;
   parent_subdistrict_id?: number | null;
   parent_city_id?: number | null;
   parent_address?: string | null;
   scholarship_id?: number | null;
-  disabilities_id?: number | null;
   faculty_id?: number | null;
   department_id?: number | null;
   academic_year?: string | null;
-  salary_id?: number | null;
-  occupation_id?: number | null;
-  company_name?: string | null;
-  company_address?: string | null;
-  occupation_position_id?: number | null;
-  average_grade?: number | null;
-  utbk?: number | null;
 }
 
 export interface IGetStudentResponse extends IStudentData {
@@ -82,50 +66,24 @@ export interface IDeleteStudentResponse extends IStudentData {
 }
 
 export interface IUpdateStudentResponse extends IStudentData {
-  avatar?: string | null | TFIle;
+  avatar: string | null;
 }
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
   avatar: TFIle;
-}
-
-export interface IUpdateStudentRequestFE extends IStudentData {
-  avatar?: TFIle | null;
-}
-
-export interface IUpdateStudentGradeResponse extends IStudentData {
-  student_grade: Array<{
-    subject: string;
-    semester: string;
-    grade: number;
-  }>;
-}
-export interface IUpdateStudentGradeRequest extends IStudentData {
-  student_grade: Array<{
-    subject: string;
-    semester: string;
-    grade: number;
-  }>;
+  first_deparment_id?: number | null;
+  second_deparment_id?: number | null;
+  selection_path_id?: number | null;
+  degreeProgram_id?: number | null;
 }
 
 export type TGraduationStatusRequest = {
   registration_number: string;
 };
 
-export interface IGetUserMeResponse extends IGetStudentRequest {
-  registration_status: string | null;
-  email: string | null;
-  fullname: string | null;
-  avatar: string | null;
-}
-
 export type TGraduationStatusReponse = {
-  registration_number: string | null;
-  fullname: string | null;
-  registration_status: string | null;
-  message?: string | null;
-  birth_date: string | null;
-  birth_place: string | null;
-  city: string | null;
-  school_name: string | null;
-  province: string | null;
+  registration_number?: string | null;
+  fullname?: string | null;
+  department?: string | null;
+  selection_path?: string | null;
+  registration_status?: string | null;
 };
