@@ -2,7 +2,7 @@ import { Controller } from "@nestjs/common";
 
 import { AppService } from "./app.service";
 import { MessagePattern } from '@nestjs/microservices';
-import { TPaginationArgs } from "@uninus/entities";
+import { IUserRequest, TPaginationArgs } from "@uninus/entities";
 import { Prisma } from "@prisma/client";
 
 @Controller()
@@ -29,7 +29,7 @@ export class AppController {
   }
 
   @MessagePattern('update_user')
-  updateUser(data:{id:string, payload:Prisma.UsersUpdateInput}) {
+  updateUser(data:{id:string, payload:IUserRequest}) {
     const payload = data.payload
     const id = data.id
     console.log(id)

@@ -77,8 +77,8 @@ export class AuthService {
       return response;
   }
 
-  async refreshToken(reqToken: TReqToken): Promise<TResRefreshToken> {
-      const response = await firstValueFrom(this.client.send("refresh_token", reqToken));
+  async refreshToken({user}: TReqToken): Promise<TResRefreshToken> {
+      const response = await firstValueFrom(this.client.send("refresh_token", user));
       return response;
   }
 

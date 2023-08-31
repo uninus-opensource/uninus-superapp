@@ -97,7 +97,7 @@ export class SelectController {
   async getFaculty(
     @Query("id") id: number,
     @Query("search") search: string,
-    @Query("degree_program_id") degree_program_id: string,
+    @Query("degree_program_id") degree_program_id: number,
   ) {
       const response = await firstValueFrom(
         this.client.send("get_faculty", { search, degree_program_id, id }),
@@ -192,8 +192,11 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
-  async getSelectionPath(@Query("search") search: string, @Query("id") id: number) {
-      const response = await firstValueFrom(this.client.send("get_selection_path", { search, id }));
+  @ApiQuery({ name: "degree_program_id", required: false })
+  async getSelectionPath(@Query("id") id: number,
+  @Query("search") search: string,
+  @Query("degree_program_id") degree_program_id: number,) {
+      const response = await firstValueFrom(this.client.send("get_selection_path", { search, id, degree_program_id }));
       return response;
   }
 
@@ -327,8 +330,9 @@ export class SelectController {
   })
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getSchoolType(@Query("id") id: number, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_education_type", { search, id }));
+  @ApiQuery({ name: "degree_program_id", required: false })
+  async getSchoolType(@Query("id") id: number, @Query("search") search: string, @Query("degree_program_id") degree_program_id: number,) {
+      const response = await firstValueFrom(this.client.send("get_education_type", { search, id, degree_program_id}));
       return response;
   }
 

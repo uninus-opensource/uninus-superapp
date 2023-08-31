@@ -66,12 +66,25 @@ export class AppService {
   async register(data: TRegisterRequest): Promise<TProfileResponse> {
     const isEmailExist = await this.prisma.users.findUnique({
       where: {
-        email: data.email.toLowerCase(),
+        email: data.email,
       },
     });
 
     if (isEmailExist) {
       throw new RpcException("Email sudah terdaftar");
+    }
+
+    const isPhoneExist = await this.prisma.students.findMany({
+      where: {
+        phone_number: {
+          contains: data.phone_number as string,
+          mode: "insensitive",
+        },
+      },
+    });
+
+    if (isPhoneExist.length > 0) {
+      throw new ConflictException("Nomor telepon sudah digunakan");
     }
 
     const password = await encryptPassword(data.password);
@@ -189,9 +202,9 @@ export class AppService {
     };
   }
 
-  async refreshToken(reqToken: TReqToken): Promise<TResRefreshToken> {
+  async refreshToken({user}: TReqToken): Promise<TResRefreshToken> {
     const expiresIn = 15 * 60 * 1000;
-    const access_token = await generateAccessToken(reqToken.user);
+    const access_token = await generateAccessToken(user);
 
     const now = Date.now();
     const expirationTime = now + expiresIn;

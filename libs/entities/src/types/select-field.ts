@@ -1,5 +1,5 @@
 export interface ISelectRequest {
-  search: string;
+  search?: string;
   id?: number;
 }
 
@@ -118,8 +118,7 @@ export type TCitizenshipResponse = {
   }>;
 };
 
-export interface ISelectionRequest {
-  search: string;
+export interface ISelectionRequest extends ISelectRequest{
   degree_program_id: string;
 }
 
@@ -153,7 +152,7 @@ export type TEducationHistoryResponse = {
   }>;
 };
 
-export interface IEducationTypeRequest {
+export interface IEducationTypeRequest extends ISelectRequest {
   degree_program_id: string;
 }
 

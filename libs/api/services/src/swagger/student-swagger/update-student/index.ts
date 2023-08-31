@@ -65,6 +65,21 @@ export class UpdateStudentSwagger {
   education_npsn!: string;
 
   @ApiProperty()
+  company_name!: string;
+
+  @ApiProperty()
+  company_address!: string;
+
+  @ApiProperty()
+  occupation_id!: number;
+
+  @ApiProperty()
+  occupation_position_id!: number;
+
+  @ApiProperty()
+  salary_id!: number;
+
+  @ApiProperty()
   father_name!: string;
 
   @ApiProperty()
@@ -159,4 +174,16 @@ export class UpdateStudentSwagger {
 
   @ApiProperty()
   utbk!: number;
+
+  @ApiProperty({
+    isArray: true,
+    example: [
+      {
+        subject: "matematika",
+        semester: "1",
+        grade: 90,
+      },
+    ],
+  })
+  student_grade!: [];
 }

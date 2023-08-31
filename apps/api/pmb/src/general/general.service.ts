@@ -30,6 +30,8 @@ import {
   TParentEducationResponse,
   IEducationMajorRequest,
   TEducationMajorResponse,
+  IEducationTypeRequest,
+  ISelectionRequest,
 } from "@uninus/entities";
 
 @Injectable()
@@ -184,10 +186,12 @@ export class GeneralService {
     return { citizenship };
   }
 
-  async getSelectionPath({ search }: ISelectRequest): Promise<TSelectionResponse> {
+  async getSelectionPath({ search, id, degree_program_id }: ISelectionRequest): Promise<TSelectionResponse> {
     const selection = await this.prisma.selectionPath.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
+        degree_program_id: degree_program_id && Number(degree_program_id),
       },
       select: {
         id: true,
@@ -333,10 +337,12 @@ export class GeneralService {
     return { scholarship };
   }
 
-  async getEducationType({ search }: ISelectRequest): Promise<TSchoolTypeResponse> {
+  async getEducationType({ search, id, degree_program_id }: IEducationTypeRequest): Promise<TSchoolTypeResponse> {
     const educationTypes = await this.prisma.educationTypes.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
+        degree_program_id: degree_program_id && Number(degree_program_id),
       },
       select: {
         id: true,

@@ -26,7 +26,15 @@ export class StudentService {
         avatar: true,
         email: true,
         fullname: true,
-        students: true,
+        students: {
+          include: {
+            pmb: {
+              include: {
+                student_grade: true,
+              },
+            },
+          }
+        },
       },
     });
 
@@ -35,12 +43,20 @@ export class StudentService {
         cause: new Error(),
       });
     }
+    const { avatar, email, fullname, students } = student;
 
-    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
+    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt", "pmb"]);
     return {
-      avatar: student.avatar,
-      email: student.email,
-      fullname: student.fullname,
+      avatar,
+      email,
+      fullname,
+      first_deparment_id: students?.pmb?.first_deparment_id,
+      second_deparment_id: students?.pmb?.second_deparment_id,
+      selection_path_id: students?.pmb?.selection_path_id,
+      degree_program_id: students?.pmb?.degree_program_id,
+      student_grade: students?.pmb?.student_grade,
+      average_grade: students?.pmb?.average_grade,
+      utbk: students?.pmb?.utbk,
       ...studentData,
     };
   }
@@ -55,8 +71,47 @@ export class StudentService {
       second_deparment_id,
       selection_path_id,
       degree_program_id,
+      utbk,
+      student_grade,
+      average_grade,
       ...updateStudentPayload
     } = args;
+
+    if (student_grade) {
+      for await (const data of student_grade) {
+        const updateStudentGrade = await this.prisma.users.update({
+          where: {
+            id,
+          },
+          data: {
+            students: {
+              update: {
+                pmb: {
+                  update: {
+                    student_grade: {
+                      updateMany: {
+                        where: {
+                          subject: data.subject,
+                          semester: data.semester,
+                        },
+                        data: {
+                          grade: data.grade,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+        if (!updateStudentGrade) {
+          throw new BadRequestException("Gagal update nilai", {
+            cause: new Error(),
+          });
+        }
+      }
+    }
     const student = await this.prisma.users.update({
       where: {
         id,
@@ -72,20 +127,25 @@ export class StudentService {
                 second_deparment_id,
                 selection_path_id,
                 degree_program_id,
-                registration_status_id: 2
+                utbk,
+                registration_status_id: 2,
+                ...(average_grade && { average_grade: Number(average_grade.toFixed(1)) }),
               },
             },
           },
         },
       },
-
       select: {
         avatar: true,
         email: true,
         fullname: true,
         students: {
-          select: {
-            pmb: true,
+          include: {
+            pmb: {
+              include: {
+                student_grade: true,
+              },
+            },
           },
         },
       },
@@ -96,12 +156,18 @@ export class StudentService {
         cause: new Error(),
       });
     }
-
-    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
+    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt", "pmb"]);
     return {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
+      first_deparment_id: student.students?.pmb?.first_deparment_id,
+      second_deparment_id: student.students?.pmb?.second_deparment_id,
+      selection_path_id: student.students?.pmb?.selection_path_id,
+      degree_program_id: student.students?.pmb?.degree_program_id,
+      student_grade: student.students?.pmb?.student_grade,
+      average_grade: student.students?.pmb?.average_grade,
+      utbk: student.students?.pmb?.utbk,
       ...studentData,
     };
   }

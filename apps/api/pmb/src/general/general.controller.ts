@@ -11,6 +11,8 @@ import {
   TCreateQuestionRequest,
   TUpdateQuestionRequest,
   IEducationMajorRequest,
+  IEducationTypeRequest,
+  ISelectionRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -52,7 +54,7 @@ export class GeneralController {
   }
 
   @MessagePattern("get_selection_path")
-  getSelectionPath(payload: ISelectRequest) {
+  getSelectionPath(payload: ISelectionRequest) {
     return this.appService.getSelectionPath(payload);
   }
 
@@ -92,7 +94,7 @@ export class GeneralController {
   }
 
   @MessagePattern("get_education_type")
-  getSchoolType(payload: ISelectRequest) {
+  getSchoolType(payload: IEducationTypeRequest) {
     return this.appService.getEducationType(payload);
   }
 
