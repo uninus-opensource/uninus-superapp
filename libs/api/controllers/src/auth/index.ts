@@ -76,7 +76,7 @@ export class AuthController {
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(RtGuard)
   @ApiOperation({ summary: "Refresh Token" })
-  async refresh(@Body() refreshToken: RefreshTokenSwagger, @Request() { user }: TReqToken) {
+  async refresh(@Body('refresh_token') refreshToken: RefreshTokenSwagger, @Request() { user }: TReqToken) {
     return this.appService.refreshToken({ user });
   }
 
