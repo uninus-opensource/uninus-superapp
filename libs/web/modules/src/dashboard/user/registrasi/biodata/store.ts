@@ -102,7 +102,7 @@ export const dataPendidikan = {
   education_npsn: "",
 };
 
-export const studentData = {
+export const studentParentData = {
   father_name: undefined,
   father_status_id: 0,
   father_education_id: 0,
@@ -119,6 +119,9 @@ export const studentData = {
   parent_province_id: 0,
   parent_city_id: 0,
   parent_subdistrict_id: 0,
+};
+
+export const studentGuardianData = {
   guardian_name: undefined,
   guardian_status_id: 0,
   guardian_education_id: 0,

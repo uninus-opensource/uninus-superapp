@@ -31,7 +31,6 @@ import { useBiodataUpdate } from "../../hooks";
 import { ToastContainer, toast } from "react-toastify";
 import { VSDataDiri, TVSDataDiri } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { match } from "ts-pattern";
 import { EditOutlined } from "@ant-design/icons";
 
 export const DataDiriSection: FC = (): ReactElement => {
