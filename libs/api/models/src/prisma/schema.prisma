@@ -151,6 +151,11 @@ model PMB {
   selection_path_id      Int?
   student_id             String?             @unique
   student                Students?           @relation(fields: [student_id], references: [id], onDelete: Cascade)
+  utbk_pu                Float?              @default(0)
+  utbk_kk                Float?              @default(0)
+  utbk_ppu               Float?              @default(0)
+  utbk_kmbm              Float?              @default(0)
+  average_utbk           Float?              @default(0)
   utbk                   Float?              @default(0)
   average_grade          Float?              @default(0)
   student_grade          StudentGrade[]

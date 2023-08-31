@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "@uninus/api/models";
-import { CloudinaryService } from "@uninus/api/services"
+import { CloudinaryService } from "@uninus/api/services";
 import { excludeSchema } from "@uninus/api/utilities";
 import {
   IGetStudentRequest,
@@ -33,7 +33,7 @@ export class StudentService {
                 student_grade: true,
               },
             },
-          }
+          },
         },
       },
     });
@@ -56,7 +56,11 @@ export class StudentService {
       degree_program_id: students?.pmb?.degree_program_id,
       student_grade: students?.pmb?.student_grade,
       average_grade: students?.pmb?.average_grade,
-      utbk: students?.pmb?.utbk,
+      average_utbk: student.students?.pmb?.average_utbk,
+      utbk_pu: student.students?.pmb?.utbk_pu,
+      utbk_kk: student.students?.pmb?.utbk_kk,
+      utbk_ppu: student.students?.pmb?.utbk_ppu,
+      utbk_kmbm: student.students?.pmb?.utbk_kmbm,
       ...studentData,
     };
   }
@@ -71,7 +75,11 @@ export class StudentService {
       second_deparment_id,
       selection_path_id,
       degree_program_id,
-      utbk,
+      average_utbk,
+      utbk_pu,
+      utbk_kk,
+      utbk_ppu,
+      utbk_kmbm,
       student_grade,
       average_grade,
       ...updateStudentPayload
@@ -88,6 +96,7 @@ export class StudentService {
               update: {
                 pmb: {
                   update: {
+                    average_grade: Number(average_grade.toFixed(1)),
                     student_grade: {
                       updateMany: {
                         where: {
@@ -127,9 +136,12 @@ export class StudentService {
                 second_deparment_id,
                 selection_path_id,
                 degree_program_id,
-                utbk,
+                utbk_pu,
+                utbk_kk,
+                utbk_ppu,
+                utbk_kmbm,
+                average_utbk,
                 registration_status_id: 2,
-                ...(average_grade && { average_grade: Number(average_grade.toFixed(1)) }),
               },
             },
           },
@@ -167,7 +179,11 @@ export class StudentService {
       degree_program_id: student.students?.pmb?.degree_program_id,
       student_grade: student.students?.pmb?.student_grade,
       average_grade: student.students?.pmb?.average_grade,
-      utbk: student.students?.pmb?.utbk,
+      average_utbk: student.students?.pmb?.average_utbk,
+      utbk_pu: student.students?.pmb?.utbk_pu,
+      utbk_kk: student.students?.pmb?.utbk_kk,
+      utbk_ppu: student.students?.pmb?.utbk_ppu,
+      utbk_kmbm: student.students?.pmb?.utbk_kmbm,
       ...studentData,
     };
   }
@@ -208,14 +224,14 @@ export class StudentService {
         registration_number,
       },
       include: {
-        student:{
+        student: {
           include: {
             user: true,
-            department: true
-          }
+            department: true,
+          },
         },
         selection_path: true,
-        registration_status: true
+        registration_status: true,
       },
     });
 

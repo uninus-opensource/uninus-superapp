@@ -2,9 +2,6 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class UpdateStudentSwagger {
   @ApiProperty()
-  email!: string;
-
-  @ApiProperty()
   fullname!: string;
 
   @ApiProperty()
@@ -173,7 +170,19 @@ export class UpdateStudentSwagger {
   selection_path_id!: number;
 
   @ApiProperty()
-  utbk!: number;
+  average_utbk!: number;
+
+  @ApiProperty()
+  utbk_pu!: number;
+
+  @ApiProperty()
+  utbk_kk!: number;
+
+  @ApiProperty()
+  utbk_ppu!: number;
+
+  @ApiProperty()
+  utbk_kmbm!: number;
 
   @ApiProperty({
     isArray: true,
