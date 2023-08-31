@@ -245,28 +245,7 @@ export const DataDiriSection: FC = (): ReactElement => {
   );
 
   useEffect(() => {
-    reset({
-      avatar: student?.avatar,
-      citizenship_id: student?.citizenship_id,
-      city_id: student?.city_id,
-      religion_id: student?.religion_id,
-      marital_status_id: student?.marital_status_id,
-      gender_id: student?.gender_id,
-      disabilities_id: student?.disabilities_id,
-      occupation_id: student?.occupation_id,
-      occupation_position_id: student?.occupation_position_id,
-      salary_id: student?.salary_id,
-      degree_program_id: student?.degree_program_id,
-      fullname: student?.fullname,
-      email: student?.email,
-      phone_number: student?.phone_number,
-      address: student?.address,
-      province_id: student?.province_id,
-      subdistrict_id: student?.subdistrict_id,
-      country_id: student?.country_id,
-      birth_date: student?.birth_date,
-      birth_place: student?.birth_place,
-    });
+    reset(student);
 
     if (student?.disabilities_id) {
       setDisValue("Ya");
