@@ -4,7 +4,7 @@ import { useForm, FieldValues } from "react-hook-form";
 import { useBiodataUpdate } from "../../hooks";
 import { dataPendidikan } from "../../store";
 import { ToastContainer, toast } from "react-toastify";
-import { VSDataPendidikan } from "./schema";
+import { TVSDataPendidikan, VSDataPendidikan } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   useStudentData,
@@ -39,7 +39,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<FieldValues>({
+  } = useForm<FieldValues | TVSDataPendidikan>({
     resolver: zodResolver(VSDataPendidikan),
     mode: "all",
     defaultValues: {},
@@ -303,6 +303,8 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={isDisabled || !!student?.education_type_id}
+            status={"error"}
+            message={errors?.education_type_id?.message as string}
           />
           <SelectOption
             name="graduation_year"
@@ -319,6 +321,8 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={isDisabled || !!student?.graduation_year}
+            status="error"
+            message={errors?.graduation_year?.message as string}
           />
 
           <div>
@@ -425,6 +429,8 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               control={control}
               isMulti={false}
               disabled={isDisabled || !watch("education_type_id")}
+              status="error"
+              message={errors?.education_major_id?.message as string}
             />
           </div>
 
