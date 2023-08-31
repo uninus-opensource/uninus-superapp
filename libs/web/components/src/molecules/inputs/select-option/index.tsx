@@ -60,7 +60,7 @@ export const SelectOption = forwardRef(
         </label>
         <Select
           {...props}
-          className={selectClassName ?? props.className}
+          className={`${selectClassName} ${props.className}`}
           value={props.options.find((option) => option.value === field.value)}
           onChange={handleChange}
           ref={ref}
@@ -68,14 +68,14 @@ export const SelectOption = forwardRef(
         />
         {props.message && (
           <span className={messageClassName}>
-            {props.status === SELECT_STATUS.ERROR && (
-              <BiSolidErrorCircle className="inline-block mr-1 text-red-400" />
+            {props.status === "error" && (
+              <BiSolidErrorCircle className="inline-block mr-1 text-red-5" />
             )}
-            {props.status === SELECT_STATUS.WARNING && (
-              <AiFillWarning className="inline-block mr-1 text-amber-300" />
+            {props.status === "warning" && (
+              <AiFillWarning className="inline-block mr-1 text-primary-yellow" />
             )}
-            {props.status === SELECT_STATUS.SUCCESS && (
-              <AiFillCheckCircle className="inline-block mr-1 text-green-400" />
+            {props.status === "success" && (
+              <AiFillCheckCircle className="inline-block mr-1 text-primary-green" />
             )}
             {props.message}
           </span>
