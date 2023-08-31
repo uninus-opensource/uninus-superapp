@@ -12,12 +12,20 @@ import {
   useEducationMajorGet,
   useEducationTypeGet,
   useYearGraduationGet,
+  useProvinceGet,
+  useCityGet,
+  useSubdistrictGet,
 } from "@uninus/web/services";
 
 export const DataPendidikanSection: FC = (): ReactElement => {
   const [education, setEducation] = useState<string>("");
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
+  const [locationMeta] = useState({
+    search: "",
+    province_id: "",
+    city_id: "",
+  });
 
   const { getStudent } = useStudentData();
   const student = useMemo(() => {
@@ -108,6 +116,45 @@ export const DataPendidikanSection: FC = (): ReactElement => {
         value: major?.id.toString(),
       })),
     [getMajor?.education_major],
+  );
+
+  const { data: getProvincies } = useProvinceGet(locationMeta);
+
+  const schoolProvinceOptions = useMemo(
+    () =>
+      getProvincies?.province?.map((province) => ({
+        label: province?.name,
+        value: province?.id.toString(),
+      })),
+    [getProvincies?.province],
+  );
+
+  const { data: getCitySchool } = useCityGet({
+    province_id: watch("address_province_school"),
+    search: "",
+  });
+
+  const citySchoolOptions = useMemo(
+    () =>
+      getCitySchool?.city?.map((city) => ({
+        label: city?.name,
+        value: city?.id.toString(),
+      })),
+    [getCitySchool?.city],
+  );
+
+  const { data: getSubdistrictSchool } = useSubdistrictGet({
+    city_id: watch("address_city_school"),
+    search: "",
+  });
+
+  const subDistrictOptions = useMemo(
+    () =>
+      getSubdistrictSchool?.subdistrict?.map((subdistrict) => ({
+        label: subdistrict?.name,
+        value: subdistrict?.id.toString(),
+      })),
+    [getSubdistrictSchool?.subdistrict],
   );
 
   useEffect(() => {
@@ -413,7 +460,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
         </div>
       </form>
       <Modal showModal={isShowModal} onClose={handleCloseModal} modalTitle="Tambahkan Data Sekolah">
-        <form className="w-full flex flex-col justify-center items-center gap-3">
+        <form className="w-full flex flex-col justify-center items-center gap-2">
           <div className="w-full">
             <TextField
               inputHeight="h-10"
@@ -430,13 +477,12 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           </div>
 
           <div className="w-full flex gap-2 justify-between items-center">
-            <div className="w-full">
+            <div className="w-[45%]">
               <SelectOption
                 name="custom_major"
                 labels="Jenis Sekolah"
                 labelClassName="font-bold text-xs py-2"
                 placeholder="Pilih Jenis Sekolah"
-                size="md"
                 options={[
                   {
                     value: "SMK",
@@ -472,7 +518,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               />
             </div>
 
-            <div className="w-full mt-4">
+            <div className="w-[55%] mt-4">
               <TextField
                 inputHeight="h-10"
                 name="custom_NPSN"
@@ -487,45 +533,70 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             </div>
           </div>
 
-          <div className="w-full flex gap-3 justify-center items-center">
-            <div className="w-full">
-              <TextField
-                inputHeight="h-10"
-                name="custom_school_province"
-                variant="sm"
-                type="text"
-                labelclassname="text-sm font-semibold"
-                label="Provinsi"
-                placeholder="Provinsi Sekolah"
+          <div className="w-full flex fle-col gap-3 justify-center items-center">
+            <div className="w-[33%]">
+              <SelectOption
+                labels="Provinsi"
+                labelClassName="font-bold text-xs py-2"
+                options={schoolProvinceOptions || []}
+                placeholder="Provinsi"
+                isSearchable={true}
+                name="address_province_school"
+                isClearable={true}
                 control={control}
+                isMulti={false}
+                className="w-full"
               />
             </div>
 
-            <div className="w-full">
-              <TextField
-                inputHeight="h-10"
-                name="custom_school_city"
-                variant="sm"
-                type="text"
-                labelclassname="text-sm font-semibold"
-                label="Kota/Kabupaten"
-                placeholder="Kota Sekolah"
+            <div className="w-[33%]">
+              <SelectOption
+                labels="Kota/Kabupaten"
+                labelClassName="font-bold text-xs py-2"
+                options={citySchoolOptions || []}
+                placeholder="Kota/Kabupaten"
+                isSearchable={true}
+                name="address_city_school"
+                isClearable={true}
                 control={control}
+                isMulti={false}
+                disabled={!watch("address_province_school")}
+                className="w-full"
               />
             </div>
 
-            <div className="w-full">
-              <TextField
-                inputHeight="h-10"
-                name="custom_school_subdistrict"
-                variant="sm"
-                type="text"
-                labelclassname="text-sm font-semibold"
-                label="Kecamatan"
-                placeholder="Kecamatan Sekolah"
+            <div className="w-[33%]">
+              <SelectOption
+                labels="Kecamatan"
+                labelClassName="font-bold text-xs py-2"
+                options={subDistrictOptions || []}
+                placeholder="Kecamatan"
+                isSearchable={true}
+                name="address_subdistrict_school"
                 control={control}
+                isMulti={false}
+                isClearable={true}
+                disabled={!watch("address_city_school")}
+                className="w-full"
               />
             </div>
+          </div>
+          <div className="w-auto flex justify-center items-center">
+            <TextField
+              name="complete_school_address"
+              variant="sm"
+              type="text"
+              labelclassname="text-xl font-semibold"
+              label="Alamat Lengkap Sekolah"
+              control={control}
+              isTextArea
+              textAreaRow={5}
+              textAreaCols={70}
+              inputHeight="h-20"
+              className="resize-none bg-grayscale-2"
+              inputWidth="lg:w-full"
+              placeholder="Masukan Alamat Lengkap Sekolah"
+            />
           </div>
 
           <div className="w-full flex justify-end items-center gap-3">
