@@ -191,7 +191,7 @@ export const Pembayaran: FC = (): ReactElement => {
               title="Mobile Banking Payment"
               titleClassName="text-slate-7 hover:text-primary-green font-normal"
             >
-              <div className="p-4 lg:text-base sm:text-xs">
+              <div className="p-4 lg:text-base text-xs">
                 <li>
                   1. Masukan <span className="font-bold">User ID dan Password</span>
                 </li>
@@ -219,7 +219,7 @@ export const Pembayaran: FC = (): ReactElement => {
               title="ATM Payment"
               titleClassName="text-slate-7 hover:text-primary-green font-normal"
             >
-              <div className="p-4 lg:text-base sm:text-xs">
+              <div className="p-4 lg:text-base text-xs">
                 <li>
                   1. Masukan <span className="font-bold">kartu ATM dan Pin</span>
                 </li>
