@@ -31,7 +31,7 @@ export class AppController {
     return this.appService.getEmailUser(args);
   }
 
-  @MessagePattern('refreshToken')
+  @MessagePattern('refresh_token')
   refreshToken(args: TReqToken) {
     return this.appService.refreshToken(args);
   }

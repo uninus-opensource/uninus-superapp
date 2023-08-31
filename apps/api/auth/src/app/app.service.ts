@@ -74,7 +74,7 @@ export class AppService {
     });
 
     if (isEmailExist) {
-      throw new RpcException("Email sudah terdaftar");
+      throw new ConflictException("Email sudah terdaftar");
     }
 
     const isPhoneExist = await this.prisma.students.findMany({
@@ -89,7 +89,6 @@ export class AppService {
     if (isPhoneExist.length > 0) {
       throw new ConflictException("Nomor telepon sudah digunakan");
     }
-
     const password = await encryptPassword(data.password);
 
     const createdUser = await this.prisma.users.create({
@@ -106,7 +105,61 @@ export class AppService {
             pmb: {
               create: {
                 registration_number: String(Math.floor(1000000000 + Math.random() * 9000000000)),
-                registration_status_id: 1
+                registration_status_id: 1,
+                student_grade: {
+                  createMany: {
+                    data: [
+                      {
+                        subject: "indonesia",
+                        semester: "1",
+                      },
+                      {
+                        subject: "indonesia",
+                        semester: "2",
+                      },
+                      {
+                        subject: "indonesia",
+                        semester: "3",
+                      },
+                      {
+                        subject: "indonesia",
+                        semester: "4",
+                      },
+                      {
+                        subject: "matematika",
+                        semester: "1",
+                      },
+                      {
+                        subject: "matematika",
+                        semester: "2",
+                      },
+                      {
+                        subject: "matematika",
+                        semester: "3",
+                      },
+                      {
+                        subject: "matematika",
+                        semester: "4",
+                      },
+                      {
+                        subject: "inggris",
+                        semester: "1",
+                      },
+                      {
+                        subject: "inggris",
+                        semester: "2",
+                      },
+                      {
+                        subject: "inggris",
+                        semester: "3",
+                      },
+                      {
+                        subject: "inggris",
+                        semester: "4",
+                      },
+                    ],
+                  },
+                },
               },
             },
           },
