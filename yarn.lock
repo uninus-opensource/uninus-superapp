@@ -2762,16 +2762,16 @@
     jsonc-parser "3.2.0"
     pluralize "8.0.0"
 
-"@nestjs/swagger@^7.1.8":
-  version "7.1.8"
-  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-7.1.8.tgz#ca7a4b5ac22149ce92e61435ca4c3c1e5a3ab3d1"
-  integrity sha512-Jpl3laGAqvyWccc3auLU0mMjl5hJ2kqzzDb63ynJi5NMbFlgBwrR8FCGBVstSsqL9YSJWLR4L1BZzVmVExcY+g==
+"@nestjs/swagger@^7.1.10":
+  version "7.1.10"
+  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-7.1.10.tgz#955deb9c428fae779d2988a0d24a55977a7be11d"
+  integrity sha512-qreCcxgHFyFX1mOfK36pxiziy4xoa/XcxC0h4Zr9yH54WuqMqO9aaNFhFyuQ1iyd/3YBVQB21Un4gQnh9iGm0w==
   dependencies:
     "@nestjs/mapped-types" "2.0.2"
     js-yaml "4.1.0"
     lodash "4.17.21"
     path-to-regexp "3.2.0"
-    swagger-ui-dist "5.3.1"
+    swagger-ui-dist "5.4.2"
 
 "@nestjs/testing@^10.1.3":
   version "10.1.3"
@@ -4534,17 +4534,17 @@
   dependencies:
     mini-svg-data-uri "^1.2.3"
 
-"@tanstack/query-core@4.32.6":
-  version "4.32.6"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.32.6.tgz#cf7df91ab1542e67a82624fefb12a55f580b4c01"
-  integrity sha512-YVB+mVWENQwPyv+40qO7flMgKZ0uI41Ph7qXC2Zf1ft5AIGfnXnMZyifB2ghhZ27u+5wm5mlzO4Y6lwwadzxCA==
+"@tanstack/query-core@4.33.0":
+  version "4.33.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.33.0.tgz#7756da9a75a424e521622b1d84eb55b7a2b33715"
+  integrity sha512-qYu73ptvnzRh6se2nyBIDHGBQvPY1XXl3yR769B7B6mIDD7s+EZhdlWHQ67JI6UOTFRaI7wupnTnwJ3gE0Mr/g==
 
-"@tanstack/react-query@^4.32.6":
-  version "4.32.6"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.32.6.tgz#f88c2d57f423d4cd295c501df2edeb3285a301bd"
-  integrity sha512-AITu/IKJJJXsHHeXNBy5bclu12t08usMCY0vFC2dh9SP/w6JAk5U9GwfjOIPj3p+ATADZvxQPe8UiCtMLNeQbg==
+"@tanstack/react-query@^4.33.0":
+  version "4.33.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.33.0.tgz#e927b0343a6ecaa948fee59e9ca98fe561062638"
+  integrity sha512-97nGbmDK0/m0B86BdiXzx3EW9RcDYKpnyL2+WwyuLHEgpfThYAnXFaMMmnTDuAO4bQJXEhflumIEUfKmP7ESGA==
   dependencies:
-    "@tanstack/query-core" "4.32.6"
+    "@tanstack/query-core" "4.33.0"
     use-sync-external-store "^1.2.0"
 
 "@testing-library/dom@^9.0.0", "@testing-library/dom@^9.3.1":
@@ -6054,10 +6054,10 @@ axios@1.1.3:
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
-axios@^1.0.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.4.0.tgz#38a7bf1224cd308de271146038b551d725f0be1f"
-  integrity sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==
+axios@^1.0.0, axios@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.5.0.tgz#f02e4af823e2e46a9768cfc74691fdd0517ea267"
+  integrity sha512-D4DdjDo5CY50Qms0qGQTTw6Q44jl7zRwY7bthds06pUGfChBCTcQs+N743eFWGEd6pRTMd6A+I87aWyFV5wiZQ==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
@@ -14005,10 +14005,10 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nestjs-zod@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/nestjs-zod/-/nestjs-zod-2.3.3.tgz#288481d9b8855cecdf96a798cfbdbc90291dc8aa"
-  integrity sha512-9tadyQD/d+9A6QY8TmmaW7jwihYMA/OhNPxX0zCVQKOJBUL0w4NdqwZx+AatqLWQP6GQnW7iUKKrlRlu2s50gA==
+nestjs-zod@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/nestjs-zod/-/nestjs-zod-3.0.0.tgz#1e8a016d0ad38b6a8169fa504ae39828da75c6db"
+  integrity sha512-vL9CHShCVj6TmjCVPOd4my46D8d7FdoB4nQvvh+lmVTuzvnwuD+slSxjT4EDdPDWDFtjhfpvQnnkr55/80KHEQ==
   dependencies:
     merge-deep "^3.0.3"
 
@@ -16369,10 +16369,10 @@ react-alice-carousel@^2.7.1:
   dependencies:
     vanilla-swipe "^2.4.1"
 
-react-data-table-component@^7.5.3:
-  version "7.5.3"
-  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-7.5.3.tgz#a008b4c281574cc1a81315e2c1b34107b5d18fe0"
-  integrity sha512-JhatRTgThAAa1HobPaPmkNPsjLT6+fnMIdtcXRCy+0bSYN7XJnTgob9Qyi4bjHh/8tMPTHtxZCV/TKiPwRvFMA==
+react-data-table-component@^7.5.4:
+  version "7.5.4"
+  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-7.5.4.tgz#82bcf828139f7a88464cd4f5f88b3bc6ba676b29"
+  integrity sha512-6DGVj3urJZfEEMuP652fSjxdRVKeyb+9d0YounVc+MX8jwoyXQW6KO10eyZqElE9QtVrKrCeJxR7vht9yxyJiw==
   dependencies:
     deepmerge "^4.2.2"
 
@@ -18127,10 +18127,10 @@ swagger-tools@^0.9.0:
     traverse "^0.6.6"
     z-schema "^3.15.4"
 
-swagger-ui-dist@5.3.1:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-5.3.1.tgz#ae76a74136152d790b06a8b71ca389cac35ab78f"
-  integrity sha512-El78OvXp9zMasfPrshtkW1CRx8AugAKoZuGGOTW+8llJzOV1RtDJYqQRz/6+2OakjeWWnZuRlN2Qj1Y0ilux3w==
+swagger-ui-dist@5.4.2:
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-5.4.2.tgz#ff7b936bdfc84673a1823a0f05f3a933ba7ccd4c"
+  integrity sha512-vT5QxP/NOr9m4gLZl+SpavWI3M9Fdh30+Sdw9rEtZbkqNmNNEPhjXas2xTD9rsJYYdLzAiMfwXvtooWH3xbLJA==
 
 swagger@^0.7.5:
   version "0.7.5"

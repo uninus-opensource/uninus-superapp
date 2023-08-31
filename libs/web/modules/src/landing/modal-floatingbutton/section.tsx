@@ -108,6 +108,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
         onClose={closeModal}
         closeClassName="text-primary-white p-0"
         bodyClassName="py-4"
+        footerColor="green"
         modalTitle={
           data?.registration_status === "Lulus" ? (
             <div className="flex items-center gap-4 md:w-[70%]">
@@ -156,12 +157,12 @@ export const ModalAndButtons: FC = (): ReactElement => {
         }  rounded-lg duration-150 ease-in-out`}
         headerColor={`${
           data?.registration_status === "Lulus"
-            ? "bg-secondary-green-1"
+            ? "secondary-green"
             : data?.registration_status === "Tidak Lulus"
-            ? "bg-red-7"
+            ? "red"
             : data?.message
-            ? "bg-primary-orange"
-            : ""
+            ? "orange"
+            : "green"
         }`}
       >
         {/* Input nomor pendaftaran modal */}
