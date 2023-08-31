@@ -1,5 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { EGender, ECitizenship, EReligion, EOccupation } from "@uninus/entities";
 
 export class UpdateStudentSwagger {
   @ApiProperty()
@@ -15,212 +14,176 @@ export class UpdateStudentSwagger {
   nisn!: string;
 
   @ApiProperty()
+  no_kk!: string;
+
+  @ApiProperty()
+  gender_id!: number;
+
+  @ApiProperty()
+  relogion_id!: number;
+
+  @ApiProperty()
   birth_place!: string;
 
   @ApiProperty()
   birth_date!: string;
 
-  @ApiProperty({
-    example: Object.keys(EGender),
-    description: "string",
-  })
-  gender!: EGender;
-
   @ApiProperty()
   phone_number!: string;
 
-  @ApiProperty({
-    example: Object.keys(EReligion),
-    description: "string",
-  })
-  religion!: EReligion;
-
-  @ApiProperty({
-    example: Object.keys(ECitizenship),
-    description: "string",
-  })
-  citizenship!: ECitizenship;
+  @ApiProperty()
+  citizenship_id!: number;
 
   @ApiProperty()
-  marital_status!: string;
+  marital_status_id!: number;
 
   @ApiProperty()
-  country!: string;
+  country_id!: number;
 
   @ApiProperty()
   address!: string;
 
   @ApiProperty()
-  postal_code!: string;
+  subdistrict_id!: number;
 
   @ApiProperty()
-  subdistrict!: string;
+  province_id!: number;
 
   @ApiProperty()
-  province!: string;
+  city_id!: number;
 
   @ApiProperty()
-  city!: string;
+  education_type_id!: number;
 
   @ApiProperty()
-  school_type!: string;
+  education_major_id!: number;
 
   @ApiProperty()
   graduation_year!: string;
 
   @ApiProperty()
-  school_major!: string;
+  education_npsn!: string;
 
   @ApiProperty()
-  school_name!: string;
+  company_name!: string;
 
   @ApiProperty()
-  school_npsm!: string;
+  company_address!: string;
 
   @ApiProperty()
-  school_address!: string;
+  occupation_id!: number;
 
   @ApiProperty()
-  school_postal_code!: string;
+  occupation_position_id!: number;
 
   @ApiProperty()
-  school_subdistrict!: string;
-
-  @ApiProperty()
-  school_province!: string;
-
-  @ApiProperty()
-  school_city!: string;
-
-  @ApiProperty()
-  school_phone_number!: string;
+  salary_id!: number;
 
   @ApiProperty()
   father_name!: string;
 
   @ApiProperty()
+  father_status_id!: number;
+
+  @ApiProperty()
+  father_education_id!: number;
+
+  @ApiProperty()
+  father_occupation_id!: number;
+
+  @ApiProperty()
+  father_position_id!: number;
+
+  @ApiProperty()
+  father_salary_id!: number;
+
+  @ApiProperty()
   mother_name!: string;
+
+  @ApiProperty()
+  mother_status_id!: number;
+
+  @ApiProperty()
+  mother_education_id!: number;
+
+  @ApiProperty()
+  mother_occupation_id!: number;
+
+  @ApiProperty()
+  mother_position_id!: number;
+
+  @ApiProperty()
+  mother_salary_id!: number;
 
   @ApiProperty()
   guardian_name!: string;
 
   @ApiProperty()
-  father_status!: string;
+  guardian_status_id!: number;
 
   @ApiProperty()
-  mother_status!: string;
+  guardian_education_id!: number;
 
   @ApiProperty()
-  guardian_status!: string;
+  guardian_occupation_id!: number;
+
+  @ApiProperty()
+  guardian_position_id!: number;
+
+  @ApiProperty()
+  guardian_salary_id!: number;
+
+  @ApiProperty()
+  parent_province!: number;
+
+  @ApiProperty()
+  parent_subdistrict_id!: number;
+
+  @ApiProperty()
+  parent_city_id!: number;
 
   @ApiProperty()
   parent_address!: string;
 
   @ApiProperty()
-  parent_postal_code!: string;
+  scholarship_id!: number;
 
   @ApiProperty()
-  parent_subdistrict!: string;
+  disabilities_id!: number;
 
   @ApiProperty()
-  parent_province!: string;
+  faculty_id!: number;
 
   @ApiProperty()
-  parent_city!: string;
+  department_id!: number;
 
   @ApiProperty()
-  father_education!: string;
+  academic_year!: string;
 
   @ApiProperty()
-  mother_education!: string;
+  degree_program_id!: number;
 
   @ApiProperty()
-  guardian_education?: string;
+  first_deparment_id!: number;
 
   @ApiProperty()
-  father_occupation?: EOccupation;
+  second_deparment_id!: number;
 
   @ApiProperty()
-  father_occupation_position?: string;
+  selection_path_id!: number;
 
   @ApiProperty()
-  mother_occupation?: EOccupation;
+  utbk!: number;
 
-  @ApiProperty()
-  mother_occupation_position?: string;
-
-  @ApiProperty()
-  guardian_occupation?: EOccupation;
-
-  @ApiProperty()
-  guardian_occupation_position?: string;
-
-  @ApiProperty()
-  father_income!: string;
-
-  @ApiProperty()
-  mother_income!: string;
-
-  @ApiProperty()
-  guardian_income?: string;
-
-  @ApiProperty()
-  guardian_address?: string;
-
-  @ApiProperty()
-  guardian_postal_code?: string;
-
-  @ApiProperty()
-  guardian_subdistrict?: string;
-
-  @ApiProperty()
-  guardian_province?: string;
-
-  @ApiProperty()
-  guardian_city?: string;
-
-  @ApiProperty()
-  faculty_type?: string;
-
-  @ApiProperty()
-  education_programs?: string;
-
-  @ApiProperty()
-  study_program?: string;
-
-  @ApiProperty()
-  selection_type?: string;
-
-  @ApiProperty()
-  family_card?: string;
-
-  @ApiProperty()
-  pass_photo?: string;
-
-  @ApiProperty()
-  ktp_card?: string;
-
-  @ApiProperty()
-  school_report_card?: string;
-
-  @ApiProperty()
-  birth_certificate?: string;
-
-  @ApiProperty()
-  additional_documents?: string;
-
-  @ApiProperty()
-  ijazah_card?: string;
-
-  @ApiProperty()
-  kipk_card?: string;
-
-  @ApiProperty()
-  academic_year?: string;
-
-  @ApiProperty()
-  registration_wave?: string;
-
-  @ApiProperty()
-  registration_status?: string;
+  @ApiProperty({
+    isArray: true,
+    example: [
+      {
+        subject: "matematika",
+        semester: "1",
+        grade: 90,
+      },
+    ],
+  })
+  student_grade!: [];
 }

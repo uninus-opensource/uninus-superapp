@@ -25,6 +25,13 @@ import {
   TCreateQuestionRequest,
   TUpdateQuestionRequest,
   TDeleteQuestionResponse,
+  TParentStatusResponse,
+  TTotalRegistransResponse,
+  TParentEducationResponse,
+  IEducationMajorRequest,
+  TEducationMajorResponse,
+  IEducationTypeRequest,
+  ISelectionRequest,
 } from "@uninus/entities";
 
 @Injectable()
@@ -179,10 +186,12 @@ export class GeneralService {
     return { citizenship };
   }
 
-  async getSelectionPath({ search }: ISelectRequest): Promise<TSelectionResponse> {
+  async getSelectionPath({ search, id, degree_program_id }: ISelectionRequest): Promise<TSelectionResponse> {
     const selection = await this.prisma.selectionPath.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
+        degree_program_id: degree_program_id && Number(degree_program_id),
       },
       select: {
         id: true,
@@ -215,11 +224,11 @@ export class GeneralService {
     return { salary };
   }
 
-  async getEducationHistory({
+  async getEducation({
     search,
     npsn,
   }: ISelectEducationHistoryRequest): Promise<TEducationHistoryResponse> {
-    const educationHistory = await this.prisma.educationHistory.findMany({
+    const education = await this.prisma.education.findMany({
       where: {
         name: { ...(search && { contains: search }), mode: "insensitive" },
         npsn: { ...(npsn && { contains: npsn }) },
@@ -235,11 +244,11 @@ export class GeneralService {
       },
     });
 
-    if (!educationHistory || educationHistory.length === 0) {
+    if (!education || education.length === 0) {
       throw new NotFoundException("Data Pendidikan Tidak Ditemukan!");
     }
 
-    return { education: educationHistory };
+    return { education: education };
   }
 
   async getOccupation({ search }: ISelectRequest): Promise<TOccupationResponse> {
@@ -328,10 +337,12 @@ export class GeneralService {
     return { scholarship };
   }
 
-  async getSchoolType({ search }: ISelectRequest): Promise<TSchoolTypeResponse> {
-    const schoolTypes = await this.prisma.schoolTypes.findMany({
+  async getEducationType({ search, id, degree_program_id }: IEducationTypeRequest): Promise<TSchoolTypeResponse> {
+    const educationTypes = await this.prisma.educationTypes.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search }), mode: "insensitive" },
+        degree_program_id: degree_program_id && Number(degree_program_id),
       },
       select: {
         id: true,
@@ -339,11 +350,11 @@ export class GeneralService {
       },
     });
 
-    if (!schoolTypes) {
+    if (!educationTypes) {
       throw new NotFoundException("Data Jenis Sekola Tidak Ditemukan!");
     }
 
-    return { school_type: schoolTypes };
+    return { school_type: educationTypes };
   }
 
   async getAllQuestion() {
@@ -401,6 +412,97 @@ export class GeneralService {
     await this.prisma.questions.delete({ where: { id } });
     return {
       message: "Question deleted",
+    };
+  }
+
+  async getParentStatus({ search, id }: ISelectRequest): Promise<TParentStatusResponse> {
+    const parentStatus = await this.prisma.parentStatus.findMany({
+      where: {
+        id: id && Number(id),
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!parentStatus) {
+      throw new NotFoundException("Data Status Orang Tua Tidak Ditemukan!");
+    }
+
+    return { parent_status: parentStatus };
+  }
+
+  async getParentEducation({ search, id }: ISelectRequest): Promise<TParentEducationResponse> {
+    const parentEducation = await this.prisma.parentEducation.findMany({
+      where: {
+        id: id && Number(id),
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!parentEducation) {
+      throw new NotFoundException("Data Status Orang Tua Tidak Ditemukan!");
+    }
+
+    return { parent_education: parentEducation };
+  }
+
+  async getEducationMajor({
+    search,
+    education_type_id,
+  }: IEducationMajorRequest): Promise<TEducationMajorResponse> {
+    const schoolMajorTypes = await this.prisma.educationMajor.findMany({
+      where: {
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+        ...(education_type_id && { education_type_id: Number(education_type_id) }),
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!schoolMajorTypes) {
+      throw new NotFoundException("Data Jurusan Sekolah Tidak Ditemukan!");
+    }
+
+    return { education_major: schoolMajorTypes };
+  }
+
+  async getTotalRegistrans(): Promise<TTotalRegistransResponse> {
+    const [total_registrans, accepted_registrans] = await Promise.all([
+      await this.prisma.users.count({
+        select: {
+          _all: true,
+        },
+      }),
+      await this.prisma.pMB.findMany({
+        where: {
+          registration_status: {
+            name: {
+              contains: "lulus",
+              mode: "insensitive",
+            },
+          },
+        },
+      }),
+    ]);
+
+    if (!accepted_registrans && !total_registrans) {
+      throw new NotFoundException("Data tidak ditemukan");
+    }
+
+    return {
+      total_registrans: total_registrans._all,
+      paids: 0,
+      unpaids: 0,
+      accepted_registrans: accepted_registrans.length,
     };
   }
 }

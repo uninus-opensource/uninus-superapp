@@ -13,10 +13,10 @@ import {
   useParentStatusGet,
 } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
-import { studentData } from "../../store";
+import { studentGuardianData, studentParentData } from "../../store";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { VSDataOrtu } from "./schema";
+import { TVSDataOrtu, VSDataOrtu } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export const DataOrtuSection: FC = (): ReactElement => {
@@ -54,7 +54,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<FieldValues>({
+  } = useForm<FieldValues | TVSDataOrtu>({
     resolver: zodResolver(VSDataOrtu),
     mode: "all",
     defaultValues: {},
@@ -67,32 +67,32 @@ export const DataOrtuSection: FC = (): ReactElement => {
   const { data: getOccupation } = useOccupationGet(occupation);
   const { data: getOccupationPositionFather } = useOccupationPositionGet({
     search: "",
-    occupation_id: watch("father_profecy"),
+    occupation_id: watch("father_occupation_id"),
   });
   const { data: getOccupationPositionMother } = useOccupationPositionGet({
     search: "",
-    occupation_id: watch("mother_profecy"),
+    occupation_id: watch("mother_occupation_id"),
   });
   const { data: getOccupationPositionGuardian } = useOccupationPositionGet({
     search: "",
-    occupation_id: watch("guardian_profecy"),
+    occupation_id: watch("guardian_occupation_id"),
   });
   const { data: getSalary } = useSalaryGet(salary);
   const { data: getProvincies } = useProvinceGet(locationMeta);
   const { data: getCityParent } = useCityGet({
-    province_id: watch("address_province_parent"),
+    province_id: watch("parent_province_id"),
     search: "",
   });
   const { data: getCityGuard } = useCityGet({
-    province_id: watch("address_province_guard"),
+    province_id: watch("guardian_province_id"),
     search: "",
   });
   const { data: getSubdistrictParent } = useSubdistrictGet({
-    city_id: watch("address_city_parent"),
+    city_id: watch("parent_city_id"),
     search: "",
   });
   const { data: getSubdistrictGuard } = useSubdistrictGet({
-    city_id: watch("address_city_guard"),
+    city_id: watch("guardian_city_id"),
     search: "",
   });
 
@@ -206,32 +206,19 @@ export const DataOrtuSection: FC = (): ReactElement => {
     setGuardianAddressSame(!guardianAddressSame);
   };
 
-  const addressProvinceParent = watch("address_province_parent");
-  const addressProvinceGuard = watch("address_province_guard");
+  const addressProvinceParent = watch("parent_province_id");
+  const addressProvinceGuard = watch("guardian_province_id");
 
   useEffect(() => {
-    setValue("address_city_parent", null);
+    setValue("parent_city_id", null);
   }, [addressProvinceParent]);
 
   useEffect(() => {
-    setValue("address_city_guard", null);
+    setValue("guardian_city_id", null);
   }, [addressProvinceGuard]);
 
   useEffect(() => {
-    reset({
-      father_name: student?.father_name,
-      father_status_id: student?.father_status_id,
-      father_education_id: student?.father_education_id,
-      father_occupation_id: student?.father_occupation_id,
-      father_occupation_position_id: student?.father_position_id,
-      father_income: student?.father_salary_id,
-      mother_name: student?.mother_name,
-      mother_status_id: student?.mother_status_id,
-      mother_education_id: student?.mother_education_id,
-      mother_occupation_id: student?.mother_occupation_id,
-      mother_occupation_position_id: student?.mother_position_id,
-      mother_income: student?.mother_salary_id,
-    });
+    reset(student);
   }, [student, reset, getStudent]);
 
   useEffect(() => {
@@ -265,8 +252,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
 
   useEffect(() => {
     const fatherStatus = watch("father_status_id");
-    const motherStatus = watch("status_mother");
-    const guardianStatus = watch("status_gardian");
+    const motherStatus = watch("mother_status_id");
+    const guardianStatus = watch("guardian_status_id");
 
     if (fatherStatus === "2" || fatherStatus === null || fatherStatus === undefined) {
       setIsFatherStatus(true);
@@ -285,13 +272,13 @@ export const DataOrtuSection: FC = (): ReactElement => {
     } else {
       setIsGuardianStatus(false);
     }
-  }, [watch("father_status_id"), watch("status_mother"), watch("status_gardian")]);
+  }, [watch("father_status_id"), watch("mother_status_id"), watch("guardian_status_id")]);
 
   useEffect(() => {
     const statusProfecy = {
-      father: watch("father_profecy"),
-      mother: watch("mother_profecy"),
-      guardian: watch("guardian_profecy"),
+      father: watch("father_occupation_id"),
+      mother: watch("mother_occupation_id"),
+      guardian: watch("guardian_occupation_id"),
     };
 
     statusProfecy.father === "14" ? setIsUnemployedFather(true) : setIsUnemployedFather(false);
@@ -299,70 +286,98 @@ export const DataOrtuSection: FC = (): ReactElement => {
     statusProfecy.guardian === "14"
       ? setIsUnemployedGuardian(true)
       : setIsUnemployedGuardian(false);
-  }, [watch("father_profecy"), watch("mother_profecy"), watch("guardian_profecy")]);
+  }, [
+    watch("father_occupation_id"),
+    watch("mother_occupation_id"),
+    watch("guardian_occupation_id"),
+  ]);
+
+  useEffect(() => {
+    if (isUnemployedFather) {
+      setValue("father_salary_id", "6");
+    }
+    if (isUnemployedMother) {
+      setValue("mother_salary_id", "6");
+    }
+    if (isUnemployedGuardian) {
+      setValue("guardian_salary_id", "6");
+    }
+  }, [isUnemployedFather, isUnemployedMother, isUnemployedGuardian, setValue]);
 
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
-    studentData.father_name = data.father_name;
-    studentData.father_status_id = Number(data.father_status_id);
-    studentData.father_education_id = Number(data.father_education_id);
-    studentData.father_occupation_id = Number(data.father_profecy);
-    studentData.father_position_id = Number(data.father_occupation_position_id);
-    studentData.father_salary_id = Number(data.father_income);
-    studentData.mother_name = data.mother_name;
-    studentData.mother_status_id = Number(data.status_mother);
-    studentData.mother_education_id = Number(data.mother_education);
-    studentData.mother_occupation_id = Number(data.mother_profecy);
-    studentData.mother_position_id = Number(data.mother_occupation_position_id);
-    studentData.mother_salary_id = Number(data.mother_income);
-    studentData.parent_address = data.parent_address;
-    studentData.parent_province_id = Number(data.address_province_parent);
-    studentData.parent_city_id = Number(data.address_city_parent);
-    studentData.parent_subdistrict_id = Number(data.address_subdistrict_parent);
-    studentData.guardian_name = data.guardian_name;
-    studentData.guardian_status_id = Number(data.status_gardian);
-    studentData.guardian_education_id = Number(data.guardian_education);
-    studentData.guardian_occupation_id = Number(data.guardian_profecy);
-    studentData.guardian_position_id = Number(data.guardian_occupation_position_id);
-    studentData.guardian_salary_id = Number(data.guardian_income);
-    studentData.guardian_address = data.guardian_address;
-    studentData.guardian_province_id = Number(data.address_province_guard);
-    studentData.guardian_city_id = Number(data.address_city_guard);
-    studentData.guardian_subdistrict_id = Number(data.address_subdistrict_guard);
+    studentParentData.father_name = data?.father_name;
+    studentParentData.father_status_id = Number(data?.father_status_id);
+    studentParentData.father_education_id = Number(data?.father_education_id);
+    studentParentData.father_occupation_id = Number(data?.father_occupation_id);
+    studentParentData.father_position_id = Number(data?.father_occupation_position_id);
+    studentParentData.father_salary_id = Number(data?.father_salary_id);
+
+    studentParentData.mother_name = data?.mother_name;
+    studentParentData.mother_status_id = Number(data?.mother_status_id);
+    studentParentData.mother_education_id = Number(data?.mother_education_id);
+    studentParentData.mother_occupation_id = Number(data?.mother_occupation_id);
+    studentParentData.mother_position_id = Number(data?.mother_occupation_position_id);
+    studentParentData.mother_salary_id = Number(data?.mother_salary_id);
+
+    studentParentData.parent_address = data?.parent_address;
+    studentParentData.parent_province_id = Number(data?.parent_province_id);
+    studentParentData.parent_city_id = Number(data?.parent_city_id);
+    studentParentData.parent_subdistrict_id = Number(data?.parent_subdistrict_id);
+
+    if (data?.guardian_name) {
+      studentGuardianData.guardian_name = data?.guardian_name;
+      studentGuardianData.guardian_status_id = Number(data?.guardian_status_id);
+      studentGuardianData.guardian_education_id = Number(data?.guardian_education_id);
+      studentGuardianData.guardian_occupation_id = Number(data?.guardian_occupation_id);
+      studentGuardianData.guardian_position_id = Number(data?.guardian_position_id);
+      studentGuardianData.guardian_salary_id = Number(data?.guardian_salary_id);
+      studentGuardianData.guardian_province_id = Number(data?.guardian_province_id);
+      studentGuardianData.guardian_city_id = Number(data?.guardian_city_id);
+      studentGuardianData.guardian_subdistrict_id = Number(data?.guardian_subdistrict_id);
+      studentGuardianData.guardian_address = data?.guardian_address;
+    }
 
     try {
-      mutate(studentData, {
-        onSuccess: () => {
-          setIsSubmitted(true);
-          setTimeout(() => {
-            toast.success("Berhasil mengisi formulir", {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }, 500);
+      console.log(data);
+      console.log(studentParentData);
+      mutate(
+        data?.guardian_name
+          ? { ...studentParentData, ...studentGuardianData }
+          : { ...studentParentData },
+        {
+          onSuccess: () => {
+            setIsSubmitted(true);
+            setTimeout(() => {
+              toast.success("Berhasil mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setTimeout(() => {
+              toast.error("Gagal mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
         },
-        onError: () => {
-          setTimeout(() => {
-            toast.error("Gagal mengisi formulir", {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }, 500);
-        },
-      });
+      );
     } catch (error) {
       console.error(error);
     }
@@ -428,6 +443,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             disabled={isSubmitted || !!student?.father_status_id}
+            status="error"
+            message={errors?.father_status_id?.message as string}
           />
           <SelectOption
             name="father_education_id"
@@ -447,9 +464,11 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             disabled={isSubmitted || !!student?.father_education_id}
+            status="error"
+            message={errors?.father_education_id?.message as string}
           />
           <SelectOption
-            name="father_profecy"
+            name="father_occupation_id"
             labels="Pekerjaan Ayah"
             labelClassName="font-bold text-xs py-2"
             placeholder={
@@ -466,6 +485,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             disabled={isSubmitted || !!student?.father_occupation_id || isFatherStatus}
+            status="error"
+            message={errors?.father_occupation_id?.message as string}
           />
           <SelectOption
             name="father_occupation_position_id"
@@ -477,6 +498,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                   )?.name
                 : "Pilih Jabatan"
             }
+            size={"md"}
             labelClassName="text-left font-bold text-xs py-2"
             options={occupationPositionFatherOptions || []}
             isClearable={true}
@@ -485,7 +507,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={
-              isSubmitted || !watch("father_profecy")
+              isSubmitted || !watch("father_occupation_id")
                 ? true
                 : false ||
                   occupationPositionFatherOptions?.length === 0 ||
@@ -494,10 +516,10 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : false
             }
             status={"error"}
-            size={"md"}
+            message={errors?.father_occupation_position_id?.message as string}
           />
           <SelectOption
-            name="father_income"
+            name="father_salary_id"
             labels="Pendapatan Ayah ( Per Bulan )"
             labelClassName="font-bold text-xs py-2"
             placeholder={
@@ -505,8 +527,6 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 ? salaryOptions?.find(
                     (salary) => Number(salary.value) === student?.father_salary_id,
                   )?.label
-                : isUnemployedFather
-                ? "0"
                 : "Pilih pendapatan"
             }
             options={salaryOptions || []}
@@ -518,6 +538,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
             disabled={
               isSubmitted || !!student?.father_salary_id || isFatherStatus || isUnemployedFather
             }
+            status="error"
+            message={errors?.father_salary_id?.message as string}
           />
         </section>
         {/* Ibu */}
@@ -541,7 +563,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             status={errors?.mother_name?.message ? "error" : "none"}
           />
           <SelectOption
-            name="status_mother"
+            name="mother_status_id"
             labels="Status Ibu"
             placeholder={
               student?.mother_status_id
@@ -559,9 +581,11 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             disabled={isSubmitted || !!student?.mother_status_id}
+            status="error"
+            message={errors?.mother_status_id?.message as string}
           />
           <SelectOption
-            name="mother_education"
+            name="mother_education_id"
             labels="Pendidikan Terahir Ibu"
             labelClassName="font-bold text-xs py-2"
             placeholder={
@@ -578,9 +602,11 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             disabled={isSubmitted || !!student?.mother_education_id}
+            status="error"
+            message={errors?.mother_education_id?.message as string}
           />
           <SelectOption
-            name="mother_profecy"
+            name="mother_occupation_id"
             labels="Pekerjaan Ibu"
             placeholder={
               student?.mother_occupation_id
@@ -597,6 +623,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             disabled={isSubmitted || !!student?.mother_occupation_id || isMotherStatus}
+            status="error"
+            message={errors?.mother_occupation_id?.message as string}
           />
           <SelectOption
             name="mother_occupation_position_id"
@@ -608,6 +636,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                   )?.name
                 : "Pilih Jabatan"
             }
+            size={"md"}
             labelClassName="text-left font-bold text-xs py-2"
             options={occupationPositionMotherOptions || []}
             isClearable={true}
@@ -616,7 +645,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={
-              isSubmitted || !watch("mother_profecy")
+              isSubmitted || !watch("mother_occupation_id")
                 ? true
                 : false ||
                   occupationPositionMotherOptions?.length === 0 ||
@@ -625,10 +654,10 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : false
             }
             status={"error"}
-            size={"md"}
+            message={errors?.mother_occupation_position_id?.message as string}
           />
           <SelectOption
-            name="mother_income"
+            name="mother_salary_id"
             labels="Pendapatan Ibu ( Per Bulan )"
             labelClassName="font-bold text-xs py-2"
             placeholder={
@@ -636,8 +665,6 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 ? salaryOptions?.find(
                     (salary) => Number(salary.value) === student?.mother_salary_id,
                   )?.label
-                : isUnemployedMother
-                ? "0"
                 : "Pilih pendapatan"
             }
             options={salaryOptions || []}
@@ -649,6 +676,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
             disabled={
               isSubmitted || !!student?.mother_salary_id || isMotherStatus || isUnemployedMother
             }
+            status="error"
+            message={errors?.mother_salary_id?.message as string}
           />
         </section>
         {/* Parent Address */}
@@ -669,11 +698,13 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Provinsi"
             }
             isSearchable={true}
-            name="address_province_parent"
+            name="parent_province_id"
             isClearable={true}
             control={control}
             isMulti={false}
             disabled={isSubmitted || !!student?.parent_province_id}
+            status="error"
+            message={errors?.parent_province_id?.message as string}
           />
           <SelectOption
             labels="Kota/Kabupaten"
@@ -687,11 +718,13 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Kota/Kabupaten"
             }
             isSearchable={true}
-            name="address_city_parent"
+            name="parent_city_id"
             isClearable={true}
             control={control}
             isMulti={false}
-            disabled={!watch("address_province_parent") || isSubmitted || !!student?.parent_city_id}
+            disabled={!watch("parent_province_id") || isSubmitted || !!student?.parent_city_id}
+            status="error"
+            message={errors?.parent_city_id?.message as string}
           />
           <SelectOption
             labels="Kecamatan"
@@ -706,13 +739,13 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Kecamatan"
             }
             isSearchable={true}
-            name="address_subdistrict_parent"
+            name="parent_subdistrict_id"
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={
-              !watch("address_city_parent") || isSubmitted || !!student?.parent_subdistrict_id
-            }
+            disabled={!watch("parent_city_id") || isSubmitted || !!student?.parent_subdistrict_id}
+            status="error"
+            message={errors?.parent_subdistrict_id?.message as string}
           />
 
           <div className="px-6 md:px-0 lg:px-0 w-full">
@@ -731,6 +764,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
               className="resize-none bg-grayscale-2"
               disabled={!parentAddressSame || isSubmitted || !!student?.parent_address}
               placeholder={"Masukan Alamat Domisili Orang Tua"}
+              status={errors?.parent_address?.message ? "error" : "none"}
+              message={errors?.parent_address?.message as string}
             />
           </div>
 
@@ -749,6 +784,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
 
         <h1 className="font-bold text-xl my-6  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-4">
           Profil Wali
+          <span className="text-red-5 text-[10px] ml-2">*kosongkan bila tidak ada</span>
         </h1>
         <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
           <TextField
@@ -764,7 +800,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             disabled={isSubmitted || !!student?.guardian_name}
           />
           <SelectOption
-            name="status_gardian"
+            name="guardian_status_id"
             labels="Status Wali"
             labelClassName="font-bold text-xs py-2"
             placeholder={
@@ -783,7 +819,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             disabled={isSubmitted || !!student?.guardian_status_id}
           />
           <SelectOption
-            name="guardian_education"
+            name="guardian_education_id"
             labels="Pendidikan Terahir Wali"
             labelClassName="font-bold text-xs py-2"
             placeholder={
@@ -802,7 +838,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             disabled={isSubmitted || !!student?.guardian_education_id}
           />
           <SelectOption
-            name="guardian_profecy"
+            name="guardian_occupation_id"
             labels="Pekerjaan Wali"
             labelClassName="font-bold text-xs py-2"
             placeholder={
@@ -821,7 +857,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             disabled={isSubmitted || !!student?.guardian_occupation_id || isGuardianStatus}
           />
           <SelectOption
-            name="guardian_occupation_position_id"
+            name="guardian_position_id"
             labels="Jabatan"
             placeholder={
               student?.guardian_position_id
@@ -839,7 +875,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={
-              isSubmitted || !watch("mother_profecy")
+              isSubmitted || !watch("mother_occupation_id")
                 ? true
                 : false ||
                   occupationPositionGuardOptions?.length === 0 ||
@@ -851,7 +887,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             size={"md"}
           />
           <SelectOption
-            name="guardian_income"
+            name="guardian_salary_id"
             labels="Pendapatan Wali ( Per Bulan )"
             labelClassName="font-bold text-xs py-2"
             placeholder={
@@ -895,7 +931,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             }
             isSearchable={true}
             required={false}
-            name="address_province_guard"
+            name="guardian_province_id"
             isClearable={true}
             control={control}
             isMulti={false}
@@ -913,13 +949,11 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 : "Kota/Kabupaten"
             }
             isSearchable={true}
-            name="address_city_guard"
+            name="guardian_city_id"
             isClearable={true}
             control={control}
             isMulti={false}
-            disabled={
-              !watch("address_province_guard") || isSubmitted || !!student?.guardian_city_id
-            }
+            disabled={!watch("guardian_province_id") || isSubmitted || !!student?.guardian_city_id}
           />
           <SelectOption
             labels="Kecamatan"
@@ -935,12 +969,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
             }
             required={false}
             isSearchable={true}
-            name="address_subdistrict_guard"
+            name="guardian_subdistrict_id"
             control={control}
             isMulti={false}
             isClearable={true}
             disabled={
-              !watch("address_city_guard") || isSubmitted || !!student?.guardian_subdistrict_id
+              !watch("guardian_city_id") || isSubmitted || !!student?.guardian_subdistrict_id
             }
           />
 

@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { TPaginationArgs } from "@uninus/entities";
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { IUserRequest, IUserResponse, TPaginationArgs } from "@uninus/entities";
 import { Prisma, PrismaService } from "@uninus/api/models";
-import { paginate } from "@uninus/api/utilities";
+import { encryptPassword, paginate } from "@uninus/api/utilities";
 
 import { RpcException } from "@nestjs/microservices";
 
@@ -50,31 +50,47 @@ export class AppService {
         fullname: true,
         email: true,
         avatar: true,
-        students: true,
+        students: {
+          select: {
+            pmb: {
+              select: {
+                registration_status: true,
+              },
+            },
+          },
+        },
       },
     });
     if (!user) {
       throw new RpcException("User tidak ditemukan");
     }
+    const { students, ...dataUser } = user;
     return {
-      data: user,
+      registration_status: students?.pmb?.registration_status?.name,
+      ...dataUser,
     };
   }
 
-  async updateUser(id: string, payload: Prisma.UsersUpdateInput) {
+  async updateUser(id: string, payload: IUserRequest): Promise<IUserResponse> {
+    const password = await encryptPassword(payload.password);
     const user = await this.prisma.users.update({
       where: {
         id,
       },
-      data: payload,
+      data: {
+        email: payload.email,
+        fullname: payload.fullname,
+        password,
+      },
     });
     if (!user) {
-      throw new RpcException("User Tidak ditemukan");
+      throw new BadRequestException ("User tidak ditemukan", {
+        cause: new Error(),
+      });
     }
 
     return {
-      data: user,
-      message: `Berhasil update user`,
+      ...user,
     };
   }
 

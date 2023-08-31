@@ -1,5 +1,6 @@
 export interface ISelectRequest {
-  search: string;
+  search?: string;
+  id?: number;
 }
 
 export interface ISelectEducationHistoryRequest extends ISelectRequest {
@@ -117,8 +118,7 @@ export type TCitizenshipResponse = {
   }>;
 };
 
-export interface ISelectionRequest {
-  search: string;
+export interface ISelectionRequest extends ISelectRequest{
   degree_program_id: string;
 }
 
@@ -152,7 +152,7 @@ export type TEducationHistoryResponse = {
   }>;
 };
 
-export interface IEducationTypeRequest {
+export interface IEducationTypeRequest extends ISelectRequest {
   degree_program_id: string;
 }
 
@@ -268,4 +268,11 @@ export type TParentEducationResponse = {
     id: number;
     name: string;
   }>;
+};
+
+export type TTotalRegistransResponse = {
+  total_registrans: number;
+  paids: number;
+  unpaids: number;
+  accepted_registrans: number;
 };

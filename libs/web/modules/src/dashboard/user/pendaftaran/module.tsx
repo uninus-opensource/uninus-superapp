@@ -3,13 +3,15 @@ import { ReactElement, FC, useEffect, useMemo, useState, useRef } from "react";
 import { Button, SelectOption } from "@uninus/web/components";
 import { FieldValues, useForm } from "react-hook-form";
 import { useDegreeProgramGet, useDepartmentGet, useSelectionGet, useStudentUpdate } from "./hooks";
-import { studentData } from "./type";
+import { studentPendaftaran } from "./store";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
 import { useStudentData } from "@uninus/web/services";
 import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TVSPendaftaran, VSPendaftaran } from "./schema";
 
 export type CustomSelectInstance = {
   select: {
@@ -26,15 +28,12 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     handleSubmit,
     watch,
     setValue,
-    formState: { isValid },
+    formState: { isValid, errors },
     reset,
-  } = useForm<FieldValues>({
-    defaultValues: {
-      program: undefined,
-      prodi1: undefined,
-      prodi2: undefined,
-      seleksi: undefined,
-    },
+  } = useForm<FieldValues | TVSPendaftaran>({
+    mode: "all",
+    resolver: zodResolver(VSPendaftaran),
+    defaultValues: {},
   });
 
   const [programMeta] = useState({
@@ -55,7 +54,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   );
 
   const { data: getDepartment } = useDepartmentGet({
-    degree_program_id: watch("program"),
+    degree_program_id: watch("degree_program_id"),
     faculty_id: watch(""),
     search: "",
   });
@@ -85,18 +84,18 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     if (prodi2Ref.current) {
       prodi2Ref.current.clearValue();
     }
-  }, [watch("program")]);
+  }, [watch("degree_program_id")]);
 
   useEffect(() => {
     setValue("department", null);
-  }, [watch("program")]);
+  }, [watch("degree_program_id")]);
 
   useEffect(() => {
     reset(student);
   }, [student, reset]);
 
   useEffect(() => {
-    const program = watch("program");
+    const program = watch("degree_program_id");
     setIs3Selected(program);
 
     if (program === "3") {
@@ -104,11 +103,11 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     } else {
       setIs3Selected(false);
     }
-  }, [watch("program")]);
+  }, [watch("degree_program_id")]);
 
   const { data: getSelection } = useSelectionGet({
     search: "",
-    degree_program_id: watch("program"),
+    degree_program_id: watch("degree_program_id"),
   });
 
   const SelectionOptions = useMemo(
@@ -138,13 +137,13 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   const router = useRouter();
 
   const onSubmit = handleSubmit((data) => {
-    studentData.degree_program_id = Number(data.program);
-    studentData.first_deparment_id = Number(data.prodi1);
-    studentData.second_deparment_id = Number(data.prodi2);
-    studentData.selection_path_id = Number(data.seleksi);
+    studentPendaftaran.degree_program_id = Number(data.degree_program_id);
+    studentPendaftaran.first_deparment_id = Number(data.first_deparment_id);
+    studentPendaftaran.second_deparment_id = Number(data.second_deparment_id);
+    studentPendaftaran.selection_path_id = Number(data.selection_path_id);
 
     try {
-      mutate(studentData, {
+      mutate(studentPendaftaran, {
         onSuccess: () => {
           setIsFormSubmitted(true);
           setTimeout(() => {
@@ -225,13 +224,15 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               className="text-left"
               labelClassName="text-left py-2"
               control={control}
-              name="program"
+              name="degree_program_id"
               options={DegreeProgramOptions || []}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
               required={true}
               disabled={isFormSubmitted || !!student?.degree_program_id}
+              status="error"
+              message={errors?.degree_program_id?.message as string}
             />
             <SelectOption
               ref={prodi1Ref}
@@ -240,13 +241,17 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="text-left py-2"
               labels={isS3Selected ? "Pilih Program Studi" : "Pilihan Program Studi 1"}
               control={control}
-              name="prodi1"
+              name="first_deparment_id"
               options={DepartmentOptions || []}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={!watch("program") || isFormSubmitted}
+              disabled={
+                !watch("degree_program_id") || isFormSubmitted || !!student?.first_deparment_id
+              }
+              status="error"
+              message={errors?.first_deparment_id?.message as string}
             />
             {!isS3Selected && (
               <SelectOption
@@ -255,14 +260,23 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 className="text-left"
                 labelClassName="text-left py-2"
                 control={control}
-                name="prodi2"
+                name="second_deparment_id"
                 options={DepartmentOptions || []}
                 isSearchable={true}
                 isMulti={false}
                 isClearable={true}
                 required={true}
-                disabled={!watch("program") || isFormSubmitted}
+                disabled={
+                  !watch("degree_program_id") || isFormSubmitted || !!student?.second_deparment_id
+                }
                 ref={prodi2Ref}
+                status="error"
+                message={
+                  (errors?.second_deparment_id?.message as string) ||
+                  watch("second_deparment_id") === watch("first_deparment_id")
+                    ? "Program studi 2 tidak boleh sama dengan program studi 1"
+                    : ""
+                }
               />
             )}
 
@@ -272,13 +286,17 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               className="text-left"
               labelClassName="text-left py-2"
               control={control}
-              name="seleksi"
+              name="selection_path_id"
               options={SelectionOptions || []}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={isFormSubmitted || !!student?.selection_path_id || !watch("program")}
+              disabled={
+                isFormSubmitted || !!student?.selection_path_id || !watch("degree_program_id")
+              }
+              status="error"
+              message={errors?.selection_path_id?.message as string}
             />
           </div>
           <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-end">
