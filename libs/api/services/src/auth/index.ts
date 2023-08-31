@@ -90,7 +90,7 @@ export class AuthService {
   async resendOtp(args: TResendOtpRequest): Promise<TResendOtpResponse> {
     await clearOtp();
 
-    const user = await firstValueFrom(this.client.send("get_user_email", args.email));
+    const user = await firstValueFrom(this.client.send("get_user_email", args));
     if (!user) {
       throw new NotFoundException("Akun tidak ditemukan");
     }

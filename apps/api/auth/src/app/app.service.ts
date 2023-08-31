@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
 import {
@@ -21,6 +22,8 @@ import {
   TLogoutRequest,
   TLogoutResponse,
   TLoginRequest,
+  TUserEmail,
+  TUserEmailResponse,
 } from "@uninus/entities";
 import { PrismaService } from "@uninus/api/models";
 import {
@@ -200,6 +203,21 @@ export class AppService {
     return {
       message: "Berhasil logout",
     };
+  }
+
+  async getEmailUser(args: TUserEmail): Promise<TUserEmailResponse> {
+    await clearOtp();
+    
+    const user = await this.prisma.users.findUnique({
+      where: {
+        email: args.email,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException("Akun tidak ditemukan");
+    }
+
+    return {id: user.id, email: user.email, fullname: user.fullname};
   }
 
   async refreshToken({user}: TReqToken): Promise<TResRefreshToken> {
