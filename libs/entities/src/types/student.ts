@@ -65,6 +65,11 @@ export interface IStudentData {
   company_name?: string | null;
   company_address?: string | null;
   occupation_position_id?: number | null;
+  utbk_pu?: number | null;
+  utbk_kk?: number | null;
+  utbk_ppu?: number | null;
+  utbk_kmbm?: number | null;
+  average_utbk?: number | null;
   utbk?: number | null;
   average_grade?: number | null;
 }
