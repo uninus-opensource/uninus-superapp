@@ -76,7 +76,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
           onClose={handleCloseModal}
           closeClassName="text-primary-white"
           bodyClassName="overflow-y-auto p-8"
-          headerColor="bg-primary-green"
+          headerColor="green"
           modalTitle={
             <div className=" flex flex-row gap-x-2 items-center">
               <h1 className="text-primary-white">Selamat Anda Berhasil Melakukan Pendaftaran</h1>
