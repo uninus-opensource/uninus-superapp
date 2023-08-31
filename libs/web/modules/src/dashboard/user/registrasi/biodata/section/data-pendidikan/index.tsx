@@ -1,10 +1,10 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
-import { Accordion, TextField, SelectOption, Button } from "@uninus/web/components";
+import { Accordion, TextField, SelectOption, Button, Modal } from "@uninus/web/components";
 import { useForm, FieldValues } from "react-hook-form";
 import { useBiodataUpdate } from "../../hooks";
 import { dataPendidikan } from "../../store";
 import { ToastContainer, toast } from "react-toastify";
-import { VSDataPendidikan } from "./schema";
+import { TVSDataPendidikan, VSDataPendidikan } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   useStudentData,
@@ -12,11 +12,20 @@ import {
   useEducationMajorGet,
   useEducationTypeGet,
   useYearGraduationGet,
+  useProvinceGet,
+  useCityGet,
+  useSubdistrictGet,
 } from "@uninus/web/services";
 
 export const DataPendidikanSection: FC = (): ReactElement => {
   const [education, setEducation] = useState<string>("");
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
+  const [isShowModal, setIsShowModal] = useState<boolean>(false);
+  const [locationMeta] = useState({
+    search: "",
+    province_id: "",
+    city_id: "",
+  });
 
   const { getStudent } = useStudentData();
   const student = useMemo(() => {
@@ -30,11 +39,15 @@ export const DataPendidikanSection: FC = (): ReactElement => {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<FieldValues>({
+  } = useForm<FieldValues | TVSDataPendidikan>({
     resolver: zodResolver(VSDataPendidikan),
     mode: "all",
     defaultValues: {},
   });
+
+  const handleCloseModal = () => {
+    setIsShowModal(!isShowModal);
+  };
 
   // Education Type
   const [educationType] = useState({
@@ -103,6 +116,45 @@ export const DataPendidikanSection: FC = (): ReactElement => {
         value: major?.id.toString(),
       })),
     [getMajor?.education_major],
+  );
+
+  const { data: getProvincies } = useProvinceGet(locationMeta);
+
+  const schoolProvinceOptions = useMemo(
+    () =>
+      getProvincies?.province?.map((province) => ({
+        label: province?.name,
+        value: province?.id.toString(),
+      })),
+    [getProvincies?.province],
+  );
+
+  const { data: getCitySchool } = useCityGet({
+    province_id: watch("address_province_school"),
+    search: "",
+  });
+
+  const citySchoolOptions = useMemo(
+    () =>
+      getCitySchool?.city?.map((city) => ({
+        label: city?.name,
+        value: city?.id.toString(),
+      })),
+    [getCitySchool?.city],
+  );
+
+  const { data: getSubdistrictSchool } = useSubdistrictGet({
+    city_id: watch("address_city_school"),
+    search: "",
+  });
+
+  const subDistrictOptions = useMemo(
+    () =>
+      getSubdistrictSchool?.subdistrict?.map((subdistrict) => ({
+        label: subdistrict?.name,
+        value: subdistrict?.id.toString(),
+      })),
+    [getSubdistrictSchool?.subdistrict],
   );
 
   useEffect(() => {
@@ -251,6 +303,8 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={isDisabled || !!student?.education_type_id}
+            status={"error"}
+            message={errors?.education_type_id?.message as string}
           />
           <SelectOption
             name="graduation_year"
@@ -267,27 +321,40 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             disabled={isDisabled || !!student?.graduation_year}
+            status="error"
+            message={errors?.graduation_year?.message as string}
           />
 
-          <TextField
-            inputHeight="h-10"
-            name="education_npsn"
-            variant="sm"
-            required={"Harus diisi"}
-            type="text"
-            labelclassname="text-sm font-semibold"
-            label="NPSN"
-            placeholder="Masukan NPSN"
-            inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
-            control={control}
-            message={errors?.education_npsn?.message as string}
-            status={errors?.education_npsn?.message ? "error" : "none"}
-            onChange={(e) => {
-              setValue("education_npsn", e.target.value);
-              setEducation(e.target.value);
-            }}
-            disabled={isDisabled || !!student?.education_npsn}
-          />
+          <div>
+            <TextField
+              inputHeight="h-10"
+              name="education_npsn"
+              variant="sm"
+              required={"Harus diisi"}
+              type="text"
+              labelclassname="text-sm font-semibold"
+              label="NPSN"
+              placeholder="Masukan NPSN"
+              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+              control={control}
+              message={errors?.education_npsn?.message as string}
+              status={errors?.education_npsn?.message ? "error" : "none"}
+              onChange={(e) => {
+                setValue("education_npsn", e.target.value);
+                setEducation(e.target.value);
+              }}
+              disabled={isDisabled || !!student?.education_npsn}
+            />
+            <p className="text-[0.8rem] text-primary-yellow">
+              Jika data tidak ditemukan, silakan
+              <span
+                className="text-primary-green hover:cursor-pointer underline"
+                onClick={handleCloseModal}
+              >
+                + Tambah Sekolah
+              </span>
+            </p>
+          </div>
 
           <TextField
             inputHeight="h-10"
@@ -362,6 +429,8 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               control={control}
               isMulti={false}
               disabled={isDisabled || !watch("education_type_id")}
+              status="error"
+              message={errors?.education_major_id?.message as string}
             />
           </div>
 
@@ -396,6 +465,161 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           </Button>
         </div>
       </form>
+      <Modal showModal={isShowModal} onClose={handleCloseModal} modalTitle="Tambahkan Data Sekolah">
+        <form className="w-full flex flex-col justify-center items-center gap-2">
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="custom_school_name"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Nama Asal Sekolah"
+              placeholder="Masukan Nama Sekolah"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+
+          <div className="w-full flex gap-2 justify-between items-center">
+            <div className="w-[45%]">
+              <SelectOption
+                name="custom_major"
+                labels="Jenis Sekolah"
+                labelClassName="font-bold text-xs py-2"
+                placeholder="Pilih Jenis Sekolah"
+                options={[
+                  {
+                    value: "SMK",
+                    label: "SMK",
+                  },
+                  {
+                    value: "MAN",
+                    label: "MAN",
+                  },
+                  {
+                    value: "SMKS",
+                    label: "SMKS",
+                  },
+                  {
+                    value: "MAS",
+                    label: "MAS",
+                  },
+                  {
+                    value: "SMAS",
+                    label: "SMAS",
+                  },
+                  {
+                    value: "SMAN",
+                    label: "SMAN",
+                  },
+                ]}
+                isSearchable={true}
+                isClearable={true}
+                control={control}
+                isMulti={false}
+                className="w-full"
+                required
+              />
+            </div>
+
+            <div className="w-[55%] mt-4">
+              <TextField
+                inputHeight="h-10"
+                name="custom_NPSN"
+                variant="sm"
+                type="text"
+                required
+                labelclassname="text-sm font-semibold"
+                label="NPSN ( Nomor Pokok Sekolah Nasional )"
+                placeholder="Masukan NPSN"
+                control={control}
+              />
+            </div>
+          </div>
+
+          <div className="w-full flex fle-col gap-3 justify-center items-center">
+            <div className="w-[33%]">
+              <SelectOption
+                labels="Provinsi"
+                labelClassName="font-bold text-xs py-2"
+                options={schoolProvinceOptions || []}
+                placeholder="Provinsi"
+                isSearchable={true}
+                name="address_province_school"
+                isClearable={true}
+                control={control}
+                isMulti={false}
+                className="w-full"
+              />
+            </div>
+
+            <div className="w-[33%]">
+              <SelectOption
+                labels="Kota/Kabupaten"
+                labelClassName="font-bold text-xs py-2"
+                options={citySchoolOptions || []}
+                placeholder="Kota/Kabupaten"
+                isSearchable={true}
+                name="address_city_school"
+                isClearable={true}
+                control={control}
+                isMulti={false}
+                disabled={!watch("address_province_school")}
+                className="w-full"
+              />
+            </div>
+
+            <div className="w-[33%]">
+              <SelectOption
+                labels="Kecamatan"
+                labelClassName="font-bold text-xs py-2"
+                options={subDistrictOptions || []}
+                placeholder="Kecamatan"
+                isSearchable={true}
+                name="address_subdistrict_school"
+                control={control}
+                isMulti={false}
+                isClearable={true}
+                disabled={!watch("address_city_school")}
+                className="w-full"
+              />
+            </div>
+          </div>
+          <div className="w-auto flex justify-center items-center">
+            <TextField
+              name="complete_school_address"
+              variant="sm"
+              type="text"
+              labelclassname="text-xl font-semibold"
+              label="Alamat Lengkap Sekolah"
+              control={control}
+              isTextArea
+              textAreaRow={5}
+              textAreaCols={70}
+              inputHeight="h-20"
+              className="resize-none bg-grayscale-2"
+              inputWidth="lg:w-full"
+              placeholder="Masukan Alamat Lengkap Sekolah"
+            />
+          </div>
+
+          <div className="w-full flex justify-end items-center gap-3">
+            <span
+              className="text-secondary-green-5 px-2 py-1 hover:cursor-pointer font-bold"
+              onClick={() => {
+                setIsShowModal(false);
+              }}
+            >
+              Batal
+            </span>
+            <Button variant="filled" size="md">
+              Tambahkan
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </Accordion>
   );
 };
