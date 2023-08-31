@@ -26,7 +26,15 @@ export class StudentService {
         avatar: true,
         email: true,
         fullname: true,
-        students: true,
+        students: {
+          include: {
+            pmb: {
+              include: {
+                student_grade: true,
+              },
+            },
+          }
+        },
       },
     });
 
@@ -35,18 +43,75 @@ export class StudentService {
         cause: new Error(),
       });
     }
+    const { avatar, email, fullname, students } = student;
 
-    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
+    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt", "pmb"]);
     return {
-      avatar: student.avatar,
-      email: student.email,
-      fullname: student.fullname,
+      avatar,
+      email,
+      fullname,
+      first_deparment_id: students?.pmb?.first_deparment_id,
+      second_deparment_id: students?.pmb?.second_deparment_id,
+      selection_path_id: students?.pmb?.selection_path_id,
+      degree_program_id: students?.pmb?.degree_program_id,
+      student_grade: students?.pmb?.student_grade,
+      average_grade: students?.pmb?.average_grade,
+      utbk: students?.pmb?.utbk,
       ...studentData,
     };
   }
 
   async updateStudent(args: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
-    const { id, fullname, avatar, ...updateStudentPayload } = args;
+    const {
+      id,
+      fullname,
+      avatar,
+      email,
+      first_deparment_id,
+      second_deparment_id,
+      selection_path_id,
+      degree_program_id,
+      utbk,
+      student_grade,
+      average_grade,
+      ...updateStudentPayload
+    } = args;
+
+    if (student_grade) {
+      for await (const data of student_grade) {
+        const updateStudentGrade = await this.prisma.users.update({
+          where: {
+            id,
+          },
+          data: {
+            students: {
+              update: {
+                pmb: {
+                  update: {
+                    student_grade: {
+                      updateMany: {
+                        where: {
+                          subject: data.subject,
+                          semester: data.semester,
+                        },
+                        data: {
+                          grade: data.grade,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+        if (!updateStudentGrade) {
+          throw new BadRequestException("Gagal update nilai", {
+            cause: new Error(),
+          });
+        }
+      }
+    }
     const student = await this.prisma.users.update({
       where: {
         id,
@@ -56,6 +121,17 @@ export class StudentService {
         students: {
           update: {
             ...updateStudentPayload,
+            pmb: {
+              update: {
+                first_deparment_id,
+                second_deparment_id,
+                selection_path_id,
+                degree_program_id,
+                utbk,
+                registration_status_id: 2,
+                ...(average_grade && { average_grade: Number(average_grade.toFixed(1)) }),
+              },
+            },
           },
         },
       },
@@ -63,7 +139,15 @@ export class StudentService {
         avatar: true,
         email: true,
         fullname: true,
-        students: true,
+        students: {
+          include: {
+            pmb: {
+              include: {
+                student_grade: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -72,24 +156,18 @@ export class StudentService {
         cause: new Error(),
       });
     }
-    if (avatar) {
-      const avatar = await this.cloudinaryService.uploadImage(args.avatar);
-
-      await this.prisma.users.update({
-        where: {
-          id,
-        },
-        data: {
-          avatar: avatar?.secure_url,
-        },
-      });
-    }
-
-    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
+    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt", "pmb"]);
     return {
       avatar: student.avatar,
       email: student.email,
       fullname: student.fullname,
+      first_deparment_id: student.students?.pmb?.first_deparment_id,
+      second_deparment_id: student.students?.pmb?.second_deparment_id,
+      selection_path_id: student.students?.pmb?.selection_path_id,
+      degree_program_id: student.students?.pmb?.degree_program_id,
+      student_grade: student.students?.pmb?.student_grade,
+      average_grade: student.students?.pmb?.average_grade,
+      utbk: student.students?.pmb?.utbk,
       ...studentData,
     };
   }
@@ -125,30 +203,41 @@ export class StudentService {
   async checkGraduationStatus({
     registration_number,
   }: TGraduationStatusRequest): Promise<TGraduationStatusReponse> {
-    const graduationStatus = await this.prisma.students.findFirst({
+    const graduationStatus = await this.prisma.pMB.findFirst({
       where: {
         registration_number,
       },
       include: {
-        user: true,
+        student:{
+          include: {
+            user: true,
+            department: true
+          }
+        },
+        selection_path: true,
+        registration_status: true
       },
     });
 
     if (!graduationStatus) {
-      throw new BadRequestException("Data tidak ditemukan", {
+      throw new BadRequestException("Nomor registrasi tidak ditemukan", {
         cause: new Error(),
       });
     }
 
+    const { registration_status_id } = graduationStatus;
+    if ((registration_status_id as number) < 5) {
+      return {
+        message: "Sedang Dalam Proses Seleksi",
+      };
+    }
+
     return {
       registration_number: graduationStatus.registration_number,
-      fullname: graduationStatus.user.fullname,
-      birth_date: graduationStatus.birth_date,
-      birth_place: graduationStatus.birth_place,
-      city: graduationStatus.city,
-      school_name: graduationStatus.school_name,
-      province: graduationStatus.province,
-      registration_status: graduationStatus.registration_status
+      fullname: graduationStatus.student?.user.fullname,
+      department: graduationStatus.student?.department?.name,
+      selection_path: graduationStatus.selection_path?.name,
+      registration_status: graduationStatus.registration_status.name,
     };
   }
 }

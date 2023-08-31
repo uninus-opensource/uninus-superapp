@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
 import {
@@ -21,6 +22,8 @@ import {
   TLogoutRequest,
   TLogoutResponse,
   TLoginRequest,
+  TUserEmail,
+  TUserEmailResponse,
 } from "@uninus/entities";
 import { PrismaService } from "@uninus/api/models";
 import {
@@ -66,12 +69,25 @@ export class AppService {
   async register(data: TRegisterRequest): Promise<TProfileResponse> {
     const isEmailExist = await this.prisma.users.findUnique({
       where: {
-        email: data.email.toLowerCase(),
+        email: data.email,
       },
     });
 
     if (isEmailExist) {
       throw new RpcException("Email sudah terdaftar");
+    }
+
+    const isPhoneExist = await this.prisma.students.findMany({
+      where: {
+        phone_number: {
+          contains: data.phone_number as string,
+          mode: "insensitive",
+        },
+      },
+    });
+
+    if (isPhoneExist.length > 0) {
+      throw new ConflictException("Nomor telepon sudah digunakan");
     }
 
     const password = await encryptPassword(data.password);
@@ -86,7 +102,13 @@ export class AppService {
           "https://res.cloudinary.com/dyominih0/image/upload/v1688846789/MaleProfileDefault_hxtqcy.png",
         students: {
           create: {
-            phone_number: data.phone_number,
+            phone_number: `62${data.phone_number}`,
+            pmb: {
+              create: {
+                registration_number: String(Math.floor(1000000000 + Math.random() * 9000000000)),
+                registration_status_id: 1
+              },
+            },
           },
         },
       },
@@ -144,9 +166,6 @@ export class AppService {
     const now = Date.now();
     const expirationTime = now + expiresIn;
 
-    if (now > expirationTime) {
-      throw new RpcException(new UnauthorizedException("Access Token telah berakhir"))
-    }
     return {
       message: "Berhasil Login",
       token: {
@@ -186,9 +205,24 @@ export class AppService {
     };
   }
 
-  async refreshToken(reqToken: TReqToken): Promise<TResRefreshToken> {
+  async getEmailUser(args: TUserEmail): Promise<TUserEmailResponse> {
+    await clearOtp();
+    
+    const user = await this.prisma.users.findUnique({
+      where: {
+        email: args.email,
+      },
+    });
+    if (!user) {
+      throw new NotFoundException("Akun tidak ditemukan");
+    }
+
+    return {id: user.id, email: user.email, fullname: user.fullname};
+  }
+
+  async refreshToken({user}: TReqToken): Promise<TResRefreshToken> {
     const expiresIn = 15 * 60 * 1000;
-    const access_token = await generateAccessToken(reqToken.user);
+    const access_token = await generateAccessToken(user);
 
     const now = Date.now();
     const expirationTime = now + expiresIn;

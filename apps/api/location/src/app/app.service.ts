@@ -8,15 +8,17 @@ import {
   TCityResponse,
   ISubDistrictRequest,
   TSubDistrictResponse,
+  ICountryRequest,
 } from "@uninus/entities";
 
 @Injectable()
 export class AppService {
   constructor(private prisma: PrismaService) {}
 
-  async getProvince({ search }: ISelectRequest): Promise<TProvinceResponse> {
+  async getProvince({ search, id }: ISelectRequest): Promise<TProvinceResponse> {
     const province = await this.prisma.province.findMany({
       where: {
+        id: id && Number(id),
         name: {
           ...(search && { contains: search.toUpperCase() }),
         },
@@ -34,9 +36,10 @@ export class AppService {
     };
   }
 
-  async getCity({ province_id, search }: ICityRequest): Promise<TCityResponse> {
+  async getCity({ id, province_id, search }: ICityRequest): Promise<TCityResponse> {
     const city = await this.prisma.city.findMany({
       where: {
+        id: id && Number(id),
         name: {
           ...(search && { contains: search.toUpperCase() }),
         },
@@ -51,9 +54,10 @@ export class AppService {
     };
   }
 
-  async getSubDistrict({ city_id, search }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
+  async getSubDistrict({id, city_id, search }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
     const subDistrict = await this.prisma.subDistrict.findMany({
       where: {
+        id: id && Number(id),
         name: {
           ...(search && { contains: search.toUpperCase() }),
         },
@@ -68,10 +72,12 @@ export class AppService {
     };
   }
 
-  async getCountry({ search }: ISelectRequest): Promise<TCountryResponse> {
+  async getCountry({ search, citizenship_id, id }: ICountryRequest): Promise<TCountryResponse> {
     const country = await this.prisma.country.findMany({
       where: {
+        id: id && Number(id),
         name: { ...(search && { contains: search.toUpperCase() }) },
+        ...(citizenship_id && { citizenship_id: Number(citizenship_id) }),
       },
       select: {
         id: true,

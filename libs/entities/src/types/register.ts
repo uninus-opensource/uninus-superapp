@@ -8,6 +8,7 @@ export type TRegisterRequest = {
   password: string;
   phone_number: string;
   role_id?: number;
+  registration_number?: string;
 };
 
 export type TLResponse = {

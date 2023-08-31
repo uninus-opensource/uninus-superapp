@@ -20,6 +20,7 @@ import {
   resendOtpSwagger,
   newPasswordSwagger,
   verifyOtpSwagger,
+  RefreshTokenSwagger,
 } from "@uninus/api/services";
 import {RpcExceptionToHttpExceptionFilter} from '@uninus/api/filter'
 import { ApiTags, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
@@ -75,8 +76,8 @@ export class AuthController {
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(RtGuard)
   @ApiOperation({ summary: "Refresh Token" })
-  async refresh(@Request() reqToken: TReqToken) {
-    return this.appService.refreshToken(reqToken);
+  async refresh(@Body() refreshToken: RefreshTokenSwagger, @Request() { user }: TReqToken) {
+    return this.appService.refreshToken({ user });
   }
 
   @Post("verify")
