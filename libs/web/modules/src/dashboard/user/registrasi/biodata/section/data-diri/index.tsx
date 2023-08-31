@@ -7,7 +7,7 @@ import {
   Button,
   SelectField,
 } from "@uninus/web/components";
-import { formBiodataOne } from "../../store";
+import { dataDiri, disabilitiesDataDiri, formBiodataOne, occupationS2S3 } from "../../store";
 import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, FieldValues } from "react-hook-form";
 import {
@@ -29,7 +29,7 @@ import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
 import { useBiodataUpdate } from "../../hooks";
 import { ToastContainer, toast } from "react-toastify";
-import { VSDataDiri } from "./schema";
+import { VSDataDiri, TVSDataDiri } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { match } from "ts-pattern";
 import { EditOutlined } from "@ant-design/icons";
@@ -51,7 +51,7 @@ export const DataDiriSection: FC = (): ReactElement => {
     setValue,
     reset,
     formState: { errors },
-  } = useForm<FieldValues>({
+  } = useForm<FieldValues | TVSDataDiri>({
     resolver: zodResolver(VSDataDiri),
     mode: "all",
   });
@@ -322,30 +322,49 @@ export const DataDiriSection: FC = (): ReactElement => {
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
+    dataDiri.fullname = data?.fullname;
+    dataDiri.nik = data?.nik;
+    dataDiri.nisn = data?.nisn;
+    dataDiri.no_kk = data?.no_kk;
+    dataDiri.gender_id = Number(data?.gender_id);
+    dataDiri.religion_id = Number(data?.religion_id);
+    dataDiri.birth_place = data?.birth_place;
+    dataDiri.birth_date = data?.birth_date;
+    dataDiri.marital_status_id = Number(data?.marital_status_id);
+    dataDiri.citizenship_id = Number(data?.citizenship_id);
+    dataDiri.country_id = Number(data?.country_id);
+    dataDiri.province_id = Number(data?.province_id);
+    dataDiri.city_id = Number(data?.city_id);
+    dataDiri.subdistrict_id = Number(data?.subdistrict_id);
+    dataDiri.address = data?.address;
+
+    if (disValue === "Ya") {
+      disabilitiesDataDiri.disabilities_id = Number(data?.disabilities_id);
+    } else {
+      disabilitiesDataDiri.disabilities_id = null;
+    }
+
+    if (occValue === "Sudah" && student?.degree_program_id !== 1) {
+      occupationS2S3.occupation_id = Number(data?.occupation_id);
+      occupationS2S3.occupation_position_id = Number(data?.occupation_position_id);
+      occupationS2S3.company_name = data?.company_name;
+      occupationS2S3.company_address = data?.company_address;
+      occupationS2S3.salary_id = Number(data?.salary_id);
+    }
+
     try {
+      console.log(data);
+      console.log({ ...dataDiri });
+      console.log({ ...occupationS2S3 });
+      console.log({ ...disabilitiesDataDiri });
       mutate(
-        match({
-          disable: disValue,
-          occ: occValue,
-          degreeId: student?.degree_program_id,
-        })
-          .with(
-            {
-              disable: "Tidak",
-              occ: "Sudah",
-              degreeId: 1,
-            },
-            () => {
-              return {
-                ...data,
-              };
-            },
-          )
-          .otherwise(() => {
-            return {
-              ...data,
-            };
-          }),
+        occValue === "Sudah" && student?.degree_program_id !== 1
+          ? { ...dataDiri, ...occupationS2S3 }
+          : occValue === "Sudah" && disValue === "Ya" && student?.degree_program_id !== 1
+          ? { ...dataDiri, ...occupationS2S3, ...disabilitiesDataDiri }
+          : occValue === null && student?.degree_program_id === 1 && disValue === "Ya"
+          ? { ...dataDiri, ...disabilitiesDataDiri }
+          : { ...dataDiri },
         {
           onSuccess: () => {
             setIsdisabled(true);
@@ -525,6 +544,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             disabled={isDisabled || !!student?.gender_id}
             status={"error"}
             size={"md"}
+            message={errors?.gender_id?.message as string}
           />
 
           <SelectOption
@@ -546,6 +566,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             disabled={isDisabled || !!student?.religion_id}
             status={"error"}
             size={"md"}
+            message={errors?.religion_id?.message as string}
           />
 
           <TextField
@@ -574,6 +595,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             inputWidth="lg:w-[27vw] xl:w-[25vw] md:w-[33vw] w-[70vw]"
             control={control}
             disabled={isDisabled || !!student?.birth_date}
+            message={errors?.birth_date?.message as string}
           />
 
           <SelectOption
@@ -595,6 +617,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             disabled={isDisabled || !!student?.marital_status_id}
             status={"error"}
             size={"md"}
+            message={errors?.marital_status_id?.message as string}
           />
 
           <SelectOption
@@ -617,6 +640,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             disabled={isDisabled || !!student?.citizenship_id}
             status={"error"}
             size={"md"}
+            message={errors?.citizenship_id?.message as string}
           />
           <SelectOption
             name="country_id"
@@ -638,6 +662,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             disabled={isDisabled || !!student?.country_id || !watch("citizenship_id")}
             status={"error"}
             size={"md"}
+            message={errors?.country_id?.message as string}
           />
           <SelectOption
             name="province_id"
@@ -657,8 +682,9 @@ export const DataDiriSection: FC = (): ReactElement => {
             ref={citizenref}
             isMulti={false}
             disabled={isDisabled || !!student?.province_id || countryOptions?.length !== 1}
-            status={"error"}
+            status={errors?.province_id?.message ? "error" : "none"}
             size={"md"}
+            message={errors?.province_id?.message as string}
           />
           <SelectOption
             name="city_id"
@@ -683,6 +709,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             }
             status={"error"}
             size={"md"}
+            message={errors?.city_id?.message as string}
           />
           <SelectOption
             name="subdistrict_id"
@@ -709,6 +736,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             }
             status={"error"}
             size={"md"}
+            message={errors?.subdistrict_id?.message as string}
           />
 
           <div className="px-6 md:px-0 lg:px-0 w-full">
@@ -786,6 +814,7 @@ export const DataDiriSection: FC = (): ReactElement => {
                   }
                   status={"error"}
                   size={"md"}
+                  message={errors?.occupation_id?.message as string}
                 />
                 <SelectOption
                   name="occupation_position_id"
@@ -816,6 +845,7 @@ export const DataDiriSection: FC = (): ReactElement => {
                   }
                   status={"error"}
                   size={"md"}
+                  message={errors?.occupation_position_id?.message as string}
                 />
                 <TextField
                   inputHeight="h-10"
