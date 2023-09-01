@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type TUploadFile = {
   control: any;
   name: string;
@@ -6,7 +8,8 @@ export type TUploadFile = {
   previewImage?: string;
   classNameField?: string;
   preview?: boolean;
-  labels?: string;
+  labels?: string | ReactNode;
   labelClassName?: string;
   required?: boolean;
+  variant: string;
 };

@@ -56,7 +56,7 @@ const LandingPage: FC = (): ReactElement => {
   };
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    console.log("tersubmit");
   });
 
   return (
@@ -128,15 +128,6 @@ const LandingPage: FC = (): ReactElement => {
           Modal
         </Button>
 
-        <div className="flex gap-2 w-auto">
-          <UploadField
-            className="flex flex-col gap-4"
-            control={control}
-            name="file"
-            defaultImage=""
-            previewImage="w-[500px] "
-          />
-        </div>
         <DraggableComponent control={control} name="draggableComponent" />
         <TabJalurSeleksi />
         <div className="w-1/2">
@@ -159,6 +150,24 @@ const LandingPage: FC = (): ReactElement => {
             name="SelectController2"
             control={control}
             isMulti={false}
+          />
+        </div>
+        <div className="flex gap-2 w-auto">
+          <UploadField
+            className="flex flex-col gap-4"
+            control={control}
+            name="file"
+            defaultImage=""
+            variant="default"
+            previewImage="w-[500px] "
+          />
+          <UploadField
+            className="flex flex-col gap-4"
+            control={control}
+            name="file"
+            defaultImage=""
+            previewImage="w-[500px] "
+            variant="custom"
           />
         </div>
         <form onSubmit={onSubmit} className="w-1/2 flex flex-col justify-center items-center gap-3">

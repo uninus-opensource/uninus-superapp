@@ -66,8 +66,6 @@ export const formBioadataIbu: TTextFieldIbu[] = [
 ];
 
 export const dataDiri = {
-  avatar: null,
-  email: "",
   fullname: "",
   nik: "",
   nisn: "",
@@ -75,16 +73,26 @@ export const dataDiri = {
   birth_date: "",
   no_kk: "",
   gender_id: 1,
-  phone_number: "",
   religion_id: 0,
-  citizenship_id: 1,
+  citizenship_id: 0,
   marital_status_id: 0,
   country_id: 0,
   address: "",
   subdistrict_id: 0,
   province_id: 0,
   city_id: 0,
-  disabilities_id: 0,
+};
+
+export const disabilitiesDataDiri = {
+  disabilities_id: null as number | null,
+};
+
+export const occupationS2S3 = {
+  occupation_id: 0,
+  occupation_position_id: 0,
+  company_name: "",
+  salary_id: 0,
+  company_address: "",
 };
 
 export const dataPendidikan = {
@@ -92,4 +100,36 @@ export const dataPendidikan = {
   graduation_year: "",
   education_major_id: 0,
   education_npsn: "",
+};
+
+export const studentParentData = {
+  father_name: undefined,
+  father_status_id: 0,
+  father_education_id: 0,
+  father_occupation_id: 0,
+  father_position_id: 0,
+  father_salary_id: 0,
+  mother_name: undefined,
+  mother_status_id: 0,
+  mother_education_id: 0,
+  mother_occupation_id: 0,
+  mother_position_id: 0,
+  mother_salary_id: 0,
+  parent_address: undefined,
+  parent_province_id: 0,
+  parent_city_id: 0,
+  parent_subdistrict_id: 0,
+};
+
+export const studentGuardianData = {
+  guardian_name: undefined,
+  guardian_status_id: 0,
+  guardian_education_id: 0,
+  guardian_occupation_id: 0,
+  guardian_position_id: 0,
+  guardian_salary_id: 0,
+  guardian_address: null,
+  guardian_province_id: 0,
+  guardian_city_id: 0,
+  guardian_subdistrict_id: 0,
 };

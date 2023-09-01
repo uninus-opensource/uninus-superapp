@@ -32,7 +32,7 @@ export const Sidebar: FC<TSidebarProps> = ({ showSidebar, ...props }): ReactElem
             <XIcon />
           </Button>
         </div>
-        <nav className="text-primary-white text-left my-16">{props.children}</nav>
+        <nav className="text-primary-white text-left my-10">{props.children}</nav>
       </section>
     </main>
   );

@@ -5,14 +5,13 @@ import {
   Get,
   Param,
   Post,
-  Put,
   Request,
   UploadedFile,
   UseGuards,
   UseInterceptors,
-  BadRequestException,
   Inject,
   UseFilters,
+  Patch,
 } from "@nestjs/common";
 import { TFIle, VSRegistrationNumber } from "@uninus/entities";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -70,7 +69,7 @@ export class StudentController {
       return response;
   }
 
-  @Put()
+  @Patch()
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiBearerAuth()
   @ApiOperation({ summary: "Update Data Student" })
@@ -114,7 +113,7 @@ export class StudentController {
       return response;
   }
 
-  @Put("/:id")
+  @Patch("/:id")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiBearerAuth()
   @ApiOperation({ summary: "Update By Id" })

@@ -1,7 +1,7 @@
 import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { MessagePattern } from '@nestjs/microservices';
-import { TForgotPasswordRequest, TLoginRequest, TLogoutRequest, TProfileResponse, TRegisterRequest, TReqToken, TResetPasswordRequest, TVerifyOtpPasswordRequest, TVerifyOtpRequest } from "@uninus/entities";
+import { TForgotPasswordRequest, TLoginRequest, TLogoutRequest, TProfileResponse, TRegisterRequest, TReqToken, TResetPasswordRequest, TUserEmail, TVerifyOtpPasswordRequest, TVerifyOtpRequest } from "@uninus/entities";
 
 @Controller()
 export class AppController {
@@ -26,7 +26,12 @@ export class AppController {
     return this.appService.logout(args);
   }
 
-  @MessagePattern('refreshToken')
+  @MessagePattern('get_user_email')
+  getUserEmail(args: TUserEmail) {
+    return this.appService.getEmailUser(args);
+  }
+
+  @MessagePattern('refresh_token')
   refreshToken(args: TReqToken) {
     return this.appService.refreshToken(args);
   }

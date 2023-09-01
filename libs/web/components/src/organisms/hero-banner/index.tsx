@@ -4,6 +4,7 @@ import { Reveal, Button } from "../../atoms";
 import Image from "next/image";
 import AliceCarousel from "react-alice-carousel";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import Link from "next/link";
 
 export const HeroBanner: FC<TbannerProps> = ({
   heroTitle,
@@ -55,13 +56,13 @@ export const HeroBanner: FC<TbannerProps> = ({
                 </div>
                 {isDownload ? (
                   <section className="flex mt-4 lg:mt-12 gap-8 ">
-                    <Button
-                      href="https://pmb.uninus.ac.id/wp-content/uploads/2023/03/Brosur-Program-Sarjana.pdf"
-                      variant="outlined-white"
-                      styling="lg:p-7"
-                      size="sm"
-                    >
-                      Unduh Brosur
+                    <Button variant="outlined-white" styling="lg:p-7" size="sm">
+                      <Link
+                        href="https://pmb.uninus.ac.id/wp-content/uploads/2023/03/Brosur-Program-Sarjana.pdf"
+                        target="_blank"
+                      >
+                        Unduh Brosur
+                      </Link>
                     </Button>
                     <Button href="/auth/register" variant="filled" size="sm" styling="lg:p-7">
                       Daftar Sekarang

@@ -1,67 +1,92 @@
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
-import { Accordion, TextField, SelectOption, Button } from "@uninus/web/components";
-import { dataPendidikan } from "../../store";
+import { Accordion, TextField, SelectOption, Button, Modal } from "@uninus/web/components";
 import { useForm, FieldValues } from "react-hook-form";
-import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
-import { useYearGraduationGet } from "./hooks";
+import { dataPendidikan } from "../../store";
+import { ToastContainer, toast } from "react-toastify";
+import { TVSDataPendidikan, VSDataPendidikan } from "./schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  useStudentData,
+  useEducationHistoryGet,
+  useEducationMajorGet,
+  useEducationTypeGet,
+  useYearGraduationGet,
+  useProvinceGet,
+  useCityGet,
+  useSubdistrictGet,
+} from "@uninus/web/services";
 
 export const DataPendidikanSection: FC = (): ReactElement => {
-  const { control, handleSubmit, watch, setValue } = useForm<FieldValues>({
-    mode: "all",
-    defaultValues: {},
-  });
-
-  const [locationMeta, setLocationMeta] = useState({
+  const [education, setEducation] = useState<string>("");
+  const [isDisabled, setIsdisabled] = useState<boolean>(false);
+  const [isShowModal, setIsShowModal] = useState<boolean>(false);
+  const [locationMeta] = useState({
     search: "",
     province_id: "",
     city_id: "",
   });
 
-  const { data: getProvincies } = useProvinceGet(locationMeta);
+  const { getStudent } = useStudentData();
+  const student = useMemo(() => {
+    return getStudent;
+  }, [getStudent]);
 
-  const provinceOptions = useMemo(
-    () =>
-      getProvincies?.province?.map((province) => ({
-        label: province?.name,
-        value: province?.id.toString(),
-      })),
-    [getProvincies?.province],
-  );
-
-  const { data: getCity } = useCityGet({
-    province_id: watch("province"),
-    search: "",
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues | TVSDataPendidikan>({
+    resolver: zodResolver(VSDataPendidikan),
+    mode: "all",
+    defaultValues: {},
   });
 
-  const cityOptions = useMemo(
-    () =>
-      getCity?.city?.map((city) => ({
-        label: city?.name,
-        value: city?.id.toString(),
-      })),
-    [getCity?.city],
-  );
+  const handleCloseModal = () => {
+    setIsShowModal(!isShowModal);
+  };
 
-  const { data: getSubdistrict } = useSubdistrictGet({
-    city_id: watch("city"),
-    search: "",
+  // Education Type
+  const [educationType] = useState({
+    degree_program_id: getStudent?.degree_program_id as unknown as string,
   });
 
-  const subDistrictOptions = useMemo(
+  const { data: getEducationType } = useEducationTypeGet(educationType);
+
+  const educationTypeOptions = useMemo(
     () =>
-      getSubdistrict?.sub_district?.map((subdistrict) => ({
-        label: subdistrict?.name,
-        value: subdistrict?.id.toString(),
+      getEducationType?.education_type?.map((educationType) => ({
+        label: educationType?.name,
+        value: educationType?.id.toString(),
       })),
-    [getSubdistrict?.sub_district],
+    [getEducationType?.education_type],
   );
 
-  useEffect(() => {
-    setValue("city", null);
-  }, [watch("province")]);
+  // Education History
+  const [educationHistory] = useState({
+    search: "",
+    npsn: student?.education_npsn ? student?.education_npsn : watch("education_npsn"),
+  });
 
-  const [graduate, setGraduate] = useState({
+  const { data: getEducationHistory } = useEducationHistoryGet(educationHistory);
+
+  const educationHistoryOptions = useMemo(() => {
+    return getEducationHistory?.education?.map((educationHistory) => ({
+      value: educationHistory?.id.toString(),
+      npsn: educationHistory?.npsn,
+      school_name: educationHistory.name,
+      province: educationHistory.province,
+      sub_district: educationHistory.sub_district,
+      district_city: educationHistory.district_city,
+      street_address: educationHistory.street_address,
+    }));
+  }, [getEducationHistory?.education]);
+
+  // Graduate Year
+  const [graduate] = useState({
     search: "",
   });
 
@@ -76,14 +101,155 @@ export const DataPendidikanSection: FC = (): ReactElement => {
     [getGraduate?.year],
   );
 
+  // Education Major
+  const [major] = useState({
+    search: "",
+    education_type_id: watch("education_type_id"),
+  });
+
+  const { data: getMajor } = useEducationMajorGet(major);
+
+  const majorOptions = useMemo(
+    () =>
+      getMajor?.education_major?.map((major) => ({
+        label: major?.name,
+        value: major?.id.toString(),
+      })),
+    [getMajor?.education_major],
+  );
+
+  const { data: getProvincies } = useProvinceGet(locationMeta);
+
+  const schoolProvinceOptions = useMemo(
+    () =>
+      getProvincies?.province?.map((province) => ({
+        label: province?.name,
+        value: province?.id.toString(),
+      })),
+    [getProvincies?.province],
+  );
+
+  const { data: getCitySchool } = useCityGet({
+    province_id: watch("address_province_school"),
+    search: "",
+  });
+
+  const citySchoolOptions = useMemo(
+    () =>
+      getCitySchool?.city?.map((city) => ({
+        label: city?.name,
+        value: city?.id.toString(),
+      })),
+    [getCitySchool?.city],
+  );
+
+  const { data: getSubdistrictSchool } = useSubdistrictGet({
+    city_id: watch("address_city_school"),
+    search: "",
+  });
+
+  const subDistrictOptions = useMemo(
+    () =>
+      getSubdistrictSchool?.subdistrict?.map((subdistrict) => ({
+        label: subdistrict?.name,
+        value: subdistrict?.id.toString(),
+      })),
+    [getSubdistrictSchool?.subdistrict],
+  );
+
+  useEffect(() => {
+    if (education || student?.education_npsn) {
+      setValue(
+        "school_name",
+        educationHistoryOptions?.find(
+          (item) => item.npsn === (student?.education_npsn ? student?.education_npsn : education),
+        )?.school_name,
+      );
+      setValue(
+        "school_province",
+        educationHistoryOptions?.find(
+          (item) => item.npsn === (student?.education_npsn ? student?.education_npsn : education),
+        )?.province,
+      );
+      setValue(
+        "school_city",
+        educationHistoryOptions?.find(
+          (item) => item.npsn === (student?.education_npsn ? student?.education_npsn : education),
+        )?.district_city,
+      );
+      setValue(
+        "school_subdistrict",
+        educationHistoryOptions?.find(
+          (item) => item.npsn === (student?.education_npsn ? student?.education_npsn : education),
+        )?.sub_district,
+      );
+      setValue(
+        "school_address",
+        educationHistoryOptions?.find(
+          (item) => item.npsn === (student?.education_npsn ? student?.education_npsn : education),
+        )?.street_address,
+      );
+    } else {
+      setValue("school_name", "");
+      setValue("school_province", "");
+      setValue("school_city", "");
+      setValue("school_subdistrict", "");
+      setValue("school_address", "");
+    }
+  }, [setValue, education, educationHistoryOptions, student?.education_npsn]);
+
+  useEffect(() => {
+    reset({
+      education_type_id: student?.education_type_id,
+      graduation_year: student?.graduation_year,
+      education_npsn: student?.education_npsn,
+      education_major_id: student?.education_major_id,
+    });
+  }, [student, reset, getStudent]);
+
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
+    dataPendidikan.education_type_id = Number(data?.education_type_id);
+    dataPendidikan.education_major_id = Number(data?.education_major_id);
+    dataPendidikan.education_npsn = data?.education_npsn;
+    dataPendidikan.graduation_year = data?.graduation_year;
+
     try {
-      mutate({
-        ...data,
-        avatar: null,
-      });
+      mutate(
+        { ...dataPendidikan },
+        {
+          onSuccess: () => {
+            setIsdisabled(true);
+            setTimeout(() => {
+              toast.success("Berhasil mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setTimeout(() => {
+              toast.error("Gagal mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+        },
+      );
     } catch (error) {
       console.error(error);
     }
@@ -92,173 +258,388 @@ export const DataPendidikanSection: FC = (): ReactElement => {
   return (
     <Accordion
       title="Data Pendidikan"
-      titleClassName="text-lg font-extrabold text-secondary-green-4"
+      key="data-pendidikan-section"
+      titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
     >
-      <form onSubmit={onSubmit}>
-        <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
+      <form onSubmit={onSubmit} noValidate>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between text-left">
           <SelectOption
-            name="school_type"
+            name="education_type_id"
             labels="Jenis Pendidikan Asal"
             labelClassName="font-bold text-xs py-2"
-            placeholder="Jenis Pendidikan"
-            className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
-            options={[
-              {
-                label: "SMA",
-                value: "SMA",
-              },
-              {
-                label: "SMK",
-                value: "SMK",
-              },
-              {
-                label: "Madrasah",
-                value: "MA",
-              },
-            ]}
+            placeholder={
+              student?.education_type_id
+                ? educationTypeOptions?.find(
+                    (item) => Number(item.value) === student?.education_type_id,
+                  )?.label
+                : "Jenis Pendidikan"
+            }
+            size="md"
+            options={educationTypeOptions || []}
             isSearchable={false}
             isClearable={true}
             control={control}
             isMulti={false}
+            disabled={isDisabled || !!student?.education_type_id}
+            status={"error"}
+            message={errors?.education_type_id?.message as string}
           />
           <SelectOption
             name="graduation_year"
             labelClassName="font-bold text-xs py-2"
             labels="Tahun Lulus"
-            placeholder="Tahun Lulus"
+            placeholder={
+              student?.graduation_year
+                ? graduateOptions?.find((item) => item.value === student?.graduation_year)?.label
+                : "Tahun Lulus"
+            }
             options={graduateOptions || []}
-            className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
+            size="md"
             isSearchable={false}
             control={control}
             isMulti={false}
+            disabled={isDisabled || !!student?.graduation_year}
+            status="error"
+            message={errors?.graduation_year?.message as string}
           />
+
+          <div className="flex flex-col justify-center items-start">
+            <TextField
+              inputHeight="h-10"
+              name="education_npsn"
+              variant="sm"
+              required={"Harus diisi"}
+              type="text"
+              labelclassname="text-sm font-semibold"
+              label="NPSN"
+              placeholder="Masukan NPSN"
+              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+              control={control}
+              message={errors?.education_npsn?.message as string}
+              status={errors?.education_npsn?.message ? "error" : "none"}
+              onChange={(e) => {
+                setValue("education_npsn", e.target.value);
+                setEducation(e.target.value);
+              }}
+              disabled={isDisabled || !!student?.education_npsn}
+            />
+            <p className="text-[0.8rem] text-primary-black">
+              Jika data tidak ditemukan, silakan &nbsp;
+              <span
+                className="text-primary-green hover:cursor-pointer underline font-bold"
+                onClick={handleCloseModal}
+              >
+                Tambah Sekolah
+              </span>
+            </p>
+            <p className="text-[0.7rem] text-left">
+              Cek NPSN &nbsp;
+              <a
+                href="https://dapo.kemdikbud.go.id/pencarian"
+                className="hover:cursor-pointer text-primary-black"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://dapo.kemdikbud.go.id/pencarian
+              </a>
+            </p>
+          </div>
 
           <TextField
             inputHeight="h-10"
-            name="npsn"
+            name="school_name"
             variant="sm"
             type="text"
+            required
             labelclassname="text-sm font-semibold"
-            label="NPSN"
-            placeholder="Masukan NPSN"
+            label="Nama Pendidikan Asal"
+            placeholder="Nama Sekolah"
             inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
             control={control}
+            disabled
           />
-          <SelectOption
-            name="school_name"
-            labels="Nama Sekolah Asal"
-            labelClassName="font-bold text-xs py-2"
-            placeholder="Masukan Sekolah Asal"
-            options={[
-              {
-                label: "SMAN 4 Bandung",
-                value: "SMAN 4 Bandung",
-              },
-              {
-                label: "SMAN 5 Bandung",
-                value: "SMAN 5 Bandung",
-              },
-              {
-                label: "SMK 1 Bandung",
-                value: "SMAN 1 Bandung",
-              },
-            ]}
-            className="rounded-md text-primary-black w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw]"
-            isSearchable={true}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-          />
-          <div className="lg:w-full">
-            <SelectOption
-              name="school_major"
-              labels="Jurusan Pendidikan Asal"
-              labelClassName="font-bold text-xs py-2"
-              placeholder="Jurusan Pendidikan"
-              options={[
-                {
-                  label: "IPA",
-                  value: "MIPA",
-                },
-                {
-                  label: "IPS",
-                  value: "IPS",
-                },
-                {
-                  label: "Keagamaan",
-                  value: "Agama",
-                },
-              ]}
-              className=" rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-              isSearchable={false}
+
+          <div className="flex flex-col items-center justify-center md:grid md:grid-cols-3 gap-2 w-full">
+            <TextField
+              inputHeight="h-10"
+              name="school_province"
+              variant="sm"
+              type="text"
+              labelclassname="text-sm font-semibold"
+              label="Provinsi"
+              placeholder="Provinsi Sekolah"
+              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
               control={control}
-              isMulti={false}
+              disabled
+            />
+
+            <TextField
+              inputHeight="h-10"
+              name="school_city"
+              variant="sm"
+              type="text"
+              labelclassname="text-sm font-semibold"
+              label="Kota/Kabupaten"
+              placeholder="Kota Sekolah"
+              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+              control={control}
+              disabled
+            />
+
+            <TextField
+              inputHeight="h-10"
+              name="school_subdistrict"
+              variant="sm"
+              type="text"
+              labelclassname="text-sm font-semibold"
+              label="Kecamatan"
+              placeholder="Kecamatan Sekolah"
+              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+              control={control}
+              disabled
             />
           </div>
 
-          <SelectOption
-            labels="Provinsi"
-            className="bg-slate-3 rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold text-xs py-2"
-            options={provinceOptions || []}
-            placeholder="Provinsi"
-            isSearchable={true}
-            name="school_province"
-            isClearable={true}
-            control={control}
-            isMulti={false}
-          />
-          <SelectOption
-            labels="Kota/ Kabupaten"
-            className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold text-xs py-2"
-            options={cityOptions || []}
-            placeholder="Kota/Kabupaten"
-            isSearchable={true}
-            name="school_city"
-            isClearable={true}
-            control={control}
-            isMulti={false}
-            disabled={!watch("province")}
-          />
-          <SelectOption
-            labels="Kecamatan"
-            className="rounded-md text-primary-black w-70% lg:w-[17vw] xl:w-[17vw] md:w-[21vw]"
-            labelClassName="font-bold text-xs py-2"
-            options={subDistrictOptions || []}
-            placeholder="Kecamatan"
-            isSearchable={true}
-            name="school_subdistrict"
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={!watch("city")}
-          />
+          <div className="lg:w-full lg:flex lg:items-center lg:justify-between lg:gap-4 w-[82%]">
+            <div className="w-full lg:w-1/2">
+              <SelectOption
+                name="education_major_id"
+                labels="Jurusan Pendidikan Asal"
+                required={true}
+                labelClassName="font-bold text-xs py-2"
+                placeholder={
+                  student?.education_major_id
+                    ? majorOptions?.find(
+                        (item) => Number(item.value) === student?.education_major_id,
+                      )?.label
+                    : "Jurusan Pendidikan"
+                }
+                options={majorOptions || []}
+                isSearchable={false}
+                control={control}
+                isMulti={false}
+                disabled={isDisabled || !watch("education_type_id")}
+                status="error"
+                message={errors?.education_major_id?.message as string}
+                className="lg:w-full"
+              />
+            </div>
 
-          <div className="px-14 md:px-0 lg:px-0 w-full">
+            <div className="w-full lg:w-1/2 mt-3">
+              <TextField
+                inputHeight="h-10"
+                name="vocational_high_school"
+                variant="sm"
+                type="text"
+                labelclassname="text-sm font-semibold"
+                label="Jurusan SMK"
+                placeholder="Masukan jurusan sekolah anda"
+                inputWidth="w-full "
+                control={control}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="px-6 md:px-0 lg:px-0 w-full md:w-fit">
             <TextField
               name="school_address"
               variant="sm"
               type="text"
               labelclassname="text-xl font-semibold"
               label="Alamat Pendidikan Asal"
+              required
               control={control}
               isTextArea
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
+              inputWidth="w-full md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2  "
+              disabled
             />
           </div>
         </section>
         <div className="flex w-full justify-center lg:justify-end py-4">
-          <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
+          <Button
+            type="submit"
+            variant="filled"
+            size="md"
+            width="w-50% lg:w-25% xl:w-15%"
+            disabled={isDisabled || !!student?.education_npsn}
+          >
             Submit
           </Button>
         </div>
       </form>
+      <Modal showModal={isShowModal} onClose={handleCloseModal} modalTitle="Tambahkan Data Sekolah">
+        <form className="w-full flex flex-col justify-center items-center gap-2">
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="custom_school_name"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Nama Asal Sekolah"
+              placeholder="Masukan Nama Sekolah"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+
+          <div className="w-full flex gap-2 justify-between items-center">
+            <div className="w-[45%]">
+              <SelectOption
+                name="custom_major"
+                labels="Jenis Sekolah"
+                labelClassName="font-bold text-xs py-2"
+                placeholder="Pilih Jenis Sekolah"
+                options={[
+                  {
+                    value: "SMK",
+                    label: "SMK",
+                  },
+                  {
+                    value: "MAN",
+                    label: "MAN",
+                  },
+                  {
+                    value: "SMKS",
+                    label: "SMKS",
+                  },
+                  {
+                    value: "MAS",
+                    label: "MAS",
+                  },
+                  {
+                    value: "SMAS",
+                    label: "SMAS",
+                  },
+                  {
+                    value: "SMAN",
+                    label: "SMAN",
+                  },
+                ]}
+                isSearchable={true}
+                isClearable={true}
+                control={control}
+                isMulti={false}
+                className="w-full"
+                required
+              />
+            </div>
+
+            <div className="w-[55%] mt-4">
+              <TextField
+                inputHeight="h-10"
+                name="custom_NPSN"
+                variant="sm"
+                type="text"
+                required
+                labelclassname="text-sm font-semibold"
+                label="NPSN ( Nomor Pokok Sekolah Nasional )"
+                placeholder="Masukan NPSN"
+                control={control}
+              />
+            </div>
+          </div>
+
+          <div className="w-full flex fle-col gap-3 justify-center items-center">
+            <div className="w-[33%]">
+              <SelectOption
+                labels="Provinsi"
+                labelClassName="font-bold text-xs py-2"
+                options={schoolProvinceOptions || []}
+                placeholder="Provinsi"
+                isSearchable={true}
+                name="address_province_school"
+                isClearable={true}
+                control={control}
+                isMulti={false}
+                className="w-full"
+              />
+            </div>
+
+            <div className="w-[33%]">
+              <SelectOption
+                labels="Kota/Kabupaten"
+                labelClassName="font-bold text-xs py-2"
+                options={citySchoolOptions || []}
+                placeholder="Kota/Kabupaten"
+                isSearchable={true}
+                name="address_city_school"
+                isClearable={true}
+                control={control}
+                isMulti={false}
+                disabled={!watch("address_province_school")}
+                className="w-full"
+              />
+            </div>
+
+            <div className="w-[33%]">
+              <SelectOption
+                labels="Kecamatan"
+                labelClassName="font-bold text-xs py-2"
+                options={subDistrictOptions || []}
+                placeholder="Kecamatan"
+                isSearchable={true}
+                name="address_subdistrict_school"
+                control={control}
+                isMulti={false}
+                isClearable={true}
+                disabled={!watch("address_city_school")}
+                className="w-full"
+              />
+            </div>
+          </div>
+          <div className="w-auto flex justify-center items-center">
+            <TextField
+              name="complete_school_address"
+              variant="sm"
+              type="text"
+              labelclassname="text-xl font-semibold"
+              label="Alamat Lengkap Sekolah"
+              control={control}
+              isTextArea
+              textAreaRow={5}
+              textAreaCols={70}
+              inputHeight="h-20"
+              className="resize-none bg-grayscale-2"
+              inputWidth="lg:w-full"
+              placeholder="Masukan Alamat Lengkap Sekolah"
+            />
+          </div>
+
+          <div className="w-full flex justify-end items-center gap-3">
+            <span
+              className="text-secondary-green-5 px-2 py-1 hover:cursor-pointer font-bold"
+              onClick={() => {
+                setIsShowModal(false);
+              }}
+            >
+              Batal
+            </span>
+            <Button variant="filled" size="md">
+              Tambahkan
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </Accordion>
   );
 };

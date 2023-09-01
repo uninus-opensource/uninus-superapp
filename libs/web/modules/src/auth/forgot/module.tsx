@@ -45,7 +45,7 @@ export const ForgotModule: FC = (): ReactElement => {
         <h1 className="text-2xl font-bold text-primary-black font-bebasNeue w-50%">
           LUPA PASSWORD ?
         </h1>
-        <p className="text-grayscale-5 text-sm">Masukkan email yang didaftarkan oleh akun anda</p>
+        <p className="text-grayscale-5 text-sm">Masukkan email yang didaftarkan pada akun anda</p>
         <TextField
           name="email"
           type="email"

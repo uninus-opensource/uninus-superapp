@@ -9,11 +9,14 @@ import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { VSLogin, TVSLogin } from "@uninus/entities";
+import { useSearchParams } from "next/navigation";
 
 export const LoginUserModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [getError, setError] = useState<string | undefined>(undefined);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email") || "";
   const {
     control,
     handleSubmit,
@@ -22,7 +25,7 @@ export const LoginUserModule: FC = (): ReactElement => {
     mode: "all",
     resolver: zodResolver(VSLogin),
     defaultValues: {
-      email: "",
+      email: email || "",
       password: "",
       aggreement: false,
     },

@@ -7,15 +7,16 @@ const monserrat = Montserrat({
   weight: "400",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function Layout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" key="root-layout">
       <body className={`${monserrat.className}`}>
         <AuthProvider>
           <QueryProvider>
             <RecoilProvider>
-              <div key="landing-layout">{children}</div>
-              <div key="modal-landing" id="modal"></div>
+              <main key="landing-layout">{props.children}</main>
+              <div key="modal-logout" id="modal-logout" />
+              <div key="modal-landing" id="modal-landing" />
             </RecoilProvider>
           </QueryProvider>
         </AuthProvider>

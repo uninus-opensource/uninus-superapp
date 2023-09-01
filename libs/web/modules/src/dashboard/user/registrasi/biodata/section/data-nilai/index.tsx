@@ -1,221 +1,506 @@
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { Accordion, Button, TextField, UploadField } from "@uninus/web/components";
-import { useForm, FieldValues } from "react-hook-form";
-import { useBiodataUpdate } from "../../hooks";
+import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
+import { NilaiValues } from "../../type";
+import { useGetStudentGrade, useStudentGradeUpdate } from "../../hooks";
 
 export const DataNilaiSection: FC = (): ReactElement => {
-  const { control, handleSubmit } = useForm<FieldValues>({
+  const [isDisabled, setIsdisabled] = useState<boolean>(false);
+
+  const { control, handleSubmit, reset, setValue, watch, getValues } = useForm<NilaiValues>({
     mode: "all",
     defaultValues: {},
   });
 
-  const { mutate } = useBiodataUpdate();
+  const { mutate } = useStudentGradeUpdate();
 
   const onSubmit = handleSubmit((data) => {
     try {
-      // mutate({
-      //   ...data,
-      // });
+      const { average_grade, utbk, ...dataGrade } = data;
+      const studentGrade = JSON.stringify(dataGrade)
+        .replace(/{|}/gi, "")
+        .split(",")
+        .map((el) => {
+          const data = el?.split(":");
+          return {
+            subject: data?.[0]?.includes("mtk")
+              ? "matematika"
+              : data?.[0]?.includes("bind")
+              ? "indonesia"
+              : data?.[0]?.includes("bing")
+              ? "inggris"
+              : "",
+            semester: data?.[0]?.includes("1")
+              ? "1"
+              : data?.[0]?.includes("2")
+              ? "2"
+              : data?.[0]?.includes("3")
+              ? "3"
+              : data?.[0]?.includes("4")
+              ? "4"
+              : "0",
+            grade: Number(data?.[1]?.replace(/"|'/gi, "")),
+          };
+        });
+
+      mutate(
+        {
+          student_grade: studentGrade,
+          average_grade: Number(average_grade),
+          utbk: Number(utbk),
+        },
+        {
+          onSuccess: () => {
+            setIsdisabled(true);
+            setTimeout(() => {
+              toast.success("Berhasil mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setTimeout(() => {
+              toast.error("Gagal mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+        },
+      );
     } catch (error) {
       console.error(error);
     }
   });
 
+  const labelSemesterStyle = "text-[10px] md:text-base";
+  const labelCourseStyle = "text-[8px] lg:text-base font-bold pr-4 lg:pr-0";
+  const labelUTBKStyle = "flex items-center justify-between w-full";
+  const { data } = useGetStudentGrade();
+
+  const student = useMemo(() => {
+    return data;
+  }, [data]);
+  const dataStudentGrade = useMemo(
+    () =>
+      student?.student_grade.reduce(
+        (obj, item) => (
+          (obj[
+            `${
+              item?.subject?.includes("indonesia")
+                ? `bind${item.semester}`
+                : item?.subject?.includes("matematika")
+                ? `mtk${item?.semester}`
+                : item?.subject?.includes("inggris") && `bing${item?.semester}`
+            }`
+          ] = item.grade),
+          obj
+        ),
+        {} as { [key: string]: number },
+      ),
+    [student?.student_grade],
+  );
+
+  const watchStudentGrade = watch([
+    "mtk1",
+    "mtk2",
+    "mtk3",
+    "mtk4",
+    "bind1",
+    "bind2",
+    "bind3",
+    "bind4",
+    "bing1",
+    "bing2",
+    "bing3",
+    "bing4",
+  ]);
+
+  useEffect(() => {
+    reset(dataStudentGrade);
+  }, [dataStudentGrade, reset]);
+
+  useEffect(() => {
+    const { average_grade, utbk, ...grades } = getValues();
+    const average = Object.values(grades);
+    const result = Number(average.reduce((acc, curr) => Number(acc) + Number(curr), 0));
+    setValue(
+      "average_grade",
+      Number(student?.average_grade === 0 ? (result / 12).toFixed(1) : student?.average_grade),
+    );
+    setValue("utbk", utbk === undefined ? Number(student?.utbk) : Number(utbk));
+  }, [getValues, setValue, student?.average_grade, student?.utbk, watchStudentGrade]);
+
   return (
     <Accordion
+      key="data-nilai-section"
       title="Nilai Rapor dan Skor UTBK"
-      titleClassName="text-lg font-extrabold text-secondary-green-4"
+      titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4 text-left"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
     >
       <form onSubmit={onSubmit}>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <h1 className="font-bold text-2xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
           Nilai Rapor
         </h1>
-        <div className="w-full overflow-x-auto lg:overflow-x-hidden gap-x-4">
-          <section className="grid grid-cols-5 gap-x-24 lg:gap-x-4 w-60% py-4 ">
-            <div className="grid grid-rows-5 gap-2 font-bold text-xs  lg:text-md pr-4">
-              <p className="py-2"></p>
-              <p>Matematika</p>
-              <p>B. Indonesia</p>
-              <p>B. Inggris</p>
-              <p>Upload File</p>
-            </div>
-            <div className="grid grid-rows-5 gap-2">
-              <p>Semester 1</p>
-              <TextField
-                inputHeight="h-10"
-                name="Mtk1"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <TextField
-                inputHeight="h-10"
-                name="Bind1"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <TextField
-                inputHeight="h-10"
-                name="Bing1"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <UploadField
-                control={control}
-                name="dokumen"
-                classNameField="file:bg-primary-green file:text-primary-white file:rounded-[3px] file:border-none w-[59vw] md:w-[29vw] lg:w-[22vw] xl:w-[18vw] xl:w-[17vw] file:cursor-pointer "
-                preview={false}
-              />
-            </div>
-            <div className="grid grid-rows-5 gap-2">
-              <p>Semester 2</p>
-              <TextField
-                inputHeight="h-10"
-                name="Mtk2"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <TextField
-                inputHeight="h-10"
-                name="Bind2"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <TextField
-                inputHeight="h-10"
-                name="Bing2"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <UploadField
-                control={control}
-                name="dokumen2"
-                classNameField="file:bg-primary-green file:text-primary-white file:rounded-[3px] file:border-none w-[59vw] md:w-[29vw] lg:w-[22vw] xl:w-[18vw] xl:w-[17vw] file:cursor-pointer "
-                preview={false}
-              />
-            </div>
+        <p className="text-sm lg:text-base text-grayscale-7 mt-2">
+          Masukkan hanya nilai pengetahuan <span className="text-red text-base text-red-6 ">*</span>
+        </p>
 
-            <div className="grid grid-rows-5 gap-2">
-              <p>Semester 3</p>
-              <TextField
-                inputHeight="h-10"
-                name="Mtk3"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <TextField
-                inputHeight="h-10"
-                name="Bind3"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <TextField
-                inputHeight="h-10"
-                name="Bing3"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <UploadField
-                control={control}
-                name="dokumen3"
-                classNameField="file:bg-primary-green file:text-primary-white file:rounded-[3px] file:border-none w-[59vw] md:w-[29vw] lg:w-[22vw] xl:w-[18vw] xl:w-[17vw] file:cursor-pointer "
-                preview={false}
-              />
-            </div>
-            <div className="grid grid-rows-5 gap-2">
-              <p>Semester 4</p>
-              <TextField
-                inputHeight="h-10"
-                name="Mtk4"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <TextField
-                inputHeight="h-10"
-                name="Bind4"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <TextField
-                inputHeight="h-10"
-                name="Bing4"
-                variant="md"
-                type="text"
-                labelclassname="text-sm "
-                inputWidth="lg:w-26 w-14 text-base"
-                control={control}
-              />
-              <UploadField
-                control={control}
-                name="dokumen4"
-                classNameField="file:bg-primary-green file:text-primary-white file:rounded-[3px] file:border-none w-[59vw] md:w-[29vw] lg:w-[22vw] xl:w-[18vw] xl:w-[17vw] file:cursor-pointer "
-                preview={false}
-              />
-            </div>
-          </section>
-        </div>
-        <h1 className="font-bold text-2xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
-          Skor UTBK
-        </h1>
-        <section className="flex lg:flex-row flex-col gap-y-4 justify-between w-55% py-4 ">
-          <div className="flex items-center font-bold gap-8">
-            <p>Nilai UTBK : </p>
+        <div className="grid grid-cols-5 grid-rows-5 gap-y-4 mt-9">
+          <div className="col-start-2 my-auto">
+            <p className={labelSemesterStyle}>Semester 1</p>
+          </div>
+          <div className="col-start-3 my-auto">
+            <p className={labelSemesterStyle}>Semester 2</p>
+          </div>
+          <div className="col-start-4 my-auto">
+            <p className={labelSemesterStyle}>Semester 3</p>
+          </div>
+          <div className="col-start-5 my-auto">
+            <p className={labelSemesterStyle}>Semester 4</p>
+          </div>
+          <div className="row-start-2 my-auto">
+            <p className={labelCourseStyle}>Matematika</p>
+          </div>
+          <div className="col-start-1 row-start-3 my-auto">
+            <p className={labelCourseStyle}>B.Indonesia </p>
+          </div>
+          <div className="col-start-1 row-start-4 my-auto">
+            <p className={labelCourseStyle}>B.inggris</p>
+          </div>
+          <div className="col-start-1 row-start-5 my-auto">
+            <p className={labelCourseStyle}>Rata-rata</p>
+          </div>
+          <div className="col-start-1 row-start-6 my-auto">
+            <p className={labelCourseStyle}>Upload Rapor</p>
+          </div>
+          <div className="col-start-2 row-start-2 my-auto">
             <TextField
               inputHeight="h-10"
-              name="Nilai UTBK"
+              name="mtk1"
               variant="md"
-              type="text"
-              labelclassname="text-sm "
-              inputWidth="w-26 text-base"
+              type="number"
+              labelclassname="text-xs md:text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
               control={control}
+              disabled={isDisabled || dataStudentGrade?.mtk1 ? true : false}
             />
           </div>
-          <div className="flex items-center font-bold gap-8">
-            <p>Sertifikat UTBK : </p>
+          <div className="col-start-2 row-start-3">
+            <TextField
+              inputHeight="h-10"
+              name="bind1"
+              variant="md"
+              type="number"
+              labelclassname="text-xs md:text-sm  "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.bind1 ? true : false}
+            />
+          </div>
+          <div className="col-start-2 row-start-4">
+            <TextField
+              inputHeight="h-10"
+              name="bing1"
+              variant="md"
+              type="number"
+              labelclassname="text-xs md:text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.bing1 ? true : false}
+            />
+          </div>
+          <div className="col-start-3 row-start-2">
+            <TextField
+              inputHeight="h-10"
+              name="mtk2"
+              variant="md"
+              type="number"
+              labelclassname="text-xs md:text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.mtk2 ? true : false}
+            />
+          </div>
+          <div className="col-start-3 row-start-3">
+            <TextField
+              inputHeight="h-10"
+              name="bind2"
+              variant="md"
+              type="number"
+              labelclassname="text-xs md:text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.bind2 ? true : false}
+            />
+          </div>
+          <div className="col-start-3 row-start-4">
+            <TextField
+              inputHeight="h-10"
+              name="bing2"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.bing2 ? true : false}
+            />
+          </div>
+          <div className="col-start-4 row-start-2">
+            <TextField
+              inputHeight="h-10"
+              name="mtk3"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.mtk3 ? true : false}
+            />
+          </div>
+          <div className="col-start-4 row-start-3">
+            <TextField
+              inputHeight="h-10"
+              name="bind3"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.bind3 ? true : false}
+            />
+          </div>
+          <div className="col-start-4 row-start-4">
+            <TextField
+              inputHeight="h-10"
+              name="bing3"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.bing3 ? true : false}
+            />
+          </div>
+          <div className="col-start-5 row-start-2">
+            <TextField
+              inputHeight="h-10"
+              name="mtk4"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.mtk4 ? true : false}
+            />
+          </div>
+          <div className="col-start-5 row-start-3">
+            <TextField
+              inputHeight="h-10"
+              name="bind4"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.bind4 ? true : false}
+            />
+          </div>
+          <div className="col-start-5 row-start-4">
+            <TextField
+              inputHeight="h-10"
+              name="bing4"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="lg:w-26 w-12 text-base text-center"
+              control={control}
+              disabled={isDisabled || dataStudentGrade?.bing4 ? true : false}
+            />
+          </div>
+          <div className="col-start-2 row-start-5 col-end-6 lg:pr-10">
+            <TextField
+              inputHeight="h-10"
+              name="average_grade"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-full text-base text-center"
+              control={control}
+              disabled
+            />
+          </div>
+          <div className="col-start-2 row-start-6">
+            {" "}
             <UploadField
               control={control}
-              name="UTBK"
-              classNameField="file:bg-primary-green file:text-primary-white file:rounded-[3px] file:border-none w-[59vw] md:w-[29vw] lg:w-[22vw] xl:w-[18vw] xl:w-[17vw] file:cursor-pointer "
+              name="dokumen1"
+              variant="custom"
+              labels="Choose File"
+              labelClassName="labelText"
               preview={false}
             />
           </div>
+          <div className="col-start-3 row-start-6">
+            {" "}
+            <UploadField
+              control={control}
+              name="dokumen2"
+              variant="custom"
+              labels="Choose File"
+              labelClassName="labelText"
+              preview={false}
+            />
+          </div>
+          <div className="col-start-4 row-start-6">
+            {" "}
+            <UploadField
+              control={control}
+              name="dokumen3"
+              variant="custom"
+              labels="Choose File"
+              labelClassName="labelText"
+              preview={false}
+            />
+          </div>
+          <div className="col-start-5 row-start-6">
+            {" "}
+            <UploadField
+              control={control}
+              name="dokumen4"
+              variant="custom"
+              labels="Choose File"
+              labelClassName="labelText"
+              preview={false}
+            />
+          </div>
+        </div>
+
+        <h1 className="font-bold text-2xl lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10 mt-10">
+          Skor UTBK
+        </h1>
+        <section className="flex flex-col gap-y-4  items-center w-full lg:w-55% py-4 ">
+          <div className={labelUTBKStyle}>
+            <p className="font-bold text-sm md:text-base">Nilai UTBK : </p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+
+          <div className={labelUTBKStyle}>
+            <p className="font-bold text-sm md:text-base">Penalaran Umum</p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+          <div className={labelUTBKStyle}>
+            <p className="font-bold text-sm md:text-base">Kemampuan Kuantitatif</p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+          <div className={labelUTBKStyle}>
+            <p className="font-bold text-sm md:text-base">Pengetahuan dan Pemahaman Umum</p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+          <div className={labelUTBKStyle}>
+            <p className="font-bold text-sm md:text-base">Kemampuan Memahami Bacaan dan Menulis</p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+        </section>
+        <section className="flex w-full justify-between items-center">
+          <div className="flex items-center">
+            <p className="font-bold text-sm md:text-base">Rata-Rata Skor :</p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+          <div className="flex items-center gap-8 lg:text-base text-xs">
+            <p>Sertifikat UTBK : </p>
+            <UploadField control={control} name="UTBK" variant="default" preview={false} />
+          </div>
         </section>
 
-        <div className="flex w-full justify-end py-4">
-          <Button variant="filled" size="md" width="w-50% lg:w-25% xl:w-15%">
+        <div className="flex w-full justify-end p-4">
+          <Button
+            type="submit"
+            variant="filled"
+            size="md"
+            width="w-40% lg:w-25% xl:w-15%"
+            disabled={isDisabled || !!student?.utbk}
+          >
             Submit
           </Button>
         </div>

@@ -1,4 +1,4 @@
-import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import {
   TDegreeProgramResponse,
   IDegreeProgramRequest,
@@ -7,8 +7,10 @@ import {
   TMetaErrorResponse,
   ISelectionRequest,
   TSelectionResponse,
+  IStudentData,
+  IGetStudentResponse,
 } from "@uninus/entities";
-import { DegreeProgramGet, DepartmentGet, SelectionGet } from "./api";
+import { DegreeProgramGet, DepartmentGet, SelectionGet, StudentUpdate } from "./api";
 
 export const useDegreeProgramGet = (
   params: IDegreeProgramRequest,
@@ -37,3 +39,15 @@ export const useSelectionGet = (
     queryFn: async () => await SelectionGet(params),
   });
 };
+
+export const useStudentUpdate = (): UseMutationResult<
+  IStudentData,
+  TMetaErrorResponse,
+  IStudentData
+> =>
+  useMutation({
+    mutationKey: ["updateStudent"],
+    mutationFn: async (payload: IStudentData) => {
+      return await StudentUpdate(payload);
+    },
+  });

@@ -20,9 +20,9 @@ export const RadioButton = <T extends FieldValues>({
   });
 
   const radioButtonVariant = clsx(
-    "bg-grayscale-4 border-grayscale-8 duration-300 appearance-none",
+    "bg-grayscale-4 border-grayscale-8 duration-300 appearance-none focus:bg-primary-green focus:ring-primary-green focus:text-primary-green",
     {
-      "checked:bg-primary-green": variant === RADIO_VARIANT.PRIMARY,
+      "checked:bg-primary-green ": variant === RADIO_VARIANT.PRIMARY,
       "accent-primary-yellow focus:accent--primary-yellow": variant === RADIO_VARIANT.WARNING,
     },
   );
@@ -36,7 +36,6 @@ export const RadioButton = <T extends FieldValues>({
   const className = `${radioButtonSize} ${radioButtonVariant}`;
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue(e.target.value);
-    console.log(e.target.value);
   };
   const { field } = useController({
     ...props,
@@ -50,7 +49,7 @@ export const RadioButton = <T extends FieldValues>({
       <h3 className="text-xs font-semibold">
         {props.fieldName} {props.required && <span className="text-red-4">*</span>}
       </h3>
-      <div className="flex items-center gap-x-4 xl:gap-x-8 mt-1 xl:ml-0 xl:self-start xl:w-[25vw] place-self-start">
+      <div className="flex items-center gap-x-4 xl:gap-x-8 mt-1 xl:ml-0 place-self-start">
         {props.options?.map((item, idx) => (
           <div key={idx}>
             <input

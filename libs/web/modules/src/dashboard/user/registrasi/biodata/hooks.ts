@@ -1,7 +1,10 @@
 import { useMutation, useQuery, UseMutationResult, UseQueryResult } from "@tanstack/react-query";
-import { BiodataUpdate, BiodatatGet } from "./api";
+import { BiodataUpdate, BiodatatGet, StudentGet, StudentGradeGet, UpdateAverage } from "./api";
 import {
   IGetStudentResponse,
+  IGetUserMeResponse,
+  IUpdateStudentGradeRequest,
+  IUpdateStudentGradeResponse,
   IUpdateStudentRequestFE,
   IUpdateStudentResponse,
   TMetaErrorResponse,
@@ -23,5 +26,35 @@ export const useGetBiodata = (): UseQueryResult<IGetStudentResponse, TMetaErrorR
   return useQuery({
     queryKey: ["getStudentBiodata"],
     queryFn: async () => await BiodatatGet(),
+    keepPreviousData: true,
+  });
+};
+
+export const useStudentGet = (): UseQueryResult<IGetUserMeResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getStudent"],
+    queryFn: async () => await StudentGet(),
+    keepPreviousData: true,
+  });
+};
+
+export const useStudentGradeUpdate = (): UseMutationResult<
+  IUpdateStudentGradeRequest,
+  TMetaErrorResponse,
+  IUpdateStudentGradeResponse
+> =>
+  useMutation({
+    mutationKey: ["updateBiodata"],
+    mutationFn: async (payload: IUpdateStudentGradeRequest) => {
+      return await UpdateAverage(payload);
+    },
+  });
+export const useGetStudentGrade = (): UseQueryResult<
+  IUpdateStudentGradeResponse,
+  TMetaErrorResponse
+> => {
+  return useQuery({
+    queryKey: ["getStudentGrade"],
+    queryFn: async () => await StudentGradeGet(),
   });
 };

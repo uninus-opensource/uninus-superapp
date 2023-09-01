@@ -27,7 +27,7 @@ export const WelcomeSection: FC = (): ReactElement => {
               Nusantara
               <span className="text-primary-green px-2">Muda</span>
             </h1>
-            <p className="text-left text-base xl:text-lg font-semibold xl:font-normal lg:leading-6 text-grayscale-9 lg:mt-12 mt-8 w-full">
+            <p className=" text-base xl:text-lg font-semibold xl:font-normal lg:leading-6 text-grayscale-9 lg:mt-12 mt-8 w-full text-justify">
               Selamat datang nusantara muda di Universitas Islam Nusantara. Kami sangat senang Anda
               bergabung dengan kami dan yakin Anda akan menemukan banyak peluang belajar,
               berkembang, dan berkontribusi. Kami memiliki fasilitas pendidikan terbaik, dosen

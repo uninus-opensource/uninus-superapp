@@ -9,12 +9,12 @@ export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   inputHeight?: string;
   name: string;
   placeholder?: string;
-  required?: boolean;
+  required?: boolean | string;
   disabled?: boolean;
   value?: string;
   className?: string;
   labelclassname?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   status?: "success" | "error" | "warning" | "none";
   message?: string;
   variant: "lg" | "md" | "sm" | "otp" | "telp";

@@ -1,9 +1,9 @@
 export interface ISelectRequest {
-  search: string;
+  search?: string;
+  id?: number;
 }
 
-export interface ISelectEducationHistoryRequest {
-  search: string;
+export interface ISelectEducationHistoryRequest extends ISelectRequest {
   npsn: string;
 }
 
@@ -26,11 +26,6 @@ export interface ICityRequest extends ISelectRequest {
   province_id: string;
 }
 
-export interface ICountryRequest extends ISelectRequest {
-  citizenship_id: string;
-  citizenship?: string;
-}
-
 export type TCityResponse = {
   city: Array<{
     id: number;
@@ -43,7 +38,7 @@ export interface ISubDistrictRequest extends ISelectRequest {
 }
 
 export type TSubDistrictResponse = {
-  sub_district: Array<{
+  subdistrict: Array<{
     id: number;
     name: string;
   }>;
@@ -123,8 +118,8 @@ export type TCitizenshipResponse = {
   }>;
 };
 
-export interface ISelectionRequest {
-  search: string;
+export interface ISelectionRequest extends ISelectRequest{
+  degree_program_id: string;
 }
 
 export type TSelectionResponse = {
@@ -146,7 +141,7 @@ export type TSalaryResponse = {
 };
 
 export type TEducationHistoryResponse = {
-  education_history: Array<{
+  education: Array<{
     id: number;
     npsn: string;
     name: string;
@@ -157,8 +152,31 @@ export type TEducationHistoryResponse = {
   }>;
 };
 
-export interface ICountryRequest {
+export interface IEducationTypeRequest extends ISelectRequest {
+  degree_program_id: string;
+}
+
+export type TEducationTypeResponse = {
+  education_type: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface IEducationMajorRequest {
   search: string;
+  education_type_id: string;
+}
+
+export type TEducationMajorResponse = {
+  education_major: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface ICountryRequest extends ISelectRequest {
+  citizenship_id: string;
 }
 
 export type TCountryResponse = {
@@ -228,4 +246,33 @@ export type TSchoolTypeResponse = {
     id: number;
     name: string;
   }>;
+};
+
+export interface IParentStatusRequest {
+  search: string;
+}
+
+export type TParentStatusResponse = {
+  parent_status: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface IParentEducationRequest {
+  search: string;
+}
+
+export type TParentEducationResponse = {
+  parent_education: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export type TTotalRegistransResponse = {
+  total_registrans: number;
+  paids: number;
+  unpaids: number;
+  accepted_registrans: number;
 };

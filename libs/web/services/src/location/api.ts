@@ -32,7 +32,7 @@ export const SubDistrictGet = async (
   const { data } = await api<TSubDistrictResponse>({
     method: "GET",
     params,
-    url: "/sub-district",
+    url: "/subdistrict",
   });
   return data;
 };
