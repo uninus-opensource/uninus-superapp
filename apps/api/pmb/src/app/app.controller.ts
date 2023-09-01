@@ -32,7 +32,6 @@ export class AppController {
   updateUser(data:{id:string, payload:IUserRequest}) {
     const payload = data.payload
     const id = data.id
-    console.log(id)
     return this.appService.updateUser(id, payload);
   }
 
