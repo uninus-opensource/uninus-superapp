@@ -8,7 +8,6 @@ import {
   Put,
   Param,
   Inject,
-  BadRequestException,
   UseFilters
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
@@ -33,8 +32,9 @@ export class SelectController {
     description: "Location Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getProvince(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_province", { search }));
+  @ApiQuery({ name: "id", required: false })
+  async getProvince(@Query("search") search: string, @Query("id") id: number) {
+      const response = await firstValueFrom(this.client.send("get_province", { search, id }));
       return response;
   }
 
@@ -45,25 +45,27 @@ export class SelectController {
     status: 400,
     description: "Location Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "province_id", required: false })
-  async getCity(@Query("province_id") province_id: string, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_city", { province_id, search }));
+  async getCity(@Query("id") id: number,@Query("province_id") province_id: string, @Query("search") search: string) {
+      const response = await firstValueFrom(this.client.send("get_city", { province_id, search, id }));
       return response;
   }
 
-  @Get("sub-district")
+  @Get("subdistrict")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Sub District" })
   @ApiResponse({
     status: 400,
     description: "Location Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "city_id", required: false })
-  async getSubDistrict(@Query("city_id") city_id: string, @Query("search") search: string) {
+  async getSubDistrict(@Query("id") id: number,@Query("city_id") city_id: string, @Query("search") search: string) {
       const response = await firstValueFrom(
-        this.client.send("get_subdistrict", { city_id, search }),
+        this.client.send("get_subdistrict", { city_id, search, id }),
       );
       return response;
   }
@@ -76,8 +78,9 @@ export class SelectController {
     description: "Degree Program Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getDegreeProgram(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_degree", { search }));
+  @ApiQuery({ name: "id", required: false })
+  async getDegreeProgram(@Query("search") search: string, @Query('id') id: number) {
+      const response = await firstValueFrom(this.client.send("get_degree", { search, id }));
       return response;
   }
 
@@ -90,12 +93,14 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "degree_program_id", required: false })
+  @ApiQuery({ name: "id", required: false })
   async getFaculty(
+    @Query("id") id: number,
     @Query("search") search: string,
-    @Query("degree_program_id") degree_program_id: string,
+    @Query("degree_program_id") degree_program_id: number,
   ) {
       const response = await firstValueFrom(
-        this.client.send("get_faculty", { search, degree_program_id }),
+        this.client.send("get_faculty", { search, degree_program_id, id }),
       );
       return response;
   }
@@ -111,12 +116,13 @@ export class SelectController {
   @ApiQuery({ name: "faculty_id", required: false })
   @ApiQuery({ name: "degree_program_id", required: false })
   async getDepartment(
+    @Query("id") id: number,
     @Query("search") search: string,
     @Query("faculty_id") faculty_id: string,
     @Query("degree_program_id") degree_program_id: string,
   ) {
       const response = await firstValueFrom(
-        this.client.send("get_department", { search, faculty_id, degree_program_id }),
+        this.client.send("get_department", { search, faculty_id, degree_program_id, id }),
       );
       return response;
   }
@@ -128,9 +134,10 @@ export class SelectController {
     status: 400,
     description: "Religion Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getReligion(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_religion", { search }));
+  async getReligion(@Query("id") id: number, @Query("search") search: string) {
+      const response = await firstValueFrom(this.client.send("get_religion", { search, id }));
       return response;
   }
 
@@ -141,9 +148,10 @@ export class SelectController {
     status: 400,
     description: "Marital Status Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getMaritalStatus(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_marital_status", { search }));
+  async getMaritalStatus(@Query("id") id: number, @Query("search") search: string) {
+      const response = await firstValueFrom(this.client.send("get_marital_status", { search, id }));
       return response;
   }
 
@@ -154,9 +162,10 @@ export class SelectController {
     status: 400,
     description: "Gender Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getGender(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_gender", { search }));
+  async getGender(@Query("id") id: number, @Query("search") search: string) {
+      const response = await firstValueFrom(this.client.send("get_gender", { search, id }));
       return response;
   }
 
@@ -167,9 +176,10 @@ export class SelectController {
     status: 400,
     description: "Citizenship Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getCitizenship(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_citizenship", { search }));
+  async getCitizenship(@Query("id") id: number, @Query("search") search: string) {
+      const response = await firstValueFrom(this.client.send("get_citizenship", { search, id }));
       return response;
   }
 
@@ -181,8 +191,12 @@ export class SelectController {
     description: "Selection Path Not Found",
   })
   @ApiQuery({ name: "search", required: false })
-  async getSelectionPath(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_selection_path", { search }));
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "degree_program_id", required: false })
+  async getSelectionPath(@Query("id") id: number,
+  @Query("search") search: string,
+  @Query("degree_program_id") degree_program_id: number,) {
+      const response = await firstValueFrom(this.client.send("get_selection_path", { search, id, degree_program_id }));
       return response;
   }
 
@@ -193,24 +207,26 @@ export class SelectController {
     status: 400,
     description: "Salary Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getSalary(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_salary", { search }));
+  async getSalary(@Query("id") id: number, @Query("search") search: string) {
+      const response = await firstValueFrom(this.client.send("get_salary", { search, id }));
       return response;
   }
 
-  @Get("education-history")
+  @Get("education")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Education History" })
   @ApiResponse({
     status: 400,
     description: "Education History Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "npsn", required: false })
-  async getEducationHistory(@Query("search") search: string, @Query("npsn") npsn: string) {
+  async getEducationHistory(@Query("id") id: number, @Query("search") search: string, @Query("npsn") npsn: string) {
       const response = await firstValueFrom(
-        this.client.send("get_education_history", { search, npsn }),
+        this.client.send("get_education_history", { search, npsn, id }),
       );
       return response;
   }
@@ -222,9 +238,11 @@ export class SelectController {
     status: 400,
     description: "Country Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getCountry(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_country", { search }));
+  @ApiQuery({ name: "citizenship_id", required: false })
+  async getCountry(@Query("id") id: number, @Query("search") search: string, @Query("citizenship_id") citizenship_id: string,) {
+      const response = await firstValueFrom(this.client.send("get_country", { search, citizenship_id, id  }));
       return response;
   }
 
@@ -235,9 +253,10 @@ export class SelectController {
     status: 400,
     description: "Occupation Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getOccupation(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_occupation", { search }));
+  async getOccupation(@Query("id") id: number, @Query("search") search: string) {
+      const response = await firstValueFrom(this.client.send("get_occupation", { search, id }));
       return response;
   }
 
@@ -248,14 +267,16 @@ export class SelectController {
     status: 400,
     description: "Occupation Position Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "occupation_id", required: false })
   async getOccupationPosition(
+    @Query("id") id: number,
     @Query("search") search: string,
     @Query("occupation_id") occupation_id: string,
   ) {
       const response = await firstValueFrom(
-        this.client.send("get_occupation_position", { search, occupation_id }),
+        this.client.send("get_occupation_position", { search, occupation_id, id }),
       );
       return response;
   }
@@ -267,9 +288,10 @@ export class SelectController {
     status: 400,
     description: "Disabilities Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getDisablities(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_dissabilities", { search }));
+  async getDisablities(@Query("id") id: number, @Query("search") search: string) {
+      const response = await firstValueFrom(this.client.send("get_dissabilities", { search, id }));
       return response;
   }
 
@@ -292,22 +314,25 @@ export class SelectController {
     status: 400,
     description: "Scholarship Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getScholarship(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_scholarship", { search }));
+  async getScholarship(@Query("id") id: number, @Query("search") search: string) {
+      const response = await firstValueFrom(this.client.send("get_scholarship", { search, id }));
       return response;
   }
 
-  @Get("school-type")
+  @Get("education-type")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @ApiOperation({ summary: "Get School Type" })
+  @ApiOperation({ summary: "Get Education Type" })
   @ApiResponse({
     status: 400,
-    description: "School Type Not Found",
+    description: "Education Type Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getSchoolType(@Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_school_type", { search }));
+  @ApiQuery({ name: "degree_program_id", required: false })
+  async getSchoolType(@Query("id") id: number, @Query("search") search: string, @Query("degree_program_id") degree_program_id: number,) {
+      const response = await firstValueFrom(this.client.send("get_education_type", { search, id, degree_program_id}));
       return response;
   }
 
@@ -365,4 +390,52 @@ export class SelectController {
       const response = await firstValueFrom(this.client.send("delete_question", { id }));
       return response;
   }
+
+  @Get("parent-status")
+  @ApiOperation({ summary: "Get Parent Status" })
+  @ApiResponse({
+    status: 400,
+    description: "Parent Status Not Found",
+  })
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "search", required: false })
+  async getParentStatus(@Query("id") id: number,@Query("search") search: string) {
+    const response = await firstValueFrom(this.client.send("get_parent_status", { search, id}));
+    return response;
+  }
+
+  @Get("education-major")
+  @ApiOperation({ summary: "Get School Type Major" })
+  @ApiResponse({
+    status: 400,
+    description: "School Type Major Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "education_type_id", required: false })
+  @ApiQuery({ name: "id", required: false })
+  async getSchoolMajor(@Query("id") id: number, @Query("search") search: string, @Query("education_type_id") education_type_id: string) {
+    const response = await this.client.send("get_education_major", { search, education_type_id, id });
+    return response;
+  }
+
+  @Get("parent-education")
+  @ApiOperation({ summary: "Get Parent Education" })
+  @ApiResponse({
+    status: 400,
+    description: "Parent Education Not Found",
+  })
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "search", required: false })
+  getParentEducation(@Query("id") id: number, @Query("search") search: string) {
+    const response = this.client.send("get_parent_education", { search, id });
+    return response;
+  }
+
+  @Get("registrans")
+  @ApiOperation({ summary: "Get Total Registrans" })
+  async getRegistrans() {
+    const response = await firstValueFrom(this.client.send("get_registrans", {}));
+    return response;
+  }
+
 }

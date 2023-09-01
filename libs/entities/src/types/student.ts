@@ -65,12 +65,23 @@ export interface IStudentData {
   company_name?: string | null;
   company_address?: string | null;
   occupation_position_id?: number | null;
-  average_grade?: number | null;
+  utbk_pu?: number | null;
+  utbk_kk?: number | null;
+  utbk_ppu?: number | null;
+  utbk_kmbm?: number | null;
+  average_utbk?: number | null;
   utbk?: number | null;
+  average_grade?: number | null;
 }
 
 export interface IGetStudentResponse extends IStudentData {
   avatar: string | null;
+  student_grade?: Array<{
+    id: string;
+    subject: string | null;
+    semester: string | null;
+    grade: number | null;
+  }>;
 }
 
 export interface IDeleteStudentRequest extends IGetStudentRequest {
@@ -79,13 +90,31 @@ export interface IDeleteStudentRequest extends IGetStudentRequest {
 
 export interface IDeleteStudentResponse extends IStudentData {
   avatar: string | null;
+  student_grade?: Array<{
+    id: string;
+    subject: string;
+    semester: string;
+    grade: number;
+  }>;
 }
 
 export interface IUpdateStudentResponse extends IStudentData {
   avatar?: string | null | TFIle;
+  student_grade?: Array<{
+    id: string;
+    subject: string | null;
+    semester: string | null;
+    grade: number | null;
+  }>;
 }
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
   avatar: TFIle;
+  student_grade: Array<{
+    id: string;
+    subject: string | null;
+    semester: string | null;
+    grade: number | null;
+  }>;
 }
 
 export interface IUpdateStudentRequestFE extends IStudentData {
@@ -119,13 +148,10 @@ export interface IGetUserMeResponse extends IGetStudentRequest {
 }
 
 export type TGraduationStatusReponse = {
-  registration_number: string | null;
-  fullname: string | null;
-  registration_status: string | null;
-  message?: string | null;
-  birth_date: string | null;
-  birth_place: string | null;
-  city: string | null;
-  school_name: string | null;
-  province: string | null;
+  registration_number?: string | null;
+  fullname?: string | null;
+  department?: string | null;
+  selection_path?: string | null;
+  registration_status?: string | null;
+  message?: string;
 };

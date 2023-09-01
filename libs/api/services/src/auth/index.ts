@@ -77,8 +77,8 @@ export class AuthService {
       return response;
   }
 
-  async refreshToken(reqToken: TReqToken): Promise<TResRefreshToken> {
-      const response = await firstValueFrom(this.client.send("refresh_token", reqToken));
+  async refreshToken(args: TReqToken): Promise<TResRefreshToken> {
+      const response = await firstValueFrom(this.client.send("refresh_token", args));
       return response;
   }
 
@@ -90,7 +90,7 @@ export class AuthService {
   async resendOtp(args: TResendOtpRequest): Promise<TResendOtpResponse> {
     await clearOtp();
 
-    const user = await firstValueFrom(this.client.send("get_user_email", args.email));
+    const user = await firstValueFrom(this.client.send("get_user_email", args));
     if (!user) {
       throw new NotFoundException("Akun tidak ditemukan");
     }
@@ -121,9 +121,36 @@ export class AuthService {
     };
   }
 
-  async forgotPassword(data: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
-      const response = await firstValueFrom(this.client.send("forget_password", data));
-      return response;
+  async forgotPassword(args: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
+    const user = await firstValueFrom(this.client.send("forget_password", args));
+      
+    const msg = "memperbarui kata sandi anda";
+
+    if (!user) {
+      throw new NotFoundException("Akun tidak ditemukan");
+    }
+
+    const isCreateOtp = await generateOtp(user?.email, user?.id);
+    if (!isCreateOtp) {
+      throw new BadRequestException("Gagal membuat otp");
+    }
+    const html = getEmailMessageTemplate(user?.fullname ?? "", isCreateOtp?.token, msg);
+
+    const sendEmail = firstValueFrom(
+      this.client.send("send_email", {
+        email: args.email,
+        subject: "Reset Password",
+        html,
+      }),
+    );
+
+    if (!sendEmail) {
+      throw new BadRequestException("Gagal mengirimkan kode verifikasi");
+    }
+
+    return {
+      message: "Berhasil kirim OTP",
+    };
   }
 
   async verifyOtpPassword(args: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {

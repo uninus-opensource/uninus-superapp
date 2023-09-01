@@ -4,7 +4,7 @@ import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import { Montserrat } from "next/font/google";
-import { HomeOutlined, FormOutlined, UserOutlined } from "@ant-design/icons";
+import { HomeOutlined, FormOutlined, FileTextOutlined } from "@ant-design/icons";
 
 const monserrat = Montserrat({
   subsets: ["latin"],
@@ -32,11 +32,11 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       icon: <HomeOutlined />,
     },
     {
-      label: "Master Pendaftar",
+      label: "Data Akun",
       link: "/dashboard/pendaftaran",
-      icon: <FormOutlined />,
+      icon: <FileTextOutlined />,
     },
-    { label: "Master Data User", link: "/dashboard/registrasi/biodata", icon: <UserOutlined /> },
+    { label: "Data Pendaftar", link: "/dashboard/registrasi/biodata", icon: <FormOutlined /> },
   ];
 
   return (

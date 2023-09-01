@@ -275,15 +275,6 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           pauseOnHover
           theme="light"
         />
-        <h1 className="text-red-4 text-sm pb-4">
-          *Catatan :{" "}
-          <span className="text-primary-black">
-            Data NPSN dapat dilihat di{" "}
-            <a href="https://dapo.kemdikbud.go.id/pencarian">
-              https://dapo.kemdikbud.go.id/pencarian
-            </a>
-          </span>
-        </h1>
         <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between text-left">
           <SelectOption
             name="education_type_id"
@@ -325,7 +316,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             message={errors?.graduation_year?.message as string}
           />
 
-          <div>
+          <div className="flex flex-col justify-center items-start">
             <TextField
               inputHeight="h-10"
               name="education_npsn"
@@ -345,14 +336,25 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               }}
               disabled={isDisabled || !!student?.education_npsn}
             />
-            <p className="text-[0.8rem] text-primary-yellow">
-              Jika data tidak ditemukan, silakan
+            <p className="text-[0.8rem] text-primary-black">
+              Jika data tidak ditemukan, silakan &nbsp;
               <span
-                className="text-primary-green hover:cursor-pointer underline"
+                className="text-primary-green hover:cursor-pointer underline font-bold"
                 onClick={handleCloseModal}
               >
-                + Tambah Sekolah
+                Tambah Sekolah
               </span>
+            </p>
+            <p className="text-[0.7rem] text-left">
+              Cek NPSN &nbsp;
+              <a
+                href="https://dapo.kemdikbud.go.id/pencarian"
+                className="hover:cursor-pointer text-primary-black"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://dapo.kemdikbud.go.id/pencarian
+              </a>
             </p>
           </div>
 
@@ -411,27 +413,45 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             />
           </div>
 
-          <div className="lg:w-full">
-            <SelectOption
-              name="education_major_id"
-              labels="Jurusan Pendidikan Asal"
-              required={true}
-              labelClassName="font-bold text-xs py-2"
-              placeholder={
-                student?.education_major_id
-                  ? majorOptions?.find((item) => Number(item.value) === student?.education_major_id)
-                      ?.label
-                  : "Jurusan Pendidikan"
-              }
-              options={majorOptions || []}
-              size="md"
-              isSearchable={false}
-              control={control}
-              isMulti={false}
-              disabled={isDisabled || !watch("education_type_id")}
-              status="error"
-              message={errors?.education_major_id?.message as string}
-            />
+          <div className="lg:w-full lg:flex lg:items-center lg:justify-between lg:gap-4 w-[82%]">
+            <div className="w-full lg:w-1/2">
+              <SelectOption
+                name="education_major_id"
+                labels="Jurusan Pendidikan Asal"
+                required={true}
+                labelClassName="font-bold text-xs py-2"
+                placeholder={
+                  student?.education_major_id
+                    ? majorOptions?.find(
+                        (item) => Number(item.value) === student?.education_major_id,
+                      )?.label
+                    : "Jurusan Pendidikan"
+                }
+                options={majorOptions || []}
+                isSearchable={false}
+                control={control}
+                isMulti={false}
+                disabled={isDisabled || !watch("education_type_id")}
+                status="error"
+                message={errors?.education_major_id?.message as string}
+                className="lg:w-full"
+              />
+            </div>
+
+            <div className="w-full lg:w-1/2 mt-3">
+              <TextField
+                inputHeight="h-10"
+                name="vocational_high_school"
+                variant="sm"
+                type="text"
+                labelclassname="text-sm font-semibold"
+                label="Jurusan SMK"
+                placeholder="Masukan jurusan sekolah anda"
+                inputWidth="w-full "
+                control={control}
+                required
+              />
+            </div>
           </div>
 
           <div className="px-6 md:px-0 lg:px-0 w-full md:w-fit">

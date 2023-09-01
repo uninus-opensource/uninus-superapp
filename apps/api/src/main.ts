@@ -16,7 +16,7 @@ async function bootstrap() {
   const origin = url.includes(",") ? url.split(",") : url;
   app.enableCors({
     origin,
-    methods: ["GET", "POST", "DELETE", "PUT"],
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     credentials: true,
   });
   app.setGlobalPrefix(globalPrefix);

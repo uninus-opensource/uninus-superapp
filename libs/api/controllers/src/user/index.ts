@@ -17,7 +17,7 @@ import { VSCreateUser, TReqToken, VSUpdateUser, TProfileResponse } from "@uninus
 import { ZodValidationPipe } from "@uninus/api/validator";
 import { JwtAuthGuard } from "@uninus/api/guard";
 import { CreateUserSwagger, UpdateUserSwagger } from "@uninus/api/services";
-import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
+import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from "@nestjs/swagger";
 import { ClientProxy } from "@nestjs/microservices";
 import { firstValueFrom } from "rxjs";
 import { generateOtp } from "@uninus/api/utilities"
@@ -45,6 +45,11 @@ export class UserController {
   @Get()
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Pagination List User" })
+  @ApiQuery({ name: "page", required: false })
+  @ApiQuery({ name: "per_page", required: false })
+  @ApiQuery({ name: "order_by", required: false })
+  @ApiQuery({ name: "filter_by", required: false })
+  @ApiQuery({ name: "search", required: false })
   async getAllData(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
