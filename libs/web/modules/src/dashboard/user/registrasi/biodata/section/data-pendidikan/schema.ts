@@ -19,9 +19,7 @@ export const VSDataPendidikan = z.object({
       }),
   ),
 
-  education_major_id: z.any().refine((value) => value, {
-    message: "Jurusan harus diisi",
-  }),
+  education_major_id: z.string().nullable().optional(),
 });
 
 export type TVSDataPendidikan = z.infer<typeof VSDataPendidikan>;

@@ -199,12 +199,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
   }, [setValue, education, educationHistoryOptions, student?.education_npsn]);
 
   useEffect(() => {
-    reset({
-      education_type_id: student?.education_type_id,
-      graduation_year: student?.graduation_year,
-      education_npsn: student?.education_npsn,
-      education_major_id: student?.education_major_id,
-    });
+    reset(student);
   }, [student, reset, getStudent]);
 
   const { mutate } = useBiodataUpdate();
@@ -431,27 +426,31 @@ export const DataPendidikanSection: FC = (): ReactElement => {
                 isSearchable={false}
                 control={control}
                 isMulti={false}
-                disabled={isDisabled || !watch("education_type_id")}
+                disabled={
+                  isDisabled || !watch("education_type_id") || !!student?.education_major_id
+                }
                 status="error"
                 message={errors?.education_major_id?.message as string}
                 className="lg:w-full"
               />
             </div>
 
-            <div className="w-full lg:w-1/2 mt-3">
-              <TextField
-                inputHeight="h-10"
-                name="vocational_high_school"
-                variant="sm"
-                type="text"
-                labelclassname="text-sm font-semibold"
-                label="Jurusan SMK"
-                placeholder="Masukan jurusan sekolah anda"
-                inputWidth="w-full "
-                control={control}
-                required
-              />
-            </div>
+            {student?.degree_program_id === 1 && (
+              <div className="w-full lg:w-1/2 mt-3">
+                <TextField
+                  inputHeight="h-10"
+                  name="vocational_high_school"
+                  variant="sm"
+                  type="text"
+                  labelclassname="text-sm font-semibold"
+                  label="Jurusan SMK"
+                  placeholder="Masukan jurusan sekolah anda"
+                  inputWidth="w-full "
+                  control={control}
+                  required
+                />
+              </div>
+            )}
           </div>
 
           <div className="px-6 md:px-0 lg:px-0 w-full md:w-fit">

@@ -5,7 +5,6 @@ import {
   RadioButton,
   SelectOption,
   Button,
-  SelectField,
 } from "@uninus/web/components";
 import { dataDiri, disabilitiesDataDiri, formBiodataOne, occupationS2S3 } from "../../store";
 import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useRef, useState } from "react";
@@ -324,7 +323,11 @@ export const DataDiriSection: FC = (): ReactElement => {
 
     if (occValue === "Sudah" && student?.degree_program_id !== 1) {
       occupationS2S3.occupation_id = Number(data?.occupation_id);
-      occupationS2S3.occupation_position_id = Number(data?.occupation_position_id);
+      if (data?.occupation_position_id) {
+        occupationS2S3.occupation_position_id = Number(data?.occupation_position_id);
+      } else {
+        occupationS2S3.occupation_position_id = undefined as unknown as number;
+      }
       occupationS2S3.company_name = data?.company_name;
       occupationS2S3.company_address = data?.company_address;
       occupationS2S3.salary_id = Number(data?.salary_id);
@@ -855,13 +858,24 @@ export const DataDiriSection: FC = (): ReactElement => {
                   disabled={occValue === "Belum" || isDisabled || !!student?.company_address}
                 />
               </div>
-              <SelectField
+              <SelectOption
                 name="salary_id"
-                label="Penghasilan Per Bulan"
-                placeholder="Pilih Pendapatan"
+                labels="Penghasilan Per Bulan"
+                labelClassName="text-left font-bold text-xs py-2"
+                placeholder={
+                  student?.salary_id
+                    ? getSalary?.salary?.find((salary) => salary.id === student?.salary_id)?.name
+                    : "Pilih Penghasilan"
+                }
                 options={salaryOptions || []}
                 control={control}
-                // disabled={occValue === "Belum" || isDisabled || !!student?.salary_id}
+                isClearable={true}
+                isSearchable={true}
+                isMulti={false}
+                size="md"
+                status="error"
+                message={errors?.salary_id?.message as string}
+                disabled={occValue === "Belum" || isDisabled || !!student?.salary_id}
               />
             </section>
           )}
