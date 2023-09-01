@@ -2644,10 +2644,10 @@
     handlebars "^4.7.6"
     pug "^3.0.1"
 
-"@nestjs/common@^10.2.2":
-  version "10.2.2"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-10.2.2.tgz#bf343663000fb7a65d16773451a38ed87fb3dd0c"
-  integrity sha512-TCOJK2K4FDT3GxFfURjngnjBewS/hizKNFSLBXtX4TTQm0dVQOtESnnVdP14sEiPM6suuWlrGnXW9UDqItGWiQ==
+"@nestjs/common@^10.2.4":
+  version "10.2.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-10.2.4.tgz#a75fec61ad79650256042ef45a58af437f2d718a"
+  integrity sha512-3Lg4PUaSDucf14V8rPCH212NqrK09AJbY0NKqFsb4j5OIE+TuOzVZR/yjaJ8JNxH2hjskJNCZie0D/9tA2lzlA==
   dependencies:
     uid "2.0.2"
     iterare "1.2.1"
