@@ -64,8 +64,13 @@ export const ModuleBiodata: FC = (): ReactElement => {
                 : "/dashboard/registrasi/pembayaran/detail"
             }
           >
-            <Button variant="filled" size="md" width="w-auto" styling="text-sm lg:text-base">
-              <p className="px-2 md:flex hidden">
+            <Button
+              variant="filled"
+              size="md"
+              width="w-auto"
+              styling="text-xs md:text-sm lg:text-base"
+            >
+              <p className="px-2 flex">
                 {routeCondition ? "Pilih Beasiswa" : "Lakukan Pembayaran"}
               </p>
               <CaretRightOutlined />

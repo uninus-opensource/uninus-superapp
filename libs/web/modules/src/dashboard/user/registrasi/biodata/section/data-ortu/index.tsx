@@ -296,6 +296,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
     if (isUnemployedFather) {
       setValue("father_salary_id", "6");
     }
+
     if (isUnemployedMother) {
       setValue("mother_salary_id", "6");
     }
@@ -310,16 +311,34 @@ export const DataOrtuSection: FC = (): ReactElement => {
     studentParentData.father_name = data?.father_name;
     studentParentData.father_status_id = Number(data?.father_status_id);
     studentParentData.father_education_id = Number(data?.father_education_id);
-    studentParentData.father_occupation_id = Number(data?.father_occupation_id);
-    studentParentData.father_position_id = Number(data?.father_occupation_position_id);
-    studentParentData.father_salary_id = Number(data?.father_salary_id);
+
+    studentParentData.father_occupation_id = data?.father_occupation_id
+      ? Number(data?.father_occupation_id)
+      : (undefined as unknown as number);
+
+    studentParentData.father_position_id = data?.father_occupation_position_id
+      ? Number(data?.father_occupation_position_id)
+      : (undefined as unknown as number);
+
+    studentParentData.father_salary_id = data?.father_salary_id
+      ? Number(data?.father_salary_id)
+      : (undefined as unknown as number);
 
     studentParentData.mother_name = data?.mother_name;
     studentParentData.mother_status_id = Number(data?.mother_status_id);
     studentParentData.mother_education_id = Number(data?.mother_education_id);
-    studentParentData.mother_occupation_id = Number(data?.mother_occupation_id);
-    studentParentData.mother_position_id = Number(data?.mother_occupation_position_id);
-    studentParentData.mother_salary_id = Number(data?.mother_salary_id);
+
+    studentParentData.mother_occupation_id = data?.mother_occupation_id
+      ? Number(data?.mother_occupation_id)
+      : (undefined as unknown as number);
+
+    studentParentData.mother_position_id = data?.mother_occupation_position_id
+      ? Number(data?.mother_occupation_position_id)
+      : (undefined as unknown as number);
+
+    studentParentData.mother_salary_id = data?.mother_salary_id
+      ? Number(data?.mother_salary_id)
+      : (undefined as unknown as number);
 
     studentParentData.parent_address = data?.parent_address;
     studentParentData.parent_province_id = Number(data?.parent_province_id);
