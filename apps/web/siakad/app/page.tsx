@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { NextPage } from "next";
 import { Metadata } from "next";
+import { LoginAdminModule } from "@uninus/web/modules";
 
 export const metadata: Metadata = {
   title: "Siakad",
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 
 const LandingSiakad: NextPage = (): ReactElement => (
   <section key="landing-siakad">
-    <h1>Ini Siakad</h1>
+    <LoginAdminModule />
   </section>
 );
 export default LandingSiakad;
