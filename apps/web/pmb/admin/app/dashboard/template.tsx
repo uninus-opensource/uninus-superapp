@@ -33,33 +33,31 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     },
     {
       label: "Data Akun",
-      link: "/dashboard/pendaftaran",
+      link: "/dashboard/data-akun",
       icon: <FileTextOutlined />,
     },
-    { label: "Data Pendaftar", link: "/dashboard/registrasi/biodata", icon: <FormOutlined /> },
+    { label: "Data Pendaftar", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
   ];
 
   return (
-    <html>
-      <body className={`${monserrat.className}`}>
-        <div key="modal-logout" id="modal" />
-        <main className="flex w-full min-h-full overflow-x-hidden ">
-          <SideBar
-            profileName="mawar saidah"
-            profileEmail="mwrsdh@gmail.com"
-            onLogout={handleLogout}
-            sideList={sideLists}
-          />
+    <body className={`${monserrat.className}`}>
+      <div key="modal-logout" id="modal" />
+      <main className="flex w-full min-h-full overflow-x-hidden ">
+        <SideBar
+          profileName="mawar saidah"
+          profileEmail="mwrsdh@gmail.com"
+          onLogout={handleLogout}
+          sideList={sideLists}
+        />
 
-          <section
-            key="dashboard"
-            className="w-full bg-gray-100 lg:p-10 py-4 bg-grayscale-1 h-screen overflow-y-auto"
-          >
-            {children}
-          </section>
-        </main>
-      </body>
-    </html>
+        <section
+          key="dashboard"
+          className="w-full bg-gray-100 lg:p-10 py-4 bg-grayscale-1 h-screen overflow-y-auto"
+        >
+          {children}
+        </section>
+      </main>
+    </body>
   );
 };
 
