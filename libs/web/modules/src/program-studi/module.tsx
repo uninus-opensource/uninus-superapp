@@ -38,7 +38,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
       >
         <div className="modal flex flex-col h-full max-h-[50vh] ">
           <h1 className="font-semibold text-lg">Visi</h1>
-          {activeItem && <p className="text-justify-start text-md">{activeItem.visi}</p>}
+          {activeItem && <p className="text-justify text-md">{activeItem.visi}</p>}
           <div className="py-5">
             <div className="flex justify-between text-lg font-extrabold flex-row py-4">
               <p>Nama Prodi</p>
@@ -59,7 +59,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
                       <h1 className="font-bold text-lg text-primary-green pb-5 py-4">
                         Deskripsi Prodi
                       </h1>
-                      <p className="text-sm text-justify-start">{item.about}</p>
+                      <p className="text-sm text-justify">{item.about}</p>
                       <h1 className="font-bold text-xl py-5 text-primary-green">Spesialisasi</h1>
                       <div className="pb-2 w-[90%] px-5">
                         <ul className="list-disc md:grid md:grid-cols-2 flex flex-col pb-4  items-start justify-center ">
@@ -92,7 +92,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
       <Navbar />
       <section key="program-studi" className="w-full min-h-screen">
         <HeroBanner
-          heroImages="/illustrations/program-study.webp"
+          heroImages="/illustrations/prodi-banner.webp"
           heroTitleBottomRight="PROGRAM STUDI"
           backgroundColor="bg-grayscale-8"
           blur

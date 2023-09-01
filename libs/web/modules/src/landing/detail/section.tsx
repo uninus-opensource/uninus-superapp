@@ -27,13 +27,13 @@ export const DetailSection: FC = (): ReactElement => {
           tentang <span className="text-secondary-green-4">uninus</span>
         </h1>
         <div className="flex flex-col gap-4 font-medium">
-          <p>
+          <p className="text-justify">
             Universitas Islam Nusantara adalah Perguruan tinggi Islam Ahlussunnah Wal Jama`ah
             An-Nahdliyah di Kota Bandung. Universitas ini memiliki fasilitas pendidikan yang modern
             dan menawarkan berbagai program studi di bidang ilmu sosial, teknologi, bisnis, dan
             keislaman.
           </p>
-          <p>
+          <p className="text-justify">
             Universitas Islam Nusantara juga memiliki komunitas mahasiswa yang aktif dan beragam,
             yang membantu membentuk lingkungan belajar yang berkualitas dan inklusif.
           </p>

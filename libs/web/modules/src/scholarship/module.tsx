@@ -33,7 +33,7 @@ export const ModulBeasiswa: FC = (): ReactElement => {
       <Navbar />
       <section className="w-full min-h-screen">
         <HeroBanner
-          heroImages="/illustrations/foto-mahasiswa-bareng-2.webp"
+          heroImages="/illustrations/beasiswa-banner.webp"
           heroTitleBottomRight="BEASISWA"
           backgroundColor="bg-grayscale-8"
           blur
