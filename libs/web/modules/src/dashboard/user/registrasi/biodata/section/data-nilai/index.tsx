@@ -89,7 +89,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
 
   const labelSemesterStyle = "text-[10px] md:text-base";
   const labelCourseStyle = "text-[8px] lg:text-base font-bold pr-4 lg:pr-0";
-  const labelUTBKStyle = "flex items-center justify-between w-full";
+  const labelUTBKStyle = "flex items-center justify-between w-full  xl:pr-12 2xl:pr-16";
   const { data } = useGetStudentGrade();
 
   const student = useMemo(() => {
@@ -402,24 +402,10 @@ export const DataNilaiSection: FC = (): ReactElement => {
           </div>
         </div>
 
-        <h1 className="font-bold text-2xl lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10 mt-10">
-          Skor UTBK
+        <h1 className="font-bold text-2xl lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10 mt-16">
+          Skor SNBT
         </h1>
-        <section className="flex flex-col gap-y-4  items-center w-full lg:w-55% py-4 ">
-          <div className={labelUTBKStyle}>
-            <p className="font-bold text-sm md:text-base">Nilai UTBK : </p>
-            <TextField
-              inputHeight="h-10"
-              name="utbk"
-              variant="md"
-              type="number"
-              labelclassname="text-sm "
-              inputWidth="w-26 text-base"
-              control={control}
-              disabled={isDisabled || student?.utbk ? true : false}
-            />
-          </div>
-
+        <section className="flex flex-col gap-y-4 w-full lg:w-55% py-4 ">
           <div className={labelUTBKStyle}>
             <p className="font-bold text-sm md:text-base">Penalaran Umum</p>
             <TextField
@@ -428,7 +414,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               variant="md"
               type="number"
               labelclassname="text-sm "
-              inputWidth="w-26 text-base"
+              inputWidth="w-26 text-base text-center"
               control={control}
               disabled={isDisabled || student?.utbk ? true : false}
             />
@@ -441,7 +427,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               variant="md"
               type="number"
               labelclassname="text-sm "
-              inputWidth="w-26 text-base"
+              inputWidth="w-26 text-base text-center"
               control={control}
               disabled={isDisabled || student?.utbk ? true : false}
             />
@@ -454,7 +440,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               variant="md"
               type="number"
               labelclassname="text-sm "
-              inputWidth="w-26 text-base"
+              inputWidth="w-26 text-base text-center"
               control={control}
               disabled={isDisabled || student?.utbk ? true : false}
             />
@@ -467,14 +453,14 @@ export const DataNilaiSection: FC = (): ReactElement => {
               variant="md"
               type="number"
               labelclassname="text-sm "
-              inputWidth="w-26 text-base"
+              inputWidth="w-26 text-base text-center"
               control={control}
               disabled={isDisabled || student?.utbk ? true : false}
             />
           </div>
         </section>
-        <section className="flex w-full justify-between items-center">
-          <div className="flex items-center">
+        <section className="flex w-full justify-between items-center mt-10">
+          <div className="flex items-center gap-2">
             <p className="font-bold text-sm md:text-base">Rata-Rata Skor :</p>
             <TextField
               inputHeight="h-10"
@@ -482,7 +468,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               variant="md"
               type="number"
               labelclassname="text-sm "
-              inputWidth="w-26 text-base"
+              inputWidth="w-26 text-base text-center"
               control={control}
               disabled={isDisabled || student?.utbk ? true : false}
             />
@@ -493,7 +479,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
           </div>
         </section>
 
-        <div className="flex w-full justify-end p-4">
+        <div className="flex w-full justify-end p-4 mt-8">
           <Button
             type="submit"
             variant="filled"

@@ -91,10 +91,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   }, [watch("degree_program_id")]);
 
   useEffect(() => {
-    reset(student);
-  }, [student, reset]);
-
-  useEffect(() => {
     const program = watch("degree_program_id");
     setIs3Selected(program);
 
@@ -133,6 +129,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
   const selectionType = getSelection?.selection.find(
     (degree) => degree.id === student?.selection_path_id,
   );
+
+  useEffect(() => {
+    reset(student);
+  }, [student, reset]);
 
   const router = useRouter();
 
@@ -251,7 +251,11 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 !watch("degree_program_id") || isFormSubmitted || !!student?.first_deparment_id
               }
               status="error"
-              message={errors?.first_deparment_id?.message as string}
+              message={
+                watch("degree_program_id") && !student?.first_deparment_id
+                  ? (errors?.first_deparment_id?.message as string)
+                  : ""
+              }
             />
             {!isS3Selected && (
               <SelectOption
@@ -272,9 +276,8 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 ref={prodi2Ref}
                 status="error"
                 message={
-                  (errors?.second_deparment_id?.message as string) ||
-                  watch("second_deparment_id") === watch("first_deparment_id")
-                    ? "Program studi 2 tidak boleh sama dengan program studi 1"
+                  watch("degree_program_id") && !isS3Selected && !student?.second_deparment_id
+                    ? (errors?.second_deparment_id?.message as string)
                     : ""
                 }
               />
@@ -299,7 +302,15 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               message={errors?.selection_path_id?.message as string}
             />
           </div>
-          <div className="flex flex-col gap-8 w-full items-center mt-4 lg:items-end">
+          <div className="flex flex-col gap-2 w-full items-center mt-4 lg:mt-10 lg:items-end">
+            {watch("second_deparment_id") &&
+              !isS3Selected &&
+              watch("first_deparment_id") === watch("second_deparment_id") && (
+                <span className="text-xs text-red-4 font-bold">
+                  Program studi pilihan 1 dan 2 tidak boleh sama
+                </span>
+              )}
+
             <Button
               variant="elevated"
               size="sm"
@@ -309,7 +320,8 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 !isValid ||
                 isFormSubmitted ||
                 !!student?.degree_program_id ||
-                !!student?.selection_path_id
+                !!student?.selection_path_id ||
+                watch("first_deparment_id") === watch("second_deparment_id")
               }
               className={`${
                 isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"
