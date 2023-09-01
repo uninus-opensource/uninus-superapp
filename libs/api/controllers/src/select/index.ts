@@ -112,6 +112,7 @@ export class SelectController {
     status: 400,
     description: "Department Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "faculty_id", required: false })
   @ApiQuery({ name: "degree_program_id", required: false })

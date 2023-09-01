@@ -13,6 +13,7 @@ import {
   IEducationMajorRequest,
   IEducationTypeRequest,
   ISelectionRequest,
+  ICountryRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -62,6 +63,12 @@ export class GeneralController {
   getSalary(payload: ISelectRequest) {
     return this.appService.getSalary(payload);
   }
+
+  @MessagePattern("get_country")
+  getCountry(payload: ICountryRequest) {
+    return this.appService.getCountry(payload);
+  }
+
 
   @MessagePattern("get_education_history")
   getEducationHistory(payload: ISelectEducationHistoryRequest) {

@@ -163,7 +163,7 @@ export type TEducationTypeResponse = {
   }>;
 };
 
-export interface IEducationMajorRequest {
+export interface IEducationMajorRequest extends ISelectRequest {
   search: string;
   education_type_id: string;
 }
