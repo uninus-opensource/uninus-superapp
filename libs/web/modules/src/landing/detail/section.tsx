@@ -8,7 +8,7 @@ export const DetailSection: FC = (): ReactElement => {
   };
   return (
     <section className="flex flex-col lg:flex-row h-auto w-full gap-14 lg:gap-0 justify-center items-center mb-24">
-      <section className="h-auto gap-4 px-16 py-2">
+      <section className="h-auto gap-4 lg:pl-16 px-16 lg:px-0 py-2">
         {/* Gambar */}
         <figure>
           <Image
@@ -22,8 +22,8 @@ export const DetailSection: FC = (): ReactElement => {
         </figure>
       </section>
       {/* sesi text */}
-      <section className="flex flex-col lg:w-2/4 w-full px-6 gap-4 xl:gap-8">
-        <h1 className="uppercase text-primary-green text-3xl font-extramedium ">
+      <section className="flex flex-col lg:w-2/4 w-full px-12 gap-4 xl:gap-8">
+        <h1 className="uppercase text-primary-green text-left text-2xl lg:text-4xl font-bold ">
           tentang <span className="text-secondary-green-4">uninus</span>
         </h1>
         <div className="flex flex-col gap-4 font-medium">

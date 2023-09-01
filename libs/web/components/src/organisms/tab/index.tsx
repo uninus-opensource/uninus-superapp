@@ -40,11 +40,11 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
     >
       <h1
         className=" border-black uppercase text-primary-white bg-secondary-green-4 rounded-lg
-          text-2xl font-extramedium p-4 text-center w-5/6"
+          text-2xl font-bold p-4 text-center w-5/6 my-8"
       >
         jalur seleksi pmb uninus
       </h1>
-      <div className="flex flex-col gap-4 border-2 border-secondary-green-4 rounded-lg lg:h-80 h-auto lg:w-full md:w-full w-[350px] p-5 ">
+      <div className="flex flex-col gap-4 border-2 border-secondary-green-4 rounded-lg h-80 lg:w-full md:w-full w-[350px] p-5 ">
         <div className="border-2 border-secondary-green-4 rounded-lg h-auto px-4 lg:px-8 gap-2 lg:gap-4 p-2 flex justify-between">
           {buttonList.map((list, idx) => (
             <Button
@@ -61,7 +61,7 @@ export const TabJalurSeleksi: FC = (): ReactElement => {
           ))}
         </div>
         <div data-testid="content-text" className="flex flex-col justify-center gap-2 text-sm">
-          <h1 className="text-xl font-extramedium">Persyaratan</h1>
+          <h1 className="text-xl font-bold">Persyaratan</h1>
 
           <p data-testid="content-1" className={isActive === 1 ? "block" : "hidden"}>
             1. Nilai Rapor Rata-rata ≥ 70 untuk 3 Mata Pelajaran (Matematika, Bahasa Inggris &
