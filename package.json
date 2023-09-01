@@ -30,7 +30,8 @@
     "api:migrate:reset": "dotenv -e ./apps/api/.env -- yarn prisma migrate reset",
     "api:db:push": "dotenv -e ./apps/api/.env -- yarn prisma db push",
     "api:db:pull": "dotenv -e ./apps/api/.env -- yarn prisma db pull",
-    "api:serve:prod": "dotenv -e ./apps/api/.env -- node dist/apps/api/main.js"
+    "api:serve:prod": "dotenv -e ./apps/api/.env -- node dist/apps/api/main.js",
+    "prepare": "yarn husky install"
   },
   "browser": {
     "fs": false,
