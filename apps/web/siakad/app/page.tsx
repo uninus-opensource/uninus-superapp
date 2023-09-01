@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   title: "Siakad",
 };
 
-const LandingPage: NextPage = (): ReactElement => (
-  <section key="landing-page">
-    <h1 className="text-primary-green">Hallo Ini Siakad</h1>
+const LandingSiakad: NextPage = (): ReactElement => (
+  <section key="landing-siakad">
+    <h1>Ini Siakad</h1>
   </section>
 );
-export default LandingPage;
+export default LandingSiakad;

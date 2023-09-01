@@ -88,7 +88,7 @@ const cardProps = {
   items: CardBenerfit.map((x, i) => (
     <div key={i} className="flex h-full p-4">
       <Card key={i} icon={x.icon} cardTitle={x.title} height="h-48">
-        {x.desc}
+        <p className="text-sm">{x.desc}</p>
       </Card>
     </div>
   )),
@@ -115,7 +115,7 @@ const cardProps = {
 
 export const BenefitSection: FC = (): ReactElement => {
   return (
-    <section className="mt-40 h-full w-full gap-4 my-20 lg:px-16 px-4 py-2 flex flex-col items-center ">
+    <section className="mt-10 lg:mt-40 h-full w-full gap-4 lg:px-16 px-4 py-2 flex flex-col items-center ">
       <h1 className="p-5 text-2xl text-center lg:text-4xl text-secondary-green-4 font-bold">
         Kenapa Harus Kuliah di <span className="text-primary-yellow">UNINUS?</span>
       </h1>
