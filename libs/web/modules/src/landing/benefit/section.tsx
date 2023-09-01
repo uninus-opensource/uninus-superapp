@@ -88,7 +88,7 @@ const cardProps = {
   items: CardBenerfit.map((x, i) => (
     <div key={i} className="flex h-full p-4">
       <Card key={i} icon={x.icon} cardTitle={x.title} height="h-48">
-        <p className="text-sm">{x.desc}</p>
+        <div className="text-xs sm:text-sm">{x.desc}</div>
       </Card>
     </div>
   )),
