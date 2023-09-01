@@ -87,9 +87,9 @@ export const DataNilaiSection: FC = (): ReactElement => {
     }
   });
 
-  const labelSemesterStyle = "text-[10px] md:text-base";
-  const labelCourseStyle = "text-[8px] lg:text-base font-bold pr-4 lg:pr-0";
-  const labelUTBKStyle = "flex items-center justify-between w-full  xl:pr-12 2xl:pr-16";
+  const labelSemesterStyle = "text-[13px] md:text-base";
+  const labelCourseStyle = "text-[12px] lg:text-base font-bold lg:pr-0";
+  const labelUTBKStyle = "flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ";
   const { data } = useGetStudentGrade();
 
   const student = useMemo(() => {
@@ -150,9 +150,9 @@ export const DataNilaiSection: FC = (): ReactElement => {
       key="data-nilai-section"
       title="Nilai Rapor dan Skor UTBK"
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4 text-left"
-      className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
+      className="min-w-[90%] lg:w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
     >
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="w-screen">
         <ToastContainer
           position="top-center"
           autoClose={5000}
@@ -171,241 +171,223 @@ export const DataNilaiSection: FC = (): ReactElement => {
         <p className="text-sm lg:text-base text-grayscale-7 mt-2">
           Masukkan hanya nilai pengetahuan <span className="text-red text-base text-red-6 ">*</span>
         </p>
+        <section className="w-5/6 flex px-2 py-6 gap-y-4 mx-auto flex-col relative justify-center overflow-x-scroll lg:w-full lg:overflow-x-hidden">
+          <div className="ml-20 flex gap-x-5 mt-9 lg:ml-36 lg:gap-x-11 lg:w-full">
+            <div className="mb-4 flex-shrink-0">
+              <p className={labelSemesterStyle}>Semester 1</p>
+            </div>
+            <div className="mb-4 flex-shrink-0">
+              <p className={labelSemesterStyle}>Semester 2</p>
+            </div>
+            <div className="mb-4 flex-shrink-0">
+              <p className={labelSemesterStyle}>Semester 3</p>
+            </div>
+            <div className="mb-4 flex-shrink-0">
+              <p className={labelSemesterStyle}>Semester 4</p>
+            </div>
+          </div>
 
-        <div className="grid grid-cols-5 grid-rows-5 gap-y-4 mt-9">
-          <div className="col-start-2 my-auto">
-            <p className={labelSemesterStyle}>Semester 1</p>
-          </div>
-          <div className="col-start-3 my-auto">
-            <p className={labelSemesterStyle}>Semester 2</p>
-          </div>
-          <div className="col-start-4 my-auto">
-            <p className={labelSemesterStyle}>Semester 3</p>
-          </div>
-          <div className="col-start-5 my-auto">
-            <p className={labelSemesterStyle}>Semester 4</p>
-          </div>
-          <div className="row-start-2 my-auto">
+          <div className=" flex items-center gap-x-5 lg:gap-x-10 my-auto">
             <p className={labelCourseStyle}>Matematika</p>
+            <div className="flex gap-x-7 ">
+              <TextField
+                inputHeight="h-10"
+                name="mtk1"
+                variant="md"
+                type="number"
+                labelclassname="text-xs md:text-sm "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.mtk1 ? true : false}
+              />
+              <TextField
+                inputHeight="h-10"
+                name="mtk2"
+                variant="md"
+                type="number"
+                labelclassname="text-xs md:text-sm "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.mtk2 ? true : false}
+              />
+              <TextField
+                inputHeight="h-10"
+                name="mtk3"
+                variant="md"
+                type="number"
+                labelclassname="text-sm "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.mtk3 ? true : false}
+              />
+              <TextField
+                inputHeight="h-10"
+                name="mtk4"
+                variant="md"
+                type="number"
+                labelclassname="text-sm "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.mtk4 ? true : false}
+              />
+            </div>
           </div>
-          <div className="col-start-1 row-start-3 my-auto">
+          <div className="flex items-center gap-x-5 lg:gap-x-10 my-auto">
             <p className={labelCourseStyle}>B.Indonesia </p>
+            <div className="flex gap-x-7 ml-1">
+              <TextField
+                inputHeight="h-10"
+                name="bind1"
+                variant="md"
+                type="number"
+                labelclassname="text-xs md:text-sm  "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.bind1 ? true : false}
+              />
+              <TextField
+                inputHeight="h-10"
+                name="bind2"
+                variant="md"
+                type="number"
+                labelclassname="text-xs md:text-sm "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.bind2 ? true : false}
+              />
+              <TextField
+                inputHeight="h-10"
+                name="bind3"
+                variant="md"
+                type="number"
+                labelclassname="text-sm "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.bind3 ? true : false}
+              />
+              <TextField
+                inputHeight="h-10"
+                name="bind4"
+                variant="md"
+                type="number"
+                labelclassname="text-sm "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.bind4 ? true : false}
+              />
+            </div>
           </div>
-          <div className="col-start-1 row-start-4 my-auto">
+          <div className="flex items-center gap-x-6 lg:gap-x-14 my-auto">
             <p className={labelCourseStyle}>B.inggris</p>
+            <div className="flex gap-x-7 ml-3">
+              <TextField
+                inputHeight="h-10"
+                name="bing1"
+                variant="md"
+                type="number"
+                labelclassname="text-xs md:text-sm"
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                className="ml-4"
+                disabled={isDisabled || dataStudentGrade?.bing1 ? true : false}
+              />
+              <TextField
+                inputHeight="h-10"
+                name="bing2"
+                variant="md"
+                type="number"
+                labelclassname="text-sm "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.bing2 ? true : false}
+              />
+              <TextField
+                inputHeight="h-10"
+                name="bing3"
+                variant="md"
+                type="number"
+                labelclassname="text-sm "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.bing3 ? true : false}
+              />
+              <TextField
+                inputHeight="h-10"
+                name="bing4"
+                variant="md"
+                type="number"
+                labelclassname="text-sm "
+                inputWidth="lg:w-26 w-16 text-base text-center"
+                control={control}
+                disabled={isDisabled || dataStudentGrade?.bing4 ? true : false}
+              />
+            </div>
           </div>
-          <div className="col-start-1 row-start-5 my-auto">
-            <p className={labelCourseStyle}>Rata-rata</p>
+          <div className="flex lg:gap-x-10 items-center gap-x-8 my-auto w-screen">
+            <div className="flex-shrink-0">
+              <p className={labelCourseStyle}>Rata-rata</p>
+            </div>
+            <div className="lg:w-3/5 w-screen lg:ml-4 lg:pl-1 lg:pr-16">
+              <TextField
+                inputHeight="h-10"
+                name="average_grade"
+                variant="md"
+                type="number"
+                labelclassname="text-sm "
+                inputWidth="w-95% lg:w-3/4 xl:w-[31.5rem] text-base text-center"
+                control={control}
+                disabled
+              />
+            </div>
           </div>
-          <div className="col-start-1 row-start-6 my-auto">
-            <p className={labelCourseStyle}>Upload Rapor</p>
+          <div className="flex items-center lg:gap-x-4 w-96 my-auto">
+            <div className="flex-shrink-0">
+              <p className={labelCourseStyle}>Upload Rapor</p>
+            </div>
+            <div className="flex gap-x-0 lg:gap-x-11 ml-2 lg:ml-1 w-80%">
+              <UploadField
+                className="min-w-[30%] "
+                control={control}
+                name="dokumen1"
+                variant="custom"
+                labels="Pilih File"
+                labelClassName="labelText"
+                preview={false}
+              />
+              <UploadField
+                className="min-w-[30%] "
+                control={control}
+                name="dokumen2"
+                variant="custom"
+                labels="Pilih File"
+                labelClassName="labelText"
+                preview={false}
+              />
+              <UploadField
+                className="min-w-[30%]"
+                control={control}
+                name="dokumen3"
+                variant="custom"
+                labels="Pilih File"
+                labelClassName="labelText"
+                preview={false}
+              />
+              <UploadField
+                className="min-w-[30%] "
+                control={control}
+                name="dokumen4"
+                variant="custom"
+                labels="Pilih File"
+                labelClassName="labelText"
+                preview={false}
+              />
+            </div>
           </div>
-          <div className="col-start-2 row-start-2 my-auto">
-            <TextField
-              inputHeight="h-10"
-              name="mtk1"
-              variant="md"
-              type="number"
-              labelclassname="text-xs md:text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.mtk1 ? true : false}
-            />
-          </div>
-          <div className="col-start-2 row-start-3">
-            <TextField
-              inputHeight="h-10"
-              name="bind1"
-              variant="md"
-              type="number"
-              labelclassname="text-xs md:text-sm  "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.bind1 ? true : false}
-            />
-          </div>
-          <div className="col-start-2 row-start-4">
-            <TextField
-              inputHeight="h-10"
-              name="bing1"
-              variant="md"
-              type="number"
-              labelclassname="text-xs md:text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.bing1 ? true : false}
-            />
-          </div>
-          <div className="col-start-3 row-start-2">
-            <TextField
-              inputHeight="h-10"
-              name="mtk2"
-              variant="md"
-              type="number"
-              labelclassname="text-xs md:text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.mtk2 ? true : false}
-            />
-          </div>
-          <div className="col-start-3 row-start-3">
-            <TextField
-              inputHeight="h-10"
-              name="bind2"
-              variant="md"
-              type="number"
-              labelclassname="text-xs md:text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.bind2 ? true : false}
-            />
-          </div>
-          <div className="col-start-3 row-start-4">
-            <TextField
-              inputHeight="h-10"
-              name="bing2"
-              variant="md"
-              type="number"
-              labelclassname="text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.bing2 ? true : false}
-            />
-          </div>
-          <div className="col-start-4 row-start-2">
-            <TextField
-              inputHeight="h-10"
-              name="mtk3"
-              variant="md"
-              type="number"
-              labelclassname="text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.mtk3 ? true : false}
-            />
-          </div>
-          <div className="col-start-4 row-start-3">
-            <TextField
-              inputHeight="h-10"
-              name="bind3"
-              variant="md"
-              type="number"
-              labelclassname="text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.bind3 ? true : false}
-            />
-          </div>
-          <div className="col-start-4 row-start-4">
-            <TextField
-              inputHeight="h-10"
-              name="bing3"
-              variant="md"
-              type="number"
-              labelclassname="text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.bing3 ? true : false}
-            />
-          </div>
-          <div className="col-start-5 row-start-2">
-            <TextField
-              inputHeight="h-10"
-              name="mtk4"
-              variant="md"
-              type="number"
-              labelclassname="text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.mtk4 ? true : false}
-            />
-          </div>
-          <div className="col-start-5 row-start-3">
-            <TextField
-              inputHeight="h-10"
-              name="bind4"
-              variant="md"
-              type="number"
-              labelclassname="text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.bind4 ? true : false}
-            />
-          </div>
-          <div className="col-start-5 row-start-4">
-            <TextField
-              inputHeight="h-10"
-              name="bing4"
-              variant="md"
-              type="number"
-              labelclassname="text-sm "
-              inputWidth="lg:w-26 w-12 text-base text-center"
-              control={control}
-              disabled={isDisabled || dataStudentGrade?.bing4 ? true : false}
-            />
-          </div>
-          <div className="col-start-2 row-start-5 col-end-6 lg:pr-10">
-            <TextField
-              inputHeight="h-10"
-              name="average_grade"
-              variant="md"
-              type="number"
-              labelclassname="text-sm "
-              inputWidth="w-full text-base text-center"
-              control={control}
-              disabled
-            />
-          </div>
-          <div className="col-start-2 row-start-6">
-            {" "}
-            <UploadField
-              control={control}
-              name="dokumen1"
-              variant="custom"
-              labels="Choose File"
-              labelClassName="labelText"
-              preview={false}
-            />
-          </div>
-          <div className="col-start-3 row-start-6">
-            {" "}
-            <UploadField
-              control={control}
-              name="dokumen2"
-              variant="custom"
-              labels="Choose File"
-              labelClassName="labelText"
-              preview={false}
-            />
-          </div>
-          <div className="col-start-4 row-start-6">
-            {" "}
-            <UploadField
-              control={control}
-              name="dokumen3"
-              variant="custom"
-              labels="Choose File"
-              labelClassName="labelText"
-              preview={false}
-            />
-          </div>
-          <div className="col-start-5 row-start-6">
-            {" "}
-            <UploadField
-              control={control}
-              name="dokumen4"
-              variant="custom"
-              labels="Choose File"
-              labelClassName="labelText"
-              preview={false}
-            />
-          </div>
-        </div>
-
-        <h1 className="font-bold text-2xl lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10 mt-16">
+        </section>
+        <h1 className="font-bold text-2xl lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10 mt-16 text-left">
           Skor SNBT
         </h1>
-        <section className="flex flex-col gap-y-4 w-full lg:w-55% py-4 ">
+        <section className="w-5/6 flex px-2 py-6 gap-y-4 mx-auto flex-col  justify-center  lg:w-full  ">
           <div className={labelUTBKStyle}>
             <p className="font-bold text-sm md:text-base">Penalaran Umum</p>
             <TextField
@@ -433,7 +415,9 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className={labelUTBKStyle}>
-            <p className="font-bold text-sm md:text-base">Pengetahuan dan Pemahaman Umum</p>
+            <p className="font-bold text-sm md:text-base text-left">
+              Pengetahuan dan Pemahaman Umum
+            </p>
             <TextField
               inputHeight="h-10"
               name="utbk"
@@ -446,7 +430,9 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
           <div className={labelUTBKStyle}>
-            <p className="font-bold text-sm md:text-base">Kemampuan Memahami Bacaan dan Menulis</p>
+            <p className="font-bold text-sm md:text-base text-left">
+              Kemampuan Memahami Bacaan dan Menulis
+            </p>
             <TextField
               inputHeight="h-10"
               name="utbk"
@@ -459,8 +445,8 @@ export const DataNilaiSection: FC = (): ReactElement => {
             />
           </div>
         </section>
-        <section className="flex w-full justify-between items-center mt-10">
-          <div className="flex items-center gap-2">
+        <section className="w-5/6 flex px-2 py-6 gap-y-4 mx-auto flex-col  justify-center   lg:w-full">
+          <div className={labelUTBKStyle}>
             <p className="font-bold text-sm md:text-base">Rata-Rata Skor :</p>
             <TextField
               inputHeight="h-10"
@@ -473,18 +459,18 @@ export const DataNilaiSection: FC = (): ReactElement => {
               disabled={isDisabled || student?.utbk ? true : false}
             />
           </div>
-          <div className="flex items-center gap-8 lg:text-base text-xs">
-            <p>Sertifikat UTBK : </p>
+          <div className={labelUTBKStyle}>
+            <p className="flex-shrink-0 mr-5 font-bold text-sm md:text-base">Sertifikat UTBK : </p>
             <UploadField control={control} name="UTBK" variant="default" preview={false} />
           </div>
         </section>
 
-        <div className="flex w-full justify-end p-4 mt-8">
+        <div className="flex w-5/6 lg:w-3/5 justify-end p-4 mt-8">
           <Button
             type="submit"
             variant="filled"
             size="md"
-            width="w-40% lg:w-25% xl:w-15%"
+            width="w-30% lg:w-25% xl:w-15%"
             disabled={isDisabled || !!student?.utbk}
           >
             Submit
