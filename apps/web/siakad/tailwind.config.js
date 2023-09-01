@@ -40,7 +40,7 @@ module.exports = {
         18: "72px",
         26: "105px",
         "navbar-mobile": "160px",
-        navbarlg: "120px",
+        navbarlg: "80px",
         footerHeight: "360px",
         bannerLg: "520px",
       },
@@ -51,9 +51,9 @@ module.exports = {
     colors: {
       primary: {
         green: "#009647",
-        blue: "#7CB9E8",
         yellow: "#F8BF02",
         white: "#FFFFFF",
+        orange: "#F78100",
         black: "#000000",
       },
       secondary: {
@@ -64,7 +64,6 @@ module.exports = {
           4: "#175349",
           5: "#113C35",
           6: "#162000",
-          7: "#EDFFF5",
         },
         sky: {
           1: "#1678682E",
@@ -100,6 +99,13 @@ module.exports = {
         4: "#ff5252",
         5: "#ff0000",
         6: "#a70000",
+        7: "#BB2D3B",
+      },
+      conditional: {
+        disable: "#B3B3B3",
+        success: "#198754",
+        warning: "#FFC107",
+        error: "#BB2D3B",
       },
     },
   },

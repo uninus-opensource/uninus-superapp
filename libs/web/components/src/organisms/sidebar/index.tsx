@@ -130,6 +130,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                 {userStatus}
               </div>
             ))}
+
           {/* End Status pendaftaran */}
           <hr className="w-3/4 my-2" />
 
