@@ -9,9 +9,6 @@ export const VSUpdateUser = z.object({
     .nonempty({
       message: "Email tidak boleh kosong",
     }),
-  nik: z.string().nonempty({
-    message: "NIK tidak boleh kosong",
-  }),
   fullname: z.string().nonempty({
     message: "Nama lengkap tidak boleh kosong",
   }),
@@ -23,9 +20,7 @@ export const VSUpdateUser = z.object({
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/, {
       message:
         "Password harus memiliki setidaknya 6 karakter dan mengandung setidaknya 1 huruf kecil, 1 huruf besar, dan 1 angka. Tidak boleh mengandung simbol ",
-    }),
-  role_id: z.number().optional(),
-  photo: z.string().optional(),
+    })
 });
 
 export type TVSUpdateUser = z.infer<typeof VSUpdateUser>;
