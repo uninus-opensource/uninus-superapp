@@ -381,10 +381,86 @@ export const DataNilaiSection: FC = (): ReactElement => {
             </div>
           </div>
         </section>
-        <h1 className="font-bold text-2xl lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10 mt-16">
+        <h1 className="font-bold text-2xl lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10 mt-16 text-left">
           Skor SNBT
         </h1>
-
+        <section className="w-5/6 flex px-2 py-6 gap-y-4 mx-auto flex-col  justify-center  lg:w-full  ">
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
+            <p className="font-bold text-sm md:text-base">Penalaran Umum</p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base text-center"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
+            <p className="font-bold text-sm md:text-base">Kemampuan Kuantitatif</p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base text-center"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
+            <p className="font-bold text-sm md:text-base text-left">
+              Pengetahuan dan Pemahaman Umum
+            </p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base text-center"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
+            <p className="font-bold text-sm md:text-base text-left">
+              Kemampuan Memahami Bacaan dan Menulis
+            </p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base text-center"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+        </section>
+        <section className="w-5/6 flex px-2 py-6 gap-y-4 mx-auto flex-col  justify-center   lg:w-full">
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
+            <p className="font-bold text-sm md:text-base">Rata-Rata Skor :</p>
+            <TextField
+              inputHeight="h-10"
+              name="utbk"
+              variant="md"
+              type="number"
+              labelclassname="text-sm "
+              inputWidth="w-26 text-base text-center"
+              control={control}
+              disabled={isDisabled || student?.utbk ? true : false}
+            />
+          </div>
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
+            <p className="flex-shrink-0 mr-5 font-bold text-sm md:text-base">Sertifikat UTBK : </p>
+            <UploadField control={control} name="UTBK" variant="default" preview={false} />
+          </div>
+        </section>
         <div className="flex w-5/6 lg:w-3/5 justify-end p-4 mt-8">
           <Button
             type="submit"

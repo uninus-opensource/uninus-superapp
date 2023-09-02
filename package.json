@@ -17,6 +17,8 @@
     "web:keuangan:build": "yarn nx build web-keuangan",
     "web:pegawai:serve": "yarn nx serve web-pegawai",
     "web:pegawai:build": "yarn nx build web-pegawai",
+    "web:tracer:serve": "yarn nx serve web-tracer-alumni",
+    "web:tracer:build": "yarn nx build web-tracer-alumni",
     "api:file:serve": "dotenv -e ./apps/api/file/.env -- yarn nx serve api-file",
     "api:file:build": "dotenv -e ./apps/api/file/.env -- yarn nx build api-file",
     "api:auth:serve": "dotenv -e ./apps/api/auth/.env -- yarn nx serve api-auth",
