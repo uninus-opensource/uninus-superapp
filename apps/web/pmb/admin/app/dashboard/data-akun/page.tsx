@@ -5,6 +5,7 @@ import { ModuleDataAkun } from "@uninus/web/modules";
 
 export const metadata: Metadata = {
   title: "Dashboard Admin | Data Akun",
+  description: "Data Akun Dashboard Admin",
 };
 
 const DashboardDataAkun: NextPage = (): ReactElement => <ModuleDataAkun />;

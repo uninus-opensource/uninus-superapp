@@ -5,6 +5,7 @@ import { LoginAdminModule } from "@uninus/web/modules";
 
 export const metadata: Metadata = {
   title: "PMB-Admin | Masuk",
+  description: "Masuk PMB-Admin",
 };
 
 const LoginPageAdmin: NextPage = (): ReactElement => <LoginAdminModule />;
