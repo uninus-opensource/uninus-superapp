@@ -12,12 +12,6 @@ import {
   SelectOption,
 } from "@uninus/web/components";
 import { PlusOutlined } from "@ant-design/icons";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Test Comp",
-  description: "Test Comp Description",
-};
 
 const MultiOptions = [
   {
