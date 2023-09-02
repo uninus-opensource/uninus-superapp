@@ -17,7 +17,9 @@
 ## Demo Aplikasi
 
 - https://pmb.dev.uninus.ac.id
+- https://pmb.admin.dev.uninus.ac.id
 - https://siakad.dev.uninus.ac.id
+- https://evaluasi.dev.uninus.ac.id
 
 # WAJIB Setup Husky
 
