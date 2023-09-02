@@ -18,10 +18,10 @@ export const WelcomeSection: FC = (): ReactElement => {
             quality={100}
             width={400}
             height={400}
-            className="rounded-lg bg-primary-white w-72 mr-4 md:mr-0 lg:w-96"
+            className="rounded-lg bg-primary-white w-72 mr-4 md:mr-0 lg:w-96 h-auto"
           />
           <div className="flex flex-col lg:w-7/12 w-full px-6 leading-normal lg:pl-6">
-            <h1 className="lg:text-4xl text-3xl text-center lg:text-left font-semibold text-secondary-green-4 mt-6">
+            <h1 className="lg:text-4xl text-2xl text-center lg:text-left font-semibold text-secondary-green-4 mt-6">
               Selamat Datang Calon
               <br />
               Nusantara

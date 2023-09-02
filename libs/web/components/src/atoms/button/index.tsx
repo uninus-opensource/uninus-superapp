@@ -50,12 +50,24 @@ export const Button: FC<IButtonProps> = ({
 
   return props?.href ? (
     <Link role="link" href={`${props?.href}`}>
-      <button data-testid="button" {...props} className={className}>
+      <button
+        role="navigation"
+        aria-label="button-component-link"
+        data-testid="button"
+        {...props}
+        className={className}
+      >
         {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
       </button>
     </Link>
   ) : (
-    <button data-testid="button" {...props} className={className}>
+    <button
+      role="button"
+      aria-label="button-component"
+      data-testid="button"
+      {...props}
+      className={className}
+    >
       {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
     </button>
   );

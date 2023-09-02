@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "@testing-library/react";
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils";
 import { Modal } from ".";
 import type * as ReactDom from "react-dom";
