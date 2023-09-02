@@ -87,9 +87,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
     }
   });
 
-  const labelSemesterStyle = "text-[13px] md:text-base";
-  const labelCourseStyle = "text-[12px] lg:text-base font-bold lg:pr-0";
-  const labelUTBKStyle = "flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ";
   const { data } = useGetStudentGrade();
 
   const student = useMemo(() => {
@@ -172,23 +169,23 @@ export const DataNilaiSection: FC = (): ReactElement => {
           Masukkan hanya nilai pengetahuan <span className="text-red text-base text-red-6 ">*</span>
         </p>
         <section className="w-5/6 flex px-2 py-6 gap-y-4 mx-auto flex-col relative justify-center overflow-x-scroll lg:w-full lg:overflow-x-hidden">
-          <div className="ml-20 flex gap-x-5 mt-9 lg:ml-36 lg:gap-x-11 lg:w-full">
+          <div className="ml-20 flex gap-x-5 mt-9 lg:ml-36 lg:gap-x-11 lg:w-full ">
             <div className="mb-4 flex-shrink-0">
-              <p className={labelSemesterStyle}>Semester 1</p>
+              <p className="labelSemesterStyle">Semester 1</p>
             </div>
             <div className="mb-4 flex-shrink-0">
-              <p className={labelSemesterStyle}>Semester 2</p>
+              <p className="labelSemesterStyle">Semester 2</p>
             </div>
             <div className="mb-4 flex-shrink-0">
-              <p className={labelSemesterStyle}>Semester 3</p>
+              <p className="labelSemesterStyle">Semester 3</p>
             </div>
             <div className="mb-4 flex-shrink-0">
-              <p className={labelSemesterStyle}>Semester 4</p>
+              <p className="labelSemesterStyle">Semester 4</p>
             </div>
           </div>
 
           <div className=" flex items-center gap-x-5 lg:gap-x-10 my-auto">
-            <p className={labelCourseStyle}>Matematika</p>
+            <p className="labelCourseStyle">Matematika</p>
             <div className="flex gap-x-7 ">
               <TextField
                 inputHeight="h-10"
@@ -233,7 +230,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
             </div>
           </div>
           <div className="flex items-center gap-x-5 lg:gap-x-10 my-auto">
-            <p className={labelCourseStyle}>B.Indonesia </p>
+            <p className="labelCourseStyle">B.Indonesia </p>
             <div className="flex gap-x-7 ml-1">
               <TextField
                 inputHeight="h-10"
@@ -278,7 +275,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
             </div>
           </div>
           <div className="flex items-center gap-x-6 lg:gap-x-14 my-auto">
-            <p className={labelCourseStyle}>B.inggris</p>
+            <p className="labelCourseStyle">B.inggris</p>
             <div className="flex gap-x-7 ml-3">
               <TextField
                 inputHeight="h-10"
@@ -325,7 +322,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
           </div>
           <div className="flex lg:gap-x-10 items-center gap-x-8 my-auto w-screen">
             <div className="flex-shrink-0">
-              <p className={labelCourseStyle}>Rata-rata</p>
+              <p className="labelCourseStyle">Rata-rata</p>
             </div>
             <div className="lg:w-3/5 w-screen lg:ml-4 lg:pl-1 lg:pr-16">
               <TextField
@@ -342,7 +339,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
           </div>
           <div className="flex items-center lg:gap-x-4 w-96 my-auto">
             <div className="flex-shrink-0">
-              <p className={labelCourseStyle}>Upload Rapor</p>
+              <p className="labelCourseStyle">Upload Rapor</p>
             </div>
             <div className="flex gap-x-0 lg:gap-x-11 ml-2 lg:ml-1 w-80%">
               <UploadField
@@ -388,7 +385,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
           Skor SNBT
         </h1>
         <section className="w-5/6 flex px-2 py-6 gap-y-4 mx-auto flex-col  justify-center  lg:w-full  ">
-          <div className={labelUTBKStyle}>
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
             <p className="font-bold text-sm md:text-base">Penalaran Umum</p>
             <TextField
               inputHeight="h-10"
@@ -401,7 +398,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               disabled={isDisabled || student?.utbk ? true : false}
             />
           </div>
-          <div className={labelUTBKStyle}>
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
             <p className="font-bold text-sm md:text-base">Kemampuan Kuantitatif</p>
             <TextField
               inputHeight="h-10"
@@ -414,7 +411,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               disabled={isDisabled || student?.utbk ? true : false}
             />
           </div>
-          <div className={labelUTBKStyle}>
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
             <p className="font-bold text-sm md:text-base text-left">
               Pengetahuan dan Pemahaman Umum
             </p>
@@ -429,7 +426,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               disabled={isDisabled || student?.utbk ? true : false}
             />
           </div>
-          <div className={labelUTBKStyle}>
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
             <p className="font-bold text-sm md:text-base text-left">
               Kemampuan Memahami Bacaan dan Menulis
             </p>
@@ -446,7 +443,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
           </div>
         </section>
         <section className="w-5/6 flex px-2 py-6 gap-y-4 mx-auto flex-col  justify-center   lg:w-full">
-          <div className={labelUTBKStyle}>
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
             <p className="font-bold text-sm md:text-base">Rata-Rata Skor :</p>
             <TextField
               inputHeight="h-10"
@@ -459,12 +456,11 @@ export const DataNilaiSection: FC = (): ReactElement => {
               disabled={isDisabled || student?.utbk ? true : false}
             />
           </div>
-          <div className={labelUTBKStyle}>
+          <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
             <p className="flex-shrink-0 mr-5 font-bold text-sm md:text-base">Sertifikat UTBK : </p>
             <UploadField control={control} name="UTBK" variant="default" preview={false} />
           </div>
         </section>
-
         <div className="flex w-5/6 lg:w-3/5 justify-end p-4 mt-8">
           <Button
             type="submit"

@@ -17,8 +17,8 @@ export const UploadField: FC<TUploadFile> = (props): ReactElement => {
       "hidden opacity-0 ": props.variant === "custom",
     },
   );
-  const labelFileVariants = clsx("text-[50%] lg:text-base cursor-pointer text-center", {
-    "text-primary-white bg-primary-green w-[20vw] md:w-[29vw] lg:w-[22vw] 2xl:w-[18vw] xl:w-full px-1 py-2 rounded":
+  const labelFileVariants = clsx("text-xs lg:text-base cursor-pointer text-center", {
+    "text-primary-white bg-primary-green w-5/6 md:w-[29vw] lg:w-[22vw] 2xl:w-[18vw] xl:w-full px-1 lg:px-3 py-2 rounded":
       props.labelClassName === "labelText",
     "rounded-full bg-primary-white w-10 h-10 text-primary-green  z-15 absolute bottom-0 right-0 flex items-center justify-center":
       props.labelClassName === "iconUpload",
