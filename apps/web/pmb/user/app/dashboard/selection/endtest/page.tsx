@@ -5,8 +5,8 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Dashboard PMB | Tes Seleksi",
+  description: "Tes Seleksi Dashboard PMB",
 };
 
 const EndTestPage: NextPage = (): ReactElement => <EndTestModule key="endtest" />;
-
 export default EndTestPage;

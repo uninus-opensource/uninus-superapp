@@ -5,6 +5,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "PMB | Beasiswa",
+  description: "Beasiswa PMB",
 };
 
 const BeasiswaPage: NextPage = (): ReactElement => <ModulBeasiswa key="beasiswa" />;

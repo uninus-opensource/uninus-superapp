@@ -5,6 +5,7 @@ import { BeasiswaDashboardModule } from "@uninus/web/modules";
 
 export const metadata: Metadata = {
   title: "Dashboard PMB | Form Data Diri",
+  description: "Form Data Diri Dashboard PMB",
 };
 
 const DashboardBeasiswa: NextPage = (): ReactElement => (
