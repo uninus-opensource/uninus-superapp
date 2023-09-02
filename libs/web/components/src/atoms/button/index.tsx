@@ -51,7 +51,7 @@ export const Button: FC<IButtonProps> = ({
   return props?.href ? (
     <Link role="link" href={`${props?.href}`}>
       <button
-        role="navigation"
+        role="button"
         aria-label="button-component-link"
         data-testid="button"
         {...props}

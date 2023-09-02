@@ -24,7 +24,7 @@ export const HeroBanner: FC<TbannerProps> = ({
     {
       sliderSection: (
         <header
-          className={`bg-center ${backgroundColor} flex justify-center items-center bg-fixed bg-cover lg:w-full xl:h-screen h-auto relative w-full bg-no-repeat bg-blend-overlay`}
+          className={`bg-center ${backgroundColor} flex justify-center items-center bg-fixed bg-cover lg:w-full xl:h-screen h-auto relative w-screen bg-no-repeat bg-blend-overlay`}
           style={{
             backgroundImage: `url(${heroImages})`,
           }}
@@ -83,6 +83,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
+          priority
           className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 h-auto w-full`}
         />
       ),
@@ -95,7 +96,8 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 h-auto w-full`}
+          priority
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 w-full`}
         />
       ),
     },
@@ -107,7 +109,8 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 h-auto w-full`}
+          priority
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 w-full`}
         />
       ),
     },
@@ -119,7 +122,8 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 h-auto w-full`}
+          priority
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 w-full`}
         />
       ),
     },

@@ -17,7 +17,7 @@ import Link from "next/link";
 
 export const Footer: FC = (): ReactElement => {
   return (
-    <footer role="navigation" className="w-full h-footerHeight">
+    <footer data-testid="footer" className="w-full h-footerHeight">
       {/* frame1 */}
       <section className="h-[300px] bg-secondary-green-4 z-10 flex flex-col">
         {/* backgroundImage */}
