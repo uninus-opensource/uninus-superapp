@@ -83,7 +83,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          priority
+          loading="lazy"
           className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 h-auto w-full`}
         />
       ),
@@ -96,7 +96,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          priority
+          loading="lazy"
           className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 w-full`}
         />
       ),
@@ -109,7 +109,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          priority
+          loading="lazy"
           className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 w-full`}
         />
       ),
@@ -122,7 +122,7 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          priority
+          loading="lazy"
           className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 w-full`}
         />
       ),
