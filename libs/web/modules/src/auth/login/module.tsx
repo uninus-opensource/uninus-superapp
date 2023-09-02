@@ -396,14 +396,14 @@ export const LoginTracerAlumni: FC = (): ReactElement => {
   });
   return (
     <section
-      key="auth-admin-keuangan"
+      key="auth-tracer-alumni"
       className="w-full min-h-screen bg-[url(/illustrations/bg-auth-keuangan.webp)] bg-center bg-no-repeat bg-primary-green bg-blend-overlay"
     >
       <div className="w-full h-screen flex justify-center items-center backdrop-blur-sm">
-        <form className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6">
+        <form className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-8 px-10 lg:px-14 flex flex-col items-center justify-center gap-y-6">
           <figure className="w-full flex items-center justify-between mb-6 lg:mb-2">
             <Image
-              className="relative w-1/3 "
+              className="relative w-[45%] "
               src={"/illustrations/dark-neo-uninus.webp"}
               alt="image"
               width={130}
@@ -419,8 +419,9 @@ export const LoginTracerAlumni: FC = (): ReactElement => {
           </figure>
           <div className="w-full">
             <div className="w-full text-center items-center flex flex-col justify-center font-extrabold text-sm lg:text-xl mb-6">
-              <h1>PORTAL</h1>
-              <h1>Tracer Alumni</h1>
+              <div className="w-1/2">
+                <h1 className="text-md font-bold">Selamat Datang Di Tracer Alumni</h1>
+              </div>
             </div>
             <TextField
               name="email"
@@ -446,21 +447,6 @@ export const LoginTracerAlumni: FC = (): ReactElement => {
             />
           </div>
           <div className="flex flex-col xl:gap-y-6 lg:gap-y-2 gap-y-5 w-full">
-            <div className="flex justify-between md:justify-around lg:justify-between">
-              <CheckBox
-                name="aggreement"
-                control={control}
-                label="Ingat saya"
-                variant="primary"
-                size="md"
-              />
-              <Link
-                href=""
-                className="text-grayscale-4 hover:text-grayscale-6 duration-300 text-[12px]"
-              >
-                Lupa password ?
-              </Link>
-            </div>
             <div className="flex justify-center">
               <Button
                 // loading={isLoading}
