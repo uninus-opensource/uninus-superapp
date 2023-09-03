@@ -5,7 +5,7 @@ export class CreateUserSwagger {
   public email!: string;
 
   @ApiProperty()
-  public nik!: string;
+  public phone_number!: string;
 
   @ApiProperty()
   public fullname!: string;

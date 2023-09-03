@@ -89,7 +89,7 @@ export const disabilitiesDataDiri = {
 
 export const occupationS2S3 = {
   occupation_id: 0,
-  occupation_position_id: 0,
+  occupation_position_id: null as unknown as number,
   company_name: "",
   salary_id: 0,
   company_address: "",
@@ -126,7 +126,7 @@ export const studentGuardianData = {
   guardian_status_id: 0,
   guardian_education_id: 0,
   guardian_occupation_id: 0,
-  guardian_position_id: 0,
+  guardian_position_id: null as unknown as number,
   guardian_salary_id: 0,
   guardian_address: null,
   guardian_province_id: 0,

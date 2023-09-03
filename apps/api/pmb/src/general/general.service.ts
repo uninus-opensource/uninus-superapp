@@ -1,4 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { RpcException } from "@nestjs/microservices";
 import { PrismaService } from "@uninus/api/models";
 import {
   TCitizenshipResponse,
@@ -32,15 +33,19 @@ import {
   TEducationMajorResponse,
   IEducationTypeRequest,
   ISelectionRequest,
+  TCountryResponse,
+  ICountryRequest,
+  IRegistransRequest,
 } from "@uninus/entities";
 
 @Injectable()
 export class GeneralService {
   constructor(private prisma: PrismaService) {}
 
-  async getDegreeProgram({ search }: ISelectRequest): Promise<TDegreeProgramResponse> {
+  async getDegreeProgram({ search, id }: ISelectRequest): Promise<TDegreeProgramResponse> {
     const degreeProgram = await this.prisma.degreeProgram.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: {
           ...(search && { contains: search }),
           mode: "insensitive",
@@ -68,9 +73,11 @@ export class GeneralService {
   async getFaculty({
     search,
     degree_program_id,
+    id,
   }: ISelectFacultyRequest): Promise<TFacultyResponse> {
     const faculty = await this.prisma.faculty.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
 
         ...(degree_program_id && {
@@ -94,9 +101,11 @@ export class GeneralService {
     search,
     faculty_id,
     degree_program_id,
+    id,
   }: ISelectDepartmentRequest): Promise<TDepartmentResponse> {
     const department = await this.prisma.department.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
         ...(faculty_id && { faculty_id: Number(faculty_id) }),
         ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
@@ -114,9 +123,10 @@ export class GeneralService {
     return { department };
   }
 
-  async getReligion({ search }: ISelectRequest): Promise<TReligionResponse> {
+  async getReligion({ search, id }: ISelectRequest): Promise<TReligionResponse> {
     const religion = await this.prisma.religion.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -132,9 +142,10 @@ export class GeneralService {
     return { religion };
   }
 
-  async getMaritalStatus({ search }: ISelectRequest): Promise<TMaritalStatusResponse> {
+  async getMaritalStatus({ search, id }: ISelectRequest): Promise<TMaritalStatusResponse> {
     const maritalStatus = await this.prisma.maritalStatus.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -150,9 +161,10 @@ export class GeneralService {
     return { maritalStatus };
   }
 
-  async getGender({ search }: ISelectRequest): Promise<TGenderResponse> {
+  async getGender({ search, id }: ISelectRequest): Promise<TGenderResponse> {
     const gender = await this.prisma.gender.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -168,9 +180,10 @@ export class GeneralService {
     return { gender };
   }
 
-  async getCitizenship({ search }: ISelectRequest): Promise<TCitizenshipResponse> {
+  async getCitizenship({ search, id }: ISelectRequest): Promise<TCitizenshipResponse> {
     const citizenship = await this.prisma.citizenship.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -186,10 +199,14 @@ export class GeneralService {
     return { citizenship };
   }
 
-  async getSelectionPath({ search, id, degree_program_id }: ISelectionRequest): Promise<TSelectionResponse> {
+  async getSelectionPath({
+    search,
+    id,
+    degree_program_id,
+  }: ISelectionRequest): Promise<TSelectionResponse> {
     const selection = await this.prisma.selectionPath.findMany({
       where: {
-        id: id && Number(id),
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
         degree_program_id: degree_program_id && Number(degree_program_id),
       },
@@ -206,9 +223,10 @@ export class GeneralService {
     return { selection };
   }
 
-  async getSalary({ search }: ISelectRequest): Promise<TSalaryResponse> {
+  async getSalary({ search, id }: ISelectRequest): Promise<TSalaryResponse> {
     const salary = await this.prisma.salary.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -227,9 +245,11 @@ export class GeneralService {
   async getEducation({
     search,
     npsn,
+    id,
   }: ISelectEducationHistoryRequest): Promise<TEducationHistoryResponse> {
     const education = await this.prisma.education.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
         npsn: { ...(npsn && { contains: npsn }) },
       },
@@ -251,9 +271,10 @@ export class GeneralService {
     return { education: education };
   }
 
-  async getOccupation({ search }: ISelectRequest): Promise<TOccupationResponse> {
+  async getOccupation({ search, id }: ISelectRequest): Promise<TOccupationResponse> {
     const occupation = await this.prisma.occupation.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -271,9 +292,11 @@ export class GeneralService {
   async getOccupationPosition({
     search,
     occupation_id,
+    id,
   }: IOccupationPositionRequest): Promise<TOccupationPositionResponse> {
     const occupationPosition = await this.prisma.occupationPosition.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
         ...(occupation_id && { occupation_id: Number(occupation_id) }),
       },
@@ -289,9 +312,10 @@ export class GeneralService {
     return { occupation_position: occupationPosition };
   }
 
-  async getDisabilites({ search }: ISelectRequest): Promise<TDisabilitiesResponse> {
+  async getDisabilites({ search, id }: ISelectRequest): Promise<TDisabilitiesResponse> {
     const disabilities = await this.prisma.disabilities.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -319,9 +343,10 @@ export class GeneralService {
     return { year };
   }
 
-  async getScholarship({ search }: ISelectRequest): Promise<TScholarshipResponse> {
+  async getScholarship({ search, id }: ISelectRequest): Promise<TScholarshipResponse> {
     const scholarship = await this.prisma.scholarship.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -337,12 +362,16 @@ export class GeneralService {
     return { scholarship };
   }
 
-  async getEducationType({ search, id, degree_program_id }: IEducationTypeRequest): Promise<TSchoolTypeResponse> {
+  async getEducationType({
+    search,
+    id,
+    degree_program_id,
+  }: IEducationTypeRequest): Promise<TSchoolTypeResponse> {
     const educationTypes = await this.prisma.educationTypes.findMany({
       where: {
-        id: id && Number(id),
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
-        degree_program_id: degree_program_id && Number(degree_program_id),
+        ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
       },
       select: {
         id: true,
@@ -418,7 +447,7 @@ export class GeneralService {
   async getParentStatus({ search, id }: ISelectRequest): Promise<TParentStatusResponse> {
     const parentStatus = await this.prisma.parentStatus.findMany({
       where: {
-        id: id && Number(id),
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -437,7 +466,7 @@ export class GeneralService {
   async getParentEducation({ search, id }: ISelectRequest): Promise<TParentEducationResponse> {
     const parentEducation = await this.prisma.parentEducation.findMany({
       where: {
-        id: id && Number(id),
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
       },
       select: {
@@ -456,9 +485,11 @@ export class GeneralService {
   async getEducationMajor({
     search,
     education_type_id,
+    id,
   }: IEducationMajorRequest): Promise<TEducationMajorResponse> {
     const schoolMajorTypes = await this.prisma.educationMajor.findMany({
       where: {
+        ...(id && { id: Number(id) }),
         name: { ...(search && { contains: search }), mode: "insensitive" },
         ...(education_type_id && { education_type_id: Number(education_type_id) }),
       },
@@ -475,14 +506,123 @@ export class GeneralService {
     return { education_major: schoolMajorTypes };
   }
 
-  async getTotalRegistrans(): Promise<TTotalRegistransResponse> {
-    const [total_registrans, accepted_registrans] = await Promise.all([
-      await this.prisma.users.count({
+  async getCountry({ search, citizenship_id, id }: ICountryRequest): Promise<TCountryResponse> {
+    const country = await this.prisma.country.findMany({
+      where: {
+        ...(id && { id: Number(id) }),
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+        ...(citizenship_id && { citizenship_id: Number(citizenship_id) }),
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!country) {
+      throw new NotFoundException("Data Negara Tidak Ditemukan!");
+    }
+
+    return { country };
+  }
+
+  async getTotalRegistrans({
+    filterType,
+    startDate,
+    endDate,
+  }: IRegistransRequest): Promise<TTotalRegistransResponse> {
+    let whereClause: {
+      createdAt?: {
+        gte?: Date;
+        lte?: Date;
+      };
+    } = {};
+
+    if (filterType) {
+      switch (filterType) {
+        case "weekly": {
+          const now = new Date();
+          const today = now.getUTCDay();
+          const weekStart = new Date(now);
+          weekStart.setUTCDate(now.getUTCDate() - today);
+          weekStart.setUTCHours(0, 0, 0, 0);
+          const weekEnd = new Date(weekStart);
+          weekEnd.setUTCDate(weekStart.getUTCDate() + 6);
+          weekEnd.setUTCHours(23, 59, 59, 999);
+
+          whereClause = {
+            createdAt: {
+              gte: weekStart,
+              lte: weekEnd,
+            },
+          };
+          break;
+        }
+
+        case "monthly": {
+          const currentDate = new Date();
+          const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+          const endOfMonth = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() + 1,
+            0,
+            23,
+            59,
+            59,
+            999,
+          );
+
+          whereClause = {
+            createdAt: {
+              gte: startOfMonth,
+              lte: endOfMonth,
+            },
+          };
+          break;
+        }
+
+        case "yearly": {
+          const currentYear = new Date().getFullYear();
+          const startOfYear = new Date(currentYear, 0, 1);
+          const endOfYear = new Date(currentYear, 11, 31, 23, 59, 59, 999);
+
+          whereClause = {
+            createdAt: {
+              gte: startOfYear,
+              lte: endOfYear,
+            },
+          };
+          break;
+        }
+
+        case "range": {
+          if (!startDate || !endDate) {
+            throw new RpcException("startDate dan endDate wajib diisi ketika memilih filter range");
+          }
+
+          whereClause = {
+            createdAt: {
+              gte: new Date(`${startDate}T00:00:00Z`),
+              lte: new Date(`${endDate}T23:59:59Z`),
+            },
+          };
+          break;
+        }
+
+        default: {
+          throw new RpcException("Invalid tipe filter");
+        }
+      }
+    }
+
+    const [total_registrans, accepted_registrans, usersByDate] = await Promise.all([
+      this.prisma.users.count({
         select: {
           _all: true,
         },
+        where: whereClause,
       }),
-      await this.prisma.pMB.findMany({
+      this.prisma.pMB.findMany({
         where: {
           registration_status: {
             name: {
@@ -492,10 +632,13 @@ export class GeneralService {
           },
         },
       }),
+      this.prisma.users.findMany({
+        where: whereClause,
+      }),
     ]);
 
-    if (!accepted_registrans && !total_registrans) {
-      throw new NotFoundException("Data tidak ditemukan");
+    if (!accepted_registrans && !usersByDate.length) {
+      throw new RpcException("Data tidak ditemukan");
     }
 
     return {

@@ -8,17 +8,14 @@ import {
   Put,
   Param,
   Inject,
-  UseFilters
+  UseFilters,
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
 import { ClientProxy } from "@nestjs/microservices";
 import { firstValueFrom } from "rxjs";
-import {
-  TCreateQuestionRequest,
-  TUpdateQuestionRequest,
-} from "@uninus/entities";
+import { TCreateQuestionRequest, TUpdateQuestionRequest } from "@uninus/entities";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
-
+import { string } from "zod";
 
 @Controller()
 @ApiTags("Select")
@@ -34,8 +31,8 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   async getProvince(@Query("search") search: string, @Query("id") id: number) {
-      const response = await firstValueFrom(this.client.send("get_province", { search, id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_province", { search, id }));
+    return response;
   }
 
   @Get("city")
@@ -48,9 +45,15 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "province_id", required: false })
-  async getCity(@Query("id") id: number,@Query("province_id") province_id: string, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_city", { province_id, search, id }));
-      return response;
+  async getCity(
+    @Query("id") id: number,
+    @Query("province_id") province_id: string,
+    @Query("search") search: string,
+  ) {
+    const response = await firstValueFrom(
+      this.client.send("get_city", { province_id, search, id }),
+    );
+    return response;
   }
 
   @Get("subdistrict")
@@ -63,11 +66,15 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "city_id", required: false })
-  async getSubDistrict(@Query("id") id: number,@Query("city_id") city_id: string, @Query("search") search: string) {
-      const response = await firstValueFrom(
-        this.client.send("get_subdistrict", { city_id, search, id }),
-      );
-      return response;
+  async getSubDistrict(
+    @Query("id") id: number,
+    @Query("city_id") city_id: string,
+    @Query("search") search: string,
+  ) {
+    const response = await firstValueFrom(
+      this.client.send("get_subdistrict", { city_id, search, id }),
+    );
+    return response;
   }
 
   @Get("degree-program")
@@ -79,9 +86,9 @@ export class SelectController {
   })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
-  async getDegreeProgram(@Query("search") search: string, @Query('id') id: number) {
-      const response = await firstValueFrom(this.client.send("get_degree", { search, id }));
-      return response;
+  async getDegreeProgram(@Query("search") search: string, @Query("id") id: number) {
+    const response = await firstValueFrom(this.client.send("get_degree", { search, id }));
+    return response;
   }
 
   @Get("faculty")
@@ -99,10 +106,10 @@ export class SelectController {
     @Query("search") search: string,
     @Query("degree_program_id") degree_program_id: number,
   ) {
-      const response = await firstValueFrom(
-        this.client.send("get_faculty", { search, degree_program_id, id }),
-      );
-      return response;
+    const response = await firstValueFrom(
+      this.client.send("get_faculty", { search, degree_program_id, id }),
+    );
+    return response;
   }
 
   @Get("department")
@@ -112,6 +119,7 @@ export class SelectController {
     status: 400,
     description: "Department Not Found",
   })
+  @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "faculty_id", required: false })
   @ApiQuery({ name: "degree_program_id", required: false })
@@ -121,10 +129,10 @@ export class SelectController {
     @Query("faculty_id") faculty_id: string,
     @Query("degree_program_id") degree_program_id: string,
   ) {
-      const response = await firstValueFrom(
-        this.client.send("get_department", { search, faculty_id, degree_program_id, id }),
-      );
-      return response;
+    const response = await firstValueFrom(
+      this.client.send("get_department", { search, faculty_id, degree_program_id, id }),
+    );
+    return response;
   }
 
   @Get("religion")
@@ -137,8 +145,8 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   async getReligion(@Query("id") id: number, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_religion", { search, id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_religion", { search, id }));
+    return response;
   }
 
   @Get("marital-status")
@@ -151,8 +159,8 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   async getMaritalStatus(@Query("id") id: number, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_marital_status", { search, id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_marital_status", { search, id }));
+    return response;
   }
 
   @Get("gender")
@@ -165,8 +173,8 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   async getGender(@Query("id") id: number, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_gender", { search, id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_gender", { search, id }));
+    return response;
   }
 
   @Get("citizenship")
@@ -179,8 +187,8 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   async getCitizenship(@Query("id") id: number, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_citizenship", { search, id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_citizenship", { search, id }));
+    return response;
   }
 
   @Get("selection-path")
@@ -193,11 +201,15 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "degree_program_id", required: false })
-  async getSelectionPath(@Query("id") id: number,
-  @Query("search") search: string,
-  @Query("degree_program_id") degree_program_id: number,) {
-      const response = await firstValueFrom(this.client.send("get_selection_path", { search, id, degree_program_id }));
-      return response;
+  async getSelectionPath(
+    @Query("id") id: number,
+    @Query("search") search: string,
+    @Query("degree_program_id") degree_program_id: number,
+  ) {
+    const response = await firstValueFrom(
+      this.client.send("get_selection_path", { search, id, degree_program_id }),
+    );
+    return response;
   }
 
   @Get("salary")
@@ -210,8 +222,8 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   async getSalary(@Query("id") id: number, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_salary", { search, id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_salary", { search, id }));
+    return response;
   }
 
   @Get("education")
@@ -224,11 +236,15 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "npsn", required: false })
-  async getEducationHistory(@Query("id") id: number, @Query("search") search: string, @Query("npsn") npsn: string) {
-      const response = await firstValueFrom(
-        this.client.send("get_education_history", { search, npsn, id }),
-      );
-      return response;
+  async getEducationHistory(
+    @Query("id") id: number,
+    @Query("search") search: string,
+    @Query("npsn") npsn: string,
+  ) {
+    const response = await firstValueFrom(
+      this.client.send("get_education_history", { search, npsn, id }),
+    );
+    return response;
   }
 
   @Get("country")
@@ -241,9 +257,15 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "citizenship_id", required: false })
-  async getCountry(@Query("id") id: number, @Query("search") search: string, @Query("citizenship_id") citizenship_id: string,) {
-      const response = await firstValueFrom(this.client.send("get_country", { search, citizenship_id, id  }));
-      return response;
+  async getCountry(
+    @Query("id") id: number,
+    @Query("search") search: string,
+    @Query("citizenship_id") citizenship_id: string,
+  ) {
+    const response = await firstValueFrom(
+      this.client.send("get_country", { search, citizenship_id, id }),
+    );
+    return response;
   }
 
   @Get("occupation")
@@ -256,8 +278,8 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   async getOccupation(@Query("id") id: number, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_occupation", { search, id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_occupation", { search, id }));
+    return response;
   }
 
   @Get("occupation-position")
@@ -275,10 +297,10 @@ export class SelectController {
     @Query("search") search: string,
     @Query("occupation_id") occupation_id: string,
   ) {
-      const response = await firstValueFrom(
-        this.client.send("get_occupation_position", { search, occupation_id, id }),
-      );
-      return response;
+    const response = await firstValueFrom(
+      this.client.send("get_occupation_position", { search, occupation_id, id }),
+    );
+    return response;
   }
 
   @Get("disabilities")
@@ -291,8 +313,8 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   async getDisablities(@Query("id") id: number, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_dissabilities", { search, id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_dissabilities", { search, id }));
+    return response;
   }
 
   @Get("year-graduate")
@@ -303,8 +325,8 @@ export class SelectController {
     description: "Year Graduate Not Found",
   })
   async getYearGraduate() {
-      const response = await firstValueFrom(this.client.send("get_year_graduate", {}));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_year_graduate", {}));
+    return response;
   }
 
   @Get("scholarship")
@@ -317,8 +339,8 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   async getScholarship(@Query("id") id: number, @Query("search") search: string) {
-      const response = await firstValueFrom(this.client.send("get_scholarship", { search, id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_scholarship", { search, id }));
+    return response;
   }
 
   @Get("education-type")
@@ -331,9 +353,15 @@ export class SelectController {
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "degree_program_id", required: false })
-  async getSchoolType(@Query("id") id: number, @Query("search") search: string, @Query("degree_program_id") degree_program_id: number,) {
-      const response = await firstValueFrom(this.client.send("get_education_type", { search, id, degree_program_id}));
-      return response;
+  async getSchoolType(
+    @Query("id") id: number,
+    @Query("search") search: string,
+    @Query("degree_program_id") degree_program_id: number,
+  ) {
+    const response = await firstValueFrom(
+      this.client.send("get_education_type", { search, id, degree_program_id }),
+    );
+    return response;
   }
 
   @Get("questions")
@@ -344,8 +372,8 @@ export class SelectController {
     description: "Internal Server Error",
   })
   async getAllQuestions() {
-      const response = await firstValueFrom(this.client.send("get_question", {}));
-      return response;
+    const response = await firstValueFrom(this.client.send("get_question", {}));
+    return response;
   }
 
   @Post("create-question")
@@ -356,10 +384,8 @@ export class SelectController {
     description: "Internal Server Error",
   })
   async createQuestion(@Body() createQuestion: TCreateQuestionRequest) {
-      const response = await firstValueFrom(
-        this.client.send("create_question", { createQuestion }),
-      );
-      return response;
+    const response = await firstValueFrom(this.client.send("create_question", { createQuestion }));
+    return response;
   }
 
   @Put("update-question/:id")
@@ -373,10 +399,10 @@ export class SelectController {
     @Param("id") id: string,
     @Body() updateQuestion: TUpdateQuestionRequest,
   ) {
-      const response = await firstValueFrom(
-        this.client.send("update_question", { id, updateQuestion }),
-      );
-      return response;
+    const response = await firstValueFrom(
+      this.client.send("update_question", { id, updateQuestion }),
+    );
+    return response;
   }
 
   @Delete("delete-question/:id")
@@ -387,8 +413,8 @@ export class SelectController {
     description: "Internal Server Error",
   })
   async deleteQuestionById(@Param("id") id: string) {
-      const response = await firstValueFrom(this.client.send("delete_question", { id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("delete_question", { id }));
+    return response;
   }
 
   @Get("parent-status")
@@ -399,8 +425,8 @@ export class SelectController {
   })
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
-  async getParentStatus(@Query("id") id: number,@Query("search") search: string) {
-    const response = await firstValueFrom(this.client.send("get_parent_status", { search, id}));
+  async getParentStatus(@Query("id") id: number, @Query("search") search: string) {
+    const response = await firstValueFrom(this.client.send("get_parent_status", { search, id }));
     return response;
   }
 
@@ -413,8 +439,16 @@ export class SelectController {
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "education_type_id", required: false })
   @ApiQuery({ name: "id", required: false })
-  async getSchoolMajor(@Query("id") id: number, @Query("search") search: string, @Query("education_type_id") education_type_id: string) {
-    const response = await this.client.send("get_education_major", { search, education_type_id, id });
+  async getSchoolMajor(
+    @Query("id") id: number,
+    @Query("search") search: string,
+    @Query("education_type_id") education_type_id: string,
+  ) {
+    const response = await this.client.send("get_education_major", {
+      search,
+      education_type_id,
+      id,
+    });
     return response;
   }
 
@@ -433,9 +467,22 @@ export class SelectController {
 
   @Get("registrans")
   @ApiOperation({ summary: "Get Total Registrans" })
-  async getRegistrans() {
-    const response = await firstValueFrom(this.client.send("get_registrans", {}));
+  @ApiResponse({
+    status: 500,
+    description:
+      "Invalid tipe filter atau startDate dan endDate wajib diisi ketika memilih filter range",
+  })
+  @ApiQuery({ name: "filterType", required: false })
+  @ApiQuery({ name: "startDate", required: false })
+  @ApiQuery({ name: "endDate", required: false })
+  async getRegistrans(
+    @Query("filterType") filterType: string,
+    @Query("startDate") startDate: string,
+    @Query("endDate") endDate: string,
+  ) {
+    const response = await firstValueFrom(
+      this.client.send("get_registrans", { filterType, startDate, endDate }),
+    );
     return response;
   }
-
 }

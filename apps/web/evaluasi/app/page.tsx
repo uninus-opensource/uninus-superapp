@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const LandingPage: NextPage = (): ReactElement => (
   <section key="landing-page">
-    <h1 className="text-primary-green">Hallo Ini Web Evaluasi</h1>
+    <h1>Ini evaluasi</h1>
   </section>
 );
 export default LandingPage;
