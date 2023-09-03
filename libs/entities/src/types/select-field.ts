@@ -118,7 +118,7 @@ export type TCitizenshipResponse = {
   }>;
 };
 
-export interface ISelectionRequest extends ISelectRequest{
+export interface ISelectionRequest extends ISelectRequest {
   degree_program_id: string;
 }
 
@@ -276,3 +276,9 @@ export type TTotalRegistransResponse = {
   unpaids: number;
   accepted_registrans: number;
 };
+
+export interface IRegistransRequest {
+  filterType?: string;
+  startDate?: string;
+  endDate?: string;
+}
