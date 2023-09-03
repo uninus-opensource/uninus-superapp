@@ -541,7 +541,6 @@ export class GeneralService {
     if (filterType) {
       switch (filterType) {
         case "weekly": {
-          // Variable declarations inside block-scoped curly braces
           const now = new Date();
           const today = now.getUTCDay();
           const weekStart = new Date(now);
@@ -561,7 +560,6 @@ export class GeneralService {
         }
 
         case "monthly": {
-          // Variable declarations inside block-scoped curly braces
           const currentDate = new Date();
           const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
           const endOfMonth = new Date(
@@ -584,7 +582,6 @@ export class GeneralService {
         }
 
         case "yearly": {
-          // Variable declarations inside block-scoped curly braces
           const currentYear = new Date().getFullYear();
           const startOfYear = new Date(currentYear, 0, 1);
           const endOfYear = new Date(currentYear, 11, 31, 23, 59, 59, 999);
@@ -599,7 +596,6 @@ export class GeneralService {
         }
 
         case "range": {
-          // Variable declarations inside block-scoped curly braces
           if (!startDate || !endDate) {
             throw new RpcException("startDate dan endDate wajib diisi ketika memilih filter range");
           }
