@@ -1,5 +1,6 @@
 import { Montserrat } from "next/font/google";
 import "./global.css";
+import { AuthProvider, QueryProvider, RecoilProvider } from "@uninus/web/providers";
 
 export const metadata = {
   title: "Welcome to web/tata-usaha",
@@ -14,7 +15,15 @@ const monserrat = Montserrat({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${monserrat.className}`}>{children}</body>
+      <body className={`${monserrat.className}`}>
+        <AuthProvider>
+          <QueryProvider>
+            <RecoilProvider>
+              <main key="tata-usaha-layout">{children}</main>
+            </RecoilProvider>
+          </QueryProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

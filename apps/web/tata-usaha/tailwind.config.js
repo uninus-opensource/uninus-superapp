@@ -16,6 +16,11 @@ module.exports = {
       },
     },
     colors: {
+      cover: {
+        primary: {
+          green: "rgba(0, 150, 71, 0.7)",
+        },
+      },
       primary: {
         green: "#009647",
         yellow: "#F8BF02",

@@ -1,7 +1,13 @@
-export default async function Index() {
-  return (
-    <main>
-      <h1 className="text-[2rem] ml-5 mt-3 ">Welcome tata usaha 🚀</h1>
-    </main>
-  );
-}
+import { NextPage } from "next";
+import { Metadata } from "next";
+import { ReactElement } from "react";
+import { LoginAdminTataUsahaModule } from "@uninus/web/modules";
+
+export const metadata: Metadata = {
+  title: "Tata Usaha",
+};
+
+const TataUsahaPage: NextPage = (): ReactElement => (
+  <LoginAdminTataUsahaModule key="auth-admin-tata-usaha" />
+);
+export default TataUsahaPage;
