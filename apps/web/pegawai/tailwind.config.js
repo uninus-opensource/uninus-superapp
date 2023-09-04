@@ -52,12 +52,18 @@ module.exports = {
       },
     },
     colors: {
+      cover: {
+        primary: {
+          green: "rgba(0, 150, 71, 0.7)",
+        },
+      },
       primary: {
         green: "#009647",
         yellow: "#F8BF02",
         white: "#FFFFFF",
         orange: "#F78100",
         black: "#000000",
+        surface: "#FAFCFF",
       },
       secondary: {
         green: {
