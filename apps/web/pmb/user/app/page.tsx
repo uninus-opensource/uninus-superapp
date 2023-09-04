@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import { NextPage } from "next";
 import { LandingModule } from "@uninus/web/modules";
 import { Metadata } from "next";
@@ -9,11 +9,13 @@ export const metadata: Metadata = {
 };
 
 const LandingPage: NextPage = (): ReactElement => (
-  <section key="landing-page">
+  <Fragment>
     <Head>
       <link rel="icon" href="/logo.ico" />
     </Head>
-    <LandingModule key="landing" />
-  </section>
+    <section key="landing-page">
+      <LandingModule key="landing" />
+    </section>
+  </Fragment>
 );
 export default LandingPage;

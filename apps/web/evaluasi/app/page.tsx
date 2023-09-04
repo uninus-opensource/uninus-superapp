@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { Fragment, ReactElement } from "react";
 import { NextPage } from "next";
 import { Metadata } from "next";
 import { LoginEvaluasiDosenModule } from "@uninus/web/modules";
@@ -9,11 +9,13 @@ export const metadata: Metadata = {
 };
 
 const LandingPage: NextPage = (): ReactElement => (
-  <section key="login-evaluasi">
+  <Fragment>
     <Head>
       <link rel="icon" href="/logo.ico" />
     </Head>
-    <LoginEvaluasiDosenModule key="auth-admin-evaluasi" />
-  </section>
+    <section key="login-evaluasi">
+      <LoginEvaluasiDosenModule key="auth-admin-evaluasi" />
+    </section>
+  </Fragment>
 );
 export default LandingPage;

@@ -117,14 +117,7 @@ export const LoginUserModule: FC = (): ReactElement => {
           </div>
         </div>
         <div className="flex flex-col xl:gap-y-6 lg:gap-y-2 gap-y-5">
-          <div className="flex justify-between md:justify-around lg:justify-between">
-            <CheckBox
-              name="aggreement"
-              control={control}
-              label="Ingat saya"
-              variant="primary"
-              size="md"
-            />
+          <div className="flex justify-between md:justify-around lg:justify-end">
             <Link
               href="/auth/forgot-password"
               className="text-grayscale-4 hover:text-grayscale-6 duration-300 text-[12px]"
@@ -269,21 +262,6 @@ export const LoginAdminModule: FC = (): ReactElement => {
             />
           </div>
           <div className="flex flex-col xl:gap-y-6 lg:gap-y-2 gap-y-5 w-full">
-            <div className="flex justify-between md:justify-around lg:justify-between">
-              <CheckBox
-                name="aggreement"
-                control={control}
-                label="Ingat saya"
-                variant="primary"
-                size="md"
-              />
-              <Link
-                href=""
-                className="text-grayscale-4 hover:text-grayscale-6 duration-300 text-[12px]"
-              >
-                Lupa password ?
-              </Link>
-            </div>
             <div className="flex justify-center">
               <Button
                 loading={isLoading}
@@ -657,21 +635,6 @@ export const LoginEvaluasiDosenModule: FC = (): ReactElement => {
             />
           </div>
           <div className="flex flex-col xl:gap-y-6 lg:gap-y-2 gap-y-5 w-full">
-            <div className="flex justify-between md:justify-around lg:justify-between">
-              <CheckBox
-                name="aggreement"
-                control={control}
-                label="Ingat saya"
-                variant="primary"
-                size="md"
-              />
-              <Link
-                href=""
-                className="text-grayscale-4 hover:text-grayscale-6 duration-300 text-[12px]"
-              >
-                Lupa password ?
-              </Link>
-            </div>
             <div className="flex justify-center">
               <Button
                 // loading={isLoading}
