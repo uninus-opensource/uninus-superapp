@@ -1,9 +1,14 @@
-const Home = () => {
-  return (
-    <section className="text-2xl font-bold text-red-5">
-      <h1>Hello world from manajemen pegawai</h1>
-    </section>
-  );
+import { ReactElement } from "react";
+import { NextPage } from "next";
+import { Metadata } from "next";
+import { LoginManajemenPegawaiModule } from "@uninus/web/modules";
+
+export const metadata: Metadata = {
+  title: "Login | Manajemen Pegawai",
+  description: "Manajemen Pegawai Login Page",
 };
 
-export default Home;
+const ManajemenPegawaiPage: NextPage = (): ReactElement => (
+  <LoginManajemenPegawaiModule key="auth-manajemen-pegawai" />
+);
+export default ManajemenPegawaiPage;
