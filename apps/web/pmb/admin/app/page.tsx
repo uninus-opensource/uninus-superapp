@@ -6,6 +6,7 @@ import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "PMB-Admin | Masuk",
+  description: "Masuk PMB-Admin",
 };
 
 const LoginPageAdmin: NextPage = (): ReactElement => (

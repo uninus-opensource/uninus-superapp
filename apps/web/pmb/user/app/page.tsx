@@ -6,6 +6,7 @@ import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "PMB | Beranda",
+  description: "Beranda PMB",
 };
 
 const LandingPage: NextPage = (): ReactElement => (

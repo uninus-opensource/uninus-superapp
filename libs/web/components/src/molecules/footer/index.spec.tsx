@@ -11,8 +11,8 @@ jest.mock("next/image", () => MockImage);
 
 describe("Test Footer Content", () => {
   it("Should Defined", () => {
-    const { getByRole } = render(<Footer />);
-    expect(getByRole("footer")).toBeDefined();
+    const { getByTestId } = render(<Footer />);
+    expect(getByTestId("footer")).toBeDefined();
   });
 });
 
