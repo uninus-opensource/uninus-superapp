@@ -265,11 +265,12 @@ export const LoginAdminModule: FC = (): ReactElement => {
             <div className="flex justify-center">
               <Button
                 loading={isLoading}
-                variant="custom"
                 disabled={!isValid}
-                styling="text-xs lg:text-base w-full h-5 xl:h-10"
+                width="w-full"
+                height="lg:h-5 xl:h-auto"
+                variant="green-outline"
               >
-                Masuk
+                Masuk Sekarang
               </Button>
             </div>
             <h2 className="text-[9px] lg:text-xs text-center lg:mt-8">
