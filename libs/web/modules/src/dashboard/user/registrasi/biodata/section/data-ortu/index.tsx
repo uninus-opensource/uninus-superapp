@@ -503,7 +503,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.father_occupation_id || isFatherStatus}
+            disabled={
+              isSubmitted ||
+              !!student?.father_occupation_id ||
+              isFatherStatus ||
+              !!student?.father_status_id
+            }
             status="error"
             message={errors?.father_occupation_id?.message as string}
           />
@@ -555,7 +560,11 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             disabled={
-              isSubmitted || !!student?.father_salary_id || isFatherStatus || isUnemployedFather
+              isSubmitted ||
+              !!student?.father_salary_id ||
+              isFatherStatus ||
+              isUnemployedFather ||
+              !!student?.father_status_id
             }
             status="error"
             message={errors?.father_salary_id?.message as string}
@@ -641,7 +650,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.mother_occupation_id || isMotherStatus}
+            disabled={
+              isSubmitted ||
+              !!student?.mother_occupation_id ||
+              isMotherStatus ||
+              !!student?.mother_status_id
+            }
             status="error"
             message={errors?.mother_occupation_id?.message as string}
           />
@@ -693,7 +707,11 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             disabled={
-              isSubmitted || !!student?.mother_salary_id || isMotherStatus || isUnemployedMother
+              isSubmitted ||
+              !!student?.mother_salary_id ||
+              isMotherStatus ||
+              isUnemployedMother ||
+              !!student?.mother_status_id
             }
             status="error"
             message={errors?.mother_salary_id?.message as string}
@@ -816,7 +834,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             label="Nama Wali"
             inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
             control={control}
-            disabled={isSubmitted || !!student?.guardian_name}
+            disabled={isSubmitted || !!student?.guardian_name || !!student?.mother_name}
           />
           <SelectOption
             name="guardian_status_id"
@@ -835,7 +853,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.guardian_status_id}
+            disabled={isSubmitted || !!student?.guardian_status_id || !!student?.mother_name}
           />
           <SelectOption
             name="guardian_education_id"
@@ -854,7 +872,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.guardian_education_id}
+            disabled={isSubmitted || !!student?.guardian_education_id || !!student?.mother_name}
           />
           <SelectOption
             name="guardian_occupation_id"
@@ -873,7 +891,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            disabled={isSubmitted || !!student?.guardian_occupation_id || isGuardianStatus}
+            disabled={
+              isSubmitted ||
+              !!student?.guardian_occupation_id ||
+              isGuardianStatus ||
+              !!student?.mother_name
+            }
           />
           <SelectOption
             name="guardian_position_id"
@@ -900,7 +923,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                   occupationPositionGuardOptions?.length === 0 ||
                   student?.occupation_position_id
                 ? true
-                : false
+                : false || !!student?.mother_name
             }
             status={"error"}
             size={"md"}
@@ -928,7 +951,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
               isSubmitted ||
               !!student?.guardian_salary_id ||
               isGuardianStatus ||
-              isUnemployedGuardian
+              isUnemployedGuardian ||
+              !!student?.mother_name
             }
           />
         </section>
@@ -954,7 +978,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            disabled={isSubmitted || !!student?.guardian_province_id}
+            disabled={isSubmitted || !!student?.guardian_province_id || !!student?.mother_name}
           />
           <SelectOption
             labels="Kota/Kabupaten"
@@ -972,7 +996,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            disabled={!watch("guardian_province_id") || isSubmitted || !!student?.guardian_city_id}
+            disabled={
+              !watch("guardian_province_id") ||
+              isSubmitted ||
+              !!student?.guardian_city_id ||
+              !!student?.mother_name
+            }
           />
           <SelectOption
             labels="Kecamatan"
@@ -993,7 +1022,10 @@ export const DataOrtuSection: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             disabled={
-              !watch("guardian_city_id") || isSubmitted || !!student?.guardian_subdistrict_id
+              !watch("guardian_city_id") ||
+              isSubmitted ||
+              !!student?.guardian_subdistrict_id ||
+              !!student?.mother_name
             }
           />
 
@@ -1011,7 +1043,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
               inputHeight="h-20"
               inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2"
-              disabled={!guardianAddressSame || isSubmitted || !!student?.guardian_address}
+              disabled={
+                !guardianAddressSame ||
+                isSubmitted ||
+                !!student?.guardian_address ||
+                !!student?.mother_name
+              }
               placeholder={"Masukan Alamat Domisili Wali"}
             />
           </div>
@@ -1024,7 +1061,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               variant="primary"
               size="md"
               onClick={handleGuardianAddressCheckboxChange}
-              disabled={isSubmitted || !!student?.guardian_address}
+              disabled={isSubmitted || !!student?.guardian_address || !!student?.mother_name}
             />
           </div>
         </section>
