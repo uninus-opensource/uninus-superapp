@@ -639,7 +639,7 @@ export class GeneralService {
     ]);
 
     if (!accepted_registrans && !usersByDate.length) {
-      throw new RpcException("Data tidak ditemukan");
+      throw new RpcException("Data not found");
     }
 
     return {
@@ -717,7 +717,7 @@ export class GeneralService {
         }
 
         default: {
-          throw new RpcException("Invalid tipe filter");
+          throw new RpcException("Invalid Type Filter");
         }
       }
     }
@@ -743,7 +743,7 @@ export class GeneralService {
     ]);
 
     if (bachelorCount === 0 && magisterCount === 0 && doctorCount === 0) {
-      throw new RpcException("Tidak ada Data pada filter ini");
+      throw new RpcException("No Data on this filter");
     }
 
     const result = {
