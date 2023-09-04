@@ -76,8 +76,8 @@ export const Navbar: FC = (): ReactElement => {
             height={300}
             quality={100}
             alt="logo-uninus"
-            priority
-            className="w-36 sm:w-30 lg:w-40"
+            loading="lazy"
+            className="w-36 sm:w-30 lg:w-40 h-auto"
           />
         </figure>
         <nav>

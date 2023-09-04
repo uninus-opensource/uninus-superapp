@@ -5,6 +5,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "PMB | Program Studi",
+  description: "Program Studi PMB",
 };
 
 const ProgramStudiPage: NextPage = (): ReactElement => <ProgramStudyModule key="program-studi" />;

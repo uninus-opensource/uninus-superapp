@@ -1,8 +1,8 @@
-import { ReactElement, forwardRef, Ref } from "react";
+import { ReactElement, forwardRef, Ref, useState } from "react";
 import { FieldValues, useController } from "react-hook-form";
 import { TSelectFieldProps, TSelectOption } from "./types";
 import Select, { GroupBase, MultiValue, SelectInstance, SingleValue } from "react-select";
-import { AiFillCheckCircle, AiFillWarning } from "react-icons/ai";
+import { AiFillCheckCircle, AiFillWarning, AiOutlineCaretDown } from "react-icons/ai";
 import { BiSolidErrorCircle } from "react-icons/bi";
 import clsx from "clsx";
 import { SELECT_SIZE, SELECT_STATUS } from "./enum";
@@ -52,6 +52,15 @@ export const SelectOption = forwardRef(
       field.onChange(pay?.value);
     };
 
+    const [dropdown, setDropDown] = useState<boolean>(false);
+    const arrowRender = () => {
+      return (
+        <AiOutlineCaretDown
+          className={`mr-3 text-xl ${dropdown ? "rotate-180" : "rotate-0"} duration-200`}
+        />
+      );
+    };
+
     return (
       <div className="flex flex-col">
         <label className={props.labelClassName ?? labelClassNameClsx}>
@@ -65,6 +74,30 @@ export const SelectOption = forwardRef(
           onChange={handleChange}
           ref={ref}
           isDisabled={props.disabled}
+          onMenuOpen={() => setDropDown(true)}
+          onMenuClose={() => setDropDown(false)}
+          styles={{
+            control: (provided, state) => ({
+              ...provided,
+              backgroundColor: state.isFocused ? "#DEDEDE" : "#F2F2F2",
+              color: "black",
+              border: "0px",
+              outline: "none",
+              boxShadow: "none",
+            }),
+            option: (provided, state) => ({
+              ...provided,
+              backgroundColor: state.isSelected ? "#DEDEDE" : "#F2F2F2",
+              color: "black",
+              boxShadow: "none",
+            }),
+          }}
+          components={{
+            DropdownIndicator: arrowRender,
+            IndicatorSeparator: () => {
+              return null;
+            },
+          }}
         />
         {props.message && (
           <span className={messageClassName}>

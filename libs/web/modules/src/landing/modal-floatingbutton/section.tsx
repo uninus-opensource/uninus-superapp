@@ -12,14 +12,6 @@ import { FaCircleUser } from "react-icons/fa6";
 import { useCheckRegistration } from "./hook";
 import { KartuKelulusan } from "./pdf";
 
-/*
-Untuk cek kelulusan sementara pakai nomor berikut
-3215435543
-3432432453
-3432468090
-4354366788
-5465486799
-*/
 const PDFDownloadLink = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
   {

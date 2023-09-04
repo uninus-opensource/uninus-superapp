@@ -5,6 +5,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Dashboard PMB | Detail Pembayaran",
+  description: "Detail Pembayaran Dashboard PMB",
 };
 
 const DashboardPembayaran: NextPage = (): ReactElement => (
