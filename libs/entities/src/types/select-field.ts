@@ -282,3 +282,19 @@ export interface IRegistransRequest {
   startDate?: string;
   endDate?: string;
 }
+
+export interface IRegistransRequest {
+  filterType?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export type TInterestEducationPrograms = {
+  bachelor: number;
+  magister: number;
+  doctor: number;
+};
+
+export interface IInterestEducationPrograms {
+  filterType?: string;
+}

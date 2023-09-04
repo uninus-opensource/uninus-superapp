@@ -485,4 +485,20 @@ export class SelectController {
     );
     return response;
   }
+
+  @Get("interest-programs")
+  @ApiOperation({ summary: "Get Total Interest Education Program" })
+  @ApiResponse({
+    status: 500,
+    description:
+      "Invalid tipe filter atau startDate dan endDate wajib diisi ketika memilih filter range",
+  })
+  @ApiQuery({ name: "filterType", required: false })
+  async getInterestPrograms(@Query("filterType") filterType: string) {
+    const response = await firstValueFrom(
+      this.client.send("get_interest_education_program", { filterType }),
+    );
+
+    return response;
+  }
 }

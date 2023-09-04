@@ -160,6 +160,7 @@ model PMB {
   average_grade          Float?              @default(0)
   student_grade          StudentGrade[]
   document               Documents?
+  createdAt              DateTime            @default(now())
 }
 
 model RegistrationStatus {
