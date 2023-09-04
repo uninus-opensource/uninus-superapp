@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
 import { ClientProxy } from "@nestjs/microservices";
-import { firstValueFrom } from "rxjs";
+import { filter, firstValueFrom } from "rxjs";
 import { TCreateQuestionRequest, TUpdateQuestionRequest } from "@uninus/entities";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 import { string } from "zod";
@@ -483,6 +483,22 @@ export class SelectController {
     const response = await firstValueFrom(
       this.client.send("get_registrans", { filterType, startDate, endDate }),
     );
+    return response;
+  }
+
+  @Get("interest-programs")
+  @ApiOperation({ summary: "Get Total Interest Education Program" })
+  @ApiResponse({
+    status: 500,
+    description:
+      "Invalid tipe filter atau startDate dan endDate wajib diisi ketika memilih filter range",
+  })
+  @ApiQuery({ name: "filterType", required: false })
+  async getInterestPrograms(@Query("filterType") filterType: string) {
+    const response = await firstValueFrom(
+      this.client.send("get_interest_education_program", { filterType }),
+    );
+
     return response;
   }
 }
