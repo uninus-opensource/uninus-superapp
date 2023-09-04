@@ -10,34 +10,84 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@uninus/api": ["libs/api/index.ts"],
-      "@uninus/api/controllers": ["libs/api/controllers/src/index.ts"],
-      "@uninus/api/filter": ["libs/api/filter/src/index.ts"],
-      "@uninus/api/guard": ["libs/api/guard/src/index.ts"],
-      "@uninus/api/master": ["libs/api/master/src/index.ts"],
-      "@uninus/api/models": ["libs/api/models/src/index.ts"],
-      "@uninus/api/modules": ["libs/api/modules/src/index.ts"],
-      "@uninus/api/services": ["libs/api/services/src/index.ts"],
-      "@uninus/api/strategies": ["libs/api/strategies/src/index.ts"],
-      "@uninus/api/utilities": ["libs/api/utilities/src/index.ts"],
-      "@uninus/api/validator": ["libs/api/validator/src/index.ts"],
-      "@uninus/entities": ["libs/entities/src/index.ts"],
-      "@uninus/my-lib": ["libs/my-lib/src/index.ts"],
-      "@uninus/utilities": ["libs/utilities/src/index.ts"],
-      "@uninus/web/components": ["libs/web/components/src/index.ts"],
-      "@uninus/web/layouts": ["libs/web/layouts/src/index.ts"],
-      "@uninus/web/layouts/server": ["libs/web/layouts/src/server.ts"],
-      "@uninus/web/modules": ["libs/web/modules/src/index.ts"],
-      "@uninus/web/providers": ["libs/web/providers/src/index.ts"],
-      "@uninus/web/services": ["libs/web/services/src/index.ts"],
-      "@uninus/web/utilities": ["libs/web/utilities/src/index.ts"],
-      "@uninus/web/utilities/server": ["libs/web/utilities/src/server.ts"]
+      "@uninus/api": [
+        "libs/api/index.ts"
+      ],
+      "@uninus/api/controllers": [
+        "libs/api/controllers/src/index.ts"
+      ],
+      "@uninus/api/filter": [
+        "libs/api/filter/src/index.ts"
+      ],
+      "@uninus/api/guard": [
+        "libs/api/guard/src/index.ts"
+      ],
+      "@uninus/api/master": [
+        "libs/api/master/src/index.ts"
+      ],
+      "@uninus/api/models": [
+        "libs/api/models/src/index.ts"
+      ],
+      "@uninus/api/modules": [
+        "libs/api/modules/src/index.ts"
+      ],
+      "@uninus/api/services": [
+        "libs/api/services/src/index.ts"
+      ],
+      "@uninus/api/strategies": [
+        "libs/api/strategies/src/index.ts"
+      ],
+      "@uninus/api/utilities": [
+        "libs/api/utilities/src/index.ts"
+      ],
+      "@uninus/api/validator": [
+        "libs/api/validator/src/index.ts"
+      ],
+      "@uninus/entities": [
+        "libs/entities/src/index.ts"
+      ],
+      "@uninus/my-lib": [
+        "libs/my-lib/src/index.ts"
+      ],
+      "@uninus/utilities": [
+        "libs/utilities/src/index.ts"
+      ],
+      "@uninus/web/components": [
+        "libs/web/components/src/index.ts"
+      ],
+      "@uninus/web/layouts": [
+        "libs/web/layouts/src/index.ts"
+      ],
+      "@uninus/web/layouts/server": [
+        "libs/web/layouts/src/server.ts"
+      ],
+      "@uninus/web/modules": [
+        "libs/web/modules/src/index.ts"
+      ],
+      "@uninus/web/providers": [
+        "libs/web/providers/src/index.ts"
+      ],
+      "@uninus/web/services": [
+        "libs/web/services/src/index.ts"
+      ],
+      "@uninus/web/utilities": [
+        "libs/web/utilities/src/index.ts"
+      ],
+      "@uninus/web/utilities/server": [
+        "libs/web/utilities/src/server.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

@@ -1,24 +1,49 @@
 {
   "extends": [
+    "plugin:cypress/recommended",
     "plugin:@nx/react-typescript",
     "next",
     "next/core-web-vitals",
     "../../../../.eslintrc.json"
   ],
-  "ignorePatterns": ["!**/*", ".next/**/*"],
+  "ignorePatterns": [
+    "!**/*",
+    ".next/**/*"
+  ],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "files": [
+        "*.ts",
+        "*.tsx",
+        "*.js",
+        "*.jsx"
+      ],
       "rules": {
-        "@next/next/no-html-link-for-pages": ["error", "apps/web/pmb/user/pages"]
+        "@next/next/no-html-link-for-pages": [
+          "error",
+          "apps/web/pmb/user/pages"
+        ]
       }
     },
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
       "rules": {}
     },
     {
-      "files": ["*.js", "*.jsx"],
+      "files": [
+        "*.js",
+        "*.jsx"
+      ],
+      "rules": {}
+    },
+    {
+      "files": [
+        "*.cy.{ts,js,tsx,jsx}",
+        "cypress/**/*.{ts,js,tsx,jsx}"
+      ],
       "rules": {}
     }
   ],
