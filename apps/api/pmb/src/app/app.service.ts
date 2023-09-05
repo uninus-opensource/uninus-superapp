@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { IUserRequest, IUserResponse, TPaginationArgs } from "@uninus/entities";
+import { IUserRequest, IUserResponse, TPaginationArgs, TUserEmail } from "@uninus/entities";
 import { Prisma, PrismaService } from "@uninus/api/models";
 import { encryptPassword, paginate } from "@uninus/api/utilities";
 
@@ -84,7 +84,7 @@ export class AppService {
       },
     });
     if (!user) {
-      throw new BadRequestException ("User tidak ditemukan", {
+      throw new BadRequestException("User tidak ditemukan", {
         cause: new Error(),
       });
     }
@@ -114,7 +114,7 @@ export class AppService {
       message: `Berhasil delete user`,
     };
   }
-  async getUserEmail(email: string) {
+  async getUserEmail({ email }: TUserEmail) {
     const user = await this.prisma.users.findUnique({
       where: {
         email,
