@@ -14,6 +14,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           <QueryProvider>
             <RecoilProvider>
               <main key="landing-pegawai">{props.children}</main>
+              <div key="modal-landing" id="modal-landing" />
             </RecoilProvider>
           </QueryProvider>
         </AuthProvider>

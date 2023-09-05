@@ -265,11 +265,12 @@ export const LoginAdminModule: FC = (): ReactElement => {
             <div className="flex justify-center">
               <Button
                 loading={isLoading}
-                variant="custom"
                 disabled={!isValid}
-                styling="text-xs lg:text-base w-full h-5 xl:h-10"
+                width="w-full"
+                height="lg:h-5 xl:h-auto"
+                variant="green-outline"
               >
-                Masuk
+                Masuk Sekarang
               </Button>
             </div>
             <h2 className="text-[9px] lg:text-xs text-center lg:mt-8">
@@ -711,6 +712,143 @@ export const LoginEvaluasiDosenModule: FC = (): ReactElement => {
                 variant="elevated"
                 disabled={!isValid}
                 styling="text-xs lg:text-base w-full h-5 xl:h-10"
+              >
+                Masuk
+              </Button>
+            </div>
+            <h2 className="text-[9px] lg:text-xs text-center lg:mt-8">
+              &copy; NEO UNIVERSITAS ISLAM NUSANTARA 2023
+            </h2>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
+};
+
+export const LoginManajemenPegawaiModule: FC = (): ReactElement => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [getError, setError] = useState<string | undefined>(undefined);
+  const router = useRouter();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<TVSLogin & { aggreement?: boolean }>({
+    mode: "all",
+    resolver: zodResolver(VSLogin),
+    defaultValues: {
+      email: "",
+      password: "",
+      aggreement: false,
+    },
+  });
+
+  const onSubmit = handleSubmit(async (data) => {
+    setIsLoading(true);
+    try {
+      const response = await signIn("login", {
+        redirect: false,
+        email: data?.email,
+        password: data?.password,
+      });
+      if (response?.error) {
+        setError(response.error);
+        toast.error(`${response.error}`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      } else {
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  });
+
+  return (
+    <section
+      key="auth-admin-tata-usaha"
+      className="w-full min-h-screen bg-[url(/illustrations/bg-auth-pegawai.webp)] bg-center bg-no-repeat bg-cover-primary-green bg-blend-overlay"
+    >
+      <div className="w-full h-screen flex justify-center items-center backdrop-blur-sm">
+        <form
+          onSubmit={onSubmit}
+          className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-surface rounded-md py-8 px-12 lg:px-14 flex flex-col items-center justify-center gap-y-6"
+        >
+          {getError && (
+            <ToastContainer
+              position="top-center"
+              autoClose={3000}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
+          )}
+          <figure className="w-full flex items-center justify-between mb-6 lg:mb-2">
+            <Image
+              className="relative w-1/3 "
+              src={"/illustrations/dark-neo-uninus.webp"}
+              alt="image"
+              quality={100}
+              width={130}
+              height={130}
+            />
+            <Image
+              className="relative w-1/3 "
+              src={"/illustrations/dark-hybrid-university.webp"}
+              alt="image"
+              quality={100}
+              width={100}
+              height={100}
+            />
+          </figure>
+          <div className="w-full">
+            <div className="w-full text-center items-center flex justify-center font-bold text-sm lg:text-lg mb-6">
+              <h1 className="w-[70%]">PORTAL ADMIN MANAJEMEN PEGAWAI</h1>
+            </div>
+            <TextField
+              name="email"
+              type="email"
+              variant="sm"
+              label="Email"
+              placeholder="Masukan email"
+              control={control}
+              required
+              status={errors?.email ? "error" : undefined}
+              message={errors?.email?.message}
+            />
+            <TextField
+              name="password"
+              type="password"
+              variant="sm"
+              label="Kata Sandi"
+              control={control}
+              placeholder="Masukkan Kata Sandi"
+              required
+              status={errors?.password ? "error" : undefined}
+              message={errors?.password?.message}
+            />
+          </div>
+          <div className="flex flex-col xl:gap-y-6 lg:gap-y-2 gap-y-5 w-full">
+            <div className="flex justify-center">
+              <Button
+                loading={isLoading}
+                variant="elevated"
+                disabled={!isValid}
+                styling="text-xs lg:text-base font-semibold  w-full h-5 xl:h-10"
               >
                 Masuk
               </Button>
