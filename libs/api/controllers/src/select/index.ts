@@ -470,7 +470,7 @@ export class SelectController {
   @ApiResponse({
     status: 500,
     description:
-      "Invalid tipe filter atau startDate dan endDate wajib diisi ketika memilih filter range",
+      "Invalid filter type or startDate and endDate must be filled when selecting a filter range",
   })
   @ApiQuery({ name: "filterType", required: false })
   @ApiQuery({ name: "startDate", required: false })
@@ -483,6 +483,21 @@ export class SelectController {
     const response = await firstValueFrom(
       this.client.send("get_registrans", { filterType, startDate, endDate }),
     );
+    return response;
+  }
+
+  @Get("interest-programs")
+  @ApiOperation({ summary: "Get Total Interest Education Program" })
+  @ApiResponse({
+    status: 500,
+    description: "Invalid Type Filter",
+  })
+  @ApiQuery({ name: "filterType", required: false })
+  async getInterestPrograms(@Query("filterType") filterType: string) {
+    const response = await firstValueFrom(
+      this.client.send("get_interest_education_program", { filterType }),
+    );
+
     return response;
   }
 }

@@ -15,6 +15,7 @@ import {
   ISelectionRequest,
   ICountryRequest,
   IRegistransRequest,
+  IInterestEducationPrograms,
 } from "@uninus/entities";
 
 @Controller()
@@ -143,5 +144,10 @@ export class GeneralController {
   @MessagePattern("get_registrans")
   getRegistrans(payload: IRegistransRequest) {
     return this.appService.getTotalRegistrans(payload);
+  }
+
+  @MessagePattern("get_interest_education_program")
+  getInterestEducationProgram(payload: IInterestEducationPrograms) {
+    return this.appService.getInterestEducationPrograms(payload);
   }
 }

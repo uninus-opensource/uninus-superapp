@@ -33,4 +33,10 @@ describe("Login Page", () => {
     cy.get("button").contains("Masuk Sekarang").click();
     cy.url().should("eq", "localhost:4200/dashboard");
   });
+
+    // Memeriksa apakah login berhasil dengan memverifikasi pengalihan atau pesan keberhasilan
+    cy.url().should("eq", "localhost:4200/dashboard"); // Gantilah dengan URL yang diharapkan setelah login berhasil
+  });
+
+  // Anda dapat menambahkan lebih banyak kasus pengujian untuk penanganan error, validasi, dll.
 });
