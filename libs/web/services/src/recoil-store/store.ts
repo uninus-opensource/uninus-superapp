@@ -11,3 +11,8 @@ export const userState = atom({
   key: "userState",
   default: [] as unknown as IGetUserMeResponse | undefined,
 });
+
+export const userEmail = atom({
+  key: "userEmail",
+  default: "",
+});
