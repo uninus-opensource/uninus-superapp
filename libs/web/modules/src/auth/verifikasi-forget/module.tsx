@@ -3,16 +3,15 @@ import { FC, ReactElement, useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 import { useVerify, useNewOtpRequest } from "./hook";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
 import OtpInput from "react-otp-input";
 import { Button } from "@uninus/web/components";
+import { useUserEmail } from "@uninus/web/services";
 
 export const VerifForgetModule: FC = (): ReactElement => {
-  const searchParams = useSearchParams();
   const [isError, setIsError] = useState(false);
   const { mutate: verify } = useVerify();
   const { mutate: request } = useNewOtpRequest();
-  const email = searchParams.get("email") || "";
+  const { getEmail } = useUserEmail();
   const [otp, setOtp] = useState<string>("");
   const { push } = useRouter();
   const [timer, setTimer] = useState(120);
@@ -28,7 +27,7 @@ export const VerifForgetModule: FC = (): ReactElement => {
     if (otp.length === 6) {
       verify(
         {
-          email: email,
+          email: getEmail,
           otp,
         },
         {
@@ -69,8 +68,8 @@ export const VerifForgetModule: FC = (): ReactElement => {
           <span>PASSWORD?</span>
         </span>
 
-        <p className="text-grayscale-5 lg:text-sm w-60%">
-          {`Masukkan kode OTP yang sudah dikirimkan melalui email ${email}`}
+        <p className="text-grayscale-5 lg:text-sm w-40%">
+          {`Masukkan kode OTP yang sudah dikirimkan melalui email ${getEmail}`}
         </p>
 
         <div className="flex w-full">
@@ -99,7 +98,7 @@ export const VerifForgetModule: FC = (): ReactElement => {
                   <span
                     onClick={() => {
                       setTimer(120);
-                      request({ email: email });
+                      request({ email: getEmail });
                     }}
                     ref={intervalRef}
                     className="text-secondary-green-1 hover:underline underline-offset-4 font-semibold cursor-pointer"

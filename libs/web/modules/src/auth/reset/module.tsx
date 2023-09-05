@@ -6,8 +6,11 @@ import { useReset } from "./hook";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TVSReset, VSReset } from "./schema";
+import { useUserEmail } from "@uninus/web/services";
 
 export const ResetModule: FC = (): ReactElement => {
+  const { getEmail } = useUserEmail();
+
   const {
     control,
     handleSubmit,
@@ -16,7 +19,7 @@ export const ResetModule: FC = (): ReactElement => {
     mode: "all",
     resolver: zodResolver(VSReset),
     defaultValues: {
-      email: "",
+      email: getEmail || "",
       password: "",
       cpassword: "",
     },
@@ -28,7 +31,7 @@ export const ResetModule: FC = (): ReactElement => {
   const onSubmit = handleSubmit((data) => {
     mutate(
       {
-        email: data?.email,
+        email: getEmail,
         password: data?.password,
       },
       {
@@ -55,7 +58,7 @@ export const ResetModule: FC = (): ReactElement => {
             variant="sm"
             placeholder="Masukan email"
             control={control}
-            required
+            disabled={!!getEmail}
             status={errors?.email || isError ? "error" : undefined}
             message={errors?.email?.message || (isError ? "email tidak ditemukan" : undefined)}
           />
@@ -65,7 +68,6 @@ export const ResetModule: FC = (): ReactElement => {
             variant="sm"
             placeholder="Masukan password"
             control={control}
-            required
             status={errors?.password ? "error" : undefined}
             message={errors?.password?.message}
           />
@@ -75,7 +77,6 @@ export const ResetModule: FC = (): ReactElement => {
             variant="sm"
             placeholder="Masukan ulang password"
             control={control}
-            required
             status={errors?.cpassword ? "error" : undefined}
             message={errors?.cpassword?.message}
           />

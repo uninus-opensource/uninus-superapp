@@ -6,6 +6,7 @@ import { useForgot } from "./hook";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TVSForgotPassword, VSForgotPassword } from "@uninus/entities";
+import { useUserEmail } from "@uninus/web/services";
 
 export const ForgotModule: FC = (): ReactElement => {
   const {
@@ -20,6 +21,8 @@ export const ForgotModule: FC = (): ReactElement => {
     },
   });
 
+  const { setEmail } = useUserEmail();
+
   const router = useRouter();
 
   const { mutate, isError } = useForgot();
@@ -30,7 +33,10 @@ export const ForgotModule: FC = (): ReactElement => {
         email: data?.email,
       },
       {
-        onSuccess: () => router.push(`/auth/verifikasi-forget?email=${data?.email}`),
+        onSuccess: () => {
+          setEmail(data?.email);
+          router.push(`/auth/verifikasi-forget`);
+        },
       },
     );
   });

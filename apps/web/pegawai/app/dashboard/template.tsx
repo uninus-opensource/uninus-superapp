@@ -1,15 +1,9 @@
 "use client";
 import { FC, PropsWithChildren, ReactElement } from "react";
 import { SideBar } from "@uninus/web/components";
-import { useLogout, useLogoutToRoot } from "@uninus/web/modules";
+import { useLogoutToRoot } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import { HomeOutlined } from "@ant-design/icons";
-import { Montserrat } from "next/font/google";
-
-const monserrat = Montserrat({
-  subsets: ["latin"],
-  weight: "400",
-});
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { mutate } = useLogoutToRoot();
@@ -24,7 +18,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   ];
 
   return (
-    <main key="main" className={monserrat.className + ` flex w-full min-h-full overflow-x-hidden`}>
+    <main key="main" className={`flex w-full min-h-full overflow-x-hidden`}>
       <SideBar profileName="" profileEmail="" onLogout={handleLogout} sideList={sideLists} />
 
       <section
