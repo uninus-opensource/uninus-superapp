@@ -10,3 +10,8 @@ export type ReturnTypesUserData = {
   setUser: (val: IGetUserMeResponse | undefined) => void;
   getUser: IGetUserMeResponse | undefined;
 };
+
+export type ReturnTypeUserEmail = {
+  setEmail: (val: string) => void;
+  getEmail: string;
+};
