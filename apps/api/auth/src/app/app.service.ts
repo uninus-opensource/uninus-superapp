@@ -212,19 +212,15 @@ export class AppService {
         },
       },
     });
-    if (!user) {
-      throw new RpcException(new UnauthorizedException("Akun Tidak ditemukan"));
+
+    if (!user || !(await comparePassword(args.password as string, user.password))) {
+      throw new RpcException(new UnauthorizedException("Email atau password tidak valid"));
     }
 
     if (!user.isVerified) {
       throw new RpcException(new UnauthorizedException("Email Belum terverifikasi"));
     }
 
-    const isMatch = await comparePassword(args.password as string, user.password);
-
-    if (!isMatch) {
-      throw new RpcException(new UnauthorizedException("Password Salah!"));
-    }
     const { access_token, refresh_token } = await generateToken({
       sub: user.id,
       email: user.email,
