@@ -15,6 +15,7 @@ export default function Layout(props: { children: React.ReactNode }) {
           <QueryProvider>
             <RecoilProvider>
               <main key="tracer-layout">{props.children}</main>
+              <div key="modal-landing" id="modal-landing" />
             </RecoilProvider>
           </QueryProvider>
         </AuthProvider>

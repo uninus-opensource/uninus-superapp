@@ -60,17 +60,11 @@ export const VSDataDiri = z.object({
     message: "Asal Negara harus diisi",
   }),
 
-  province_id: z.any().refine((value) => value, {
-    message: "Provinsi harus diisi",
-  }),
+  province_id: z.string().nullable().optional(),
 
-  city_id: z.any().refine((value) => value, {
-    message: "Kota harus diisi",
-  }),
+  city_id: z.string().nullable().optional(),
 
-  subdistrict_id: z.any().refine((value) => value, {
-    message: "Kecamatan harus diisi",
-  }),
+  subdistrict_id: z.string().nullable().optional(),
 
   address: z.nullable(z.string().nonempty({ message: "Alamat harus diisi" })),
 

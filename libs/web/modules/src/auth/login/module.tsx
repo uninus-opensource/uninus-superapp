@@ -385,6 +385,9 @@ export const LoginAdminKeuanganModule: FC = (): ReactElement => {
   );
 };
 export const LoginTracerAlumni: FC = (): ReactElement => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [getError, setError] = useState<string | undefined>(undefined);
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -398,18 +401,66 @@ export const LoginTracerAlumni: FC = (): ReactElement => {
       aggreement: false,
     },
   });
+
+  const onSubmit = handleSubmit(async (data) => {
+    setIsLoading(true);
+    try {
+      const response = await signIn("login", {
+        redirect: false,
+        email: data?.email,
+        password: data?.password,
+      });
+      if (response?.error) {
+        setError(response.error);
+        toast.error(`${response.error}`, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      } else {
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
+  });
+
   return (
     <section
       key="auth-tracer-alumni"
-      className="w-full min-h-screen bg-[url(/illustrations/bg-auth-keuangan.webp)] bg-center bg-no-repeat bg-primary-green bg-blend-overlay"
+      className="w-full min-h-screen bg-[url(/illustrations/bg-auth-tracer.webp)] bg-center bg-no-repeat  bg-primary-green bg-blend-overlay"
     >
       <div className="w-full h-screen flex justify-center items-center backdrop-blur-sm">
-        <form className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-8 px-10 lg:px-14 flex flex-col items-center justify-center gap-y-6">
+        <form
+          onSubmit={onSubmit}
+          className="w-5/6 md:w-1/2 lg:w-1/3  bg-primary-white rounded-md py-8 px-12 lg:px-14 flex flex-col items-center justify-center gap-y-6"
+        >
+          {getError && (
+            <ToastContainer
+              position="top-center"
+              autoClose={3000}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+            />
+          )}
           <figure className="w-full flex items-center justify-between mb-6 lg:mb-2">
             <Image
-              className="relative w-[45%] "
+              className="relative w-1/3 "
               src={"/illustrations/dark-neo-uninus.webp"}
               alt="image"
+              quality={100}
               width={130}
               height={130}
             />
@@ -417,15 +468,14 @@ export const LoginTracerAlumni: FC = (): ReactElement => {
               className="relative w-1/3 "
               src={"/illustrations/dark-hybrid-university.webp"}
               alt="image"
+              quality={100}
               width={100}
               height={100}
             />
           </figure>
           <div className="w-full">
-            <div className="w-full text-center items-center flex flex-col justify-center font-extrabold text-sm lg:text-xl mb-6">
-              <div className="w-1/2">
-                <h1 className="text-md font-bold">Selamat Datang Di Tracer Alumni</h1>
-              </div>
+            <div className="w-full text-center items-center flex justify-center font-bold text-sm lg:text-lg mb-6">
+              <h1 className="md:w-[45%] w-[70%]">Selamat Datang Di Tracer Alumni</h1>
             </div>
             <TextField
               name="email"
@@ -453,10 +503,10 @@ export const LoginTracerAlumni: FC = (): ReactElement => {
           <div className="flex flex-col xl:gap-y-6 lg:gap-y-2 gap-y-5 w-full">
             <div className="flex justify-center">
               <Button
-                // loading={isLoading}
-                variant="custom"
+                loading={isLoading}
+                variant="elevated"
                 disabled={!isValid}
-                styling="text-xs lg:text-base w-full h-5 xl:h-10"
+                styling="text-xs lg:text-base font-semibold  w-full h-5 xl:h-10"
               >
                 Masuk
               </Button>
