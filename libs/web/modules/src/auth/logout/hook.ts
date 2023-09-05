@@ -15,3 +15,16 @@ export const useLogout = (): UseMutationResult<
     onSuccess: async () => await signOut({ callbackUrl: "/auth/login" }),
   });
 };
+
+export const useLogoutToRoot = (): UseMutationResult<
+  unknown,
+  TMetaErrorResponse,
+  string | undefined,
+  unknown
+> => {
+  return useMutation({
+    mutationKey: ["logout-request"],
+    mutationFn: async (params) => logoutRequest({ refresh_token: params }),
+    onSuccess: async () => await signOut({ callbackUrl: "/" }),
+  });
+};
