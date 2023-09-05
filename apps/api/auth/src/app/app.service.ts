@@ -38,9 +38,7 @@ import { RpcException } from "@nestjs/microservices";
 
 @Injectable()
 export class AppService {
-  constructor(
-    private prisma: PrismaService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
     const { email } = reqUser;
@@ -91,6 +89,24 @@ export class AppService {
     }
     const password = await encryptPassword(data.password);
 
+    const now = new Date();
+    const year = now.getFullYear().toString();
+    const month = (now.getMonth() + 1).toString().padStart(2, "0");
+    const day = now.getDate().toString().padStart(2, "0");
+
+    const lastRegistration = await this.prisma.pMB.findFirst({
+      orderBy: { registration_number: "desc" },
+    });
+
+    let registrationCounter = 1;
+    if (lastRegistration) {
+      registrationCounter = parseInt(lastRegistration.registration_number.substring(8)) + 1;
+    }
+
+    const formattedCounter = registrationCounter.toString().padStart(6, "0");
+
+    const registrationNumber = `${year}${month}${day}${formattedCounter}`;
+
     const createdUser = await this.prisma.users.create({
       data: {
         fullname: data.fullname,
@@ -104,7 +120,7 @@ export class AppService {
             phone_number: `62${data.phone_number}`,
             pmb: {
               create: {
-                registration_number: String(Math.floor(1000000000 + Math.random() * 9000000000)),
+                registration_number: registrationNumber,
                 registration_status_id: 1,
                 student_grade: {
                   createMany: {
@@ -171,7 +187,6 @@ export class AppService {
       throw new RpcException("Gagal Mendaftar");
     }
 
-
     return createdUser;
   }
 
@@ -198,17 +213,17 @@ export class AppService {
       },
     });
     if (!user) {
-      throw new RpcException(new UnauthorizedException("Akun Tidak ditemukan"))
+      throw new RpcException(new UnauthorizedException("Akun Tidak ditemukan"));
     }
 
     if (!user.isVerified) {
-      throw new RpcException(new UnauthorizedException("Email Belum terverifikasi"))
+      throw new RpcException(new UnauthorizedException("Email Belum terverifikasi"));
     }
 
     const isMatch = await comparePassword(args.password as string, user.password);
 
     if (!isMatch) {
-      throw new RpcException(new UnauthorizedException("Password Salah!"))
+      throw new RpcException(new UnauthorizedException("Password Salah!"));
     }
     const { access_token, refresh_token } = await generateToken({
       sub: user.id,
@@ -250,7 +265,7 @@ export class AppService {
     });
 
     if (!result) {
-      throw new RpcException(new UnauthorizedException("Gagal Logout"))
+      throw new RpcException(new UnauthorizedException("Gagal Logout"));
     }
 
     return {
@@ -260,7 +275,7 @@ export class AppService {
 
   async getEmailUser(args: TUserEmail): Promise<TUserEmailResponse> {
     await clearOtp();
-    
+
     const user = await this.prisma.users.findUnique({
       where: {
         email: args.email,
@@ -270,10 +285,10 @@ export class AppService {
       throw new NotFoundException("Akun tidak ditemukan");
     }
 
-    return {id: user.id, email: user.email, fullname: user.fullname};
+    return { id: user.id, email: user.email, fullname: user.fullname };
   }
 
-  async refreshToken({user}: TReqToken): Promise<TResRefreshToken> {
+  async refreshToken({ user }: TReqToken): Promise<TResRefreshToken> {
     const expiresIn = 15 * 60 * 1000;
     const access_token = await generateAccessToken(user);
 
@@ -281,7 +296,7 @@ export class AppService {
     const expirationTime = now + expiresIn;
 
     if (now > expirationTime) {
-      throw new RpcException(new UnauthorizedException("Access Token telah berakhir"))
+      throw new RpcException(new UnauthorizedException("Access Token telah berakhir"));
     }
 
     return {
@@ -314,7 +329,6 @@ export class AppService {
       message: "Berhasil verifikasi OTP",
     };
   }
-
 
   async forgotPassword(data: TForgotPasswordRequest): Promise<TProfileResponse> {
     const user = await this.prisma.users.findUnique({
@@ -366,9 +380,7 @@ export class AppService {
     });
 
     if (!user) {
-      throw new RpcException(
-        new BadRequestException("Gagal mengganti password")
-      );
+      throw new RpcException(new BadRequestException("Gagal mengganti password"));
     }
     return {
       message: "Berhasil mengganti password",
