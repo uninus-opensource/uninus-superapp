@@ -1,4 +1,13 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Request, UseFilters, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Request,
+  UseFilters,
+  UseGuards,
+} from "@nestjs/common";
 import {
   TReqToken,
   VSRegister,
@@ -22,7 +31,7 @@ import {
   verifyOtpSwagger,
   RefreshTokenSwagger,
 } from "@uninus/api/services";
-import {RpcExceptionToHttpExceptionFilter} from '@uninus/api/filter'
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 import { ApiTags, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("auth")
@@ -55,8 +64,7 @@ export class AuthController {
     status: 201,
     description: "Berhasil Login",
   })
-  @ApiResponse({ status: 401, description: "Password salah" })
-  @ApiResponse({ status: 404, description: "Akun Tidak ditemukan" })
+  @ApiResponse({ status: 401, description: "Email atau Password tidak valid" })
   async login(@Body(new ZodValidationPipe(VSLogin)) LoginSwagger: LoginSwagger) {
     return await this.appService.login(LoginSwagger);
   }
@@ -76,7 +84,10 @@ export class AuthController {
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(RtGuard)
   @ApiOperation({ summary: "Refresh Token" })
-  async refresh(@Body('refresh_token') refreshToken: RefreshTokenSwagger, @Request() { user }: TReqToken) {
+  async refresh(
+    @Body("refresh_token") refreshToken: RefreshTokenSwagger,
+    @Request() { user }: TReqToken,
+  ) {
     return this.appService.refreshToken({ user });
   }
 
