@@ -36,6 +36,7 @@ import {
   TCountryResponse,
   ICountryRequest,
   IRegistransRequest,
+  IInterestEducationPrograms,
 } from "@uninus/entities";
 
 @Injectable()
@@ -638,7 +639,7 @@ export class GeneralService {
     ]);
 
     if (!accepted_registrans && !usersByDate.length) {
-      throw new RpcException("Data tidak ditemukan");
+      throw new RpcException("Data not found");
     }
 
     return {
@@ -647,5 +648,110 @@ export class GeneralService {
       unpaids: 0,
       accepted_registrans: accepted_registrans.length,
     };
+  }
+
+  async getInterestEducationPrograms({ filterType }: IInterestEducationPrograms) {
+    let whereClause: {
+      createdAt?: {
+        gte?: Date;
+        lte?: Date;
+      };
+    } = {};
+
+    if (filterType) {
+      switch (filterType) {
+        case "weekly": {
+          const now = new Date();
+          const today = now.getUTCDate();
+          const weekStart = new Date(now);
+          weekStart.setUTCDate(now.getUTCDate() - today);
+          weekStart.setUTCHours(0, 0, 0, 0);
+          const weekEnd = new Date(weekStart);
+          weekEnd.setUTCDate(weekStart.getUTCDate() + 6);
+          weekEnd.setUTCHours(23, 59, 59, 999);
+
+          whereClause = {
+            createdAt: {
+              gte: weekStart,
+              lte: weekEnd,
+            },
+          };
+
+          break;
+        }
+
+        case "monthly": {
+          const currentDate = new Date();
+          const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+          const endOfMonth = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() + 1,
+            0,
+            23,
+            59,
+            59,
+            999,
+          );
+
+          whereClause = {
+            createdAt: {
+              gte: startOfMonth,
+              lte: endOfMonth,
+            },
+          };
+          break;
+        }
+
+        case "yearly": {
+          const currentYear = new Date().getFullYear();
+          const startOfYear = new Date(currentYear, 0, 1);
+          const endOfYear = new Date(currentYear, 11, 31, 23, 59, 59, 999);
+
+          whereClause = {
+            createdAt: {
+              gte: startOfYear,
+              lte: endOfYear,
+            },
+          };
+          break;
+        }
+
+        default: {
+          throw new RpcException("Invalid Type Filter");
+        }
+      }
+    }
+    const [bachelorCount, magisterCount, doctorCount] = await Promise.all([
+      this.prisma.pMB.count({
+        where: {
+          ...whereClause,
+          degree_program_id: 1,
+        },
+      }),
+      this.prisma.pMB.count({
+        where: {
+          ...whereClause,
+          degree_program_id: 2,
+        },
+      }),
+      this.prisma.pMB.count({
+        where: {
+          ...whereClause,
+          degree_program_id: 3,
+        },
+      }),
+    ]);
+
+    if (bachelorCount === 0 && magisterCount === 0 && doctorCount === 0) {
+      throw new RpcException("No Data on this filter");
+    }
+
+    const result = {
+      bachelor: bachelorCount,
+      magister: magisterCount,
+      doctor: doctorCount,
+    };
+
+    return result;
   }
 }
