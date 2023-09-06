@@ -142,7 +142,7 @@
     "@nx/linter": "16.7.4",
     "@nx/nest": "16.7.4",
     "@nx/next": "16.7.4",
-    "@nx/node": "16.7.4",
+    "@nx/node": "16.8.0",
     "@nx/react": "16.7.4",
     "@nx/webpack": "16.7.4",
     "@nx/workspace": "16.7.4",
