@@ -1,6 +1,7 @@
 "use client";
 import { ReactElement, FC } from "react";
 import Table from "./table";
+import { SearchInput } from "@uninus/web/components";
 
 export const ModuleDataAkun: FC = (): ReactElement => {
   return (

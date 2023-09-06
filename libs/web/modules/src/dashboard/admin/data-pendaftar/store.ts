@@ -1,6 +1,6 @@
 import { TDataPendaftar } from "./types";
 
-export const dataAkun: TDataPendaftar[] = [
+export const dataPendaftar: TDataPendaftar[] = [
   {
     name: "Fenny Oktaviani",
     registration_number: "0835667188189",
