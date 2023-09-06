@@ -45,10 +45,10 @@ export class StudentController {
   async graduationStatus(
     @Body(new ZodValidationPipe(VSRegistrationNumber)) registration_number: GraduationStatusSwagger,
   ) {
-      const response = await firstValueFrom(
-        this.client.send("get_graduation_status", { registration_number }),
-      );
-      return response;
+    const response = await firstValueFrom(
+      this.client.send("get_graduation_status", { registration_number }),
+    );
+    return response;
   }
 
   @Get()
@@ -64,9 +64,9 @@ export class StudentController {
   })
   @UseGuards(JwtAuthGuard)
   async getData(@Request() reqToken: TReqToken) {
-      const { sub: id } = reqToken.user;
-      const response = await firstValueFrom(this.client.send("get_student", { id }));
-      return response;
+    const { sub: id } = reqToken.user;
+    const response = await firstValueFrom(this.client.send("get_student", { id }));
+    return response;
   }
 
   @Patch()
@@ -80,23 +80,20 @@ export class StudentController {
   @ApiUnauthorizedResponse({
     description: "Unauthorized",
   })
-  @UseInterceptors(FileInterceptor("avatar"))
   @UseGuards(JwtAuthGuard)
   async updateData(
     @Request() reqToken: TReqToken,
-    @UploadedFile() avatar: TFIle,
     @Body(new ZodValidationPipe(VSUpdateStudent))
     studentData: UpdateStudentSwagger,
   ) {
-      const { sub: id } = reqToken.user;
-      const response = await firstValueFrom(
-        this.client.send("update_student", {
-          id,
-          avatar,
-          ...studentData,
-        }),
-      );
-      return response;
+    const { sub: id } = reqToken.user;
+    const response = await firstValueFrom(
+      this.client.send("update_student", {
+        id,
+        ...studentData,
+      }),
+    );
+    return response;
   }
 
   @Delete("/:id")
@@ -109,8 +106,8 @@ export class StudentController {
   })
   @UseGuards(JwtAuthGuard)
   async deleteDataById(@Param("id") id: string) {
-      const response = await firstValueFrom(this.client.send("delete_student", { id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("delete_student", { id }));
+    return response;
   }
 
   @Patch("/:id")
@@ -121,18 +118,16 @@ export class StudentController {
     status: 400,
     description: "User tidak ditemukan",
   })
-  @UseInterceptors(FileInterceptor("avatar"))
   @UseGuards(JwtAuthGuard)
   async updateDataById(
     @Param("id") id: string,
-    @UploadedFile() avatar: TFIle,
     @Body(new ZodValidationPipe(VSUpdateStudent))
     studentData: UpdateStudentSwagger,
   ) {
-      const response = await firstValueFrom(
-        this.client.send("update_student", { id, avatar, ...studentData }),
-      );
-      return response;
+    const response = await firstValueFrom(
+      this.client.send("update_student", { id, ...studentData }),
+    );
+    return response;
   }
 
   @Get("/:id")
@@ -148,7 +143,7 @@ export class StudentController {
   })
   @UseGuards(JwtAuthGuard)
   async getDataById(@Param("id") id: string) {
-      const response = await firstValueFrom(this.client.send("update_student", { id }));
-      return response;
+    const response = await firstValueFrom(this.client.send("update_student", { id }));
+    return response;
   }
 }

@@ -159,7 +159,7 @@ model PMB {
   utbk                   Float?              @default(0)
   average_grade          Float?              @default(0)
   student_grade          StudentGrade[]
-  document               Documents?
+  documents              Documents[]
   createdAt              DateTime            @default(now())
 }
 
@@ -172,9 +172,9 @@ model RegistrationStatus {
 model Documents {
   id     String  @unique @default(uuid())
   name   String
-  url    String
+  path   String
   pmb    PMB?    @relation(fields: [pmb_id], references: [id], onDelete: Cascade)
-  pmb_id String? @unique
+  pmb_id String?
 }
 
 model EducationTypes {
