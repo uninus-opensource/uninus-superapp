@@ -1,15 +1,14 @@
 import { Catch, ArgumentsHost, ExceptionFilter } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-import { TRpcException } from "@uninus/entities";
 
 @Catch(RpcException)
 export class RpcExceptionToHttpExceptionFilter implements ExceptionFilter {
-  catch(exception: TRpcException, host: ArgumentsHost) {
+  catch(exception: RpcException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
-    const error = exception;
-    response.status(error.status).json({
-      statusCode: error.status,
+    const error: any = exception.getError();
+    response.status(error.statusCode).json({
+      statusCode: error.statusCode,
       message: error.message,
     });
   }

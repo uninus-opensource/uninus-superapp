@@ -7,7 +7,6 @@ import {
   Request,
   UseFilters,
   UseGuards,
-  UsePipes,
 } from "@nestjs/common";
 import {
   TReqToken,
@@ -41,9 +40,9 @@ export class AuthController {
   constructor(private readonly appService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @Post("register")
   @ApiOperation({ summary: "Created Data" })
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiResponse({
     status: 201,
     description: "Akun Berhasil dibuat!, check email untuk verifikasi",

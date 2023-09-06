@@ -1,10 +1,5 @@
 export type TRpcException = {
-  response: {
-    message: string;
-    error: string;
-    statusCode: number;
-  };
-  status: number;
+  statusCode: number;
   message: string;
-  name: string;
+  error: string;
 };

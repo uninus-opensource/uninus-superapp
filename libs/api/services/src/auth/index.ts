@@ -23,20 +23,29 @@ import {
   TLoginRequest,
 } from "@uninus/entities";
 import { generateOtp, clearOtp } from "@uninus/api/utilities";
-import { ClientProxy } from "@nestjs/microservices";
-import { firstValueFrom } from "rxjs";
+import { ClientProxy, RpcException } from "@nestjs/microservices";
+import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Injectable()
 export class AuthService {
   constructor(@Inject("REDIS_SERVICE") private readonly client: ClientProxy) {}
 
   async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
-      const response = await firstValueFrom(this.client.send("get_profile", reqUser));
+      const response = await firstValueFrom(this.client.send("get_profile", reqUser).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+);
       return response;
   }
 
   async register(data: TRegisterRequest): Promise<TRegisterResponse> {
-    const createdUser: TProfileResponse = await firstValueFrom(this.client.send<TProfileResponse>("register", data));
+    const createdUser: TProfileResponse = await firstValueFrom(
+      this.client.send<TProfileResponse>("register", data).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+    );
 
     if (!createdUser) {
       throw new BadRequestException("Gagal Mendaftar");
@@ -55,7 +64,11 @@ export class AuthService {
         email: data.email.toLowerCase(),
         subject: "Verifikasi Email",
         html,
-      }),
+      }).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+,
     );
 
     if (!sendEmail) {
@@ -68,29 +81,49 @@ export class AuthService {
   }
 
   async login(args: TLoginRequest): Promise<TLoginResponse> {
-      const response = await firstValueFrom(this.client.send("login", args));
-      return response;
+    const response = await firstValueFrom(this.client.send("login", args).pipe(catchError(
+      error => throwError(()=> new RpcException(error.response))
+    )
+                                                                              )
+                                         );
+                                         return response;
   }
 
   async logout(args: TLogoutRequest): Promise<TLogoutResponse> {
-      const response = await firstValueFrom(this.client.send("logout", args));
+      const response = await firstValueFrom(this.client.send("logout", args).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+);
       return response;
   }
 
   async refreshToken(args: TReqToken): Promise<TResRefreshToken> {
-      const response = await firstValueFrom(this.client.send("refresh_token", args));
+      const response = await firstValueFrom(this.client.send("refresh_token", args).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+);
       return response;
   }
 
   async verifyOtp(args: TVerifyOtpRequest): Promise<TVerifyOtpResponse> {
-      const response = await firstValueFrom(this.client.send("verify_otp", args));
+      const response = await firstValueFrom(this.client.send("verify_otp", args).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+);
       return response;
   }
 
   async resendOtp(args: TResendOtpRequest): Promise<TResendOtpResponse> {
     await clearOtp();
 
-    const user = await firstValueFrom(this.client.send("get_user_email", args));
+    const user = await firstValueFrom(this.client.send("get_user_email", args).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+);
     if (!user) {
       throw new NotFoundException("Akun tidak ditemukan");
     }
@@ -109,7 +142,10 @@ export class AuthService {
         email: args.email.toLowerCase(),
         subject: "Verifikasi Email",
         html,
-      }),
+      }).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    ),
     );
 
     if (!sendEmail) {
@@ -122,8 +158,12 @@ export class AuthService {
   }
 
   async forgotPassword(args: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
-    const user = await firstValueFrom(this.client.send("forget_password", args));
-      
+    const user = await firstValueFrom(this.client.send("forget_password", args).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+);
+
     const msg = "memperbarui kata sandi anda";
 
     if (!user) {
@@ -141,7 +181,11 @@ export class AuthService {
         email: args.email,
         subject: "Reset Password",
         html,
-      }),
+      }).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+,
     );
 
     if (!sendEmail) {
@@ -154,12 +198,20 @@ export class AuthService {
   }
 
   async verifyOtpPassword(args: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
-      const response = await firstValueFrom(this.client.send("verify_otp_password", args));
+      const response = await firstValueFrom(this.client.send("verify_otp_password", args).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+);
       return response;
   }
 
   async resetPassword(args: TResetPasswordRequest): Promise<TResetPasswordResponse> {
-      const response = await firstValueFrom(this.client.send("reset_password", args));
+      const response = await firstValueFrom(this.client.send("reset_password", args).pipe(catchError(
+        error => throwError(()=> new RpcException(error.response))
+      )
+    )
+);
       return response;
   }
 }
