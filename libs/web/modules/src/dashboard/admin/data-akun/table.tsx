@@ -1,13 +1,16 @@
 "use client";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useState, useEffect, SetStateAction } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataAkun } from "./types";
 import { dataAkun } from "./store";
-import { LoadingSpinner } from "@uninus/web/components";
+import { LoadingSpinner, SearchInput } from "@uninus/web/components";
 import { FormOutlined } from "@ant-design/icons";
 
 const Table: FC = (): ReactElement => {
-  const columns: TableColumn<TDataAkun>[] = [
+  const [tableAkun, setTableAkun] = useState([{}]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [pending, setPending] = useState(true);
+  const columnsAkun: TableColumn<TDataAkun>[] = [
     {
       name: "No",
       cell: (row, rowIndex) => <div className="px-1">{rowIndex + 1}</div>,
@@ -95,13 +98,40 @@ const Table: FC = (): ReactElement => {
     },
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setTableAkun(columnsAkun);
+      setPending(false);
+    }, 1500);
+    return () => clearTimeout(timeout);
+  }, [tableAkun]);
+
+  const filteredDataAkun = dataAkun.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.telp_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.email.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const handleSearch = (event: { target: { value: SetStateAction<string> } }) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <div>
+      <div className="w-full flex p-2 py-4 lg:justify-end justify-start">
+        <SearchInput
+          value={searchQuery}
+          onChange={handleSearch}
+          placeholder="Cari Nama,Email dan Nomor telepon"
+        />
+      </div>
       <DataTable
-        columns={columns}
-        data={dataAkun}
+        columns={columnsAkun}
+        data={filteredDataAkun}
         customStyles={customStyles}
         fixedHeader={true}
+        progressPending={pending}
         progressComponent={<LoadingSpinner className="w-10 h-10" />}
         noDataComponent={
           <div className="flex flex-col w-full h-screen justify-center items-center">
