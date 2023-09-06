@@ -70,12 +70,16 @@ export interface IStudentData {
   utbk_ppu?: number | null;
   utbk_kmbm?: number | null;
   average_utbk?: number | null;
-  utbk?: number | null;
   average_grade?: number | null;
+  utbk?: number | null;
 }
 
 export interface IGetStudentResponse extends IStudentData {
   avatar: string | null;
+  documents?: Array<{
+    name: string;
+    path: string;
+  }> | null;
   student_grade?: Array<{
     id: string;
     subject: string | null;
@@ -106,9 +110,21 @@ export interface IUpdateStudentResponse extends IStudentData {
     semester: string | null;
     grade: number | null;
   }>;
+  documents?: Array<{
+    name: string;
+    path: string;
+  }> | null;
 }
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
-  avatar: TFIle;
+  avatar?: string | null;
+  document?: {
+    name: string;
+    path: string;
+  } | null;
+  documents?: Array<{
+    name: string;
+    path: string;
+  }> | null;
   student_grade: Array<{
     id: string;
     subject: string | null;

@@ -15,7 +15,10 @@ import {
 
 @Injectable()
 export class StudentService {
-  constructor(private prisma: PrismaService, private cloudinaryService: CloudinaryService) {}
+  constructor(
+    private prisma: PrismaService,
+    private cloudinaryService: CloudinaryService,
+  ) {}
 
   async getStudent(args: IGetStudentRequest): Promise<IGetStudentResponse> {
     const student = await this.prisma.users.findUnique({
@@ -31,6 +34,7 @@ export class StudentService {
             pmb: {
               include: {
                 student_grade: true,
+                documents: true,
               },
             },
           },
@@ -61,6 +65,7 @@ export class StudentService {
       utbk_kk: student.students?.pmb?.utbk_kk,
       utbk_ppu: student.students?.pmb?.utbk_ppu,
       utbk_kmbm: student.students?.pmb?.utbk_kmbm,
+      documents: student.students?.pmb?.documents,
       ...studentData,
     };
   }
@@ -82,9 +87,10 @@ export class StudentService {
       utbk_kmbm,
       student_grade,
       average_grade,
+      document,
+      documents,
       ...updateStudentPayload
     } = args;
-
     if (student_grade) {
       for await (const data of student_grade) {
         const updateStudentGrade = await this.prisma.users.update({
@@ -121,12 +127,14 @@ export class StudentService {
         }
       }
     }
+
     const student = await this.prisma.users.update({
       where: {
         id,
       },
       data: {
         fullname,
+        avatar,
         students: {
           update: {
             ...updateStudentPayload,
@@ -142,6 +150,20 @@ export class StudentService {
                 utbk_kmbm,
                 average_utbk,
                 registration_status_id: 2,
+                ...(documents && {
+                  documents: {
+                    createMany: {
+                      data: documents,
+                    },
+                  },
+                }),
+                ...(document && {
+                  documents: {
+                    createMany: {
+                      data: [document],
+                    },
+                  },
+                }),
               },
             },
           },
@@ -156,6 +178,7 @@ export class StudentService {
             pmb: {
               include: {
                 student_grade: true,
+                documents: true,
               },
             },
           },
@@ -179,6 +202,7 @@ export class StudentService {
       degree_program_id: student.students?.pmb?.degree_program_id,
       student_grade: student.students?.pmb?.student_grade,
       average_grade: student.students?.pmb?.average_grade,
+      documents: student.students?.pmb?.documents,
       average_utbk: student.students?.pmb?.average_utbk,
       utbk_pu: student.students?.pmb?.utbk_pu,
       utbk_kk: student.students?.pmb?.utbk_kk,
