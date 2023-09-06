@@ -7,6 +7,7 @@ import {
   Request,
   UseFilters,
   UseGuards,
+  UsePipes,
 } from "@nestjs/common";
 import {
   TReqToken,
@@ -32,7 +33,7 @@ import {
   RefreshTokenSwagger,
 } from "@uninus/api/services";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
-import { ApiTags, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
+import { ApiTags, ApiBody, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("auth")
 @ApiTags("Auth")
@@ -83,11 +84,9 @@ export class AuthController {
   @ApiBearerAuth()
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(RtGuard)
+  @ApiBody({ type: RefreshTokenSwagger })
   @ApiOperation({ summary: "Refresh Token" })
-  async refresh(
-    @Body("refresh_token") refreshToken: RefreshTokenSwagger,
-    @Request() { user }: TReqToken,
-  ) {
+  async refresh(@Request() { user }: TReqToken) {
     return this.appService.refreshToken({ user });
   }
 

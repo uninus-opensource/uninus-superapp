@@ -1,58 +1,64 @@
 import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
-import { MessagePattern } from '@nestjs/microservices';
-import { TForgotPasswordRequest, TLoginRequest, TLogoutRequest, TProfileResponse, TRegisterRequest, TReqToken, TResetPasswordRequest, TUserEmail, TVerifyOtpPasswordRequest, TVerifyOtpRequest } from "@uninus/entities";
+import { MessagePattern } from "@nestjs/microservices";
+import {
+  TForgotPasswordRequest,
+  TLoginRequest,
+  TLogoutRequest,
+  TProfileResponse,
+  TRegisterRequest,
+  TReqToken,
+  TResetPasswordRequest,
+  TUserEmail,
+  TVerifyOtpPasswordRequest,
+  TVerifyOtpRequest,
+} from "@uninus/entities";
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-  @MessagePattern('login')
-  login(args: TLoginRequest) {
-    return this.appService.login(args);
+  @MessagePattern("login")
+  login(payload: TLoginRequest) {
+    return this.appService.login(payload);
   }
 
-  @MessagePattern('register')
-  register(args: TRegisterRequest) {
-    return this.appService.register(args);
+  @MessagePattern("register")
+  register(payload: TRegisterRequest) {
+    return this.appService.register(payload);
   }
 
-  @MessagePattern('get_profile')
-  getProfile(args: TProfileResponse) {
-    return this.appService.getProfile(args);
+  @MessagePattern("logout")
+  logout(payload: TLogoutRequest) {
+    return this.appService.logout(payload);
   }
 
-  @MessagePattern('logout')
-  logout(args: TLogoutRequest) {
-    return this.appService.logout(args);
+  @MessagePattern("get_user_email")
+  getUserEmail(payload: TUserEmail) {
+    return this.appService.getEmailUser(payload);
   }
 
-  @MessagePattern('get_user_email')
-  getUserEmail(args: TUserEmail) {
-    return this.appService.getEmailUser(args);
+  @MessagePattern("refresh_token")
+  refreshToken(payload: TReqToken) {
+    return this.appService.refreshToken(payload);
   }
 
-  @MessagePattern('refresh_token')
-  refreshToken(args: TReqToken) {
-    return this.appService.refreshToken(args);
+  @MessagePattern("verify_otp")
+  verifyOtp(payload: TVerifyOtpRequest) {
+    return this.appService.verifyOtp(payload);
   }
 
-  @MessagePattern('verify_otp')
-  verifyOtp(args: TVerifyOtpRequest) {
-    return this.appService.verifyOtp(args);
+  @MessagePattern("forget_password")
+  forgetPassword(payload: TForgotPasswordRequest) {
+    return this.appService.forgotPassword(payload);
   }
 
-  @MessagePattern('forget_password')
-  forgetPassword(args: TForgotPasswordRequest) {
-    return this.appService.forgotPassword(args);
+  @MessagePattern("verify_otp_password")
+  verifyOtpPassword(payload: TVerifyOtpPasswordRequest) {
+    return this.appService.verifyOtpPassword(payload);
   }
 
-  @MessagePattern('verify_otp_password')
-  verifyOtpPassword(args: TVerifyOtpPasswordRequest) {
-    return this.appService.verifyOtpPassword(args);
-  }
-
-  @MessagePattern('reset_password')
-  resetPassword(args: TResetPasswordRequest) {
-    return this.appService.resetPassword(args);
+  @MessagePattern("reset_password")
+  resetPassword(payload: TResetPasswordRequest) {
+    return this.appService.resetPassword(payload);
   }
 }

@@ -20,15 +20,13 @@ import { CreateUserSwagger, UpdateUserSwagger } from "@uninus/api/services";
 import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from "@nestjs/swagger";
 import { ClientProxy } from "@nestjs/microservices";
 import { firstValueFrom } from "rxjs";
-import { generateOtp } from "@uninus/api/utilities"
+import { generateOtp } from "@uninus/api/utilities";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 
 @Controller("user")
 @ApiTags("User")
 export class UserController {
-  constructor(
-    @Inject('USER_SERVICE') private readonly client: ClientProxy
-  ) {}
+  constructor(@Inject("USER_SERVICE") private readonly client: ClientProxy) {}
 
   @Get("/me")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
@@ -37,9 +35,9 @@ export class UserController {
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   @UseGuards(JwtAuthGuard)
   async getUser(@Request() reqToken: TReqToken) {
-      const { sub } = reqToken.user;
-      const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user",sub))
-      return response
+    const { sub } = reqToken.user;
+    const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user", sub));
+    return response;
   }
 
   @Get()
@@ -57,32 +55,32 @@ export class UserController {
     @Query("filter_by") filterBy: string,
     @Query("search") search: string,
   ) {
-      const response = await firstValueFrom(
-        this.client.send<Array<TProfileResponse>>("get_users",{
-          where: {
-            OR: [
-              {
-                fullname: {
-                  contains: search || "",
-                  mode: "insensitive",
-                },
+    const response = await firstValueFrom(
+      this.client.send<Array<TProfileResponse>>("get_users", {
+        where: {
+          OR: [
+            {
+              fullname: {
+                contains: search || "",
+                mode: "insensitive",
               },
-              {
-                email: {
-                  contains: search || "",
-                  mode: "insensitive",
-                },
+            },
+            {
+              email: {
+                contains: search || "",
+                mode: "insensitive",
               },
-            ],
-          },
-          orderBy: {
-            [filterBy]: orderBy,
-          },
-          page,
-          perPage,
-        })
-      )
-      return response
+            },
+          ],
+        },
+        orderBy: {
+          [filterBy]: orderBy,
+        },
+        page,
+        perPage,
+      }),
+    );
+    return response;
   }
 
   @Get("/:id")
@@ -90,8 +88,8 @@ export class UserController {
   @ApiOperation({ summary: "Get Data User By Id" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   async getDataById(@Param("id") id: string) {
-      const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user",id))
-      return response
+    const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user", id));
+    return response;
   }
 
   @Post()
@@ -105,21 +103,25 @@ export class UserController {
     @Body(new ZodValidationPipe(VSCreateUser))
     createUserSwagger: CreateUserSwagger,
   ) {
-      const response = await firstValueFrom(this.client.send<TProfileResponse>("create_user",createUserSwagger))
-      const isCreateOtp = await generateOtp(response?.email, response?.id);
-      if (!isCreateOtp) {
-        throw new BadRequestException("Gagal membuat Otp");
-      }
-      const emailPayload = {
-        email: createUserSwagger.email.toLowerCase(),
-        subject:"Verifikasi Email",
-        html:`Kode OTP anda adalah ${isCreateOtp?.token}`,
-      }
-      const sendEmail = firstValueFrom(this.client.send<{message:string}>("send_email",emailPayload))
-      if (!sendEmail) {
-        throw new BadRequestException("Gagal mengirimkan kode verifikasi");
-      }
-      return response
+    const response = await firstValueFrom(
+      this.client.send<TProfileResponse>("create_user", createUserSwagger),
+    );
+    const isCreateOtp = await generateOtp(response?.email, response?.id);
+    if (!isCreateOtp) {
+      throw new BadRequestException("Gagal membuat Otp");
+    }
+    const emailPayload = {
+      email: createUserSwagger.email.toLowerCase(),
+      subject: "Verifikasi Email",
+      html: `Kode OTP anda adalah ${isCreateOtp?.token}`,
+    };
+    const sendEmail = firstValueFrom(
+      this.client.send<{ message: string }>("send_email", emailPayload),
+    );
+    if (!sendEmail) {
+      throw new BadRequestException("Gagal mengirimkan kode verifikasi");
+    }
+    return response;
   }
 
   @Delete("/:id")
@@ -128,8 +130,8 @@ export class UserController {
   @ApiResponse({ status: 201, description: "Berhasil delete user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   async deleteData(@Param("id") id: string) {
-      const response = await firstValueFrom(this.client.send("delete_user", id))
-      return response
+    const response = await firstValueFrom(this.client.send("delete_user", id));
+    return response;
   }
 
   @Put("/:id")
@@ -142,11 +144,12 @@ export class UserController {
     @Body(new ZodValidationPipe(VSUpdateUser))
     updateUserSwagger: UpdateUserSwagger,
   ) {
-      const response = await firstValueFrom(this.client.send('update_user',{
+    const response = await firstValueFrom(
+      this.client.send("update_user", {
         id,
-        payload:updateUserSwagger
-      }))
-      return response
+        payload: updateUserSwagger,
+      }),
+    );
+    return response;
   }
-
 }
