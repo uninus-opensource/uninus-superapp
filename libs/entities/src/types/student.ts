@@ -134,7 +134,7 @@ export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData 
 }
 
 export interface IUpdateStudentRequestFE extends IStudentData {
-  avatar?: TFIle | null;
+  avatar?: string | null;
 }
 
 export interface IUpdateStudentGradeResponse extends IStudentData {

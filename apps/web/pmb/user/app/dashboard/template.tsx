@@ -37,7 +37,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
 
   useEffect(() => {
     setFormStatus(getStudent?.degree_program_id);
-  }, [getStudent?.degree_program_id]);
+  }, [getStudent]);
 
   const sideLists = [
     { label: "Beranda", link: "/dashboard", icon: <HomeOutlined />, disabledStatus: false },

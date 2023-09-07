@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const VSDataDiri = z.object({
-  avatar: z.any().optional(),
   fullname: z.string().optional(),
   email: z.string().optional(),
   phone_number: z.string().optional(),
@@ -77,3 +76,11 @@ export const VSDataDiri = z.object({
 });
 
 export type TVSDataDiri = z.infer<typeof VSDataDiri>;
+
+export const VSImage = z.object({
+  file: z.custom<File>((val) => val instanceof File, {
+    message: "File harus diisi",
+  }),
+});
+
+export type TVSImage = z.infer<typeof VSImage>;
