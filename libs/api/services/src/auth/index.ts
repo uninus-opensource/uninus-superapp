@@ -1,12 +1,11 @@
 import { BadRequestException, Injectable, NotFoundException, Inject } from "@nestjs/common";
 import {
   TLoginResponse,
-  TProfileRequest,
   TProfileResponse,
   TRegisterRequest,
   TRegisterResponse,
   TReqToken,
-  getEmailMessageTemplate,
+  emailTemplate,
   TResRefreshToken,
   TForgotPasswordResponse,
   TForgotPasswordRequest,
@@ -30,21 +29,11 @@ import { catchError, firstValueFrom, throwError } from "rxjs";
 export class AuthService {
   constructor(@Inject("REDIS_SERVICE") private readonly client: ClientProxy) {}
 
-  async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
-      const response = await firstValueFrom(this.client.send("get_profile", reqUser).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
-);
-      return response;
-  }
-
-  async register(data: TRegisterRequest): Promise<TRegisterResponse> {
+  async register(payload: TRegisterRequest): Promise<TRegisterResponse> {
     const createdUser: TProfileResponse = await firstValueFrom(
-      this.client.send<TProfileResponse>("register", data).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
+      this.client
+        .send<TProfileResponse>("register", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
     if (!createdUser) {
@@ -57,18 +46,16 @@ export class AuthService {
     }
     const msg = "verifikasi akun anda";
 
-    const html = getEmailMessageTemplate(data.fullname, isCreateOtp?.token, msg);
+    const html = emailTemplate(payload.fullname, isCreateOtp?.token, msg);
 
     const sendEmail = firstValueFrom(
-      this.client.send("send_email", {
-        email: data.email.toLowerCase(),
-        subject: "Verifikasi Email",
-        html,
-      }).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
-,
+      this.client
+        .send("send_email", {
+          email: payload.email,
+          subject: "Verifikasi Email",
+          html,
+        })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
     if (!sendEmail) {
@@ -80,50 +67,50 @@ export class AuthService {
     };
   }
 
-  async login(args: TLoginRequest): Promise<TLoginResponse> {
-    const response = await firstValueFrom(this.client.send("login", args).pipe(catchError(
-      error => throwError(()=> new RpcException(error.response))
-    )
-                                                                              )
-                                         );
-                                         return response;
+  async login(payload: TLoginRequest): Promise<TLoginResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("login", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 
-  async logout(args: TLogoutRequest): Promise<TLogoutResponse> {
-      const response = await firstValueFrom(this.client.send("logout", args).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
-);
-      return response;
+  async logout(payload: TLogoutRequest): Promise<TLogoutResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("logout", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 
-  async refreshToken(args: TReqToken): Promise<TResRefreshToken> {
-      const response = await firstValueFrom(this.client.send("refresh_token", args).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
-);
-      return response;
+  async refreshToken(payload: TReqToken): Promise<TResRefreshToken> {
+    const response = await firstValueFrom(
+      this.client
+        .send("refresh_token", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 
-  async verifyOtp(args: TVerifyOtpRequest): Promise<TVerifyOtpResponse> {
-      const response = await firstValueFrom(this.client.send("verify_otp", args).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
-);
-      return response;
+  async verifyOtp(payload: TVerifyOtpRequest): Promise<TVerifyOtpResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("verify_otp", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 
-  async resendOtp(args: TResendOtpRequest): Promise<TResendOtpResponse> {
+  async resendOtp(payload: TResendOtpRequest): Promise<TResendOtpResponse> {
     await clearOtp();
 
-    const user = await firstValueFrom(this.client.send("get_user_email", args).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
-);
+    const user = await firstValueFrom(
+      this.client
+        .send("get_user_email", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
     if (!user) {
       throw new NotFoundException("Akun tidak ditemukan");
     }
@@ -135,17 +122,16 @@ export class AuthService {
     }
     const msg = "verifikasi akun anda";
 
-    const html = getEmailMessageTemplate(user?.fullname, isCreateOtp?.token, msg);
+    const html = emailTemplate(user?.fullname, isCreateOtp?.token, msg);
 
     const sendEmail = firstValueFrom(
-      this.client.send("send_email", {
-        email: args.email.toLowerCase(),
-        subject: "Verifikasi Email",
-        html,
-      }).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    ),
+      this.client
+        .send("send_email", {
+          email: payload.email,
+          subject: "Verifikasi Email",
+          html,
+        })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
     if (!sendEmail) {
@@ -157,12 +143,12 @@ export class AuthService {
     };
   }
 
-  async forgotPassword(args: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
-    const user = await firstValueFrom(this.client.send("forget_password", args).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
-);
+  async forgotPassword(payload: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
+    const user = await firstValueFrom(
+      this.client
+        .send("forget_password", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
 
     const msg = "memperbarui kata sandi anda";
 
@@ -174,18 +160,16 @@ export class AuthService {
     if (!isCreateOtp) {
       throw new BadRequestException("Gagal membuat otp");
     }
-    const html = getEmailMessageTemplate(user?.fullname ?? "", isCreateOtp?.token, msg);
+    const html = emailTemplate(user?.fullname ?? "", isCreateOtp?.token, msg);
 
     const sendEmail = firstValueFrom(
-      this.client.send("send_email", {
-        email: args.email,
-        subject: "Reset Password",
-        html,
-      }).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
-,
+      this.client
+        .send("send_email", {
+          email: payload.email,
+          subject: "Reset Password",
+          html,
+        })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
     if (!sendEmail) {
@@ -197,21 +181,21 @@ export class AuthService {
     };
   }
 
-  async verifyOtpPassword(args: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
-      const response = await firstValueFrom(this.client.send("verify_otp_password", args).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
-);
-      return response;
+  async verifyOtpPassword(payload: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("verify_otp_password", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 
-  async resetPassword(args: TResetPasswordRequest): Promise<TResetPasswordResponse> {
-      const response = await firstValueFrom(this.client.send("reset_password", args).pipe(catchError(
-        error => throwError(()=> new RpcException(error.response))
-      )
-    )
-);
-      return response;
+  async resetPassword(payload: TResetPasswordRequest): Promise<TResetPasswordResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("reset_password", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 }

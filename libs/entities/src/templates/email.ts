@@ -1,4 +1,4 @@
-export function getEmailMessageTemplate(name: string, otp: string, msg: string): string {
+export function emailTemplate(name: string, otp: string, msg: string): string {
   return `
       <!DOCTYPE html>
       <html>

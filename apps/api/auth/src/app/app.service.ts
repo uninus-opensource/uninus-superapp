@@ -39,16 +39,16 @@ import { RpcException } from "@nestjs/microservices";
 export class AppService {
   constructor(private prisma: PrismaService) {}
 
-  async register(data: TRegisterRequest): Promise<TProfileResponse> {
+  async register(payload: TRegisterRequest): Promise<TProfileResponse> {
     const isUserExist = await this.prisma.users.findMany({
       where: {
         OR: [
           {
-            email: data.email,
+            email: payload.email,
           },
           {
             students: {
-              phone_number: `62${data.phone_number}`,
+              phone_number: `62${payload.phone_number}`,
             },
           },
         ],
@@ -59,7 +59,7 @@ export class AppService {
       throw new RpcException(new ConflictException("Email atau nomor telepon sudah terdaftar"));
     }
 
-    const password = await encryptPassword(data.password);
+    const password = await encryptPassword(payload.password);
     const now = new Date();
     const year = now.getFullYear().toString();
     const month = (now.getMonth() + 1).toString().padStart(2, "0");
@@ -80,15 +80,15 @@ export class AppService {
 
     const createUser = await this.prisma.users.create({
       data: {
-        fullname: data.fullname,
-        email: data.email.toLowerCase(),
+        fullname: payload.fullname,
+        email: payload.email.toLowerCase(),
         password,
-        role_id: data.role_id,
+        role_id: payload.role_id,
         avatar: "https://uninus-demo.s3.ap-southeast-1.amazonaws.com/avatar-default.png",
-        ...(!data.role_id && {
+        ...(!payload.role_id && {
           students: {
             create: {
-              phone_number: `62${data.phone_number}`,
+              phone_number: `62${payload.phone_number}`,
               pmb: {
                 create: {
                   registration_number: registrationNumber,
