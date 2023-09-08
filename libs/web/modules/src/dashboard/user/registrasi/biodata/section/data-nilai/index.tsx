@@ -92,7 +92,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
   });
 
   const { data } = useGetStudentGrade();
-
+  console.log(data);
   const student = useMemo(() => {
     return data;
   }, [data]);
@@ -117,7 +117,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
 
     [student?.student_grade],
   );
-
+  console.log("data", dataStudentGrade);
   const watchStudentGrade = watch([
     "mtk1",
     "mtk2",
