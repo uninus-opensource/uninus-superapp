@@ -157,7 +157,7 @@ export interface IEducationTypeRequest extends ISelectRequest {
 }
 
 export type TEducationTypeResponse = {
-  education_type: Array<{
+  school_type: Array<{
     id: number;
     name: string;
   }>;

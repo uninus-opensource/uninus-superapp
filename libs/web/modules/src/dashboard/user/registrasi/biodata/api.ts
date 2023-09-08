@@ -7,6 +7,7 @@ import {
   IUpdateStudentGradeRequest,
   IUpdateStudentGradeResponse,
 } from "@uninus/entities";
+import { TUploadImageRequest, TUploadImageResponse } from "./type";
 
 export const BiodataUpdate = async (
   payload: IUpdateStudentRequestFE,
@@ -33,5 +34,16 @@ export const UpdateAverage = async (
 };
 export const StudentGradeGet = async (): Promise<IUpdateStudentGradeResponse> => {
   const { data } = await api.get<IUpdateStudentGradeResponse>("/student");
+  return data;
+};
+
+export const uploadFile = async (payload: TUploadImageRequest): Promise<TUploadImageResponse> => {
+  const formData = new FormData();
+  formData.append("file", payload.file);
+  const { data } = await api({
+    method: "POST",
+    data: formData,
+    url: "/file",
+  });
   return data;
 };

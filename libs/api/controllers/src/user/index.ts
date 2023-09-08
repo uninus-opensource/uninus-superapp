@@ -71,6 +71,7 @@ export class UserController {
                   mode: "insensitive",
                 },
               },
+
               {
                 email: {
                   contains: search || "",

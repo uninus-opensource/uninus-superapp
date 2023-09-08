@@ -8,6 +8,8 @@ import { ProgramSection } from "./program-study";
 import { DetailSection } from "./detail";
 import { Footer, Navbar } from "@uninus/web/components";
 import { ModalAndButtons } from "./modal-floatingbutton";
+import { TestimonialSection } from "./testimonial";
+import { NewsSection } from "./news";
 
 export const LandingModule: FC = (): ReactElement => {
   return (
@@ -20,6 +22,8 @@ export const LandingModule: FC = (): ReactElement => {
         <SelectionSection />
         <ProgramSection />
         <DetailSection />
+        <TestimonialSection />
+        <NewsSection />
         <ModalAndButtons />
       </main>
       <Footer />
