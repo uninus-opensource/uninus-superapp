@@ -58,11 +58,11 @@ export const DataPendidikanSection: FC = (): ReactElement => {
 
   const educationTypeOptions = useMemo(
     () =>
-      getEducationType?.education_type?.map((educationType) => ({
+      getEducationType?.school_type?.map((educationType) => ({
         label: educationType?.name,
         value: educationType?.id.toString(),
       })),
-    [getEducationType?.education_type],
+    [getEducationType?.school_type],
   );
 
   // Education History
