@@ -45,7 +45,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
     { label: "Kartu Keluarga", name: "kartu_keluarga" },
     { label: "Porlap Dikti", name: "porlap_dikti" },
   ];
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
     setShowModal(true);
