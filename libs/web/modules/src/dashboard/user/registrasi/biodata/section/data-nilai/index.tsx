@@ -10,14 +10,14 @@ export const DataNilaiSection: FC = (): ReactElement => {
 
   const { control, handleSubmit, reset, setValue, watch, getValues } = useForm<NilaiValues>({
     mode: "all",
-    defaultValues: {},
   });
 
   const { mutate } = useStudentGradeUpdate();
 
   const onSubmit = handleSubmit((data) => {
     try {
-      const { average_grade, utbk, ...dataGrade } = data;
+      const { average_grade, average_utbk, utbk_pu, utbk_kk, utbk_ppu, utbk_kmbm, ...dataGrade } =
+        data;
       const studentGrade = JSON.stringify(dataGrade)
         .replace(/{|}/gi, "")
         .split(",")
@@ -48,7 +48,11 @@ export const DataNilaiSection: FC = (): ReactElement => {
         {
           student_grade: studentGrade,
           average_grade: Number(average_grade),
-          utbk: Number(utbk),
+          average_utbk: Number(average_utbk),
+          utbk_kk: Number(utbk_kk),
+          utbk_kmbm: Number(utbk_kmbm),
+          utbk_pu: Number(utbk_pu),
+          utbk_ppu: Number(utbk_ppu),
         },
         {
           onSuccess: () => {
@@ -88,10 +92,11 @@ export const DataNilaiSection: FC = (): ReactElement => {
   });
 
   const { data } = useGetStudentGrade();
-
+  console.log(data);
   const student = useMemo(() => {
     return data;
   }, [data]);
+
   const dataStudentGrade = useMemo(
     () =>
       student?.student_grade.reduce(
@@ -109,9 +114,10 @@ export const DataNilaiSection: FC = (): ReactElement => {
         ),
         {} as { [key: string]: number },
       ),
+
     [student?.student_grade],
   );
-
+  console.log("data", dataStudentGrade);
   const watchStudentGrade = watch([
     "mtk1",
     "mtk2",
@@ -126,21 +132,43 @@ export const DataNilaiSection: FC = (): ReactElement => {
     "bing3",
     "bing4",
   ]);
-
+  const watchUtbk = watch(["utbk_kk", "utbk_pu", "utbk_ppu", "utbk_kmbm"]);
   useEffect(() => {
     reset(dataStudentGrade);
   }, [dataStudentGrade, reset]);
 
   useEffect(() => {
-    const { average_grade, utbk, ...grades } = getValues();
+    const { average_grade, average_utbk, utbk_kk, utbk_pu, utbk_ppu, utbk_kmbm, ...grades } =
+      getValues();
+    console.log(getValues());
     const average = Object.values(grades);
+
     const result = Number(average.reduce((acc, curr) => Number(acc) + Number(curr), 0));
+    const averageUtbk =
+      utbk_kk && utbk_pu && utbk_ppu && utbk_kmbm // Check if all UTBK values are present
+        ? Object.values({ utbk_kk, utbk_pu, utbk_ppu, utbk_kmbm })
+        : [];
+
+    const resultUtbk = Number(averageUtbk.reduce((acc, curr) => Number(acc) + Number(curr), 0));
+
     setValue(
       "average_grade",
       Number(student?.average_grade === 0 ? (result / 12).toFixed(1) : student?.average_grade),
     );
-    setValue("utbk", utbk === undefined ? Number(student?.utbk) : Number(utbk));
-  }, [getValues, setValue, student?.average_grade, student?.utbk, watchStudentGrade]);
+
+    setValue(
+      "average_utbk",
+      Number(student?.average_utbk === 0 ? (resultUtbk / 4).toFixed(1) : student?.average_utbk),
+    );
+    console.log(typeof resultUtbk);
+  }, [
+    getValues,
+    setValue,
+    student?.average_grade,
+    student?.average_utbk,
+    watchStudentGrade,
+    watchUtbk,
+  ]);
 
   return (
     <Accordion
@@ -389,26 +417,26 @@ export const DataNilaiSection: FC = (): ReactElement => {
             <p className="font-bold text-sm md:text-base">Penalaran Umum</p>
             <TextField
               inputHeight="h-10"
-              name="utbk"
+              name="utbk_pu"
               variant="md"
               type="number"
               labelclassname="text-sm "
               inputWidth="w-26 text-base text-center"
               control={control}
-              disabled={isDisabled || student?.utbk ? true : false}
+              disabled={isDisabled || student?.utbk_pu ? true : false}
             />
           </div>
           <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
             <p className="font-bold text-sm md:text-base">Kemampuan Kuantitatif</p>
             <TextField
               inputHeight="h-10"
-              name="utbk"
+              name="utbk_kk"
               variant="md"
               type="number"
               labelclassname="text-sm "
               inputWidth="w-26 text-base text-center"
               control={control}
-              disabled={isDisabled || student?.utbk ? true : false}
+              disabled={isDisabled || student?.utbk_kk ? true : false}
             />
           </div>
           <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
@@ -417,13 +445,13 @@ export const DataNilaiSection: FC = (): ReactElement => {
             </p>
             <TextField
               inputHeight="h-10"
-              name="utbk"
+              name="utbk_ppu"
               variant="md"
               type="number"
               labelclassname="text-sm "
               inputWidth="w-26 text-base text-center"
               control={control}
-              disabled={isDisabled || student?.utbk ? true : false}
+              disabled={isDisabled || student?.utbk_ppu ? true : false}
             />
           </div>
           <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
@@ -432,13 +460,13 @@ export const DataNilaiSection: FC = (): ReactElement => {
             </p>
             <TextField
               inputHeight="h-10"
-              name="utbk"
+              name="utbk_kmbm"
               variant="md"
               type="number"
               labelclassname="text-sm "
               inputWidth="w-26 text-base text-center"
               control={control}
-              disabled={isDisabled || student?.utbk ? true : false}
+              disabled={isDisabled || student?.utbk_kmbm ? true : false}
             />
           </div>
         </section>
@@ -447,13 +475,13 @@ export const DataNilaiSection: FC = (): ReactElement => {
             <p className="font-bold text-sm md:text-base">Rata-Rata Skor :</p>
             <TextField
               inputHeight="h-10"
-              name="utbk"
+              name="average_utbk"
               variant="md"
               type="number"
               labelclassname="text-sm "
               inputWidth="w-26 text-base text-center"
               control={control}
-              disabled={isDisabled || student?.utbk ? true : false}
+              disabled
             />
           </div>
           <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
@@ -467,7 +495,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
             variant="filled"
             size="md"
             width="w-30% lg:w-25% xl:w-15%"
-            disabled={isDisabled || !!student?.utbk}
+            disabled={isDisabled}
           >
             Submit
           </Button>

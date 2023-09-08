@@ -3,6 +3,7 @@ import { BiodataUpdate, BiodatatGet, StudentGet, StudentGradeGet, UpdateAverage 
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
+  IStudentData,
   IUpdateStudentGradeRequest,
   IUpdateStudentGradeResponse,
   IUpdateStudentRequestFE,
