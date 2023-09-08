@@ -232,9 +232,10 @@ export class AppService {
   async checkGraduationStatus(
     payload: TGraduationStatusRequest,
   ): Promise<TGraduationStatusReponse> {
+    const { registration_number } = payload;
     const graduationStatus = await this.prisma.pMB.findFirst({
       where: {
-        registration_number: payload.registration_number,
+        registration_number,
       },
       include: {
         student: {
