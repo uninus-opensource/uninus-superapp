@@ -20,7 +20,7 @@ export const UploadField = <T extends FieldValues>({ ...props }: TUploadFile<T>)
     },
   );
   const labelFileVariants = clsx("text-xs lg:text-base cursor-pointer text-center", {
-    "text-primary-white bg-primary-green w-5/6 md:w-[29vw] lg:w-[22vw] 2xl:w-[18vw] xl:w-full px-1 lg:px-3 py-2 rounded":
+    "text-primary-white bg-primary-green w-[17vw] md:w-[10vw] px-1 lg:px-3 py-2 rounded":
       props.labelClassName === "labelText",
     "rounded-full w-12 h-12 bg-primary-white text-primary-green z-15 relative bottom-12 left-12 md:left-14 flex items-center justify-center":
       props.labelClassName === "iconUpload",
