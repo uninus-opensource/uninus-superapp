@@ -22,4 +22,4 @@ import { GeneralController } from "@uninus/api/controllers";
   controllers: [GeneralController],
   providers: [],
 })
-export class SelectModule {}
+export class GeneralModule {}
