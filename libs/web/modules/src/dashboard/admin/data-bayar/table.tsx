@@ -1,70 +1,47 @@
 "use client";
-import { FC, ReactElement, useEffect, useState, SetStateAction } from "react";
+import { FC, ReactElement, useState, useEffect, SetStateAction } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
-import { TDataPendaftar } from "./types";
-import { dataPendaftar } from "./store";
+import { TDataBayar } from "./types";
+import { dataBayar } from "./store";
 import { LoadingSpinner, SearchInput } from "@uninus/web/components";
-import { FileTextOutlined, FormOutlined } from "@ant-design/icons";
+import { FileTextOutlined } from "@ant-design/icons";
+import { match } from "ts-pattern";
 
 const Table: FC = (): ReactElement => {
-  const [tablePendaftar, setTablePendaftar] = useState([{}]);
+  const [tableAkun, setTableAkun] = useState([{}]);
   const [searchQuery, setSearchQuery] = useState("");
   const [pending, setPending] = useState(true);
-  const columns: TableColumn<TDataPendaftar>[] = [
+  const columnsAkun: TableColumn<TDataBayar>[] = [
     {
       name: "No",
       cell: (row, rowIndex) => <div className="px-1">{rowIndex + 1}</div>,
-      width: "50px",
+      width: "5%",
     },
     {
-      name: "No Registrasi",
-      cell: (row) => row.registration_number,
-      width: "150px",
+      name: "Tanggal Pengajuan",
+      cell: (row) => row.date_pengajuan as string,
+      width: "15%",
     },
     {
-      name: "Tanggal Daftar",
-      cell: (row) => row.date_registration,
-      width: "150px",
+      name: "Nama Pengajuan",
+      cell: (row) => row.nama_pengajuan,
+      width: "25%",
     },
     {
-      name: "Nama Lengkap",
-      cell: (row) => row.name,
-      width: "200px",
+      name: "Nama Petugas",
+      cell: (row) => row.nama_petugas,
+      width: "25%",
     },
     {
-      name: "Prodi Pilihan 1",
-      cell: (row) => row.prodi_1,
-      width: "200px",
-    },
-    {
-      name: "Prodi Pilihan 2",
-      cell: (row) => row.prodi_2,
-      width: "200px",
-    },
-    {
-      name: "Jalur Seleksi",
-      cell: (row) => row.seleksi,
-      width: "160px",
-    },
-    {
-      name: "Rata - rata Rapot",
-      cell: (row) => <div className="pl-4">{row.rapot}</div>,
-      width: "120px",
-    },
-    {
-      name: "Skor SNBT",
-      cell: (row) => <div className="pl-4">{row.utbk}</div>,
-      width: "120px",
-    },
-    {
-      name: "Status Registrasi",
+      name: "Status",
       cell: (row) => (
         <button
-          className={` ${
-            row.status === "Lolos Seleksi"
-              ? "bg-[#AFFFD4] text-primary-green"
-              : "bg-red-3 text-red-5"
-          } text-white w-[150px] py-1 text-sm text-center rounded-md cursor-default`}
+          className={`${match(row.status)
+            .with("Sudah Disetujui", () => "bg-[#AFFFD4] text-primary-green")
+            .with("Belum Disetujui", () => "bg-[#FFF6DC] text-[#FFC107]")
+            .otherwise(
+              () => "bg-red-3 text-red-5",
+            )} text-white w-[150px] py-1 text-sm text-center rounded-md cursor-default`}
         >
           {row.status}
         </button>
@@ -73,15 +50,9 @@ const Table: FC = (): ReactElement => {
     },
     {
       name: "Action",
-      width: "200px",
+
       cell: (row) => (
         <div className="flex gap-2 w-full">
-          <button className="flex w-full gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center">
-            <div>
-              <FormOutlined />
-            </div>
-            Edit
-          </button>
           <button className="flex w-full gap-2 bg-primary-yellow  rounded-md p-1 px-1 items-center">
             <div>
               <FileTextOutlined />
@@ -129,17 +100,16 @@ const Table: FC = (): ReactElement => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setTablePendaftar(columns);
+      setTableAkun(columnsAkun);
       setPending(false);
     }, 1500);
     return () => clearTimeout(timeout);
-  }, [tablePendaftar]);
+  }, [tableAkun]);
 
-  const filteredDataPendaftar = dataPendaftar.filter(
+  const filteredDataAkun = dataBayar.filter(
     (item) =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.registration_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.seleksi.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.nama_pengajuan.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.nama_petugas.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.status.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
@@ -153,12 +123,12 @@ const Table: FC = (): ReactElement => {
         <SearchInput
           value={searchQuery}
           onChange={handleSearch}
-          placeholder="Cari No. Registrasi,Nama, Status dan Seleksi"
+          placeholder="Cari Nama,Email dan Nomor telepon"
         />
       </div>
       <DataTable
-        columns={columns}
-        data={filteredDataPendaftar}
+        columns={columnsAkun}
+        data={filteredDataAkun}
         customStyles={customStyles}
         fixedHeader={true}
         progressPending={pending}

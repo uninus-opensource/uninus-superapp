@@ -1,15 +1,18 @@
 "use client";
 import { FC, ReactElement, useState, useEffect, SetStateAction } from "react";
+import { useForm, FieldValues } from "react-hook-form";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataAkun } from "./types";
 import { dataAkun } from "./store";
-import { LoadingSpinner, SearchInput } from "@uninus/web/components";
+import { LoadingSpinner, SearchInput, Modal, Button, TextField } from "@uninus/web/components";
 import { FormOutlined } from "@ant-design/icons";
 
 const Table: FC = (): ReactElement => {
   const [tableAkun, setTableAkun] = useState([{}]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [pending, setPending] = useState(true);
+
   const columnsAkun: TableColumn<TDataAkun>[] = [
     {
       name: "No",
@@ -20,6 +23,11 @@ const Table: FC = (): ReactElement => {
       name: "Nama Lengkap",
       cell: (row) => row.name,
       width: "15%",
+    },
+    {
+      name: "Role",
+      cell: (row) => row.role,
+      width: "18%",
     },
     {
       name: "No Telp",
@@ -36,25 +44,14 @@ const Table: FC = (): ReactElement => {
       cell: (row) => row.password,
       width: "12%",
     },
-    {
-      name: "Status Registrasi",
-      cell: (row) => (
-        <button
-          className={` ${
-            row.status_regist === "Sudah Mendaftar"
-              ? "bg-[#AFFFD4] text-primary-green"
-              : "bg-red-3 text-red-5"
-          } text-white p-1 text-sm text-center rounded-md cursor-default`}
-        >
-          {row.status_regist}
-        </button>
-      ),
-      width: "20%",
-    },
+
     {
       name: "Action",
       cell: (row) => (
-        <button className="flex gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center">
+        <button
+          onClick={handleCloseModal}
+          className="flex gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center"
+        >
           <div>
             <FormOutlined />
           </div>
@@ -98,6 +95,10 @@ const Table: FC = (): ReactElement => {
     },
   };
 
+  const handleCloseModal = () => {
+    setIsShowModal(!isShowModal);
+  };
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setTableAkun(columnsAkun);
@@ -109,6 +110,7 @@ const Table: FC = (): ReactElement => {
   const filteredDataAkun = dataAkun.filter(
     (item) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.telp_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
@@ -140,6 +142,9 @@ const Table: FC = (): ReactElement => {
           </div>
         }
       />
+      <Modal showModal={isShowModal} onClose={handleCloseModal} modalTitle="Edit Data Akun">
+        <div>ini buat ngedit</div>
+      </Modal>
     </div>
   );
 };
