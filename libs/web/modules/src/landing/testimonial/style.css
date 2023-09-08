@@ -1,0 +1,7 @@
+.alice-carousel__dots-item.__active {
+  background: #009647 !important;
+}
+
+.alice-carousel__dots-item {
+  background: #d9d9d9 !important;
+}
