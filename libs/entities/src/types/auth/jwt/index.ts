@@ -3,3 +3,5 @@ export type TJwtPayload = {
   sub: string;
   role: string;
 };
+
+export type TRefreshTokenPayload = TJwtPayload & { refreshToken: string };
