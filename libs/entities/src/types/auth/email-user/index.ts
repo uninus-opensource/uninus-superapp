@@ -1,8 +1,8 @@
 export interface TUserEmail {
-    email: string;
+  email: string;
 }
 
 export interface TUserEmailResponse extends TUserEmail {
-    id: string;
-    fullname: string;
+  id: string;
+  fullname: string;
 }

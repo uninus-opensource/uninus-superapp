@@ -44,7 +44,11 @@ export type NilaiValues = {
   bing2: number;
   bing3: number;
   bing4: number;
-  utbk: number;
+  utbk_kk: number;
+  utbk_pu: number;
+  utbk_ppu: number;
+  utbk_kmbm: number;
+  average_utbk: number;
   dokumen1: File;
   dokumen2: File;
   dokumen3: File;

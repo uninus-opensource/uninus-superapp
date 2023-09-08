@@ -10,6 +10,7 @@ import {
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
+  IStudentData,
   IUpdateStudentGradeRequest,
   IUpdateStudentGradeResponse,
   IUpdateStudentRequestFE,
