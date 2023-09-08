@@ -1,5 +1,12 @@
 import { useMutation, useQuery, UseMutationResult, UseQueryResult } from "@tanstack/react-query";
-import { BiodataUpdate, BiodatatGet, StudentGet, StudentGradeGet, UpdateAverage } from "./api";
+import {
+  BiodataUpdate,
+  BiodatatGet,
+  StudentGet,
+  StudentGradeGet,
+  UpdateAverage,
+  uploadFile,
+} from "./api";
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
@@ -10,6 +17,7 @@ import {
   IUpdateStudentResponse,
   TMetaErrorResponse,
 } from "@uninus/entities";
+import { TUploadImageRequest, TUploadImageResponse } from "./type";
 
 export const useBiodataUpdate = (): UseMutationResult<
   IUpdateStudentResponse,
@@ -57,5 +65,18 @@ export const useGetStudentGrade = (): UseQueryResult<
   return useQuery({
     queryKey: ["getStudentGrade"],
     queryFn: async () => await StudentGradeGet(),
+  });
+};
+
+export const useUploadImage = (): UseMutationResult<
+  TUploadImageResponse,
+  TMetaErrorResponse,
+  TUploadImageRequest
+> => {
+  return useMutation({
+    mutationKey: ["uploadFile"],
+    mutationFn: async (file: TUploadImageRequest) => {
+      return await uploadFile(file);
+    },
   });
 };

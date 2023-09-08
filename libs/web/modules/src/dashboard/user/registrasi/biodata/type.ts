@@ -49,6 +49,11 @@ export type NilaiValues = {
   utbk_ppu: number;
   utbk_kmbm: number;
   average_utbk: number;
+  dokumen1: File;
+  dokumen2: File;
+  dokumen3: File;
+  dokumen4: File;
+  UTBK: File;
   average_grade: number;
   semester: string;
   subject: string;
@@ -57,4 +62,12 @@ export type NilaiValues = {
     semester: string;
     grade: number;
   }>;
+};
+
+export type TUploadImageRequest = {
+  file: File;
+};
+
+export type TUploadImageResponse = {
+  path: string;
 };

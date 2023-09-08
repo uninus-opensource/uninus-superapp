@@ -26,14 +26,15 @@ import {
 } from "@uninus/web/services";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
-import { useBiodataUpdate } from "../../hooks";
+import { useBiodataUpdate, useUploadImage } from "../../hooks";
 import { ToastContainer, toast } from "react-toastify";
-import { VSDataDiri, TVSDataDiri } from "./schema";
+import { VSDataDiri, TVSDataDiri, TVSImage, VSImage } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EditOutlined } from "@ant-design/icons";
 
 export const DataDiriSection: FC = (): ReactElement => {
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [disValue, setDisValue] = useState<string | null>(null);
   const [occValue, setOccValue] = useState<string | null>(null);
   const { getStudent } = useStudentData();
@@ -52,6 +53,15 @@ export const DataDiriSection: FC = (): ReactElement => {
   } = useForm<FieldValues | TVSDataDiri>({
     resolver: zodResolver(VSDataDiri),
     mode: "all",
+  });
+
+  const {
+    control: image,
+    handleSubmit: imageHandleSubmit,
+    formState: { errors: imageErrors },
+  } = useForm<TVSImage>({
+    mode: "all",
+    resolver: zodResolver(VSImage),
   });
 
   const [locationMeta] = useState({
@@ -296,7 +306,56 @@ export const DataDiriSection: FC = (): ReactElement => {
     }
   }, [citizenshipId]);
 
+  const { mutate: mutateUpload } = useUploadImage();
   const { mutate } = useBiodataUpdate();
+
+  const imageSubmit = imageHandleSubmit((data) => {
+    console.log(data);
+    try {
+      setIsLoading(true);
+      mutateUpload(data, {
+        onSuccess: (data) => {
+          mutate(
+            { avatar: data?.path },
+            {
+              onSuccess: () => {
+                setIsLoading(false);
+                setTimeout(() => {
+                  toast.success("Berhasil Simpan Foto", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                }, 500);
+              },
+            },
+          );
+        },
+        onError: () => {
+          setIsLoading(false);
+          setTimeout(() => {
+            toast.error("Gagal Simpan Foto", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          }, 500);
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
   const onSubmit = handleSubmit((data) => {
     dataDiri.fullname = data?.fullname;
@@ -334,10 +393,6 @@ export const DataDiriSection: FC = (): ReactElement => {
     }
 
     try {
-      console.log(data);
-      console.log({ ...dataDiri });
-      console.log({ ...occupationS2S3 });
-      console.log({ ...disabilitiesDataDiri });
       mutate(
         occValue === "Sudah" && student?.degree_program_id !== 1
           ? { ...dataDiri, ...occupationS2S3 }
@@ -399,6 +454,37 @@ export const DataDiriSection: FC = (): ReactElement => {
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] gap-5"
     >
+      <form
+        key="upload-image-form"
+        onSubmit={imageSubmit}
+        className="w-full md:w-[80%] flex flex-col md:flex-row md:gap-x-10 items-center"
+      >
+        <UploadField
+          name="file"
+          classNameField="w-70% lg:w-auto"
+          control={image}
+          variant="custom"
+          labelClassName="iconUpload"
+          labels={<EditOutlined className="text-3xl rounded-full" />}
+          defaultImage={student?.avatar || "/illustrations/dummy-avatar.webp"}
+          previewImage="w-[200px] h-[200px] bg-cover object-cover rounded-full -z-10"
+          preview={true}
+          message={imageErrors?.file?.message}
+        />
+
+        <Button
+          type="submit"
+          variant="green-outline"
+          size="sm"
+          styling="w-[50%] md:w-[25%] xl:w-[20%]"
+          title="change-image"
+          loading={isLoading}
+          disabled={isLoading}
+        >
+          Simpan Gambar
+        </Button>
+      </form>
+
       <form key="data-diri-form" onSubmit={onSubmit} noValidate>
         <ToastContainer
           position="top-center"
@@ -412,20 +498,6 @@ export const DataDiriSection: FC = (): ReactElement => {
           pauseOnHover
           theme="light"
         />
-        <div className="flex flex-col gap-7">
-          <UploadField
-            name="image"
-            className="w-1/2 h-1/2 md:w-[9.5rem] md:h-[9.5rem] xl:w-1/5 xl:h-1/5 2xl:w-[16%] 2xl:h-[16%] relative"
-            classNameField="w-70% lg:w-auto"
-            control={control}
-            variant="custom"
-            labelClassName="iconUpload"
-            labels={<EditOutlined className="text-2xl rounded-full" />}
-            defaultImage="/illustrations/dummy-avatar.webp"
-            previewImage="w-[150px] h-[150px] bg-cover object-cover rounded-full -z-10"
-            preview={true}
-          />
-        </div>
 
         <section
           key="form-biodata"
