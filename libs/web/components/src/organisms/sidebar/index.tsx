@@ -1,12 +1,11 @@
 "use client";
-import { FC, ReactElement, useState, useMemo, Fragment } from "react";
+import { FC, ReactElement, useState, useMemo, Fragment, useEffect } from "react";
 import Image from "next/image";
 import { TSideBarProps } from "./type";
 import { AiOutlineLogout } from "react-icons/ai";
 import Link from "next/link";
 import { Button } from "../../atoms";
 import { motion } from "framer-motion";
-import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { Modal } from "../modal";
 import { MenuOutlined, AppstoreFilled } from "@ant-design/icons";
@@ -16,8 +15,8 @@ import { Loading } from "./loading";
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [avatar, setAvatar] = useState<string | null | undefined>(null);
   const [onToogle, setOnToogle] = useState<boolean>(false);
-  const { data: session } = useSession();
 
   const handleOpenModal = () => {
     setShowModal(!showModal);
@@ -29,25 +28,29 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
     setOnToogle(!onToogle);
   };
 
-  const userName = useMemo(() => {
-    const userName = session?.user?.fullname;
-    return userName;
-  }, [session]);
-
-  const userAvatar = useMemo(() => {
-    const userName = session?.user?.avatar;
-    return userName;
-  }, [session]);
-
   const { data, isLoading } = useStudentGet();
 
   const { getUser, setUser } = useUserData();
   setUser(data);
 
+  const userName = useMemo(() => {
+    const userName = getUser?.fullname;
+    return userName;
+  }, [getUser]);
+
+  const userAvatar = useMemo(() => {
+    const userName = getUser?.avatar;
+    return userName;
+  }, [getUser]);
+
   const userStatus = useMemo(() => {
     const userStatus = getUser?.registration_status;
     return userStatus;
   }, [getUser]);
+
+  useEffect(() => {
+    setAvatar(userAvatar);
+  }, [avatar, userAvatar]);
 
   const pathname = usePathname();
 
@@ -96,13 +99,14 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
             {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
           </h1>
-          <figure className="flex flex-col items-center  ">
+          <figure className="flex flex-col items-center">
             <Image
-              className="rounded-full "
-              src={userAvatar || "/illustrations/dummy-avatar.webp"}
+              className="w-[80px] h-[80px] bg-cover object-cover rounded-full"
+              src={avatar || "/illustrations/dummy-avatar.webp"}
               alt="profile picture"
-              width={70}
-              height={70}
+              quality={100}
+              width={500}
+              height={500}
               priority={true}
             />
             <figcaption className="text-center flex flex-col gap-y-3 mt-3  ">
@@ -249,16 +253,17 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                 {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
               </h1>
               <div className="flex flex-row  items-center gap-x-6">
-                <figure className="flex flex-col">
+                <figure className="flex flex-col items-center">
                   <Image
-                    className="rounded-full mx-auto"
-                    src={userAvatar || "/illustrations/dummy-avatar.webp"}
+                    className="w-[80px] h-[80px] bg-cover object-cover rounded-full"
+                    src={avatar || "/illustrations/dummy-avatar.webp"}
                     alt="profile picture"
-                    width={70}
-                    height={70}
+                    quality={100}
+                    width={500}
+                    height={500}
                     priority={true}
                   />
-                  <figcaption className="text-center flex flex-col gap-y-2 mt-3  ">
+                  <figcaption className="text-center flex flex-col gap-y-2 mt-3">
                     <div className=" text-xs text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
                       <h3 className="max-w-3/5 text-base leading-normal capitalize">{userName}</h3>
                     </div>
@@ -268,10 +273,10 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
               {/* Status pendaftaran */}
               {process.env.NEXT_PUBLIC_WORKSPACE === "user" &&
                 (isLoading ? (
-                  <div className="w-3/5 mt-2 font-bold p-2 rounded-md bg-grayscale-2 animate-pulse h-10"></div>
+                  <div className="w-3/5 font-bold p-2 rounded-md bg-grayscale-2 animate-pulse h-10"></div>
                 ) : (
                   <div
-                    className={`w-3/5 mt-2 font-bold ${
+                    className={`w-3/5 font-bold ${
                       userStatus === "Belum Membayar" ||
                       userStatus === "Tidak Lulus" ||
                       userStatus === "Belum Mendaftar"

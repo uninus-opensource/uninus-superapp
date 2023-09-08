@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class resendOtpSwagger {
+export class ResendOtpSwagger {
   @ApiProperty({
     example: "",
   })

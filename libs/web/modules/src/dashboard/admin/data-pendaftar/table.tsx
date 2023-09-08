@@ -19,7 +19,12 @@ const Table: FC = (): ReactElement => {
     {
       name: "No Registrasi",
       cell: (row) => row.registration_number,
-      width: "200px",
+      width: "150px",
+    },
+    {
+      name: "Tanggal Daftar",
+      cell: (row) => row.date_registration,
+      width: "150px",
     },
     {
       name: "Nama Lengkap",

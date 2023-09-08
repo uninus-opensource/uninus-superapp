@@ -5,10 +5,11 @@ import { useForm } from "react-hook-form";
 import { useGetBiodata } from "../registrasi";
 import Link from "next/link";
 import { CaretRightFilled } from "@ant-design/icons";
+import { TUploadDocument } from "./type";
 
 export const ModuleDokumen: FC = (): ReactElement => {
   const { control } = useForm({
-    defaultValues: {},
+    mode: "all",
   });
 
   const { data } = useGetBiodata();
@@ -21,14 +22,14 @@ export const ModuleDokumen: FC = (): ReactElement => {
     return data?.selection_path_id;
   }, [data?.selection_path_id]);
 
-  const documentS1 = [
+  const documentS1: TUploadDocument[] = [
     { label: "Kartu Keluarga", name: "kartu_keluarga" },
     { label: "KTP", name: "KTP" },
     { label: "Akta Kelahiran", name: "akta_kelahiran" },
     { label: "Ijazah/SKL", name: "ijazah_SKL" },
   ];
 
-  const documentS2 = [
+  const documentS2: TUploadDocument[] = [
     { label: "Ijazah S1", name: "ijazah_s1" },
     { label: "Kartu Keluarga", name: "kartu_keluarga" },
     { label: "KTP", name: "KTP" },
@@ -36,7 +37,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
     { label: "Porlap Dikti", name: "porlap_dikti" },
   ];
 
-  const documentS3 = [
+  const documentS3: TUploadDocument[] = [
     { label: "Ijazah S1", name: "ijazah_s1" },
     { label: "KTP", name: "KTP" },
     { label: "Ijazah S2", name: "ijazah_s2" },
@@ -44,7 +45,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
     { label: "Kartu Keluarga", name: "kartu_keluarga" },
     { label: "Porlap Dikti", name: "porlap_dikti" },
   ];
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -105,8 +106,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
           <div className="w-full md:h-auto flex ">
             <section className="grid lg:grid-cols-2 grid-cols-1 md:grid-cols-2 gap-10 w-full justify-start items-start px-2">
               {degreeProgram === 1 &&
-                documentS1.map((documentType) => (
-                  <div key={documentType.name} className="flex flex-col gap-2">
+                documentS1.map((documentType, idx) => (
+                  <div key={idx} className="flex flex-col gap-2">
                     <h3 className="font-bold text-xs text-left">{documentType.label}</h3>
                     <UploadField
                       control={control}
@@ -118,8 +119,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                 ))}
 
               {degreeProgram === 2 &&
-                documentS2.map((documentType) => (
-                  <div key={documentType.name} className="flex flex-col gap-2">
+                documentS2.map((documentType, idx) => (
+                  <div key={idx} className="flex flex-col gap-2">
                     <h3 className="font-bold text-xs text-lef">{documentType.label}</h3>
                     <UploadField
                       control={control}
@@ -131,8 +132,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                 ))}
 
               {degreeProgram === 3 &&
-                documentS3.map((documentType) => (
-                  <div key={documentType.name} className="flex flex-col gap-2">
+                documentS3.map((documentType, idx) => (
+                  <div key={idx} className="flex flex-col gap-2">
                     <h3 className="font-bold text-xs text-lef">{documentType.label}</h3>
                     <UploadField
                       control={control}

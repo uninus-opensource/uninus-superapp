@@ -140,7 +140,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
   useEffect(() => {
     const { average_grade, average_utbk, utbk_kk, utbk_pu, utbk_ppu, utbk_kmbm, ...grades } =
       getValues();
-    console.log(getValues());
+
     const average = Object.values(grades);
 
     const result = Number(average.reduce((acc, curr) => Number(acc) + Number(curr), 0));
@@ -160,7 +160,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
       "average_utbk",
       Number(student?.average_utbk === 0 ? (resultUtbk / 4).toFixed(1) : student?.average_utbk),
     );
-    console.log(typeof resultUtbk);
   }, [
     getValues,
     setValue,
@@ -190,38 +189,43 @@ export const DataNilaiSection: FC = (): ReactElement => {
           pauseOnHover
           theme="light"
         />
-        <h1 className="font-bold text-2xl mt-3  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-10">
+        <h1 className="font-bold text-2xl md:pl-16 lg:pl-0 mt-3 place-self-start text-center md:text-left">
           Nilai Rapor
         </h1>
-        <p className="text-sm lg:text-base text-grayscale-7 mt-2">
+        <p className="text-sm lg:text-base text-grayscale-7 mt-2 md:text-left md:pl-16 lg:pl-0">
           Masukkan hanya nilai pengetahuan <span className="text-red text-base text-red-6 ">*</span>
         </p>
         <section className="w-5/6 flex px-2 py-6 gap-y-4 mx-auto flex-col relative justify-center overflow-x-scroll lg:w-full lg:overflow-x-hidden">
-          <div className="ml-20 flex gap-x-5 mt-9 lg:ml-36 lg:gap-x-11 lg:w-full ">
+          <div className="md:ml-20 lg:ml-[8.5rem] flex gap-x-12 md:gap-x-5 mt-9 lg:gap-x-11 lg:w-full ">
+            <p className="text-[12px] lg:text-base font-bold lg:pr-0 md:hidden">Semester</p>
             <div className="mb-4 flex-shrink-0">
               <p className="labelSemesterStyle">Semester 1</p>
+              <p className="text-[13px] md:hidden">1</p>
             </div>
             <div className="mb-4 flex-shrink-0">
               <p className="labelSemesterStyle">Semester 2</p>
+              <p className="text-[13px] md:hidden">2</p>
             </div>
             <div className="mb-4 flex-shrink-0">
               <p className="labelSemesterStyle">Semester 3</p>
+              <p className="text-[13px] md:hidden">3</p>
             </div>
             <div className="mb-4 flex-shrink-0">
               <p className="labelSemesterStyle">Semester 4</p>
+              <p className="text-[13px] md:hidden">4</p>
             </div>
           </div>
 
           <div className=" flex items-center gap-x-5 lg:gap-x-10 my-auto">
             <p className="labelCourseStyle">Matematika</p>
-            <div className="flex gap-x-7 ">
+            <div className="flex gap-x-4 md:gap-x-7">
               <TextField
                 inputHeight="h-10"
                 name="mtk1"
                 variant="md"
                 type="number"
                 labelclassname="text-xs md:text-sm "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.mtk1 ? true : false}
               />
@@ -231,7 +235,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 variant="md"
                 type="number"
                 labelclassname="text-xs md:text-sm "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.mtk2 ? true : false}
               />
@@ -241,7 +245,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 variant="md"
                 type="number"
                 labelclassname="text-sm "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.mtk3 ? true : false}
               />
@@ -251,22 +255,22 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 variant="md"
                 type="number"
                 labelclassname="text-sm "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.mtk4 ? true : false}
               />
             </div>
           </div>
           <div className="flex items-center gap-x-5 lg:gap-x-10 my-auto">
-            <p className="labelCourseStyle">B.Indonesia </p>
-            <div className="flex gap-x-7 ml-1">
+            <p className="labelCourseStyle">B.Indonesia</p>
+            <div className="flex gap-x-4 md:gap-x-7">
               <TextField
                 inputHeight="h-10"
                 name="bind1"
                 variant="md"
                 type="number"
-                labelclassname="text-xs md:text-sm  "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                labelclassname="text-xs md:text-sm"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.bind1 ? true : false}
               />
@@ -275,8 +279,8 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 name="bind2"
                 variant="md"
                 type="number"
-                labelclassname="text-xs md:text-sm "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                labelclassname="text-xs md:text-sm"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.bind2 ? true : false}
               />
@@ -286,7 +290,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 variant="md"
                 type="number"
                 labelclassname="text-sm "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.bind3 ? true : false}
               />
@@ -296,7 +300,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 variant="md"
                 type="number"
                 labelclassname="text-sm "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.bind4 ? true : false}
               />
@@ -304,14 +308,14 @@ export const DataNilaiSection: FC = (): ReactElement => {
           </div>
           <div className="flex items-center gap-x-6 lg:gap-x-14 my-auto">
             <p className="labelCourseStyle">B.inggris</p>
-            <div className="flex gap-x-7 ml-3">
+            <div className="flex gap-x-4 md:gap-x-7 ml-4 lg:ml-2">
               <TextField
                 inputHeight="h-10"
                 name="bing1"
                 variant="md"
                 type="number"
                 labelclassname="text-xs md:text-sm"
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 className="ml-4"
                 disabled={isDisabled || dataStudentGrade?.bing1 ? true : false}
@@ -322,7 +326,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 variant="md"
                 type="number"
                 labelclassname="text-sm "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.bing2 ? true : false}
               />
@@ -332,7 +336,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 variant="md"
                 type="number"
                 labelclassname="text-sm "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.bing3 ? true : false}
               />
@@ -342,7 +346,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 variant="md"
                 type="number"
                 labelclassname="text-sm "
-                inputWidth="lg:w-26 w-16 text-base text-center"
+                inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 disabled={isDisabled || dataStudentGrade?.bing4 ? true : false}
               />
@@ -352,26 +356,23 @@ export const DataNilaiSection: FC = (): ReactElement => {
             <div className="flex-shrink-0">
               <p className="labelCourseStyle">Rata-rata</p>
             </div>
-            <div className="lg:w-3/5 w-screen lg:ml-4 lg:pl-1 lg:pr-16">
+            <div className="w-full lg:ml-4 lg:pl-1 lg:pr-16">
               <TextField
                 inputHeight="h-10"
                 name="average_grade"
                 variant="md"
                 type="number"
                 labelclassname="text-sm "
-                inputWidth="w-95% lg:w-3/4 xl:w-[31.5rem] text-base text-center"
+                inputWidth="text-base text-center md:w-[50%]"
                 control={control}
                 disabled
               />
             </div>
           </div>
-          <div className="flex items-center lg:gap-x-4 w-96 my-auto">
-            <div className="flex-shrink-0">
-              <p className="labelCourseStyle">Upload Rapor</p>
-            </div>
-            <div className="flex gap-x-0 lg:gap-x-11 ml-2 lg:ml-1 w-80%">
+          <div className="flex flex-col md:flex-row md:items-center gap-x-6 lg:gap-x-4 w-full">
+            <p className="text-[12px] lg:text-base font-bold text-left">Upload Rapor</p>
+            <div className="flex gap-4 mt-2">
               <UploadField
-                className="min-w-[30%] "
                 control={control}
                 name="dokumen1"
                 variant="custom"
@@ -380,7 +381,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 preview={false}
               />
               <UploadField
-                className="min-w-[30%] "
                 control={control}
                 name="dokumen2"
                 variant="custom"
@@ -389,7 +389,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 preview={false}
               />
               <UploadField
-                className="min-w-[30%]"
                 control={control}
                 name="dokumen3"
                 variant="custom"
@@ -398,7 +397,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 preview={false}
               />
               <UploadField
-                className="min-w-[30%] "
                 control={control}
                 name="dokumen4"
                 variant="custom"
