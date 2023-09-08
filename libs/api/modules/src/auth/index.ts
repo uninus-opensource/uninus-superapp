@@ -5,7 +5,6 @@ import { AuthController } from "@uninus/api/controllers";
 import { JwtStrategy, RtStrategy } from "@uninus/api/strategies";
 import { PrismaModule } from "@uninus/api/models";
 import { AuthService } from "@uninus/api/services";
-import { PmbModule } from "../pmb";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 @Module({
   imports: [
@@ -19,18 +18,16 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
     }),
     ClientsModule.register([
       {
-        name: 'REDIS_SERVICE',
+        name: "REDIS_SERVICE",
         transport: Transport.REDIS,
-        options:{
+        options: {
           host: process.env.REDIS_HOST,
           port: parseInt(process.env.REDIS_PORT),
           password: process.env.REDIS_PASSWORD,
           username: process.env.REDIS_USERNAME,
-        }
-      }
+        },
+      },
     ]),
-
-    PmbModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, RtStrategy],

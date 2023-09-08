@@ -1,13 +1,14 @@
 import { Module } from "@nestjs/common";
-import { StudentController } from "@uninus/api/controllers";
 import { PrismaModule } from "@uninus/api/models";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { GeneralController } from "@uninus/api/controllers";
+
 @Module({
   imports: [
     PrismaModule,
     ClientsModule.register([
       {
-        name: "STUDENT_SERVICE",
+        name: "GENERAL_SERVICE",
         transport: Transport.REDIS,
         options: {
           host: process.env.REDIS_HOST,
@@ -18,7 +19,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
       },
     ]),
   ],
-  controllers: [StudentController],
+  controllers: [GeneralController],
   providers: [],
 })
-export class StudentModule {}
+export class SelectModule {}
