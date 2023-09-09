@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 const LandingPage: NextPage = (): ReactElement => (
   <Fragment>
-    <Head>
+    {/* <Head>
       <link rel="icon" href="/logo.ico" />
-    </Head>
+    </Head> */}
     <section key="login-evaluasi">
       <LoginEvaluasiDosenModule key="auth-admin-evaluasi" />
     </section>
