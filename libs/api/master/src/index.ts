@@ -2,15 +2,14 @@ import { Module } from "@nestjs/common";
 import { PrismaModule } from "@uninus/api/models";
 import {
   AuthModule,
-  PmbModule,
-  SelectModule,
+  GeneralModule,
   StudentModule,
   UserModule,
-  FileModule
+  FileModule,
 } from "@uninus/api/modules";
 
 @Module({
-  imports: [PrismaModule, AuthModule, PmbModule, StudentModule, UserModule, SelectModule, FileModule],
+  imports: [PrismaModule, AuthModule, StudentModule, UserModule, GeneralModule, FileModule],
   controllers: [],
   providers: [],
 })
