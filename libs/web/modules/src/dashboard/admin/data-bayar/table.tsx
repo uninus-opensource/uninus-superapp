@@ -3,7 +3,7 @@ import { FC, ReactElement, useState, useEffect, SetStateAction } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataBayar } from "./types";
 import { dataBayar } from "./store";
-import { LoadingSpinner, SearchInput } from "@uninus/web/components";
+import { TableLoadingData, SearchInput } from "@uninus/web/components";
 import { FileTextOutlined } from "@ant-design/icons";
 import { match } from "ts-pattern";
 
@@ -132,7 +132,7 @@ const Table: FC = (): ReactElement => {
         customStyles={customStyles}
         fixedHeader={true}
         progressPending={pending}
-        progressComponent={<LoadingSpinner className="w-10 h-10" />}
+        progressComponent={<TableLoadingData className="w-full h-80" />}
         noDataComponent={
           <div className="flex flex-col w-full h-screen justify-center items-center">
             <h1 className="font-bold my-2">Data Tidak Tersedia</h1>

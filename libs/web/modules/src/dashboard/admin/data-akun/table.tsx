@@ -4,7 +4,7 @@ import { useForm, FieldValues } from "react-hook-form";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataAkun } from "./types";
 import { dataAkun } from "./store";
-import { LoadingSpinner, SearchInput, Modal, Button, TextField } from "@uninus/web/components";
+import { SearchInput, Modal, TableLoadingData } from "@uninus/web/components";
 import { FormOutlined } from "@ant-design/icons";
 
 const Table: FC = (): ReactElement => {
@@ -134,7 +134,7 @@ const Table: FC = (): ReactElement => {
         customStyles={customStyles}
         fixedHeader={true}
         progressPending={pending}
-        progressComponent={<LoadingSpinner className="w-10 h-10" />}
+        progressComponent={<TableLoadingData className="w-full h-80" />}
         noDataComponent={
           <div className="flex flex-col w-full h-screen justify-center items-center">
             <h1 className="font-bold my-2">Data Tidak Tersedia</h1>
