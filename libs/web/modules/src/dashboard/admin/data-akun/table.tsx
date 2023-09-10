@@ -1,6 +1,5 @@
 "use client";
-import { FC, ReactElement, useState, useEffect, SetStateAction } from "react";
-import { useForm, FieldValues } from "react-hook-form";
+import { FC, ReactElement, useState, useEffect, SetStateAction, useMemo } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataAkun } from "./types";
 import { dataAkun } from "./store";
@@ -13,53 +12,56 @@ const Table: FC = (): ReactElement => {
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [pending, setPending] = useState(true);
 
-  const columnsAkun: TableColumn<TDataAkun>[] = [
-    {
-      name: "No",
-      cell: (row, rowIndex) => <div className="px-1">{rowIndex + 1}</div>,
-      width: "5%",
-    },
-    {
-      name: "Nama Lengkap",
-      cell: (row) => row.name,
-      width: "15%",
-    },
-    {
-      name: "Role",
-      cell: (row) => row.role,
-      width: "18%",
-    },
-    {
-      name: "No Telp",
-      cell: (row) => row.telp_number,
-      width: "15%",
-    },
-    {
-      name: "Email",
-      cell: (row) => row.email,
-      width: "20%",
-    },
-    {
-      name: "Password",
-      cell: (row) => row.password,
-      width: "12%",
-    },
+  const columnsAkun: TableColumn<TDataAkun>[] = useMemo(
+    () => [
+      {
+        name: "No",
+        cell: (_row, rowIndex) => <div className="px-1">{rowIndex + 1}</div>,
+        width: "5%",
+      },
+      {
+        name: "Nama Lengkap",
+        cell: (row) => row.name,
+        width: "15%",
+      },
+      {
+        name: "Role",
+        cell: (row) => row.role,
+        width: "18%",
+      },
+      {
+        name: "No Telp",
+        cell: (row) => row.telp_number,
+        width: "15%",
+      },
+      {
+        name: "Email",
+        cell: (row) => row.email,
+        width: "20%",
+      },
+      {
+        name: "Password",
+        cell: (row) => row.password,
+        width: "12%",
+      },
 
-    {
-      name: "Action",
-      cell: (row) => (
-        <button
-          onClick={handleCloseModal}
-          className="flex gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center"
-        >
-          <div>
-            <FormOutlined />
-          </div>
-          Edit
-        </button>
-      ),
-    },
-  ];
+      {
+        name: "Action",
+        cell: () => (
+          <button
+            onClick={handleCloseModal}
+            className="flex gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center"
+          >
+            <div>
+              <FormOutlined />
+            </div>
+            Edit
+          </button>
+        ),
+      },
+    ],
+    [],
+  );
 
   const customStyles = {
     rows: {
@@ -105,7 +107,7 @@ const Table: FC = (): ReactElement => {
       setPending(false);
     }, 1500);
     return () => clearTimeout(timeout);
-  }, [tableAkun]);
+  }, [columnsAkun, tableAkun]);
 
   const filteredDataAkun = dataAkun.filter(
     (item) =>
