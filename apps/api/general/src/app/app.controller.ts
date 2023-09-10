@@ -13,9 +13,9 @@ import {
   IEducationMajorRequest,
   IEducationTypeRequest,
   ISelectionRequest,
-  ICountryRequest,
   IRegistransRequest,
   IInterestEducationPrograms,
+  IInterestDepartment,
 } from "@uninus/entities";
 
 @Controller()
@@ -145,6 +145,17 @@ export class AppController {
   getInterestEducationProgram(payload: IInterestEducationPrograms) {
     return this.appService.getInterestEducationPrograms(payload);
   }
+
+  @MessagePattern("get_interest_department")
+  getStudyProgramInterest(payload: IInterestDepartment) {
+    return this.appService.getInterestDepartment(payload);
+  }
+
+  @MessagePattern("get_registration_status")
+  getRegistrationStatus(payload: ISelectRequest) {
+    return this.appService.getRegistrationStatus(payload);
+  }
+
   @MessagePattern("get_country")
   getCountry(payload: { search: string; citizenship_id: string; id: number }) {
     return this.appService.getCountry(payload);

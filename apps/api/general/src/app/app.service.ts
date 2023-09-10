@@ -47,6 +47,13 @@ import {
   TCityResponse,
   ISubDistrictRequest,
   TSubDistrictResponse,
+  EFilterTypeTotalRegistrans,
+  TInterestEducationPrograms,
+  EFilterTypeInterestProgram,
+  EFilterTypeStudyProgramInterest,
+  TRegistrationStatusResponse,
+  IInterestDepartment,
+  TInterestDepartmentResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -515,9 +522,9 @@ export class AppService {
   }
 
   async getTotalRegistrans({
-    filterType,
-    startDate,
-    endDate,
+    filter_type,
+    start_date,
+    end_date,
   }: IRegistransRequest): Promise<TTotalRegistransResponse> {
     let whereClause: {
       createdAt?: {
@@ -526,9 +533,9 @@ export class AppService {
       };
     } = {};
 
-    if (filterType) {
-      switch (filterType) {
-        case "weekly": {
+    if (filter_type) {
+      switch (filter_type) {
+        case EFilterTypeTotalRegistrans.WEEKLY: {
           const now = new Date();
           const today = now.getUTCDay();
           const weekStart = new Date(now);
@@ -547,7 +554,7 @@ export class AppService {
           break;
         }
 
-        case "monthly": {
+        case EFilterTypeTotalRegistrans.MONTHLY: {
           const currentDate = new Date();
           const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
           const endOfMonth = new Date(
@@ -569,7 +576,7 @@ export class AppService {
           break;
         }
 
-        case "yearly": {
+        case EFilterTypeTotalRegistrans.YEARLY: {
           const currentYear = new Date().getFullYear();
           const startOfYear = new Date(currentYear, 0, 1);
           const endOfYear = new Date(currentYear, 11, 31, 23, 59, 59, 999);
@@ -583,8 +590,8 @@ export class AppService {
           break;
         }
 
-        case "range": {
-          if (!startDate || !endDate) {
+        case EFilterTypeTotalRegistrans.RANGE: {
+          if (!start_date || !end_date) {
             throw new RpcException(
               new BadRequestException(
                 "start date dan end date wajib diisi ketika memilih filter range",
@@ -594,8 +601,8 @@ export class AppService {
 
           whereClause = {
             createdAt: {
-              gte: new Date(`${startDate}T00:00:00Z`),
-              lte: new Date(`${endDate}T23:59:59Z`),
+              gte: new Date(`${start_date}T00:00:00Z`),
+              lte: new Date(`${end_date}T23:59:59Z`),
             },
           };
           break;
@@ -607,41 +614,43 @@ export class AppService {
       }
     }
 
-    const [total_registrans, accepted_registrans, usersByDate] = await Promise.all([
+    const [total_registrans, accepted_registrans, paidsCount, unpaidsCount] = await Promise.all([
       this.prisma.users.count({
         select: {
           _all: true,
         },
         where: whereClause,
       }),
-      this.prisma.pMB.findMany({
+      this.prisma.pMB.count({
         where: {
-          registration_status: {
-            name: {
-              contains: "lulus",
-              mode: "insensitive",
-            },
-          },
+          ...whereClause,
+          registration_status_id: 5,
         },
       }),
-      this.prisma.users.findMany({
-        where: whereClause,
+      this.prisma.pMB.count({
+        where: {
+          ...whereClause,
+          registration_status_id: 3,
+        },
+      }),
+      this.prisma.pMB.count({
+        where: {
+          ...whereClause,
+          registration_status_id: 2,
+        },
       }),
     ]);
-
-    if (!accepted_registrans && !usersByDate.length) {
-      throw new RpcException(new NotFoundException("Data tidak ditemukan"));
-    }
-
     return {
       total_registrans: total_registrans._all,
-      paids: 0,
-      unpaids: 0,
-      accepted_registrans: accepted_registrans.length,
+      paids: paidsCount,
+      unpaids: unpaidsCount,
+      accepted_registrans: accepted_registrans,
     };
   }
 
-  async getInterestEducationPrograms({ filterType }: IInterestEducationPrograms) {
+  async getInterestEducationPrograms({
+    filter_type,
+  }: IInterestEducationPrograms): Promise<TInterestEducationPrograms> {
     let whereClause: {
       createdAt?: {
         gte?: Date;
@@ -649,9 +658,9 @@ export class AppService {
       };
     } = {};
 
-    if (filterType) {
-      switch (filterType) {
-        case "weekly": {
+    if (filter_type) {
+      switch (filter_type) {
+        case EFilterTypeInterestProgram.WEEKLY: {
           const now = new Date();
           const today = now.getUTCDate();
           const weekStart = new Date(now);
@@ -671,7 +680,7 @@ export class AppService {
           break;
         }
 
-        case "monthly": {
+        case EFilterTypeInterestProgram.MONTHLY: {
           const currentDate = new Date();
           const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
           const endOfMonth = new Date(
@@ -693,7 +702,7 @@ export class AppService {
           break;
         }
 
-        case "yearly": {
+        case EFilterTypeInterestProgram.YEARLY: {
           const currentYear = new Date().getFullYear();
           const startOfYear = new Date(currentYear, 0, 1);
           const endOfYear = new Date(currentYear, 11, 31, 23, 59, 59, 999);
@@ -744,6 +753,363 @@ export class AppService {
     };
 
     return result;
+  }
+
+  async getInterestDepartment({
+    filter_type,
+    degree_program_id,
+  }: IInterestDepartment): Promise<TInterestDepartmentResponse> {
+    let whereClause: {
+      createdAt?: {
+        gte?: Date;
+        lte?: Date;
+      };
+    } = {};
+
+    if (filter_type) {
+      switch (filter_type) {
+        case EFilterTypeStudyProgramInterest.WEEKLY: {
+          const now = new Date();
+          const today = now.getUTCDate();
+          const weekStart = new Date(now);
+          weekStart.setUTCDate(now.getUTCDate() - today);
+          weekStart.setUTCHours(0, 0, 0, 0);
+          const weekEnd = new Date(weekStart);
+          weekEnd.setUTCDate(weekStart.getUTCDate() + 6);
+          weekEnd.setUTCHours(23, 59, 59, 999);
+
+          whereClause = {
+            createdAt: {
+              gte: weekStart,
+              lte: weekEnd,
+            },
+          };
+
+          break;
+        }
+
+        case EFilterTypeStudyProgramInterest.MONTHLY: {
+          const currentDate = new Date();
+          const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+          const endOfMonth = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth() + 1,
+            0,
+            23,
+            59,
+            59,
+            999,
+          );
+
+          whereClause = {
+            createdAt: {
+              gte: startOfMonth,
+              lte: endOfMonth,
+            },
+          };
+
+          break;
+        }
+
+        case EFilterTypeStudyProgramInterest.YEARLY: {
+          const currentYear = new Date().getFullYear();
+          const startOfYear = new Date(currentYear, 0, 1);
+          const endOfYear = new Date(currentYear, 11, 31, 23, 59, 59, 999);
+
+          whereClause = {
+            createdAt: {
+              gte: startOfYear,
+              lte: endOfYear,
+            },
+          };
+          break;
+        }
+
+        default: {
+          throw new RpcException(new BadRequestException("Invalid Type Filter"));
+        }
+      }
+    }
+
+    const response: TInterestDepartmentResponse = {
+      kpi: 0,
+      pai: 0,
+      pgmi: 0,
+      pbs: 0,
+      akuntansi: 0,
+      manajemen: 0,
+      iHukum: 0,
+      iKomunikasi: 0,
+      iPerpustakaan: 0,
+      pba: 0,
+      pbsi: 0,
+      pbing: 0,
+      pgpaud: 0,
+      plb: 0,
+      pls: 0,
+      pmath: 0,
+      ppkn: 0,
+      agrotek: 0,
+      te: 0,
+      tif: 0,
+      ti: 0,
+      mAdmPendidikan: 0,
+      mPai: 0,
+      mIHukum: 0,
+      dIPendidikan: 0,
+    };
+
+    response.mAdmPendidikan = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          first_deparment_id: 1,
+          ...whereClause,
+        },
+      },
+    });
+    response.mPai = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 2,
+        },
+      },
+    });
+    response.mIHukum = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 3,
+        },
+      },
+    });
+    response.pai = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 4,
+        },
+      },
+    });
+    response.pbs = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 5,
+        },
+      },
+    });
+    response.pgmi = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 6,
+        },
+      },
+    });
+    response.kpi = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 7,
+        },
+      },
+    });
+    response.plb = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 8,
+        },
+      },
+    });
+    response.pls = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 9,
+        },
+      },
+    });
+    response.pgpaud = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 10,
+        },
+      },
+    });
+    response.pbsi = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 11,
+        },
+      },
+    });
+    response.pbing = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 12,
+        },
+      },
+    });
+    response.pba = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 13,
+        },
+      },
+    });
+    response.pmath = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 14,
+        },
+      },
+    });
+    response.ppkn = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 15,
+        },
+      },
+    });
+    response.te = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 16,
+        },
+      },
+    });
+    response.tif = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 17,
+        },
+      },
+    });
+    response.ti = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 18,
+        },
+      },
+    });
+    response.iKomunikasi = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 19,
+        },
+      },
+    });
+    response.iPerpustakaan = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 20,
+        },
+      },
+    });
+    response.akuntansi = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 21,
+        },
+      },
+    });
+    response.manajemen = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 22,
+        },
+      },
+    });
+    response.iHukum = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 23,
+        },
+      },
+    });
+    response.agrotek = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 24,
+        },
+      },
+    });
+    response.dIPendidikan = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_deparment_id: 25,
+        },
+      },
+    });
+
+    return response;
+  }
+
+  async getRegistrationStatus({
+    search,
+    id,
+  }: ISelectRequest): Promise<TRegistrationStatusResponse> {
+    const registration_status = await this.prisma.registrationStatus.findMany({
+      where: {
+        ...(id && { id: Number(id) }),
+        name: {
+          ...(search && { contains: search }),
+          mode: "insensitive",
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (registration_status.length === 0) {
+      throw new RpcException(new NotFoundException("Status pendaftaran tidak ditemukan"));
+    }
+    return { registration_status: registration_status };
   }
 
   async getProvince({ search, id }: ISelectRequest): Promise<TProvinceResponse> {

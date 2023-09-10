@@ -560,19 +560,19 @@ export class GeneralController {
   @ApiResponse({
     status: 500,
     description:
-      "Invalid filter type or startDate and endDate must be filled when selecting a filter range",
+      "Invalid filter type or start_type and end_date must be filled when selecting a filter range",
   })
-  @ApiQuery({ name: "filterType", required: false })
-  @ApiQuery({ name: "startDate", required: false })
-  @ApiQuery({ name: "endDate", required: false })
+  @ApiQuery({ name: "filter_type", required: false })
+  @ApiQuery({ name: "start_date", required: false })
+  @ApiQuery({ name: "end_date", required: false })
   async getRegistrans(
-    @Query("filterType") filterType: string,
-    @Query("startDate") startDate: string,
-    @Query("endDate") endDate: string,
+    @Query("filter_type") filter_type: string,
+    @Query("start_date") start_date: string,
+    @Query("end_date") end_date: string,
   ) {
     const response = await firstValueFrom(
       this.client
-        .send("get_registrans", { filterType, startDate, endDate })
+        .send("get_registrans", { filter_type, start_date, end_date })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -584,11 +584,50 @@ export class GeneralController {
     status: 500,
     description: "Invalid Type Filter",
   })
-  @ApiQuery({ name: "filterType", required: false })
-  async getInterestPrograms(@Query("filterType") filterType: string) {
+  @ApiQuery({ name: "filter_type", required: false })
+  async getInterestPrograms(@Query("filter_type") filter_type: string) {
     const response = await firstValueFrom(
       this.client
-        .send("get_interest_education_program", { filterType })
+        .send("get_interest_education_program", { filter_type })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+
+    return response;
+  }
+
+  @Get("interest-department")
+  @ApiOperation({ summary: "Get Total Interest Department" })
+  @ApiResponse({
+    status: 500,
+    description: "Invalid Type Filter",
+  })
+  @ApiQuery({ name: "filter_type", required: false })
+  @ApiQuery({ name: "degree_program_id", required: false })
+  async getInterestDepartment(
+    @Query("filter_type") filter_type: string,
+    @Query("degree_program_id") degree_program_id: number,
+  ) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_interest_department", { filter_type, degree_program_id })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+
+    return response;
+  }
+
+  @Get("registration_status")
+  @ApiOperation({ summary: "Get registration status" })
+  @ApiResponse({
+    status: 500,
+    description: "Status pendaftaran tidak ditemukan",
+  })
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "search", required: false })
+  async getRegistrationStatus(@Query("id") id: number, @Query("search") search: string) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_registration_status", { search, id })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 

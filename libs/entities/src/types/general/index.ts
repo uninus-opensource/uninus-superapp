@@ -278,15 +278,9 @@ export type TTotalRegistransResponse = {
 };
 
 export interface IRegistransRequest {
-  filterType?: string;
-  startDate?: string;
-  endDate?: string;
-}
-
-export interface IRegistransRequest {
-  filterType?: string;
-  startDate?: string;
-  endDate?: string;
+  filter_type?: string;
+  start_date?: string;
+  end_date?: string;
 }
 
 export type TInterestEducationPrograms = {
@@ -296,5 +290,45 @@ export type TInterestEducationPrograms = {
 };
 
 export interface IInterestEducationPrograms {
-  filterType?: string;
+  filter_type?: string;
 }
+
+export type TInterestDepartmentResponse = {
+  kpi?: number;
+  pai?: number;
+  pgmi?: number;
+  pbs?: number;
+  akuntansi?: number;
+  manajemen?: number;
+  iHukum?: number;
+  iKomunikasi?: number;
+  iPerpustakaan?: number;
+  pba?: number;
+  pbsi?: number;
+  pbing?: number;
+  pgpaud?: number;
+  plb?: number;
+  pls?: number;
+  pmath?: number;
+  ppkn?: number;
+  agrotek?: number;
+  te?: number;
+  tif?: number;
+  ti?: number;
+  mAdmPendidikan?: number;
+  mPai?: number;
+  mIHukum?: number;
+  dIPendidikan?: number;
+};
+
+export interface IInterestDepartment {
+  filter_type?: string;
+  degree_program_id?: number;
+}
+
+export type TRegistrationStatusResponse = {
+  registration_status: Array<{
+    id: number;
+    name: string;
+  }>;
+};
