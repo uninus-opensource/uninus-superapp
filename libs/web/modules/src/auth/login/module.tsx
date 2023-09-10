@@ -1,5 +1,5 @@
 "use client";
-import { Button, CheckBox, TextField } from "@uninus/web/components";
+import { Button, TextField } from "@uninus/web/components";
 import { signIn } from "next-auth/react";
 import { FC, ReactElement, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { VSLogin, TVSLogin } from "@uninus/entities";
 import Image from "next/image";
 import { useUserEmail } from "@uninus/web/services";
+
 export const LoginUserModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [getError, setError] = useState<string | undefined>(undefined);
@@ -454,9 +455,9 @@ export const LoginTracerAlumni: FC = (): ReactElement => {
   return (
     <section
       key="auth-tracer-alumni"
-      className="w-full min-h-screen bg-[url(/illustrations/bg-auth-tracer.webp)] bg-center bg-no-repeat  bg-primary-green bg-blend-overlay"
+      className={`w-full min-h-screen bg-[url(/illustrations/backgroundAuthMd.svg)] lg:bg-[url(/illustrations/backgroundAuthLg.svg)] bg-cover bg-center object-cover bg-no-repeat`}
     >
-      <div className="w-full h-screen flex justify-center items-center backdrop-blur-sm">
+      <div className="w-full h-screen flex justify-center items-center">
         <form
           onSubmit={onSubmit}
           className="w-5/6 md:w-1/2 lg:w-1/3  bg-primary-white rounded-md py-8 px-12 lg:px-14 flex flex-col items-center justify-center gap-y-6"
@@ -590,7 +591,7 @@ export const LoginAdminTataUsahaModule: FC = (): ReactElement => {
   return (
     <section
       key="auth-admin-tata-usaha"
-      className="w-full min-h-screen bg-[url(/illustrations/bg-auth-tata-usaha.webp)] bg-center bg-no-repeat bg-cover-primary-green bg-blend-overlay"
+      className={`w-full min-h-screen bg-[url(/illustrations/backgroundAuthMd.svg)] lg:bg-[url(/illustrations/backgroundAuthLg.svg)] bg-cover bg-center object-cover bg-no-repeat`}
     >
       {getError && (
         <ToastContainer
@@ -606,7 +607,7 @@ export const LoginAdminTataUsahaModule: FC = (): ReactElement => {
           theme="colored"
         />
       )}
-      <div className="w-full h-screen flex justify-center items-center backdrop-blur-sm">
+      <div className="w-full h-screen flex justify-center items-center">
         <form
           onSubmit={onSubmit}
           className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6"
@@ -723,7 +724,7 @@ export const LoginSiakadModule: FC = (): ReactElement => {
   return (
     <section
       key="auth-siakad"
-      className="w-full min-h-screen bg-[url(/illustrations/bg-auth-siakad.webp)] bg-center bg-no-repeat bg-cover-primary-green bg-blend-overlay"
+      className={`w-full min-h-screen bg-[url(/illustrations/backgroundAuthMd.svg)] lg:bg-[url(/illustrations/backgroundAuthLg.svg)] bg-cover bg-center object-cover bg-no-repeat`}
     >
       {getError && (
         <ToastContainer
@@ -739,7 +740,7 @@ export const LoginSiakadModule: FC = (): ReactElement => {
           theme="colored"
         />
       )}
-      <div className="w-full h-screen flex justify-center items-center backdrop-blur-sm">
+      <div className="w-full h-screen flex justify-center items-center">
         <form
           onSubmit={onSubmit}
           className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6"
@@ -857,9 +858,9 @@ export const LoginEvaluasiDosenModule: FC = (): ReactElement => {
   return (
     <section
       key="auth-admin-evaluasi"
-      className="w-full min-h-screen bg-[url(/illustrations/bg-auth-evaluasi.webp)] bg-center bg-no-repeat bg-primary-green bg-blend-overlay"
+      className={`w-full min-h-screen bg-[url(/illustrations/backgroundAuthMd.svg)] lg:bg-[url(/illustrations/backgroundAuthLg.svg)] bg-cover bg-center object-cover bg-no-repeat`}
     >
-      <div className="w-full h-screen flex justify-center items-center backdrop-blur-sm">
+      <div className="w-full h-screen flex justify-center items-center">
         <form
           onSubmit={onSubmit}
           className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6"
@@ -979,9 +980,9 @@ export const LoginManajemenPegawaiModule: FC = (): ReactElement => {
   return (
     <section
       key="auth-admin-tata-usaha"
-      className="w-full min-h-screen bg-[url(/illustrations/bg-auth-pegawai.webp)] bg-center bg-no-repeat bg-cover-primary-green bg-blend-overlay"
+      className={`w-full min-h-screen bg-[url(/illustrations/backgroundAuthMd.svg)] lg:bg-[url(/illustrations/backgroundAuthLg.svg)] bg-cover bg-center object-cover bg-no-repeat`}
     >
-      <div className="w-full h-screen flex justify-center items-center backdrop-blur-sm">
+      <div className="w-full h-screen flex justify-center items-center">
         <form
           onSubmit={onSubmit}
           className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-surface rounded-md py-8 px-12 lg:px-14 flex flex-col items-center justify-center gap-y-6"
