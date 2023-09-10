@@ -1,9 +1,10 @@
 import { TDataPendaftar } from "./types";
 
-export const dataAkun: TDataPendaftar[] = [
+export const dataPendaftar: TDataPendaftar[] = [
   {
     name: "Fenny Oktaviani",
     registration_number: "0835667188189",
+    date_registration: "30 Agustus 2023",
     prodi_1: "Teknik Informatika",
     prodi_2: "Pendidikan Matematika",
     seleksi: "Tes",
@@ -14,6 +15,7 @@ export const dataAkun: TDataPendaftar[] = [
   {
     name: "Maulana Sodiqin",
     registration_number: "0833245566756",
+    date_registration: "25 September 2023",
     prodi_1: "Sastra Arab",
     prodi_2: "Pendidikan Matematika",
     seleksi: "Beasiswa KIP-K",
@@ -24,6 +26,7 @@ export const dataAkun: TDataPendaftar[] = [
   {
     name: "Rian Ardiansyah",
     registration_number: "0833245566756",
+    date_registration: "30 Agustus 2023",
     prodi_1: "Pendidikan Bahasa Inggris",
     prodi_2: "Teknik Informatika",
     seleksi: "Beasiswa KIP-K",

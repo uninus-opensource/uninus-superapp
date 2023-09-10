@@ -1,12 +1,15 @@
 "use client";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useEffect, useState, SetStateAction } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataPendaftar } from "./types";
-import { dataAkun } from "./store";
-import { LoadingSpinner } from "@uninus/web/components";
+import { dataPendaftar } from "./store";
+import { TableLoadingData, SearchInput } from "@uninus/web/components";
 import { FileTextOutlined, FormOutlined } from "@ant-design/icons";
 
 const Table: FC = (): ReactElement => {
+  const [tablePendaftar, setTablePendaftar] = useState([{}]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [pending, setPending] = useState(true);
   const columns: TableColumn<TDataPendaftar>[] = [
     {
       name: "No",
@@ -16,7 +19,12 @@ const Table: FC = (): ReactElement => {
     {
       name: "No Registrasi",
       cell: (row) => row.registration_number,
-      width: "200px",
+      width: "150px",
+    },
+    {
+      name: "Tanggal Daftar",
+      cell: (row) => row.date_registration,
+      width: "150px",
     },
     {
       name: "Nama Lengkap",
@@ -119,14 +127,42 @@ const Table: FC = (): ReactElement => {
     },
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setTablePendaftar(columns);
+      setPending(false);
+    }, 1500);
+    return () => clearTimeout(timeout);
+  }, [tablePendaftar]);
+
+  const filteredDataPendaftar = dataPendaftar.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.registration_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.seleksi.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.status.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const handleSearch = (event: { target: { value: SetStateAction<string> } }) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
     <div>
+      <div className="w-full flex p-2 py-4 lg:justify-end justify-start">
+        <SearchInput
+          value={searchQuery}
+          onChange={handleSearch}
+          placeholder="Cari No. Registrasi,Nama, Status dan Seleksi"
+        />
+      </div>
       <DataTable
         columns={columns}
-        data={dataAkun}
+        data={filteredDataPendaftar}
         customStyles={customStyles}
         fixedHeader={true}
-        progressComponent={<LoadingSpinner className="w-10 h-10" />}
+        progressPending={pending}
+        progressComponent={<TableLoadingData className="w-full h-80" />}
         noDataComponent={
           <div className="flex flex-col w-full h-screen justify-center items-center">
             <h1 className="font-bold my-2">Data Tidak Tersedia</h1>

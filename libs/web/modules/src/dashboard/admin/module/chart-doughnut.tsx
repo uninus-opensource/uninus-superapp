@@ -40,7 +40,17 @@ export const RekapProgram: FC = (): ReactElement => {
           </section>
         </div>
         <div className="pt-8">
-          <Doughnut data={dataDoughnut} />
+          <Doughnut
+            options={{
+              plugins: {
+                legend: {
+                  position: "bottom",
+                  textDirection: "left",
+                },
+              },
+            }}
+            data={dataDoughnut}
+          />
         </div>
       </section>
     </div>

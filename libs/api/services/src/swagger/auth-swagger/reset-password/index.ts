@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class newPasswordSwagger {
+export class NewPasswordSwagger {
   @ApiProperty({
     example: "",
   })

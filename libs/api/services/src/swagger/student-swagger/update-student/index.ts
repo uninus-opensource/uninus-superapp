@@ -2,6 +2,9 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class UpdateStudentSwagger {
   @ApiProperty()
+  avatar!: string;
+
+  @ApiProperty()
   fullname!: string;
 
   @ApiProperty()
@@ -183,6 +186,25 @@ export class UpdateStudentSwagger {
 
   @ApiProperty()
   utbk_kmbm!: number;
+
+  @ApiProperty({
+    example: {
+      name: "kk",
+      path: "https://uninus.s3.ap-southeast-1.amazonaws.com/169393489551WhatsAp-Image-2023-08-31-a-20.10.31.jpeg",
+    },
+  })
+  document!: object;
+
+  @ApiProperty({
+    isArray: true,
+    example: [
+      {
+        name: "kk",
+        path: "https://uninus.s3.ap-southeast-1.amazonaws.com/169393489551WhatsAp-Image-2023-08-31-a-20.10.31.jpeg",
+      },
+    ],
+  })
+  documents!: [];
 
   @ApiProperty({
     isArray: true,

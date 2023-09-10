@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const VSDataDiri = z.object({
-  avatar: z.any().optional(),
   fullname: z.string().optional(),
   email: z.string().optional(),
   phone_number: z.string().optional(),
@@ -60,17 +59,11 @@ export const VSDataDiri = z.object({
     message: "Asal Negara harus diisi",
   }),
 
-  province_id: z.any().refine((value) => value, {
-    message: "Provinsi harus diisi",
-  }),
+  province_id: z.string().nullable().optional(),
 
-  city_id: z.any().refine((value) => value, {
-    message: "Kota harus diisi",
-  }),
+  city_id: z.string().nullable().optional(),
 
-  subdistrict_id: z.any().refine((value) => value, {
-    message: "Kecamatan harus diisi",
-  }),
+  subdistrict_id: z.string().nullable().optional(),
 
   address: z.nullable(z.string().nonempty({ message: "Alamat harus diisi" })),
 
@@ -83,3 +76,11 @@ export const VSDataDiri = z.object({
 });
 
 export type TVSDataDiri = z.infer<typeof VSDataDiri>;
+
+export const VSImage = z.object({
+  file: z.custom<File>((val) => val instanceof File, {
+    message: "File harus diisi",
+  }),
+});
+
+export type TVSImage = z.infer<typeof VSImage>;

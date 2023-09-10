@@ -4,7 +4,7 @@
 
 @layer utilities {
   .labelSemesterStyle {
-    @apply text-[13px] md:text-base;
+    @apply hidden md:block md:text-[13px] lg:text-base;
   }
   .labelCourseStyle {
     @apply text-[12px] lg:text-base font-bold lg:pr-0;

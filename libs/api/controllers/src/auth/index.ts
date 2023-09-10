@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Request, UseFilters, UseGuards } from "@nestjs/common";
+import { Body, Controller, Post, Request, UseFilters, UseGuards, UsePipes } from "@nestjs/common";
 import {
   TReqToken,
   VSRegister,
@@ -15,128 +15,133 @@ import {
   AuthService,
   RegisterSwagger,
   LoginSwagger,
-  forgotPasswordSwagger,
+  ForgotPasswordSwagger,
   LogoutSwagger,
-  resendOtpSwagger,
-  newPasswordSwagger,
-  verifyOtpSwagger,
+  ResendOtpSwagger,
+  NewPasswordSwagger,
+  VerifyOtpSwagger,
   RefreshTokenSwagger,
 } from "@uninus/api/services";
-import {RpcExceptionToHttpExceptionFilter} from '@uninus/api/filter'
-import { ApiTags, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
+import { ApiTags, ApiBody, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("auth")
 @ApiTags("Auth")
 export class AuthController {
   constructor(private readonly appService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @Post("register")
-  @ApiOperation({ summary: "Created Data" })
+  @ApiOperation({ summary: "Register" })
   @ApiResponse({
     status: 201,
     description: "Akun Berhasil dibuat!, check email untuk verifikasi",
   })
   @ApiResponse({ status: 400, description: "Gagal mendaftar" })
   @ApiResponse({ status: 409, description: "Email sudah terdaftar" })
+  @Post("register")
+  @UsePipes(new ZodValidationPipe(VSRegister))
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async register(
-    @Body(new ZodValidationPipe(VSRegister))
-    registerSwagger: RegisterSwagger,
+    @Body()
+    payload: RegisterSwagger,
   ) {
-    return await this.appService.register(registerSwagger);
+    return await this.appService.register(payload);
   }
 
-  @HttpCode(HttpStatus.OK)
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @Post("login")
   @ApiOperation({ summary: "Login" })
   @ApiResponse({
     status: 201,
     description: "Berhasil Login",
   })
-  @ApiResponse({ status: 401, description: "Password salah" })
-  @ApiResponse({ status: 404, description: "Akun Tidak ditemukan" })
-  async login(@Body(new ZodValidationPipe(VSLogin)) LoginSwagger: LoginSwagger) {
-    return await this.appService.login(LoginSwagger);
+  @ApiResponse({ status: 401, description: "Email atau Password tidak valid" })
+  @Post("login")
+  @UsePipes(new ZodValidationPipe(VSLogin))
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  async login(@Body() payload: LoginSwagger) {
+    return await this.appService.login(payload);
   }
 
-  @HttpCode(HttpStatus.OK)
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @Post("logout")
   @ApiOperation({ summary: "Logout" })
   @ApiResponse({ status: 201, description: "Berhasil logout" })
   @ApiResponse({ status: 401, description: "Gagal logout" })
-  async logout(@Body(new ZodValidationPipe(VSLogout)) LogoutSwagger: LogoutSwagger) {
-    return await this.appService.logout(LogoutSwagger);
+  @Post("logout")
+  @UsePipes(new ZodValidationPipe(VSLogout))
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  async logout(@Body() payload: LogoutSwagger) {
+    return await this.appService.logout(payload);
   }
 
-  @Post("refresh")
-  @ApiBearerAuth()
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @UseGuards(RtGuard)
   @ApiOperation({ summary: "Refresh Token" })
-  async refresh(@Body('refresh_token') refreshToken: RefreshTokenSwagger, @Request() { user }: TReqToken) {
+  @ApiBearerAuth()
+  @ApiBody({ type: RefreshTokenSwagger })
+  @Post("refresh")
+  @UseGuards(RtGuard)
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  async refresh(@Request() { user }: TReqToken) {
     return this.appService.refreshToken({ user });
   }
 
-  @Post("verify")
   @ApiOperation({ summary: "Verify OTP" })
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiResponse({ status: 201, description: "Berhasil verifikasi OTP" })
   @ApiResponse({ status: 400, description: "Gagal verifikasi OTP" })
   @ApiResponse({ status: 404, description: "Email atau OTP tidak valid" })
-  async verifyOtp(@Body(new ZodValidationPipe(VSVerifyOtp)) verifyOtp: verifyOtpSwagger) {
-    return this.appService.verifyOtp(verifyOtp);
+  @Post("verify")
+  @UsePipes(new ZodValidationPipe(VSVerifyOtp))
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  async verifyOtp(@Body() payload: VerifyOtpSwagger) {
+    return this.appService.verifyOtp(payload);
   }
 
-  @Post("resend-otp")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Resend OTP" })
   @ApiResponse({ status: 201, description: "Berhasil kitim OTP" })
   @ApiResponse({ status: 400, description: "Gagal kirim OTP" })
   @ApiResponse({ status: 404, description: "Akun tidak ditemukan" })
+  @Post("resend-otp")
+  @UsePipes(new ZodValidationPipe(VSResendOtp))
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async resendOtp(
-    @Body(new ZodValidationPipe(VSResendOtp))
-    resendOtpSwagger: resendOtpSwagger,
+    @Body()
+    payload: ResendOtpSwagger,
   ) {
-    return this.appService.resendOtp(resendOtpSwagger);
+    return this.appService.resendOtp(payload);
   }
 
-  @Post("forgot-password")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Forgot Password" })
   @ApiResponse({ status: 201, description: "Berhasil kirim OTP" })
   @ApiResponse({
     status: 400,
     description: "Gagal mengirimkan kode verifikasi",
   })
+  @Post("forgot-password")
+  @UsePipes(new ZodValidationPipe(VSForgotPassword))
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async forgotPassword(
-    @Body(new ZodValidationPipe(VSForgotPassword))
-    forgotPassword: forgotPasswordSwagger,
+    @Body()
+    payload: ForgotPasswordSwagger,
   ) {
-    return this.appService.forgotPassword(forgotPassword);
+    return this.appService.forgotPassword(payload);
   }
 
-  @Post("verify-otp-password")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Verify OTP Reset Password" })
   @ApiResponse({ status: 200, description: "Berhasil verifikasi OTP" })
   @ApiResponse({ status: 400, description: "Gagal verifikasi OTP" })
   @ApiResponse({ status: 404, description: "Email atau OTP tidak valid" })
-  async verifyOtpPassword(@Body(new ZodValidationPipe(VSVerifyOtp)) verifyOtp: verifyOtpSwagger) {
-    return this.appService.verifyOtpPassword(verifyOtp);
+  @Post("verify-otp-password")
+  @UsePipes(new ZodValidationPipe(VSVerifyOtp))
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  async verifyOtpPassword(@Body() payload: VerifyOtpSwagger) {
+    return this.appService.verifyOtpPassword(payload);
   }
 
-  @Post("reset-password")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Reset Password" })
   @ApiResponse({ status: 201, description: "Berhasil mengganti password" })
   @ApiResponse({ status: 400, description: "Gagal mengganti password" })
+  @Post("reset-password")
+  @UsePipes(new ZodValidationPipe(VSNewPassword))
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async resetPassword(
-    @Body(new ZodValidationPipe(VSNewPassword))
-    newPasswordSwagger: newPasswordSwagger,
+    @Body()
+    payload: NewPasswordSwagger,
   ) {
-    return this.appService.resetPassword(newPasswordSwagger);
+    return this.appService.resetPassword(payload);
   }
 }

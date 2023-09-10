@@ -7,7 +7,6 @@ import {
 } from "@nestjs/common";
 import {
   TLoginResponse,
-  TProfileRequest,
   TProfileResponse,
   TRegisterRequest,
   TReqToken,
@@ -40,55 +39,27 @@ import { RpcException } from "@nestjs/microservices";
 export class AppService {
   constructor(private prisma: PrismaService) {}
 
-  async getProfile(reqUser: TProfileRequest): Promise<TProfileResponse> {
-    const { email } = reqUser;
-
-    const profile = await this.prisma.users.findUnique({
+  async register(payload: TRegisterRequest): Promise<TProfileResponse> {
+    const isUserExist = await this.prisma.users.findMany({
       where: {
-        email,
-      },
-      select: {
-        id: true,
-        email: true,
-        fullname: true,
-        role_id: true,
-        createdAt: true,
-        avatar: true,
+        OR: [
+          {
+            email: payload.email,
+          },
+          {
+            students: {
+              phone_number: `62${payload.phone_number}`,
+            },
+          },
+        ],
       },
     });
 
-    if (!profile) {
-      throw new RpcException("Profil tidak ditemukan");
+    if (isUserExist.length > 0) {
+      throw new RpcException(new ConflictException("Email atau nomor telepon sudah terdaftar"));
     }
 
-    return profile;
-  }
-
-  async register(data: TRegisterRequest): Promise<TProfileResponse> {
-    const isEmailExist = await this.prisma.users.findUnique({
-      where: {
-        email: data.email,
-      },
-    });
-
-    if (isEmailExist) {
-      throw new ConflictException("Email sudah terdaftar");
-    }
-
-    const isPhoneExist = await this.prisma.students.findMany({
-      where: {
-        phone_number: {
-          contains: data.phone_number as string,
-          mode: "insensitive",
-        },
-      },
-    });
-
-    if (isPhoneExist.length > 0) {
-      throw new ConflictException("Nomor telepon sudah digunakan");
-    }
-    const password = await encryptPassword(data.password);
-
+    const password = await encryptPassword(payload.password);
     const now = new Date();
     const year = now.getFullYear().toString();
     const month = (now.getMonth() + 1).toString().padStart(2, "0");
@@ -107,93 +78,94 @@ export class AppService {
 
     const registrationNumber = `${year}${month}${day}${formattedCounter}`;
 
-    const createdUser = await this.prisma.users.create({
+    const createUser = await this.prisma.users.create({
       data: {
-        fullname: data.fullname,
-        email: data.email.toLowerCase(),
+        fullname: payload.fullname,
+        email: payload.email.toLowerCase(),
         password,
-        role_id: data.role_id,
-        avatar:
-          "https://res.cloudinary.com/dyominih0/image/upload/v1688846789/MaleProfileDefault_hxtqcy.png",
-        students: {
-          create: {
-            phone_number: `62${data.phone_number}`,
-            pmb: {
-              create: {
-                registration_number: registrationNumber,
-                registration_status_id: 1,
-                student_grade: {
-                  createMany: {
-                    data: [
-                      {
-                        subject: "indonesia",
-                        semester: "1",
-                      },
-                      {
-                        subject: "indonesia",
-                        semester: "2",
-                      },
-                      {
-                        subject: "indonesia",
-                        semester: "3",
-                      },
-                      {
-                        subject: "indonesia",
-                        semester: "4",
-                      },
-                      {
-                        subject: "matematika",
-                        semester: "1",
-                      },
-                      {
-                        subject: "matematika",
-                        semester: "2",
-                      },
-                      {
-                        subject: "matematika",
-                        semester: "3",
-                      },
-                      {
-                        subject: "matematika",
-                        semester: "4",
-                      },
-                      {
-                        subject: "inggris",
-                        semester: "1",
-                      },
-                      {
-                        subject: "inggris",
-                        semester: "2",
-                      },
-                      {
-                        subject: "inggris",
-                        semester: "3",
-                      },
-                      {
-                        subject: "inggris",
-                        semester: "4",
-                      },
-                    ],
+        role_id: payload.role_id,
+        avatar: "https://uninus-demo.s3.ap-southeast-1.amazonaws.com/avatar-default.png",
+        ...(!payload.role_id && {
+          students: {
+            create: {
+              phone_number: `62${payload.phone_number}`,
+              pmb: {
+                create: {
+                  registration_number: registrationNumber,
+                  registration_status_id: 1,
+                  student_grade: {
+                    createMany: {
+                      data: [
+                        {
+                          subject: "indonesia",
+                          semester: "1",
+                        },
+                        {
+                          subject: "indonesia",
+                          semester: "2",
+                        },
+                        {
+                          subject: "indonesia",
+                          semester: "3",
+                        },
+                        {
+                          subject: "indonesia",
+                          semester: "4",
+                        },
+                        {
+                          subject: "matematika",
+                          semester: "1",
+                        },
+                        {
+                          subject: "matematika",
+                          semester: "2",
+                        },
+                        {
+                          subject: "matematika",
+                          semester: "3",
+                        },
+                        {
+                          subject: "matematika",
+                          semester: "4",
+                        },
+                        {
+                          subject: "inggris",
+                          semester: "1",
+                        },
+                        {
+                          subject: "inggris",
+                          semester: "2",
+                        },
+                        {
+                          subject: "inggris",
+                          semester: "3",
+                        },
+                        {
+                          subject: "inggris",
+                          semester: "4",
+                        },
+                      ],
+                    },
                   },
                 },
               },
             },
           },
-        },
+        }),
       },
     });
 
-    if (!createdUser) {
-      throw new RpcException("Gagal Mendaftar");
+    if (!createUser) {
+      throw new RpcException(new BadRequestException("Gagal membuat akun"));
     }
 
-    return createdUser;
+    return createUser;
   }
 
-  async login(args: TLoginRequest): Promise<TLoginResponse> {
+  async login(payload: TLoginRequest): Promise<TLoginResponse> {
     const user = await this.prisma.users.findUnique({
       where: {
-        email: args.email?.toLowerCase(),
+        email: payload.email,
       },
       select: {
         id: true,
@@ -212,19 +184,16 @@ export class AppService {
         },
       },
     });
-    if (!user) {
-      throw new RpcException(new UnauthorizedException("Akun Tidak ditemukan"));
-    }
 
+    const isMatch = user && (await comparePassword(payload.password as string, user.password));
+
+    if (!user || !isMatch) {
+      throw new RpcException(new UnauthorizedException("Email atau password tidak valid"));
+    }
     if (!user.isVerified) {
-      throw new RpcException(new UnauthorizedException("Email Belum terverifikasi"));
+      throw new RpcException(new UnauthorizedException("Email belum terverifikasi"));
     }
 
-    const isMatch = await comparePassword(args.password as string, user.password);
-
-    if (!isMatch) {
-      throw new RpcException(new UnauthorizedException("Password Salah!"));
-    }
     const { access_token, refresh_token } = await generateToken({
       sub: user.id,
       email: user.email,
@@ -254,10 +223,10 @@ export class AppService {
     };
   }
 
-  async logout(args: TLogoutRequest): Promise<TLogoutResponse> {
+  async logout(payload: TLogoutRequest): Promise<TLogoutResponse> {
     const result = await this.prisma.users.updateMany({
       where: {
-        refresh_token: args.refresh_token,
+        refresh_token: payload.refresh_token,
       },
       data: {
         refresh_token: null,
@@ -273,16 +242,14 @@ export class AppService {
     };
   }
 
-  async getEmailUser(args: TUserEmail): Promise<TUserEmailResponse> {
-    await clearOtp();
-
+  async getEmailUser(payload: TUserEmail): Promise<TUserEmailResponse> {
     const user = await this.prisma.users.findUnique({
       where: {
-        email: args.email,
+        email: payload.email,
       },
     });
     if (!user) {
-      throw new NotFoundException("Akun tidak ditemukan");
+      throw new RpcException(new NotFoundException("Email tidak ditemukan"));
     }
 
     return { id: user.id, email: user.email, fullname: user.fullname };
@@ -305,17 +272,17 @@ export class AppService {
     };
   }
 
-  async verifyOtp(args: TVerifyOtpRequest): Promise<TVerifyOtpResponse> {
+  async verifyOtp(payload: TVerifyOtpRequest): Promise<TVerifyOtpResponse> {
     await clearOtp();
 
-    const isVerified = await compareOtp(args?.email, args?.otp);
+    const isVerified = await compareOtp(payload?.email, payload?.otp);
     if (!isVerified) {
-      throw new RpcException("Email atau OTP tidak valid");
+      throw new RpcException(new UnauthorizedException("Email atau OTP tidak valid"));
     }
 
     const user = await this.prisma.users.update({
       where: {
-        email: args.email,
+        email: payload.email,
       },
       data: {
         isVerified: true,
@@ -330,26 +297,25 @@ export class AppService {
     };
   }
 
-  async forgotPassword(data: TForgotPasswordRequest): Promise<TProfileResponse> {
+  async forgotPassword(payload: TForgotPasswordRequest): Promise<TProfileResponse> {
     const user = await this.prisma.users.findUnique({
       where: {
-        email: data?.email,
+        email: payload.email,
       },
     });
-
     if (!user) {
-      throw new RpcException("Akun tidak ditemukan");
+      throw new RpcException(new NotFoundException("Email tidak ditemukan"));
     }
 
     return user;
   }
 
-  async verifyOtpPassword(args: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
+  async verifyOtpPassword(payload: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
     await clearOtp();
 
-    const isVerified = await compareOtp(args?.email, args?.otp);
+    const isVerified = await compareOtp(payload?.email, payload?.otp);
     if (!isVerified) {
-      throw new RpcException("Email atau OTP tidak valid");
+      throw new RpcException(new UnauthorizedException("Email atau OTP tidak valid"));
     }
 
     return {
@@ -357,22 +323,22 @@ export class AppService {
     };
   }
 
-  async resetPassword(args: TResetPasswordRequest): Promise<TResetPasswordResponse> {
-    const newPassword = await encryptPassword(args.password);
+  async resetPassword(payload: TResetPasswordRequest): Promise<TResetPasswordResponse> {
+    const newPassword = await encryptPassword(payload.password);
 
     const isEmailExist = await this.prisma.users.findUnique({
       where: {
-        email: args.email.toLowerCase(),
+        email: payload.email,
       },
     });
 
     if (!isEmailExist) {
-      throw new RpcException("Email tidak ditemukan");
+      throw new RpcException(new NotFoundException("Email tidak ditemukan"));
     }
 
     const user = await this.prisma.users.update({
       where: {
-        email: args.email,
+        email: payload.email,
       },
       data: {
         password: newPassword,
