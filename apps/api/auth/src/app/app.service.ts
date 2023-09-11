@@ -23,6 +23,7 @@ import {
   TLoginRequest,
   TUserEmail,
   TUserEmailResponse,
+  TRegisterResponse,
 } from "@uninus/entities";
 import { PrismaService } from "@uninus/api/models";
 import {
@@ -39,7 +40,7 @@ import { RpcException } from "@nestjs/microservices";
 export class AppService {
   constructor(private prisma: PrismaService) {}
 
-  async register(payload: TRegisterRequest): Promise<TProfileResponse> {
+  async register(payload: TRegisterRequest): Promise<TRegisterResponse> {
     const isUserExist = await this.prisma.users.findMany({
       where: {
         OR: [
@@ -159,7 +160,9 @@ export class AppService {
       throw new RpcException(new BadRequestException("Gagal membuat akun"));
     }
 
-    return createUser;
+    return {
+      message: "Berhasil membuat akun",
+    };
   }
 
   async login(payload: TLoginRequest): Promise<TLoginResponse> {

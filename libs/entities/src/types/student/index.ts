@@ -66,7 +66,7 @@ export interface IStudentData {
   guardian_province_id?: number | null;
   guardian_subdistrict_id?: number | null;
   guardian_city_id?: number | null;
-  guardian_address?: null;
+  guardian_address?: string | null;
   parent_province_id?: number | null;
   parent_subdistrict_id?: number | null;
   parent_city_id?: number | null;
@@ -108,15 +108,9 @@ export interface IDeleteStudentRequest extends IGetStudentRequest {
   id: string;
 }
 
-export interface IDeleteStudentResponse extends IStudentData {
-  avatar: string | null;
-  student_grade?: Array<{
-    id: string;
-    subject: string;
-    semester: string;
-    grade: number;
-  }>;
-}
+export type TDeleteStudentResponse = {
+  message: string;
+};
 
 export interface IUpdateStudentResponse extends IStudentData {
   avatar?: string | null | TFIle;

@@ -1,11 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "@uninus/api/models";
-import { excludeSchema } from "@uninus/api/utilities";
 import {
   IGetStudentRequest,
   IGetStudentResponse,
   IDeleteStudentRequest,
-  IDeleteStudentResponse,
+  TDeleteStudentResponse,
   IUpdateStudentResponse,
   IUpdateStudentRequest,
   TGraduationStatusRequest,
@@ -42,27 +41,38 @@ export class AppService {
     if (!student) {
       throw new RpcException(new BadRequestException("User tidak ditemukan"));
     }
-    const { avatar, email, fullname, students } = student;
-
-    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt", "pmb"]);
-    return {
+    const {
       avatar,
       email,
       fullname,
-      first_deparment_id: students?.pmb?.first_deparment_id,
-      second_deparment_id: students?.pmb?.second_deparment_id,
-      selection_path_id: students?.pmb?.selection_path_id,
-      degree_program_id: students?.pmb?.degree_program_id,
-      student_grade: students?.pmb?.student_grade,
-      average_grade: students?.pmb?.average_grade,
-      average_utbk: student.students?.pmb?.average_utbk,
-      utbk_pu: student.students?.pmb?.utbk_pu,
-      utbk_kk: student.students?.pmb?.utbk_kk,
-      utbk_ppu: student.students?.pmb?.utbk_ppu,
-      utbk_kmbm: student.students?.pmb?.utbk_kmbm,
-      documents: student.students?.pmb?.documents,
-      ...studentData,
-    };
+      students: { id, user_id, createdAt, pmb, ...studentData },
+    } = student;
+
+    return JSON.parse(
+      JSON.stringify(
+        {
+          avatar,
+          email,
+          fullname,
+          first_deparment_id: pmb.first_deparment_id,
+          second_deparment_id: pmb.second_deparment_id,
+          selection_path_id: pmb.selection_path_id,
+          degree_program_id: pmb.degree_program_id,
+          student_grade: pmb.student_grade,
+          average_grade: pmb.average_grade,
+          average_utbk: pmb.average_utbk,
+          utbk_pu: pmb.utbk_pu,
+          utbk_kk: pmb.utbk_kk,
+          utbk_ppu: pmb.utbk_ppu,
+          utbk_kmbm: pmb.utbk_kmbm,
+          documents: pmb.documents,
+          ...studentData,
+        },
+        (key, value) => {
+          if (value !== null) return value;
+        },
+      ),
+    );
   }
 
   async updateStudent(payload: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
@@ -180,30 +190,39 @@ export class AppService {
     });
 
     if (!student) {
-      throw new RpcException(new NotFoundException("Nomor User tidak ditemukan"));
+      throw new RpcException(new NotFoundException("Gagal update data"));
     }
-    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt", "pmb"]);
-    return {
-      avatar: student.avatar,
-      email: student.email,
-      fullname: student.fullname,
-      first_deparment_id: student.students?.pmb?.first_deparment_id,
-      second_deparment_id: student.students?.pmb?.second_deparment_id,
-      selection_path_id: student.students?.pmb?.selection_path_id,
-      degree_program_id: student.students?.pmb?.degree_program_id,
-      student_grade: student.students?.pmb?.student_grade,
-      average_grade: student.students?.pmb?.average_grade,
-      documents: student.students?.pmb?.documents,
-      average_utbk: student.students?.pmb?.average_utbk,
-      utbk_pu: student.students?.pmb?.utbk_pu,
-      utbk_kk: student.students?.pmb?.utbk_kk,
-      utbk_ppu: student.students?.pmb?.utbk_ppu,
-      utbk_kmbm: student.students?.pmb?.utbk_kmbm,
-      ...studentData,
-    };
+    const {
+      students: { user_id, createdAt, pmb, ...studentData },
+    } = student;
+    return JSON.parse(
+      JSON.stringify(
+        {
+          avatar: student.avatar,
+          email: student.email,
+          fullname: student.fullname,
+          first_deparment_id: pmb?.first_deparment_id,
+          second_deparment_id: pmb?.second_deparment_id,
+          selection_path_id: pmb?.selection_path_id,
+          degree_program_id: pmb?.degree_program_id,
+          student_grade: pmb?.student_grade,
+          average_grade: average_grade,
+          documents: pmb?.documents,
+          average_utbk: pmb?.average_utbk,
+          utbk_pu: pmb?.utbk_pu,
+          utbk_kk: pmb?.utbk_kk,
+          utbk_ppu: pmb?.utbk_ppu,
+          utbk_kmbm: pmb?.utbk_kmbm,
+          ...studentData,
+        },
+        (key, value) => {
+          if (value !== null) return value;
+        },
+      ),
+    );
   }
 
-  async deleteStudent(payload: IDeleteStudentRequest): Promise<IDeleteStudentResponse> {
+  async deleteStudent(payload: IDeleteStudentRequest): Promise<TDeleteStudentResponse> {
     const student = await this.prisma.users.delete({
       where: {
         id: payload.id,
@@ -216,16 +235,11 @@ export class AppService {
       },
     });
     if (!student) {
-      throw new RpcException(new NotFoundException("Nomor User tidak ditemukan"));
+      throw new RpcException(new NotFoundException("User tidak ditemukan"));
     }
 
-    const studentData = excludeSchema(student?.students, ["id", "user_id", "createdAt"]);
-
     return {
-      avatar: student.avatar,
-      email: student.email,
-      fullname: student.email,
-      ...studentData,
+      message: "Berhasil menghapus data",
     };
   }
 
