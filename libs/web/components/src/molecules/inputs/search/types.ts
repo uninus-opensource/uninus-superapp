@@ -4,4 +4,5 @@ export type SearchProps = {
   onChange?: ChangeEventHandler<HTMLInputElement>;
   value?: string;
   placeholder?: string;
+  width?: string;
 };
