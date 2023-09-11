@@ -104,7 +104,7 @@ export const TestimonialSection: FC = (): ReactElement => {
     startIndex: 2,
   };
   return (
-    <section className="mt-10 lg:mt-40 h-full w-full gap-4 lg:px-16 px-4 py-2 flex flex-col items-center ">
+    <section className="lg:mt-32 h-full w-full gap-4 lg:px-16 px-4 py-2 flex flex-col items-center ">
       <h1 className="p-5 text-2xl text-center lg:text-4xl text-secondary-green-4 font-bold">
         Apa Kata <span className="text-primary-green">Mereka</span>
       </h1>
