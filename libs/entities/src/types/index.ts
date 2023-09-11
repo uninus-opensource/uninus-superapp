@@ -4,3 +4,4 @@ export * from "./user";
 export * from "./file";
 export * from "./auth";
 export * from "./general";
+export * from "./employee";
