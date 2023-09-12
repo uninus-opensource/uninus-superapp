@@ -7,7 +7,7 @@ export const DetailSection: FC = (): ReactElement => {
     window.open("https://uninus.ac.id/", "_blank");
   };
   return (
-    <section className="flex flex-col lg:flex-row h-auto w-full gap-14 lg:gap-0 justify-center items-center mb-24">
+    <section className="flex flex-col lg:flex-row h-auto w-full gap-14 lg:gap-0 lg:mt-32 justify-center items-center mb-14">
       <section className="h-auto gap-4 lg:pl-16 px-16 lg:px-0 py-2">
         {/* Gambar */}
         <figure>
