@@ -445,6 +445,7 @@ export const ProdiList: ProdiProps[] = [
       },
     ],
   },
+
   {
     name: "Fakultas Pertanian",
     img: "/illustrations/FTAN.webp",
