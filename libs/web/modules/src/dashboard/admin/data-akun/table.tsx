@@ -1,16 +1,23 @@
 "use client";
-import { FC, ReactElement, useState, useEffect, SetStateAction, useMemo } from "react";
+import { FC, ReactElement, useState, useEffect, SetStateAction, useMemo, Fragment } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataAkun } from "./types";
 import { dataAkun } from "./store";
-import { SearchInput, Modal, TableLoadingData } from "@uninus/web/components";
-import { FormOutlined } from "@ant-design/icons";
+import { SearchInput, Modal, TableLoadingData, Button, TextField } from "@uninus/web/components";
+import { useForm, FieldValues } from "react-hook-form";
+import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const Table: FC = (): ReactElement => {
   const [tableAkun, setTableAkun] = useState([{}]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isShowModal, setIsShowModal] = useState<boolean>(false);
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [ModalAdd, setModalAdd] = useState(false);
   const [pending, setPending] = useState(true);
+
+  const { control } = useForm<FieldValues>({
+    mode: "all",
+    defaultValues: {},
+  });
 
   const columnsAkun: TableColumn<TDataAkun>[] = useMemo(
     () => [
@@ -48,15 +55,21 @@ const Table: FC = (): ReactElement => {
       {
         name: "Action",
         cell: () => (
-          <button
-            onClick={handleCloseModal}
-            className="flex gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center"
-          >
-            <div>
-              <FormOutlined />
-            </div>
-            Edit
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleCloseModal}
+              className="flex gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center"
+            >
+              <div>
+                <FormOutlined />
+              </div>
+            </button>
+            <button className="flex gap-2 bg-red-4 text-primary-white rounded-md p-1 px-3 items-center">
+              <div>
+                <DeleteOutlined />
+              </div>
+            </button>
+          </div>
         ),
       },
     ],
@@ -101,6 +114,10 @@ const Table: FC = (): ReactElement => {
     setIsShowModal(!isShowModal);
   };
 
+  const handleModalAdd = () => {
+    setModalAdd(!ModalAdd);
+  };
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setTableAkun(columnsAkun);
@@ -122,8 +139,15 @@ const Table: FC = (): ReactElement => {
   };
 
   return (
-    <div>
-      <div className="w-full flex p-2 py-4 lg:justify-end justify-start">
+    <Fragment>
+      <div className="w-full flex p-2 py-4 justify-between">
+        <Button
+          variant="custom"
+          styling="text-xs lg:text-base w-auto h-5 xl:h-10 border border-primary-green text-primary-green"
+          onClick={handleModalAdd}
+        >
+          + Tambah Data
+        </Button>
         <SearchInput
           value={searchQuery}
           onChange={handleSearch}
@@ -145,9 +169,170 @@ const Table: FC = (): ReactElement => {
         }
       />
       <Modal showModal={isShowModal} onClose={handleCloseModal} modalTitle="Edit Data Akun">
-        <div>ini buat ngedit</div>
+        <form className="w-full flex flex-col justify-center items-center gap-1">
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="name"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Nama Lengkap"
+              placeholder="Fenny Oktaviani"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="role"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Role"
+              placeholder="Calon Mahasiswa"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="number"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Nomor Telepon"
+              placeholder="085797807376"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="email"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Email"
+              placeholder="Fnny04@gmail.com"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="passwd"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Password"
+              placeholder="Anjay123"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+
+          <div className="w-full flex justify-end items-center gap-3 py-2">
+            <Button variant="filled" size="md">
+              Edit
+            </Button>
+          </div>
+        </form>
       </Modal>
-    </div>
+      <Modal showModal={ModalAdd} onClose={handleModalAdd} modalTitle="Tambah Data Akun">
+        <form className="w-full flex flex-col justify-center items-center gap-1">
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="name"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Nama Lengkap"
+              placeholder="Masukan Lengkap"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="role"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Role"
+              placeholder="Role"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="number"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Nomor Telepon"
+              placeholder="Nomor Telepon"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="email"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Email"
+              placeholder="Email"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="passwd"
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Password"
+              placeholder="Password"
+              inputWidth="w-full"
+              control={control}
+            />
+          </div>
+
+          <div className="w-full flex justify-end items-center gap-3 py-2">
+            <Button variant="filled" size="md">
+              Tambahkan
+            </Button>
+          </div>
+        </form>
+      </Modal>
+    </Fragment>
   );
 };
 export default Table;

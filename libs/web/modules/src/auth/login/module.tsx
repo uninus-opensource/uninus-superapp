@@ -199,9 +199,9 @@ export const LoginAdminModule: FC = (): ReactElement => {
   return (
     <section
       key="auth-admin-pmb"
-      className="w-full min-h-screen bg-[url(/illustrations/bg-auth-admin.webp)] bg-center bg-no-repeat bg-primary-green bg-blend-overlay"
+      className="w-full min-h-screen bg-[url(/illustrations/backgroundAuthMd.svg)] lg:bg-[url(/illustrations/backgroundAuthLg.svg)] bg-cover bg-center object-cover bg-no-repeat"
     >
-      <div className="w-full h-screen flex justify-center items-center backdrop-blur-sm">
+      <div className="w-full h-screen flex justify-center items-center ">
         <form
           onSubmit={onSubmit}
           className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6"
@@ -267,12 +267,11 @@ export const LoginAdminModule: FC = (): ReactElement => {
             <div className="flex justify-center">
               <Button
                 loading={isLoading}
+                variant="elevated"
                 disabled={!isValid}
-                width="w-full"
-                height="lg:h-5 xl:h-auto"
-                variant="green-outline"
+                styling="text-xs lg:text-base w-full h-5 xl:h-10"
               >
-                Masuk Sekarang
+                Masuk
               </Button>
             </div>
             <h2 className="text-[9px] lg:text-xs text-center lg:mt-8">
