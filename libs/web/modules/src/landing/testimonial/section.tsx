@@ -18,35 +18,35 @@ const CardTestimonial: TTestimonial[] = [
     faculty: "Fakultas Ilmu Komunikasi",
   },
   {
-    name: "Anisa",
+    name: "Putri",
     testimonial:
-      "Program studi yang saya pilih sangat relevan dengan dunia kerja, dan saya merasa siap untuk menghadapi tantangan di masa depan.",
+      "Saya merasa beruntung telah mengambil jurusan hukum di universitas dan membangun karier sebagai Konsultan Hukum.",
     image: "/illustrations/testi2.webp",
-    job: "Fashion Styles (Digital Talent)",
-    faculty: "Fakultas Ilmu Komunikasi",
+    job: "Konsultan Hukum",
+    faculty: "Fakultas Hukum",
   },
   {
-    name: "Anisa",
+    name: "Herman",
     testimonial:
-      "Kampus ini juga aktif dalam kegiatan ekstrakurikuler dan sosial. Saya telah mengikuti berbagai klub dan organisasi yang telah memperkaya pengalaman saya di sini.",
+      "Pendidikan yang saya terima di fakultas ini telah membekali saya dengan dasar-dasar yang kokoh dalam teknologi dan rekayasa sistem.",
     image: "/illustrations/testi3.webp",
-    job: "Fashion Styles (Digital Talent)",
-    faculty: "Fakultas Ilmu Komunikasi",
+    job: "DevOps Engineer",
+    faculty: "Fakultas Teknik",
   },
   {
-    name: "Anisa",
+    name: "Afifah",
     testimonial:
-      "Saya tidak hanya mendapatkan pendidikan akademik yang kuat, tetapi juga peluang untuk mengembangkan keterampilan kepemimpinan dan sosial.",
+      "Pendidikan saya di jurusan ekonomi memberikan fondasi yang kuat dalam analisis ekonomi, yang menjadi kunci dalam pekerjaan saya.",
     image: "/illustrations/testi4.webp",
-    job: "Fashion Styles (Digital Talent)",
-    faculty: "Fakultas Ilmu Komunikasi",
+    job: "Auditor Keuangan",
+    faculty: "Fakultas Keuangan",
   },
 ];
 
 export const TestimonialSection: FC = (): ReactElement => {
   const cardProps = {
     items: CardTestimonial.map((x, i) => (
-      <div key={i} className="flex h-full p-2">
+      <div key={i} className="flex h-full p-2 mx-[5vw] md:mx-0">
         <CardImage>
           <div className="image-cap flex flex-col justify-end">
             <figure className="relative">
