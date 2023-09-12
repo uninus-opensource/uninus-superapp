@@ -1,5 +1,5 @@
 "use client";
-import { ReactElement, FC, Fragment, useState } from "react";
+import { ReactElement, FC, Fragment, useState, SetStateAction } from "react";
 import {
   Accordion,
   Button,
@@ -17,13 +17,17 @@ export const ProgramStudyModule: FC = (): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<ProdiProps | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filteredProdiList, setFilteredProdiList] = useState<ProdiProps[]>([]);
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const query = event.target.value.toLowerCase();
-    setSearchQuery(query);
-    const filteredProdi = ProdiList.filter((item) => item.name.toLowerCase().includes(query));
-    setFilteredProdiList(filteredProdi);
+
+  const filteredDataAkun = ProdiList.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.prodi[0].prod.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const handleSearch = (event: { target: { value: SetStateAction<string> } }) => {
+    setSearchQuery(event.target.value);
   };
+
   const handleOpenModal = (name: string) => {
     const selectedProdi = ProdiList.find((item) => item.name === name);
     setActiveItem(selectedProdi || null);
@@ -32,7 +36,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-  const displayList = searchQuery === "" ? ProdiList : filteredProdiList;
+
   return (
     <Fragment>
       <Modal
@@ -113,7 +117,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
           backgroundColor="bg-grayscale-8"
           blur
         />
-        <div className="lg:w-full w-auto h-full lg:p-16 py-8 px-8 text-center flex justify-center font-bebasNeue">
+        <div className="lg:w-full w-auto lg:p-16 py-8 px-8 text-center flex justify-center font-bebasNeue">
           <div className="flex flex-col lg:gap-y-16  w-full gap-y-8">
             <div className="lg:w-4/5 w-full lg:mx-auto ">
               <h1 className="text-center text-secondary-green-5 lg:text-3xl text-xl font-bold">
@@ -124,7 +128,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
         </div>
         <div className="w-full flex p-2  justify-center">
           <SearchInput
-            placeholder="Pencarian"
+            placeholder="Cari Nama Fakultas dan Program Studi"
             value={searchQuery}
             onChange={handleSearch}
             width="w-70% lg:w-80%"
@@ -132,28 +136,18 @@ export const ProgramStudyModule: FC = (): ReactElement => {
         </div>
 
         <section className="w-full h-full py-8 px-7 flex justify-center">
-          <div className="flex flex-wrap xl:grid xl:grid-cols-3  gap-8 justify-center  items-center">
-            {displayList.map((item, idx) => (
+          <div className="flex flex-wrap xl:grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-8 justify-center py-4 items-center">
+            {filteredDataAkun.map((item, idx) => (
               <div
                 key={idx}
-                className={`w-[265px]  h-[220px] rounded overflow-hidden shadow-md relative cursor-pointer ${
-                  idx === ProdiList.length - 1 ? "col-span-2 lg:w-[564px]" : "col-span-1  "
-                }`}
+                className="w-[265px]  h-[220px] rounded overflow-hidden shadow-md relative cursor-pointer  col-span-1  hover:scale-90"
                 onClick={() => {
                   setActiveItem(item);
                   handleOpenModal(item.name);
                 }}
               >
                 <div className=" hidden lg:block lg:mb-[4rem] ">
-                  <Image
-                    src={`${
-                      idx === ProdiList.length - 1 ? "/illustrations/pasca-2.webp " : item.img
-                    }`}
-                    width={595}
-                    height={360}
-                    alt={item.name}
-                    quality={100}
-                  />
+                  <Image src={item.img} width={595} height={360} alt={item.name} quality={100} />
                 </div>
                 <div className="block lg:hidden">
                   <Image src={item.img} width={530} height={360} alt={item.name} quality={100} />
