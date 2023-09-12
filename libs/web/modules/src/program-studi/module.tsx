@@ -1,6 +1,14 @@
 "use client";
 import { ReactElement, FC, Fragment, useState } from "react";
-import { Accordion, Button, Footer, HeroBanner, Modal, Navbar } from "@uninus/web/components";
+import {
+  Accordion,
+  Button,
+  Footer,
+  HeroBanner,
+  Modal,
+  Navbar,
+  SearchInput,
+} from "@uninus/web/components";
 import Image from "next/image";
 import { ProdiList } from "./store";
 import { ProdiProps } from "./type";
@@ -8,6 +16,14 @@ import { DownloadOutlined } from "@ant-design/icons";
 export const ProgramStudyModule: FC = (): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<ProdiProps | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filteredProdiList, setFilteredProdiList] = useState<ProdiProps[]>([]);
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
+    const filteredProdi = ProdiList.filter((item) => item.name.toLowerCase().includes(query));
+    setFilteredProdiList(filteredProdi);
+  };
   const handleOpenModal = (name: string) => {
     const selectedProdi = ProdiList.find((item) => item.name === name);
     setActiveItem(selectedProdi || null);
@@ -16,7 +32,7 @@ export const ProgramStudyModule: FC = (): ReactElement => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
+  const displayList = searchQuery === "" ? ProdiList : filteredProdiList;
   return (
     <Fragment>
       <Modal
@@ -93,23 +109,31 @@ export const ProgramStudyModule: FC = (): ReactElement => {
       <section key="program-studi" className="w-full min-h-screen">
         <HeroBanner
           heroImages="/illustrations/prodi-banner.webp"
-          heroTitleBottomRight="PROGRAM STUDI"
+          heroTitleBottomRight="Fakultas dan Program Studi"
           backgroundColor="bg-grayscale-8"
           blur
         />
         <div className="lg:w-full w-auto h-full lg:p-16 py-8 px-8 text-center flex justify-center font-bebasNeue">
-          <div className="flex flex-col lg:gap-y-16 lg:w-5/6 w-full gap-y-8">
+          <div className="flex flex-col lg:gap-y-16  w-full gap-y-8">
             <div className="lg:w-4/5 w-full lg:mx-auto ">
               <h1 className="text-center text-secondary-green-5 lg:text-3xl text-xl font-bold">
-                Fakultas dan Program studi Universitas Islam Nusantara
+                Uninus memiliki beberapa pilihan program studi yang terbagi dalam 8 fakultas
               </h1>
             </div>
           </div>
         </div>
+        <div className="w-full flex p-2  justify-center">
+          <SearchInput
+            placeholder="Pencarian"
+            value={searchQuery}
+            onChange={handleSearch}
+            width="w-70% lg:w-80%"
+          />
+        </div>
 
         <section className="w-full h-full py-8 px-7 flex justify-center">
           <div className="flex flex-wrap xl:grid xl:grid-cols-3  gap-8 justify-center  items-center">
-            {ProdiList.map((item, idx) => (
+            {displayList.map((item, idx) => (
               <div
                 key={idx}
                 className={`w-[265px]  h-[220px] rounded overflow-hidden shadow-md relative cursor-pointer ${

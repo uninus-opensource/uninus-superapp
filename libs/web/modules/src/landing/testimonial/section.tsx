@@ -1,6 +1,6 @@
 "use client";
 import { CardImage } from "@uninus/web/components";
-import { FC, ReactElement, useEffect, useRef, useState } from "react";
+import { FC, ReactElement } from "react";
 
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
@@ -12,7 +12,7 @@ const CardTestimonial: TTestimonial[] = [
   {
     name: "Anisa",
     testimonial:
-      "Fakultas Keguruan dan Ilmu Pendidikan (FKIP) Universitas Islam Nusantara (Uninus) Bandung, Jawa Barat menggelar Peringatan Dies Natalis ke-46 dan Reuni Akbar.",
+      "Saya sangat menghargai keragaman budaya di kampus ini. Ini adalah lingkungan yang inklusif dan ramah bagi semua orang.",
     image: "/illustrations/testi1.webp",
     job: "Fashion Styles (Digital Talent)",
     faculty: "Fakultas Ilmu Komunikasi",
@@ -20,23 +20,7 @@ const CardTestimonial: TTestimonial[] = [
   {
     name: "Anisa",
     testimonial:
-      "Fakultas Keguruan dan Ilmu Pendidikan (FKIP) Universitas Islam Nusantara (Uninus) Bandung, Jawa Barat menggelar Peringatan Dies Natalis ke-46 dan Reuni Akbar.",
-    image: "/illustrations/testi1.webp",
-    job: "Fashion Styles (Digital Talent)",
-    faculty: "Fakultas Ilmu Komunikasi",
-  },
-  {
-    name: "Anisa",
-    testimonial:
-      "Fakultas Keguruan dan Ilmu Pendidikan (FKIP) Universitas Islam Nusantara (Uninus) Bandung, Jawa Barat menggelar Peringatan Dies Natalis ke-46 dan Reuni Akbar.",
-    image: "/illustrations/testi1.webp",
-    job: "Fashion Styles (Digital Talent)",
-    faculty: "Fakultas Ilmu Komunikasi",
-  },
-  {
-    name: "Anisa",
-    testimonial:
-      "Fakultas Keguruan dan Ilmu Pendidikan (FKIP) Universitas Islam Nusantara (Uninus) Bandung, Jawa Barat menggelar Peringatan Dies Natalis ke-46 dan Reuni Akbar.",
+      "Program studi yang saya pilih sangat relevan dengan dunia kerja, dan saya merasa siap untuk menghadapi tantangan di masa depan.",
     image: "/illustrations/testi2.webp",
     job: "Fashion Styles (Digital Talent)",
     faculty: "Fakultas Ilmu Komunikasi",
@@ -44,8 +28,16 @@ const CardTestimonial: TTestimonial[] = [
   {
     name: "Anisa",
     testimonial:
-      "Fakultas Keguruan dan Ilmu Pendidikan (FKIP) Universitas Islam Nusantara (Uninus) Bandung, Jawa Barat menggelar Peringatan Dies Natalis ke-46 dan Reuni Akbar.",
-    image: "/illustrations/testi2.webp",
+      "Kampus ini juga aktif dalam kegiatan ekstrakurikuler dan sosial. Saya telah mengikuti berbagai klub dan organisasi yang telah memperkaya pengalaman saya di sini.",
+    image: "/illustrations/testi3.webp",
+    job: "Fashion Styles (Digital Talent)",
+    faculty: "Fakultas Ilmu Komunikasi",
+  },
+  {
+    name: "Anisa",
+    testimonial:
+      "Saya tidak hanya mendapatkan pendidikan akademik yang kuat, tetapi juga peluang untuk mengembangkan keterampilan kepemimpinan dan sosial.",
+    image: "/illustrations/testi4.webp",
     job: "Fashion Styles (Digital Talent)",
     faculty: "Fakultas Ilmu Komunikasi",
   },
@@ -54,7 +46,7 @@ const CardTestimonial: TTestimonial[] = [
 export const TestimonialSection: FC = (): ReactElement => {
   const cardProps = {
     items: CardTestimonial.map((x, i) => (
-      <div key={i} className="flex h-full p-4">
+      <div key={i} className="flex h-full p-2">
         <CardImage>
           <div className="image-cap flex flex-col justify-end">
             <figure className="relative">
@@ -63,7 +55,7 @@ export const TestimonialSection: FC = (): ReactElement => {
                 alt={`${x.name}`}
                 width={300}
                 height={300}
-                className="w-full"
+                className="w-full "
               />
             </figure>
             <figcaption className="absolute p-2 w-full text-lg md:text-xs lg:text-md bg-primary-black bg-opacity-20 text-primary-white">
@@ -72,8 +64,8 @@ export const TestimonialSection: FC = (): ReactElement => {
               <p className="font-medium">{x.faculty}</p>
             </figcaption>
           </div>
-          <div className="testimonial p-4 text-center mb-8 mt-3 text-secondary-green-4 font-medium">
-            <p className="lg:text-4xl text-lg md:text-base text-primary-green font-bold">”</p>
+          <div className="testimonial p-4 text-center mt-3 text-secondary-green-4 font-medium md:h-[18rem] h-[13rem] ">
+            <p className="text-4xl  text-primary-green font-bold">”</p>
             <p>{x.testimonial}</p>
           </div>
         </CardImage>
@@ -90,9 +82,6 @@ export const TestimonialSection: FC = (): ReactElement => {
         items: 3,
       },
       1024: {
-        items: 3,
-      },
-      1440: {
         items: 4,
       },
     },
@@ -101,7 +90,6 @@ export const TestimonialSection: FC = (): ReactElement => {
     animationDuration: 1000,
     infinite: true,
     disableButtonsControls: true,
-    startIndex: 2,
   };
   return (
     <section className="lg:mt-32 h-full w-full gap-4 lg:px-16 px-4 py-2 flex flex-col items-center ">
@@ -109,7 +97,7 @@ export const TestimonialSection: FC = (): ReactElement => {
         Apa Kata <span className="text-primary-green">Mereka</span>
       </h1>
 
-      <div className=" w-full">
+      <div className=" w-full xl:w-70%">
         <AliceCarousel key="benefit-carousel-landing" {...cardProps} />
       </div>
     </section>
