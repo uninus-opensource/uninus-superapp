@@ -70,7 +70,7 @@
     "@nestjs/jwt": "^10.1.0",
     "@nestjs/microservices": "^10.2.5",
     "@nestjs/passport": "^10.0.2",
-    "@nestjs/platform-express": "^10.2.4",
+    "@nestjs/platform-express": "^10.2.5",
     "@nestjs/swagger": "^7.1.10",
     "@prisma/client": "^5.2.0",
     "@react-pdf/renderer": "^3.1.12",
