@@ -8,7 +8,6 @@ import {
   ISelectionRequest,
   TSelectionResponse,
   IStudentData,
-  IGetStudentResponse,
 } from "@uninus/entities";
 import { DegreeProgramGet, DepartmentGet, SelectionGet, StudentUpdate } from "./api";
 
