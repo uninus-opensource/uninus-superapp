@@ -18,47 +18,52 @@ import {
 export class AppController {
   constructor(private readonly appService: AppService) {}
   @MessagePattern("login")
-  login(payload: TLoginRequest) {
-    return this.appService.login(payload);
+  async login(payload: TLoginRequest) {
+    return await this.appService.login(payload);
   }
 
   @MessagePattern("register")
-  register(payload: TRegisterRequest) {
-    return this.appService.register(payload);
+  async register(payload: TRegisterRequest) {
+    return await this.appService.register(payload);
   }
 
   @MessagePattern("logout")
-  logout(payload: TLogoutRequest) {
-    return this.appService.logout(payload);
+  async logout(payload: TLogoutRequest) {
+    return await this.appService.logout(payload);
   }
 
   @MessagePattern("get_user_email")
-  getUserEmail(payload: TUserEmail) {
-    return this.appService.getEmailUser(payload);
+  async getUserEmail(payload: TUserEmail) {
+    return await this.appService.getUserByEmail(payload);
   }
 
   @MessagePattern("refresh_token")
-  refreshToken(payload: TReqToken) {
-    return this.appService.refreshToken(payload);
+  async refreshToken(payload: TReqToken) {
+    return await this.appService.refreshToken(payload);
   }
 
   @MessagePattern("verify_otp")
-  verifyOtp(payload: TVerifyOtpRequest) {
-    return this.appService.verifyOtp(payload);
+  async verifyOtp(payload: TVerifyOtpRequest) {
+    return await this.appService.verifyOtp(payload);
+  }
+
+  @MessagePattern("create_otp")
+  async createOtpUser(payload) {
+    return await this.appService.createOtpUser(payload);
   }
 
   @MessagePattern("forget_password")
-  forgetPassword(payload: TForgotPasswordRequest) {
-    return this.appService.forgotPassword(payload);
+  async forgetPassword(payload: TForgotPasswordRequest) {
+    return await this.appService.forgotPassword(payload);
   }
 
   @MessagePattern("verify_otp_password")
-  verifyOtpPassword(payload: TVerifyOtpPasswordRequest) {
-    return this.appService.verifyOtpPassword(payload);
+  async verifyOtpPassword(payload: TVerifyOtpPasswordRequest) {
+    return await this.appService.verifyOtpPassword(payload);
   }
 
   @MessagePattern("reset_password")
-  resetPassword(payload: TResetPasswordRequest) {
-    return this.appService.resetPassword(payload);
+  async resetPassword(payload: TResetPasswordRequest) {
+    return await this.appService.resetPassword(payload);
   }
 }
