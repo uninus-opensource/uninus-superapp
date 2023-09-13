@@ -1,5 +1,6 @@
 export type TRegisterResponse = {
   message: string;
+  id?: string | null;
 };
 
 export type TRegisterRequest = {
