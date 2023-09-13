@@ -36,7 +36,7 @@ export class AuthController {
     description: "Akun Berhasil dibuat!, check email untuk verifikasi",
   })
   @ApiResponse({ status: 400, description: "Gagal mendaftar" })
-  @ApiResponse({ status: 409, description: "Email sudah terdaftar" })
+  @ApiResponse({ status: 409, description: "Email atau nomor telepon sudah terdaftar" })
   @Post("register")
   @UsePipes(new ZodValidationPipe(VSRegister))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())

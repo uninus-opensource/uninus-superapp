@@ -3,6 +3,7 @@ export interface TUserEmail {
 }
 
 export interface TUserEmailResponse extends TUserEmail {
-  id: string;
-  fullname: string;
+  otp?: string;
+  id?: string;
+  email: string;
 }
