@@ -1,8 +1,17 @@
 "use client";
 import { useRecoilState } from "recoil";
-import { studentState, userEmail, userState } from "./store";
-import { IGetStudentResponse, IGetUserMeResponse } from "@uninus/entities";
-import { ReturnTypeUserEmail, ReturnTypesStudentData, ReturnTypesUserData } from "./type";
+import { registransData, studentState, userEmail, userState } from "./store";
+import {
+  IGetStudentResponse,
+  IGetUserMeResponse,
+  TTotalRegistransResponse,
+} from "@uninus/entities";
+import {
+  ReturnTypeUserEmail,
+  ReturnTypesRegistransData,
+  ReturnTypesStudentData,
+  ReturnTypesUserData,
+} from "./type";
 
 export const useStudentData = (): ReturnTypesStudentData => {
   const [get, set] = useRecoilState<IGetStudentResponse | undefined>(studentState);
@@ -25,5 +34,13 @@ export const useUserEmail = (): ReturnTypeUserEmail => {
   return {
     setEmail: (val) => set(val),
     getEmail: get,
+  };
+};
+
+export const useRegistransData = (): ReturnTypesRegistransData => {
+  const [get, set] = useRecoilState<TTotalRegistransResponse | undefined>(registransData);
+  return {
+    setRegistransData: (val) => set(val),
+    getRegistransData: get,
   };
 };

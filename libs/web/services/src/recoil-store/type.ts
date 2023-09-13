@@ -1,5 +1,9 @@
 "use client";
-import { IGetStudentResponse, IGetUserMeResponse } from "@uninus/entities";
+import {
+  IGetStudentResponse,
+  IGetUserMeResponse,
+  TTotalRegistransResponse,
+} from "@uninus/entities";
 
 export type ReturnTypesStudentData = {
   setStudent: (val: IGetStudentResponse | undefined) => void;
@@ -14,4 +18,9 @@ export type ReturnTypesUserData = {
 export type ReturnTypeUserEmail = {
   setEmail: (val: string) => void;
   getEmail: string;
+};
+
+export type ReturnTypesRegistransData = {
+  setRegistransData: (val: TTotalRegistransResponse | undefined) => void;
+  getRegistransData: TTotalRegistransResponse | undefined;
 };
