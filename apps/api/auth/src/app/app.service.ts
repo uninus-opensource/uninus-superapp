@@ -162,6 +162,7 @@ export class AppService {
 
     return {
       message: "Berhasil membuat akun",
+      id: createUser.id,
     };
   }
 
