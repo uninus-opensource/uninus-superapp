@@ -26,7 +26,7 @@ import {
 } from "@uninus/web/services";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
-import { useBiodataUpdate, useUploadImage } from "../../hooks";
+import { useBiodataUpdate, useUploadFile } from "../../hooks";
 import { ToastContainer, toast } from "react-toastify";
 import { VSDataDiri, TVSDataDiri, TVSImage, VSImage } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -306,17 +306,18 @@ export const DataDiriSection: FC = (): ReactElement => {
     }
   }, [citizenshipId]);
 
-  const { mutate: mutateUpload } = useUploadImage();
+  const { mutate: mutateUpload } = useUploadFile();
   const { mutate } = useBiodataUpdate();
 
   const imageSubmit = imageHandleSubmit((data) => {
-    console.log(data);
     try {
       setIsLoading(true);
       mutateUpload(data, {
         onSuccess: (data) => {
           mutate(
-            { avatar: data?.path },
+            {
+              avatar: data?.file_url,
+            },
             {
               onSuccess: () => {
                 setIsLoading(false);
@@ -452,7 +453,7 @@ export const DataDiriSection: FC = (): ReactElement => {
       key="data-diri-section"
       title="Data Diri Pendaftar"
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
-      className="w-full h-auto mt-[2rem] flex flex-col items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] gap-5"
+      className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
     >
       <form
         key="upload-image-form"
@@ -468,6 +469,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           labels={<EditOutlined className="text-3xl rounded-full" />}
           defaultImage={student?.avatar || "/illustrations/dummy-avatar.webp"}
           previewImage="w-[200px] h-[200px] bg-cover object-cover rounded-full -z-10"
+          layoutInputClassName="flex flex-col justify-center items-center"
           preview={true}
           message={imageErrors?.file?.message}
         />
@@ -501,7 +503,7 @@ export const DataDiriSection: FC = (): ReactElement => {
 
         <section
           key="form-biodata"
-          className="flex flex-wrap w-full gap-x-1 justify-center items-center lg:flex lg:justify-between lg:items-center gap-y-4 mt-8 lg:mt-6 lg:w-55% md:w-80% md:flex md:flex-wrap md:justify-between text-left"
+          className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between text-left"
         >
           {formBiodataOne.map((biodata, idx) => (
             <TextField
@@ -579,48 +581,49 @@ export const DataDiriSection: FC = (): ReactElement => {
               status={errors?.no_kk?.message ? "error" : "none"}
             />
           </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              labels="Jenis Kelamin"
+              name="gender_id"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.gender_id
+                  ? genderOptions?.find((gender) => Number(gender.value) === student?.gender_id)
+                      ?.label
+                  : "Jenis Kelamin"
+              }
+              options={genderOptions || []}
+              isClearable={true}
+              isSearchable={false}
+              control={control}
+              disabled={isDisabled || !!student?.gender_id}
+              status={"error"}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              message={errors?.gender_id?.message as string}
+            />
 
-          <SelectOption
-            labels="Jenis Kelamin"
-            name="gender_id"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.gender_id
-                ? genderOptions?.find((gender) => Number(gender.value) === student?.gender_id)
-                    ?.label
-                : "Jenis Kelamin"
-            }
-            options={genderOptions || []}
-            isClearable={true}
-            isSearchable={false}
-            control={control}
-            disabled={isDisabled || !!student?.gender_id}
-            status={"error"}
-            size={"md"}
-            message={errors?.gender_id?.message as string}
-          />
-
-          <SelectOption
-            name="religion_id"
-            labels="Agama"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.religion_id
-                ? religionOptions?.find(
-                    (religion) => Number(religion.value) === student?.religion_id,
-                  )?.label
-                : "Agama"
-            }
-            options={religionOptions || []}
-            isClearable={true}
-            isSearchable={true}
-            control={control}
-            isMulti={false}
-            disabled={isDisabled || !!student?.religion_id}
-            status={"error"}
-            size={"md"}
-            message={errors?.religion_id?.message as string}
-          />
+            <SelectOption
+              name="religion_id"
+              labels="Agama"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.religion_id
+                  ? religionOptions?.find(
+                      (religion) => Number(religion.value) === student?.religion_id,
+                    )?.label
+                  : "Agama"
+              }
+              options={religionOptions || []}
+              isClearable={true}
+              isSearchable={true}
+              control={control}
+              isMulti={false}
+              disabled={isDisabled || !!student?.religion_id}
+              status={"error"}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              message={errors?.religion_id?.message as string}
+            />
+          </div>
 
           <TextField
             inputHeight="h-10"
@@ -650,148 +653,152 @@ export const DataDiriSection: FC = (): ReactElement => {
             disabled={isDisabled || !!student?.birth_date}
             message={errors?.birth_date?.message as string}
           />
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="marital_status_id"
+              labels="Status"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.marital_status_id
+                  ? statusOptions?.find(
+                      (status) => Number(status.value) === student?.marital_status_id,
+                    )?.label
+                  : "Status"
+              }
+              options={statusOptions || []}
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={isDisabled || !!student?.marital_status_id}
+              status={"error"}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              message={errors?.marital_status_id?.message as string}
+            />
 
-          <SelectOption
-            name="marital_status_id"
-            labels="Status"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.marital_status_id
-                ? statusOptions?.find(
-                    (status) => Number(status.value) === student?.marital_status_id,
-                  )?.label
-                : "Status"
-            }
-            options={statusOptions || []}
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={isDisabled || !!student?.marital_status_id}
-            status={"error"}
-            size={"md"}
-            message={errors?.marital_status_id?.message as string}
-          />
-
-          <SelectOption
-            name="citizenship_id"
-            labels="Kewarganegaraan"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.citizenship_id
-                ? citizenOptions?.find(
-                    (citizen) => Number(citizen.value) === student?.citizenship_id,
-                  )?.label
-                : "Kewarganegaraan"
-            }
-            options={citizenOptions || []}
-            isClearable={true}
-            isSearchable={true}
-            control={control}
-            isMulti={false}
-            required={true}
-            disabled={isDisabled || !!student?.citizenship_id}
-            status={"error"}
-            size={"md"}
-            message={errors?.citizenship_id?.message as string}
-          />
-          <SelectOption
-            name="country_id"
-            labels="Asal Negara"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.country_id
-                ? countryOptions?.find((country) => Number(country.value) === student?.country_id)
-                    ?.label
-                : "Asal Negara"
-            }
-            options={countryOptions || []}
-            isClearable={true}
-            isSearchable={true}
-            ref={countryref}
-            control={control}
-            isMulti={false}
-            required={false}
-            disabled={isDisabled || !!student?.country_id || !watch("citizenship_id")}
-            status={"error"}
-            size={"md"}
-            message={errors?.country_id?.message as string}
-          />
-          <SelectOption
-            name="province_id"
-            labels="Provinsi"
-            placeholder={
-              student?.province_id
-                ? provinceOptions?.find(
-                    (province) => Number(province.value) === student?.province_id,
-                  )?.label
-                : "Provinsi"
-            }
-            labelClassName="font-bold text-xs py-2"
-            options={provinceOptions || []}
-            isSearchable={true}
-            isClearable={true}
-            control={control}
-            ref={citizenref}
-            isMulti={false}
-            disabled={isDisabled || !!student?.province_id || countryOptions?.length !== 1}
-            status={errors?.province_id?.message ? "error" : "none"}
-            size={"md"}
-            message={errors?.province_id?.message as string}
-          />
-          <SelectOption
-            name="city_id"
-            labels="Kota/Kabupaten"
-            placeholder={
-              student?.city_id
-                ? cityOptions?.find((city) => Number(city.value) === student?.city_id)?.label
-                : "Kota/Kabupaten"
-            }
-            labelClassName="font-bold text-xs py-2"
-            options={cityOptions || []}
-            isSearchable={true}
-            isClearable={true}
-            ref={provinceref}
-            control={control}
-            isMulti={false}
-            disabled={
-              isDisabled ||
-              !!student?.city_id ||
-              !watch("province_id") ||
-              countryOptions?.length !== 1
-            }
-            status={"error"}
-            size={"md"}
-            message={errors?.city_id?.message as string}
-          />
-          <SelectOption
-            name="subdistrict_id"
-            labels="Kecamatan"
-            placeholder={
-              student?.subdistrict_id
-                ? subDistrictOptions?.find(
-                    (subdistrict) => Number(subdistrict.value) === student?.subdistrict_id,
-                  )?.label
-                : "Kecamatan"
-            }
-            labelClassName="font-bold text-xs py-2"
-            options={subDistrictOptions || []}
-            isSearchable={true}
-            ref={subdisref}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={
-              isDisabled ||
-              !!student?.subdistrict_id ||
-              !watch("city_id") ||
-              countryOptions?.length !== 1
-            }
-            status={"error"}
-            size={"md"}
-            message={errors?.subdistrict_id?.message as string}
-          />
-
+            <SelectOption
+              name="citizenship_id"
+              labels="Kewarganegaraan"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.citizenship_id
+                  ? citizenOptions?.find(
+                      (citizen) => Number(citizen.value) === student?.citizenship_id,
+                    )?.label
+                  : "Kewarganegaraan"
+              }
+              options={citizenOptions || []}
+              isClearable={true}
+              isSearchable={true}
+              control={control}
+              isMulti={false}
+              required={true}
+              disabled={isDisabled || !!student?.citizenship_id}
+              status={"error"}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              message={errors?.citizenship_id?.message as string}
+            />
+          </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="country_id"
+              labels="Asal Negara"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.country_id
+                  ? countryOptions?.find((country) => Number(country.value) === student?.country_id)
+                      ?.label
+                  : "Asal Negara"
+              }
+              options={countryOptions || []}
+              isClearable={true}
+              isSearchable={true}
+              ref={countryref}
+              control={control}
+              isMulti={false}
+              required={false}
+              disabled={isDisabled || !!student?.country_id || !watch("citizenship_id")}
+              status={"error"}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              message={errors?.country_id?.message as string}
+            />
+            <SelectOption
+              name="province_id"
+              labels="Provinsi"
+              placeholder={
+                student?.province_id
+                  ? provinceOptions?.find(
+                      (province) => Number(province.value) === student?.province_id,
+                    )?.label
+                  : "Provinsi"
+              }
+              labelClassName="font-bold text-xs py-2"
+              options={provinceOptions || []}
+              isSearchable={true}
+              isClearable={true}
+              control={control}
+              ref={citizenref}
+              isMulti={false}
+              disabled={isDisabled || !!student?.province_id || countryOptions?.length !== 1}
+              status={errors?.province_id?.message ? "error" : "none"}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              message={errors?.province_id?.message as string}
+            />
+          </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="city_id"
+              labels="Kota/Kabupaten"
+              placeholder={
+                student?.city_id
+                  ? cityOptions?.find((city) => Number(city.value) === student?.city_id)?.label
+                  : "Kota/Kabupaten"
+              }
+              labelClassName="font-bold text-xs py-2"
+              options={cityOptions || []}
+              isSearchable={true}
+              isClearable={true}
+              ref={provinceref}
+              control={control}
+              isMulti={false}
+              disabled={
+                isDisabled ||
+                !!student?.city_id ||
+                !watch("province_id") ||
+                countryOptions?.length !== 1
+              }
+              status={"error"}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              message={errors?.city_id?.message as string}
+            />
+            <SelectOption
+              name="subdistrict_id"
+              labels="Kecamatan"
+              placeholder={
+                student?.subdistrict_id
+                  ? subDistrictOptions?.find(
+                      (subdistrict) => Number(subdistrict.value) === student?.subdistrict_id,
+                    )?.label
+                  : "Kecamatan"
+              }
+              labelClassName="font-bold text-xs py-2"
+              options={subDistrictOptions || []}
+              isSearchable={true}
+              ref={subdisref}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={
+                isDisabled ||
+                !!student?.subdistrict_id ||
+                !watch("city_id") ||
+                countryOptions?.length !== 1
+              }
+              status={"error"}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              message={errors?.subdistrict_id?.message as string}
+            />
+          </div>
           <div className="px-6 md:px-0 lg:px-0 w-full">
             <TextField
               name="address"
@@ -805,7 +812,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               isTextArea
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
+              inputWidth="md:w-[80vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2  "
               disabled={isDisabled || !!student?.address}
               message={errors?.address?.message as string}
@@ -817,7 +824,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               <div className="w-full">
                 <h1 className="text-left font-bold text-xl pl-6 md:pl-0 pb-8">Pekerjaan</h1>
               </div>
-              <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-y-4">
+              <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
                 <RadioButton
                   name="bekerja"
                   label="Sudah"
@@ -866,9 +873,11 @@ export const DataDiriSection: FC = (): ReactElement => {
                       : false
                   }
                   status={"error"}
-                  size={"md"}
+                  className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
                   message={errors?.occupation_id?.message as string}
                 />
+              </div>
+              <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
                 <SelectOption
                   name="occupation_position_id"
                   labels="Jabatan"
@@ -897,7 +906,7 @@ export const DataDiriSection: FC = (): ReactElement => {
                       : false
                   }
                   status={"error"}
-                  size={"md"}
+                  className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
                   message={errors?.occupation_position_id?.message as string}
                 />
                 <TextField
@@ -925,7 +934,7 @@ export const DataDiriSection: FC = (): ReactElement => {
                   isTextArea
                   textAreaCols={30}
                   inputHeight="h-20"
-                  inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
+                  inputWidth="md:w-[80vw] lg:w-55% w-[70vw]"
                   className="resize-none bg-grayscale-2  "
                   disabled={occValue === "Belum" || isDisabled || !!student?.company_address}
                 />
@@ -951,65 +960,66 @@ export const DataDiriSection: FC = (): ReactElement => {
               />
             </section>
           )}
-          <div className="w-full lg:w-[30%] px-6 md:px-0">
-            <RadioButton
-              name="difabel"
-              label="Ya"
-              fieldName="Berkebutuhan Khusus"
-              control={control}
-              options={[
-                { label: "Ya", value: "Ya" },
-                { label: "Tidak", value: "Tidak" },
-              ]}
-              size="lg"
-              variant="primary"
-              onChange={handleOnChange}
-              buttonValue={disValue}
-              disabled={
-                isDisabled || !!(student?.disabilities_id && disValue === "Ya") || !!student?.nik
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
+            <div className="w-full lg:w-[30%] py-2">
+              <RadioButton
+                name="difabel"
+                label="Ya"
+                fieldName="Berkebutuhan Khusus"
+                control={control}
+                options={[
+                  { label: "Ya", value: "Ya" },
+                  { label: "Tidak", value: "Tidak" },
+                ]}
+                size="lg"
+                variant="primary"
+                onChange={handleOnChange}
+                buttonValue={disValue}
+                disabled={
+                  isDisabled || !!(student?.disabilities_id && disValue === "Ya") || !!student?.nik
+                }
+              />
+            </div>
+
+            <SelectOption
+              name="disabilities_id"
+              labels="Kategori Difabel"
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              placeholder={
+                student?.disabilities_id
+                  ? disabilitiesOptions?.find(
+                      (disabilities) => Number(disabilities.value) === student?.disabilities_id,
+                    )?.label
+                  : "Kategori Difabel"
               }
+              labelClassName="font-bold text-xs py-2"
+              options={disabilitiesOptions || []}
+              isClearable={true}
+              isSearchable={true}
+              required={false}
+              control={control}
+              isMulti={false}
+              disabled={
+                disValue === "Ya" && student?.disabilities_id
+                  ? true
+                  : disValue === "Tidak" && student?.disabilities_id
+                  ? true
+                  : disValue === "Ya"
+                  ? false
+                  : disValue === "Tidak"
+                  ? true
+                  : false
+              }
+              status={"error"}
             />
           </div>
-
-          <SelectOption
-            name="disabilities_id"
-            labels="Kategori Difabel"
-            className=" rounded-md text-primary-black lg:w-auto w-70% xl:w-[25vw] md:w-[33vw]"
-            placeholder={
-              student?.disabilities_id
-                ? disabilitiesOptions?.find(
-                    (disabilities) => Number(disabilities.value) === student?.disabilities_id,
-                  )?.label
-                : "Kategori Difabel"
-            }
-            labelClassName="font-bold text-xs py-2"
-            options={disabilitiesOptions || []}
-            isClearable={true}
-            isSearchable={true}
-            required={false}
-            control={control}
-            isMulti={false}
-            disabled={
-              disValue === "Ya" && student?.disabilities_id
-                ? true
-                : disValue === "Tidak" && student?.disabilities_id
-                ? true
-                : disValue === "Ya"
-                ? false
-                : disValue === "Tidak"
-                ? true
-                : false
-            }
-            status={"error"}
-            size={"md"}
-          />
         </section>
         <div className="flex w-full justify-center lg:justify-end py-4 mt-8">
           <Button
             type="submit"
             variant="filled"
             size="md"
-            width="w-50% lg:w-25% xl:w-15%"
+            width="w-70% lg:w-25% xl:w-15%"
             disabled={isDisabled || !!student?.nik}
           >
             Submit

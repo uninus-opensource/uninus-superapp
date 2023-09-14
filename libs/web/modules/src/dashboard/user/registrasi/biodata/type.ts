@@ -44,11 +44,11 @@ export type NilaiValues = {
   bing2: number;
   bing3: number;
   bing4: number;
-  utbk_kk: number;
-  utbk_pu: number;
-  utbk_ppu: number;
-  utbk_kmbm: number;
-  average_utbk: number;
+  utbk_kk: number | null;
+  utbk_pu: number | null;
+  utbk_ppu: number | null;
+  utbk_kmbm: number | null;
+  average_utbk: number | null;
   dokumen1: File;
   dokumen2: File;
   dokumen3: File;
@@ -64,10 +64,12 @@ export type NilaiValues = {
   }>;
 };
 
-export type TUploadImageRequest = {
+export type TUploadFileRequest = {
   file: File;
 };
 
-export type TUploadImageResponse = {
-  path: string;
+export type TUploadFileResponse = {
+  file_name: string;
+  file_url: string;
+  mime: string;
 };

@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException, Inject } from "@nestjs/common";
 import {
   TLoginResponse,
-  TProfileResponse,
   TRegisterRequest,
   TRegisterResponse,
   TReqToken,
@@ -21,7 +20,6 @@ import {
   TLogoutResponse,
   TLoginRequest,
 } from "@uninus/entities";
-import { generateOtp, clearOtp } from "@uninus/api/utilities";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
@@ -30,25 +28,17 @@ export class AuthService {
   constructor(@Inject("REDIS_SERVICE") private readonly client: ClientProxy) {}
 
   async register(payload: TRegisterRequest): Promise<TRegisterResponse> {
-    const createdUser: TProfileResponse = await firstValueFrom(
+    const createdUser = await firstValueFrom(
       this.client
-        .send<TProfileResponse>("register", payload)
+        .send("register", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
-    if (!createdUser) {
-      throw new BadRequestException("Gagal Mendaftar");
-    }
-    const isCreateOtp = await generateOtp(createdUser?.email, createdUser?.id);
-
-    if (!isCreateOtp) {
-      throw new BadRequestException("Gagal membuat otp");
-    }
     const msg = "verifikasi akun anda";
 
-    const html = emailTemplate(payload.fullname, isCreateOtp?.token, msg);
+    const html = emailTemplate(createdUser.fullname, createdUser.otp, msg);
 
-    const sendEmail = firstValueFrom(
+    const sendEmail = await firstValueFrom(
       this.client
         .send("send_email", {
           email: payload.email,
@@ -104,25 +94,15 @@ export class AuthService {
   }
 
   async resendOtp(payload: TResendOtpRequest): Promise<TResendOtpResponse> {
-    await clearOtp();
-
     const user = await firstValueFrom(
       this.client
-        .send("get_user_email", payload)
+        .send("create_otp", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
-    if (!user) {
-      throw new NotFoundException("Akun tidak ditemukan");
-    }
 
-    const isCreateOtp = await generateOtp(user?.email, user?.id);
-
-    if (!isCreateOtp) {
-      throw new BadRequestException("Gagal membuat otp");
-    }
     const msg = "verifikasi akun anda";
 
-    const html = emailTemplate(user?.fullname, isCreateOtp?.token, msg);
+    const html = emailTemplate(user?.fullname, user.otp, msg);
 
     const sendEmail = firstValueFrom(
       this.client
@@ -146,21 +126,13 @@ export class AuthService {
   async forgotPassword(payload: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
     const user = await firstValueFrom(
       this.client
-        .send("forget_password", payload)
+        .send("create_otp", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
     const msg = "memperbarui kata sandi anda";
 
-    if (!user) {
-      throw new NotFoundException("Akun tidak ditemukan");
-    }
-
-    const isCreateOtp = await generateOtp(user?.email, user?.id);
-    if (!isCreateOtp) {
-      throw new BadRequestException("Gagal membuat otp");
-    }
-    const html = emailTemplate(user?.fullname ?? "", isCreateOtp?.token, msg);
+    const html = emailTemplate(user?.fullname, user?.otp, msg);
 
     const sendEmail = firstValueFrom(
       this.client

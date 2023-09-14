@@ -18,6 +18,21 @@ export class AppService {
       {
         where,
         orderBy,
+        select: {
+          id: true,
+          email: true,
+          fullname: true,
+          password: true,
+          createdAt: true,
+          avatar: true,
+          isVerified: true,
+          role: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
       },
       {
         page,

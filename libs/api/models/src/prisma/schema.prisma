@@ -270,9 +270,9 @@ model RolesPermissions {
 model OTP {
   id        Int    @id @default(autoincrement())
   token     String
+  expiredAt BigInt
   user_id   String @unique
   user      Users  @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  expiredAt BigInt
 }
 
 model DegreeProgram {

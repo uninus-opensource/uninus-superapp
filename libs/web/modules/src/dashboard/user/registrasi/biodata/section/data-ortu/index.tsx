@@ -428,362 +428,382 @@ export const DataOrtuSection: FC = (): ReactElement => {
         </h1>
 
         <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
-          <TextField
-            inputHeight="h-10"
-            name="father_name"
-            variant="sm"
-            type="text"
-            required
-            placeholder="Nama Lengkap Ayah Kandung"
-            labelclassname="text-sm font-semibold"
-            label="Nama Ayah"
-            message={errors?.father_name?.message as string}
-            status={errors?.father_name?.message ? "error" : "none"}
-            inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
-            control={control}
-            disabled={isSubmitted || !!student?.father_name}
-          />
-          <SelectOption
-            name="father_status_id"
-            labels="Status Ayah"
-            required={true}
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.father_status_id
-                ? parentStatusOptions?.find(
-                    (status) => Number(status.value) === student?.father_status_id,
-                  )?.label
-                : "Status ayah"
-            }
-            options={parentStatusOptions || []}
-            size="md"
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={isSubmitted || !!student?.father_status_id}
-            status="error"
-            message={errors?.father_status_id?.message as string}
-          />
-          <SelectOption
-            name="father_education_id"
-            labels="Pendidikan Terahir Ayah"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.father_education_id
-                ? parentEducationOptions?.find(
-                    (edu) => Number(edu.value) === student?.father_education_id,
-                  )?.label
-                : "Pendidikan"
-            }
-            options={parentEducationOptions || []}
-            size="md"
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={isSubmitted || !!student?.father_education_id}
-            status="error"
-            message={errors?.father_education_id?.message as string}
-          />
-          <SelectOption
-            name="father_occupation_id"
-            labels="Pekerjaan Ayah"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.father_occupation_id
-                ? occupationOptions?.find(
-                    (occupations) => Number(occupations.value) === student?.father_occupation_id,
-                  )?.label
-                : "Pilih pekerjaan"
-            }
-            options={occupationOptions || []}
-            size="md"
-            isSearchable={true}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={
-              isSubmitted ||
-              !!student?.father_occupation_id ||
-              isFatherStatus ||
-              !!student?.father_status_id
-            }
-            status="error"
-            message={errors?.father_occupation_id?.message as string}
-          />
-          <SelectOption
-            name="father_occupation_position_id"
-            labels="Jabatan"
-            placeholder={
-              student?.father_position_id
-                ? getOccupationPositionFather?.occupation_position?.find(
-                    (occupation_position) => occupation_position.id === student?.father_position_id,
-                  )?.name
-                : "Pilih Jabatan"
-            }
-            size={"md"}
-            labelClassName="text-left font-bold text-xs py-2"
-            options={occupationPositionFatherOptions || []}
-            isClearable={true}
-            isSearchable={true}
-            required={false}
-            control={control}
-            isMulti={false}
-            disabled={
-              isSubmitted || !watch("father_occupation_id")
-                ? true
-                : false ||
-                  occupationPositionFatherOptions?.length === 0 ||
-                  student?.occupation_position_id
-                ? true
-                : false
-            }
-            status={"error"}
-            message={errors?.father_occupation_position_id?.message as string}
-          />
-          <SelectOption
-            name="father_salary_id"
-            labels="Pendapatan Ayah ( Per Bulan )"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.father_salary_id
-                ? salaryOptions?.find(
-                    (salary) => Number(salary.value) === student?.father_salary_id,
-                  )?.label
-                : "Pilih pendapatan"
-            }
-            options={salaryOptions || []}
-            size="md"
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={
-              isSubmitted ||
-              !!student?.father_salary_id ||
-              isFatherStatus ||
-              isUnemployedFather ||
-              !!student?.father_status_id
-            }
-            status="error"
-            message={errors?.father_salary_id?.message as string}
-          />
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <TextField
+              inputHeight="h-10"
+              name="father_name"
+              variant="sm"
+              type="text"
+              required
+              placeholder="Nama Lengkap Ayah Kandung"
+              labelclassname="text-sm font-semibold"
+              label="Nama Ayah"
+              message={errors?.father_name?.message as string}
+              status={errors?.father_name?.message ? "error" : "none"}
+              inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              control={control}
+              disabled={isSubmitted || !!student?.father_name}
+            />
+
+            <SelectOption
+              name="father_status_id"
+              labels="Status Ayah"
+              required={true}
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.father_status_id
+                  ? parentStatusOptions?.find(
+                      (status) => Number(status.value) === student?.father_status_id,
+                    )?.label
+                  : "Status ayah"
+              }
+              options={parentStatusOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={isSubmitted || !!student?.father_status_id}
+              status="error"
+              message={errors?.father_status_id?.message as string}
+            />
+          </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="father_education_id"
+              labels="Pendidikan Terahir Ayah"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.father_education_id
+                  ? parentEducationOptions?.find(
+                      (edu) => Number(edu.value) === student?.father_education_id,
+                    )?.label
+                  : "Pendidikan"
+              }
+              options={parentEducationOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={isSubmitted || !!student?.father_education_id}
+              status="error"
+              message={errors?.father_education_id?.message as string}
+            />
+            <SelectOption
+              name="father_occupation_id"
+              labels="Pekerjaan Ayah"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.father_occupation_id
+                  ? occupationOptions?.find(
+                      (occupations) => Number(occupations.value) === student?.father_occupation_id,
+                    )?.label
+                  : "Pilih pekerjaan"
+              }
+              options={occupationOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={true}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={
+                isSubmitted ||
+                !!student?.father_occupation_id ||
+                isFatherStatus ||
+                !!student?.father_status_id
+              }
+              status="error"
+              message={errors?.father_occupation_id?.message as string}
+            />
+          </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="father_occupation_position_id"
+              labels="Jabatan"
+              placeholder={
+                student?.father_position_id
+                  ? getOccupationPositionFather?.occupation_position?.find(
+                      (occupation_position) =>
+                        occupation_position.id === student?.father_position_id,
+                    )?.name
+                  : "Pilih Jabatan"
+              }
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              labelClassName="text-left font-bold text-xs py-2"
+              options={occupationPositionFatherOptions || []}
+              isClearable={true}
+              isSearchable={true}
+              required={false}
+              control={control}
+              isMulti={false}
+              disabled={
+                isSubmitted || !watch("father_occupation_id")
+                  ? true
+                  : false ||
+                    occupationPositionFatherOptions?.length === 0 ||
+                    student?.occupation_position_id
+                  ? true
+                  : false
+              }
+              status={"error"}
+              message={errors?.father_occupation_position_id?.message as string}
+            />
+            <SelectOption
+              name="father_salary_id"
+              labels="Pendapatan Ayah ( Per Bulan )"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.father_salary_id
+                  ? salaryOptions?.find(
+                      (salary) => Number(salary.value) === student?.father_salary_id,
+                    )?.label
+                  : "Pilih pendapatan"
+              }
+              options={salaryOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={
+                isSubmitted ||
+                !!student?.father_salary_id ||
+                isFatherStatus ||
+                isUnemployedFather ||
+                !!student?.father_status_id
+              }
+              status="error"
+              message={errors?.father_salary_id?.message as string}
+            />
+          </div>
         </section>
         {/* Ibu */}
         <h1 className="font-bold text-xl my-6  lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-4">
           Profil Ibu
         </h1>
         <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
-          <TextField
-            inputHeight="h-10"
-            name="mother_name"
-            variant="sm"
-            type="text"
-            required
-            placeholder="Nama Lengkap Ibu Kandung"
-            labelclassname="text-sm font-semibold"
-            label="Nama Ibu"
-            inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
-            control={control}
-            disabled={isSubmitted || !!student?.mother_name}
-            message={errors?.mother_name?.message as string}
-            status={errors?.mother_name?.message ? "error" : "none"}
-          />
-          <SelectOption
-            name="mother_status_id"
-            labels="Status Ibu"
-            placeholder={
-              student?.mother_status_id
-                ? parentStatusOptions?.find(
-                    (status) => Number(status.value) === student?.mother_status_id,
-                  )?.label
-                : "Status ibu"
-            }
-            labelClassName="font-bold text-xs py-2"
-            options={parentStatusOptions || []}
-            size="md"
-            required
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={isSubmitted || !!student?.mother_status_id}
-            status="error"
-            message={errors?.mother_status_id?.message as string}
-          />
-          <SelectOption
-            name="mother_education_id"
-            labels="Pendidikan Terahir Ibu"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.mother_education_id
-                ? parentEducationOptions?.find(
-                    (edu) => Number(edu.value) === student?.mother_education_id,
-                  )?.label
-                : "Pendidikan"
-            }
-            options={parentEducationOptions || []}
-            size="md"
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={isSubmitted || !!student?.mother_education_id}
-            status="error"
-            message={errors?.mother_education_id?.message as string}
-          />
-          <SelectOption
-            name="mother_occupation_id"
-            labels="Pekerjaan Ibu"
-            placeholder={
-              student?.mother_occupation_id
-                ? occupationOptions?.find(
-                    (occupation) => Number(occupation.value) === student?.mother_occupation_id,
-                  )?.label
-                : "Pilih pekerjaan"
-            }
-            options={occupationOptions || []}
-            labelClassName="font-bold text-xs py-2"
-            size="md"
-            isSearchable={true}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={
-              isSubmitted ||
-              !!student?.mother_occupation_id ||
-              isMotherStatus ||
-              !!student?.mother_status_id
-            }
-            status="error"
-            message={errors?.mother_occupation_id?.message as string}
-          />
-          <SelectOption
-            name="mother_occupation_position_id"
-            labels="Jabatan"
-            placeholder={
-              student?.mother_position_id
-                ? getOccupationPositionMother?.occupation_position?.find(
-                    (occupation_position) => occupation_position.id === student?.mother_position_id,
-                  )?.name
-                : "Pilih Jabatan"
-            }
-            size={"md"}
-            labelClassName="text-left font-bold text-xs py-2"
-            options={occupationPositionMotherOptions || []}
-            isClearable={true}
-            isSearchable={true}
-            required={false}
-            control={control}
-            isMulti={false}
-            disabled={
-              isSubmitted || !watch("mother_occupation_id")
-                ? true
-                : false ||
-                  occupationPositionMotherOptions?.length === 0 ||
-                  student?.occupation_position_id
-                ? true
-                : false
-            }
-            status={"error"}
-            message={errors?.mother_occupation_position_id?.message as string}
-          />
-          <SelectOption
-            name="mother_salary_id"
-            labels="Pendapatan Ibu ( Per Bulan )"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.mother_salary_id
-                ? salaryOptions?.find(
-                    (salary) => Number(salary.value) === student?.mother_salary_id,
-                  )?.label
-                : "Pilih pendapatan"
-            }
-            options={salaryOptions || []}
-            size="md"
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={
-              isSubmitted ||
-              !!student?.mother_salary_id ||
-              isMotherStatus ||
-              isUnemployedMother ||
-              !!student?.mother_status_id
-            }
-            status="error"
-            message={errors?.mother_salary_id?.message as string}
-          />
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <TextField
+              inputHeight="h-10"
+              name="mother_name"
+              variant="sm"
+              type="text"
+              required
+              placeholder="Nama Lengkap Ibu Kandung"
+              labelclassname="text-sm font-semibold"
+              label="Nama Ibu"
+              inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              control={control}
+              disabled={isSubmitted || !!student?.mother_name}
+              message={errors?.mother_name?.message as string}
+              status={errors?.mother_name?.message ? "error" : "none"}
+            />
+
+            <SelectOption
+              name="mother_status_id"
+              labels="Status Ibu"
+              placeholder={
+                student?.mother_status_id
+                  ? parentStatusOptions?.find(
+                      (status) => Number(status.value) === student?.mother_status_id,
+                    )?.label
+                  : "Status ibu"
+              }
+              labelClassName="font-bold text-xs py-2"
+              options={parentStatusOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              required
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={isSubmitted || !!student?.mother_status_id}
+              status="error"
+              message={errors?.mother_status_id?.message as string}
+            />
+          </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="mother_education_id"
+              labels="Pendidikan Terahir Ibu"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.mother_education_id
+                  ? parentEducationOptions?.find(
+                      (edu) => Number(edu.value) === student?.mother_education_id,
+                    )?.label
+                  : "Pendidikan"
+              }
+              options={parentEducationOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={isSubmitted || !!student?.mother_education_id}
+              status="error"
+              message={errors?.mother_education_id?.message as string}
+            />
+            <SelectOption
+              name="mother_occupation_id"
+              labels="Pekerjaan Ibu"
+              placeholder={
+                student?.mother_occupation_id
+                  ? occupationOptions?.find(
+                      (occupation) => Number(occupation.value) === student?.mother_occupation_id,
+                    )?.label
+                  : "Pilih pekerjaan"
+              }
+              options={occupationOptions || []}
+              labelClassName="font-bold text-xs py-2"
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={true}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={
+                isSubmitted ||
+                !!student?.mother_occupation_id ||
+                isMotherStatus ||
+                !!student?.mother_status_id
+              }
+              status="error"
+              message={errors?.mother_occupation_id?.message as string}
+            />
+          </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="mother_occupation_position_id"
+              labels="Jabatan"
+              placeholder={
+                student?.mother_position_id
+                  ? getOccupationPositionMother?.occupation_position?.find(
+                      (occupation_position) =>
+                        occupation_position.id === student?.mother_position_id,
+                    )?.name
+                  : "Pilih Jabatan"
+              }
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              labelClassName="text-left font-bold text-xs py-2"
+              options={occupationPositionMotherOptions || []}
+              isClearable={true}
+              isSearchable={true}
+              required={false}
+              control={control}
+              isMulti={false}
+              disabled={
+                isSubmitted || !watch("mother_occupation_id")
+                  ? true
+                  : false ||
+                    occupationPositionMotherOptions?.length === 0 ||
+                    student?.occupation_position_id
+                  ? true
+                  : false
+              }
+              status={"error"}
+              message={errors?.mother_occupation_position_id?.message as string}
+            />
+
+            <SelectOption
+              name="mother_salary_id"
+              labels="Pendapatan Ibu ( Per Bulan )"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.mother_salary_id
+                  ? salaryOptions?.find(
+                      (salary) => Number(salary.value) === student?.mother_salary_id,
+                    )?.label
+                  : "Pilih pendapatan"
+              }
+              options={salaryOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={
+                isSubmitted ||
+                !!student?.mother_salary_id ||
+                isMotherStatus ||
+                isUnemployedMother ||
+                !!student?.mother_status_id
+              }
+              status="error"
+              message={errors?.mother_salary_id?.message as string}
+            />
+          </div>
         </section>
         {/* Parent Address */}
         <h1 className="font-bold text-xl my-6 lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-4">
           Alamat Orang Tua
         </h1>
         <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
-          <SelectOption
-            labels="Provinsi"
-            size="md"
-            labelClassName="font-bold text-xs py-2"
-            options={provinceOptions || []}
-            placeholder={
-              student?.parent_province_id
-                ? provinceOptions?.find(
-                    (province) => Number(province.value) === student?.parent_province_id,
-                  )?.label
-                : "Provinsi"
-            }
-            isSearchable={true}
-            name="parent_province_id"
-            isClearable={true}
-            control={control}
-            isMulti={false}
-            disabled={isSubmitted || !!student?.parent_province_id}
-            status="error"
-            message={errors?.parent_province_id?.message as string}
-          />
-          <SelectOption
-            labels="Kota/Kabupaten"
-            size="md"
-            labelClassName="font-bold text-xs py-2"
-            options={cityOptionsParent || []}
-            placeholder={
-              student?.parent_city_id
-                ? cityOptionsParent?.find((city) => Number(city.value) === student?.parent_city_id)
-                    ?.label
-                : "Kota/Kabupaten"
-            }
-            isSearchable={true}
-            name="parent_city_id"
-            isClearable={true}
-            control={control}
-            isMulti={false}
-            disabled={!watch("parent_province_id") || isSubmitted || !!student?.parent_city_id}
-            status="error"
-            message={errors?.parent_city_id?.message as string}
-          />
-          <SelectOption
-            labels="Kecamatan"
-            size="md"
-            labelClassName="font-bold text-xs py-2"
-            options={subDistrictOptionsParent || []}
-            placeholder={
-              student?.parent_subdistrict_id
-                ? subDistrictOptionsParent?.find(
-                    (subdistrict) => Number(subdistrict.value) === student?.parent_subdistrict_id,
-                  )?.label
-                : "Kecamatan"
-            }
-            isSearchable={true}
-            name="parent_subdistrict_id"
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={!watch("parent_city_id") || isSubmitted || !!student?.parent_subdistrict_id}
-            status="error"
-            message={errors?.parent_subdistrict_id?.message as string}
-          />
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              labels="Provinsi"
+              className="w-70% lg:w-[18vw]  text-base md:w-[25vw]"
+              labelClassName="font-bold text-xs py-2"
+              options={provinceOptions || []}
+              placeholder={
+                student?.parent_province_id
+                  ? provinceOptions?.find(
+                      (province) => Number(province.value) === student?.parent_province_id,
+                    )?.label
+                  : "Provinsi"
+              }
+              isSearchable={true}
+              name="parent_province_id"
+              isClearable={true}
+              control={control}
+              isMulti={false}
+              disabled={isSubmitted || !!student?.parent_province_id}
+              status="error"
+              message={errors?.parent_province_id?.message as string}
+            />
+            <SelectOption
+              labels="Kota/Kabupaten"
+              className="w-70% lg:w-[18vw]  text-base md:w-[25vw]"
+              labelClassName="font-bold text-xs py-2"
+              options={cityOptionsParent || []}
+              placeholder={
+                student?.parent_city_id
+                  ? cityOptionsParent?.find(
+                      (city) => Number(city.value) === student?.parent_city_id,
+                    )?.label
+                  : "Kota/Kabupaten"
+              }
+              isSearchable={true}
+              name="parent_city_id"
+              isClearable={true}
+              control={control}
+              isMulti={false}
+              disabled={!watch("parent_province_id") || isSubmitted || !!student?.parent_city_id}
+              status="error"
+              message={errors?.parent_city_id?.message as string}
+            />
+            <SelectOption
+              labels="Kecamatan"
+              className="w-70% lg:w-[18vw]  text-base md:w-[25vw]"
+              labelClassName="font-bold text-xs py-2"
+              options={subDistrictOptionsParent || []}
+              placeholder={
+                student?.parent_subdistrict_id
+                  ? subDistrictOptionsParent?.find(
+                      (subdistrict) => Number(subdistrict.value) === student?.parent_subdistrict_id,
+                    )?.label
+                  : "Kecamatan"
+              }
+              isSearchable={true}
+              name="parent_subdistrict_id"
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={!watch("parent_city_id") || isSubmitted || !!student?.parent_subdistrict_id}
+              status="error"
+              message={errors?.parent_subdistrict_id?.message as string}
+            />
+          </div>
 
           <div className="px-6 md:px-0 lg:px-0 w-full">
             <TextField
@@ -797,7 +817,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
+              inputWidth="md:w-[80vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2"
               disabled={!parentAddressSame || isSubmitted || !!student?.parent_address}
               placeholder={"Masukan Alamat Domisili Orang Tua"}
@@ -824,210 +844,221 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <span className="text-red-5 text-[10px] ml-2">*kosongkan bila tidak ada</span>
         </h1>
         <section className="flex flex-wrap w-full justify-center items-start gap-x-1 lg:flex  lg:flex-wrap lg:gap-6 xl:gap-1 gap-y-4 mt-2 lg:items-center lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
-          <TextField
-            inputHeight="h-10"
-            name="guardian_name"
-            placeholder="Nama Lengkap Wali"
-            variant="sm"
-            type="text"
-            labelclassname="text-sm font-semibold"
-            label="Nama Wali"
-            inputWidth="w-70% lg:w-[26vw] max-w-20% xl:w-[25vw] md:w-[33vw]"
-            control={control}
-            disabled={isSubmitted || !!student?.guardian_name || !!student?.mother_name}
-          />
-          <SelectOption
-            name="guardian_status_id"
-            labels="Status Wali"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.guardian_status_id
-                ? parentStatusOptions?.find(
-                    (status) => Number(status.value) === student?.guardian_status_id,
-                  )?.label
-                : "Status wali"
-            }
-            options={parentStatusOptions || []}
-            size="md"
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={isSubmitted || !!student?.guardian_status_id || !!student?.mother_name}
-          />
-          <SelectOption
-            name="guardian_education_id"
-            labels="Pendidikan Terahir Wali"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.guardian_education_id
-                ? parentEducationOptions?.find(
-                    (edu) => Number(edu.value) === student?.guardian_education_id,
-                  )?.label
-                : "Pendidikan"
-            }
-            options={parentEducationOptions || []}
-            size="md"
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={isSubmitted || !!student?.guardian_education_id || !!student?.mother_name}
-          />
-          <SelectOption
-            name="guardian_occupation_id"
-            labels="Pekerjaan Wali"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.guardian_occupation_id
-                ? occupationOptions?.find(
-                    (occupation) => Number(occupation.value) === student?.guardian_occupation_id,
-                  )?.label
-                : "Pilih Pekerjaan"
-            }
-            options={occupationOptions || []}
-            size="md"
-            isSearchable={true}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={
-              isSubmitted ||
-              !!student?.guardian_occupation_id ||
-              isGuardianStatus ||
-              !!student?.mother_name
-            }
-          />
-          <SelectOption
-            name="guardian_position_id"
-            labels="Jabatan"
-            placeholder={
-              student?.guardian_position_id
-                ? getOccupationPositionGuardian?.occupation_position?.find(
-                    (occupation_position) =>
-                      occupation_position.id === student?.guardian_position_id,
-                  )?.name
-                : "Pilih Jabatan"
-            }
-            labelClassName="text-left font-bold text-xs py-2"
-            options={occupationPositionGuardOptions || []}
-            isClearable={true}
-            isSearchable={true}
-            required={false}
-            control={control}
-            isMulti={false}
-            disabled={
-              isSubmitted || !watch("mother_occupation_id")
-                ? true
-                : false ||
-                  occupationPositionGuardOptions?.length === 0 ||
-                  student?.occupation_position_id
-                ? true
-                : false || !!student?.mother_name
-            }
-            status={"error"}
-            size={"md"}
-          />
-          <SelectOption
-            name="guardian_salary_id"
-            labels="Pendapatan Wali ( Per Bulan )"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.guardian_salary_id
-                ? salaryOptions?.find(
-                    (salary) => Number(salary.value) === student?.guardian_salary_id,
-                  )?.label
-                : isUnemployedGuardian
-                ? "0"
-                : "Pilih pendapatan"
-            }
-            options={salaryOptions || []}
-            size="md"
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={
-              isSubmitted ||
-              !!student?.guardian_salary_id ||
-              isGuardianStatus ||
-              isUnemployedGuardian ||
-              !!student?.mother_name
-            }
-          />
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <TextField
+              inputHeight="h-10"
+              name="guardian_name"
+              placeholder="Nama Lengkap Wali"
+              variant="sm"
+              type="text"
+              labelclassname="text-sm font-semibold"
+              label="Nama Wali"
+              inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              control={control}
+              disabled={isSubmitted || !!student?.guardian_name || !!student?.mother_name}
+            />
+
+            <SelectOption
+              name="guardian_status_id"
+              labels="Status Wali"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.guardian_status_id
+                  ? parentStatusOptions?.find(
+                      (status) => Number(status.value) === student?.guardian_status_id,
+                    )?.label
+                  : "Status wali"
+              }
+              options={parentStatusOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={isSubmitted || !!student?.guardian_status_id || !!student?.mother_name}
+            />
+          </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="guardian_education_id"
+              labels="Pendidikan Terahir Wali"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.guardian_education_id
+                  ? parentEducationOptions?.find(
+                      (edu) => Number(edu.value) === student?.guardian_education_id,
+                    )?.label
+                  : "Pendidikan"
+              }
+              options={parentEducationOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={isSubmitted || !!student?.guardian_education_id || !!student?.mother_name}
+            />
+            <SelectOption
+              name="guardian_occupation_id"
+              labels="Pekerjaan Wali"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.guardian_occupation_id
+                  ? occupationOptions?.find(
+                      (occupation) => Number(occupation.value) === student?.guardian_occupation_id,
+                    )?.label
+                  : "Pilih Pekerjaan"
+              }
+              options={occupationOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={true}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={
+                isSubmitted ||
+                !!student?.guardian_occupation_id ||
+                isGuardianStatus ||
+                !!student?.mother_name
+              }
+            />
+          </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="guardian_position_id"
+              labels="Jabatan"
+              placeholder={
+                student?.guardian_position_id
+                  ? getOccupationPositionGuardian?.occupation_position?.find(
+                      (occupation_position) =>
+                        occupation_position.id === student?.guardian_position_id,
+                    )?.name
+                  : "Pilih Jabatan"
+              }
+              labelClassName="text-left font-bold text-xs py-2"
+              options={occupationPositionGuardOptions || []}
+              isClearable={true}
+              isSearchable={true}
+              required={false}
+              control={control}
+              isMulti={false}
+              disabled={
+                isSubmitted || !watch("mother_occupation_id")
+                  ? true
+                  : false ||
+                    occupationPositionGuardOptions?.length === 0 ||
+                    student?.occupation_position_id
+                  ? true
+                  : false || !!student?.mother_name
+              }
+              status={"error"}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+            />
+            <SelectOption
+              name="guardian_salary_id"
+              labels="Pendapatan Wali ( Per Bulan )"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.guardian_salary_id
+                  ? salaryOptions?.find(
+                      (salary) => Number(salary.value) === student?.guardian_salary_id,
+                    )?.label
+                  : isUnemployedGuardian
+                  ? "0"
+                  : "Pilih pendapatan"
+              }
+              options={salaryOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={
+                isSubmitted ||
+                !!student?.guardian_salary_id ||
+                isGuardianStatus ||
+                isUnemployedGuardian ||
+                !!student?.mother_name
+              }
+            />
+          </div>
         </section>
         <h1 className="font-bold text-xl my-6 lg:pl-0 md:pl-[11vw] xl:pl-0 place-self-start pl-4">
           Alamat Wali
         </h1>
         <section className="flex flex-wrap w-full justify-center items-center gap-x-1 lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between">
-          <SelectOption
-            labels="Provinsi"
-            size="md"
-            labelClassName="font-bold text-xs py-2"
-            options={provinceOptions || []}
-            placeholder={
-              student?.guardian_province_id
-                ? provinceOptions?.find(
-                    (province) => Number(province.value) === student?.guardian_province_id,
-                  )?.label
-                : "Provinsi"
-            }
-            isSearchable={true}
-            required={false}
-            name="guardian_province_id"
-            isClearable={true}
-            control={control}
-            isMulti={false}
-            disabled={isSubmitted || !!student?.guardian_province_id || !!student?.mother_name}
-          />
-          <SelectOption
-            labels="Kota/Kabupaten"
-            size="md"
-            labelClassName="font-bold text-xs py-2"
-            options={cityOptionsGuard || []}
-            placeholder={
-              student?.guardian_city_id
-                ? cityOptionsGuard?.find((city) => Number(city.value) === student?.guardian_city_id)
-                    ?.label
-                : "Kota/Kabupaten"
-            }
-            isSearchable={true}
-            name="guardian_city_id"
-            isClearable={true}
-            control={control}
-            isMulti={false}
-            disabled={
-              !watch("guardian_province_id") ||
-              isSubmitted ||
-              !!student?.guardian_city_id ||
-              !!student?.mother_name
-            }
-          />
-          <SelectOption
-            labels="Kecamatan"
-            size="md"
-            labelClassName="font-bold text-xs py-2"
-            options={subDistrictOptionsGuard || []}
-            placeholder={
-              student?.guardian_subdistrict_id
-                ? subDistrictOptionsGuard?.find(
-                    (subdistrict) => Number(subdistrict.value) === student?.guardian_subdistrict_id,
-                  )?.label
-                : "Kecamatan"
-            }
-            required={false}
-            isSearchable={true}
-            name="guardian_subdistrict_id"
-            control={control}
-            isMulti={false}
-            isClearable={true}
-            disabled={
-              !watch("guardian_city_id") ||
-              isSubmitted ||
-              !!student?.guardian_subdistrict_id ||
-              !!student?.mother_name
-            }
-          />
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              labels="Provinsi"
+              className="w-70% lg:w-[18vw]  text-base md:w-[25vw]"
+              labelClassName="font-bold text-xs py-2"
+              options={provinceOptions || []}
+              placeholder={
+                student?.guardian_province_id
+                  ? provinceOptions?.find(
+                      (province) => Number(province.value) === student?.guardian_province_id,
+                    )?.label
+                  : "Provinsi"
+              }
+              isSearchable={true}
+              required={false}
+              name="guardian_province_id"
+              isClearable={true}
+              control={control}
+              isMulti={false}
+              disabled={isSubmitted || !!student?.guardian_province_id || !!student?.mother_name}
+            />
+            <SelectOption
+              labels="Kota/Kabupaten"
+              className="w-70% lg:w-[18vw]  text-base md:w-[25vw]"
+              labelClassName="font-bold text-xs py-2"
+              options={cityOptionsGuard || []}
+              placeholder={
+                student?.guardian_city_id
+                  ? cityOptionsGuard?.find(
+                      (city) => Number(city.value) === student?.guardian_city_id,
+                    )?.label
+                  : "Kota/Kabupaten"
+              }
+              isSearchable={true}
+              name="guardian_city_id"
+              isClearable={true}
+              control={control}
+              isMulti={false}
+              disabled={
+                !watch("guardian_province_id") ||
+                isSubmitted ||
+                !!student?.guardian_city_id ||
+                !!student?.mother_name
+              }
+            />
+            <SelectOption
+              labels="Kecamatan"
+              className="w-70% lg:w-[18vw]  text-base md:w-[25vw]"
+              labelClassName="font-bold text-xs py-2"
+              options={subDistrictOptionsGuard || []}
+              placeholder={
+                student?.guardian_subdistrict_id
+                  ? subDistrictOptionsGuard?.find(
+                      (subdistrict) =>
+                        Number(subdistrict.value) === student?.guardian_subdistrict_id,
+                    )?.label
+                  : "Kecamatan"
+              }
+              required={false}
+              isSearchable={true}
+              name="guardian_subdistrict_id"
+              control={control}
+              isMulti={false}
+              isClearable={true}
+              disabled={
+                !watch("guardian_city_id") ||
+                isSubmitted ||
+                !!student?.guardian_subdistrict_id ||
+                !!student?.mother_name
+              }
+            />
+          </div>
 
           <div className="px-6 md:px-0 lg:px-0 w-full">
             <TextField
@@ -1041,7 +1072,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="md:w-[50vw] lg:w-55% w-[70vw]"
+              inputWidth="md:w-[80vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2"
               disabled={
                 !guardianAddressSame ||
@@ -1065,11 +1096,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
             />
           </div>
         </section>
-        <div className="flex w-full justify-center lg:justify-end py-4">
+        <div className="flex w-full justify-center lg:justify-end py-4 mt-8">
           <Button
+            type="submit"
             variant="filled"
             size="md"
-            width="w-50% lg:w-25% xl:w-15%"
+            width="w-70% lg:w-25% xl:w-15%"
             disabled={isSubmitted || !!student?.father_name}
           >
             Submit

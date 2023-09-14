@@ -284,9 +284,10 @@ export interface IRegistransRequest {
 }
 
 export type TInterestEducationPrograms = {
-  bachelor: number;
-  magister: number;
-  doctor: number;
+  data: Array<{
+    name: string;
+    total: number;
+  }>;
 };
 
 export interface IInterestEducationPrograms {

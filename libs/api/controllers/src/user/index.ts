@@ -104,43 +104,6 @@ export class UserController {
     return response;
   }
 
-  @ApiOperation({ summary: "Create Data user" })
-  @ApiResponse({
-    status: 400,
-    description: "Email sudah digunakan, NIK sudah digunakan",
-  })
-  @Post()
-  @UsePipes(new ZodValidationPipe(VSCreateUser))
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  async createData(
-    @Body()
-    payload: CreateUserSwagger,
-  ) {
-    const response = await firstValueFrom(
-      this.client
-        .send<TProfileResponse>("create_user", payload)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    const isCreateOtp = await generateOtp(response?.email, response?.id);
-    if (!isCreateOtp) {
-      throw new BadRequestException("Gagal membuat Otp");
-    }
-    const emailPayload = {
-      email: payload.email,
-      subject: "Verifikasi Email",
-      html: `Kode OTP anda adalah ${isCreateOtp?.token}`,
-    };
-    const sendEmail = firstValueFrom(
-      this.client
-        .send<{ message: string }>("send_email", emailPayload)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    if (!sendEmail) {
-      throw new BadRequestException("Gagal mengirimkan kode verifikasi");
-    }
-    return response;
-  }
-
   @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({ status: 201, description: "Berhasil delete user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })

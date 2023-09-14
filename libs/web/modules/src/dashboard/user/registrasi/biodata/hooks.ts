@@ -10,23 +10,22 @@ import {
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
-  IStudentData,
   IUpdateStudentGradeRequest,
   IUpdateStudentGradeResponse,
-  IUpdateStudentRequestFE,
+  IUpdateStudentRequest,
   IUpdateStudentResponse,
   TMetaErrorResponse,
 } from "@uninus/entities";
-import { TUploadImageRequest, TUploadImageResponse } from "./type";
+import { TUploadFileRequest, TUploadFileResponse } from "./type";
 
 export const useBiodataUpdate = (): UseMutationResult<
   IUpdateStudentResponse,
   TMetaErrorResponse,
-  IUpdateStudentRequestFE
+  IUpdateStudentRequest
 > =>
   useMutation({
     mutationKey: ["updateBiodata"],
-    mutationFn: async (payload: IUpdateStudentRequestFE) => {
+    mutationFn: async (payload: IUpdateStudentRequest) => {
       return await BiodataUpdate(payload);
     },
   });
@@ -68,14 +67,14 @@ export const useGetStudentGrade = (): UseQueryResult<
   });
 };
 
-export const useUploadImage = (): UseMutationResult<
-  TUploadImageResponse,
+export const useUploadFile = (): UseMutationResult<
+  TUploadFileResponse,
   TMetaErrorResponse,
-  TUploadImageRequest
+  TUploadFileRequest
 > => {
   return useMutation({
     mutationKey: ["uploadFile"],
-    mutationFn: async (file: TUploadImageRequest) => {
+    mutationFn: async (file: TUploadFileRequest) => {
       return await uploadFile(file);
     },
   });

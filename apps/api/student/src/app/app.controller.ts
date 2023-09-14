@@ -13,21 +13,21 @@ import {
 export class AppController {
   constructor(private readonly studentService: AppService) {}
   @MessagePattern("get_student")
-  getStudent(payload: IGetStudentRequest) {
-    return this.studentService.getStudent(payload);
+  async getStudent(payload: IGetStudentRequest) {
+    return await this.studentService.getStudent(payload);
   }
 
   @MessagePattern("update_student")
-  updateStudent(payload: IUpdateStudentRequest) {
-    return this.studentService.updateStudent(payload);
+  async updateStudent(payload: IUpdateStudentRequest) {
+    return await this.studentService.updateStudent(payload);
   }
 
   @MessagePattern("delete_student")
-  deleteStudent(payload: IDeleteStudentRequest) {
-    return this.studentService.deleteStudent(payload);
+  async deleteStudent(payload: IDeleteStudentRequest) {
+    return await this.studentService.deleteStudent(payload);
   }
   @MessagePattern("get_graduation_status")
-  getGraduationStatus(payload: TGraduationStatusRequest) {
-    return this.studentService.checkGraduationStatus(payload);
+  async getGraduationStatus(payload: TGraduationStatusRequest) {
+    return await this.studentService.checkGraduationStatus(payload);
   }
 }
