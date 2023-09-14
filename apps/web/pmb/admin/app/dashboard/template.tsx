@@ -1,7 +1,7 @@
 "use client";
 import { FC, PropsWithChildren, ReactElement, ReactNode } from "react";
 import { SideBar } from "@uninus/web/components";
-import { useLogout } from "@uninus/web/modules";
+import { useGetRegistrans, useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import { Montserrat } from "next/font/google";
 import {
@@ -10,6 +10,7 @@ import {
   FileTextOutlined,
   CreditCardOutlined,
 } from "@ant-design/icons";
+import { useRegistransData } from "@uninus/web/services";
 
 const monserrat = Montserrat({
   subsets: ["latin"],
@@ -44,6 +45,11 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     { label: "Data Pendaftar", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
     { label: "Pembayaran", link: "/dashboard/data-bayar", icon: <CreditCardOutlined /> },
   ];
+
+  const { data } = useGetRegistrans();
+
+  const { setRegistransData } = useRegistransData();
+  setRegistransData(data);
 
   return (
     <body className={`${monserrat.className}`}>
