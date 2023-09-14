@@ -2,22 +2,49 @@ import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { Accordion, Button, TextField, UploadField } from "@uninus/web/components";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
-import { NilaiValues } from "../../type";
-import { useGetStudentGrade, useStudentGradeUpdate } from "../../hooks";
+import { NilaiValues, TUploadFileRequest, TUploadFileResponse } from "../../type";
+import { useBiodataUpdate, useGetStudentGrade, useUploadFile } from "../../hooks";
+
+// import { TVSDataNilai, VSDataNilai } from "./schema";
+// import { zodResolver } from "@hookform/resolvers/zod";
 
 export const DataNilaiSection: FC = (): ReactElement => {
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { control, handleSubmit, reset, setValue, watch, getValues } = useForm<NilaiValues>({
     mode: "all",
   });
 
-  const { mutate } = useStudentGradeUpdate();
+  const { mutate: upload } = useUploadFile();
+  const { mutate } = useBiodataUpdate();
 
-  const onSubmit = handleSubmit((data) => {
+  const uploadFile = async (payload: TUploadFileRequest): Promise<TUploadFileResponse> => {
+    return new Promise((resolve, reject) => {
+      upload(payload, {
+        onSuccess: (file) => resolve(file),
+        onError: (error) => reject(error),
+      });
+    });
+  };
+
+  const onSubmit = handleSubmit(async (data) => {
+    setIsLoading(true);
     try {
-      const { average_grade, average_utbk, utbk_pu, utbk_kk, utbk_ppu, utbk_kmbm, ...dataGrade } =
-        data;
+      const {
+        average_grade,
+        average_utbk,
+        utbk_pu,
+        utbk_kk,
+        utbk_ppu,
+        utbk_kmbm,
+        dokumen1,
+        dokumen2,
+        dokumen3,
+        dokumen4,
+        UTBK,
+        ...dataGrade
+      } = data;
       const studentGrade = JSON.stringify(dataGrade)
         .replace(/{|}/gi, "")
         .split(",")
@@ -44,6 +71,22 @@ export const DataNilaiSection: FC = (): ReactElement => {
           };
         });
 
+      const dokumen_1 = await uploadFile({
+        file: dokumen1,
+      });
+      const dokumen_2 = await uploadFile({
+        file: dokumen2,
+      });
+      const dokumen_3 = await uploadFile({
+        file: dokumen3,
+      });
+      const dokumen_4 = await uploadFile({
+        file: dokumen4,
+      });
+      const dokumen_utbk = await uploadFile({
+        file: UTBK,
+      });
+
       mutate(
         {
           student_grade: studentGrade,
@@ -53,10 +96,19 @@ export const DataNilaiSection: FC = (): ReactElement => {
           utbk_kmbm: Number(utbk_kmbm),
           utbk_pu: Number(utbk_pu),
           utbk_ppu: Number(utbk_ppu),
+
+          documents: [
+            { name: "Rapot Semester 1", path: dokumen_1.file_url },
+            { name: "Rapot Semester 2", path: dokumen_2.file_url },
+            { name: "Rapot Semester 3", path: dokumen_3.file_url },
+            { name: "Rapot Semester 4", path: dokumen_4.file_url },
+            { name: "Nilai UTBK", path: dokumen_utbk.file_url },
+          ],
         },
         {
           onSuccess: () => {
             setIsdisabled(true);
+            setIsLoading(false);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
                 position: "top-center",
@@ -71,6 +123,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
             }, 500);
           },
           onError: () => {
+            setIsLoading(false);
             setTimeout(() => {
               toast.error("Gagal mengisi formulir", {
                 position: "top-center",
@@ -92,7 +145,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
   });
 
   const { data } = useGetStudentGrade();
-  console.log(data);
+
   const student = useMemo(() => {
     return data;
   }, [data]);
@@ -117,7 +170,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
 
     [student?.student_grade],
   );
-  console.log("data", dataStudentGrade);
   const watchStudentGrade = watch([
     "mtk1",
     "mtk2",
@@ -132,16 +184,57 @@ export const DataNilaiSection: FC = (): ReactElement => {
     "bing3",
     "bing4",
   ]);
+
   const watchUtbk = watch(["utbk_kk", "utbk_pu", "utbk_ppu", "utbk_kmbm"]);
   useEffect(() => {
-    reset(dataStudentGrade);
-  }, [dataStudentGrade, reset]);
+    if (student?.student_grade[0].grade !== 0) {
+      setIsdisabled(true);
+    } else {
+      setIsdisabled(false);
+    }
+    reset({
+      ...dataStudentGrade,
+      utbk_kk: student?.utbk_kk,
+      utbk_pu: student?.utbk_pu,
+      utbk_ppu: student?.utbk_ppu,
+      utbk_kmbm: student?.utbk_kmbm,
+    });
+  }, [dataStudentGrade, reset, student]);
 
   useEffect(() => {
-    const { average_grade, average_utbk, utbk_kk, utbk_pu, utbk_ppu, utbk_kmbm, ...grades } =
-      getValues();
+    const {
+      utbk_kk,
+      utbk_pu,
+      utbk_ppu,
+      utbk_kmbm,
+      mtk1,
+      mtk2,
+      mtk3,
+      mtk4,
+      bind1,
+      bind2,
+      bind3,
+      bind4,
+      bing1,
+      bing2,
+      bing3,
+      bing4,
+    } = getValues();
 
-    const average = Object.values(grades);
+    const average = Object.values({
+      mtk1,
+      mtk2,
+      mtk3,
+      mtk4,
+      bind1,
+      bind2,
+      bind3,
+      bind4,
+      bing1,
+      bing2,
+      bing3,
+      bing4,
+    });
 
     const result = Number(average.reduce((acc, curr) => Number(acc) + Number(curr), 0));
     const averageUtbk =
@@ -377,32 +470,60 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 name="dokumen1"
                 variant="custom"
                 labels="Pilih File"
-                labelClassName="labelText"
+                labelClassName={
+                  watch("dokumen1")
+                    ? "labelTextUploaded"
+                    : isDisabled
+                    ? "labelTextDisabled"
+                    : "labelText"
+                }
                 preview={false}
+                isDisabled={isDisabled}
               />
               <UploadField
                 control={control}
                 name="dokumen2"
                 variant="custom"
                 labels="Pilih File"
-                labelClassName="labelText"
+                labelClassName={
+                  watch("dokumen2")
+                    ? "labelTextUploaded"
+                    : isDisabled
+                    ? "labelTextDisabled"
+                    : "labelText"
+                }
                 preview={false}
+                isDisabled={isDisabled}
               />
               <UploadField
                 control={control}
                 name="dokumen3"
                 variant="custom"
                 labels="Pilih File"
-                labelClassName="labelText"
+                labelClassName={
+                  watch("dokumen3")
+                    ? "labelTextUploaded"
+                    : isDisabled
+                    ? "labelTextDisabled"
+                    : "labelText"
+                }
                 preview={false}
+                isDisabled={isDisabled}
               />
               <UploadField
                 control={control}
                 name="dokumen4"
                 variant="custom"
                 labels="Pilih File"
-                labelClassName="labelText"
+                labelClassName={
+                  watch("dokumen4")
+                    ? "labelTextUploaded"
+                    : isDisabled
+                    ? "labelTextDisabled"
+                    : "labelText"
+                }
                 preview={false}
+                isDisabled={isDisabled}
               />
             </div>
           </div>
@@ -484,7 +605,17 @@ export const DataNilaiSection: FC = (): ReactElement => {
           </div>
           <div className="flex items-center justify-between w-full lg:w-1/2  xl:pr-12 2xl:pr-16 ">
             <p className="flex-shrink-0 mr-5 font-bold text-sm md:text-base">Sertifikat UTBK : </p>
-            <UploadField control={control} name="UTBK" variant="default" preview={false} />
+            <UploadField
+              control={control}
+              name="UTBK"
+              variant="custom"
+              labels="Pilih File"
+              labelClassName={
+                watch("UTBK") ? "labelTextUploaded" : isDisabled ? "labelTextDisabled" : "labelText"
+              }
+              preview={false}
+              isDisabled={isDisabled}
+            />
           </div>
         </section>
         <div className="flex w-5/6 lg:w-3/5 justify-end p-4 mt-8">
@@ -494,6 +625,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
             size="md"
             width="w-30% lg:w-25% xl:w-15%"
             disabled={isDisabled}
+            loading={isLoading}
           >
             Submit
           </Button>

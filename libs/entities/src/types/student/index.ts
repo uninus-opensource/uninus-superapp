@@ -16,7 +16,7 @@ export type TDeleteQuestionResponse = {
 };
 
 export interface IGetStudentRequest {
-  id: string;
+  id?: string;
 }
 
 export interface IStudentData {
@@ -115,7 +115,7 @@ export type TDeleteStudentResponse = {
 export interface IUpdateStudentResponse extends IStudentData {
   avatar?: string | null | TFIle;
   student_grade?: Array<{
-    id: string;
+    id?: string;
     subject: string | null;
     semester: string | null;
     grade: number | null;
@@ -135,8 +135,8 @@ export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData 
     name: string;
     path: string;
   }> | null;
-  student_grade: Array<{
-    id: string;
+  student_grade?: Array<{
+    id?: string;
     subject: string | null;
     semester: string | null;
     grade: number | null;
