@@ -26,7 +26,7 @@ import {
 } from "@uninus/web/services";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
-import { useBiodataUpdate, useUploadImage } from "../../hooks";
+import { useBiodataUpdate, useUploadFile } from "../../hooks";
 import { ToastContainer, toast } from "react-toastify";
 import { VSDataDiri, TVSDataDiri, TVSImage, VSImage } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -306,17 +306,18 @@ export const DataDiriSection: FC = (): ReactElement => {
     }
   }, [citizenshipId]);
 
-  const { mutate: mutateUpload } = useUploadImage();
+  const { mutate: mutateUpload } = useUploadFile();
   const { mutate } = useBiodataUpdate();
 
   const imageSubmit = imageHandleSubmit((data) => {
-    console.log(data);
     try {
       setIsLoading(true);
       mutateUpload(data, {
         onSuccess: (data) => {
           mutate(
-            { avatar: data?.path },
+            {
+              avatar: data?.file_url,
+            },
             {
               onSuccess: () => {
                 setIsLoading(false);
@@ -468,6 +469,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           labels={<EditOutlined className="text-3xl rounded-full" />}
           defaultImage={student?.avatar || "/illustrations/dummy-avatar.webp"}
           previewImage="w-[200px] h-[200px] bg-cover object-cover rounded-full -z-10"
+          layoutInputClassName="flex flex-col justify-center items-center"
           preview={true}
           message={imageErrors?.file?.message}
         />

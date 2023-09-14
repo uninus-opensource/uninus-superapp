@@ -8,7 +8,11 @@ const { composePlugins, withNx } = require("@nx/next");
  **/
 const nextConfig = {
   images: {
-    domains: ["res.cloudinary.com"],
+    domains: [
+      "res.cloudinary.com",
+      "uninus-demo.s3.ap-southeast-1.amazonaws.com",
+      "storage.uninus.ac.id",
+    ],
   },
   nx: {
     // Set this to true if you would like to to use SVGR
