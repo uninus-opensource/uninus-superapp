@@ -2,7 +2,7 @@ import { Controller, Get, Inject, Query, UseFilters } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
-import { TProfileResponse, TTotalEmployeesResponse } from "@uninus/entities";
+import { TProfileResponse } from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Controller("employee")
@@ -25,20 +25,18 @@ export class EmployeeController {
     @Query("order_by") orderBy: "asc" | "desc",
     @Query("filter_by") filterBy: string,
     @Query("search") search: string,
-    @Query("type") type: string,
+    @Query("type") type: number,
   ) {
     const response = await firstValueFrom(
       this.client
         .send<Array<TProfileResponse>>("get_employees", {
+          type,
           where: {
             OR: [
               {
-                position: {
-                  position_category: {
-                    name: {
-                      contains: type || "",
-                      mode: "insensitive",
-                    },
+                employee_has_category: {
+                  some: {
+                    employee_category_id: Number(type),
                   },
                 },
               },
