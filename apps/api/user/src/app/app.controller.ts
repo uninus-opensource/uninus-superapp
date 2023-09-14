@@ -8,28 +8,28 @@ import { Prisma } from "@prisma/client";
 export class AppController {
   constructor(private readonly appService: AppService) {}
   @MessagePattern("get_user")
-  getUser(id: string) {
-    return this.appService.getUser(id);
+  async getUser(id: string) {
+    return await this.appService.getUser(id);
   }
   @MessagePattern("get_users")
-  getUsers({ where, orderBy, page, perPage }: TPaginationArgs) {
-    return this.appService.getUsers({ where, orderBy, page, perPage });
+  async getUsers({ where, orderBy, page, perPage }: TPaginationArgs) {
+    return await this.appService.getUsers({ where, orderBy, page, perPage });
   }
 
   @MessagePattern("create_user")
-  createUser(payload: Prisma.UsersCreateInput) {
-    return this.appService.createUser(payload);
+  async createUser(payload: Prisma.UsersCreateInput) {
+    return await this.appService.createUser(payload);
   }
 
   @MessagePattern("update_user")
-  updateUser(data: { id: string; payload: IUserRequest }) {
+  async updateUser(data: { id: string; payload: IUserRequest }) {
     const payload = data.payload;
     const id = data.id;
-    return this.appService.updateUser(id, payload);
+    return await this.appService.updateUser(id, payload);
   }
 
   @MessagePattern("delete_user")
-  deleteUser(id: string) {
-    return this.appService.deleteUser(id);
+  async deleteUser(id: string) {
+    return await this.appService.deleteUser(id);
   }
 }
