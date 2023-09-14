@@ -270,104 +270,107 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           pauseOnHover
           theme="light"
         />
-        <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-center gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between text-left">
-          <SelectOption
-            name="education_type_id"
-            labels="Jenis Pendidikan Asal"
-            labelClassName="font-bold text-xs py-2"
-            placeholder={
-              student?.education_type_id
-                ? educationTypeOptions?.find(
-                    (item) => Number(item.value) === student?.education_type_id,
-                  )?.label
-                : "Jenis Pendidikan"
-            }
-            size="md"
-            options={educationTypeOptions || []}
-            isSearchable={false}
-            isClearable={true}
-            control={control}
-            isMulti={false}
-            disabled={isDisabled || !!student?.education_type_id}
-            status={"error"}
-            message={errors?.education_type_id?.message as string}
-          />
-          <SelectOption
-            name="graduation_year"
-            labelClassName="font-bold text-xs py-2"
-            labels="Tahun Lulus"
-            placeholder={
-              student?.graduation_year
-                ? graduateOptions?.find((item) => item.value === student?.graduation_year)?.label
-                : "Tahun Lulus"
-            }
-            options={graduateOptions || []}
-            size="md"
-            isSearchable={false}
-            control={control}
-            isMulti={false}
-            disabled={isDisabled || !!student?.graduation_year}
-            status="error"
-            message={errors?.graduation_year?.message as string}
-          />
+        <section className="flex flex-wrap justify-center items-center gap-x-1 w-full lg:flex lg:items-start gap-y-4 lg:justify-between lg:w-55% md:flex md:flex-wrap md:w-80% md:justify-between text-left">
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="education_type_id"
+              labels="Jenis Pendidikan Asal"
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.education_type_id
+                  ? educationTypeOptions?.find(
+                      (item) => Number(item.value) === student?.education_type_id,
+                    )?.label
+                  : "Jenis Pendidikan"
+              }
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              options={educationTypeOptions || []}
+              isSearchable={false}
+              isClearable={true}
+              control={control}
+              isMulti={false}
+              disabled={isDisabled || !!student?.education_type_id}
+              status={"error"}
+              message={errors?.education_type_id?.message as string}
+            />
+            <SelectOption
+              name="graduation_year"
+              labelClassName="font-bold text-xs py-2"
+              labels="Tahun Lulus"
+              placeholder={
+                student?.graduation_year
+                  ? graduateOptions?.find((item) => item.value === student?.graduation_year)?.label
+                  : "Tahun Lulus"
+              }
+              options={graduateOptions || []}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              disabled={isDisabled || !!student?.graduation_year}
+              status="error"
+              message={errors?.graduation_year?.message as string}
+            />
+          </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <div className="flex flex-col justify-center items-start lg:justify-start">
+              <TextField
+                inputHeight="h-10"
+                name="education_npsn"
+                variant="sm"
+                required={"Harus diisi"}
+                type="text"
+                labelclassname="text-sm font-semibold"
+                label="NPSN"
+                placeholder="Masukan NPSN"
+                inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+                control={control}
+                message={errors?.education_npsn?.message as string}
+                status={errors?.education_npsn?.message ? "error" : "none"}
+                onChange={(e) => {
+                  setValue("education_npsn", e.target.value);
+                  setEducation(e.target.value);
+                }}
+                disabled={isDisabled || !!student?.education_npsn}
+              />
 
-          <div className="flex flex-col justify-center items-start">
+              <p className="text-[0.8rem] text-primary-black">
+                Jika data tidak ditemukan, silakan &nbsp;
+                <span
+                  className="text-primary-green hover:cursor-pointer underline font-bold"
+                  onClick={handleCloseModal}
+                >
+                  Tambah Sekolah
+                </span>
+              </p>
+              <p className="text-[0.7rem] text-left">
+                Cek NPSN &nbsp;
+                <a
+                  href="https://dapo.kemdikbud.go.id/pencarian"
+                  className="hover:cursor-pointer text-primary-black"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  https://dapo.kemdikbud.go.id/pencarian
+                </a>
+              </p>
+            </div>
+
             <TextField
               inputHeight="h-10"
-              name="education_npsn"
+              name="school_name"
               variant="sm"
-              required={"Harus diisi"}
               type="text"
+              required
               labelclassname="text-sm font-semibold"
-              label="NPSN"
-              placeholder="Masukan NPSN"
+              label="Nama Pendidikan Asal"
+              placeholder="Nama Sekolah"
               inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
               control={control}
-              message={errors?.education_npsn?.message as string}
-              status={errors?.education_npsn?.message ? "error" : "none"}
-              onChange={(e) => {
-                setValue("education_npsn", e.target.value);
-                setEducation(e.target.value);
-              }}
-              disabled={isDisabled || !!student?.education_npsn}
+              disabled
             />
-            <p className="text-[0.8rem] text-primary-black">
-              Jika data tidak ditemukan, silakan &nbsp;
-              <span
-                className="text-primary-green hover:cursor-pointer underline font-bold"
-                onClick={handleCloseModal}
-              >
-                Tambah Sekolah
-              </span>
-            </p>
-            <p className="text-[0.7rem] text-left">
-              Cek NPSN &nbsp;
-              <a
-                href="https://dapo.kemdikbud.go.id/pencarian"
-                className="hover:cursor-pointer text-primary-black"
-                target="_blank"
-                rel="noreferrer"
-              >
-                https://dapo.kemdikbud.go.id/pencarian
-              </a>
-            </p>
           </div>
-
-          <TextField
-            inputHeight="h-10"
-            name="school_name"
-            variant="sm"
-            type="text"
-            required
-            labelclassname="text-sm font-semibold"
-            label="Nama Pendidikan Asal"
-            placeholder="Nama Sekolah"
-            inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
-            control={control}
-            disabled
-          />
-
-          <div className="flex flex-col items-center justify-center md:grid md:grid-cols-3 gap-2 w-full">
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
             <TextField
               inputHeight="h-10"
               name="school_province"
@@ -376,7 +379,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               labelclassname="text-sm font-semibold"
               label="Provinsi"
               placeholder="Provinsi Sekolah"
-              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+              inputWidth="w-70% lg:w-[18vw]  text-base md:w-[25vw] "
               control={control}
               disabled
             />
@@ -389,7 +392,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               labelclassname="text-sm font-semibold"
               label="Kota/Kabupaten"
               placeholder="Kota Sekolah"
-              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+              inputWidth="w-70% lg:w-[18vw]  text-base md:w-[25vw] "
               control={control}
               disabled
             />
@@ -402,54 +405,47 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               labelclassname="text-sm font-semibold"
               label="Kecamatan"
               placeholder="Kecamatan Sekolah"
-              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
+              inputWidth="w-70% lg:w-[18vw]  text-base md:w-[25vw] "
               control={control}
               disabled
             />
           </div>
 
-          <div className="lg:w-full lg:flex lg:items-center lg:justify-between lg:gap-4 w-[82%]">
-            <div className="w-full lg:w-1/2">
-              <SelectOption
-                name="education_major_id"
-                labels="Jurusan Pendidikan Asal"
-                required={true}
-                labelClassName="font-bold text-xs py-2"
-                placeholder={
-                  student?.education_major_id
-                    ? majorOptions?.find(
-                        (item) => Number(item.value) === student?.education_major_id,
-                      )?.label
-                    : "Jurusan Pendidikan"
-                }
-                options={majorOptions || []}
-                isSearchable={false}
-                control={control}
-                isMulti={false}
-                disabled={
-                  isDisabled || !watch("education_type_id") || !!student?.education_major_id
-                }
-                status="error"
-                message={errors?.education_major_id?.message as string}
-                className="lg:w-full"
-              />
-            </div>
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+            <SelectOption
+              name="education_major_id"
+              labels="Jurusan Pendidikan Asal"
+              required={true}
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.education_major_id
+                  ? majorOptions?.find((item) => Number(item.value) === student?.education_major_id)
+                      ?.label
+                  : "Jurusan Pendidikan"
+              }
+              options={majorOptions || []}
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              disabled={isDisabled || !watch("education_type_id") || !!student?.education_major_id}
+              status="error"
+              message={errors?.education_major_id?.message as string}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+            />
 
             {student?.degree_program_id === 1 && (
-              <div className="w-full lg:w-1/2 mt-3">
-                <TextField
-                  inputHeight="h-10"
-                  name="vocational_high_school"
-                  variant="sm"
-                  type="text"
-                  labelclassname="text-sm font-semibold"
-                  label="Jurusan SMK"
-                  placeholder="Masukan jurusan sekolah anda"
-                  inputWidth="w-full "
-                  control={control}
-                  required
-                />
-              </div>
+              <TextField
+                inputHeight="h-10"
+                name="vocational_high_school"
+                variant="sm"
+                type="text"
+                labelclassname="text-sm font-semibold"
+                label="Jurusan SMK"
+                placeholder="Masukan jurusan sekolah anda"
+                inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw] "
+                control={control}
+                required
+              />
             )}
           </div>
 
@@ -466,18 +462,18 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               textAreaRow={5}
               textAreaCols={30}
               inputHeight="h-20"
-              inputWidth="w-full md:w-[50vw] lg:w-55% w-[70vw]"
+              inputWidth="md:w-[80vw] lg:w-55% w-[70vw]"
               className="resize-none bg-grayscale-2  "
               disabled
             />
           </div>
         </section>
-        <div className="flex w-full justify-center lg:justify-end py-4">
+        <div className="flex w-full justify-center lg:justify-end py-4 mt-8">
           <Button
             type="submit"
             variant="filled"
             size="md"
-            width="w-50% lg:w-25% xl:w-15%"
+            width="w-70% lg:w-25% xl:w-15%"
             disabled={isDisabled || !!student?.education_npsn}
           >
             Submit
