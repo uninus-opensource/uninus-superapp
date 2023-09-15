@@ -2,14 +2,36 @@ export type TDataPegawai = {
   no?: number | string;
   name: string;
   nip: string;
-  faculty: string;
-  major: string;
-  jafung: string;
-  job_unit: string;
-  sk: string;
-  lecturer_certificate: string;
-  profession_certificate: string;
-  status: "Aktif" | "Tidak Aktif";
+  nidn: string;
+  dosen_status: string;
+  sk_pengangkatan: string;
+  sk_mengajar?: string;
+  lingkup_kerja: Array<{
+    nama: string;
+    link: string;
+  }>;
+  unit_kerja: Array<{
+    nama: string;
+    link: string;
+  }>;
+  jafung?: Array<{
+    nama: string;
+    link: string;
+  }>;
+  fakultas: Array<{
+    nama: string;
+  }>;
+  prodi: Array<{
+    nama: string;
+  }>;
+  tugas_tambahan: Array<{
+    nama: string;
+    link: string;
+  }>;
+  sertifikat_pendidik: string;
+  sertifikat_profesi: string;
+  status: "Aktif" | "Tidak Aktif" | "Sakit" | "Cuti";
+  tindakan: string;
 };
 
 // {

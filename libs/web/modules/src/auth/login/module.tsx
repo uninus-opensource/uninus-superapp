@@ -286,7 +286,7 @@ export const LoginAdminModule: FC = (): ReactElement => {
 
 export const LoginAdminKeuanganModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [getError, setError] = useState<string | undefined>(undefined);
+  const [, setError] = useState<string | undefined>(undefined);
   const router = useRouter();
   const {
     control,
@@ -810,7 +810,7 @@ export const LoginSiakadModule: FC = (): ReactElement => {
 
 export const LoginEvaluasiDosenModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [getError, setError] = useState<string | undefined>(undefined);
+  const [, setError] = useState<string | undefined>(undefined);
   const router = useRouter();
   const {
     control,

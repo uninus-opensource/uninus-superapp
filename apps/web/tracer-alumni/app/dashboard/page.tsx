@@ -1,4 +1,4 @@
-import { DashboardModule } from "@uninus/web/modules";
+// import { DashboardModule } from "@uninus/web/modules";
 import { NextPage } from "next";
 import { ReactElement } from "react";
 import { Metadata } from "next";

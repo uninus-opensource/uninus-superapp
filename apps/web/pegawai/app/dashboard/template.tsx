@@ -3,7 +3,12 @@ import { FC, PropsWithChildren, ReactElement } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogoutToRoot } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
-import { HomeOutlined } from "@ant-design/icons";
+import {
+  AiOutlineCreditCard,
+  AiOutlineFileText,
+  AiOutlineForm,
+  AiOutlineHome,
+} from "react-icons/ai";
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { mutate } = useLogoutToRoot();
@@ -14,7 +19,30 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   };
 
   const sideLists = [
-    { label: "Beranda", link: "/dashboard", icon: <HomeOutlined />, disabledStatus: false },
+    {
+      label: "Data Pegawai",
+      link: "/dashboard",
+      icon: <AiOutlineHome className="text-2xl" />,
+      disabledStatus: false,
+    },
+    {
+      label: "Data Pensiun",
+      link: "/dashboard/data-pensiun",
+      icon: <AiOutlineFileText className="text-2xl" />,
+      disabledStatus: false,
+    },
+    {
+      label: "Data Pelamar",
+      link: "/dashboard/data-pelamar",
+      icon: <AiOutlineForm className="text-2xl" />,
+      disabledStatus: false,
+    },
+    {
+      label: "Data Pembayaran",
+      link: "/dashboard/data-pembayaran",
+      icon: <AiOutlineCreditCard className="text-2xl" />,
+      disabledStatus: false,
+    },
   ];
 
   return (

@@ -3,8 +3,8 @@ import { render } from "@testing-library/react";
 import { Footer } from "./index";
 import "@testing-library/jest-dom";
 
-function MockImage(props: any) {
-  return React.createElement("img", props);
+function MockImage(props: unknown) {
+  return React.createElement("img", props as unknown as React.HTMLAttributes<HTMLImageElement>);
 }
 
 jest.mock("next/image", () => MockImage);

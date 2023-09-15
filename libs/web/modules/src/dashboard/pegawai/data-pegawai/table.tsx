@@ -3,8 +3,19 @@ import { FC, ReactElement, useEffect, useState, SetStateAction } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataPegawai } from "./types";
 import { dataPegawai } from "./store";
-import { TableLoadingData, SearchInput } from "@uninus/web/components";
-import { FileTextOutlined, FormOutlined } from "@ant-design/icons";
+import { TableLoadingData, SearchInput, Button } from "@uninus/web/components";
+import {
+  AiFillCaretLeft,
+  AiFillCaretRight,
+  AiFillCopy,
+  AiFillFastBackward,
+  AiFillFastForward,
+  AiFillFileText,
+  AiOutlineEdit,
+  AiOutlineFilter,
+  AiOutlinePlus,
+} from "react-icons/ai";
+import Link from "next/link";
 
 const Table: FC = (): ReactElement => {
   const [tablePegawai, setTablePegawai] = useState([{}]);
@@ -12,8 +23,8 @@ const Table: FC = (): ReactElement => {
   const [pending, setPending] = useState(true);
   const columns: TableColumn<TDataPegawai>[] = [
     {
-      name: "No",
-      cell: (row, rowIndex) => <div className="px-1">{rowIndex + 1}</div>,
+      name: <div className="pl-4">No</div>,
+      cell: (row, rowIndex) => <div className="pl-5">{rowIndex + 1}</div>,
       width: "70px",
     },
     {
@@ -22,50 +33,169 @@ const Table: FC = (): ReactElement => {
       width: "150px",
     },
     {
-      name: "NIP/NIDN",
+      name: "NIP",
       cell: (row) => row.nip,
       width: "140px",
     },
     {
-      name: "Fakultas",
-      cell: (row) => row.faculty,
-      width: "160px",
-    },
-    {
-      name: "Prodi",
-      cell: (row) => row.major,
-      width: "160px",
-    },
-    {
-      name: "Jafung",
-      cell: (row) => row.jafung,
-      width: "120px",
-    },
-    {
-      name: "Unit Kerja",
-      cell: (row) => row.job_unit,
+      name: "NIDN",
+      cell: (row) => row.nidn,
       width: "140px",
     },
     {
-      name: "SK",
-      cell: (row) => row.sk,
-      width: "120px",
+      name: "Status Dosen",
+      cell: (row) => row.dosen_status,
+      width: "160px",
     },
     {
-      name: "Sertifikat Dosen",
-      cell: (row) => row.lecturer_certificate,
+      name: "SK Pengangkatan",
+      cell: (row) =>
+        row.sk_pengangkatan ? (
+          <Link href={`${row?.sk_pengangkatan}`} target="_blank">
+            <AiFillFileText className="text-xl text-primary-green cursor-pointer" />
+          </Link>
+        ) : (
+          <div className="text-lg font-semibold"> - </div>
+        ),
+      width: "160px",
+    },
+    {
+      name: "SK Mengajar",
+      cell: (row) =>
+        row.sk_mengajar ? (
+          <Link href={`${row?.sk_mengajar}`} target="_blank">
+            <AiFillFileText className="text-xl text-primary-green cursor-pointer" />
+          </Link>
+        ) : (
+          <div className="text-lg font-semibold"> - </div>
+        ),
+      width: "140px",
+    },
+    {
+      name: "Lingkup Kerja",
+      cell: (row) => (
+        <section className="w-[65%] flex gap-2 items-center justify-between">
+          {row?.lingkup_kerja[0].nama}
+          <Link href={`${row?.lingkup_kerja[0].link}`} target="_blank">
+            <AiFillFileText className="text-xl text-primary-green cursor-pointer" />
+          </Link>
+        </section>
+      ),
+      width: "160px",
+    },
+    {
+      name: "Unit Kerja",
+      cell: (row) => (
+        <section className="w-[70%] flex gap-2 items-center justify-between">
+          {row?.unit_kerja[0].nama}
+          <Link href={`${row?.unit_kerja[0].link}`} target="_blank">
+            <AiFillFileText className="text-xl text-primary-green cursor-pointer" />
+          </Link>
+        </section>
+      ),
+      width: "190px",
+    },
+    {
+      name: "Jafung",
+      cell: (row) =>
+        row.jafung ? (
+          <section className="w-[65%] flex gap-2 items-center justify-between">
+            {row?.lingkup_kerja[0].nama}
+            <Link href={`${row?.lingkup_kerja[0].link}`} target="_blank">
+              <AiFillFileText className="text-xl text-primary-green cursor-pointer" />
+            </Link>
+          </section>
+        ) : (
+          <div className="text-lg font-semibold"> - </div>
+        ),
+
+      width: "160px",
+    },
+    {
+      name: "Fakultas",
+      cell: (row) => (
+        <div className="flex flex-col gap-1">
+          {row.fakultas.map((fakultas) => (
+            <span>{fakultas.nama}</span>
+          ))}
+        </div>
+      ),
+      width: "180px",
+    },
+    {
+      name: "Prodi",
+      cell: (row) => (
+        <div className="flex flex-col gap-1">
+          {row.prodi.map((prodi) => (
+            <span>{prodi.nama}</span>
+          ))}
+        </div>
+      ),
+      width: "220px",
+    },
+    {
+      name: "Tugas Tambahan",
+      cell: (row) =>
+        row.tugas_tambahan ? (
+          <section className="w-[60%] flex gap-2 items-center justify-between">
+            {row?.tugas_tambahan[0].nama}
+            <Link href={`${row?.tugas_tambahan[0].link}`} target="_blank">
+              <AiFillFileText className="text-xl text-primary-green cursor-pointer" />
+            </Link>
+          </section>
+        ) : (
+          <div className="text-lg font-semibold"> - </div>
+        ),
+      width: "170px",
+    },
+    {
+      name: "Sertifikat Pendidik",
+      cell: (row) =>
+        row.sertifikat_pendidik ? (
+          <Link href={`${row?.sertifikat_pendidik}`} target="_blank">
+            <AiFillFileText className="text-xl text-primary-green cursor-pointer" />
+          </Link>
+        ) : (
+          <div className="text-lg font-semibold"> - </div>
+        ),
+      width: "160px",
+    },
+    {
+      name: "Sertifikat Profesi",
+      cell: (row) =>
+        row.sertifikat_profesi ? (
+          <Link href={`${row?.sertifikat_profesi}`} target="_blank">
+            <AiFillFileText className="text-xl text-primary-green cursor-pointer" />
+          </Link>
+        ) : (
+          <div className="text-lg font-semibold"> - </div>
+        ),
       width: "150px",
     },
     {
-      name: "Status",
+      name: <div className="pl-4">Status</div>,
       cell: (row) => (
-        <button
-          className={` ${
-            row.status === "Aktif" ? "bg-[#AFFFD4] text-primary-green" : "bg-red-3 text-red-5"
-          } text-white w-[100px] py-1 text-sm text-center rounded-md cursor-default`}
+        <div
+          className={`text-primary-black ${
+            row.status === "Aktif"
+              ? "bg-secondary-green-7"
+              : row.status === "Cuti"
+              ? "bg-primary-yellow"
+              : "bg-red-3"
+          } w-[100px] py-1 text-sm text-center rounded-md cursor-default`}
         >
           {row.status}
-        </button>
+        </div>
+      ),
+      width: "180px",
+    },
+    {
+      name: "Tindakan",
+      cell: (row) => (
+        <Button variant="filled" height="h-6" width="w-20">
+          <AiOutlineEdit className="text-lg text-primary-white cursor-pointer" />
+          <span className="pl-2 text-[10px]">Edit</span>
+        </Button>
       ),
       width: "150px",
     },
@@ -75,7 +205,7 @@ const Table: FC = (): ReactElement => {
     rows: {
       style: {
         width: "100%",
-        minHeight: "45px",
+        minHeight: "70px",
         background: "#F5F5F5",
       },
       stripedStyle: {
@@ -94,8 +224,7 @@ const Table: FC = (): ReactElement => {
     },
     cells: {
       style: {
-        paddingLeft: "5px",
-        paddingRight: "5px",
+        padding: "5px",
       },
     },
   };
@@ -112,7 +241,6 @@ const Table: FC = (): ReactElement => {
     (item) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.nip.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.jafung.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.status.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
@@ -122,12 +250,25 @@ const Table: FC = (): ReactElement => {
 
   return (
     <section className="rounded-lg w-full">
-      <div className="w-full flex p-2 py-4 lg:justify-end justify-start">
+      <div className="w-full flex p-2 py-4 gap-4 lg:justify-end justify-start items-center">
+        <Button variant="outlined" height="h-9" width="w-24">
+          <AiOutlineFilter className="text-lg text-primary-black" />
+          <span className="text-sm font-medium pl-2 text-primary-black">Filter</span>
+        </Button>
         <SearchInput
           value={searchQuery}
           onChange={handleSearch}
-          placeholder="Cari Nama, NIP/NIDN, Jafung dan Status"
+          placeholder="Cari Nama, NIP/NIDN, dan Status"
+          width="w-[100%]"
         />
+        <Button variant="filled" height="h-9">
+          <AiOutlinePlus className="text-lg" />
+          <span className="text-sm font-medium pl-2">Tambah Pegawai</span>
+        </Button>
+        <Button variant="filled" height="h-9">
+          <AiFillCopy className="text-lg" />
+          <span className="text-sm font-medium pl-2">Export</span>
+        </Button>
       </div>
       <DataTable
         columns={columns}
@@ -138,15 +279,22 @@ const Table: FC = (): ReactElement => {
         striped
         progressComponent={<TableLoadingData className="w-full h-80" />}
         noDataComponent={
-          <div className="flex flex-col w-full h-screen justify-center items-center">
+          <div className="flex flex-col w-full h-80 justify-center items-center">
             <h1 className="font-bold my-2">Data Tidak Tersedia</h1>
             <p>Table akan ditampilkan apabila sudah tersedia data yang diperlukan</p>
           </div>
         }
         pagination
         paginationComponentOptions={{
-          rangeSeparatorText: " dari ",
+          rangeSeparatorText: "ditampilkan dari",
+          rowsPerPageText: "Tampilkan",
         }}
+        paginationPerPage={5}
+        paginationRowsPerPageOptions={[5, 10, 15, 20]}
+        paginationIconPrevious={<AiFillCaretLeft className="text-xl" />}
+        paginationIconNext={<AiFillCaretRight className="text-xl" />}
+        paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
+        paginationIconLastPage={<AiFillFastForward className="text-xl" />}
       />
     </section>
   );

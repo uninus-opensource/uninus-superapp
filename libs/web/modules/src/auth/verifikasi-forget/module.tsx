@@ -1,5 +1,5 @@
 "use client";
-import { FC, ReactElement, useState, useEffect, useRef } from "react";
+import { FC, ReactElement, useState, useEffect, useRef, LegacyRef } from "react";
 import clsx from "clsx";
 import { useVerify, useNewOtpRequest } from "./hook";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ export const VerifForgetModule: FC = (): ReactElement => {
   const [otp, setOtp] = useState<string>("");
   const { push } = useRouter();
   const [timer, setTimer] = useState(120);
-  const intervalRef = useRef<any>();
+  const intervalRef = useRef<NodeJS.Timeout>();
 
   const countDownTimer = () => setTimer((prev) => prev - 1);
   useEffect(() => {
@@ -100,7 +100,7 @@ export const VerifForgetModule: FC = (): ReactElement => {
                       setTimer(120);
                       request({ email: getEmail });
                     }}
-                    ref={intervalRef}
+                    ref={intervalRef as unknown as LegacyRef<HTMLSpanElement>}
                     className="text-secondary-green-1 hover:underline underline-offset-4 font-semibold cursor-pointer"
                   >
                     Kirim Ulang

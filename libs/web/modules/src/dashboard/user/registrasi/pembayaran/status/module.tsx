@@ -17,10 +17,10 @@ const PDFDownloadLink = dynamic(
   },
 );
 
-const BlobProvider = dynamic(() => import("@react-pdf/renderer").then((mod) => mod.BlobProvider), {
-  ssr: false,
-  loading: () => <p className="text-primary-green">Tunggu sebentar..</p>,
-});
+// const BlobProvider = dynamic(() => import("@react-pdf/renderer").then((mod) => mod.BlobProvider), {
+//   ssr: false,
+//   loading: () => <p className="text-primary-green">Tunggu sebentar..</p>,
+// });
 
 export const pembayaranBreadcrumb = [
   {
@@ -38,7 +38,7 @@ export const pembayaranBreadcrumb = [
 ];
 
 export const Pembayaran: FC = (): ReactElement => {
-  const [textToCopy, setTextToCopy] = useState("4444081904377804");
+  const [textToCopy] = useState("4444081904377804");
   const [status, setStatus] = useState<string | null>("unpaid"); // Status dummy
 
   const { getUser } = useUserData();
