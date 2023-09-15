@@ -5,23 +5,21 @@ import {
   Delete,
   Get,
   Param,
-  Post,
   Put,
   Query,
   Request,
   UseGuards,
-  BadRequestException,
   UseFilters,
   UsePipes,
 } from "@nestjs/common";
-import { VSCreateUser, TReqToken, VSUpdateUser, TProfileResponse } from "@uninus/entities";
+import { TReqToken, VSUpdateUser, TProfileResponse } from "@uninus/entities";
 import { ZodValidationPipe } from "@uninus/api/validator";
 import { JwtAuthGuard } from "@uninus/api/guard";
-import { CreateUserSwagger, UpdateUserSwagger } from "@uninus/api/services";
+import { UpdateUserSwagger } from "@uninus/api/services";
 import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
-import { generateOtp } from "@uninus/api/utilities";
+
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 
 @Controller("user")
