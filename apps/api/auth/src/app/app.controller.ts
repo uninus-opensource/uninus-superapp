@@ -5,7 +5,6 @@ import {
   TForgotPasswordRequest,
   TLoginRequest,
   TLogoutRequest,
-  TProfileResponse,
   TRegisterRequest,
   TReqToken,
   TResetPasswordRequest,

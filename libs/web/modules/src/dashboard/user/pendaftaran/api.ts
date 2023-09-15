@@ -7,7 +7,6 @@ import {
   ISelectionRequest,
   TSelectionResponse,
   IStudentData,
-  IGetStudentResponse,
 } from "@uninus/entities";
 
 export const DegreeProgramGet = async (

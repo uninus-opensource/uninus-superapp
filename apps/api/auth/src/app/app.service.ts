@@ -8,7 +8,6 @@ import {
 } from "@nestjs/common";
 import {
   TLoginResponse,
-  TProfileResponse,
   TRegisterRequest,
   TReqToken,
   TResRefreshToken,

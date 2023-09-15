@@ -45,7 +45,7 @@ export class AppService {
       avatar,
       email,
       fullname,
-      students: { id, user_id, createdAt, pmb, ...studentData },
+      students: { pmb, ...studentData },
     } = student;
 
     return JSON.parse(
@@ -80,7 +80,6 @@ export class AppService {
       id,
       fullname,
       avatar,
-      email,
       first_deparment_id,
       second_deparment_id,
       selection_path_id,
@@ -193,7 +192,7 @@ export class AppService {
       throw new RpcException(new NotFoundException("Gagal update data"));
     }
     const {
-      students: { user_id, createdAt, pmb, ...studentData },
+      students: { pmb, ...studentData },
     } = student;
     return JSON.parse(
       JSON.stringify(
