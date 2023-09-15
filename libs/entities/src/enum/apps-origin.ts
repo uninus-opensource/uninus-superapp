@@ -1,0 +1,16 @@
+export enum EAppsOrigin {
+  AKREDITASI = "akreditasi",
+  EVALUASI = "evaluasi",
+  LMS = "lms",
+  NEOFEEDER = "neo_feeder",
+  PEGAWAI = "pegawai",
+  PMBADMIN = "pmb_admin",
+  PMBUSER = "pmb_user",
+  SISFOAKUNTANSI = "sisfo_akuntansi",
+  SISFOASET = "sisfo_aset",
+  SISFOBENDAHARA = "sisfo_bendahara",
+  SISFOKEUANGAN = "sisfo_keuangan",
+  SMARTDASHBOARD = "smart_dashboard",
+  TATAUSAHA = "tata_usaha",
+  TRACERALUMNI = "tracer_alumni",
+}

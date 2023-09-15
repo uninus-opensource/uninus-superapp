@@ -747,9 +747,20 @@ export class AppService {
     }
 
     const result = {
-      bachelor: bachelorCount,
-      magister: magisterCount,
-      doctor: doctorCount,
+      data: [
+        {
+          name: "Program Sarjana(S1)",
+          total: bachelorCount,
+        },
+        {
+          name: "Program Pascasarjana(S2)",
+          total: magisterCount,
+        },
+        {
+          name: "Program Pascasarjana(S3)",
+          total: doctorCount,
+        },
+      ],
     };
 
     return result;
