@@ -2,7 +2,10 @@ FROM node:18.17.1-alpine3.17 AS Builder
 WORKDIR /app
 COPY . .
 RUN rm -f yarn.lock
+RUN apk --no-cache add python3 make g++ 
 RUN yarn install --frozen-lockfile --ignore-scripts
+RUN yarn global add node-pre-gyp
+RUN node-pre-gyp rebuild -C ./node_modules/argon21
 RUN yarn prisma generate
 RUN yarn nx build api-auth
 
