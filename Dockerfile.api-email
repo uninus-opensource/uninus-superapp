@@ -1,6 +1,6 @@
 FROM node:20-alpine AS Builder
 WORKDIR /app
-RUN rm ./yarn.lock
+RUN rm yarn.lock
 COPY . .
 RUN yarn install --frozen-lockfile --ignore-scripts
 RUN yarn nx build api-email
