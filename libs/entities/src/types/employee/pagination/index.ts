@@ -1,4 +1,4 @@
-import *  from "@uninus/api/models";
+import { Prisma } from "@prisma/client";
 
 export type TEmployePagination = {
   where?: Prisma.UsersWhereInput;
