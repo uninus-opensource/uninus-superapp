@@ -2,6 +2,7 @@ FROM node:20-alpine AS Builder
 WORKDIR /app
 COPY . .
 RUN yarn install --frozen-lockfile --ignore-scripts
+RUN yarn  prisma generate
 RUN yarn nx build api
 
 
@@ -21,4 +22,4 @@ ENV REDIS_PORT ${REDIS_PORT}
 ENV REDIS_PASSWORD ${REDIS_PASSWORD}
 ENV REDIS_USERNAME ${REDIS_USERNAME}
 EXPOSE ${PORT}
-CMD yarn prisma generate && node /app/src/main.js
+CMD node /app/src/main.js
