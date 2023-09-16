@@ -11,6 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { VSLogin, TVSLogin } from "@uninus/entities";
 import Image from "next/image";
 import { useUserEmail } from "@uninus/web/services";
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
 
 export const LoginUserModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -720,10 +722,35 @@ export const LoginSiakadModule: FC = (): ReactElement => {
     }
     setIsLoading(false);
   });
+
+  const data = [
+    {
+      title: "KRS Semester Ganjil T.A. 2023/2024",
+      description: "Segera lakukan kredit semester, dan konfirmasi ke dosen wali terkait KRS",
+    },
+    {
+      title: "Ujian Akhir Semester T.A. 2023/2024 Telah Usai",
+      description: "Uas T.A. 2023/2024 telah usai, selamat beristirahat",
+    },
+    {
+      title: "Batas Pengisian Nilai ke Nusaverse",
+      description: "Untuk dosen segera lakukan pengisian nilai perkuliahan sampai pukul 17.00 WIB",
+    },
+  ];
+
+  const cardNews: ReactElement[] = data.map((item, index) => (
+    <div key={index} className="w-[60vw] lg:w-[40vw] xl:w-[37vw]">
+      <div className="w-[90%] lg:h-[14vh] xl:h-[16vh] bg-primary-white shadow-md lg:shadow-lg flex flex-col gap-2 justify-center items-start p-7 px-5">
+        <h1 className="font-bold text-dark-default md:text-[1.2rem]">{item.title}</h1>
+        <p className="text-body-light text-xs md:text-[1rem]">{item.description}</p>
+      </div>
+    </div>
+  ));
+
   return (
     <section
       key="auth-siakad"
-      className={`w-full min-h-screen bg-[url(/illustrations/backgroundAuthMd.svg)] lg:bg-[url(/illustrations/backgroundAuthLg.svg)] bg-cover bg-center object-cover bg-no-repeat`}
+      className={`w-full min-h-screen bg-[url(/illustrations/background-auth.webp)] bg-cover bg-center object-cover bg-no-repeat font-montserrat`}
     >
       {getError && (
         <ToastContainer
@@ -739,70 +766,126 @@ export const LoginSiakadModule: FC = (): ReactElement => {
           theme="colored"
         />
       )}
-      <div className="w-full h-screen flex justify-center items-center">
-        <form
-          onSubmit={onSubmit}
-          className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6"
-        >
-          <figure className="w-full flex items-center justify-between mb-6 lg:mb-2">
+      <div className="w-full h-screen flex flex-col items-center">
+        <div className=" w-full h-[20%] md:h-[12%] flex items-center xl:items-end">
+          <h1 className="text-primary-green font-bold text-[31px] leading-[43.4px] md:text-[39px] md:leading-[54.6px] lg:text-[49px] lg:leading-[58.8px] ml-[5%] uppercase">
+            nusa
+            <span className="text-primary-yellow font-semibold text-[25px] leading-[37.5px] lg:text-[31px] lg:leading-[43.4px]">
+              verse
+            </span>
+          </h1>
+        </div>
+        <div className="w-full h-[60%] flex flex-col md:flex-row">
+          <div className="w-1/2 h-full justify-end items-center hidden md:flex ">
             <Image
-              className="relative w-1/3 "
-              src={"/illustrations/dark-neo-uninus.webp"}
-              alt="image"
-              width={130}
-              height={130}
-            />
-            <Image
-              className="relative w-1/3 "
-              src={"/illustrations/dark-hybrid-university.webp"}
-              alt="image"
-              width={100}
-              height={100}
-            />
-          </figure>
-          <div className="w-full">
-            <div className="w-full text-center items-center flex  justify-center font-extrabold text-sm lg:text-xl mb-6">
-              <h1>PORTAL SIAKAD</h1>
-            </div>
-            <TextField
-              name="email"
-              type="email"
-              variant="sm"
-              label="Email"
-              placeholder="Masukan email"
-              control={control}
-              required
-              status={errors?.email ? "error" : undefined}
-              message={errors?.email?.message}
-            />
-            <TextField
-              name="password"
-              type="password"
-              variant="sm"
-              label="Kata Sandi"
-              control={control}
-              placeholder="Masukkan Kata Sandi"
-              required
-              status={errors?.password ? "error" : undefined}
-              message={errors?.password?.message}
+              src={"/illustrations/IllustrationAuth.svg"}
+              width={336}
+              height={234}
+              alt="Illustrations login"
+              className="lg:w-[430px] lg:h-[350px] xl:w-[480px]"
             />
           </div>
-          <div className="flex flex-col xl:gap-y-6 lg:gap-y-2 gap-y-5 w-full">
-            <div className="flex justify-center">
-              <Button
-                loading={isLoading}
-                variant="elevated"
-                disabled={!isValid}
-                styling="text-xs lg:text-base w-full h-5 xl:h-10"
+          <div className="w-full h-full md:w-1/2  flex justify-center items-center">
+            <form
+              onSubmit={onSubmit}
+              className="w-5/6 h-5/6 md:w-5/6 xl:w-[63%] xl:h-[95%] bg-primary-white xl:bg-primary-white rounded-md flex flex-col items-center justify-center gap-y-7 lg:gap-y-5 xl:gap-y-5"
+            >
+              <figure className="w-full flex items-center justify-between px-8 xl:px-9">
+                <Image
+                  className="relative w-1/3 "
+                  src={"/illustrations/dark-neo-uninus.webp"}
+                  alt="image"
+                  width={130}
+                  height={130}
+                />
+                <Image
+                  className="relative w-1/3 "
+                  src={"/illustrations/dark-hybrid-university.webp"}
+                  alt="image"
+                  width={100}
+                  height={100}
+                />
+              </figure>
+              <div className="w-full">
+                <div className="w-full text-center items-center flex justify-center font-extrabold text-[13px] leading-[19.5px] lg:text-[18px] xl:text-[16.8px] mb-6 lg:mb-5 xl:mb-5 uppercase">
+                  <h1>selamat datang di nusaverse</h1>
+                </div>
+                <div className="w-full flex flex-col items-center justify-center gap-2">
+                  <div className="w-[80%]">
+                    <TextField
+                      name="email"
+                      type="email"
+                      placeholder="Masukan email"
+                      control={control}
+                      variant="sm"
+                      required
+                      status={errors?.email ? "error" : undefined}
+                      message={errors?.email?.message}
+                      className="w-full"
+                    />
+                  </div>
+
+                  <div className="w-[80%]">
+                    <TextField
+                      name="password"
+                      type="password"
+                      control={control}
+                      placeholder="Masukkan Kata Sandi"
+                      variant="sm"
+                      required
+                      status={errors?.password ? "error" : undefined}
+                      message={errors?.password?.message}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col w-full items-center justify-center gap-y-7 lg:gap-y-5 xl:gap-y-5">
+                <div className="w-[80%]">
+                  <Button
+                    loading={isLoading}
+                    variant="elevated"
+                    disabled={!isValid}
+                    styling="text-xs lg:text-base h-[36px] w-full h-5 xl:h-7"
+                  >
+                    Masuk
+                  </Button>
+                </div>
+                <h2 className="text-[9px] lg:text-xs text-center">
+                  &copy; NEO UNIVERSITAS ISLAM NUSANTARA 2023
+                </h2>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div className="w-full md:w-full min-h-[25%] h-auto md:h-[25%] flex flex-col items-center gap-3">
+          <div className="w-5/6 flex justify-start lg:w-[90%]">
+            <h1 className="text-lg capitalize font-bold mt-[5%] lg:mt-0 lg:text-[1.5rem]">
+              kalender akademik
+            </h1>
+          </div>
+          <div className="w-5/6 flex flex-col md:hidden gap-3">
+            {data.map((item, index) => (
+              <div
+                key={index}
+                className="w-full md:w-[40vw]  bg-primary-white shadow-md flex flex-col gap-2 justify-center items-start p-4 md:px-2"
               >
-                Masuk
-              </Button>
-            </div>
-            <h2 className="text-[9px] lg:text-xs text-center lg:mt-8">
-              &copy; NEO UNIVERSITAS ISLAM NUSANTARA 2023
-            </h2>
+                <h1 className="font-bold text-dark-default md:text-[1.2rem]">{item.title}</h1>
+                <p className="text-body-light text-xs md:text-[1rem]">{item.description}</p>
+              </div>
+            ))}
           </div>
-        </form>
+          <div className="hidden md:flex md:justify-center md:items-center md:w-full">
+            <AliceCarousel
+              mouseTracking
+              autoWidth
+              paddingLeft={50}
+              disableButtonsControls={true}
+              disableDotsControls={true}
+              items={cardNews}
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
