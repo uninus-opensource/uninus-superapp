@@ -1,7 +1,7 @@
 FROM node:20-alpine AS Builder
 WORKDIR /app
-RUN rm -f yarn.lock
 COPY . .
+RUN rm -f yarn.lock
 RUN yarn install --frozen-lockfile --ignore-scripts
 RUN yarn prisma generate
 RUN yarn nx build api-file

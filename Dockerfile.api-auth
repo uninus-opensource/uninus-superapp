@@ -1,4 +1,4 @@
-FROM node:20-alpine AS Builder
+FROM node:18.17.1-alpine3.17 AS Builder
 WORKDIR /app
 COPY . .
 RUN rm -f yarn.lock
@@ -7,7 +7,7 @@ RUN yarn prisma generate
 RUN yarn nx build api-auth
 
 
-FROM node:20-alpine AS Service
+FROM node:18.17.1-alpine3.17 AS Service
 WORKDIR /app/
 COPY --from=Builder /app/node_modules ./node_modules
 COPY --from=Builder /app/package.json ./package.json

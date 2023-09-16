@@ -1,13 +1,13 @@
-FROM node:20-alpine AS Builder
+FROM node:18.17.1-alpine3.17 AS Builder
 WORKDIR /app
-RUN rm -f yarn.lock
 COPY . .
+RUN rm -f yarn.lock
 RUN yarn install --frozen-lockfile --ignore-scripts
 RUN yarn prisma generate
 RUN yarn nx build api-student
 
 
-FROM node:20-alpine AS Service
+FROM node:18.17.1-alpine3.17 AS Service
 WORKDIR /app/
 COPY --from=Builder /app/node_modules ./node_modules
 COPY --from=Builder /app/package.json ./package.json
