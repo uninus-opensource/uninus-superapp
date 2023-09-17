@@ -1,6 +1,7 @@
 FROM node:18.17.1-alpine3.17 AS Builder
 WORKDIR /app
 COPY . .
+RUN rm -f yarn.lock
 RUN yarn install --frozen-lockfile --ignore-scripts
 RUN yarn prisma generate
 RUN yarn nx build web-tracer-alumni--prod
