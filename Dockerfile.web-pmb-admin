@@ -17,7 +17,7 @@ ENV NEXTAUTH_URL ${NEXTAUTH_URL}
 ENV NEXT_PUBLIC_API_URL ${NEXTAUTH_URL}
 ENV NEXT_PUBLIC_WORKSPACE ${NEXT_PUBLIC_WORKSPACE}
 EXPOSE ${PORT}
-RUN yarn add sharp
+RUN yarn add sharp --frozen-lockfile --ignore-scripts
 CMD yarn nx serve web-pmb-admin --prod --port ${PORT}
 
 
