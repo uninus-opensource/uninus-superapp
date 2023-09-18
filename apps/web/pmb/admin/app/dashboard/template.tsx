@@ -1,7 +1,7 @@
 "use client";
 import { FC, PropsWithChildren, ReactElement, ReactNode } from "react";
 import { SideBar } from "@uninus/web/components";
-import { useGetRegistrans, useLogout } from "@uninus/web/modules";
+import { useGetPopularData, useGetRegistrans, useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import { Montserrat } from "next/font/google";
 import {
@@ -10,7 +10,7 @@ import {
   FileTextOutlined,
   CreditCardOutlined,
 } from "@ant-design/icons";
-import { useRegistransData } from "@uninus/web/services";
+import { usePopularPrograms, useRegistransData } from "@uninus/web/services";
 
 const monserrat = Montserrat({
   subsets: ["latin"],
@@ -50,6 +50,11 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
 
   const { setRegistransData } = useRegistransData();
   setRegistransData(data);
+
+  const { data: popularProgram } = useGetPopularData();
+
+  const { setPopularData } = usePopularPrograms();
+  setPopularData(popularProgram);
 
   return (
     <body className={`${monserrat.className}`}>

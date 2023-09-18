@@ -3,6 +3,7 @@ import {
   IGetStudentResponse,
   IGetUserMeResponse,
   TTotalRegistransResponse,
+  TInterestEducationPrograms,
 } from "@uninus/entities";
 
 export type ReturnTypesStudentData = {
@@ -23,4 +24,9 @@ export type ReturnTypeUserEmail = {
 export type ReturnTypesRegistransData = {
   setRegistransData: (val: TTotalRegistransResponse | undefined) => void;
   getRegistransData: TTotalRegistransResponse | undefined;
+};
+
+export type ReturnTypesPopularPrograms = {
+  setPopularData: (val: TInterestEducationPrograms | undefined) => void;
+  getPopularData: TInterestEducationPrograms | undefined;
 };

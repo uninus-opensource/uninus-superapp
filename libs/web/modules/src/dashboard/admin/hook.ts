@@ -1,6 +1,10 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { TMetaErrorResponse, TTotalRegistransResponse } from "@uninus/entities";
-import { RegistransGet } from "./api";
+import {
+  TInterestEducationPrograms,
+  TMetaErrorResponse,
+  TTotalRegistransResponse,
+} from "@uninus/entities";
+import { PopularProgramsGet, RegistransGet } from "./api";
 
 export const useGetRegistrans = (): UseQueryResult<
   TTotalRegistransResponse,
@@ -9,6 +13,17 @@ export const useGetRegistrans = (): UseQueryResult<
   return useQuery({
     queryKey: ["getStudentRegistrans"],
     queryFn: async () => await RegistransGet(),
+    keepPreviousData: true,
+  });
+};
+
+export const useGetPopularData = (): UseQueryResult<
+  TInterestEducationPrograms,
+  TMetaErrorResponse
+> => {
+  return useQuery({
+    queryKey: ["getPopularPrograms"],
+    queryFn: async () => await PopularProgramsGet(),
     keepPreviousData: true,
   });
 };
