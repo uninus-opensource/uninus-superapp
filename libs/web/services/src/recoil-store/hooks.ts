@@ -1,13 +1,12 @@
 "use client";
 import { useRecoilState } from "recoil";
-import { loadingAvatar, registransData, studentState, userEmail, userState } from "./store";
+import { registransData, studentState, userEmail, userState } from "./store";
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
   TTotalRegistransResponse,
 } from "@uninus/entities";
 import {
-  ReturnLoadingAvatar,
   ReturnTypeUserEmail,
   ReturnTypesRegistransData,
   ReturnTypesStudentData,
@@ -43,13 +42,5 @@ export const useRegistransData = (): ReturnTypesRegistransData => {
   return {
     setRegistransData: (val) => set(val),
     getRegistransData: get,
-  };
-};
-
-export const useLoadingAvatar = (): ReturnLoadingAvatar => {
-  const [get, set] = useRecoilState<boolean>(loadingAvatar);
-  return {
-    setLoadingAvatar: (val) => set(val),
-    getLoadingAvatar: get,
   };
 };
