@@ -35,7 +35,10 @@ export const NewsSection: FC = (): ReactElement => {
   ];
 
   return (
-    <section className="my-10  h-full w-full gap-3 lg:px-14 px-4 py-2 flex flex-col  xl:px-32">
+    <section
+      key="news-section"
+      className="my-10  h-full w-full gap-3 lg:px-14 px-4 py-2 flex flex-col  xl:px-32"
+    >
       <h1 className=" text-2xl text-center lg:text-4xl text-secondary-green-4 font-bold">
         Berita <span className="text-primary-green">Terkini</span>
       </h1>

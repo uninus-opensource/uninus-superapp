@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { NilaiValues, TUploadFileRequest, TUploadFileResponse } from "../../type";
 import { useBiodataUpdate, useGetStudentGrade, useUploadFile } from "../../hooks";
+import { useUpdate } from "@uninus/web/services";
 
 // import { TVSDataNilai, VSDataNilai } from "./schema";
 // import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,7 +19,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
 
   const { mutate: upload } = useUploadFile();
   const { mutate } = useBiodataUpdate();
-
+  const { setUpdate } = useUpdate();
   const uploadFile = async (payload: TUploadFileRequest): Promise<TUploadFileResponse> => {
     return new Promise((resolve, reject) => {
       upload(payload, {
@@ -109,6 +110,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
           onSuccess: () => {
             setIsdisabled(true);
             setIsLoading(false);
+            setUpdate(true);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
                 position: "top-center",

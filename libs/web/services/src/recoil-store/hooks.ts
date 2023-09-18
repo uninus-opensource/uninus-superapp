@@ -1,12 +1,13 @@
 "use client";
 import { useRecoilState } from "recoil";
-import { registransData, studentState, userEmail, userState } from "./store";
+import { registransData, studentState, updateState, userEmail, userState } from "./store";
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
   TTotalRegistransResponse,
 } from "@uninus/entities";
 import {
+  ReturnTypeUpdate,
   ReturnTypeUserEmail,
   ReturnTypesRegistransData,
   ReturnTypesStudentData,
@@ -42,5 +43,12 @@ export const useRegistransData = (): ReturnTypesRegistransData => {
   return {
     setRegistransData: (val) => set(val),
     getRegistransData: get,
+  };
+};
+export const useUpdate = (): ReturnTypeUpdate => {
+  const [get, set] = useRecoilState<boolean>(updateState);
+  return {
+    setUpdate: (val) => set(val),
+    getUpdate: get,
   };
 };

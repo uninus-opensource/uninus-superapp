@@ -24,3 +24,7 @@ export type ReturnTypesRegistransData = {
   setRegistransData: (val: TTotalRegistransResponse | undefined) => void;
   getRegistransData: TTotalRegistransResponse | undefined;
 };
+export type ReturnTypeUpdate = {
+  setUpdate: (val: boolean) => void;
+  getUpdate: boolean;
+};

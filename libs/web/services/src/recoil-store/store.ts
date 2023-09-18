@@ -25,3 +25,7 @@ export const registransData = atom({
   key: "registransData",
   default: [] as unknown as TTotalRegistransResponse | undefined,
 });
+export const updateState = atom({
+  key: "updateState",
+  default: false,
+});
