@@ -25,3 +25,8 @@ export const registransData = atom({
   key: "registransData",
   default: [] as unknown as TTotalRegistransResponse | undefined,
 });
+
+export const loadingAvatar = atom({
+  key: "loadingAvatar",
+  default: false,
+});
