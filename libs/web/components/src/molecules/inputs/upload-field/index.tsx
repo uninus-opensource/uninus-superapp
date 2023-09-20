@@ -65,7 +65,7 @@ export const UploadField = <T extends FieldValues>({
           disabled={props.isDisabled}
         />
         <label htmlFor={props.name} className={labelFileVariants}>
-          {value ? (
+          {value && !props.previewImage ? (
             <AiOutlineCheck className="text-2xl text-center" />
           ) : props.isDisabled ? (
             <AiOutlineCheck className="text-2xl text-center" />

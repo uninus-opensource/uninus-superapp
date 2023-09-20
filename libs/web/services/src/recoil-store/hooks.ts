@@ -4,6 +4,7 @@ import {
   popularPrograms,
   registransData,
   studentState,
+  updateAvatar,
   updateState,
   userEmail,
   userState,
@@ -20,6 +21,7 @@ import {
   ReturnTypesPopularPrograms,
   ReturnTypesRegistransData,
   ReturnTypesStudentData,
+  ReturnTypesUpdateAvatar,
   ReturnTypesUserData,
 } from "./type";
 
@@ -67,5 +69,13 @@ export const useUpdate = (): ReturnTypeUpdate => {
   return {
     setUpdate: (val) => set(val),
     getUpdate: get,
+  };
+};
+
+export const useUpdateAvatar = (): ReturnTypesUpdateAvatar => {
+  const [get, set] = useRecoilState<string | null>(updateAvatar);
+  return {
+    setUpdateAvatar: (val) => set(val),
+    getUpdateAvatar: get,
   };
 };

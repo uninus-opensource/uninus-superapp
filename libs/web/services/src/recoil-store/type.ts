@@ -39,3 +39,8 @@ export type ReturnTypeUpdate = {
   setUpdate: (val: boolean) => void;
   getUpdate: boolean;
 };
+
+export type ReturnTypesUpdateAvatar = {
+  setUpdateAvatar: (val: string | null) => void;
+  getUpdateAvatar: string | null;
+};
