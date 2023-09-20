@@ -35,3 +35,7 @@ export type ReturnTypesPopularPrograms = {
   setPopularData: (val: TInterestEducationPrograms | undefined) => void;
   getPopularData: TInterestEducationPrograms | undefined;
 };
+export type ReturnTypeUpdate = {
+  setUpdate: (val: boolean) => void;
+  getUpdate: boolean;
+};
