@@ -2,6 +2,7 @@
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
+  TInterestEducationPrograms,
   TTotalRegistransResponse,
 } from "@uninus/entities";
 
@@ -28,4 +29,9 @@ export type ReturnTypesRegistransData = {
 export type ReturnLoadingAvatar = {
   setLoadingAvatar: (val: boolean) => void;
   getLoadingAvatar: boolean;
+};
+
+export type ReturnTypesPopularPrograms = {
+  setPopularData: (val: TInterestEducationPrograms | undefined) => void;
+  getPopularData: TInterestEducationPrograms | undefined;
 };
