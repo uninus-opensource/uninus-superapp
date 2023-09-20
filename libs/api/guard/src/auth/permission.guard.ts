@@ -1,16 +1,15 @@
 import { Type, CanActivate, ExecutionContext, mixin } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { EAppsOrigin } from "@uninus/entities";
-import { PrismaService } from "@uninus/api/models";
 
-export const PermissionGuard = (appOrigin: EAppsOrigin): Type<CanActivate> => {
+export const PermissionGuard = (appsWhiteList: Array<EAppsOrigin>): Type<CanActivate> => {
   class PermissionGuardMixin implements CanActivate {
-    constructor(private prisma: PrismaService) {}
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
       const request = context.switchToHttp().getRequest();
-      const user = request.user;
-
-      return true;
+      const roleUser = request.user.role;
+      const appOrigin = request.headers["app-origin"];
+      const permissions = JSON.parse(process.env["APPS_PERMISSION"] as string);
+      return appsWhiteList.includes(appOrigin) && permissions[`${appOrigin}`].includes(roleUser);
     }
   }
   return mixin(PermissionGuardMixin);

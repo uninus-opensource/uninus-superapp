@@ -13,14 +13,14 @@ import { RtGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/validator";
 import {
   AuthService,
-  RegisterSwagger,
-  LoginSwagger,
-  ForgotPasswordSwagger,
-  LogoutSwagger,
-  ResendOtpSwagger,
-  NewPasswordSwagger,
-  VerifyOtpSwagger,
-  RefreshTokenSwagger,
+  RegisterDto,
+  LoginDto,
+  ForgotPasswordDto,
+  LogoutDto,
+  ResendOtpDto,
+  NewPasswordDto,
+  VerifyOtpDto,
+  RefreshTokenDto,
 } from "@uninus/api/services";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 import { ApiTags, ApiBody, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
@@ -42,7 +42,7 @@ export class AuthController {
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async register(
     @Body()
-    payload: RegisterSwagger,
+    payload: RegisterDto,
   ) {
     return await this.appService.register(payload);
   }
@@ -56,7 +56,7 @@ export class AuthController {
   @Post("login")
   @UsePipes(new ZodValidationPipe(VSLogin))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  async login(@Body() payload: LoginSwagger) {
+  async login(@Body() payload: LoginDto) {
     return await this.appService.login(payload);
   }
 
@@ -66,13 +66,13 @@ export class AuthController {
   @Post("logout")
   @UsePipes(new ZodValidationPipe(VSLogout))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  async logout(@Body() payload: LogoutSwagger) {
+  async logout(@Body() payload: LogoutDto) {
     return await this.appService.logout(payload);
   }
 
   @ApiOperation({ summary: "Refresh Token" })
   @ApiBearerAuth()
-  @ApiBody({ type: RefreshTokenSwagger })
+  @ApiBody({ type: RefreshTokenDto })
   @Post("refresh")
   @UseGuards(RtGuard)
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
@@ -87,7 +87,7 @@ export class AuthController {
   @Post("verify")
   @UsePipes(new ZodValidationPipe(VSVerifyOtp))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  async verifyOtp(@Body() payload: VerifyOtpSwagger) {
+  async verifyOtp(@Body() payload: VerifyOtpDto) {
     return this.appService.verifyOtp(payload);
   }
 
@@ -100,7 +100,7 @@ export class AuthController {
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async resendOtp(
     @Body()
-    payload: ResendOtpSwagger,
+    payload: ResendOtpDto,
   ) {
     return this.appService.resendOtp(payload);
   }
@@ -116,7 +116,7 @@ export class AuthController {
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async forgotPassword(
     @Body()
-    payload: ForgotPasswordSwagger,
+    payload: ForgotPasswordDto,
   ) {
     return this.appService.forgotPassword(payload);
   }
@@ -128,7 +128,7 @@ export class AuthController {
   @Post("verify-otp-password")
   @UsePipes(new ZodValidationPipe(VSVerifyOtp))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  async verifyOtpPassword(@Body() payload: VerifyOtpSwagger) {
+  async verifyOtpPassword(@Body() payload: VerifyOtpDto) {
     return this.appService.verifyOtpPassword(payload);
   }
 
@@ -140,7 +140,7 @@ export class AuthController {
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async resetPassword(
     @Body()
-    payload: NewPasswordSwagger,
+    payload: NewPasswordDto,
   ) {
     return this.appService.resetPassword(payload);
   }
