@@ -178,10 +178,10 @@
     "@aws-sdk/util-utf8-browser" "^3.0.0"
     tslib "^1.11.1"
 
-"@aws-sdk/client-s3@^3.405.0":
-  version "3.414.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.414.0.tgz#246c5f1af0556a08ca42db09fd249f59eb9394bc"
-  integrity sha512-uEag2GPuuxWmnzOxUhAy0EYo3LW3u/UyCw1IxU3zkaTRQnD6TZ07kjv3Q6Zytqt82yKzJPZInzNNRdtGJdyxbw==
+"@aws-sdk/client-s3@^3.417.0":
+  version "3.417.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.417.0.tgz#9641d0b6b63783402931946f442215c120648a3b"
+  integrity sha512-xf8QAzncgiHuvB6942WqzFHVjf2Lg6vmx/PsbvnuZ318cryOHK0ijS6yC7FTSmaTxJkCJe0Q3oh3pRYhpP6hyA==
   dependencies:
     "@aws-crypto/sha1-browser" "3.0.0"
     "@aws-crypto/sha256-browser" "3.0.0"
@@ -19144,6 +19144,13 @@ xdg-basedir@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-3.0.0.tgz#496b2cc109eca8dbacfe2dc72b603c17c5870ad4"
   integrity sha512-1Dly4xqlulvPD3fZUQJLY+FUIeqN3N2MM3uqe4rCJftAvOjFa3jFGfctOgluGx4ahPbUCsZkmJILiP0Vi4T6lQ==
+
+xendit-node@^1.22.0:
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/xendit-node/-/xendit-node-1.22.0.tgz#398dd2c90ba95984619a83314adbebfe004584b6"
+  integrity sha512-Iwjp4D5xcIBWGRGzxgbBgTux/esGCDa0IHYuSyo0hWwfNHH0/XysXo5iqtvIu7gR4kukMNObYxjmfRy53KFvaQ==
+  dependencies:
+    node-fetch "^2.6.1"
 
 xml-name-validator@^4.0.0:
   version "4.0.0"
