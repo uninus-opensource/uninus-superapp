@@ -1,24 +1,34 @@
 "use client";
-import { ReactElement, FC } from "react";
+import { ReactElement, FC, useMemo } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { usePopularPrograms } from "@uninus/web/services";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const dataDoughnut = {
-  labels: ["Program Sarjana(S1)", "Program Pascarsarjana(S2)", "Program Pascasarjana(S3)"],
-  datasets: [
-    {
-      label: "",
-      data: [60, 15, 25],
-      backgroundColor: ["#02E56D", "#06753B", "#009647"],
-      borderColor: ["#02E56D", "#06753B", "#009647"],
-      borderWidth: 1,
-    },
-  ],
-};
-
 export const RekapProgram: FC = (): ReactElement => {
+  const { getPopularData } = usePopularPrograms();
+
+  const popularData = useMemo(() => {
+    return getPopularData;
+  }, [getPopularData]);
+
+  const values = popularData?.data.map((items) => items.total);
+  const labels = popularData?.data.map((items) => items.name);
+
+  const dataDoughnut = {
+    labels: labels,
+    datasets: [
+      {
+        label: "",
+        data: values,
+        backgroundColor: ["#02E56D", "#06753B", "#009647"],
+        borderColor: ["#02E56D", "#06753B", "#009647"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <div className="lg:w-[340px] md:w-full w-full h-[500px] rounded-md shadow-md p-6">
       <section>
