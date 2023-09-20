@@ -24,3 +24,8 @@ export type ReturnTypesRegistransData = {
   setRegistransData: (val: TTotalRegistransResponse | undefined) => void;
   getRegistransData: TTotalRegistransResponse | undefined;
 };
+
+export type ReturnLoadingAvatar = {
+  setLoadingAvatar: (val: boolean) => void;
+  getLoadingAvatar: boolean;
+};

@@ -50,7 +50,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
 
   useEffect(() => {
     setAvatar(userAvatar);
-  }, [avatar, userAvatar]);
+  }, [userAvatar]);
 
   const pathname = usePathname();
 

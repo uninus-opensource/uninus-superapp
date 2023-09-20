@@ -1,15 +1,21 @@
 "use client";
 import { BreadCrumb, SelectOption, Button, UploadField } from "@uninus/web/components";
-import { FC, ReactElement, useEffect, useMemo, useState } from "react";
+import { FC, Fragment, ReactElement, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
-import { useBiodataUpdate, useScholarshipGet } from "./hooks";
+import { useScholarshipGet } from "./hooks";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { beasiswa } from "./type";
+import { beasiswa, berkasKhusus } from "./type";
 import { useStudentData } from "@uninus/web/services";
+import {
+  TUploadFileRequest,
+  TUploadFileResponse,
+  useBiodataUpdate,
+  useUploadFile,
+} from "../biodata";
 
 export const beasiswaBreadcrumb = [
   {
@@ -27,6 +33,11 @@ export const beasiswaBreadcrumb = [
 ];
 
 export const BeasiswaDashboardModule: FC = (): ReactElement => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingFile, setIsLoadingFile] = useState<boolean>(false);
+  const [isDisabled, setIsdisabled] = useState<boolean>(false);
+  const [isDisabledFile, setIsdisabledFile] = useState<boolean>(false);
+
   const {
     control,
     handleSubmit,
@@ -34,33 +45,19 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
     formState: { isValid },
   } = useForm<FieldValues>({
     mode: "all",
-    defaultValues: {},
+  });
+
+  const {
+    control: controlBeasiswa,
+    handleSubmit: handleSubmitBeasiswa,
+    watch,
+  } = useForm<berkasKhusus>({
+    mode: "all",
   });
 
   const [scholarship] = useState({
     search: "",
   });
-
-  const nusantaraBerprestasi = [
-    {
-      label: "Sertifikat Kejuaraan",
-      name: "sertifikat_kejuaraan",
-      desc: "Minimal juara 3 tingkat Kabupaten/Kota",
-    },
-    { label: "Sertifikat Tahfidzh Qur'an", name: "tahfidzh", desc: "Minimal hafalan 3 juz" },
-  ];
-
-  const nusantaraUnggul = [
-    { label: "Sertifikat Aktif Organisasi", name: "sertifikat_aktif" },
-    { label: "Sertifikat Lainnya", name: "sertifikat_lainnya" },
-  ];
-
-  const mitraNusantara = [
-    { label: "Bukti Anggota NU", name: "surat_anggota_nu" },
-    { label: "Surat Tugas Dari Sekolah", name: "surat_tugas" },
-  ];
-
-  const beasiswaDifabel = [{ label: "Surat Keterangan Dokter", name: "suket_dokter" }];
 
   const { data: getScholarship } = useScholarshipGet(scholarship);
 
@@ -73,22 +70,32 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
     [getScholarship?.scholarship],
   );
 
-  const [isDisabled, setIsdisabled] = useState(false);
-
   const { mutate } = useBiodataUpdate();
-
+  const { mutate: upload } = useUploadFile();
   const { getStudent } = useStudentData();
 
   const student = useMemo(() => {
     return getStudent;
   }, [getStudent]);
 
+  const uploadFile = async (payload: TUploadFileRequest): Promise<TUploadFileResponse> => {
+    return new Promise((resolve, reject) => {
+      upload(payload, {
+        onSuccess: (file) => resolve(file),
+        onError: (error) => reject(error),
+      });
+    });
+  };
+
   const onSubmit = handleSubmit((data) => {
     beasiswa.scholarship_id = Number(data.scholarship_id);
 
     try {
+      setIsLoading(true);
       mutate(beasiswa, {
         onSuccess: () => {
+          setIsLoading(false);
+          setIsdisabled(true);
           setTimeout(() => {
             toast.success("Berhasil Memilih Beasiswa", {
               position: "top-center",
@@ -103,6 +110,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
           }, 500);
         },
         onError: () => {
+          setIsLoading(false);
           setTimeout(() => {
             toast.error("Gagal Memilih Beasiswa", {
               position: "top-center",
@@ -117,27 +125,219 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
           }, 500);
         },
       });
-      setIsdisabled(true);
     } catch (error) {
       console.error(error);
     }
   });
+
+  const onSubmitBeasiswa = handleSubmitBeasiswa(async (data) => {
+    try {
+      setIsLoadingFile(true);
+
+      if (student?.scholarship_id === 1) {
+        const { file_url: sertifikat_aktif } = await uploadFile({
+          file: data.sertifikat_aktif,
+        });
+        const { file_url: sertifikat_lainnya } = await uploadFile({
+          file: data.sertifikat_lainnya,
+        });
+
+        mutate(
+          {
+            documents: [
+              { name: "Sertifikat Asli Organisasi", path: sertifikat_aktif },
+              { name: "Sertifikat Lainnya", path: sertifikat_lainnya },
+            ],
+          },
+          {
+            onSuccess: () => {
+              setIsdisabledFile(true);
+              setIsLoadingFile(false);
+              setTimeout(() => {
+                toast.success("Berhasil Upload File", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+            onError: () => {
+              setIsLoadingFile(false);
+              setTimeout(() => {
+                toast.error("Gagal Upload File", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+          },
+        );
+      } else if (student?.scholarship_id === 2) {
+        const { file_url: sertifikat_kejuaraan } = await uploadFile({
+          file: data.sertifikat_kejuaraan,
+        });
+        const { file_url: tahfidzh } = await uploadFile({
+          file: data.tahfidzh,
+        });
+
+        mutate(
+          {
+            documents: [
+              { name: "Sertifikat Kejuaraan", path: sertifikat_kejuaraan },
+              { name: "Tahfidz", path: tahfidzh },
+            ],
+          },
+          {
+            onSuccess: () => {
+              setIsdisabledFile(true);
+              setIsLoadingFile(false);
+
+              setTimeout(() => {
+                toast.success("Berhasil Upload File", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+            onError: () => {
+              setIsLoadingFile(false);
+              setTimeout(() => {
+                toast.error("Gagal Upload File", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+          },
+        );
+      } else if (student?.scholarship_id === 3) {
+        const { file_url: surat_dokter } = await uploadFile({
+          file: data.surat_dokter,
+        });
+
+        mutate(
+          {
+            documents: [{ name: "Surat Dokter", path: surat_dokter }],
+          },
+          {
+            onSuccess: () => {
+              setIsdisabledFile(true);
+              setIsLoadingFile(false);
+              setTimeout(() => {
+                toast.success("Berhasil Upload File", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+            onError: () => {
+              setIsLoadingFile(false);
+              setTimeout(() => {
+                toast.error("Gagal Upload File", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+          },
+        );
+      } else if (student?.scholarship_id === 4) {
+        const { file_url: surat_anggota_nu } = await uploadFile({
+          file: data.surat_anggota_nu,
+        });
+        const { file_url: surat_tugas } = await uploadFile({
+          file: data.surat_tugas,
+        });
+
+        mutate(
+          {
+            documents: [
+              { name: "Surat Anggota NU", path: surat_anggota_nu },
+              { name: "Surat Tugas", path: surat_tugas },
+            ],
+          },
+          {
+            onSuccess: () => {
+              setIsdisabledFile(true);
+              setIsLoadingFile(false);
+              setTimeout(() => {
+                toast.success("Berhasil Upload File", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+            onError: () => {
+              setIsLoadingFile(false);
+              setTimeout(() => {
+                toast.error("Gagal Upload File", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+          },
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
   useEffect(() => {
     reset(student);
-  }, [student, reset, getStudent]);
+  }, [student, reset]);
 
   const scholarsipProgram = useMemo(() => {
     return student?.scholarship_id;
   }, [student?.scholarship_id]);
-
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const handleButtonClick = () => {
-    if (isButtonDisabled) {
-      return;
-    }
-    setIsButtonDisabled(true);
-    toast.success("File Berhasil Terupload!");
-  };
 
   return (
     <section
@@ -189,6 +389,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
               variant="filled"
               size="md"
               width="w-50% lg:w-25% xl:w-15%"
+              loading={isLoading}
               disabled={isDisabled || student?.scholarship_id ? true : false}
               className={`${
                 isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"
@@ -220,76 +421,201 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
           <section className="flex flex-col h-auto mt-5">
             <div className="md:w-full lg:w-[66vw] xl:w-[66vw] md:h-auto flex">
               <section className="flex gap-10 w-50% ">
-                {scholarsipProgram === 1 &&
-                  nusantaraUnggul.map((documentType) => (
-                    <div key={documentType.name} className="flex flex-col gap-2">
+                {scholarsipProgram === 1 && (
+                  <Fragment>
+                    <div className="flex flex-col gap-2">
                       <h3 className="font-semibold text-xs md:text-base py-3">
-                        {documentType.label}
+                        Sertifikat Aktif Organisasi
                       </h3>
                       <UploadField
-                        control={control}
-                        name={documentType.name}
+                        control={controlBeasiswa}
+                        name="sertifikat_aktif"
+                        labels="Pilih File"
+                        labelClassName={
+                          watch("sertifikat_aktif")
+                            ? "labelTextUploaded"
+                            : student?.documents?.find(
+                                (doc) => doc.name === "Sertifikat Asli Organisasi",
+                              )
+                            ? "labelTextDisabled"
+                            : "labelText"
+                        }
                         variant="custom"
-                        preview={true}
+                        preview={false}
+                        isDisabled={
+                          !!student?.documents?.find(
+                            (doc) => doc.name === "Sertifikat Asli Organisasi",
+                          )
+                        }
                       />
                     </div>
-                  ))}
-                {scholarsipProgram === 2 &&
-                  nusantaraBerprestasi.map((documentType) => (
-                    <div key={documentType.name} className="flex flex-col gap-2">
-                      <h3 className="font-semibold text-xs md:text-base">{documentType.label}</h3>
-                      <h1 className="pb-3 text-sm">{documentType.desc}</h1>
-                      <UploadField
-                        control={control}
-                        required
-                        name={documentType.name}
-                        variant="custom"
-                        preview={true}
-                      />
-                    </div>
-                  ))}
 
-                {scholarsipProgram === 4 &&
-                  mitraNusantara.map((documentType) => (
-                    <div key={documentType.name} className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2">
                       <h3 className="font-semibold text-xs md:text-base py-3">
-                        {documentType.label}
+                        Sertifikat Lainnya
                       </h3>
                       <UploadField
-                        control={control}
-                        name={documentType.name}
-                        required
+                        control={controlBeasiswa}
+                        name="sertifikat_lainnya"
+                        labels="Pilih File"
+                        labelClassName={
+                          watch("sertifikat_lainnya")
+                            ? "labelTextUploaded"
+                            : student?.documents?.find((doc) => doc.name === "Sertifikat Lainnya")
+                            ? "labelTextDisabled"
+                            : "labelText"
+                        }
                         variant="custom"
-                        preview={true}
+                        preview={false}
+                        isDisabled={
+                          !!student?.documents?.find((doc) => doc.name === "Sertifikat Lainnya")
+                        }
                       />
                     </div>
-                  ))}
+                  </Fragment>
+                )}
+                {scholarsipProgram === 2 && (
+                  <Fragment>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="font-semibold text-xs md:text-base">Sertifikat Kejuaraan</h3>
+                      <h4 className="pb-3 text-sm">Minimal juara 3 tingkat Kabupaten/Kota</h4>
+                      <UploadField
+                        control={controlBeasiswa}
+                        required
+                        name="sertifikat_kejuaraan"
+                        labelClassName={
+                          watch("sertifikat_kejuaraan")
+                            ? "labelTextUploaded"
+                            : student?.documents?.find((doc) => doc.name === "Sertifikat Kejuaraan")
+                            ? "labelTextDisabled"
+                            : "labelText"
+                        }
+                        variant="custom"
+                        preview={false}
+                        isDisabled={
+                          !!student?.documents?.find((doc) => doc.name === "Sertifikat Kejuaraan")
+                        }
+                      />
+                    </div>
 
-                {scholarsipProgram === 3 &&
-                  beasiswaDifabel.map((documentType) => (
-                    <div key={documentType.name} className="flex flex-col gap-2">
-                      <h3 className="font-semibold text-xs md:text-base py-3">
-                        {documentType.label}
+                    <div className="flex flex-col gap-2">
+                      <h3 className="font-semibold text-xs md:text-base">
+                        Sertifikat Tahfidzh Qur'an
                       </h3>
+                      <h4 className="pb-3 text-sm">Minimal hafalan 3 juz</h4>
                       <UploadField
-                        control={control}
-                        name={documentType.name}
-                        variant="custom"
-                        preview={true}
+                        control={controlBeasiswa}
                         required
+                        name="tahfidzh"
+                        labelClassName={
+                          watch("tahfidzh")
+                            ? "labelTextUploaded"
+                            : student?.documents?.find((doc) => doc.name === "Tahfidzh")
+                            ? "labelTextDisabled"
+                            : "labelText"
+                        }
+                        variant="custom"
+                        preview={false}
+                        isDisabled={!!student?.documents?.find((doc) => doc.name === "Tahfidzh")}
                       />
                     </div>
-                  ))}
+                  </Fragment>
+                )}
+
+                {scholarsipProgram === 3 && (
+                  <div className="flex flex-col gap-2">
+                    <h3 className="font-semibold text-xs md:text-base py-3">
+                      Surat Keterangan Dokter
+                    </h3>
+                    <UploadField
+                      control={controlBeasiswa}
+                      name="surat_dokter"
+                      variant="custom"
+                      labelClassName={
+                        watch("surat_dokter")
+                          ? "labelTextUploaded"
+                          : student?.documents?.find((doc) => doc.name === "Surat Dokter")
+                          ? "labelTextDisabled"
+                          : "labelText"
+                      }
+                      preview={false}
+                      isDisabled={!!student?.documents?.find((doc) => doc.name === "Surat Dokter")}
+                    />
+                  </div>
+                )}
+
+                {scholarsipProgram === 4 && (
+                  <Fragment>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="font-semibold text-xs md:text-base py-3">Bukti Anggota NU</h3>
+                      <UploadField
+                        control={controlBeasiswa}
+                        name="surat_anggota_nu"
+                        labelClassName={
+                          watch("surat_anggota_nu")
+                            ? "labelTextUploaded"
+                            : student?.documents?.find((doc) => doc.name === "Surat Anggota NU")
+                            ? "labelTextDisabled"
+                            : "labelText"
+                        }
+                        variant="custom"
+                        preview={false}
+                        isDisabled={
+                          !!student?.documents?.find((doc) => doc.name === "Surat Anggota NU")
+                        }
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <h3 className="font-semibold text-xs md:text-base py-3">
+                        Surat Tugas Dari Sekolah
+                      </h3>
+                      <UploadField
+                        control={controlBeasiswa}
+                        name="surat_tugas"
+                        labelClassName={
+                          watch("surat_tugas")
+                            ? "labelTextUploaded"
+                            : student?.documents?.find((doc) => doc.name === "Surat Tugas")
+                            ? "labelTextDisabled"
+                            : "labelText"
+                        }
+                        variant="custom"
+                        preview={false}
+                        isDisabled={!!student?.documents?.find((doc) => doc.name === "Surat Tugas")}
+                      />
+                    </div>
+                  </Fragment>
+                )}
               </section>
             </div>
           </section>
           <div className="flex w-full justify-end items-end py-4">
             <Button
-              onClick={handleButtonClick}
-              disabled={isButtonDisabled}
+              onClick={onSubmitBeasiswa}
               variant="filled"
               size="md"
               width="w-50% lg:w-25% xl:w-15%"
+              loading={isLoadingFile}
+              disabled={
+                student?.scholarship_id === 1
+                  ? watch("sertifikat_aktif") && watch("sertifikat_lainnya")
+                    ? false
+                    : true
+                  : student?.scholarship_id === 2
+                  ? watch("sertifikat_kejuaraan") && watch("tahfidzh")
+                    ? false
+                    : true
+                  : student?.scholarship_id === 3
+                  ? watch("surat_dokter")
+                    ? false
+                    : true
+                  : student?.scholarship_id === 4
+                  ? watch("surat_anggota_nu") && watch("surat_tugas")
+                    ? false
+                    : true
+                  : false || isDisabledFile
+              }
             >
               Submit
             </Button>
