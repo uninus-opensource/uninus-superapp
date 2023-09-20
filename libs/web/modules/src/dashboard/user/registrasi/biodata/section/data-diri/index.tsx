@@ -23,6 +23,7 @@ import {
   useCountryGet,
   useDisabilitiesGet,
   useStatusGet,
+  useUpdate,
 } from "@uninus/web/services";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
@@ -305,7 +306,7 @@ export const DataDiriSection: FC = (): ReactElement => {
       countryref.current.clearValue();
     }
   }, [citizenshipId]);
-
+  const { setUpdate } = useUpdate();
   const { mutate: mutateUpload } = useUploadFile();
   const { mutate } = useBiodataUpdate();
 
@@ -405,6 +406,7 @@ export const DataDiriSection: FC = (): ReactElement => {
         {
           onSuccess: () => {
             setIsdisabled(true);
+            setUpdate(true);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
                 position: "top-center",

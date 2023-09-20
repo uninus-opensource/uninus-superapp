@@ -31,3 +31,7 @@ export const popularPrograms = atom({
   key: "popularPrograms",
   default: [] as unknown as TInterestEducationPrograms | undefined,
 });
+export const updateState = atom({
+  key: "updateState",
+  default: false,
+});

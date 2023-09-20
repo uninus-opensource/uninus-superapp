@@ -1,5 +1,5 @@
 "use client";
-import { ReactElement, FC, useMemo, useState, useEffect } from "react";
+import { ReactElement, FC, useState, useEffect } from "react";
 import { DataDiriSection } from "./section/data-diri";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { DataPendidikanSection } from "./section/data-pendidikan";
@@ -7,22 +7,38 @@ import { DataOrtuSection } from "./section/data-ortu";
 import { DataNilaiSection } from "./section/data-nilai";
 import { Button } from "@uninus/web/components";
 import Link from "next/link";
-import { useStudentData } from "@uninus/web/services";
+import { useStudentData, useUpdate } from "@uninus/web/services";
+import { useGetBiodata } from "./hooks";
 
 export const ModuleBiodata: FC = (): ReactElement => {
   const [degreeProgram, setDegreeProgram] = useState<number | null | undefined>(null);
+  const [route, setRoute] = useState<boolean>(false);
+  const { data: student, refetch } = useGetBiodata();
 
-  const { getStudent } = useStudentData();
-  const student = useMemo(() => {
-    return getStudent;
-  }, [getStudent]);
-  const routeCondition =
-    student?.disabilities_id !== null ||
-    Number(student?.average_grade) >= 80 ||
-    Number(student?.utbk) >= 500;
+  const { getStudent, setStudent } = useStudentData();
+
+  const { getUpdate } = useUpdate();
+
   useEffect(() => {
     setDegreeProgram(student?.degree_program_id);
-  }, [student]);
+
+    if (getUpdate === true) {
+      refetch()
+        .then((newData) => {
+          setStudent(newData.data);
+          if (
+            Number(newData.data?.average_grade) >= 80 ||
+            Number(newData.data?.average_utbk) >= 500 ||
+            Number(newData.data?.disabilities_id) >= 1
+          ) {
+            setRoute(true);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [student, route, getUpdate, refetch, getStudent, setStudent]);
 
   return (
     <section
@@ -55,13 +71,10 @@ export const ModuleBiodata: FC = (): ReactElement => {
             </section>
           )}
         </section>
-
         <div className="flex gap-6 justify-end px-8 py-4">
           <Link
             href={
-              routeCondition
-                ? "/dashboard/registrasi/beasiswa"
-                : "/dashboard/registrasi/pembayaran/detail"
+              route ? "/dashboard/registrasi/beasiswa" : "/dashboard/registrasi/pembayaran/detail"
             }
           >
             <Button
@@ -70,9 +83,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
               width="w-auto"
               styling="text-xs md:text-sm lg:text-base"
             >
-              <p className="px-2 flex">
-                {routeCondition ? "Pilih Beasiswa" : "Lakukan Pembayaran"}
-              </p>
+              <p className="px-2 flex">{route ? "Pilih Beasiswa" : "Lakukan Pembayaran"}</p>
               <CaretRightOutlined />
             </Button>
           </Link>
