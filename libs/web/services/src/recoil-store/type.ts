@@ -28,3 +28,8 @@ export type ReturnTypeUpdate = {
   setUpdate: (val: boolean) => void;
   getUpdate: boolean;
 };
+
+export type ReturnLoadingAvatar = {
+  setLoadingAvatar: (val: boolean) => void;
+  getLoadingAvatar: boolean;
+};
