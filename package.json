@@ -40,6 +40,9 @@
     "api:employee:serve": "dotenv -e ./apps/api/employee/.env -- bun nx serve api-employee",
     "api:employee:build": "dotenv -e ./apps/api/employee/.env -- bun nx build api-employee",
     "api:employee:prod": "dotenv -e ./apps/api/employee/.env -- node dist/apps/api/employee/main.js",
+    "api:payment:serve": "dotenv -e ./apps/api/payment/.env -- bun nx serve api-payment",
+    "api:payment:build": "dotenv -e ./apps/api/payment/.env -- bun nx build api-payment",
+    "api:payment:prod": "dotenv -e ./apps/api/payment/.env -- node dist/apps/api/payment/main.js",
     "api:serve": "dotenv -e ./apps/api/.env -- bun nx serve api",
     "api:studio": "dotenv -e ./apps/api/.env -- bun prisma studio",
     "api:build": "dotenv -e ./apps/api/.env -- bun nx build api",
@@ -140,6 +143,7 @@
     "tozod": "^3.0.0",
     "ts-deepmerge": "^6.2.0",
     "ts-pattern": "^5.0.5",
+    "xendit-node": "^1.22.0",
     "zod": "^3.22.2"
   },
   "prisma": {

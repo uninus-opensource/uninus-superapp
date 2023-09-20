@@ -2,6 +2,7 @@ export enum EAppsOrigin {
   AKREDITASI = "akreditasi",
   EVALUASI = "evaluasi",
   LMS = "lms",
+  SIAKAD = "siakad",
   NEOFEEDER = "neo_feeder",
   PEGAWAI = "pegawai",
   PMBADMIN = "pmb_admin",

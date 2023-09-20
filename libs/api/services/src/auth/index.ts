@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException, Inject } from "@nestjs/common";
+import { BadRequestException, Injectable, Inject } from "@nestjs/common";
 import {
   TLoginResponse,
   TRegisterRequest,
