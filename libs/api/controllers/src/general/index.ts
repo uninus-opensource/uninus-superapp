@@ -13,7 +13,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
-import { TCreateQuestionRequest, TUpdateQuestionRequest } from "@uninus/entities";
+import { TCreateQuestionRequest, TProfileResponse, TUpdateQuestionRequest } from "@uninus/entities";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 
 @Controller()
@@ -628,6 +628,46 @@ export class GeneralController {
     const response = await firstValueFrom(
       this.client
         .send("get_registration_status", { search, id })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+
+    return response;
+  }
+
+  @ApiOperation({ summary: "Get Data Student Pagination" })
+  @ApiResponse({
+    status: 500,
+    description: "Status pendaftaran tidak ditemukan",
+  })
+  @ApiQuery({ name: "page", required: false })
+  @ApiQuery({ name: "per_page", required: false })
+  @ApiQuery({ name: "order_by", required: false })
+  @ApiQuery({ name: "filter_by", required: false })
+  @ApiQuery({ name: "search", required: false })
+  @Get("/student-page")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  async getPMBPagination(
+    @Query("page") page: number,
+    @Query("per_page") perPage: number,
+    @Query("order_by") orderBy: "asc" | "desc",
+    @Query("filter_by") filterBy: string,
+    @Query("search") search: string,
+  ) {
+    const response = await firstValueFrom(
+      this.client
+        .send<Array<TProfileResponse>>("get_pmb_pagination", {
+          where: {
+            registration_number: {
+              contains: search || "",
+              mode: "insensitive",
+            },
+          },
+          orderBy: {
+            [filterBy]: orderBy,
+          },
+          page,
+          perPage,
+        })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
