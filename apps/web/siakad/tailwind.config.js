@@ -47,6 +47,9 @@ module.exports = {
       fontWeight: {
         extramedium: "550",
       },
+      fontFamily: {
+        montserrat: ["Montserrat", "sans-serif"],
+      },
     },
     colors: {
       cover: {
@@ -111,6 +114,12 @@ module.exports = {
         success: "#198754",
         warning: "#FFC107",
         error: "#BB2D3B",
+      },
+      dark: {
+        default: "#16192C",
+      },
+      body: {
+        light: "#425466",
       },
     },
   },
