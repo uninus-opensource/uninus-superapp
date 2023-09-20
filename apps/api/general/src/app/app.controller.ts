@@ -16,6 +16,7 @@ import {
   IRegistransRequest,
   IInterestEducationPrograms,
   IInterestDepartment,
+  TPaginationArgs,
 } from "@uninus/entities";
 
 @Controller()
@@ -174,5 +175,10 @@ export class AppController {
   @MessagePattern("get_province")
   async getProvince(payload: { search: string; id: number }) {
     return await this.appService.getProvince(payload);
+  }
+
+  @MessagePattern("get_registrans_pagination")
+  async getPaginationPMB({ where, orderBy, page, perPage }: TPaginationArgs) {
+    return await this.appService.getStudentsPagination({ where, orderBy, page, perPage });
   }
 }
