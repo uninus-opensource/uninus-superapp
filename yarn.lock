@@ -19145,12 +19145,10 @@ xdg-basedir@^3.0.0:
   resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-3.0.0.tgz#496b2cc109eca8dbacfe2dc72b603c17c5870ad4"
   integrity sha512-1Dly4xqlulvPD3fZUQJLY+FUIeqN3N2MM3uqe4rCJftAvOjFa3jFGfctOgluGx4ahPbUCsZkmJILiP0Vi4T6lQ==
 
-xendit-node@^1.22.0:
-  version "1.22.0"
-  resolved "https://registry.yarnpkg.com/xendit-node/-/xendit-node-1.22.0.tgz#398dd2c90ba95984619a83314adbebfe004584b6"
-  integrity sha512-Iwjp4D5xcIBWGRGzxgbBgTux/esGCDa0IHYuSyo0hWwfNHH0/XysXo5iqtvIu7gR4kukMNObYxjmfRy53KFvaQ==
-  dependencies:
-    node-fetch "^2.6.1"
+xendit-node@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/xendit-node/-/xendit-node-3.1.0.tgz#8bb90bd640d63c1d17bf5bf296446eac35f8528e"
+  integrity sha512-8+DB978u5NXelbSouRcoSioIn4xxAnhsEQGeDKB8980gLc2D1LPNjdRn+/uiS1pW03oIN2rpy0gjl0hAJP5ooQ==
 
 xml-name-validator@^4.0.0:
   version "4.0.0"
