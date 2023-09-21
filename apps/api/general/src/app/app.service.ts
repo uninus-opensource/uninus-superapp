@@ -6,6 +6,7 @@ import {
 } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
 import { PrismaService } from "@uninus/api/models";
+import { paginate } from "@uninus/api/utilities";
 import {
   TCitizenshipResponse,
   TDepartmentResponse,
@@ -54,6 +55,7 @@ import {
   TRegistrationStatusResponse,
   IInterestDepartment,
   TInterestDepartmentResponse,
+  TPaginationArgs,
 } from "@uninus/entities";
 
 @Injectable()
@@ -1202,5 +1204,59 @@ export class AppService {
     }
 
     return { country };
+  }
+
+  async getStudentsPagination({ where, orderBy, page, perPage }: TPaginationArgs) {
+    return paginate(
+      this.prisma.pMB,
+      {
+        where,
+        orderBy,
+        select: {
+          id: true,
+          registration_number: true,
+          average_utbk: true,
+          average_grade: true,
+          createdAt: true,
+          selection_path: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          first_deparment: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          second_deparment: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          registration_status: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          student: {
+            select: {
+              user: {
+                select: {
+                  fullname: true,
+                },
+              },
+            },
+          },
+        },
+      },
+      {
+        page,
+        perPage,
+      },
+    );
   }
 }
