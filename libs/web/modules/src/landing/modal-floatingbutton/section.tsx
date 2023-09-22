@@ -6,11 +6,11 @@ import { TSeleksiProps } from "./type";
 import { Button, Modal, PopUp, TextField } from "@uninus/web/components";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { BsCalendarCheck, BsTelephone } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { FaCircleUser } from "react-icons/fa6";
 import { useCheckRegistration } from "./hook";
 import { KartuKelulusan } from "./pdf";
+import { AiOutlineCarryOut, AiOutlinePhone } from "react-icons/ai";
 
 const PDFDownloadLink = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
@@ -301,7 +301,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
         }`}
         onClick={() => setIsPopUp(!isPopUp)}
       >
-        <BsTelephone className="-rotate-90 text-xl duration-200 text-primary-white font-bold " />
+        <AiOutlinePhone className="text-2xl duration-200 text-primary-white font-bold " />
       </motion.button>
 
       {/* Floating button cek kelulusan */}
@@ -315,8 +315,8 @@ export const ModalAndButtons: FC = (): ReactElement => {
         className={`fixed flex flex-col gap-1 items-center justify-center transition-transform bottom-6 right-6 xl:right-8 z-50 group bg-primary-green rounded-full h-16 w-16 md:h-20 md:w-20 active:bg-secondary-green-1`}
         onClick={() => setIsModal(true)}
       >
-        <BsCalendarCheck className="text-primary-white text-2xl md:text-3xl" />
-        <span className="text-[8px] md:text-[10px] font-bold text-primary-white leading-none">
+        <AiOutlineCarryOut className="text-primary-white text-2xl md:text-4xl" />
+        <span className="text-[8px] md:text-[10px] font-semibold text-primary-white leading-none md:mb-1">
           Cek <br /> Kelulusan
         </span>
       </motion.button>
