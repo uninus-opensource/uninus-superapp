@@ -69,6 +69,7 @@ export const Modal: FC<ModalProps> = ({
         </div>
       </div>,
       document.getElementById("modal-landing")!,
+      "modal-landing",
     )
   );
 };
