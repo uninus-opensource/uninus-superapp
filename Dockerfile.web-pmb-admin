@@ -17,6 +17,8 @@ ENV PORT=$env_PORT
 
 RUN rm -f yarn.lock
 RUN yarn install --frozen-lockfile --ignore-scripts
+RUN npm -g install node-pre-gyp --unsafe-perm
+RUN node-pre-gyp rebuild -C ./node_modules/argon2
 RUN yarn prisma generate
 RUN yarn nx build web-pmb-admin --prod
 
