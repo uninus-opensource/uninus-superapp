@@ -15,7 +15,6 @@ ENV NEXT_PUBLIC_WORKSPACE=$env_NEXT_PUBLIC_WORKSPACE
 ENV NODE_ENV=$env_NODE_ENV
 ENV PORT=$env_PORT
 
-RUN rm -f yarn.lock
 RUN apk --no-cache add python3 make g++ 
 RUN yarn install --frozen-lockfile --ignore-scripts
 RUN npm -g install node-pre-gyp --unsafe-perm
