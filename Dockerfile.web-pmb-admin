@@ -1,14 +1,15 @@
+FROM node:18.17.1-alpine3.17 AS Builder
 ARG PORT
 ARG NODE_ENV
 ARG NEXTAUTH_SECRET
 ARG NEXTAUTH_URL
 ARG NEXT_PUBLIC_API_URL
 ARG NEXT_PUBLIC_WORKSPACE
-FROM node:18.17.1-alpine3.17 AS Builder
 WORKDIR /app
 COPY . .
 ENV HOST 0.0.0.0
-RUN printenv
+ENV env_NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+CMD ["env"]
 RUN echo $NEXT_PUBLIC_API_URL
 RUN rm -f yarn.lock
 RUN yarn install --frozen-lockfile --ignore-scripts
