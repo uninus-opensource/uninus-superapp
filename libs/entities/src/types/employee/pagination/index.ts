@@ -1,8 +1,6 @@
-import { Prisma } from "@prisma/client";
-
 export type TEmployePagination = {
-  where?: Prisma.UsersWhereInput;
-  orderBy?: Prisma.UsersOrderByWithRelationInput;
+  where?: any;
+  orderBy?: any;
   page?: number;
   perPage?: number;
   type: string;
@@ -32,8 +30,8 @@ export type TEmployeesResponse = {
 
 export type TEmployeePaginationArgs = {
   type?: number;
-  where?: Prisma.UsersWhereInput;
-  orderBy?: Prisma.UsersOrderByWithRelationInput;
+  where?: any;
+  orderBy?: any;
   page?: number;
   perPage?: number;
 };
