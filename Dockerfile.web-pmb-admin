@@ -15,8 +15,6 @@ ENV NEXT_PUBLIC_WORKSPACE=$env_NEXT_PUBLIC_WORKSPACE
 ENV NODE_ENV=$env_NODE_ENV
 ENV PORT=$env_PORT
 
-RUN printenv
-RUN echo $NEXT_PUBLIC_API_URL
 RUN rm -f yarn.lock
 RUN yarn install --frozen-lockfile --ignore-scripts
 RUN yarn prisma generate
