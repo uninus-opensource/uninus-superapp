@@ -1,3 +1,3 @@
 export * from "./student";
-export * from "./select-field";
+export * from "./general";
 export * from "./apps-origin";

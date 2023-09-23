@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export type TProfileRequest = {
   email: string;
 };
@@ -46,3 +48,22 @@ export interface IUserResponse extends IUser {
   avatar: string | null;
   isVerified: boolean | null;
 }
+
+export type TUsersPaginationArgs = {
+  where?: Prisma.UsersWhereInput;
+  orderBy?: Prisma.UsersOrderByWithRelationInput;
+  page?: number;
+  perPage?: number;
+};
+
+export type TUsersPaginatonResponse = {
+  data: Array<object>;
+  meta: {
+    total: number;
+    lastPage: number;
+    currentPage: number;
+    perPage: number;
+    prev?: null | number;
+    next?: null | number;
+  };
+};

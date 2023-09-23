@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "@uninus/api/models";
-import { paginate } from "@uninus/api/utilities";
 import {
   TEmployeePaginationArgs,
   TEmployeesResponse,
@@ -14,12 +13,13 @@ export class AppService {
     type,
     where,
     orderBy,
-    page,
-    perPage,
+    page = 1,
+    perPage = 10,
   }: TEmployeePaginationArgs): Promise<TEmployeesResponse> {
-    const { data, meta } = await paginate(
-      this.prisma.employees,
-      {
+    const [data, total] = await Promise.all([
+      this.prisma.employees.findMany({
+        ...(perPage && { take: Number(perPage ?? 10) }),
+        ...(page && { skip: Number(page > 0 ? perPage * (page - 1) : 0) }),
         where,
         select: {
           user: {
@@ -87,16 +87,24 @@ export class AppService {
           },
         },
         orderBy,
-      },
-      {
-        page,
-        perPage,
-      },
-    );
+      }),
+      this.prisma.employees.count({
+        where,
+      }),
+    ]);
+
+    const lastPage = Math.ceil(total / perPage);
 
     return {
       data,
-      meta,
+      meta: {
+        total,
+        lastPage,
+        currentPage: Number(page),
+        perPage: Number(perPage),
+        prev: page > 1 ? Number(page) - 1 : null,
+        next: page < lastPage ? Number(page) + 1 : null,
+      },
     };
   }
 
