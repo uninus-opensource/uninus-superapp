@@ -14,7 +14,7 @@ ENV NEXTAUTH_SECRET=$env_NEXTAUTH_SECRET
 ENV NEXTAUTH_URL=$env_NEXTAUTH_URL
 ENV NEXT_PUBLIC_API_URL=$env_NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_WORKSPACE=$env_NEXT_PUBLIC_WORKSPACE
-RUN yarn install --frozen-lockfile
+RUN yarn install
 RUN yarn prisma generate
 RUN yarn nx build web-pmb-user --prod
 
