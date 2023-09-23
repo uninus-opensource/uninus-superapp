@@ -1,20 +1,20 @@
-FROM node:18.17.1-alpine3.17 AS Builder
 ARG env_PORT
 ARG env_NODE_ENV
 ARG env_NEXTAUTH_SECRET
 ARG env_NEXTAUTH_URL
 ARG env_NEXT_PUBLIC_API_URL
 ARG env_NEXT_PUBLIC_WORKSPACE
+FROM node:18.17.1-alpine3.17 AS Builder
 WORKDIR /app
 COPY . .
 ENV HOST 0.0.0.0
-ENV NEXT_PUBLIC_API_URL=$env_NEXT_PUBLIC_API_URL
+ENV PORT=$env_PORT
+ENV NODE_ENV=$env_NODE_ENV
 ENV NEXTAUTH_SECRET=$env_NEXTAUTH_SECRET
 ENV NEXTAUTH_URL=$env_NEXTAUTH_URL
+ENV NEXT_PUBLIC_API_URL=$env_NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_WORKSPACE=$env_NEXT_PUBLIC_WORKSPACE
-ENV NODE_ENV=$env_NODE_ENV
-ENV PORT=$env_PORT
-
+RUN printenv
 RUN rm -f yarn.lock
 RUN yarn install --frozen-lockfile --ignore-scripts
 RUN yarn prisma generate
@@ -23,9 +23,10 @@ RUN yarn nx build web-pmb-admin --prod
 FROM node:18.17.1-alpine3.17 AS Service
 WORKDIR /app/
 COPY --from=Builder /app .
-EXPOSE $env_PORT
+
+EXPOSE $PORT
 RUN yarn add sharp --frozen-lockfile --ignore-scripts
-CMD yarn nx serve web-pmb-admin --prod --port $env_PORT
+CMD yarn nx serve web-pmb-admin --prod --port $PORT
 
 
 
