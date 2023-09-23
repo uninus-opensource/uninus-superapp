@@ -23,9 +23,9 @@ RUN yarn nx build web-pmb-admin --prod
 FROM node:18.17.1-alpine3.17 AS Service
 WORKDIR /app/
 COPY --from=Builder /app .
-EXPOSE $PORT
+EXPOSE $env_PORT
 RUN yarn add sharp --frozen-lockfile --ignore-scripts
-CMD yarn nx serve web-pmb-admin --prod --port $PORT
+CMD yarn nx serve web-pmb-admin --prod --port $env_PORT
 
 
 
