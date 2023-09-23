@@ -1,20 +1,17 @@
-FROM node:18.17.1-alpine3.17 AS Builder
+FROM node:18.17.1-alpine3.17
+WORKDIR /app
 ARG PORT
 ARG NODE_ENV
 ARG NEXTAUTH_SECRET
 ARG NEXTAUTH_URL
 ARG NEXT_PUBLIC_API_URL
 ARG NEXT_PUBLIC_WORKSPACE
-WORKDIR /app
 COPY . .
 RUN rm -f yarn.lock
 RUN yarn install --frozen-lockfile --ignore-scripts
 RUN yarn prisma generate
 RUN yarn nx build web-pmb-user --prod
 
-FROM node:18.17.1-alpine3.17 AS Service
-WORKDIR /app/
-COPY --from=Builder /app .
 ENV HOST 0.0.0.0
 ENV ENV_PORT=$PORT
 ENV NODE_ENV=$NODE_ENV
