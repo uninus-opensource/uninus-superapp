@@ -14,7 +14,7 @@ ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
 ENV NEXTAUTH_URL=$NEXTAUTH_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_WORKSPACE=$NEXT_PUBLIC_WORKSPACE
-RUN bun install --frozen-lockfile --ignore-scripts
+RUN bun install --ignore-scripts
 RUN bun prisma generate
 RUN bun run nx build web-pmb-admin --prod
 
@@ -22,7 +22,7 @@ FROM oven/bun AS Service
 WORKDIR /app/
 COPY --from=Builder /app .
 EXPOSE $PORT
-RUN bun install sharp --frozen-lockfile --ignore-scripts
+RUN bun install sharp --ignore-scripts
 CMD bun run nx serve web-pmb-admin --prod --port $PORT
 
 
