@@ -7,7 +7,6 @@ import {
 import {
   IUserRequest,
   IUserResponse,
-  TPaginationArgs,
   TUsersPaginationArgs,
   TUsersPaginatonResponse,
 } from "@uninus/entities";

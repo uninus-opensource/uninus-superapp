@@ -1,13 +1,5 @@
 import { Prisma } from "@prisma/client";
 
-export type TEmployePagination = {
-  where?: any;
-  orderBy?: any;
-  page?: number;
-  perPage?: number;
-  type: string;
-};
-
 export type TEmployeesResponse = {
   data: Array<object>;
   meta: {

@@ -16,7 +16,6 @@ import {
   IRegistransRequest,
   IInterestEducationPrograms,
   IInterestDepartment,
-  TPaginationArgs,
   TStudentsPaginationArgs,
 } from "@uninus/entities";
 

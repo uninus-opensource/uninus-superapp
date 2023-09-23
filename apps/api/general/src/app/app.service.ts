@@ -54,7 +54,6 @@ import {
   TRegistrationStatusResponse,
   IInterestDepartment,
   TInterestDepartmentResponse,
-  TPaginationArgs,
   TStudentsPaginationArgs,
   TStudentsPaginatonResponse,
 } from "@uninus/entities";
