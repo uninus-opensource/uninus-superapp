@@ -16,7 +16,7 @@ ENV NODE_ENV=$env_NODE_ENV
 ENV PORT=$env_PORT
 
 RUN rm -f yarn.lock
-RUN yarn install --frozen-lockfile --ignore-scripts
+RUN yarn
 RUN yarn prisma generate
 RUN yarn nx build web-pmb-admin --prod
 
