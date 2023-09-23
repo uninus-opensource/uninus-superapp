@@ -15,8 +15,7 @@ ENV NEXT_PUBLIC_WORKSPACE=$env_NEXT_PUBLIC_WORKSPACE
 ENV NODE_ENV=$env_NODE_ENV
 ENV PORT=$env_PORT
 
-RUN rm -f yarn.lock
-RUN yarn
+RUN yarn install --frozen-lockfile
 RUN yarn prisma generate
 RUN yarn nx build web-pmb-admin --prod
 
