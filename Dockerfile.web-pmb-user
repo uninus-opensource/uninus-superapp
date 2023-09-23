@@ -15,10 +15,7 @@ ENV NEXTAUTH_URL=$env_NEXTAUTH_URL
 ENV NEXT_PUBLIC_API_URL=$env_NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_WORKSPACE=$env_NEXT_PUBLIC_WORKSPACE
 RUN rm -f yarn.lock
-RUN apk --no-cache add python3 make g++ 
 RUN yarn install --frozen-lockfile --ignore-scripts
-RUN npm -g install node-pre-gyp --unsafe-perm
-RUN node-pre-gyp rebuild -C ./node_modules/argon2
 RUN yarn prisma generate
 RUN yarn nx build web-pmb-user --prod
 
