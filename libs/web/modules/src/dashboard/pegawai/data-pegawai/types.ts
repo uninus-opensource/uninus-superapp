@@ -1,16 +1,21 @@
+import { ReactNode } from "react";
+
 export type TDataPegawai = {
   no?: number | string;
   name: string;
   nip: string;
   nidn: string;
-  dosen_status: string;
-  sk_pengangkatan: string;
-  sk_mengajar?: string;
-  lingkup_kerja: Array<{
+  dosen_status?: Array<{
     nama: string;
     link: string;
   }>;
-  unit_kerja: Array<{
+  sk_pengangkatan?: string;
+  sk_mengajar?: string;
+  lingkup_kerja?: Array<{
+    nama: string;
+    link: string;
+  }>;
+  unit_kerja?: Array<{
     nama: string;
     link: string;
   }>;
@@ -18,20 +23,29 @@ export type TDataPegawai = {
     nama: string;
     link: string;
   }>;
-  fakultas: Array<{
-    nama: string;
-  }>;
-  prodi: Array<{
-    nama: string;
-  }>;
-  tugas_tambahan: Array<{
+  golongan?: Array<{
     nama: string;
     link: string;
   }>;
-  sertifikat_pendidik: string;
-  sertifikat_profesi: string;
-  status: "Aktif" | "Tidak Aktif" | "Sakit" | "Cuti";
-  tindakan: string;
+  fakultas?: Array<{
+    nama: string;
+  }>;
+  prodi?: Array<{
+    nama: string;
+  }>;
+  tugas_tambahan?: Array<{
+    nama: string;
+    link: string;
+  }>;
+  sertifikat_pendidik?: string;
+  sertifikat_profesi?: string;
+  status?: "Aktif" | "Tidak Aktif" | "Sakit" | "Cuti";
+  tindakan?: string;
+};
+
+export type TColumnPegawai = {
+  name: ReactNode;
+  item: ReactNode;
 };
 
 // {
