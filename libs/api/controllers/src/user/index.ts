@@ -12,7 +12,13 @@ import {
   UseFilters,
   UsePipes,
 } from "@nestjs/common";
-import { TReqToken, VSUpdateUser, TProfileResponse, EAppsOrigin } from "@uninus/entities";
+import {
+  TReqToken,
+  VSUpdateUser,
+  TProfileResponse,
+  EAppsOrigin,
+  EOrderByPagination,
+} from "@uninus/entities";
 import { ZodValidationPipe } from "@uninus/api/validator";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { UpdateUserSwagger } from "@uninus/api/services";
@@ -65,7 +71,7 @@ export class UserController {
   async getAllData(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
-    @Query("order_by") orderBy: "asc" | "desc",
+    @Query("order_by") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
     @Query("filter_by") filterBy: string,
     @Query("search") search: string,
   ) {

@@ -2,7 +2,7 @@ import { Controller, Get, Inject, Query, UseFilters } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
-import { TProfileResponse } from "@uninus/entities";
+import { EOrderByPagination, TProfileResponse } from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Controller("employee")
@@ -22,7 +22,7 @@ export class EmployeeController {
   async getEmployees(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
-    @Query("order_by") orderBy: "asc" | "desc",
+    @Query("order_by") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
     @Query("filter_by") filterBy: string,
     @Query("search") search: string,
     @Query("type") type: number,

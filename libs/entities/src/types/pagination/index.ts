@@ -20,10 +20,3 @@ export type PaginateFunction = <T, K>(
   args?: K,
   options?: PaginateOptions,
 ) => Promise<PaginatedResult<T>>;
-
-export type TPaginationArgs = {
-  where?: any;
-  orderBy?: any;
-  page?: number;
-  perPage?: number;
-};

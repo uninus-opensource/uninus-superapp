@@ -1,23 +1,7 @@
-export type TEmployePagination = {
-  where?: any;
-  orderBy?: any;
-  page?: number;
-  perPage?: number;
-  type: string;
-};
+import { Prisma } from "@prisma/client";
 
 export type TEmployeesResponse = {
-  data: Array<{
-    fullname?: string | null;
-    nip?: string | null;
-    nidn?: string | null;
-    birth_date?: string | null;
-    faculty?: string | null;
-    department?: string | null;
-    education?: string | null;
-    work_unit?: string | null;
-    employee_status?: string | null;
-  }>;
+  data: Array<object>;
   meta: {
     total: number;
     lastPage: number;
@@ -30,8 +14,8 @@ export type TEmployeesResponse = {
 
 export type TEmployeePaginationArgs = {
   type?: number;
-  where?: any;
-  orderBy?: any;
+  where?: Prisma.EmployeesWhereInput;
+  orderBy?: Prisma.EmployeesOrderByWithRelationInput;
   page?: number;
   perPage?: number;
 };
