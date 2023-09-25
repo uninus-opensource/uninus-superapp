@@ -13,6 +13,8 @@ import { RtGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/validator";
 import {
   AuthService,
+} from "@uninus/api/services";
+import {
   RegisterDto,
   LoginDto,
   ForgotPasswordDto,
@@ -21,7 +23,7 @@ import {
   NewPasswordDto,
   VerifyOtpDto,
   RefreshTokenDto,
-} from "@uninus/api/services";
+} from "@uninus/api/dto";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 import { ApiTags, ApiBody, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 

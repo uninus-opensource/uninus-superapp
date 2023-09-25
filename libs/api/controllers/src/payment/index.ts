@@ -5,7 +5,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { VSPayment } from "@uninus/entities";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 import { ZodValidationPipe } from "@uninus/api/validator";
-import { PaymentDto } from "@uninus/api/services";
+import { PaymentDto } from "@uninus/api/dto";
 
 @ApiTags("Payment")
 @Controller("payment")
