@@ -45,7 +45,10 @@ export type TSubDistrictResponse = {
     name: string;
   }>;
 };
-
+export type TRolesResponse = Array<{
+  id: number;
+  name: string;
+}>;
 export interface IDegreeProgramRequest {
   search: string;
 }
