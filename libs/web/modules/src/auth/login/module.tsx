@@ -200,10 +200,20 @@ export const LoginAdminModule: FC = (): ReactElement => {
 
   return (
     <section
-      key="auth-admin-pmb"
-      className="w-full min-h-screen bg-[url(/illustrations/backgroundAuthMd.svg)] lg:bg-[url(/illustrations/backgroundAuthLg.svg)] bg-cover bg-center object-cover bg-no-repeat"
+      key="auth-admin-evaluasi"
+      className={`w-full min-h-screen bg-[#E6F5ED] bg-cover bg-center object-cover bg-no-repeat -z-10`}
     >
-      <div className="w-full h-screen flex justify-center items-center ">
+      <div className="relative w-72 h-72 md:w-[36rem] md:h-[36rem] 2xl:w-[45rem] 2xl:h-[45rem] float-right bg-cover z-50">
+        <Image
+          width={100}
+          height={100}
+          src={"/illustrations/shapeBG.svg"}
+          alt="decoration"
+          className="object-right-top object-scale-down bg-contain w-full absolute h-full"
+        />
+      </div>
+
+      <div className="w-full h-screen flex justify-center items-center z-10 absolute">
         <form
           onSubmit={onSubmit}
           className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6"
@@ -240,7 +250,8 @@ export const LoginAdminModule: FC = (): ReactElement => {
               />
             )}
             <div className="w-full text-center items-center flex flex-col justify-center font-extrabold text-sm lg:text-xl mb-6">
-              <h1>PORTAL ADMIN PMB</h1>
+              <h1>PORTAL</h1>
+              <h1>Administrasi Evaluasi Dosen</h1>
             </div>
             <TextField
               name="email"
@@ -281,6 +292,15 @@ export const LoginAdminModule: FC = (): ReactElement => {
             </h2>
           </div>
         </form>
+      </div>
+      <div className="absolute w-72 h-72 md:w-[36rem] md:h-[36rem] 2xl:w-[45rem] 2xl:h-[45rem] bottom-0 left-0 rotate-180 bg-cover z-50">
+        <Image
+          width={100}
+          height={100}
+          src={"/illustrations/shapeBG.svg"}
+          alt="decoration"
+          className="object-right-top object-scale-down bg-contain w-full absolute h-full"
+        />
       </div>
     </section>
   );
@@ -940,9 +960,19 @@ export const LoginEvaluasiDosenModule: FC = (): ReactElement => {
   return (
     <section
       key="auth-admin-evaluasi"
-      className={`w-full min-h-screen bg-[url(/illustrations/backgroundAuthMd.svg)] lg:bg-[url(/illustrations/backgroundAuthLg.svg)] bg-cover bg-center object-cover bg-no-repeat`}
+      className={`w-full min-h-screen bg-[#E6F5ED] bg-cover bg-center object-cover bg-no-repeat -z-10`}
     >
-      <div className="w-full h-screen flex justify-center items-center">
+      <div className="relative w-72 h-72 md:w-[36rem] md:h-[36rem] 2xl:w-[45rem] 2xl:h-[45rem] float-right bg-cover z-50">
+        <Image
+          width={100}
+          height={100}
+          src={"/illustrations/shapeBG.svg"}
+          alt="decoration"
+          className="object-right-top object-scale-down bg-contain w-full absolute h-full"
+        />
+      </div>
+
+      <div className="w-full h-screen flex justify-center items-center z-10 absolute">
         <form
           onSubmit={onSubmit}
           className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6"
@@ -1007,6 +1037,15 @@ export const LoginEvaluasiDosenModule: FC = (): ReactElement => {
             </h2>
           </div>
         </form>
+      </div>
+      <div className="absolute w-72 h-72 md:w-[36rem] md:h-[36rem] 2xl:w-[45rem] 2xl:h-[45rem] bottom-0 left-0 rotate-180 bg-cover z-50">
+        <Image
+          width={100}
+          height={100}
+          src={"/illustrations/shapeBG.svg"}
+          alt="decoration"
+          className="object-right-top object-scale-down bg-contain w-full absolute h-full"
+        />
       </div>
     </section>
   );

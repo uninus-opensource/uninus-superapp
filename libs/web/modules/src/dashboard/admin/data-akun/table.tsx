@@ -2,23 +2,92 @@
 import { FC, ReactElement, useState, useEffect, SetStateAction, useMemo, Fragment } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataAkun } from "./types";
-import { dataAkun } from "./store";
-import { SearchInput, Modal, TableLoadingData, Button, TextField } from "@uninus/web/components";
-import { useForm, FieldValues } from "react-hook-form";
+import {
+  SearchInput,
+  Modal,
+  TableLoadingData,
+  Button,
+  TextField,
+  SelectOption,
+} from "@uninus/web/components";
+import { Control, FieldValues, useForm } from "react-hook-form";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useDataUsers, useDeleteDataUsers, useFilterAction } from "./hook";
 
 const Table: FC = (): ReactElement => {
   const [tableAkun, setTableAkun] = useState([{}]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isShowModal, setIsShowModal] = useState(false);
-  const [ModalAdd, setModalAdd] = useState(false);
-  const [pending, setPending] = useState(true);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isShowModal, setIsShowModal] = useState<boolean>(false);
+  const [isDeleteModalShow, setIsDeleteModalShow] = useState<boolean>(false);
+  const [ModalAdd, setModalAdd] = useState<boolean>(false);
+  const [pending, setPending] = useState<boolean>(true);
+  const [currentId, setCurrentId] = useState<string>("");
 
-  const { control } = useForm<FieldValues>({
+  const { mutate: deleteUser } = useDeleteDataUsers();
+  const { getFilterAction } = useFilterAction();
+  const { data, refetch } = useDataUsers(getFilterAction);
+  const {
+    control,
+    handleSubmit,
+    formState: { isLoading },
+  } = useForm<TDataAkun>({
     mode: "all",
     defaultValues: {},
   });
+  const {
+    control: updateControl,
+    handleSubmit: updateSubmit,
+    formState: { isLoading: updateIsLoading, errors: updateErrors },
+    reset: updateReset,
+  } = useForm<TDataAkun>({
+    mode: "all",
+  });
 
+  const selectUpdateRole = [
+    {
+      value: 1 as unknown as string,
+      label: "Admin",
+    },
+    {
+      value: 2 as unknown as string,
+      label: "Calon Mahasiswa",
+    },
+  ];
+  const handleCloseModal = () => {
+    setIsShowModal(!isShowModal);
+  };
+
+  const handleModalAdd = () => {
+    setModalAdd(!ModalAdd);
+  };
+  const handleDeleteAkun = (): void => {
+    deleteUser(currentId, {
+      onSuccess: () => refetch(),
+    });
+    handleDeleteModal();
+    console.log(currentId);
+  };
+  const handleDeleteModal = () => {
+    setIsDeleteModalShow(!isDeleteModalShow);
+  };
+  const onEditData = updateSubmit((data) => {
+    try {
+      // mutate({
+      //    ...data,
+      // });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  const onAddData = handleSubmit((data) => {
+    try {
+      // mutate({
+      //    ...data,
+      // });
+    } catch (error) {
+      console.log(error);
+    }
+  });
   const columnsAkun: TableColumn<TDataAkun>[] = useMemo(
     () => [
       {
@@ -28,17 +97,17 @@ const Table: FC = (): ReactElement => {
       },
       {
         name: "Nama Lengkap",
-        cell: (row) => row.name,
+        cell: (row) => row.fullname,
         width: "15%",
       },
       {
         name: "Role",
-        cell: (row) => row.role,
+        cell: (row) => row.role.name,
         width: "18%",
       },
       {
         name: "No Telp",
-        cell: (row) => row.telp_number,
+        cell: (row) => row.phone_number,
         width: "15%",
       },
       {
@@ -46,34 +115,37 @@ const Table: FC = (): ReactElement => {
         cell: (row) => row.email,
         width: "20%",
       },
-      {
-        name: "Password",
-        cell: (row) => row.password,
-        width: "12%",
-      },
 
       {
         name: "Action",
-        cell: () => (
+        cell: (row) => (
           <div className="flex gap-2">
             <button
               onClick={handleCloseModal}
               className="flex gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center"
             >
-              <div>
+              <div className="flex items-center gap-x-2" onClick={() => updateReset({ ...row })}>
                 <FormOutlined />
+                <span>Edit</span>
               </div>
             </button>
-            <button className="flex gap-2 bg-red-4 text-primary-white rounded-md p-1 px-3 items-center">
-              <div>
+            <button
+              className="flex gap-2 bg-red-4 text-primary-white rounded-md p-1 px-3 items-center"
+              onClick={() => {
+                setCurrentId(row.id);
+                handleDeleteModal();
+              }}
+            >
+              <div className="flex items-center gap-x-2">
                 <DeleteOutlined />
+                <span>Hapus</span>
               </div>
             </button>
           </div>
         ),
       },
     ],
-    [],
+    [updateReset],
   );
 
   const customStyles = {
@@ -110,14 +182,6 @@ const Table: FC = (): ReactElement => {
     },
   };
 
-  const handleCloseModal = () => {
-    setIsShowModal(!isShowModal);
-  };
-
-  const handleModalAdd = () => {
-    setModalAdd(!ModalAdd);
-  };
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       setTableAkun(columnsAkun);
@@ -125,14 +189,6 @@ const Table: FC = (): ReactElement => {
     }, 1500);
     return () => clearTimeout(timeout);
   }, [columnsAkun, tableAkun]);
-
-  const filteredDataAkun = dataAkun.filter(
-    (item) =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.telp_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.email.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
 
   const handleSearch = (event: { target: { value: SetStateAction<string> } }) => {
     setSearchQuery(event.target.value);
@@ -152,11 +208,12 @@ const Table: FC = (): ReactElement => {
           value={searchQuery}
           onChange={handleSearch}
           placeholder="Cari Nama,Email dan Nomor telepon"
+          width="w-[24rem]"
         />
       </div>
       <DataTable
         columns={columnsAkun}
-        data={filteredDataAkun}
+        data={data?.data as TDataAkun[]}
         customStyles={customStyles}
         fixedHeader={true}
         progressPending={pending}
@@ -168,12 +225,21 @@ const Table: FC = (): ReactElement => {
           </div>
         }
       />
-      <Modal showModal={isShowModal} onClose={handleCloseModal} modalTitle="Edit Data Akun">
-        <form className="w-full flex flex-col justify-center items-center gap-1">
+
+      <Modal
+        key="modal-edit-user"
+        showModal={isShowModal}
+        onClose={handleCloseModal}
+        modalTitle="Edit Data Akun"
+      >
+        <form
+          onClick={onEditData}
+          className="w-full flex flex-col justify-center items-center gap-1"
+        >
           <div className="w-full">
             <TextField
               inputHeight="h-10"
-              name="name"
+              name="fullname"
               variant="sm"
               type="text"
               required
@@ -181,29 +247,29 @@ const Table: FC = (): ReactElement => {
               label="Nama Lengkap"
               placeholder="Fenny Oktaviani"
               inputWidth="w-full"
-              control={control}
+              control={updateControl}
             />
           </div>
-
           <div className="w-full">
-            <TextField
-              inputHeight="h-10"
+            <SelectOption
+              labels="role"
+              className="text-left"
+              labelClassName="text-left py-2"
+              control={updateControl as unknown as Control<FieldValues>}
               name="role"
-              variant="sm"
-              type="text"
-              required
-              labelclassname="text-sm font-semibold"
-              label="Role"
-              placeholder="Calon Mahasiswa"
-              inputWidth="w-full"
-              control={control}
+              options={selectUpdateRole}
+              isMulti={false}
+              isClearable={true}
+              required={true}
+              status="error"
+              message={updateErrors.root?.message}
             />
           </div>
 
           <div className="w-full">
             <TextField
               inputHeight="h-10"
-              name="number"
+              name="phone_number"
               variant="sm"
               type="text"
               required
@@ -211,7 +277,7 @@ const Table: FC = (): ReactElement => {
               label="Nomor Telepon"
               placeholder="085797807376"
               inputWidth="w-full"
-              control={control}
+              control={updateControl}
             />
           </div>
           <div className="w-full">
@@ -225,37 +291,41 @@ const Table: FC = (): ReactElement => {
               label="Email"
               placeholder="Fnny04@gmail.com"
               inputWidth="w-full"
-              control={control}
-            />
-          </div>
-          <div className="w-full">
-            <TextField
-              inputHeight="h-10"
-              name="passwd"
-              variant="sm"
-              type="text"
-              required
-              labelclassname="text-sm font-semibold"
-              label="Password"
-              placeholder="Anjay123"
-              inputWidth="w-full"
-              control={control}
+              control={updateControl}
             />
           </div>
 
           <div className="w-full flex justify-end items-center gap-3 py-2">
-            <Button variant="filled" size="md">
+            <Button variant="filled" size="md" loading={updateIsLoading} type="submit">
               Edit
             </Button>
           </div>
         </form>
       </Modal>
+      <Modal
+        key="modal-delete-user"
+        showModal={isDeleteModalShow}
+        onClose={handleDeleteModal}
+        modalTitle="Delete Data Akun ?"
+      >
+        <div className="flex gap-x-6">
+          <Button variant="filled" size="md" onClick={handleDeleteAkun}>
+            Iya
+          </Button>
+          <Button variant="filled" size="md" onClick={handleDeleteModal}>
+            Batal
+          </Button>
+        </div>
+      </Modal>
       <Modal showModal={ModalAdd} onClose={handleModalAdd} modalTitle="Tambah Data Akun">
-        <form className="w-full flex flex-col justify-center items-center gap-1">
+        <form
+          onSubmit={onAddData}
+          className="w-full flex flex-col justify-center items-center gap-1"
+        >
           <div className="w-full">
             <TextField
               inputHeight="h-10"
-              name="name"
+              name="fullname"
               variant="sm"
               type="text"
               required
@@ -285,7 +355,7 @@ const Table: FC = (): ReactElement => {
           <div className="w-full">
             <TextField
               inputHeight="h-10"
-              name="number"
+              name="phone_number"
               variant="sm"
               type="text"
               required
@@ -313,7 +383,7 @@ const Table: FC = (): ReactElement => {
           <div className="w-full">
             <TextField
               inputHeight="h-10"
-              name="passwd"
+              name="password"
               variant="sm"
               type="text"
               required
@@ -326,7 +396,7 @@ const Table: FC = (): ReactElement => {
           </div>
 
           <div className="w-full flex justify-end items-center gap-3 py-2">
-            <Button variant="filled" size="md">
+            <Button variant="filled" size="md" loading={isLoading}>
               Tambahkan
             </Button>
           </div>

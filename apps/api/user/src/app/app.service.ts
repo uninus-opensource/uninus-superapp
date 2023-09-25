@@ -61,7 +61,7 @@ export class AppService {
     ]);
 
     const lastPage = Math.ceil(total / perPage);
-    const mapData = data.map((el) => ({
+    const mapData = data?.map((el) => ({
       id: el.id,
       fullname: el.fullname,
       email: el.email,
