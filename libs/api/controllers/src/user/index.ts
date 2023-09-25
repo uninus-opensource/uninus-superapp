@@ -21,7 +21,7 @@ import {
 } from "@uninus/entities";
 import { ZodValidationPipe } from "@uninus/api/validator";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
-import { UpdateUserSwagger } from "@uninus/api/services";
+import { UpdateUserDto } from "@uninus/api/dto";
 import {
   ApiResponse,
   ApiTags,
@@ -142,7 +142,7 @@ export class UserController {
   async updateData(
     @Param("id") id: string,
     @Body()
-    payload: UpdateUserSwagger,
+    payload: UpdateUserDto,
   ) {
     const response = await firstValueFrom(
       this.client
