@@ -17,7 +17,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
 
   const { getStudent, setStudent } = useStudentData();
 
-  const { getUpdate } = useUpdate();
+  const { getUpdate, setUpdate } = useUpdate();
 
   useEffect(() => {
     setDegreeProgram(student?.degree_program_id);
@@ -33,12 +33,14 @@ export const ModuleBiodata: FC = (): ReactElement => {
           ) {
             setRoute(true);
           }
+          setUpdate(false);
         })
+
         .catch((error) => {
           console.error(error);
         });
     }
-  }, [student, route, getUpdate, refetch, getStudent, setStudent]);
+  }, [student, route, getUpdate, refetch, getStudent, setStudent, setUpdate]);
 
   return (
     <section

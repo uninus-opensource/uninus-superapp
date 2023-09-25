@@ -43,6 +43,7 @@ export const Button: FC<IButtonProps> = ({
       "bg-primary-white text-primary-green border border-primary-green active:shadow-inset ":
         variant === "green-outline",
       "hover:cursor-wait ": loading,
+      "bg-red-7 text-primary-white   active:shadow-inset ": variant === "filled-red",
     },
   );
 
