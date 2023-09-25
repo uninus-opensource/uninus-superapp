@@ -678,4 +678,18 @@ export class GeneralController {
 
     return response;
   }
+
+  @Get("roles")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Get Roles" })
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "search", required: false })
+  async getRoles(@Query("id") id: number, @Query("search") search: string) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_roles", { search, id })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
 }

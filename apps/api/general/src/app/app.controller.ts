@@ -22,6 +22,11 @@ import {
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
+  @MessagePattern("get_roles")
+  async getRoles(payload: ISelectRequest) {
+    return await this.appService.getRoles(payload);
+  }
+
   @MessagePattern("get_degree")
   async getDegreeProgram(payload: ISelectRequest) {
     return await this.appService.getDegreeProgram(payload);

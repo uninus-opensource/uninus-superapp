@@ -56,6 +56,7 @@ import {
   TInterestDepartmentResponse,
   TStudentsPaginationArgs,
   TStudentsPaginatonResponse,
+  TRolesResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -1277,5 +1278,22 @@ export class AppService {
         next: page < lastPage ? Number(page) + 1 : null,
       },
     };
+  }
+
+  async getRoles({ search, id }: ISelectRequest): Promise<TRolesResponse> {
+    const roles = await this.prisma.roles.findMany({
+      where: {
+        id: id && Number(id),
+        name: {
+          ...(search && { contains: search }),
+          mode: "insensitive",
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    return { roles };
   }
 }
