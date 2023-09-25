@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 export interface PaginatedResult<T> {
   data: T[];
   meta: {
@@ -21,10 +20,3 @@ export type PaginateFunction = <T, K>(
   args?: K,
   options?: PaginateOptions,
 ) => Promise<PaginatedResult<T>>;
-
-export type TPaginationArgs = {
-  where?: Prisma.UsersWhereInput;
-  orderBy?: Prisma.UsersOrderByWithRelationInput;
-  page?: number;
-  perPage?: number;
-};

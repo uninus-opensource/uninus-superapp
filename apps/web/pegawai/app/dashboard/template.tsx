@@ -38,8 +38,8 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       disabledStatus: false,
     },
     {
-      label: "Data Pembayaran",
-      link: "/dashboard/data-pembayaran",
+      label: "Pembayaran",
+      link: "/dashboard/pembayaran",
       icon: <AiOutlineCreditCard className="text-2xl" />,
       disabledStatus: false,
     },

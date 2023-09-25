@@ -5,7 +5,7 @@ export const dataPegawai: TDataPegawai[] = [
     name: "Fenny Oktaviani",
     nip: "(406) 555-1220",
     nidn: "(704) 555-0127",
-    dosen_status: "Yayasan",
+    dosen_status: [{ nama: "Yayasan", link: "https://google.com" }],
     sk_pengangkatan: "https://google.com",
     sk_mengajar: "https://google.com",
     lingkup_kerja: [
@@ -45,7 +45,8 @@ export const dataPegawai: TDataPegawai[] = [
     name: "Rian Ihsan",
     nip: "(406) 555-0123",
     nidn: "(704) 555-0127",
-    dosen_status: "Tidak Tetap (LB)",
+    dosen_status: [{ nama: "Tidak Tetap (BL)", link: "https://google.com" }],
+
     sk_pengangkatan: "https://google.com",
     lingkup_kerja: [
       {
@@ -78,7 +79,8 @@ export const dataPegawai: TDataPegawai[] = [
     name: "RohendoJ",
     nip: "(406) 555-0120",
     nidn: "(704) 555-0127",
-    dosen_status: "PNS DPK",
+    dosen_status: [{ nama: "PNS DPK", link: "https://google.com" }],
+
     sk_pengangkatan: "https://google.com",
     lingkup_kerja: [
       {
@@ -110,7 +112,8 @@ export const dataPegawai: TDataPegawai[] = [
     name: "Aldo Febrian Dirgantara Mulyana",
     nip: "(406) 555-0120",
     nidn: "(704) 555-0127",
-    dosen_status: "PNS DPK",
+    dosen_status: [{ nama: "Yayasan", link: "https://google.com" }],
+
     sk_pengangkatan: "https://google.com",
     lingkup_kerja: [
       {
@@ -142,7 +145,8 @@ export const dataPegawai: TDataPegawai[] = [
     name: "Ahmad Luthfi",
     nip: "(406) 555-0120",
     nidn: "(704) 555-0127",
-    dosen_status: "PNS DPK",
+    dosen_status: [{ nama: "Yayasan", link: "https://google.com" }],
+
     sk_pengangkatan: "https://google.com",
     lingkup_kerja: [
       {
@@ -174,7 +178,8 @@ export const dataPegawai: TDataPegawai[] = [
     name: "Dianne Russell",
     nip: "(406) 555-0120",
     nidn: "(704) 555-0127",
-    dosen_status: "PNS DPK",
+    dosen_status: [{ nama: "Yayasan", link: "https://google.com" }],
+
     sk_pengangkatan: "https://google.com",
     lingkup_kerja: [
       {
@@ -206,7 +211,8 @@ export const dataPegawai: TDataPegawai[] = [
     name: "Maddog Norris",
     nip: "(406) 555-0120",
     nidn: "(704) 555-0127",
-    dosen_status: "PNS DPK",
+    dosen_status: [{ nama: "Yayasan", link: "https://google.com" }],
+
     sk_pengangkatan: "https://google.com",
     lingkup_kerja: [
       {
@@ -238,7 +244,8 @@ export const dataPegawai: TDataPegawai[] = [
     name: "Mang Cuneng Bai Sukabumi",
     nip: "(406) 555-0120",
     nidn: "(704) 555-0127",
-    dosen_status: "PNS DPK",
+    dosen_status: [{ nama: "Yayasan", link: "https://google.com" }],
+
     sk_pengangkatan: "https://google.com",
     lingkup_kerja: [
       {

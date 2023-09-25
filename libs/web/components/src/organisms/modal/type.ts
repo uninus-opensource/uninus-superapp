@@ -10,6 +10,7 @@ export type ModalProps = PropsWithChildren<{
   className?: string;
   closeClassName?: string;
   headerColor?: "secondary-green" | "white-shadow" | "red" | "white" | "orange" | "green";
+  titleColor?: "black" | "white" | "green" | "yellow" | "red";
   footerColor?: "green" | "white";
   bodyClassName?: string;
 }>;

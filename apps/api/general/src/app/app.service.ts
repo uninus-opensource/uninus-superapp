@@ -6,7 +6,6 @@ import {
 } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
 import { PrismaService } from "@uninus/api/models";
-import { paginate } from "@uninus/api/utilities";
 import {
   TCitizenshipResponse,
   TDepartmentResponse,
@@ -55,7 +54,8 @@ import {
   TRegistrationStatusResponse,
   IInterestDepartment,
   TInterestDepartmentResponse,
-  TPaginationArgs,
+  TStudentsPaginationArgs,
+  TStudentsPaginatonResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -1206,17 +1206,22 @@ export class AppService {
     return { country };
   }
 
-  async getStudentsPagination({ where, orderBy, page, perPage }: TPaginationArgs) {
-    return paginate(
-      this.prisma.pMB,
-      {
+  async getStudentsPagination({
+    where,
+    orderBy,
+    page = 1,
+    perPage = 10,
+  }: TStudentsPaginationArgs): Promise<TStudentsPaginatonResponse> {
+    const [data, total] = await Promise.all([
+      this.prisma.pMB.findMany({
+        ...(perPage && { take: Number(perPage ?? 10) }),
+        ...(page && { skip: Number(page > 0 ? perPage * (page - 1) : 0) }),
         where,
-        orderBy,
         select: {
           id: true,
           registration_number: true,
-          average_utbk: true,
           average_grade: true,
+          average_utbk: true,
           createdAt: true,
           selection_path: {
             select: {
@@ -1252,11 +1257,25 @@ export class AppService {
             },
           },
         },
+        orderBy,
+      }),
+      this.prisma.pMB.count({
+        where,
+      }),
+    ]);
+
+    const lastPage = Math.ceil(total / perPage);
+
+    return {
+      data,
+      meta: {
+        total,
+        lastPage,
+        currentPage: Number(page),
+        perPage: Number(perPage),
+        prev: page > 1 ? Number(page) - 1 : null,
+        next: page < lastPage ? Number(page) + 1 : null,
       },
-      {
-        page,
-        perPage,
-      },
-    );
+    };
   }
 }

@@ -16,3 +16,8 @@ export enum EFilterTypeStudyProgramInterest {
   MONTHLY = "monthly",
   YEARLY = "yearly",
 }
+
+export enum EOrderByPagination {
+  ASC = "asc",
+  DESC = "desc",
+}

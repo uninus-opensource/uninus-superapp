@@ -1,7 +1,7 @@
 import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
-import { IUserRequest, TPaginationArgs } from "@uninus/entities";
+import { IUserRequest, TUsersPaginationArgs } from "@uninus/entities";
 import { Prisma } from "@prisma/client";
 
 @Controller()
@@ -12,7 +12,7 @@ export class AppController {
     return await this.appService.getUser(id);
   }
   @MessagePattern("get_users")
-  async getUsers({ where, orderBy, page, perPage }: TPaginationArgs) {
+  async getUsers({ where, orderBy, page, perPage }: TUsersPaginationArgs) {
     return await this.appService.getUsers({ where, orderBy, page, perPage });
   }
 

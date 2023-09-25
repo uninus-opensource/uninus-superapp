@@ -13,7 +13,12 @@ import {
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
-import { TCreateQuestionRequest, TProfileResponse, TUpdateQuestionRequest } from "@uninus/entities";
+import {
+  EOrderByPagination,
+  TCreateQuestionRequest,
+  TProfileResponse,
+  TUpdateQuestionRequest,
+} from "@uninus/entities";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 
 @Controller()
@@ -644,12 +649,12 @@ export class GeneralController {
   @ApiQuery({ name: "order_by", required: false })
   @ApiQuery({ name: "filter_by", required: false })
   @ApiQuery({ name: "search", required: false })
-  @Get("/pagination-page")
+  @Get("/students-pagination")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async getPMBPagination(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
-    @Query("order_by") orderBy: "asc" | "desc",
+    @Query("order_by") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
     @Query("filter_by") filterBy: string,
     @Query("search") search: string,
   ) {
