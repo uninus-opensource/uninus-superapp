@@ -45,7 +45,6 @@ export type TSubDistrictResponse = {
     name: string;
   }>;
 };
-
 export type TRolesResponse = {
   roles: Array<{
     id: number;
