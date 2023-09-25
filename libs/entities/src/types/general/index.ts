@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export interface ISelectRequest {
   search?: string;
   id?: number;
@@ -43,7 +45,10 @@ export type TSubDistrictResponse = {
     name: string;
   }>;
 };
-
+export type TRolesResponse = Array<{
+  id: number;
+  name: string;
+}>;
 export interface IDegreeProgramRequest {
   search: string;
 }
@@ -332,4 +337,23 @@ export type TRegistrationStatusResponse = {
     id: number;
     name: string;
   }>;
+};
+
+export type TStudentsPaginationArgs = {
+  where?: Prisma.PMBWhereInput;
+  orderBy?: Prisma.PMBOrderByWithRelationInput;
+  page?: number;
+  perPage?: number;
+};
+
+export type TStudentsPaginatonResponse = {
+  data: Array<object>;
+  meta: {
+    total: number;
+    lastPage: number;
+    currentPage: number;
+    perPage: number;
+    prev?: null | number;
+    next?: null | number;
+  };
 };

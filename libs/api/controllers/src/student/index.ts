@@ -16,7 +16,7 @@ import { VSRegistrationNumber } from "@uninus/entities";
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
 import { JwtAuthGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/validator";
-import { GraduationStatusSwagger, UpdateStudentSwagger } from "@uninus/api/services";
+import { GraduationStatusDto, UpdateStudentDto } from "@uninus/api/dto";
 import {
   ApiResponse,
   ApiTags,
@@ -41,7 +41,7 @@ export class StudentController {
   @Post("/graduation-status")
   @UsePipes(new ZodValidationPipe(VSRegistrationNumber))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  async graduationStatus(@Body() payload: GraduationStatusSwagger) {
+  async graduationStatus(@Body() payload: GraduationStatusDto) {
     const response = await firstValueFrom(
       this.client
         .send("get_graduation_status", payload)
@@ -88,7 +88,7 @@ export class StudentController {
   async updateData(
     @Request() reqToken: TReqToken,
     @Body()
-    studentData: UpdateStudentSwagger,
+    studentData: UpdateStudentDto,
   ) {
     const { sub: id } = reqToken.user;
     const response = await firstValueFrom(
@@ -133,7 +133,7 @@ export class StudentController {
   async updateDataById(
     @Param("id") id: string,
     @Body()
-    studentData: UpdateStudentSwagger,
+    studentData: UpdateStudentDto,
   ) {
     const response = await firstValueFrom(
       this.client

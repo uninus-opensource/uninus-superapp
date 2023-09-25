@@ -33,6 +33,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
           ) {
             setRoute(true);
           }
+
           setUpdate(false);
         })
 

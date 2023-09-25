@@ -4,28 +4,48 @@ import {
   ConflictException,
   NotFoundException,
 } from "@nestjs/common";
-import { IUserRequest, IUserResponse, TPaginationArgs } from "@uninus/entities";
+import {
+  IUserRequest,
+  IUserResponse,
+  TUsersPaginationArgs,
+  TUsersPaginatonResponse,
+} from "@uninus/entities";
 import { Prisma, PrismaService } from "@uninus/api/models";
-import { encryptPassword, paginate } from "@uninus/api/utilities";
+import { encryptPassword } from "@uninus/api/utilities";
 import { RpcException } from "@nestjs/microservices";
 
 @Injectable()
 export class AppService {
   constructor(private prisma: PrismaService) {}
-  async getUsers({ where, orderBy, page, perPage }: TPaginationArgs) {
-    return paginate(
-      this.prisma.users,
-      {
+  async getUsers({
+    where,
+    orderBy,
+    page = 1,
+    perPage = 10,
+  }: TUsersPaginationArgs): Promise<TUsersPaginatonResponse> {
+    const [data, total] = await Promise.all([
+      this.prisma.users.findMany({
+        ...(perPage && { take: Number(perPage ?? 10) }),
+        ...(page && { skip: Number(page > 0 ? perPage * (page - 1) : 0) }),
         where,
-        orderBy,
         select: {
           id: true,
-          email: true,
           fullname: true,
-          password: true,
+          email: true,
           createdAt: true,
           avatar: true,
           isVerified: true,
+          students: {
+            select: {
+              phone_number: true,
+              pmb: {
+                select: {
+                  id: true,
+                  registration_status: true,
+                },
+              },
+            },
+          },
           role: {
             select: {
               id: true,
@@ -33,12 +53,36 @@ export class AppService {
             },
           },
         },
+        orderBy,
+      }),
+      this.prisma.users.count({
+        where,
+      }),
+    ]);
+
+    const lastPage = Math.ceil(total / perPage);
+    const mapData = data?.map((el) => ({
+      id: el.id,
+      fullname: el.fullname,
+      email: el.email,
+      createdAt: el.createdAt,
+      avatar: el.avatar,
+      isVerified: el.isVerified,
+      role: el.role,
+      phone_number: el.students?.phone_number,
+      registration_status: el.students?.pmb?.registration_status,
+    }));
+    return {
+      data: mapData,
+      meta: {
+        total,
+        lastPage,
+        currentPage: Number(page),
+        perPage: Number(perPage),
+        prev: page > 1 ? Number(page) - 1 : null,
+        next: page < lastPage ? Number(page) + 1 : null,
       },
-      {
-        page,
-        perPage,
-      },
-    );
+    };
   }
 
   async createUser(payload: Prisma.UsersCreateInput) {

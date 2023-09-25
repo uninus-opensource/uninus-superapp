@@ -16,11 +16,17 @@ import {
   IRegistransRequest,
   IInterestEducationPrograms,
   IInterestDepartment,
+  TStudentsPaginationArgs,
 } from "@uninus/entities";
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
+  @MessagePattern("get_roles")
+  async getRoles(payload: ISelectRequest) {
+    return await this.appService.getRoles(payload);
+  }
+
   @MessagePattern("get_degree")
   async getDegreeProgram(payload: ISelectRequest) {
     return await this.appService.getDegreeProgram(payload);
@@ -174,5 +180,10 @@ export class AppController {
   @MessagePattern("get_province")
   async getProvince(payload: { search: string; id: number }) {
     return await this.appService.getProvince(payload);
+  }
+
+  @MessagePattern("get_registrans_pagination")
+  async getPaginationPMB({ where, orderBy, page, perPage }: TStudentsPaginationArgs) {
+    return await this.appService.getStudentsPagination({ where, orderBy, page, perPage });
   }
 }

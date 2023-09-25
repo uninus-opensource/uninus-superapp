@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 import { Modal } from "../modal";
 import { MenuOutlined, AppstoreFilled } from "@ant-design/icons";
 import { useStudentGet } from "./hooks";
-import { useUserData } from "@uninus/web/services";
+import { useUpdateAvatar, useUserData } from "@uninus/web/services";
 import { Loading } from "./loading";
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
@@ -32,6 +32,8 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
 
   const { getUser, setUser } = useUserData();
   setUser(data);
+
+  const { getUpdateAvatar } = useUpdateAvatar();
 
   const userName = useMemo(() => {
     const userName = getUser?.fullname;
@@ -102,7 +104,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
           <figure className="flex flex-col items-center">
             <Image
               className="w-[80px] h-[80px] bg-cover object-cover rounded-full"
-              src={avatar || "/illustrations/dummy-avatar.webp"}
+              src={getUpdateAvatar || avatar || "/illustrations/dummy-avatar.webp"}
               alt="profile picture"
               quality={100}
               width={500}

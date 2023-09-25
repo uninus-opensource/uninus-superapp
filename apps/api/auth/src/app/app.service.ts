@@ -383,7 +383,6 @@ export class AppService {
     if (!user) {
       throw new RpcException(new NotFoundException("Email tidak ditemukan"));
     }
-    console.log(user);
     return user;
   }
 

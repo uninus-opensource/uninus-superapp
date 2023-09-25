@@ -24,6 +24,10 @@ import {
   useDisabilitiesGet,
   useStatusGet,
   useUpdate,
+<<<<<<< HEAD
+=======
+  useUpdateAvatar,
+>>>>>>> 4a42d849ad85338688b29680ed36738d7c865f3c
 } from "@uninus/web/services";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
@@ -39,7 +43,7 @@ export const DataDiriSection: FC = (): ReactElement => {
   const [disValue, setDisValue] = useState<string | null>(null);
   const [occValue, setOccValue] = useState<string | null>(null);
   const { getStudent } = useStudentData();
-
+  const { setUpdateAvatar } = useUpdateAvatar();
   const student = useMemo(() => {
     return getStudent;
   }, [getStudent]);
@@ -322,6 +326,7 @@ export const DataDiriSection: FC = (): ReactElement => {
             {
               onSuccess: () => {
                 setIsLoading(false);
+                setUpdateAvatar(data?.file_url);
                 setTimeout(() => {
                   toast.success("Berhasil Simpan Foto", {
                     position: "top-center",

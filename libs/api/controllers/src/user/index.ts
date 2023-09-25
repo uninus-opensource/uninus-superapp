@@ -12,11 +12,24 @@ import {
   UseFilters,
   UsePipes,
 } from "@nestjs/common";
-import { TReqToken, VSUpdateUser, TProfileResponse } from "@uninus/entities";
+import {
+  TReqToken,
+  VSUpdateUser,
+  TProfileResponse,
+  EAppsOrigin,
+  EOrderByPagination,
+} from "@uninus/entities";
 import { ZodValidationPipe } from "@uninus/api/validator";
-import { JwtAuthGuard } from "@uninus/api/guard";
-import { UpdateUserSwagger } from "@uninus/api/services";
-import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from "@nestjs/swagger";
+import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
+import { UpdateUserDto } from "@uninus/api/dto";
+import {
+  ApiResponse,
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiQuery,
+  ApiHeader,
+} from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
@@ -30,8 +43,12 @@ export class UserController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Get Data" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Get("/me")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionGuard([...Object.values(EAppsOrigin)]))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async getUser(@Request() reqToken: TReqToken) {
     const { sub } = reqToken.user;
@@ -54,7 +71,7 @@ export class UserController {
   async getAllData(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
-    @Query("order_by") orderBy: "asc" | "desc",
+    @Query("order_by") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
     @Query("filter_by") filterBy: string,
     @Query("search") search: string,
   ) {
@@ -125,7 +142,7 @@ export class UserController {
   async updateData(
     @Param("id") id: string,
     @Body()
-    payload: UpdateUserSwagger,
+    payload: UpdateUserDto,
   ) {
     const response = await firstValueFrom(
       this.client

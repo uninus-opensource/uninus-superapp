@@ -54,6 +54,9 @@ import {
   TRegistrationStatusResponse,
   IInterestDepartment,
   TInterestDepartmentResponse,
+  TStudentsPaginationArgs,
+  TStudentsPaginatonResponse,
+  TRolesResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -1202,5 +1205,98 @@ export class AppService {
     }
 
     return { country };
+  }
+
+  async getStudentsPagination({
+    where,
+    orderBy,
+    page = 1,
+    perPage = 10,
+  }: TStudentsPaginationArgs): Promise<TStudentsPaginatonResponse> {
+    const [data, total] = await Promise.all([
+      this.prisma.pMB.findMany({
+        ...(perPage && { take: Number(perPage ?? 10) }),
+        ...(page && { skip: Number(page > 0 ? perPage * (page - 1) : 0) }),
+        where,
+        select: {
+          id: true,
+          registration_number: true,
+          average_grade: true,
+          average_utbk: true,
+          createdAt: true,
+          selection_path: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          first_deparment: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          second_deparment: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          registration_status: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          student: {
+            select: {
+              user: {
+                select: {
+                  fullname: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy,
+      }),
+      this.prisma.pMB.count({
+        where,
+      }),
+    ]);
+
+    const lastPage = Math.ceil(total / perPage);
+
+    return {
+      data,
+      meta: {
+        total,
+        lastPage,
+        currentPage: Number(page),
+        perPage: Number(perPage),
+        prev: page > 1 ? Number(page) - 1 : null,
+        next: page < lastPage ? Number(page) + 1 : null,
+      },
+    };
+  }
+
+  async getRoles({ search, id }: ISelectRequest): Promise<TRolesResponse> {
+    const roles = await this.prisma.roles.findMany({
+      where: {
+        id: id && Number(id),
+        name: {
+          ...(search && { contains: search }),
+          mode: "insensitive",
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    if (!roles) {
+      throw new RpcException(new NotFoundException("Data tidak ditemukan"));
+    }
+    return roles;
   }
 }

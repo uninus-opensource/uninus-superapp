@@ -13,7 +13,12 @@ import {
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
-import { TCreateQuestionRequest, TUpdateQuestionRequest } from "@uninus/entities";
+import {
+  EOrderByPagination,
+  TCreateQuestionRequest,
+  TProfileResponse,
+  TUpdateQuestionRequest,
+} from "@uninus/entities";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 
 @Controller()
@@ -631,6 +636,60 @@ export class GeneralController {
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
+    return response;
+  }
+
+  @ApiOperation({ summary: "Get Data Student Pagination" })
+  @ApiResponse({
+    status: 500,
+    description: "Status pendaftaran tidak ditemukan",
+  })
+  @ApiQuery({ name: "page", required: false })
+  @ApiQuery({ name: "per_page", required: false })
+  @ApiQuery({ name: "order_by", required: false })
+  @ApiQuery({ name: "filter_by", required: false })
+  @ApiQuery({ name: "search", required: false })
+  @Get("/students-pagination")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  async getPMBPagination(
+    @Query("page") page: number,
+    @Query("per_page") perPage: number,
+    @Query("order_by") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
+    @Query("filter_by") filterBy: string,
+    @Query("search") search: string,
+  ) {
+    const response = await firstValueFrom(
+      this.client
+        .send<Array<TProfileResponse>>("get_registrans_pagination", {
+          where: {
+            registration_number: {
+              contains: search || "",
+              mode: "insensitive",
+            },
+          },
+          orderBy: {
+            [filterBy]: orderBy,
+          },
+          page,
+          perPage,
+        })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+
+    return response;
+  }
+
+  @Get("roles")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Get Roles" })
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "search", required: false })
+  async getRoles(@Query("id") id: number, @Query("search") search: string) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_roles", { search, id })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
     return response;
   }
 }
