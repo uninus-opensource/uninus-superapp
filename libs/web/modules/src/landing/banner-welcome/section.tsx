@@ -12,7 +12,7 @@ export const WelcomeSection: FC = (): ReactElement => {
       <Reveal>
         <section className="xl:px-[10vw] md:px-10 px:14 mx-auto lg:w-full md:w-full w-auto flex 2xl:justify-center xl:justify-evenly lg:justify-around lg:flex-row md:flex-row flex-col gap-8 items-center mt-28 h-auto">
           <Image
-            src={"/illustrations/gerbang-uninus.webp"}
+            src={"/illustrations/gerbang-crop.webp"}
             priority
             alt="gedung1"
             quality={100}
@@ -22,10 +22,9 @@ export const WelcomeSection: FC = (): ReactElement => {
           />
           <div className="flex flex-col lg:w-7/12 w-full px-6 leading-normal lg:pl-6">
             <h1 className="lg:text-4xl text-2xl text-center lg:text-left font-semibold text-secondary-green-4 mt-6">
-              Selamat Datang Calon
+              Selamat Datang
               <br />
-              Nusantara
-              <span className="text-primary-green px-2">Muda</span>
+              Calon Nusantara Muda
             </h1>
             <p className=" text-base xl:text-lg xl:font-normal lg:leading-6 text-grayscale-9 lg:mt-6 mt-8 w-full text-justify px-4 lg:px-0">
               Selamat datang <span className="font-bold">Calon Nusantara Muda</span> di Universitas

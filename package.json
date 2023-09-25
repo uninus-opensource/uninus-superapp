@@ -51,7 +51,7 @@
     "api:db:push": "dotenv -e ./apps/api/.env -- bun prisma db push",
     "api:db:pull": "dotenv -e ./apps/api/.env -- bun prisma db pull",
     "api:serve:prod": "dotenv -e ./apps/api/.env -- node dist/apps/api/main.js",
-    "prepare": "bun husky install"
+    "prepare": "yarn husky install"
   },
   "browser": {
     "fs": false,
@@ -113,6 +113,7 @@
     "next": "13.4.19",
     "next-auth": "^4.23.1",
     "next-transpile-modules": "^10.0.1",
+    "node-pre-gyp": "^0.17.0",
     "nodemailer": "^6.9.5",
     "npm": "^10.1.0",
     "openapi3-ts": "^4.1.2",
@@ -143,7 +144,7 @@
     "tozod": "^3.0.0",
     "ts-deepmerge": "^6.2.0",
     "ts-pattern": "^5.0.5",
-    "xendit-node": "^3.1.0",
+    "xendit-node": "1.22.0",
     "zod": "^3.22.2"
   },
   "prisma": {
@@ -171,11 +172,8 @@
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.5.4",
-
-
     "@types/node": "20.6.3",
-
-    "@types/react": "18.2.21",
+    "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
     "@types/react-table": "^7.7.15",
     "@typescript-eslint/eslint-plugin": "6.7.2",
