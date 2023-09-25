@@ -40,6 +40,7 @@ export class AppService {
               phone_number: true,
               pmb: {
                 select: {
+                  id: true,
                   registration_status: true,
                 },
               },
@@ -60,9 +61,19 @@ export class AppService {
     ]);
 
     const lastPage = Math.ceil(total / perPage);
-
+    const mapData = data.map((el) => ({
+      id: el.id,
+      fullname: el.fullname,
+      email: el.email,
+      createdAt: el.createdAt,
+      avatar: el.avatar,
+      isVerified: el.isVerified,
+      role: el.role,
+      phone_number: el.students?.phone_number,
+      registration_status: el.students?.pmb?.registration_status,
+    }));
     return {
-      data,
+      data: mapData,
       meta: {
         total,
         lastPage,
