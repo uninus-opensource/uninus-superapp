@@ -1297,6 +1297,6 @@ export class AppService {
     if (!roles) {
       throw new RpcException(new NotFoundException("Data tidak ditemukan"));
     }
-    return { roles };
+    return roles;
   }
 }
