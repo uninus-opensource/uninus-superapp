@@ -1,5 +1,5 @@
 import { Button } from "../../atoms";
-import { ModalProps } from "./interface";
+import { ModalProps } from "./type";
 import { IoCloseSharp } from "react-icons/io5";
 import { createPortal } from "react-dom";
 import { FC, ReactElement } from "react";
@@ -75,7 +75,8 @@ export const Modal: FC<ModalProps> = ({
           </div>
         </div>
       </div>,
-      document.getElementById("modal-landing") as HTMLElement,
+      document.getElementById("modal-landing")!,
+      "modal-landing",
     )
   );
 };
