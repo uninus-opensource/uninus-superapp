@@ -51,7 +51,7 @@
     "api:db:push": "dotenv -e ./apps/api/.env -- bun prisma db push",
     "api:db:pull": "dotenv -e ./apps/api/.env -- bun prisma db pull",
     "api:serve:prod": "dotenv -e ./apps/api/.env -- node dist/apps/api/main.js",
-    "prepare": "bun husky install"
+    "prepare": "yarn husky install"
   },
   "browser": {
     "fs": false,
