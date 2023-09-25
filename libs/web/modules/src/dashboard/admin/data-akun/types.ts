@@ -1,9 +1,8 @@
 export type TDataAkun = {
-  no?: number;
-  name: string;
-  role: string;
-  telp_number: string;
-  email: string;
-  password?: string;
-  status_regist?: string;
+  id: string;
+  fullname?: string | null;
+  role: { id?: number; name?: string };
+  phone_number?: string | null;
+  email?: string | null;
+  password?: string | null;
 };
