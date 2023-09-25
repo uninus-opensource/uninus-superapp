@@ -24,10 +24,7 @@ import {
   useDisabilitiesGet,
   useStatusGet,
   useUpdate,
-<<<<<<< HEAD
-=======
   useUpdateAvatar,
->>>>>>> 4a42d849ad85338688b29680ed36738d7c865f3c
 } from "@uninus/web/services";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
