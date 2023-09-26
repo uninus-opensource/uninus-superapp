@@ -1,16 +1,19 @@
 "use client";
-import { FC, PropsWithChildren, ReactElement } from "react";
+import { FC, PropsWithChildren, ReactElement, useState } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogoutToRoot } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import {
-  AiOutlineCreditCard,
+  AiOutlineAudit,
   AiOutlineFileText,
   AiOutlineForm,
+  AiOutlineHdd,
   AiOutlineHome,
+  AiOutlineTeam,
 } from "react-icons/ai";
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
+  const [isDrop, setIsDrop] = useState<boolean>(false);
   const { mutate } = useLogoutToRoot();
   const { data: session } = useSession();
 
@@ -20,10 +23,31 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
 
   const sideLists = [
     {
-      label: "Data Pegawai",
+      label: "Dashboard",
       link: "/dashboard",
       icon: <AiOutlineHome className="text-2xl" />,
       disabledStatus: false,
+    },
+    {
+      label: "Data Pegawai",
+      icon: <AiOutlineTeam className="text-2xl" />,
+      sideDropdown: true,
+      isDropdown: isDrop,
+      onClick: () => setIsDrop(!isDrop),
+      sideDropdownList: [
+        {
+          label: "Data Dosen",
+          link: "/dashboard/data-dosen",
+          icon: <AiOutlineAudit className="text-2xl" />,
+          disabledStatus: false,
+        },
+        {
+          label: "Data Tendik",
+          link: "/dashboard/data-tendik",
+          icon: <AiOutlineHdd className="text-2xl" />,
+          disabledStatus: false,
+        },
+      ],
     },
     {
       label: "Data Pensiun",
@@ -35,12 +59,6 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       label: "Data Pelamar",
       link: "/dashboard/data-pelamar",
       icon: <AiOutlineForm className="text-2xl" />,
-      disabledStatus: false,
-    },
-    {
-      label: "Pembayaran",
-      link: "/dashboard/pembayaran",
-      icon: <AiOutlineCreditCard className="text-2xl" />,
       disabledStatus: false,
     },
   ];

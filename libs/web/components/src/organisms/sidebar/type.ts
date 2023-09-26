@@ -5,9 +5,21 @@ export type TSideBarProps = {
   profileName: string;
   profileEmail: string;
   onLogout?: () => void;
+
   sideList?: TSideBarList[];
 };
 export type TSideBarList = {
+  label: string;
+  link?: string;
+  icon: ReactNode;
+  disabledStatus?: boolean;
+  sideDropdown?: boolean;
+  isDropdown?: boolean;
+  sideDropdownList?: TSideBarDropdown[];
+  onClick?: () => void;
+};
+
+export type TSideBarDropdown = {
   label: string;
   link: string;
   icon: ReactNode;
