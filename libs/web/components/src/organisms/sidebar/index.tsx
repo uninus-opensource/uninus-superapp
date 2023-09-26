@@ -150,7 +150,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                     sideList?.map((sideList, idx) => (
                       <li key={idx} className="flex flex-col gap-y-6">
                         <Link
-                          href={sideList?.link}
+                          href={sideList?.link as string}
                           role="link"
                           className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto items-center p-2 rounded-md ${
                             pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
@@ -184,26 +184,82 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
 
                 {process.env.NEXT_PUBLIC_WORKSPACE === "admin" &&
                   sideList?.map((sideList, idx) => (
-                    <li key={idx} className="flex flex-col gap-y-6">
-                      <Link
-                        href={sideList?.link}
-                        role="link"
-                        className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
-                          pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
-                        }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
-                      >
-                        <p
-                          className={`${
-                            pathname === sideList?.link &&
-                            "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
-                          } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                    <li
+                      key={idx}
+                      className={`flex flex-col ${
+                        sideList.sideDropdown
+                          ? `${sideList.isDropdown ? "bg-primary-white" : ""}`
+                          : "gap-y-6"
+                      }`}
+                    >
+                      {sideList.sideDropdown ? (
+                        <Fragment>
+                          <button
+                            onClick={sideList.onClick}
+                            className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto duration-200 ${
+                              pathname === sideList?.link &&
+                              "bg-primary-white drop-shadow-md w-full "
+                            }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                          >
+                            <p
+                              className={`${
+                                pathname === sideList?.link &&
+                                "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
+                              } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                            >
+                              {sideList?.icon}
+                            </p>
+                            <p className="text-primary-green text-left text-xs xl:text-base w-[22vh] font-normal">
+                              {sideList?.label}
+                            </p>
+                          </button>
+
+                          {sideList.isDropdown &&
+                            sideList?.sideDropdownList?.map((sideDropdownList, idx) => (
+                              <Link
+                                href={sideDropdownList?.link}
+                                key={idx}
+                                role="link"
+                                className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
+                                  pathname === sideDropdownList?.link &&
+                                  "bg-primary-white drop-shadow-md w-full "
+                                }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                              >
+                                <p
+                                  className={`${
+                                    pathname === sideDropdownList?.link &&
+                                    "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
+                                  } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                                >
+                                  {sideDropdownList?.icon}
+                                </p>
+                                <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
+                                  {sideDropdownList?.label}
+                                </p>
+                              </Link>
+                            ))}
+                        </Fragment>
+                      ) : (
+                        <Link
+                          href={sideList?.link as string}
+                          role="link"
+                          className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
+                            pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
+                          }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
                         >
-                          {sideList?.icon}
-                        </p>
-                        <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
-                          {sideList?.label}
-                        </p>
-                      </Link>
+                          <p
+                            className={`${
+                              pathname === sideList?.link &&
+                              "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
+                            } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                          >
+                            {sideList?.icon}
+                          </p>
+                          <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
+                            {sideList?.label}
+                          </p>
+                        </Link>
+                      )}
                     </li>
                   ))}
               </ul>
@@ -299,7 +355,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                     sideList?.map((sideList, idx) => (
                       <li key={idx} className="flex flex-col gap-y-6">
                         <Link
-                          href={sideList.link}
+                          href={sideList.link as string}
                           role="link"
                           className={`flex gap-x-3 text-lg capitalize items-center p-2 rounded-md h-auto${
                             pathname === sideList.link && "bg-primary-white drop-shadow-md "
@@ -334,7 +390,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                     sideList?.map((sideList, idx) => (
                       <li key={idx} className="flex flex-col gap-y-6">
                         <Link
-                          href={sideList.link}
+                          href={sideList.link as string}
                           role="link"
                           className={`flex gap-x-3 text-lg capitalize items-center p-2 rounded-md h-auto${
                             pathname === sideList.link && "bg-primary-white drop-shadow-md "
