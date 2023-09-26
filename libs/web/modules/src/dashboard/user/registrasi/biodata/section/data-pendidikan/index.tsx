@@ -102,12 +102,11 @@ export const DataPendidikanSection: FC = (): ReactElement => {
   );
 
   // Education Major
-  const [major] = useState({
-    search: "",
-    education_type_id: watch("education_type_id"),
-  });
 
-  const { data: getMajor } = useEducationMajorGet(major);
+  const { data: getMajor } = useEducationMajorGet({
+    education_type_id: watch("education_type_id"),
+    search: "",
+  });
 
   const majorOptions = useMemo(
     () =>
@@ -379,7 +378,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               labelclassname="text-sm font-semibold"
               label="Provinsi"
               placeholder="Provinsi Sekolah"
-              inputWidth="w-70% lg:w-[18vw]  text-base md:w-[25vw] "
+              inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
               control={control}
               disabled
             />
@@ -392,11 +391,13 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               labelclassname="text-sm font-semibold"
               label="Kota/Kabupaten"
               placeholder="Kota Sekolah"
-              inputWidth="w-70% lg:w-[18vw]  text-base md:w-[25vw] "
+              inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw] "
               control={control}
               disabled
             />
+          </div>
 
+          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
             <TextField
               inputHeight="h-10"
               name="school_subdistrict"
@@ -405,35 +406,40 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               labelclassname="text-sm font-semibold"
               label="Kecamatan"
               placeholder="Kecamatan Sekolah"
-              inputWidth="w-70% lg:w-[18vw]  text-base md:w-[25vw] "
+              inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw] "
               control={control}
               disabled
             />
-          </div>
+            {majorOptions?.length !== 1 && (
+              <SelectOption
+                name="education_major_id"
+                labels="Jurusan Pendidikan Asal"
+                required={true}
+                labelClassName="font-bold text-xs py-2"
+                placeholder={
+                  student?.education_major_id
+                    ? majorOptions?.find(
+                        (item) => Number(item.value) === student?.education_major_id,
+                      )?.label
+                    : "Jurusan Pendidikan"
+                }
+                options={majorOptions || []}
+                isSearchable={false}
+                control={control}
+                isMulti={false}
+                disabled={
+                  isDisabled ||
+                  !watch("education_type_id") ||
+                  !!student?.education_major_id ||
+                  majorOptions?.length === 1
+                }
+                status="error"
+                message={errors?.education_major_id?.message as string}
+                className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+              />
+            )}
 
-          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
-            <SelectOption
-              name="education_major_id"
-              labels="Jurusan Pendidikan Asal"
-              required={true}
-              labelClassName="font-bold text-xs py-2"
-              placeholder={
-                student?.education_major_id
-                  ? majorOptions?.find((item) => Number(item.value) === student?.education_major_id)
-                      ?.label
-                  : "Jurusan Pendidikan"
-              }
-              options={majorOptions || []}
-              isSearchable={false}
-              control={control}
-              isMulti={false}
-              disabled={isDisabled || !watch("education_type_id") || !!student?.education_major_id}
-              status="error"
-              message={errors?.education_major_id?.message as string}
-              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-            />
-
-            {student?.degree_program_id === 1 && (
+            {majorOptions?.length === 1 && student?.degree_program_id === 1 && (
               <TextField
                 inputHeight="h-10"
                 name="vocational_high_school"
@@ -445,6 +451,12 @@ export const DataPendidikanSection: FC = (): ReactElement => {
                 inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw] "
                 control={control}
                 required
+                disabled={
+                  isDisabled ||
+                  !watch("education_type_id") ||
+                  !!student?.education_major_id ||
+                  majorOptions?.length !== 1
+                }
               />
             )}
           </div>

@@ -10,3 +10,9 @@ export type TDataPendaftar = {
   utbk?: number;
   status: string;
 };
+export type TTextFieldOne = {
+  name: "nik" | "nisn" | "phone_number" | "fullname" | "email";
+  item: string;
+  placeholder: string;
+  type: "text";
+};

@@ -5,6 +5,7 @@ import { TDataPendaftar } from "./types";
 import { dataPendaftar } from "./store";
 import { TableLoadingData, SearchInput } from "@uninus/web/components";
 import { FileTextOutlined, FormOutlined } from "@ant-design/icons";
+import Link from "next/link";
 
 const Table: FC = (): ReactElement => {
   const [tablePendaftar, setTablePendaftar] = useState([{}]);
@@ -76,12 +77,14 @@ const Table: FC = (): ReactElement => {
       width: "200px",
       cell: (row) => (
         <div className="flex gap-2 w-full">
-          <button className="flex w-full gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center">
-            <div>
-              <FormOutlined />
-            </div>
-            Edit
-          </button>
+          <Link href="/dashboard/data-pendaftar/edit-data-pendaftar">
+            <button className="flex w-full gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center">
+              <div>
+                <FormOutlined />
+              </div>
+              Edit
+            </button>
+          </Link>
           <button className="flex w-full gap-2 bg-primary-yellow  rounded-md p-1 px-1 items-center">
             <div>
               <FileTextOutlined />
