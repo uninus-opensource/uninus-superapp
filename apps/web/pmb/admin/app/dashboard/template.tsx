@@ -9,6 +9,7 @@ import {
   FormOutlined,
   FileTextOutlined,
   CreditCardOutlined,
+  FileDoneOutlined,
 } from "@ant-design/icons";
 import { usePopularPrograms, useRegistransData } from "@uninus/web/services";
 
@@ -37,12 +38,14 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       link: "/dashboard",
       icon: <HomeOutlined />,
     },
+    { label: "Master Data", link: "/dashboard/data-master", icon: <FileDoneOutlined /> },
     {
       label: "Data Akun",
       link: "/dashboard/data-akun",
       icon: <FileTextOutlined />,
     },
     { label: "Data Pendaftar", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
+
     { label: "Pembayaran", link: "/dashboard/data-bayar", icon: <CreditCardOutlined /> },
   ];
 

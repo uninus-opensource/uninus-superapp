@@ -200,7 +200,7 @@ export const LoginAdminModule: FC = (): ReactElement => {
 
   return (
     <section
-      key="auth-admin-evaluasi"
+      key="auth-admin-pmb"
       className={`w-full min-h-screen bg-[#E6F5ED] bg-cover bg-center object-cover bg-no-repeat -z-10`}
     >
       <div className="relative w-72 h-72 md:w-[36rem] md:h-[36rem] 2xl:w-[45rem] 2xl:h-[45rem] float-right bg-cover z-50">
@@ -251,7 +251,7 @@ export const LoginAdminModule: FC = (): ReactElement => {
             )}
             <div className="w-full text-center items-center flex flex-col justify-center font-extrabold text-sm lg:text-xl mb-6">
               <h1>PORTAL</h1>
-              <h1>Administrasi Evaluasi Dosen</h1>
+              <h1>PMB Admin</h1>
             </div>
             <TextField
               name="email"

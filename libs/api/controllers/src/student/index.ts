@@ -158,7 +158,7 @@ export class StudentController {
   async getDataById(@Param("id") id: string) {
     const response = await firstValueFrom(
       this.client
-        .send("update_student", { id })
+        .send("get_student", { id })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
