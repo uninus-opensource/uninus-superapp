@@ -4,6 +4,7 @@ export type TDataMaster = {
   no?: number | string;
   name: string;
   current_data?: { data: string }[];
+  add_data: boolean;
 };
 
 export type TColumnMaster = {

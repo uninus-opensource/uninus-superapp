@@ -2,12 +2,13 @@ import { TDataMaster } from "./type";
 
 export const dataMaster: TDataMaster[] = [
   {
-    name: "Formulir",
+    name: "Biaya Formulir",
     current_data: [
       {
-        data: "25000",
+        data: "250.000",
       },
     ],
+    add_data: false,
   },
   {
     name: "Program Studi",
@@ -17,6 +18,7 @@ export const dataMaster: TDataMaster[] = [
       },
       { data: "S1-Teknik Informatika" },
     ],
+    add_data: true,
   },
   {
     name: "Fakultas",
@@ -26,6 +28,7 @@ export const dataMaster: TDataMaster[] = [
       },
       { data: "Fakultas Pendidikan" },
     ],
+    add_data: true,
   },
   {
     name: "Jalur Seleksi",
@@ -35,6 +38,7 @@ export const dataMaster: TDataMaster[] = [
       },
       { data: "Seleksi Prestasi Non Akademik" },
     ],
+    add_data: true,
   },
   {
     name: "Data Sekolah",
@@ -44,6 +48,7 @@ export const dataMaster: TDataMaster[] = [
       },
       { data: "SMK NEGERI" },
     ],
+    add_data: true,
   },
   {
     name: "Beasiswa",
@@ -53,5 +58,6 @@ export const dataMaster: TDataMaster[] = [
       },
       { data: "Besiswa Nusantara Unggul" },
     ],
+    add_data: true,
   },
 ];
