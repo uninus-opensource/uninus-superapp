@@ -1252,6 +1252,7 @@ export class AppService {
             select: {
               user: {
                 select: {
+                  id: true,
                   fullname: true,
                 },
               },
