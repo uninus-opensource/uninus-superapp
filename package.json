@@ -99,7 +99,7 @@
     "chart.js": "^4.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
-    "cloudinary": "^1.40.0",
+    "cloudinary": "^1.41.0",
     "clsx": "^2.0.0",
     "cookie": "^0.5.0",
     "encoding": "^0.1.13",
