@@ -18,7 +18,7 @@ export class EmployeeController {
   @ApiQuery({ name: "order_by", required: false })
   @ApiQuery({ name: "filter_by", required: false })
   @ApiQuery({ name: "search", required: false })
-  @ApiQuery({ name: "type", required: false })
+  @ApiQuery({ name: "type", required: true })
   async getEmployees(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
@@ -34,6 +34,12 @@ export class EmployeeController {
           where: {
             OR: [
               {
+                user: {
+                  fullname: {
+                    contains: search || "",
+                    mode: "insensitive",
+                  },
+                },
                 employee_has_category: {
                   some: {
                     employee_category_id: Number(type),
