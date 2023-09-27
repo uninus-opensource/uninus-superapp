@@ -187,7 +187,7 @@
     "dlx": "^0.2.1",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.3.0",
-    "eslint": "8.49.0",
+    "eslint": "8.50.0",
     "eslint-config-next": "13.4.19",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-cypress": "2.15.1",
