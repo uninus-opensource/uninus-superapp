@@ -77,7 +77,7 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
   }, [getValues, setValue, watchStudentGrade, watchUtbk]);
 
   return (
-    <form>
+    <form className="bg-primary-white py-4 px-8">
       <ToastContainer
         position="top-center"
         autoClose={5000}

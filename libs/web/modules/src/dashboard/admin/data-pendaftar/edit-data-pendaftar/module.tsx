@@ -7,22 +7,20 @@ import { EditDataPendidikan } from "./section/data-pendidikan";
 import { EditDataNilaiRaport } from "./section/nilai-raport";
 import { EditDataOrangtua } from "./section/data-orangtua";
 import { usePathname } from "next/navigation";
-// import { useGetStudentById } from "./hook";
-// import { useStudentDataById } from "@uninus/web/services";
+import { useStudentDataById } from "@uninus/web/services";
+import { useGetStudentById } from "./hooks";
 
 export const ModuleEditDataPendaftar: FC = (): ReactElement => {
   const [isActive, setIsActive] = useState<number>(1);
 
   const path = usePathname();
-
   const id = path.slice(46);
 
-  // const { setStudentbyId } = useStudentDataById();
+  const { setStudentbyId } = useStudentDataById();
 
-  // const { data } = useGetStudentById(id);
-  // setStudentbyId(data);
+  const { data } = useGetStudentById(id);
+  setStudentbyId(data);
 
-  console.log(id);
   const tabList: TTabSection[] = [
     {
       no: 1,
