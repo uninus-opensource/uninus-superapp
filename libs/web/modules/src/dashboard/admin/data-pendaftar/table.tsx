@@ -149,8 +149,7 @@ const Table: FC = (): ReactElement => {
         cell: (row) => (
           <div className="flex gap-2 w-full ml-2">
             <Button
-              href="/dashboard/data-pendaftar/edit-data-pendaftar/[id]"
-              as={`/dashboard/data-pendaftar/edit-data-pendaftar/${row.id}`}
+              href={`/dashboard/data-pendaftar/edit-data-pendaftar/${row.id}`}
               variant="filled"
               height="h-4"
               width="w-20"

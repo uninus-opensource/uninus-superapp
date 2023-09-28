@@ -51,7 +51,7 @@ export const Button: FC<IButtonProps> = ({
   const className = [...buttonVariant, ...buttonSize].join("");
 
   return props?.href ? (
-    <Link role="link" href={`${props?.href}`} as={`${props?.as}`}>
+    <Link role="link" href={`${props?.href}`}>
       <button
         role="button"
         aria-label="button-component-link"
