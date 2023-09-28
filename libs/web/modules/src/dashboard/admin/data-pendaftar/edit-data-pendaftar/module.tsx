@@ -6,23 +6,23 @@ import { EditDataDiri } from "./section/data-diri";
 import { EditDataPendidikan } from "./section/data-pendidikan";
 import { EditDataNilaiRaport } from "./section/nilai-raport";
 import { EditDataOrangtua } from "./section/data-orangtua";
+import { usePathname } from "next/navigation";
+// import { useGetStudentById } from "./hook";
+// import { useStudentDataById } from "@uninus/web/services";
 
-export const EditDataBreadcrumb = [
-  {
-    name: "Beranda",
-    link: "/dashboard",
-  },
-  {
-    name: "Data Pendaftar",
-    link: "/dashboard/data-pendaftar",
-  },
-  {
-    name: "Edit Data Pendaftar",
-    link: "/dashboard/data-pendaftar/edit-data-pendaftar",
-  },
-];
 export const ModuleEditDataPendaftar: FC = (): ReactElement => {
   const [isActive, setIsActive] = useState<number>(1);
+
+  const path = usePathname();
+
+  const id = path.slice(46);
+
+  // const { setStudentbyId } = useStudentDataById();
+
+  // const { data } = useGetStudentById(id);
+  // setStudentbyId(data);
+
+  console.log(id);
   const tabList: TTabSection[] = [
     {
       no: 1,
@@ -39,6 +39,21 @@ export const ModuleEditDataPendaftar: FC = (): ReactElement => {
     {
       no: 4,
       item: "Data Orang Tua",
+    },
+  ];
+
+  const EditDataBreadcrumb = [
+    {
+      name: "Beranda",
+      link: "/dashboard",
+    },
+    {
+      name: "Data Pendaftar",
+      link: "/dashboard/data-pendaftar",
+    },
+    {
+      name: "Edit Data Pendaftar",
+      link: path,
     },
   ];
 

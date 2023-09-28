@@ -1,8 +1,3 @@
-export const beasiswa = {
-  scholarship_id: 0,
-  avatar: null,
-};
-
 export type berkasKhusus = {
   // Nusantara berprestasi
   sertifikat_kejuaraan: File;
