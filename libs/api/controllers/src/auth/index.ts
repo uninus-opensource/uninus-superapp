@@ -1,4 +1,13 @@
-import { Body, Controller, Post, Request, UseFilters, UseGuards, UsePipes } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Post,
+  Request,
+  UseFilters,
+  UseGuards,
+  UsePipes,
+  Headers,
+} from "@nestjs/common";
 import {
   TReqToken,
   VSRegister,
@@ -11,9 +20,7 @@ import {
 } from "@uninus/entities";
 import { RtGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/validator";
-import {
-  AuthService,
-} from "@uninus/api/services";
+import { AuthService } from "@uninus/api/services";
 import {
   RegisterDto,
   LoginDto,
@@ -25,7 +32,14 @@ import {
   RefreshTokenDto,
 } from "@uninus/api/dto";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
-import { ApiTags, ApiBody, ApiResponse, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
+import {
+  ApiTags,
+  ApiBody,
+  ApiResponse,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiHeader,
+} from "@nestjs/swagger";
 
 @Controller("auth")
 @ApiTags("Auth")
@@ -55,16 +69,24 @@ export class AuthController {
     description: "Berhasil Login",
   })
   @ApiResponse({ status: 401, description: "Email atau Password tidak valid" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Post("login")
   @UsePipes(new ZodValidationPipe(VSLogin))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  async login(@Body() payload: LoginDto) {
-    return await this.appService.login(payload);
+  async login(@Headers("app-origin") app_origin: string, @Body() payload: LoginDto) {
+    return await this.appService.login({ app_origin, ...payload });
   }
 
   @ApiOperation({ summary: "Logout" })
   @ApiResponse({ status: 201, description: "Berhasil logout" })
   @ApiResponse({ status: 401, description: "Gagal logout" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Post("logout")
   @UsePipes(new ZodValidationPipe(VSLogout))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())

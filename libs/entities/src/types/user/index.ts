@@ -19,7 +19,7 @@ export type TUser = {
   id: string;
   email: string;
   fullname: string;
-  role: string | null;
+  role: string;
   createdAt: Date;
   avatar: string | null;
   isVerified: boolean | null;
