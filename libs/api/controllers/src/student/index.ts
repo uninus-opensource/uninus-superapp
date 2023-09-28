@@ -12,9 +12,9 @@ import {
   Patch,
   UsePipes,
 } from "@nestjs/common";
-import { VSRegistrationNumber } from "@uninus/entities";
+import { EAppsOrigin, VSRegistrationNumber } from "@uninus/entities";
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
-import { JwtAuthGuard } from "@uninus/api/guard";
+import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/validator";
 import { GraduationStatusDto, UpdateStudentDto } from "@uninus/api/dto";
 import {
@@ -23,6 +23,7 @@ import {
   ApiUnauthorizedResponse,
   ApiOperation,
   ApiBearerAuth,
+  ApiHeader,
 } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
@@ -38,9 +39,14 @@ export class StudentController {
     status: 400,
     description: "User tidak ditemukan",
   })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Post("/graduation-status")
   @UsePipes(new ZodValidationPipe(VSRegistrationNumber))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @UseGuards(PermissionGuard([EAppsOrigin.PMBUSER]))
   async graduationStatus(@Body() payload: GraduationStatusDto) {
     const response = await firstValueFrom(
       this.client
@@ -59,9 +65,13 @@ export class StudentController {
   @ApiUnauthorizedResponse({
     description: "Unauthorized",
   })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Get()
-  @UseGuards(JwtAuthGuard)
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBUSER]))
   async getData(@Request() reqToken: TReqToken) {
     const { sub: id } = reqToken.user;
     const response = await firstValueFrom(
@@ -81,10 +91,14 @@ export class StudentController {
   @ApiUnauthorizedResponse({
     description: "Unauthorized",
   })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Patch()
   @UsePipes(new ZodValidationPipe(VSUpdateStudent))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBUSER]))
   async updateData(
     @Request() reqToken: TReqToken,
     @Body()
@@ -108,9 +122,13 @@ export class StudentController {
     status: 400,
     description: "User tidak ditemukan",
   })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Delete("/:id")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async deleteDataById(@Param("id") id: string) {
     const response = await firstValueFrom(
       this.client
@@ -126,10 +144,14 @@ export class StudentController {
     status: 400,
     description: "User tidak ditemukan",
   })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Patch("/:id")
   @UsePipes(new ZodValidationPipe(VSUpdateStudent))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async updateDataById(
     @Param("id") id: string,
     @Body()
@@ -152,9 +174,13 @@ export class StudentController {
   @ApiUnauthorizedResponse({
     description: "Unauthorized",
   })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Get("/:id")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async getDataById(@Param("id") id: string) {
     const response = await firstValueFrom(
       this.client

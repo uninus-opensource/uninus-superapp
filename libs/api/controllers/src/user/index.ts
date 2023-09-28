@@ -66,8 +66,13 @@ export class UserController {
   @ApiQuery({ name: "order_by", required: false })
   @ApiQuery({ name: "filter_by", required: false })
   @ApiQuery({ name: "search", required: false })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Get()
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async getAllData(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
@@ -108,8 +113,13 @@ export class UserController {
 
   @ApiOperation({ summary: "Get Data User By Id" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Get("/:id")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async getDataById(@Param("id") id: string) {
     const response = await firstValueFrom(
       this.client
@@ -122,7 +132,12 @@ export class UserController {
   @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({ status: 201, description: "Berhasil delete user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Delete("/:id")
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async deleteData(@Param("id") id: string) {
     const response = await firstValueFrom(
@@ -136,9 +151,14 @@ export class UserController {
   @ApiOperation({ summary: "Edit User By Id" })
   @ApiResponse({ status: 201, description: "Berhasil update user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Put("/:id")
   @UsePipes(new ZodValidationPipe(VSUpdateUser))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async updateData(
     @Param("id") id: string,
     @Body()

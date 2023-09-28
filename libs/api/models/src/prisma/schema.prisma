@@ -247,8 +247,15 @@ model Roles {
   id         Int          @id @default(autoincrement())
   name       String
   createdAt  DateTime     @default(now())
+  appsOrigin AppsOrigin[] @relation("RolesAppOrigin")
   users      Users[]
-  AppsOrigin AppsOrigin[] @relation("RolesAppOrigin")
+}
+
+model AppsOrigin {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  roles     Roles[]  @relation("RolesAppOrigin")
 }
 
 model OTP {
@@ -605,11 +612,4 @@ model LecturerFacultyDepartment {
   department    Department @relation(fields: [department_id], references: [id])
   faculty       Faculty?   @relation(fields: [faculty_id], references: [id])
   lecturer      Lecturers  @relation(fields: [lecturer_id], references: [id])
-}
-
-model AppsOrigin {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  Roles     Roles[]  @relation("RolesAppOrigin")
 }

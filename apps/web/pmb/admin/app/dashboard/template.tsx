@@ -32,7 +32,8 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     mutate(session?.user?.refresh_token);
   };
 
-  const sideLists: TSideList = [
+  console.log(session?.user.role);
+  const sideListsSuperAdmin: TSideList = [
     {
       label: "Beranda",
       link: "/dashboard",
@@ -49,6 +50,16 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     { label: "Pembayaran", link: "/dashboard/data-bayar", icon: <CreditCardOutlined /> },
   ];
 
+  const sideListsAdminSeleksi: TSideList = [
+    {
+      label: "Beranda",
+      link: "/dashboard",
+      icon: <HomeOutlined />,
+    },
+
+    { label: "Data Pendaftar", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
+  ];
+
   const { data } = useGetRegistrans();
 
   const { setRegistransData } = useRegistransData();
@@ -59,25 +70,31 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { setPopularData } = usePopularPrograms();
   setPopularData(popularProgram);
 
-  return (
-    <body className={`${monserrat.className}`}>
-      <div key="modal-logout" id="modal" />
-      <main className="flex w-full min-h-full overflow-x-hidden ">
-        <SideBar
-          profileName="mawar saidah"
-          profileEmail="mwrsdh@gmail.com"
-          onLogout={handleLogout}
-          sideList={sideLists}
-        />
+  const roles = {
+    Admin_Selek_PMB: "Admin Seleksi PMB",
+    Super_Admin_PMB: "Super Admin PMB",
+  };
 
-        <section
-          key="dashboard"
-          className="w-full bg-gray-100 lg:p-10 py-4 bg-grayscale-1 h-screen overflow-y-auto"
-        >
-          {children}
-        </section>
-      </main>
-    </body>
+  return (
+    <main className={`flex w-full min-h-full overflow-x-hidden ${monserrat?.className}`}>
+      <SideBar
+        profileName="mawar saidah"
+        profileEmail="mwrsdh@gmail.com"
+        onLogout={handleLogout}
+        sideList={
+          session?.user?.role === roles?.Admin_Selek_PMB
+            ? sideListsAdminSeleksi
+            : sideListsSuperAdmin
+        }
+      />
+
+      <section
+        key="dashboard"
+        className="w-full bg-gray-100 lg:p-10 py-4 bg-grayscale-1 h-screen overflow-y-auto"
+      >
+        {children}
+      </section>
+    </main>
   );
 };
 

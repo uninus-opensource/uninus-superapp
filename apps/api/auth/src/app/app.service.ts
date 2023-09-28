@@ -2,6 +2,7 @@ import {
   BadGatewayException,
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -195,18 +196,25 @@ export class AppService {
         avatar: true,
         isVerified: true,
         role: {
-          select: {
-            name: true,
+          include: {
+            appsOrigin: true,
           },
         },
       },
     });
 
     const isMatch = user && (await comparePassword(payload.password as string, user.password));
+    const userPermission = user?.role?.appsOrigin.map((el) => el.name);
+    const isHashPermission = userPermission.includes(payload.app_origin);
 
     if (!user || !isMatch) {
       throw new RpcException(new UnauthorizedException("Email atau password tidak valid"));
     }
+
+    if (!isHashPermission) {
+      throw new RpcException(new ForbiddenException("Anda tidak memiliki akses ke aplikasi ini"));
+    }
+
     if (!user.isVerified) {
       throw new RpcException(new UnauthorizedException("Email belum terverifikasi"));
     }
@@ -214,7 +222,7 @@ export class AppService {
     const { access_token, refresh_token } = await generateToken({
       sub: user.id,
       email: user.email,
-      role: user.role?.name || "",
+      role: user?.role?.name,
     });
     const expiresIn = 15 * 60 * 1000;
     const now = Date.now();
@@ -232,7 +240,7 @@ export class AppService {
         id: user.id,
         email: user.email,
         fullname: user.fullname,
-        role: user.role?.name || "",
+        role: user?.role?.name,
         createdAt: user.createdAt,
         avatar: user.avatar,
         isVerified: user.isVerified,

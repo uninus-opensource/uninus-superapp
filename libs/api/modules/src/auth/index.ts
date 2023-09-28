@@ -25,6 +25,8 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
           port: parseInt(process.env.REDIS_PORT),
           password: process.env.REDIS_PASSWORD,
           username: process.env.REDIS_USERNAME,
+          retryAttempts: 3,
+          retryDelay: 2000,
         },
       },
     ]),
