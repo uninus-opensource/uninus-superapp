@@ -1,0 +1,21 @@
+FROM node:18.17.1-alpine3.17 AS Builder
+WORKDIR /app
+COPY . .
+RUN rm -f yarn.lock
+RUN yarn install --frozen-lockfile --ignore-scripts
+RUN yarn prisma generate
+RUN yarn nx build api-general
+
+
+FROM node:18.17.1-alpine3.17 AS Service
+WORKDIR /app/
+COPY --from=Builder /app/node_modules ./node_modules
+COPY --from=Builder /app/package.json ./package.json
+COPY --from=Builder /app/dist/apps/api/general ./src
+COPY --from=Builder /app/libs/api/models/src/prisma/schema.prisma ./libs/api/models/src/prisma/schema.prisma
+ENV DATABASE_URL ${DATABASE_URL}
+ENV REDIS_HOST ${REDIS_HOST}
+ENV REDIS_PORT ${REDIS_PORT}
+ENV REDIS_PASSWORD ${REDIS_PASSWORD}
+ENV REDIS_USERNAME ${REDIS_USERNAME}
+CMD node /app/src/main.js

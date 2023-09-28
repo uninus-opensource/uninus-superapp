@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: 18
       - run: yarn install
-      - run: yarn run nx run-many --target=lint --projects=web-akreditasi,web-evaluasi,web-keuangan,web-neo-feeder,web-pegawai,web-pmb-user,web-pmb-admin,web-siakad,web-smart-dashboard,web-tata-usaha,web-tracer-alumni,web-lms,api,api-auth,api-location,api-pmb,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts
+      - run: yarn run nx run-many --target=lint --projects=web-akreditasi,web-evaluasi,web-lms,web-neo-feeder,web-pegawai,web-pmb-user,web-pmb-admin,web-siakad,web-sisfo-akuntansi,web-sisfo-aset,web-sisfo-bendahara,web-sisfo-keuangan,web-smart-dashboard,web-tata-usaha,web-tracer-alumni,api,api-auth,api-email,api-file,api-general,api-student,api-user,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts
 
   build:
     runs-on: ubuntu-latest
@@ -21,7 +21,8 @@ jobs:
         with:
           node-version: 18
       - run: yarn install
-      - run: yarn run nx run-many --target=build --projects=web-akreditasi,web-evaluasi,web-keuangan,web-neo-feeder,web-pegawai,web-pmb-user,web-pmb-admin,web-siakad,web-smart-dashboard,web-tata-usaha,web-tracer-alumni,web-lms,api,api-auth,api-location,api-pmb,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts
+      - run: yarn prisma generate
+      - run: yarn run nx run-many --target=build --projects=web-akreditasi,web-evaluasi,web-lms,web-neo-feeder,web-pegawai,web-pmb-user,web-pmb-admin,web-siakad,web-sisfo-akuntansi,web-sisfo-aset,web-sisfo-bendahara,web-sisfo-keuangan,web-smart-dashboard,web-tata-usaha,web-tracer-alumni,api,api-auth,api-email,api-file,api-general,api-student,api-user,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts
 
   unit-test:
     runs-on: ubuntu-latest
@@ -30,4 +31,4 @@ jobs:
         with:
           node-version: 18
       - run: yarn install
-      - run: yarn run nx run-many --target=test --projects=web-akreditasi,web-evaluasi,web-keuangan,web-neo-feeder,web-pegawai,web-pmb-user,web-pmb-admin,web-siakad,web-smart-dashboard,web-tata-usaha,web-tracer-alumni,web-lms,api,api-auth,api-location,api-pmb,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts
+      - run: yarn run nx run-many --target=test --projects=web-akreditasi,web-evaluasi,web-lms,web-neo-feeder,web-pegawai,web-pmb-user,web-pmb-admin,web-siakad,web-sisfo-akuntansi,web-sisfo-aset,web-sisfo-bendahara,web-sisfo-keuangan,web-smart-dashboard,web-tata-usaha,web-tracer-alumni,api,api-auth,api-email,api-file,api-general,api-student,api-user,web-components,api-controllers,entities,api-master,api-models,api-modules,web-modules,api-models,web-providers,api-services,web-services,utilities,api-strategies,api-guard,web-layouts

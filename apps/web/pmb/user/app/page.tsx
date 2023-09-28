@@ -5,6 +5,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "PMB | Beranda",
+  description: "Beranda PMB",
+  icons: {
+    icon: "/icon.ico",
+  },
 };
 
 const LandingPage: NextPage = (): ReactElement => (

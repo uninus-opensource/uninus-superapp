@@ -2,7 +2,12 @@ import { FC, ReactElement } from "react";
 import { SearchProps } from "./types";
 import IconSearch from "./ic-search";
 
-export const SearchInput: FC<SearchProps> = ({ onChange, value, placeholder }): ReactElement => {
+export const SearchInput: FC<SearchProps> = ({
+  onChange,
+  value,
+  placeholder,
+  width = "w-80%",
+}): ReactElement => {
   return (
     <form className="flex items-start">
       <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">
@@ -17,7 +22,7 @@ export const SearchInput: FC<SearchProps> = ({ onChange, value, placeholder }): 
           role="search"
           onChange={onChange}
           id="default-search"
-          className="block lg:w-30% w-80% p-2 pl-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+          className={`block ${width} p-2 pl-12 text-sm text-gray-900 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500`}
           placeholder={placeholder}
           required
         />

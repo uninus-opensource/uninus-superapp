@@ -1,23 +1,22 @@
 "use client";
-import { FC, ReactElement, useState, useMemo, Fragment } from "react";
+import { FC, ReactElement, useState, useMemo, Fragment, useEffect } from "react";
 import Image from "next/image";
 import { TSideBarProps } from "./type";
 import { AiOutlineLogout } from "react-icons/ai";
 import Link from "next/link";
 import { Button } from "../../atoms";
 import { motion } from "framer-motion";
-import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { Modal } from "../modal";
 import { MenuOutlined, AppstoreFilled } from "@ant-design/icons";
 import { useStudentGet } from "./hooks";
-import { useUserData } from "@uninus/web/services";
+import { useUpdateAvatar, useUserData } from "@uninus/web/services";
 import { Loading } from "./loading";
 
 export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [avatar, setAvatar] = useState<string | null | undefined>(null);
   const [onToogle, setOnToogle] = useState<boolean>(false);
-  const { data: session } = useSession();
 
   const handleOpenModal = () => {
     setShowModal(!showModal);
@@ -29,25 +28,31 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
     setOnToogle(!onToogle);
   };
 
-  const userName = useMemo(() => {
-    const userName = session?.user?.fullname;
-    return userName;
-  }, [session]);
-
-  const userAvatar = useMemo(() => {
-    const userName = session?.user?.avatar;
-    return userName;
-  }, [session]);
-
   const { data, isLoading } = useStudentGet();
 
   const { getUser, setUser } = useUserData();
   setUser(data);
 
+  const { getUpdateAvatar } = useUpdateAvatar();
+
+  const userName = useMemo(() => {
+    const userName = getUser?.fullname;
+    return userName;
+  }, [getUser]);
+
+  const userAvatar = useMemo(() => {
+    const userName = getUser?.avatar;
+    return userName;
+  }, [getUser]);
+
   const userStatus = useMemo(() => {
     const userStatus = getUser?.registration_status;
     return userStatus;
   }, [getUser]);
+
+  useEffect(() => {
+    setAvatar(userAvatar);
+  }, [userAvatar]);
 
   const pathname = usePathname();
 
@@ -96,13 +101,14 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
             {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
           </h1>
-          <figure className="flex flex-col items-center  ">
+          <figure className="flex flex-col items-center">
             <Image
-              className="rounded-full "
-              src={userAvatar || "/illustrations/dummy-avatar.webp"}
+              className="w-[80px] h-[80px] bg-cover object-cover rounded-full"
+              src={getUpdateAvatar || avatar || "/illustrations/dummy-avatar.webp"}
               alt="profile picture"
-              width={70}
-              height={70}
+              quality={100}
+              width={500}
+              height={500}
               priority={true}
             />
             <figcaption className="text-center flex flex-col gap-y-3 mt-3  ">
@@ -144,7 +150,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                     sideList?.map((sideList, idx) => (
                       <li key={idx} className="flex flex-col gap-y-6">
                         <Link
-                          href={sideList?.link}
+                          href={sideList?.link as string}
                           role="link"
                           className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto items-center p-2 rounded-md ${
                             pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
@@ -178,26 +184,82 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
 
                 {process.env.NEXT_PUBLIC_WORKSPACE === "admin" &&
                   sideList?.map((sideList, idx) => (
-                    <li key={idx} className="flex flex-col gap-y-6">
-                      <Link
-                        href={sideList?.link}
-                        role="link"
-                        className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
-                          pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
-                        }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
-                      >
-                        <p
-                          className={`${
-                            pathname === sideList?.link &&
-                            "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
-                          } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                    <li
+                      key={idx}
+                      className={`flex flex-col ${
+                        sideList.sideDropdown
+                          ? `${sideList.isDropdown ? "bg-primary-white" : ""}`
+                          : "gap-y-6"
+                      }`}
+                    >
+                      {sideList.sideDropdown ? (
+                        <Fragment>
+                          <button
+                            onClick={sideList.onClick}
+                            className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto duration-200 ${
+                              pathname === sideList?.link &&
+                              "bg-primary-white drop-shadow-md w-full "
+                            }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                          >
+                            <p
+                              className={`${
+                                pathname === sideList?.link &&
+                                "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
+                              } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                            >
+                              {sideList?.icon}
+                            </p>
+                            <p className="text-primary-green text-left text-xs xl:text-base w-[22vh] font-normal">
+                              {sideList?.label}
+                            </p>
+                          </button>
+
+                          {sideList.isDropdown &&
+                            sideList?.sideDropdownList?.map((sideDropdownList, idx) => (
+                              <Link
+                                href={sideDropdownList?.link}
+                                key={idx}
+                                role="link"
+                                className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
+                                  pathname === sideDropdownList?.link &&
+                                  "bg-primary-white drop-shadow-md w-full "
+                                }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                              >
+                                <p
+                                  className={`${
+                                    pathname === sideDropdownList?.link &&
+                                    "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
+                                  } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                                >
+                                  {sideDropdownList?.icon}
+                                </p>
+                                <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
+                                  {sideDropdownList?.label}
+                                </p>
+                              </Link>
+                            ))}
+                        </Fragment>
+                      ) : (
+                        <Link
+                          href={sideList?.link as string}
+                          role="link"
+                          className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
+                            pathname === sideList?.link && "bg-primary-white drop-shadow-md w-full "
+                          }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
                         >
-                          {sideList?.icon}
-                        </p>
-                        <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
-                          {sideList?.label}
-                        </p>
-                      </Link>
+                          <p
+                            className={`${
+                              pathname === sideList?.link &&
+                              "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
+                            } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                          >
+                            {sideList?.icon}
+                          </p>
+                          <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
+                            {sideList?.label}
+                          </p>
+                        </Link>
+                      )}
                     </li>
                   ))}
               </ul>
@@ -249,16 +311,17 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                 {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
               </h1>
               <div className="flex flex-row  items-center gap-x-6">
-                <figure className="flex flex-col">
+                <figure className="flex flex-col items-center">
                   <Image
-                    className="rounded-full mx-auto"
-                    src={userAvatar || "/illustrations/dummy-avatar.webp"}
+                    className="w-[80px] h-[80px] bg-cover object-cover rounded-full"
+                    src={avatar || "/illustrations/dummy-avatar.webp"}
                     alt="profile picture"
-                    width={70}
-                    height={70}
+                    quality={100}
+                    width={500}
+                    height={500}
                     priority={true}
                   />
-                  <figcaption className="text-center flex flex-col gap-y-2 mt-3  ">
+                  <figcaption className="text-center flex flex-col gap-y-2 mt-3">
                     <div className=" text-xs text-secondary-green-4 p-2 font-bold rounded-md leading-[14px]">
                       <h3 className="max-w-3/5 text-base leading-normal capitalize">{userName}</h3>
                     </div>
@@ -268,10 +331,10 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
               {/* Status pendaftaran */}
               {process.env.NEXT_PUBLIC_WORKSPACE === "user" &&
                 (isLoading ? (
-                  <div className="w-3/5 mt-2 font-bold p-2 rounded-md bg-grayscale-2 animate-pulse h-10"></div>
+                  <div className="w-3/5 font-bold p-2 rounded-md bg-grayscale-2 animate-pulse h-10"></div>
                 ) : (
                   <div
-                    className={`w-3/5 mt-2 font-bold ${
+                    className={`w-3/5 font-bold ${
                       userStatus === "Belum Membayar" ||
                       userStatus === "Tidak Lulus" ||
                       userStatus === "Belum Mendaftar"
@@ -292,7 +355,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                     sideList?.map((sideList, idx) => (
                       <li key={idx} className="flex flex-col gap-y-6">
                         <Link
-                          href={sideList.link}
+                          href={sideList.link as string}
                           role="link"
                           className={`flex gap-x-3 text-lg capitalize items-center p-2 rounded-md h-auto${
                             pathname === sideList.link && "bg-primary-white drop-shadow-md "
@@ -327,7 +390,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
                     sideList?.map((sideList, idx) => (
                       <li key={idx} className="flex flex-col gap-y-6">
                         <Link
-                          href={sideList.link}
+                          href={sideList.link as string}
                           role="link"
                           className={`flex gap-x-3 text-lg capitalize items-center p-2 rounded-md h-auto${
                             pathname === sideList.link && "bg-primary-white drop-shadow-md "

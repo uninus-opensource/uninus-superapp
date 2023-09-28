@@ -44,7 +44,16 @@ export type NilaiValues = {
   bing2: number;
   bing3: number;
   bing4: number;
-  utbk: number;
+  utbk_kk: number | null;
+  utbk_pu: number | null;
+  utbk_ppu: number | null;
+  utbk_kmbm: number | null;
+  average_utbk: number | null;
+  dokumen1: File;
+  dokumen2: File;
+  dokumen3: File;
+  dokumen4: File;
+  UTBK: File;
   average_grade: number;
   semester: string;
   subject: string;
@@ -53,4 +62,14 @@ export type NilaiValues = {
     semester: string;
     grade: number;
   }>;
+};
+
+export type TUploadFileRequest = {
+  file: File;
+};
+
+export type TUploadFileResponse = {
+  file_name: string;
+  file_url: string;
+  mime: string;
 };

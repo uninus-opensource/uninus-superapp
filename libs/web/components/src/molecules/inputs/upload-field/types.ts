@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
+import { FieldValues, UseControllerProps } from "react-hook-form";
 
-export type TUploadFile = {
-  control: any;
+export type TUploadFile<T extends FieldValues> = UseControllerProps<T> & {
   name: string;
   className?: string;
   defaultImage?: string;
@@ -10,6 +10,9 @@ export type TUploadFile = {
   preview?: boolean;
   labels?: string | ReactNode;
   labelClassName?: string;
+  layoutInputClassName?: string;
   required?: boolean;
   variant: string;
+  message?: string;
+  isDisabled?: boolean;
 };

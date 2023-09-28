@@ -1,17 +1,19 @@
 import { api } from "@uninus/web/services";
 import {
-  IUpdateStudentRequestFE,
   IUpdateStudentResponse,
   IGetStudentResponse,
   IGetUserMeResponse,
   IUpdateStudentGradeRequest,
   IUpdateStudentGradeResponse,
+  IUpdateStudentRequest,
 } from "@uninus/entities";
+import { TUploadFileRequest, TUploadFileResponse } from "./type";
+import axios from "axios";
 
 export const BiodataUpdate = async (
-  payload: IUpdateStudentRequestFE,
+  payload: IUpdateStudentRequest,
 ): Promise<IUpdateStudentResponse> => {
-  const { data } = await api.patch<IUpdateStudentRequestFE>("/student", payload);
+  const { data } = await api.patch<IUpdateStudentRequest>("/student", payload);
   return data;
 };
 
@@ -33,5 +35,12 @@ export const UpdateAverage = async (
 };
 export const StudentGradeGet = async (): Promise<IUpdateStudentGradeResponse> => {
   const { data } = await api.get<IUpdateStudentGradeResponse>("/student");
+  return data;
+};
+
+export const uploadFile = async (payload: TUploadFileRequest): Promise<TUploadFileResponse> => {
+  const formData = new FormData();
+  formData.append("file", payload.file);
+  const { data } = await axios.post("https://storage.uninus.ac.id/api/file", formData);
   return data;
 };

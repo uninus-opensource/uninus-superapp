@@ -107,6 +107,7 @@ export const TuitionFeeModule: FC = (): ReactElement => {
             </span>
             <div className="w-full flex p-2 lg:justify-end justify-start">
               <SearchInput
+                width="lg:w-30% w-80%"
                 value={searchQuery}
                 onChange={handleSearch}
                 placeholder="Cari Fakultas dan Program Studi"

@@ -1,6 +1,14 @@
 "use client";
-import { ReactElement, FC, Fragment, useState } from "react";
-import { Accordion, Button, Footer, HeroBanner, Modal, Navbar } from "@uninus/web/components";
+import { ReactElement, FC, Fragment, useState, SetStateAction } from "react";
+import {
+  Accordion,
+  Button,
+  Footer,
+  HeroBanner,
+  Modal,
+  Navbar,
+  SearchInput,
+} from "@uninus/web/components";
 import Image from "next/image";
 import { ProdiList } from "./store";
 import { ProdiProps } from "./type";
@@ -8,6 +16,18 @@ import { DownloadOutlined } from "@ant-design/icons";
 export const ProgramStudyModule: FC = (): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<ProdiProps | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const filteredDataAkun = ProdiList.filter(
+    (item) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.prodi[0].prod.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
+  const handleSearch = (event: { target: { value: SetStateAction<string> } }) => {
+    setSearchQuery(event.target.value);
+  };
+
   const handleOpenModal = (name: string) => {
     const selectedProdi = ProdiList.find((item) => item.name === name);
     setActiveItem(selectedProdi || null);
@@ -93,43 +113,41 @@ export const ProgramStudyModule: FC = (): ReactElement => {
       <section key="program-studi" className="w-full min-h-screen">
         <HeroBanner
           heroImages="/illustrations/prodi-banner.webp"
-          heroTitleBottomRight="PROGRAM STUDI"
+          heroTitleBottomRight="Fakultas dan Program Studi"
           backgroundColor="bg-grayscale-8"
           blur
         />
-        <div className="lg:w-full w-auto h-full lg:p-16 py-8 px-8 text-center flex justify-center font-bebasNeue">
-          <div className="flex flex-col lg:gap-y-16 lg:w-5/6 w-full gap-y-8">
+        <div className="lg:w-full w-auto lg:p-16 py-8 px-8 text-center flex justify-center font-bebasNeue">
+          <div className="flex flex-col lg:gap-y-16  w-full gap-y-8">
             <div className="lg:w-4/5 w-full lg:mx-auto ">
               <h1 className="text-center text-secondary-green-5 lg:text-3xl text-xl font-bold">
-                Fakultas dan Program studi Universitas Islam Nusantara
+                Uninus memiliki beberapa pilihan program studi yang terbagi dalam 8 fakultas
               </h1>
             </div>
           </div>
         </div>
+        <div className="w-full flex p-2  justify-center">
+          <SearchInput
+            placeholder="Cari Nama Fakultas dan Program Studi"
+            value={searchQuery}
+            onChange={handleSearch}
+            width="w-70% lg:w-80%"
+          />
+        </div>
 
         <section className="w-full h-full py-8 px-7 flex justify-center">
-          <div className="flex flex-wrap xl:grid xl:grid-cols-3  gap-8 justify-center  items-center">
-            {ProdiList.map((item, idx) => (
+          <div className="flex flex-wrap xl:grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-8 justify-center py-4 items-center">
+            {filteredDataAkun.map((item, idx) => (
               <div
                 key={idx}
-                className={`w-[265px]  h-[220px] rounded overflow-hidden shadow-md relative cursor-pointer ${
-                  idx === ProdiList.length - 1 ? "col-span-2 lg:w-[564px]" : "col-span-1  "
-                }`}
+                className="w-[265px]  h-[220px] rounded overflow-hidden shadow-md relative cursor-pointer  col-span-1  hover:scale-90"
                 onClick={() => {
                   setActiveItem(item);
                   handleOpenModal(item.name);
                 }}
               >
                 <div className=" hidden lg:block lg:mb-[4rem] ">
-                  <Image
-                    src={`${
-                      idx === ProdiList.length - 1 ? "/illustrations/pasca-2.webp " : item.img
-                    }`}
-                    width={595}
-                    height={360}
-                    alt={item.name}
-                    quality={100}
-                  />
+                  <Image src={item.img} width={595} height={360} alt={item.name} quality={100} />
                 </div>
                 <div className="block lg:hidden">
                   <Image src={item.img} width={530} height={360} alt={item.name} quality={100} />

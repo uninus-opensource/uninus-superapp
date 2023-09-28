@@ -17,7 +17,7 @@ import Link from "next/link";
 
 export const Footer: FC = (): ReactElement => {
   return (
-    <footer role="footer" className="w-full h-footerHeight">
+    <footer data-testid="footer" className="w-full h-footerHeight">
       {/* frame1 */}
       <section className="h-[300px] bg-secondary-green-4 z-10 flex flex-col">
         {/* backgroundImage */}
@@ -72,9 +72,9 @@ export const Footer: FC = (): ReactElement => {
                       </div>
 
                       <div className="md:w-[25vw]">
-                        <h3 className="font-bold text-[10px] md:text-[15px] text-primary-white">
+                        <h1 className="font-bold text-[10px] md:text-[15px] text-primary-white">
                           SITUS RESMI UNINUS
-                        </h3>
+                        </h1>
                       </div>
                     </div>
                   </Link>
@@ -99,9 +99,9 @@ export const Footer: FC = (): ReactElement => {
                     </div>
 
                     <div className="md:w-[20vw]">
-                      <h3 className="font-bold text-[10px] md:text-[15px] text-primary-white">
+                      <h1 className="font-bold text-[10px] md:text-[15px] text-primary-white">
                         UNDUH BROSUR
-                      </h3>
+                      </h1>
                     </div>
                   </Link>
                 </div>
@@ -119,9 +119,9 @@ export const Footer: FC = (): ReactElement => {
                       </div>
 
                       <div className="md:w-[20vw]">
-                        <h3 className="font-bold text-[10px] md:text-[15px] text-primary-white">
+                        <h1 className="font-bold text-[10px] md:text-[15px] text-primary-white">
                           LOKASI KAMPUS
-                        </h3>
+                        </h1>
                       </div>
                     </div>
                   </Link>
@@ -140,9 +140,9 @@ export const Footer: FC = (): ReactElement => {
                       </div>
 
                       <div className="md:w-[20vw]">
-                        <h3 className="font-bold text-[10px] md:text-[15px] text-primary-white">
+                        <h1 className="font-bold text-[10px] md:text-[15px] text-primary-white">
                           HUBUNGI KAMI
-                        </h3>
+                        </h1>
                       </div>
                     </div>
                   </Link>
@@ -156,10 +156,10 @@ export const Footer: FC = (): ReactElement => {
                     <div className="flex justify-center gap-2 duration-300 ease-in-out">
                       <EnvironmentFilled style={{ fontSize: 13, color: "white" }} />
                       <div className="w-[40vw]">
-                        <h3 className="text-[9px] text-primary-white">
+                        <p className="text-[9px] text-primary-white">
                           Jl. Soekarno Hatta No.530, Sekejati, Kec. Buahbatu, Kota Bandung, Jawa
                           Barat 40286
-                        </h3>
+                        </p>
                       </div>
                     </div>
                   </Link>

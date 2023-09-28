@@ -1,5 +1,10 @@
 "use client";
-import { IGetStudentResponse, IGetUserMeResponse } from "@uninus/entities";
+import {
+  IGetStudentResponse,
+  IGetUserMeResponse,
+  TInterestEducationPrograms,
+  TTotalRegistransResponse,
+} from "@uninus/entities";
 import { atom } from "recoil";
 
 export const studentState = atom({
@@ -10,4 +15,29 @@ export const studentState = atom({
 export const userState = atom({
   key: "userState",
   default: [] as unknown as IGetUserMeResponse | undefined,
+});
+
+export const userEmail = atom({
+  key: "userEmail",
+  default: "",
+});
+
+export const registransData = atom({
+  key: "registransData",
+  default: [] as unknown as TTotalRegistransResponse | undefined,
+});
+
+export const popularPrograms = atom({
+  key: "popularPrograms",
+  default: [] as unknown as TInterestEducationPrograms | undefined,
+});
+
+export const updateState = atom({
+  key: "updateState",
+  default: false,
+});
+
+export const updateAvatar = atom<string | null>({
+  key: "updateAvatar",
+  default: null,
 });

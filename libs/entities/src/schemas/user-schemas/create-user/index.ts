@@ -9,9 +9,17 @@ export const VSCreateUser = z.object({
     .nonempty({
       message: "Email tidak boleh kosong",
     }),
-  nik: z.string().nonempty({
-    message: "NIK tidak boleh kosong",
-  }),
+  phone_number: z
+    .string()
+    .nonempty({ message: "Nomor telepon harus diisi" })
+    .min(11, { message: "Nomor telepon minimal 11 nomor" })
+    .max(14, { message: "Nomor telepon maksimal 14 nomor" })
+    .refine((data) => data.match(/[0-9]/g), {
+      message: "Nomor telepon harus angka",
+    })
+    .refine((data) => data.match(/^8\d+$/g), {
+      message: "Nomor harus diawali 8",
+    }),
   fullname: z.string().nonempty({
     message: "Nama lengkap tidak boleh kosong",
   }),

@@ -5,6 +5,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Dashboard PMB | Form Data Diri",
+  description: "Form Data Diri Dashboard PMB",
 };
 
 const DashboardBiodata: NextPage = (): ReactElement => (

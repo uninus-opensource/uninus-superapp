@@ -17,6 +17,7 @@
     "paths": {
       "@uninus/api": ["libs/api/index.ts"],
       "@uninus/api/controllers": ["libs/api/controllers/src/index.ts"],
+      "@uninus/api/dto": ["libs/api/dto/src/index.ts"],
       "@uninus/api/filter": ["libs/api/filter/src/index.ts"],
       "@uninus/api/guard": ["libs/api/guard/src/index.ts"],
       "@uninus/api/master": ["libs/api/master/src/index.ts"],

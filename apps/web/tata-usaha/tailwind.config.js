@@ -14,8 +14,16 @@ module.exports = {
       fontWeight: {
         extramedium: "550",
       },
+      fontFamily: {
+        montserrat: `'Montserrat', sans-serif`,
+      },
     },
     colors: {
+      cover: {
+        primary: {
+          green: "rgba(0, 150, 71, 0.7)",
+        },
+      },
       primary: {
         green: "#009647",
         yellow: "#F8BF02",

@@ -9,7 +9,7 @@ export const LoadingSpinner: FC<TLoadingProps> = ({
     <div role="status">
       <svg
         aria-hidden="true"
-        className={`${className} mr-2 text-slate-3 animate-spin fill-primary-green`}
+        className={`${className} text-slate-3 animate-spin fill-primary-green`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

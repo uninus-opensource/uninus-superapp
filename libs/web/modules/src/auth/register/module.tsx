@@ -8,6 +8,7 @@ import { useRegister } from "./hook";
 import { useRouter } from "next/navigation";
 import { VSRegister, TVSRegister } from "@uninus/entities";
 import { ToastContainer, toast } from "react-toastify";
+import { useUserEmail } from "@uninus/web/services";
 
 export const RegisterModule: FC = (): ReactElement => {
   const [getError, setError] = useState<string | undefined>(undefined);
@@ -28,6 +29,7 @@ export const RegisterModule: FC = (): ReactElement => {
     },
   });
 
+  const { setEmail } = useUserEmail();
   const { mutate, isLoading } = useRegister();
 
   const onSubmit = handleSubmit(async (data) => {
@@ -40,7 +42,10 @@ export const RegisterModule: FC = (): ReactElement => {
           fullname: data?.fullname,
         },
         {
-          onSuccess: () => router.push(`/auth/verifikasi-otp?email=${data?.email}`),
+          onSuccess: () => {
+            setEmail(data?.email);
+            router.push(`/auth/verifikasi-otp`);
+          },
           onError: (error) => {
             const errMessage = error?.response?.data?.message;
             setError(errMessage);

@@ -3,16 +3,16 @@ import { render } from "@testing-library/react";
 import { Footer } from "./index";
 import "@testing-library/jest-dom";
 
-function MockImage(props: any) {
-  return React.createElement("img", props);
+function MockImage(props: unknown) {
+  return React.createElement("img", props as unknown as React.HTMLAttributes<HTMLImageElement>);
 }
 
 jest.mock("next/image", () => MockImage);
 
 describe("Test Footer Content", () => {
   it("Should Defined", () => {
-    const { getByRole } = render(<Footer />);
-    expect(getByRole("footer")).toBeDefined();
+    const { getByTestId } = render(<Footer />);
+    expect(getByTestId("footer")).toBeDefined();
   });
 });
 

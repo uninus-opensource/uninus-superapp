@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, waitFor, screen } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import SearchInput from ".";
 import "@testing-library/jest-dom";
 import IconSearch from "./ic-search";
@@ -9,7 +9,7 @@ describe("SearchInput Component", () => {
     const { getByRole } = render(<SearchInput />);
     const search = getByRole("search");
     expect(search).toHaveClass(
-      "block lg:w-30% w-80% p-2 pl-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500",
+      "block w-80% p-2 pl-12 text-sm text-gray-900 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500",
     );
   });
   it("Should have label with text 'Search'", () => {

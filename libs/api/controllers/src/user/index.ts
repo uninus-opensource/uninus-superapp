@@ -5,60 +5,79 @@ import {
   Delete,
   Get,
   Param,
-  Post,
   Put,
   Query,
   Request,
   UseGuards,
-  BadRequestException,
   UseFilters,
+  UsePipes,
 } from "@nestjs/common";
-import { VSCreateUser, TReqToken, VSUpdateUser, TProfileResponse } from "@uninus/entities";
+import {
+  TReqToken,
+  VSUpdateUser,
+  TProfileResponse,
+  EAppsOrigin,
+  EOrderByPagination,
+} from "@uninus/entities";
 import { ZodValidationPipe } from "@uninus/api/validator";
-import { JwtAuthGuard } from "@uninus/api/guard";
-import { CreateUserSwagger, UpdateUserSwagger } from "@uninus/api/services";
-import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from "@nestjs/swagger";
-import { ClientProxy } from "@nestjs/microservices";
-import { firstValueFrom } from "rxjs";
-import { generateOtp } from "@uninus/api/utilities"
+import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
+import { UpdateUserDto } from "@uninus/api/dto";
+import {
+  ApiResponse,
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiQuery,
+  ApiHeader,
+} from "@nestjs/swagger";
+import { ClientProxy, RpcException } from "@nestjs/microservices";
+import { catchError, firstValueFrom, throwError } from "rxjs";
+
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 
 @Controller("user")
 @ApiTags("User")
 export class UserController {
-  constructor(
-    @Inject('USER_SERVICE') private readonly client: ClientProxy
-  ) {}
+  constructor(@Inject("USER_SERVICE") private readonly client: ClientProxy) {}
 
-  @Get("/me")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiBearerAuth()
   @ApiOperation({ summary: "Get Data" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
-  @UseGuards(JwtAuthGuard)
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
+  @Get("/me")
+  @UseGuards(JwtAuthGuard, PermissionGuard([...Object.values(EAppsOrigin)]))
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async getUser(@Request() reqToken: TReqToken) {
-      const { sub } = reqToken.user;
-      const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user",sub))
-      return response
+    const { sub } = reqToken.user;
+    const response = await firstValueFrom(
+      this.client
+        .send<TProfileResponse>("get_user", sub)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 
-  @Get()
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Pagination List User" })
   @ApiQuery({ name: "page", required: false })
   @ApiQuery({ name: "per_page", required: false })
   @ApiQuery({ name: "order_by", required: false })
   @ApiQuery({ name: "filter_by", required: false })
   @ApiQuery({ name: "search", required: false })
+  @Get()
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async getAllData(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
-    @Query("order_by") orderBy: "asc" | "desc",
+    @Query("order_by") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
     @Query("filter_by") filterBy: string,
     @Query("search") search: string,
   ) {
-      const response = await firstValueFrom(
-        this.client.send<Array<TProfileResponse>>("get_users",{
+    const response = await firstValueFrom(
+      this.client
+        .send<Array<TProfileResponse>>("get_users", {
           where: {
             OR: [
               {
@@ -67,6 +86,7 @@ export class UserController {
                   mode: "insensitive",
                 },
               },
+
               {
                 email: {
                   contains: search || "",
@@ -81,72 +101,57 @@ export class UserController {
           page,
           perPage,
         })
-      )
-      return response
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 
-  @Get("/:id")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Data User By Id" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @Get("/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async getDataById(@Param("id") id: string) {
-      const response = await firstValueFrom(this.client.send<TProfileResponse>("get_user",id))
-      return response
+    const response = await firstValueFrom(
+      this.client
+        .send<TProfileResponse>("get_user", id)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 
-  @Post()
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @ApiOperation({ summary: "Create Data user" })
-  @ApiResponse({
-    status: 400,
-    description: "Email sudah digunakan, NIK sudah digunakan",
-  })
-  async createData(
-    @Body(new ZodValidationPipe(VSCreateUser))
-    createUserSwagger: CreateUserSwagger,
-  ) {
-      const response = await firstValueFrom(this.client.send<TProfileResponse>("create_user",createUserSwagger))
-      const isCreateOtp = await generateOtp(response?.email, response?.id);
-      if (!isCreateOtp) {
-        throw new BadRequestException("Gagal membuat Otp");
-      }
-      const emailPayload = {
-        email: createUserSwagger.email.toLowerCase(),
-        subject:"Verifikasi Email",
-        html:`Kode OTP anda adalah ${isCreateOtp?.token}`,
-      }
-      const sendEmail = firstValueFrom(this.client.send<{message:string}>("send_email",emailPayload))
-      if (!sendEmail) {
-        throw new BadRequestException("Gagal mengirimkan kode verifikasi");
-      }
-      return response
-  }
-
-  @Delete("/:id")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({ status: 201, description: "Berhasil delete user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @Delete("/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async deleteData(@Param("id") id: string) {
-      const response = await firstValueFrom(this.client.send("delete_user", id))
-      return response
+    const response = await firstValueFrom(
+      this.client
+        .send("delete_user", id)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 
-  @Put("/:id")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Edit User By Id" })
   @ApiResponse({ status: 201, description: "Berhasil update user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @Put("/:id")
+  @UsePipes(new ZodValidationPipe(VSUpdateUser))
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async updateData(
     @Param("id") id: string,
-    @Body(new ZodValidationPipe(VSUpdateUser))
-    updateUserSwagger: UpdateUserSwagger,
+    @Body()
+    payload: UpdateUserDto,
   ) {
-      const response = await firstValueFrom(this.client.send('update_user',{
-        id,
-        payload:updateUserSwagger
-      }))
-      return response
+    const response = await firstValueFrom(
+      this.client
+        .send("update_user", {
+          id,
+          payload,
+        })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
-
 }

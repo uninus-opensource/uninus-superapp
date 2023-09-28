@@ -13,7 +13,7 @@ export const QuizModule: FC = (): ReactElement => {
   const [selectedAnsweridx, setSelectedAnsweridx] = useState<number | null>(null);
   const listDataQuestion = useRecoilValue(queyQuestionState);
   const timerQuiz = useRecoilValue(timerState);
-  const [timer, setTimer] = useState<TTimer>();
+  const [, setTimer] = useState<TTimer>();
 
   const [minutes, setMinutes] = useState<number>(timerQuiz);
   const [seconds, setSeconds] = useState<number>(timerQuiz);
@@ -34,7 +34,7 @@ export const QuizModule: FC = (): ReactElement => {
     setIsActiveQuestion(no - 1);
     setShowList(false);
   };
-  const intervalRef = useRef<any>();
+  const intervalRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       if (seconds > 0) {
@@ -64,7 +64,7 @@ export const QuizModule: FC = (): ReactElement => {
   }, [minutes, seconds]);
 
   useEffect(() => {
-    if (typeof window !== undefined && localStorage.timer) {
+    if (typeof window !== "undefined" && localStorage.timer) {
       setMount(true);
       setTimer(JSON.parse(localStorage.timer));
       setMinutes(() => (localStorage.timer ? JSON.parse(localStorage.timer).minutes : timerQuiz));

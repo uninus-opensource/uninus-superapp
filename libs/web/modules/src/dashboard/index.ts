@@ -1,2 +1,3 @@
-export * from "./admin/module";
+export * from "./admin";
 export * from "./user";
+export * from "./pegawai";

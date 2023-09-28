@@ -83,7 +83,8 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 lg:h-auto lg:w-full`}
+          loading="lazy"
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 h-auto w-full`}
         />
       ),
     },
@@ -95,7 +96,8 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 lg:h-auto lg:w-full`}
+          loading="lazy"
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 w-full`}
         />
       ),
     },
@@ -107,7 +109,8 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 lg:h-auto lg:w-full`}
+          loading="lazy"
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 w-full`}
         />
       ),
     },
@@ -119,7 +122,8 @@ export const HeroBanner: FC<TbannerProps> = ({
           quality={100}
           width={1000}
           height={500}
-          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 lg:h-auto lg:w-full`}
+          loading="lazy"
+          className={`bg-center flex justify-center items-center absolute lg:mt-16 mt-20 w-full`}
         />
       ),
     },
@@ -149,6 +153,7 @@ export const HeroBanner: FC<TbannerProps> = ({
       />
       <button
         role="button"
+        aria-label="prev"
         className="hidden lg:block absolute z-30 left-3 text-5xl text-primary-white lg:mt-16"
         onClick={(e) => carousel?.current?.slidePrev(e)}
       >
@@ -156,6 +161,7 @@ export const HeroBanner: FC<TbannerProps> = ({
       </button>
       <button
         role="button"
+        aria-label="next"
         className="hidden lg:block absolute z-30 right-3 text-5xl text-primary-white lg:mt-20"
         onClick={(e) => carousel?.current?.slideNext(e)}
       >

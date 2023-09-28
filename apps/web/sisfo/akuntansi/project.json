@@ -1,0 +1,76 @@
+{
+  "name": "web-sisfo-akuntansi",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/web/sisfo/akuntansi",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/web/sisfo/akuntansi"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/web/sisfo/akuntansi"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "web-sisfo-akuntansi:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "web-sisfo-akuntansi:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "web-sisfo-akuntansi:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "web-sisfo-akuntansi:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/web/sisfo/akuntansi/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/web/sisfo/akuntansi/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

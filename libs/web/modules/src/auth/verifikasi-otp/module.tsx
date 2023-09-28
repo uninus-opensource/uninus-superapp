@@ -1,21 +1,21 @@
 "use client";
-import { FC, ReactElement, useState, useEffect, useRef } from "react";
+import { FC, ReactElement, useState, useEffect, useRef, LegacyRef } from "react";
 import clsx from "clsx";
 import { useVerify, useNewOtpRequest } from "./hook";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+
 import OtpInput from "react-otp-input";
+import { useUserEmail } from "@uninus/web/services";
 
 export const VerifEmailModule: FC = (): ReactElement => {
-  const searchParams = useSearchParams();
   const [isError, setIsError] = useState(false);
   const { mutate: verify } = useVerify();
   const { mutate: request } = useNewOtpRequest();
-  const email = searchParams.get("email") || "";
+  const { getEmail } = useUserEmail();
   const [otp, setOtp] = useState<string>("");
   const { push } = useRouter();
   const [timer, setTimer] = useState(120);
-  const intervalRef = useRef<any>();
+  const intervalRef = useRef<NodeJS.Timeout>();
 
   const countDownTimer = () => setTimer((prev) => prev - 1);
   useEffect(() => {
@@ -27,12 +27,12 @@ export const VerifEmailModule: FC = (): ReactElement => {
     if (otp.length === 6) {
       verify(
         {
-          email: email,
+          email: getEmail,
           otp,
         },
         {
           onSuccess: () => {
-            push(`/auth/verifikasi-berhasil?email=${email}`);
+            push(`/auth/verifikasi-berhasil`);
           },
           onError: () => {
             setOtp("");
@@ -42,7 +42,7 @@ export const VerifEmailModule: FC = (): ReactElement => {
         },
       );
     }
-  }, [email, otp, push, verify]);
+  }, [getEmail, otp, push, verify]);
   const inputStyle = clsx(
     "!w-full text-black border-2 border-grayscale-3 focus:outline-none outline-none placeholder:text-black placeholder:p-2 lg:!h-[64px] h-10 text-[28px] p-2 rounded-lg shadow-sm",
     {
@@ -63,7 +63,7 @@ export const VerifEmailModule: FC = (): ReactElement => {
         </h1>
 
         <p className="text-grayscale-5 lg:text-sm w-40%">
-          {`Masukkan kode OTP yang sudah dikirimkan melalui email ${email}`}
+          {`Masukkan kode OTP yang sudah dikirimkan melalui email ${getEmail}`}
         </p>
 
         <div className="flex w-full">
@@ -87,9 +87,9 @@ export const VerifEmailModule: FC = (): ReactElement => {
                   <span
                     onClick={() => {
                       setTimer(120);
-                      request({ email: email });
+                      request({ email: getEmail });
                     }}
-                    ref={intervalRef}
+                    ref={intervalRef as unknown as LegacyRef<HTMLSpanElement>}
                     className="text-secondary-green-1 hover:underline underline-offset-4 font-semibold cursor-pointer"
                   >
                     Kirim Ulang

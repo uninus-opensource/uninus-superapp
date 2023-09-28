@@ -1,5 +1,5 @@
 import { Button } from "../../atoms";
-import { ModalProps } from "./interface";
+import { ModalProps } from "./type";
 import { IoCloseSharp } from "react-icons/io5";
 import { createPortal } from "react-dom";
 import { FC, ReactElement } from "react";
@@ -17,6 +17,7 @@ export const Modal: FC<ModalProps> = ({
   headerColor = "white",
   footerColor = "white",
   bodyClassName = "p-6 space-y-8",
+  titleColor = "black",
 }): ReactElement | null => {
   if (!showModal) {
     return null;
@@ -25,6 +26,7 @@ export const Modal: FC<ModalProps> = ({
   const modalWidth = clsx(`relative ${className}`, {
     "w-full": size === "full",
     "lg:w-30% w-full md:w-[60%]": size === "modal-question",
+    "w-[70vw]": size === "md",
   });
   const modalPositions = clsx(
     `fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex  bg-primary-black bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 backdrop-blur-sm `,
@@ -45,6 +47,14 @@ export const Modal: FC<ModalProps> = ({
     "bg-primary-green": footerColor === "green",
     "bg-primary-white": footerColor === "white",
   });
+
+  const titleColors = clsx(`text-xl font-semibold text-gray-900 w-full md:px-10 lg:px-4`, {
+    "text-primary-green": titleColor === "green",
+    "text-red-3": titleColor === "red",
+    "text-primary-yellow": titleColor === "yellow",
+    "text-primary-black": titleColor === "black",
+    "text-primary-white": titleColor === "white",
+  });
   return (
     showModal &&
     createPortal(
@@ -52,9 +62,7 @@ export const Modal: FC<ModalProps> = ({
         <div data-testid="modal-landing" className={modalWidth}>
           <div className="relative bg-white rounded-lg shadow">
             <div className={modalHeaderColors}>
-              <div className="text-xl font-semibold text-gray-900 w-full md:px-10 lg:px-4 ">
-                {modalTitle}
-              </div>
+              <div className={titleColors}>{modalTitle}</div>
               {iconClose ? (
                 <Button onClick={onClose} variant="text-icon" size="sm">
                   <IoCloseSharp size={25} className={closeClassName} />
@@ -68,7 +76,8 @@ export const Modal: FC<ModalProps> = ({
           </div>
         </div>
       </div>,
-      document.getElementById("modal-landing") as HTMLElement,
+      document.getElementById("modal-landing")!,
+      "modal-landing",
     )
   );
 };

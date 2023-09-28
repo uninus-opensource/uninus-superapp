@@ -43,6 +43,8 @@ export const Button: FC<IButtonProps> = ({
       "bg-primary-white text-primary-green border border-primary-green active:shadow-inset ":
         variant === "green-outline",
       "hover:cursor-wait ": loading,
+      "bg-red-7 text-primary-white   active:shadow-inset ": variant === "filled-red",
+      "bg-primary-yellow text-primary-white   active:shadow-inset ": variant === "filled-yellow",
     },
   );
 
@@ -50,12 +52,24 @@ export const Button: FC<IButtonProps> = ({
 
   return props?.href ? (
     <Link role="link" href={`${props?.href}`}>
-      <button data-testid="button" {...props} className={className}>
+      <button
+        role="button"
+        aria-label="button-component-link"
+        data-testid="button"
+        {...props}
+        className={className}
+      >
         {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
       </button>
     </Link>
   ) : (
-    <button data-testid="button" {...props} className={className}>
+    <button
+      role="button"
+      aria-label="button-component"
+      data-testid="button"
+      {...props}
+      className={className}
+    >
       {loading ? <LoadingSpinner className="w-5 h-5" /> : props.children}
     </button>
   );

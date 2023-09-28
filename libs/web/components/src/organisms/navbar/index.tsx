@@ -54,7 +54,7 @@ export const Navbar: FC = (): ReactElement => {
 
   const dropDown: TDropDownList[] = [
     {
-      item: "Program Studi",
+      item: "Fakultas",
       link: "/program-studi",
     },
     {
@@ -76,8 +76,8 @@ export const Navbar: FC = (): ReactElement => {
             height={300}
             quality={100}
             alt="logo-uninus"
-            priority
-            className="w-36 sm:w-30 lg:w-40"
+            loading="lazy"
+            className="w-36 sm:w-30 lg:w-40 h-auto"
           />
         </figure>
         <nav>
@@ -148,7 +148,7 @@ export const Navbar: FC = (): ReactElement => {
       </header>
 
       <Sidebar showSidebar={isOpen} closeSidebar={closeSidebar}>
-        <ul className="flex flex-col gap-6 text-left">
+        <ul className="flex flex-col gap-2 md:gap-6 text-left">
           <li>
             <Button
               variant="sidebarlist"

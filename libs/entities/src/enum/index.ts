@@ -1,2 +1,3 @@
 export * from "./student";
-export * from "./job";
+export * from "./general";
+export * from "./apps-origin";

@@ -51,9 +51,9 @@ const LandingPage: FC = (): ReactElement => {
   const handleOpenModal = () => {
     setShowModal(!showModal);
   };
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  // const handleCloseModal = () => {
+  //   setShowModal(false);
+  // };
 
   const onSubmit = handleSubmit((data) => {
     console.log("tersubmit");

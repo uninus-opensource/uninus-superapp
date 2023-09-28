@@ -1,0 +1,76 @@
+{
+  "name": "web-sisfo-keuangan",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/web/sisfo/keuangan",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/web/sisfo/keuangan"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/web/sisfo/keuangan"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "web-sisfo-keuangan:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "web-sisfo-keuangan:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "web-sisfo-keuangan:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "web-sisfo-keuangan:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/web/sisfo/keuangan/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/web/sisfo/keuangan/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

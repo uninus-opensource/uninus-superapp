@@ -1,13 +1,11 @@
 import { Module } from "@nestjs/common";
 import { UserController } from "@uninus/api/controllers";
 import { PrismaModule } from "@uninus/api/models";
-import { EmailModule } from "../email";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 
 @Module({
   imports: [
     PrismaModule,
-    EmailModule,
     ClientsModule.register([
       {
         name: "USER_SERVICE",

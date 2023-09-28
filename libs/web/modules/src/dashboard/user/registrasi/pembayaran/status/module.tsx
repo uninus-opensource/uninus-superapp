@@ -17,10 +17,10 @@ const PDFDownloadLink = dynamic(
   },
 );
 
-const BlobProvider = dynamic(() => import("@react-pdf/renderer").then((mod) => mod.BlobProvider), {
-  ssr: false,
-  loading: () => <p className="text-primary-green">Tunggu sebentar..</p>,
-});
+// const BlobProvider = dynamic(() => import("@react-pdf/renderer").then((mod) => mod.BlobProvider), {
+//   ssr: false,
+//   loading: () => <p className="text-primary-green">Tunggu sebentar..</p>,
+// });
 
 export const pembayaranBreadcrumb = [
   {
@@ -38,7 +38,7 @@ export const pembayaranBreadcrumb = [
 ];
 
 export const Pembayaran: FC = (): ReactElement => {
-  const [textToCopy, setTextToCopy] = useState("4444081904377804");
+  const [textToCopy] = useState("4444081904377804");
   const [status, setStatus] = useState<string | null>("unpaid"); // Status dummy
 
   const { getUser } = useUserData();
@@ -138,8 +138,8 @@ export const Pembayaran: FC = (): ReactElement => {
 
           <div className="mt-2 flex justify-between  gap-y-2">
             <h2 className="text-grayscale-6 text-xs md:text-base">Metode Pembayaran</h2>
+            <h2 className="font-bold text-xs md:text-base">Mandiri</h2>
             <div className="flex justify-between">
-              <h2 className="font-bold text-xs md:text-base">Mandiri</h2>
               <Image
                 src="/illustrations/payment/mandiri.webp"
                 width={100}
