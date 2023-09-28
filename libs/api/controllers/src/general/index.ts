@@ -9,8 +9,9 @@ import {
   Param,
   Inject,
   UseFilters,
+  Patch,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags, ApiQuery } from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags, ApiQuery, ApiParam } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 import {
@@ -20,6 +21,13 @@ import {
   TUpdateQuestionRequest,
 } from "@uninus/entities";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
+import {
+  CreateDepartment,
+  CreateEducation,
+  CreateFaculty,
+  CreateScholarship,
+  CreateSelectionPath,
+} from "@uninus/api/dto";
 
 @Controller()
 @ApiTags("General")
@@ -688,6 +696,196 @@ export class GeneralController {
     const response = await firstValueFrom(
       this.client
         .send("get_roles", { search, id })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Post("faculty")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Create new Faculty" })
+  async createFaculty(@Body() payload: CreateFaculty) {
+    const response = await firstValueFrom(
+      this.client
+        .send("create_faculty", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Post("department")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Create new Department" })
+  async createDepartment(@Body() payload: CreateDepartment) {
+    const response = await firstValueFrom(
+      this.client
+        .send("create_department", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Post("selection-path")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Create new Selection path" })
+  async createSelectionPath(@Body() payload: CreateSelectionPath) {
+    const response = await firstValueFrom(
+      this.client
+        .send("create_selection_path", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Post("education")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Create new Education/School" })
+  async createEducation(@Body() payload: CreateEducation) {
+    const response = await firstValueFrom(
+      this.client
+        .send("create_education", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Post("scholarship")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Create new Scholarship" })
+  async createScholarship(@Body() payload: CreateScholarship) {
+    const response = await firstValueFrom(
+      this.client
+        .send("create_scholarship", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Patch("faculty/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiParam({ name: "id", required: true })
+  @ApiOperation({ summary: "Update faculty" })
+  async updateFaculty(@Param("id") id: number, @Body() payload: CreateFaculty) {
+    const response = await firstValueFrom(
+      this.client
+        .send("update_faculty", { id, payload })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Patch("department/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiParam({ name: "id", required: true })
+  @ApiOperation({ summary: "Update Department" })
+  async updateDepartment(@Param("id") id: number, @Body() payload: CreateDepartment) {
+    const response = await firstValueFrom(
+      this.client
+        .send("update_department", { id, payload })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Patch("selection/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiParam({ name: "id", required: true })
+  @ApiOperation({ summary: "Update Selection Path" })
+  async updateSelectionPath(@Param("id") id: number, @Body() payload: CreateSelectionPath) {
+    const response = await firstValueFrom(
+      this.client
+        .send("update_selection_path", { id, payload })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Patch("education/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiParam({ name: "id", required: true })
+  @ApiOperation({ summary: "Update Education/School" })
+  async updateEducation(@Param("id") id: number, @Body() payload: CreateEducation) {
+    const response = await firstValueFrom(
+      this.client
+        .send("update_education", { id, payload })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Patch("scholarship/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiParam({ name: "id", required: true })
+  @ApiOperation({ summary: "Update Scholarship" })
+  async updateScholarship(@Param("id") id: number, @Body() payload: CreateScholarship) {
+    const response = await firstValueFrom(
+      this.client
+        .send("update_scholarship", { id, payload })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Delete("faculty/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Delete Faculty" })
+  @ApiParam({ name: "id", required: true })
+  async deleteFaculty(@Param("id") id: number) {
+    const response = await firstValueFrom(
+      this.client
+        .send("delete_faculty", id)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Delete("department/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Delete Department" })
+  @ApiParam({ name: "id", required: true })
+  async deleteDepartment(@Param("id") id: number) {
+    const response = await firstValueFrom(
+      this.client
+        .send("delete_department", id)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Delete("selection/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Delete Selection path" })
+  @ApiParam({ name: "id", required: true })
+  async deleteSelectionpath(@Param("id") id: number) {
+    const response = await firstValueFrom(
+      this.client
+        .send("delete_selection_path", id)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Delete("education/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Delete Education/School" })
+  @ApiParam({ name: "id", required: true })
+  async deleteEducation(@Param("id") id: number) {
+    const response = await firstValueFrom(
+      this.client
+        .send("delete_education", id)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Delete("scholarship/:id")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Delete Scholarship" })
+  @ApiParam({ name: "id", required: true })
+  async deleteScholarship(@Param("id") id: number) {
+    const response = await firstValueFrom(
+      this.client
+        .send("delete_scholarship", id)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
