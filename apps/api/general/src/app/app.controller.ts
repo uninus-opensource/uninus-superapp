@@ -17,6 +17,11 @@ import {
   IInterestEducationPrograms,
   IInterestDepartment,
   TStudentsPaginationArgs,
+  TCreateFacultyRequest,
+  TCreateDepartmentRequest,
+  TCreateSelectionPathRequest,
+  TCreateEducationRequest,
+  TCreateScholarshipRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -185,5 +190,90 @@ export class AppController {
   @MessagePattern("get_registrans_pagination")
   async getPaginationPMB({ where, orderBy, page, perPage }: TStudentsPaginationArgs) {
     return await this.appService.getStudentsPagination({ where, orderBy, page, perPage });
+  }
+
+  @MessagePattern("create_faculty")
+  async createFaculty(payload: TCreateFacultyRequest) {
+    return await this.appService.createFaculty(payload);
+  }
+
+  @MessagePattern("create_department")
+  async createDepartment(payload: TCreateDepartmentRequest) {
+    return await this.appService.createDepartment(payload);
+  }
+
+  @MessagePattern("create_selection_path")
+  async createSelectionPath(payload: TCreateSelectionPathRequest) {
+    return await this.appService.createSelectionPath(payload);
+  }
+
+  @MessagePattern("create_education")
+  async createEducation(payload: TCreateEducationRequest) {
+    return await this.appService.createEducation(payload);
+  }
+
+  @MessagePattern("create_scholarship")
+  async createScholarship(payload: TCreateScholarshipRequest) {
+    return await this.appService.createScholarship(payload);
+  }
+
+  @MessagePattern("update_faculty")
+  async updateFaculty(data: { id: number; payload: TCreateFacultyRequest }) {
+    const id = data.id;
+    const payload = data.payload;
+    return await this.appService.updateFaculty(id, payload);
+  }
+
+  @MessagePattern("update_department")
+  async updateDepartment(data: { id: number; payload: TCreateDepartmentRequest }) {
+    const id = data.id;
+    const payload = data.payload;
+    return await this.appService.updateDepartment(id, payload);
+  }
+
+  @MessagePattern("update_selection_path")
+  async updateSelectionPath(data: { id: number; payload: TCreateSelectionPathRequest }) {
+    const id = data.id;
+    const payload = data.payload;
+    return await this.appService.updateSelectionPath(id, payload);
+  }
+
+  @MessagePattern("update_education")
+  async updateEducation(data: { id: number; payload: TCreateEducationRequest }) {
+    const id = data.id;
+    const payload = data.payload;
+    return await this.appService.updateEducation(id, payload);
+  }
+
+  @MessagePattern("update_scholarship")
+  async updateScholarship(data: { id: number; payload: TCreateScholarshipRequest }) {
+    const id = data.id;
+    const payload = data.payload;
+    return await this.appService.updateScholarship(id, payload);
+  }
+
+  @MessagePattern("delete_faculty")
+  async deleteFaculty(id: number) {
+    return await this.appService.deleteFaculty(id);
+  }
+
+  @MessagePattern("delete_department")
+  async deleteDepartment(id: number) {
+    return await this.appService.deleteDepartment(id);
+  }
+
+  @MessagePattern("delete_selection_path")
+  async deleteSelectionpath(id: number) {
+    return await this.appService.deleteSelectionPath(id);
+  }
+
+  @MessagePattern("delete_education")
+  async deleteEducation(id: number) {
+    return await this.appService.deleteEducation(id);
+  }
+
+  @MessagePattern("delete_scholarship")
+  async deleteScholarship(id: number) {
+    return await this.appService.deleteScholarship(id);
   }
 }

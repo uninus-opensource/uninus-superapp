@@ -357,3 +357,42 @@ export type TStudentsPaginatonResponse = {
     next?: null | number;
   };
 };
+
+export type TCreateFacultyRequest = {
+  name: string;
+  degree_program_id: number;
+};
+
+export type TCreateScholarshipRequest = {
+  name: string;
+};
+
+export type TUpdateFacultyRequest = {
+  name: string;
+  degree_program_id?: number;
+};
+
+export type TCreateDepartmentRequest = {
+  name: string;
+  faculty_id: number;
+  degree_program_id: number;
+};
+
+export type TCreateSelectionPathRequest = {
+  name: string;
+  degree_program_id: number;
+};
+
+export type TCreateEducationRequest = {
+  npsn: string;
+  name: string;
+  province: string;
+  district_city: string;
+  sub_district: string;
+  street_address: string;
+  education_type_id: number;
+};
+
+export type TGeneralResponse = {
+  message: string;
+};

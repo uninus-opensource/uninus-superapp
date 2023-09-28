@@ -19,7 +19,6 @@ model Users {
   avatar        String?
   isVerified    Boolean?   @default(false)
   employees     Employees?
-  lecturers     Lecturers?
   otp           OTP?
   students      Students?
   role          Roles?     @relation(fields: [role_id], references: [id])
@@ -175,9 +174,9 @@ model Documents {
   path       String
   pmb_id     String?
   isVerified Boolean?       @default(false)
-  pmb        PMB?           @relation(fields: [pmb_id], references: [id], onDelete: Cascade)
-  alumni     AlumniProfile? @relation(fields: [alumni_id], references: [id])
   alumni_id  String?
+  alumni     AlumniProfile? @relation(fields: [alumni_id], references: [id])
+  pmb        PMB?           @relation(fields: [pmb_id], references: [id], onDelete: Cascade)
 }
 
 model EducationTypes {
@@ -245,29 +244,11 @@ model SubDistrict {
 }
 
 model Roles {
-  id                Int                @id @default(autoincrement())
-  name              String
-  createdAt         DateTime           @default(now())
-  roles_permissions RolesPermissions[]
-  users             Users[]
-  permissions       Permissions[]      @relation("PermissionsToRoles")
-}
-
-model Permissions {
-  id                Int                @id @default(1)
-  name              String
-  createdAt         DateTime           @default(now())
-  roles_permissions RolesPermissions[]
-  roles             Roles[]            @relation("PermissionsToRoles")
-}
-
-model RolesPermissions {
-  id            Int         @id @default(autoincrement())
-  role_id       Int
-  permission_id Int
-  createdAt     DateTime    @default(now())
-  permission    Permissions @relation(fields: [permission_id], references: [id])
-  role          Roles       @relation(fields: [role_id], references: [id])
+  id         Int          @id @default(autoincrement())
+  name       String
+  createdAt  DateTime     @default(now())
+  users      Users[]
+  AppsOrigin AppsOrigin[] @relation("RolesAppOrigin")
 }
 
 model OTP {
@@ -300,11 +281,11 @@ model Faculty {
   id                        Int                         @id @default(autoincrement())
   name                      String
   degree_program_id         Int?
+  alumni                    AlumniProfile[]
   department                Department[]
   degreeProgram             DegreeProgram?              @relation(fields: [degree_program_id], references: [id], onDelete: Cascade)
-  student                   Students[]
-  alumni                    AlumniProfile[]
   LecturerFacultyDepartment LecturerFacultyDepartment[]
+  student                   Students[]
 }
 
 model Department {
@@ -312,34 +293,34 @@ model Department {
   name                      String
   faculty_id                Int?
   degree_program_id         Int?
+  alumni                    AlumniProfile[]
   degreeProgram             DegreeProgram?              @relation(fields: [degree_program_id], references: [id])
   Faculty                   Faculty?                    @relation(fields: [faculty_id], references: [id])
+  LecturerFacultyDepartment LecturerFacultyDepartment[]
   first_deparment           PMB[]                       @relation("first_deparment")
   second_deparment          PMB[]                       @relation("second_deparment")
   student                   Students[]                  @relation("student")
-  alumni                    AlumniProfile[]
-  LecturerFacultyDepartment LecturerFacultyDepartment[]
 }
 
 model MaritalStatus {
   id       Int             @id @default(autoincrement())
   name     String
-  students Students[]
   alumni   AlumniProfile[]
+  students Students[]
 }
 
 model Religion {
   id       Int             @id @default(autoincrement())
   name     String
-  students Students[]
   alumni   AlumniProfile[]
+  students Students[]
 }
 
 model Gender {
   id       Int             @id @default(autoincrement())
   name     String
-  students Students[]
   alumni   AlumniProfile[]
+  students Students[]
 }
 
 model Citizenship {
@@ -421,15 +402,15 @@ model Questions {
 }
 
 model Employees {
-  id                       Int                       @unique @default(autoincrement())
-  nip                      String?
-  nidn                     String?
+  user_id                  String                    @unique
+  createdAt                DateTime                  @default(now())
+  addition_task            String?
   birth_date               String?
   employee_status_id       Int?
+  nidn                     String?
+  nip                      String?
+  id                       Int                       @unique @default(autoincrement())
   employee_type_id         Int?
-  user_id                  String                    @unique
-  addition_task            String?
-  createdAt                DateTime                  @default(now())
   academic_staff           AcademicStaff?
   appointment_decree       AppointmentDecree[]
   certification_profession CertificationProfession[]
@@ -474,11 +455,10 @@ model Lecturers {
   lecturer_certification      Boolean?
   lecturer_position_id        Int?
   lecturer_status_id          Int?
+  lecturer_faculty_department LecturerFacultyDepartment[]
   employee                    Employees?                  @relation(fields: [employee_id], references: [id])
   lecturer_position           LecturerPosition?           @relation(fields: [lecturer_position_id], references: [id])
   lecturer_status             LecturerStatus?             @relation(fields: [lecturer_status_id], references: [id])
-  user                        Users                       @relation(fields: [user_id], references: [id])
-  lecturer_faculty_department LecturerFacultyDepartment[]
 }
 
 model AcademicStaff {
@@ -591,23 +571,23 @@ model AlumniProfile {
   birth_place       String?
   birth_date        String?
   nim               String?
-  faculty           Faculty?       @relation(fields: [faculty_id], references: [id])
   faculty_id        Int?
-  department        Department?    @relation(fields: [department_id], references: [id])
   department_id     Int?
-  marital_status    MaritalStatus? @relation(fields: [marital_status_id], references: [id])
   marital_status_id Int?
-  religion          Religion?      @relation(fields: [religion_id], references: [id])
   religion_id       Int?
-  gender            Gender?        @relation(fields: [gender_id], references: [id])
   gender_id         Int?
   phone_number      String?
   entry_year        String?
   graduation_year   String?
-  working_status    WorkingStatus? @relation(fields: [working_status_id], references: [id])
   working_status_id Int?
   work_place        String?
   working_address   String?
+  department        Department?    @relation(fields: [department_id], references: [id])
+  faculty           Faculty?       @relation(fields: [faculty_id], references: [id])
+  gender            Gender?        @relation(fields: [gender_id], references: [id])
+  marital_status    MaritalStatus? @relation(fields: [marital_status_id], references: [id])
+  religion          Religion?      @relation(fields: [religion_id], references: [id])
+  working_status    WorkingStatus? @relation(fields: [working_status_id], references: [id])
   documents         Documents[]
 }
 
@@ -620,9 +600,16 @@ model WorkingStatus {
 model LecturerFacultyDepartment {
   id            Int        @id @default(autoincrement())
   lecturer_id   String
-  lecturer      Lecturers  @relation(fields: [lecturer_id], references: [id])
   faculty_id    Int?
-  faculty       Faculty?   @relation(fields: [faculty_id], references: [id])
   department_id Int
   department    Department @relation(fields: [department_id], references: [id])
+  faculty       Faculty?   @relation(fields: [faculty_id], references: [id])
+  lecturer      Lecturers  @relation(fields: [lecturer_id], references: [id])
+}
+
+model AppsOrigin {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  Roles     Roles[]  @relation("RolesAppOrigin")
 }
