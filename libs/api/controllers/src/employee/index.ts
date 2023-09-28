@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, Query, UseFilters } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiHeader, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
 import { EOrderByPagination, TProfileResponse } from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
@@ -19,6 +19,10 @@ export class EmployeeController {
   @ApiQuery({ name: "filter_by", required: false })
   @ApiQuery({ name: "search", required: false })
   @ApiQuery({ name: "type", required: true })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   async getEmployees(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
@@ -59,6 +63,10 @@ export class EmployeeController {
     return response;
   }
 
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
   @Get("/total-employees")
   async getTotalEmployees() {
     const response = await firstValueFrom(

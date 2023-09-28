@@ -11,6 +11,7 @@ export type TLoginResponse = {
 export type TLoginRequest = {
   email?: string;
   password?: string;
+  app_origin?: string;
 };
 
 export type TLoginAuth = {

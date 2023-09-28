@@ -57,10 +57,10 @@ export class AuthService {
     };
   }
 
-  async login(payload: TLoginRequest): Promise<TLoginResponse> {
+  async login({ app_origin, ...payload }: TLoginRequest): Promise<TLoginResponse> {
     const response = await firstValueFrom(
       this.client
-        .send("login", payload)
+        .send("login", { app_origin, ...payload })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
