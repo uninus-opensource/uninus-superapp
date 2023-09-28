@@ -44,3 +44,8 @@ export type ReturnTypesUpdateAvatar = {
   setUpdateAvatar: (val: string | null) => void;
   getUpdateAvatar: string | null;
 };
+
+export type ReturnTypesStudentDataId = {
+  setStudentbyId: (val: IGetStudentResponse | undefined) => void;
+  getStudentbyId: IGetStudentResponse | undefined;
+};
