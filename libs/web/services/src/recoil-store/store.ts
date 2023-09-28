@@ -41,3 +41,8 @@ export const updateAvatar = atom<string | null>({
   key: "updateAvatar",
   default: null,
 });
+
+export const getStudentbyId = atom<IGetStudentResponse | undefined>({
+  key: "getStudentbyId",
+  default: undefined,
+});

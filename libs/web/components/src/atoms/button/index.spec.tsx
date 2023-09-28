@@ -36,7 +36,7 @@ describe("Test Button Functionality", () => {
   it("Should have a link when href provided", () => {
     const onClickFn = jest.fn();
     const { getByRole, getByTestId } = render(
-      <Button href={"https://www.test.com/"} onClick={onClickFn} />,
+      <Button href={"https://www.test.com/"} as={"https://www.test.com/"} onClick={onClickFn} />,
     );
     fireEvent.click(getByTestId("button"));
     expect(onClickFn).toHaveBeenCalled();
