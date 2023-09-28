@@ -4,8 +4,10 @@ COPY package.json yarn.lock ./
 
 RUN apk --no-cache add python3 git
 RUN yarn install --ignore-scripts --frozen-lockfile
+RUN yarn prisma generate
 
 COPY . .
+
 RUN yarn nx build web-pmb-admin
 
 FROM node:18-alpine AS Service
