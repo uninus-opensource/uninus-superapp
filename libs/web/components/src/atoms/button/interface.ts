@@ -25,4 +25,5 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   height?: string;
   uppercase?: boolean;
   styling?: string;
+  as?: string;
 }

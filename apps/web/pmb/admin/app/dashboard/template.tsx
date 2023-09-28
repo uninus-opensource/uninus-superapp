@@ -1,7 +1,7 @@
 "use client";
 import { FC, PropsWithChildren, ReactElement, ReactNode } from "react";
 import { SideBar } from "@uninus/web/components";
-import { useGetPopularData, useGetRegistrans, useLogout } from "@uninus/web/modules";
+import { useGetPopularData, useGetRegistrans, useLogoutToRoot } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import { Montserrat } from "next/font/google";
 import {
@@ -25,7 +25,7 @@ type TSideList = Array<{
 }>;
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
-  const { mutate } = useLogout();
+  const { mutate } = useLogoutToRoot();
   const { data: session } = useSession();
 
   const handleLogout = async () => {

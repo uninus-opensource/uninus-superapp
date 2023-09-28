@@ -1,6 +1,7 @@
 "use client";
 import { useRecoilState } from "recoil";
 import {
+  getStudentbyId,
   popularPrograms,
   registransData,
   studentState,
@@ -21,6 +22,7 @@ import {
   ReturnTypesPopularPrograms,
   ReturnTypesRegistransData,
   ReturnTypesStudentData,
+  ReturnTypesStudentDataId,
   ReturnTypesUpdateAvatar,
   ReturnTypesUserData,
 } from "./type";
@@ -77,5 +79,13 @@ export const useUpdateAvatar = (): ReturnTypesUpdateAvatar => {
   return {
     setUpdateAvatar: (val) => set(val),
     getUpdateAvatar: get,
+  };
+};
+
+export const useStudentDataById = (): ReturnTypesStudentDataId => {
+  const [get, set] = useRecoilState<IGetStudentResponse | undefined>(getStudentbyId);
+  return {
+    setStudentbyId: (val) => set(val),
+    getStudentbyId: get,
   };
 };
