@@ -1,5 +1,5 @@
 "use client";
-import { ReactElement, FC, useMemo } from "react";
+import { ReactElement, FC, useMemo, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { usePopularPrograms } from "@uninus/web/services";
@@ -7,6 +7,7 @@ import { usePopularPrograms } from "@uninus/web/services";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const RekapProgram: FC = (): ReactElement => {
+  const [chartType, setChartType] = useState("bulanan");
   const { getPopularData } = usePopularPrograms();
 
   const popularData = useMemo(() => {
@@ -38,13 +39,28 @@ export const RekapProgram: FC = (): ReactElement => {
 
         <div className="flex justify-between w-full items-center h-[52px] rounded-md shadow-md my-4 p-2 ">
           <section className="flex text-md gap-4 text-slate-5">
-            <div className="p-1 hover:shadow-md hover:rounded-md hover:text-primary-green">
+            <div
+              className={`p-1 hover:shadow-md hover:rounded-md hover:text-primary-green ${
+                chartType === "mingguan" ? "font-bold text-primary-green shadow-md rounded-md" : ""
+              }`}
+              onClick={() => setChartType("mingguan")}
+            >
               Mingguan
             </div>
-            <div className="p-1 hover:shadow-md hover:rounded-md hover:text-primary-green">
+            <div
+              className={`p-1 hover:shadow-md hover:rounded-md hover:text-primary-green ${
+                chartType === "bulanan" ? "font-bold text-primary-green shadow-md rounded-md" : ""
+              }`}
+              onClick={() => setChartType("bulanan")}
+            >
               Bulanan
             </div>
-            <div className="p-1 hover:shadow-md hover:rounded-md hover:text-primary-green">
+            <div
+              className={`p-1 hover:shadow-md hover:rounded-md hover:text-primary-green ${
+                chartType === "tahunan" ? "font-bold text-primary-green shadow-md rounded-md" : ""
+              }`}
+              onClick={() => setChartType("tahunan")}
+            >
               Tahunan
             </div>
           </section>
