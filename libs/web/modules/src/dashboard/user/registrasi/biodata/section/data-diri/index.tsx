@@ -717,7 +717,6 @@ export const DataDiriSection: FC = (): ReactElement => {
               options={countryOptions || []}
               isClearable={true}
               isSearchable={true}
-              ref={countryref}
               control={control}
               isMulti={false}
               required={false}

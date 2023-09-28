@@ -6,7 +6,7 @@ import { DataPendidikanSection } from "./section/data-pendidikan";
 import { DataOrtuSection } from "./section/data-ortu";
 import { DataNilaiSection } from "./section/data-nilai";
 import { Button } from "@uninus/web/components";
-import Link from "next/link";
+
 import { useStudentData, useUpdate } from "@uninus/web/services";
 import { useGetBiodata } from "./hooks";
 
@@ -25,11 +25,11 @@ export const ModuleBiodata: FC = (): ReactElement => {
     if (getUpdate === true) {
       refetch()
         .then((newData) => {
-          setStudent(newData.data);
+          setStudent(newData?.data);
           if (
-            Number(newData.data?.average_grade) >= 80 ||
-            Number(newData.data?.average_utbk) >= 500 ||
-            Number(newData.data?.disabilities_id) >= 1
+            Number(newData?.data?.average_grade) >= 80 ||
+            Number(newData?.data?.average_utbk) >= 500 ||
+            Number(newData?.data?.disabilities_id) >= 1
           ) {
             setRoute(true);
           }
@@ -75,21 +75,18 @@ export const ModuleBiodata: FC = (): ReactElement => {
           )}
         </section>
         <div className="flex gap-6 justify-end px-8 py-4">
-          <Link
+          <Button
+            variant="filled"
             href={
               route ? "/dashboard/registrasi/beasiswa" : "/dashboard/registrasi/pembayaran/detail"
             }
+            size="md"
+            width="w-auto"
+            styling="text-xs md:text-sm lg:text-base"
           >
-            <Button
-              variant="filled"
-              size="md"
-              width="w-auto"
-              styling="text-xs md:text-sm lg:text-base"
-            >
-              <p className="px-2 flex">{route ? "Pilih Beasiswa" : "Lakukan Pembayaran"}</p>
-              <CaretRightOutlined />
-            </Button>
-          </Link>
+            <span className="px-2 flex">{route ? "Pilih Beasiswa" : "Lakukan Pembayaran"}</span>
+            <CaretRightOutlined />
+          </Button>
         </div>
       </section>
     </section>
