@@ -852,7 +852,7 @@ export class GeneralController {
     return response;
   }
 
-  @Delete("selction/:id")
+  @Delete("selection/:id")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Delete Selection path" })
   @ApiParam({ name: "id", required: true })
