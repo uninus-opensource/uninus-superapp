@@ -32,7 +32,6 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     mutate(session?.user?.refresh_token);
   };
 
-  console.log(session?.user.role);
   const sideListsSuperAdmin: TSideList = [
     {
       label: "Beranda",
