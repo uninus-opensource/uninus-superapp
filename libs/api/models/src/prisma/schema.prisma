@@ -297,28 +297,28 @@ model SelectionPath {
 }
 
 model Faculty {
-  id                Int             @id @default(autoincrement())
-  name              String
-  degree_program_id Int?
-  department        Department[]
-  degreeProgram     DegreeProgram?  @relation(fields: [degree_program_id], references: [id], onDelete: Cascade)
-  Lecturers         Lecturers[]
-  student           Students[]
-  alumni            AlumniProfile[]
+  id                        Int                         @id @default(autoincrement())
+  name                      String
+  degree_program_id         Int?
+  department                Department[]
+  degreeProgram             DegreeProgram?              @relation(fields: [degree_program_id], references: [id], onDelete: Cascade)
+  student                   Students[]
+  alumni                    AlumniProfile[]
+  LecturerFacultyDepartment LecturerFacultyDepartment[]
 }
 
 model Department {
-  id                Int             @id @default(autoincrement())
-  name              String
-  faculty_id        Int?
-  degree_program_id Int?
-  degreeProgram     DegreeProgram?  @relation(fields: [degree_program_id], references: [id])
-  Faculty           Faculty?        @relation(fields: [faculty_id], references: [id])
-  Lecturers         Lecturers[]
-  first_deparment   PMB[]           @relation("first_deparment")
-  second_deparment  PMB[]           @relation("second_deparment")
-  student           Students[]      @relation("student")
-  alumni            AlumniProfile[]
+  id                        Int                         @id @default(autoincrement())
+  name                      String
+  faculty_id                Int?
+  degree_program_id         Int?
+  degreeProgram             DegreeProgram?              @relation(fields: [degree_program_id], references: [id])
+  Faculty                   Faculty?                    @relation(fields: [faculty_id], references: [id])
+  first_deparment           PMB[]                       @relation("first_deparment")
+  second_deparment          PMB[]                       @relation("second_deparment")
+  student                   Students[]                  @relation("student")
+  alumni                    AlumniProfile[]
+  LecturerFacultyDepartment LecturerFacultyDepartment[]
 }
 
 model MaritalStatus {
@@ -421,15 +421,15 @@ model Questions {
 }
 
 model Employees {
-  user_id                  String                    @unique
-  createdAt                DateTime                  @default(now())
-  addition_task            String?
+  id                       Int                       @unique @default(autoincrement())
+  nip                      String?
+  nidn                     String?
   birth_date               String?
   employee_status_id       Int?
-  nidn                     String?
-  nip                      String?
-  id                       Int                       @unique @default(autoincrement())
   employee_type_id         Int?
+  user_id                  String                    @unique
+  addition_task            String?
+  createdAt                DateTime                  @default(now())
   academic_staff           AcademicStaff?
   appointment_decree       AppointmentDecree[]
   certification_profession CertificationProfession[]
@@ -467,21 +467,18 @@ model EmployeeHasWorkUnit {
 }
 
 model Lecturers {
-  id                     String            @unique @default(uuid())
-  user_id                String            @unique
-  createdAt              DateTime          @default(now())
-  department_id          Int?
-  employee_id            Int?              @unique
-  faculty_id             Int?
-  lecturer_certification Boolean?
-  lecturer_position_id   Int?
-  lecturer_status_id     Int?
-  department             Department?       @relation(fields: [department_id], references: [id])
-  employee               Employees?        @relation(fields: [employee_id], references: [id])
-  faculty                Faculty?          @relation(fields: [faculty_id], references: [id])
-  lecturer_position      LecturerPosition? @relation(fields: [lecturer_position_id], references: [id])
-  LecturerStatus         LecturerStatus?   @relation(fields: [lecturer_status_id], references: [id])
-  user                   Users             @relation(fields: [user_id], references: [id])
+  id                          String                      @unique @default(uuid())
+  user_id                     String                      @unique
+  createdAt                   DateTime                    @default(now())
+  employee_id                 Int?                        @unique
+  lecturer_certification      Boolean?
+  lecturer_position_id        Int?
+  lecturer_status_id          Int?
+  employee                    Employees?                  @relation(fields: [employee_id], references: [id])
+  lecturer_position           LecturerPosition?           @relation(fields: [lecturer_position_id], references: [id])
+  lecturer_status             LecturerStatus?             @relation(fields: [lecturer_status_id], references: [id])
+  user                        Users                       @relation(fields: [user_id], references: [id])
+  lecturer_faculty_department LecturerFacultyDepartment[]
 }
 
 model AcademicStaff {
@@ -618,4 +615,14 @@ model WorkingStatus {
   id     Int             @id @default(autoincrement())
   nmae   String
   alumni AlumniProfile[]
+}
+
+model LecturerFacultyDepartment {
+  id            Int        @id @default(autoincrement())
+  lecturer_id   String
+  lecturer      Lecturers  @relation(fields: [lecturer_id], references: [id])
+  faculty_id    Int?
+  faculty       Faculty?   @relation(fields: [faculty_id], references: [id])
+  department_id Int
+  department    Department @relation(fields: [department_id], references: [id])
 }

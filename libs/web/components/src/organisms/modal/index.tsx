@@ -26,6 +26,7 @@ export const Modal: FC<ModalProps> = ({
   const modalWidth = clsx(`relative ${className}`, {
     "w-full": size === "full",
     "lg:w-30% w-full md:w-[60%]": size === "modal-question",
+    "w-[70vw]": size === "md",
   });
   const modalPositions = clsx(
     `fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex  bg-primary-black bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 backdrop-blur-sm `,

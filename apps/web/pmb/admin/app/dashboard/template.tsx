@@ -1,7 +1,7 @@
 "use client";
 import { FC, PropsWithChildren, ReactElement, ReactNode } from "react";
 import { SideBar } from "@uninus/web/components";
-import { useGetPopularData, useGetRegistrans, useLogout } from "@uninus/web/modules";
+import { useGetPopularData, useGetRegistrans, useLogoutToRoot } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import { Montserrat } from "next/font/google";
 import {
@@ -9,6 +9,7 @@ import {
   FormOutlined,
   FileTextOutlined,
   CreditCardOutlined,
+  FileDoneOutlined,
 } from "@ant-design/icons";
 import { usePopularPrograms, useRegistransData } from "@uninus/web/services";
 
@@ -24,7 +25,7 @@ type TSideList = Array<{
 }>;
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
-  const { mutate } = useLogout();
+  const { mutate } = useLogoutToRoot();
   const { data: session } = useSession();
 
   const handleLogout = async () => {
@@ -37,12 +38,14 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       link: "/dashboard",
       icon: <HomeOutlined />,
     },
+    { label: "Master Data", link: "/dashboard/data-master", icon: <FileDoneOutlined /> },
     {
       label: "Data Akun",
       link: "/dashboard/data-akun",
       icon: <FileTextOutlined />,
     },
     { label: "Data Pendaftar", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
+
     { label: "Pembayaran", link: "/dashboard/data-bayar", icon: <CreditCardOutlined /> },
   ];
 
