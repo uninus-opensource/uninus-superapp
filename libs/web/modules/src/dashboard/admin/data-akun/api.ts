@@ -1,12 +1,18 @@
-import { TGetUserDataResponse, TRegisterRequest, TUser } from "@uninus/entities";
+import {
+  TGetUserDataResponse,
+  TRegisterRequest,
+  TUser,
+  TUsersPaginatonResponse,
+} from "@uninus/entities";
 import { api } from "@uninus/web/services";
-import { TDataAkun } from "./types";
 
-export const GetDataUser = async (params: TDataAkun): Promise<TGetUserDataResponse> => {
-  const { data } = await api<TGetUserDataResponse>({
-    headers: {
-      "Content-Type": "application/json",
-    },
+import { TUsersPaginationParams } from "../type";
+
+export const GetDataUserPagination = async (
+  params: TUsersPaginationParams,
+): Promise<TUsersPaginatonResponse> => {
+  const { data } = await api<TUsersPaginatonResponse>({
+    method: "GET",
     url: "/user",
     params,
   });

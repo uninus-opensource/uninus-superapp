@@ -3,19 +3,21 @@ import {
   TMetaErrorResponse,
   TRegisterRequest,
   TUser,
+  TUsersPaginatonResponse,
 } from "@uninus/entities";
-import { GetDataUser, CreateDataUser, UpdateDataUser, DeleteDataUser } from "./api";
+import { GetDataUserPagination, CreateDataUser, UpdateDataUser, DeleteDataUser } from "./api";
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import { TDataAkun } from "./types";
 import { filterActionUser } from "./store";
+import { TUsersPaginationParams } from "../type";
 
 export const useDataUsers = (
-  params: TDataAkun,
-): UseQueryResult<TGetUserDataResponse, TMetaErrorResponse> => {
+  params: TUsersPaginationParams,
+): UseQueryResult<TUsersPaginatonResponse, TMetaErrorResponse> => {
   return useQuery({
     queryKey: ["get-data-users", params],
-    queryFn: async () => await GetDataUser(params),
+    queryFn: async () => await GetDataUserPagination(params),
   });
 };
 

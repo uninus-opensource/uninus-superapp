@@ -12,7 +12,13 @@ import {
 } from "@uninus/web/components";
 import { Control, FieldValues, useForm } from "react-hook-form";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useDataUsers, useDeleteDataUsers, useFilterAction } from "./hook";
+import { useDataUsers, useDeleteDataUsers } from "./hook";
+import {
+  AiFillCaretLeft,
+  AiFillCaretRight,
+  AiFillFastBackward,
+  AiFillFastForward,
+} from "react-icons/ai";
 
 const Table: FC = (): ReactElement => {
   const [tableAkun, setTableAkun] = useState([{}]);
@@ -20,12 +26,22 @@ const Table: FC = (): ReactElement => {
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [isDeleteModalShow, setIsDeleteModalShow] = useState<boolean>(false);
   const [ModalAdd, setModalAdd] = useState<boolean>(false);
-  const [pending, setPending] = useState<boolean>(true);
+
   const [currentId, setCurrentId] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(5);
 
   const { mutate: deleteUser } = useDeleteDataUsers();
-  const { getFilterAction } = useFilterAction();
-  const { data, refetch } = useDataUsers(getFilterAction);
+  const {
+    data,
+    isLoading: isLoadingData,
+    refetch,
+  } = useDataUsers({
+    page: page,
+    per_page: perPage,
+    search: searchQuery,
+  });
+
   const {
     control,
     handleSubmit,
@@ -91,35 +107,35 @@ const Table: FC = (): ReactElement => {
   const columnsAkun: TableColumn<TDataAkun>[] = useMemo(
     () => [
       {
-        name: "No",
-        cell: (_row, rowIndex) => <div className="px-1">{rowIndex + 1}</div>,
-        width: "5%",
+        name: <div className="pl-4">No</div>,
+        cell: (row, rowIndex) => <div className="pl-5">{rowIndex + 1}</div>,
+        width: "80px",
       },
       {
         name: "Nama Lengkap",
         cell: (row) => row.fullname,
-        width: "15%",
+        width: "200px",
       },
       {
         name: "Role",
         cell: (row) => row.role.name,
-        width: "18%",
+        width: "200px",
       },
       {
         name: "No Telp",
         cell: (row) => row.phone_number,
-        width: "15%",
+        width: "200px",
       },
       {
         name: "Email",
         cell: (row) => row.email,
-        width: "20%",
+        width: "200px",
       },
-
       {
-        name: "Action",
+        name: <div className="w-full mr-10 text-center">Tindakan</div>,
+        width: "250px",
         cell: (row) => (
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full ml-10">
             <button
               onClick={handleCloseModal}
               className="flex gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center"
@@ -166,8 +182,8 @@ const Table: FC = (): ReactElement => {
     },
     headCells: {
       style: {
-        paddingLeft: "8px",
-        paddingRight: "8px",
+        paddingLeft: "5px",
+        paddingRight: "5px",
         backgroundColor: "#AFFFD4",
         color: "#000000",
         fontSize: "14px",
@@ -176,18 +192,13 @@ const Table: FC = (): ReactElement => {
     },
     cells: {
       style: {
-        paddingLeft: "8px",
-        paddingRight: "8px",
+        padding: "5px",
       },
     },
   };
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setTableAkun(columnsAkun);
-      setPending(false);
-    }, 1500);
-    return () => clearTimeout(timeout);
+    setTableAkun(columnsAkun);
   }, [columnsAkun, tableAkun]);
 
   const handleSearch = (event: { target: { value: SetStateAction<string> } }) => {
@@ -196,36 +207,53 @@ const Table: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      <div className="w-full flex p-2 py-4 justify-between">
-        <Button
-          variant="custom"
-          styling="text-xs lg:text-base w-auto h-5 xl:h-10 border border-primary-green text-primary-green"
-          onClick={handleModalAdd}
-        >
-          + Tambah Data
-        </Button>
-        <SearchInput
-          value={searchQuery}
-          onChange={handleSearch}
-          placeholder="Cari Nama,Email dan Nomor telepon"
-          width="w-[24rem]"
+      <section className="rounded-lg w-full">
+        <div className="w-full flex p-2 py-4 justify-between">
+          <Button
+            variant="custom"
+            styling="text-xs lg:text-base w-auto h-5 xl:h-10 border border-primary-green text-primary-green"
+            onClick={handleModalAdd}
+          >
+            + Tambah Data
+          </Button>
+          <SearchInput
+            value={searchQuery}
+            onChange={handleSearch}
+            placeholder="Cari Nama,Email dan Nomor telepon"
+            width="w-[24rem]"
+          />
+        </div>
+        <DataTable
+          columns={columnsAkun}
+          data={data?.data as TDataAkun[]}
+          customStyles={customStyles}
+          fixedHeader={true}
+          fixedHeaderScrollHeight="400px"
+          progressPending={isLoadingData}
+          progressComponent={<TableLoadingData className="w-full h-80" />}
+          noDataComponent={
+            <div className="flex flex-col w-full h-screen justify-center items-center">
+              <h1 className="font-bold my-2">Data Tidak Tersedia</h1>
+              <p>Table akan ditampilkan apabila sudah tersedia data yang diperlukan</p>
+            </div>
+          }
+          pagination
+          paginationComponentOptions={{
+            rangeSeparatorText: "ditampilkan dari",
+            rowsPerPageText: "Tampilkan",
+          }}
+          paginationPerPage={perPage}
+          paginationRowsPerPageOptions={[5, 10, 15, 20]}
+          paginationServer
+          onChangePage={(page: number) => setPage(page)}
+          onChangeRowsPerPage={(perPage: number) => setPerPage(perPage)}
+          paginationTotalRows={data?.meta.total as number}
+          paginationIconPrevious={<AiFillCaretLeft className="text-xl" />}
+          paginationIconNext={<AiFillCaretRight className="text-xl ml-0.5" />}
+          paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
+          paginationIconLastPage={<AiFillFastForward className="text-xl ml-0.5" />}
         />
-      </div>
-      <DataTable
-        columns={columnsAkun}
-        data={data?.data as TDataAkun[]}
-        customStyles={customStyles}
-        fixedHeader={true}
-        progressPending={pending}
-        progressComponent={<TableLoadingData className="w-full h-80" />}
-        noDataComponent={
-          <div className="flex flex-col w-full h-screen justify-center items-center">
-            <h1 className="font-bold my-2">Data Tidak Tersedia</h1>
-            <p>Table akan ditampilkan apabila sudah tersedia data yang diperlukan</p>
-          </div>
-        }
-      />
-
+      </section>
       <Modal
         key="modal-edit-user"
         showModal={isShowModal}
@@ -257,7 +285,7 @@ const Table: FC = (): ReactElement => {
               labelClassName="text-left py-2"
               control={updateControl as unknown as Control<FieldValues>}
               name="role"
-              options={selectUpdateRole}
+              options={selectUpdateRole || []}
               isMulti={false}
               isClearable={true}
               required={true}
