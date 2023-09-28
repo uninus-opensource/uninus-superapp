@@ -70,6 +70,10 @@ module.exports = {
           1: "#1678682E",
           2: "#B9DEDA",
         },
+        orange: {
+          1: "#E3642C",
+          2: "#eb7909",
+        },
       },
       grayscale: {
         11: "#989898",

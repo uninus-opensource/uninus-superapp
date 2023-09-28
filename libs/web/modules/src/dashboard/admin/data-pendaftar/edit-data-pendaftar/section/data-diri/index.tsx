@@ -1,4 +1,11 @@
-import { Button, RadioButton, SelectOption, TextField } from "@uninus/web/components";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Button,
+  RadioButton,
+  SelectOption,
+  TSelectOption,
+  TextField,
+} from "@uninus/web/components";
 import {
   useCitizenGet,
   useCityGet,
@@ -11,28 +18,35 @@ import {
   useReligionGet,
   useSalaryGet,
   useStatusGet,
-  useStudentData,
+  useStudentDataById,
   useSubdistrictGet,
 } from "@uninus/web/services";
-import { FC, ReactElement, useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
+import { ChangeEvent, FC, ReactElement, useEffect, useMemo, useRef, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
+import { TVSDataDiri, VSDataDiri } from "./schema";
+import { GroupBase, SelectInstance } from "react-select";
+import { useBiodataUpdate } from "../../../../../user";
+import { dataDiri, disabilitiesDataDiri, occupationS2S3 } from "../../../../../user";
 
 export const EditDataDiri: FC = (): ReactElement => {
-  const { getStudent } = useStudentData();
+  const [occValue, setOccValue] = useState<string | null>(null);
+  const [disValue, setDisValue] = useState<string | null>(null);
+  const { getStudentbyId } = useStudentDataById();
 
   const student = useMemo(() => {
-    return getStudent;
-  }, [getStudent]);
+    return getStudentbyId;
+  }, [getStudentbyId]);
 
   const {
     control,
-
+    handleSubmit,
     watch,
     setValue,
-
+    reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<FieldValues | TVSDataDiri>({
+    resolver: zodResolver(VSDataDiri),
     mode: "all",
   });
 
@@ -191,9 +205,9 @@ export const EditDataDiri: FC = (): ReactElement => {
     [getOccupation?.occupation],
   );
 
-  // useEffect(() => {
-  //   setValue("occupation_id", undefined);
-  // }, [setValue, occValue]);
+  useEffect(() => {
+    setValue("occupation_id", undefined);
+  }, [setValue, occValue]);
 
   const { data: getOccupationPosition } = useOccupationPositionGet({
     search: "",
@@ -223,9 +237,155 @@ export const EditDataDiri: FC = (): ReactElement => {
       })),
     [getSalary?.salary],
   );
+
+  useEffect(() => {
+    reset(student);
+
+    if (student?.disabilities_id) {
+      setDisValue("Ya");
+    } else {
+      setDisValue("Tidak");
+    }
+    if (student?.occupation_id) {
+      setOccValue("Sudah");
+    } else {
+      setOccValue("Belum");
+    }
+  }, [student, reset, getStudentbyId]);
+
+  useEffect(() => {
+    if (disValue === "Tidak") {
+      setValue("disabilities_id", undefined);
+    }
+  }, [disValue, setValue]);
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setDisValue(e.target.value);
+  };
+
+  const handleOccupation = (e: ChangeEvent<HTMLInputElement>): void => {
+    setOccValue(e.target.value);
+  };
+
+  const citizenref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+  const provinceref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+  const subdisref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+  const countryref = useRef<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>(null);
+
+  const citizenshipId = watch("citizenship_id");
+
+  useEffect(() => {
+    if (citizenref.current) {
+      citizenref.current.clearValue();
+    }
+
+    if (provinceref.current) {
+      provinceref.current.clearValue();
+    }
+
+    if (subdisref.current) {
+      subdisref.current.clearValue();
+    }
+
+    if (countryref.current) {
+      countryref.current.clearValue();
+    }
+  }, [citizenshipId]);
+
+  const { mutate } = useBiodataUpdate();
+
+  const onSubmit = handleSubmit((data) => {
+    dataDiri.fullname = data?.fullname;
+    dataDiri.nik = data?.nik;
+    dataDiri.nisn = data?.nisn;
+    dataDiri.no_kk = data?.no_kk;
+    dataDiri.gender_id = Number(data?.gender_id);
+    dataDiri.religion_id = Number(data?.religion_id);
+    dataDiri.birth_place = data?.birth_place;
+    dataDiri.birth_date = data?.birth_date;
+    dataDiri.marital_status_id = Number(data?.marital_status_id);
+    dataDiri.citizenship_id = Number(data?.citizenship_id);
+    dataDiri.country_id = Number(data?.country_id);
+    dataDiri.province_id = Number(data?.province_id);
+    dataDiri.city_id = Number(data?.city_id);
+    dataDiri.subdistrict_id = Number(data?.subdistrict_id);
+    dataDiri.address = data?.address;
+
+    if (disValue === "Ya") {
+      disabilitiesDataDiri.disabilities_id = Number(data?.disabilities_id);
+    } else {
+      disabilitiesDataDiri.disabilities_id = null;
+    }
+
+    if (occValue === "Sudah" && student?.degree_program_id !== 1) {
+      occupationS2S3.occupation_id = Number(data?.occupation_id);
+      if (data?.occupation_position_id) {
+        occupationS2S3.occupation_position_id = Number(data?.occupation_position_id);
+      } else {
+        occupationS2S3.occupation_position_id = undefined as unknown as number;
+      }
+      occupationS2S3.company_name = data?.company_name;
+      occupationS2S3.company_address = data?.company_address;
+      occupationS2S3.salary_id = Number(data?.salary_id);
+    }
+
+    try {
+      mutate(
+        occValue === "Sudah" && student?.degree_program_id !== 1
+          ? { ...dataDiri, ...occupationS2S3 }
+          : occValue === "Sudah" && disValue === "Ya" && student?.degree_program_id !== 1
+          ? { ...dataDiri, ...occupationS2S3, ...disabilitiesDataDiri }
+          : occValue === null && student?.degree_program_id === 1 && disValue === "Ya"
+          ? { ...dataDiri, ...disabilitiesDataDiri }
+          : { ...dataDiri },
+        {
+          onSuccess: () => {
+            setTimeout(() => {
+              toast.success("Berhasil mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setTimeout(() => {
+              toast.error("Gagal mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+        },
+      );
+    } catch (error) {
+      toast.error(error as string, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  });
+
   return (
     <div>
-      <form key="data-diri-form" noValidate className="bg-primary-white">
+      <form onSubmit={onSubmit} key="data-diri-form" noValidate className="bg-primary-white">
         <ToastContainer
           position="top-center"
           autoClose={5000}
@@ -509,8 +669,8 @@ export const EditDataDiri: FC = (): ReactElement => {
                 ]}
                 size="lg"
                 variant="primary"
-                //   onChange={handleOnChange}
-                // buttonValue={disValue}
+                onChange={handleOnChange}
+                buttonValue={disValue}
               />
             </div>
             <SelectOption
@@ -615,7 +775,7 @@ export const EditDataDiri: FC = (): ReactElement => {
                   ]}
                   size="lg"
                   variant="primary"
-                  // onChange={handleOccupation}
+                  onChange={handleOccupation}
                 />
                 <SelectOption
                   name="occupation_id"
