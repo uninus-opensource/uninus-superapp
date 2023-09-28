@@ -136,17 +136,20 @@ export const Pembayaran: FC = (): ReactElement => {
             />
           )}
 
-          <div className="mt-2 flex justify-between  gap-y-2">
-            <h2 className="text-grayscale-6 text-xs md:text-base">Metode Pembayaran</h2>
-            <h2 className="font-bold text-xs md:text-base">Mandiri</h2>
-            <div className="flex justify-between">
+          <div className="mt-5 flex justify-between items-center gap-y-2 w-full">
+            <div className="flex flex-col">
+              <h2 className="text-grayscale-6 text-xs md:text-base">Metode Pembayaran</h2>
+              <h2 className="font-bold text-xs md:text-base">Mandiri</h2>
+            </div>
+            <figure>
               <Image
                 src="/illustrations/payment/mandiri.webp"
                 width={100}
                 height={100}
+                quality={100}
                 alt="mandiri"
               />
-            </div>
+            </figure>
           </div>
           <div className="mt-4 md:mt-2 flex justify-between flex-col gap-y-2">
             <h2 className="text-grayscale-6 text-xs md:text-base">Nomor Virtual Account</h2>
