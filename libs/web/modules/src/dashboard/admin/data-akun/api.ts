@@ -5,7 +5,7 @@ import {
   TUsersPaginatonResponse,
 } from "@uninus/entities";
 import { api } from "@uninus/web/services";
-import { TDataAkun, TUserRoles } from "./types";
+import { TUpdateDataAkun, TUserRoles } from "./types";
 import { TUsersPaginationParams } from "../type";
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
 
@@ -32,7 +32,7 @@ export const CreateDataUser = async (payload: TRegisterRequest): Promise<TGetUse
   return data;
 };
 
-export const UpdateDataUser = async (payload: TDataAkun): Promise<TGetUserDataResponse> => {
+export const UpdateDataUser = async (payload: TUpdateDataAkun): Promise<TGetUserDataResponse> => {
   const { data } = await api({
     method: "PATCH",
     headers: {
