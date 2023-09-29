@@ -11,7 +11,13 @@ import {
   UseFilters,
   Patch,
 } from "@nestjs/common";
-import { TReqToken, TProfileResponse, EAppsOrigin, EOrderByPagination } from "@uninus/entities";
+import {
+  TReqToken,
+  TProfileResponse,
+  EAppsOrigin,
+  EOrderByPagination,
+  IUserRequest,
+} from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { UpdateUserDto } from "@uninus/api/dto";
 import {
@@ -162,10 +168,7 @@ export class UserController {
   ) {
     const response = await firstValueFrom(
       this.client
-        .send("update_user", {
-          id,
-          payload,
-        })
+        .send<IUserRequest>("update_user", { id, ...payload })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

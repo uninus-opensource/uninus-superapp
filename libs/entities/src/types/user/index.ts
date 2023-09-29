@@ -29,9 +29,10 @@ export type TUser = {
 };
 
 export interface IUser {
-  email: string;
-  fullname: string;
-  password: string;
+  id: string;
+  email?: string;
+  fullname?: string;
+  password?: string;
   employees?: number | null;
   lecturers?: number | null;
 }
