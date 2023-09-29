@@ -6,28 +6,21 @@ import { EditDataDiri } from "./section/data-diri";
 import { EditDataPendidikan } from "./section/data-pendidikan";
 import { EditDataNilaiRaport } from "./section/nilai-raport";
 import { EditDataOrangtua } from "./section/data-orangtua";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useStudentDataById } from "@uninus/web/services";
 import { useGetStudentById } from "./hooks";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 
 export const ModuleEditDataPendaftar: FC = (): ReactElement => {
   const [isActive, setIsActive] = useState<number>(1);
 
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
-  const roles = {
-    admin_Selek_PMB: "Admin Seleksi PMB",
-    super_Admin_PMB: "Super Admin PMB",
-    admin_keuangan_PMB: "Admin Keuangan PMB",
-  };
-
-  if (
-    session?.user.role !== roles.super_Admin_PMB ||
-    session?.user.role !== roles.admin_Selek_PMB
-  ) {
-    redirect("/dashboard");
-  }
+  // // const roles = {
+  // //   admin_Selek_PMB: "Admin Seleksi PMB",
+  // //   super_Admin_PMB: "Super Admin PMB",
+  //   admin_keuangan_PMB: "Admin Keuangan PMB",
+  // };
 
   const path = usePathname();
   const id = path.slice(46);

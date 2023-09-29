@@ -11,7 +11,7 @@ import {
   AiFillFastForward,
   AiOutlineAudit,
   AiOutlineEdit,
-  AiOutlineFilter,
+  // AiOutlineFilter,
 } from "react-icons/ai";
 import { useGetAllStudent } from "../hook";
 
@@ -217,10 +217,10 @@ const Table: FC = (): ReactElement => {
   return (
     <section className="rounded-lg w-full">
       <div className="w-full flex p-2 py-4 gap-4 lg:justify-end justify-start items-center">
-        <Button variant="outlined" height="h-9" width="w-24">
+        {/* <Button variant="outlined" height="h-9" width="w-24">
           <AiOutlineFilter className="text-lg text-primary-black" />
           <span className="text-sm font-medium pl-2 text-primary-black">Filter</span>
-        </Button>
+        </Button> */}
 
         <SearchInput
           value={searchQuery}
