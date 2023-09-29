@@ -41,6 +41,7 @@ export type TDataUser = {
   };
   student?: {
     user?: {
+      id?: number;
       fullname?: string;
     };
   };

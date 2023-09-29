@@ -1,43 +1,44 @@
 import { Button, SelectOption, TextField } from "@uninus/web/components";
 import {
-  useCityGet,
   useEducationHistoryGet,
   useEducationMajorGet,
   useEducationTypeGet,
-  useProvinceGet,
-  useStudentData,
-  useSubdistrictGet,
+  useStudentDataById,
   useYearGraduationGet,
 } from "@uninus/web/services";
+import { usePathname } from "next/navigation";
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
+import { FieldValues, useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
+import { useBiodataUpdateById } from "../../hooks";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TVSDataPendidikan, VSDataPendidikan } from "./schema";
+import { dataPendidikan } from "../../../../../user";
 
 export const EditDataPendidikan: FC = (): ReactElement => {
   const [education, setEducation] = useState<string>("");
+  const { getStudentbyId } = useStudentDataById();
 
-  const { getStudent } = useStudentData();
-  const [locationMeta] = useState({
-    search: "",
-    province_id: "",
-    city_id: "",
-  });
   const student = useMemo(() => {
-    return getStudent;
-  }, [getStudent]);
+    return getStudentbyId;
+  }, [getStudentbyId]);
+
+  const path = usePathname();
+  const id = path.slice(46);
 
   const {
     control,
-
+    handleSubmit,
     watch,
     setValue,
-
+    reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<FieldValues | TVSDataPendidikan>({
+    resolver: zodResolver(VSDataPendidikan),
     mode: "all",
   });
   const [educationType] = useState({
-    degree_program_id: getStudent?.degree_program_id as unknown as string,
+    degree_program_id: getStudentbyId?.degree_program_id as unknown as string,
   });
 
   const { data: getEducationType } = useEducationTypeGet(educationType);
@@ -103,45 +104,6 @@ export const EditDataPendidikan: FC = (): ReactElement => {
     [getMajor?.education_major],
   );
 
-  const { data: getProvincies } = useProvinceGet(locationMeta);
-
-  const schoolProvinceOptions = useMemo(
-    () =>
-      getProvincies?.province?.map((province) => ({
-        label: province?.name,
-        value: province?.id.toString(),
-      })),
-    [getProvincies?.province],
-  );
-
-  const { data: getCitySchool } = useCityGet({
-    province_id: watch("address_province_school"),
-    search: "",
-  });
-
-  const citySchoolOptions = useMemo(
-    () =>
-      getCitySchool?.city?.map((city) => ({
-        label: city?.name,
-        value: city?.id.toString(),
-      })),
-    [getCitySchool?.city],
-  );
-
-  const { data: getSubdistrictSchool } = useSubdistrictGet({
-    city_id: watch("address_city_school"),
-    search: "",
-  });
-
-  const subDistrictOptions = useMemo(
-    () =>
-      getSubdistrictSchool?.subdistrict?.map((subdistrict) => ({
-        label: subdistrict?.name,
-        value: subdistrict?.id.toString(),
-      })),
-    [getSubdistrictSchool?.subdistrict],
-  );
-
   useEffect(() => {
     if (education || student?.education_npsn) {
       setValue(
@@ -182,10 +144,65 @@ export const EditDataPendidikan: FC = (): ReactElement => {
       setValue("school_address", "");
     }
   }, [setValue, education, educationHistoryOptions, student?.education_npsn]);
+  useEffect(() => {
+    reset(student);
+  }, [student, reset, getStudentbyId]);
+
+  const { mutate } = useBiodataUpdateById(id);
+
+  const onSubmit = handleSubmit((data) => {
+    dataPendidikan.education_type_id = Number(data?.education_type_id);
+    dataPendidikan.education_major_id = Number(data?.education_major_id);
+    dataPendidikan.education_npsn = data?.education_npsn;
+    dataPendidikan.graduation_year = data?.graduation_year;
+
+    try {
+      mutate(
+        { ...dataPendidikan },
+        {
+          onSuccess: () => {
+            setTimeout(() => {
+              toast.success("Berhasil mengedit data pendaftar", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setTimeout(() => {
+              toast.error("Gagal mengedit data pendaftar", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
   return (
     <div>
-      <form key="data-diri-form" noValidate className="bg-primary-white">
+      <form
+        onSubmit={onSubmit}
+        key="data-diri-form"
+        noValidate
+        className="bg-primary-white py-4 px-8"
+      >
         <ToastContainer
           position="top-center"
           autoClose={5000}
@@ -224,26 +241,17 @@ export const EditDataPendidikan: FC = (): ReactElement => {
               status={"error"}
               message={errors?.education_type_id?.message as string}
             />
-            <SelectOption
-              name="province_id"
-              labels="Provinsi"
-              placeholder={
-                student?.province_id
-                  ? schoolProvinceOptions?.find(
-                      (province) => Number(province.value) === student?.province_id,
-                    )?.label
-                  : "Provinsi"
-              }
-              labelClassName="font-bold text-xs py-2"
-              options={schoolProvinceOptions || []}
-              isSearchable={true}
-              isClearable={true}
+            <TextField
+              inputHeight="h-10"
+              name="school_province"
+              variant="sm"
+              type="text"
+              labelclassname="text-sm font-semibold"
+              label="Provinsi"
+              placeholder="Provinsi Sekolah"
+              inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
               control={control}
-              // ref={citizenref}
-              isMulti={false}
-              status={errors?.province_id?.message ? "error" : "none"}
-              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.province_id?.message as string}
+              disabled
             />
           </div>
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
@@ -264,28 +272,20 @@ export const EditDataPendidikan: FC = (): ReactElement => {
               status="error"
               message={errors?.graduation_year?.message as string}
             />
-            <SelectOption
-              name="city_id"
-              labels="Kota/Kabupaten"
-              placeholder={
-                student?.city_id
-                  ? citySchoolOptions?.find((city) => Number(city.value) === student?.city_id)
-                      ?.label
-                  : "Kota/Kabupaten"
-              }
-              labelClassName="font-bold text-xs py-2"
-              options={citySchoolOptions || []}
-              isSearchable={true}
-              isClearable={true}
-              // ref={provinceref}
+            <TextField
+              inputHeight="h-10"
+              name="school_city"
+              variant="sm"
+              type="text"
+              labelclassname="text-sm font-semibold"
+              label="Kota/Kabupaten"
+              placeholder="Kota Sekolah"
+              inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw] "
               control={control}
-              isMulti={false}
-              status={"error"}
-              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.city_id?.message as string}
+              disabled
             />
           </div>
-          <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
+          <div className="w-80% px-5 flex flex-col flex-wrap gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
             <TextField
               inputHeight="h-10"
               name="education_npsn"
@@ -304,28 +304,33 @@ export const EditDataPendidikan: FC = (): ReactElement => {
                 setEducation(e.target.value);
               }}
             />
-            <SelectOption
-              name="subdistrict_id"
-              labels="Kecamatan"
-              placeholder={
-                student?.subdistrict_id
-                  ? subDistrictOptions?.find(
-                      (subdistrict) => Number(subdistrict.value) === student?.subdistrict_id,
-                    )?.label
-                  : "Kecamatan"
-              }
-              labelClassName="font-bold text-xs py-2"
-              options={subDistrictOptions || []}
-              isSearchable={true}
-              // ref={subdisref}
+
+            <TextField
+              inputHeight="h-10"
+              name="school_subdistrict"
+              variant="sm"
+              type="text"
+              labelclassname="text-sm font-semibold"
+              label="Kecamatan"
+              placeholder="Kecamatan Sekolah"
+              inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw] "
               control={control}
-              isMulti={false}
-              isClearable={true}
-              status={"error"}
-              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.subdistrict_id?.message as string}
+              disabled
             />
+
+            <p className="text-[0.7rem] text-left relative bottom-5">
+              Cek NPSN &nbsp;
+              <a
+                href="https://dapo.kemdikbud.go.id/pencarian"
+                className="hover:cursor-pointer text-primary-black"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://dapo.kemdikbud.go.id/pencarian
+              </a>
+            </p>
           </div>
+
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
             <TextField
               inputHeight="h-10"
@@ -353,6 +358,8 @@ export const EditDataPendidikan: FC = (): ReactElement => {
               }
               options={majorOptions || []}
               isSearchable={false}
+              isClearable
+              disabled={!watch("education_type_id")}
               control={control}
               isMulti={false}
               status="error"
@@ -360,7 +367,22 @@ export const EditDataPendidikan: FC = (): ReactElement => {
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             />
           </div>
-          <div className="px-6 md:px-0 lg:px-0 w-full md:w-fit">
+          <div className="flex flex-col px-6 md:px-0 lg:px-0 w-full md:w-fit gap-4">
+            {majorOptions?.length === 1 && student?.degree_program_id === 1 && (
+              <TextField
+                inputHeight="h-10"
+                name="vocational_high_school"
+                variant="sm"
+                type="text"
+                labelclassname="text-sm font-semibold"
+                label="Jurusan SMK"
+                placeholder="Masukan jurusan sekolah anda"
+                inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw] "
+                control={control}
+                required
+                disabled={!watch("education_type_id") || majorOptions?.length !== 1}
+              />
+            )}
             <TextField
               name="school_address"
               variant="sm"
@@ -379,7 +401,12 @@ export const EditDataPendidikan: FC = (): ReactElement => {
             />
           </div>
           <div className="flex w-full justify-center lg:justify-end py-4 mt-8 gap-x-3">
-            <Button type="submit" variant="filled-red" size="md" width="w-70% lg:w-15% xl:w-15%">
+            <Button
+              href={"dashboard/data-pendaftar"}
+              variant="filled-red"
+              size="md"
+              width="w-70% lg:w-15% xl:w-15%"
+            >
               Batal
             </Button>
             <Button type="submit" variant="filled" size="md" width="w-70% lg:w-15% xl:w-15%">

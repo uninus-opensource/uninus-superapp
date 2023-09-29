@@ -149,7 +149,7 @@ const Table: FC = (): ReactElement => {
         cell: (row) => (
           <div className="flex gap-2 w-full ml-2">
             <Button
-              href={`/dashboard/data-pendaftar/edit-data-pendaftar/${row.id}`}
+              href={`/dashboard/data-pendaftar/edit-data-pendaftar/${row.student?.user?.id}`}
               variant="filled"
               height="h-4"
               width="w-20"
@@ -235,6 +235,7 @@ const Table: FC = (): ReactElement => {
         customStyles={customStyles}
         fixedHeader={true}
         progressPending={isLoading}
+        fixedHeaderScrollHeight="400px"
         striped
         progressComponent={<TableLoadingData className="w-full h-80" />}
         noDataComponent={

@@ -57,6 +57,12 @@ import {
   TStudentsPaginationArgs,
   TStudentsPaginatonResponse,
   TRolesResponse,
+  TCreateFacultyRequest,
+  TCreateDepartmentRequest,
+  TCreateSelectionPathRequest,
+  TCreateEducationRequest,
+  TGeneralResponse,
+  TCreateScholarshipRequest,
 } from "@uninus/entities";
 
 @Injectable()
@@ -1299,5 +1305,304 @@ export class AppService {
       throw new RpcException(new NotFoundException("Data tidak ditemukan"));
     }
     return roles;
+  }
+
+  async createFaculty(payload: TCreateFacultyRequest): Promise<TGeneralResponse> {
+    const newFaculty = await this.prisma.faculty.create({
+      data: {
+        name: payload.name,
+        degreeProgram: {
+          connect: {
+            id: payload.degree_program_id,
+          },
+        },
+      },
+    });
+
+    if (!newFaculty) {
+      throw new RpcException(new BadRequestException("Gagal menambahkan fakultas baru"));
+    }
+
+    return {
+      message: "Berhasil menambahkan fakultas baru",
+    };
+  }
+
+  async createDepartment(payload: TCreateDepartmentRequest): Promise<TGeneralResponse> {
+    const newDepartment = await this.prisma.department.create({
+      data: {
+        name: payload.name,
+        Faculty: {
+          connect: {
+            id: payload.faculty_id,
+          },
+        },
+        degreeProgram: {
+          connect: {
+            id: payload.degree_program_id,
+          },
+        },
+      },
+    });
+
+    if (!newDepartment) {
+      throw new RpcException(new BadRequestException("Gagal menambahkan program studi baru"));
+    }
+    return {
+      message: "Berhasil menambahkan program studi baru",
+    };
+  }
+
+  async createSelectionPath(payload: TCreateSelectionPathRequest): Promise<TGeneralResponse> {
+    const newSelectionPath = await this.prisma.selectionPath.create({
+      data: {
+        name: payload.name,
+        degree_program: {
+          connect: {
+            id: payload.degree_program_id,
+          },
+        },
+      },
+    });
+
+    if (!newSelectionPath) {
+      throw new RpcException(new BadRequestException("Gagal menambahkan Jalur Seleksi baru"));
+    }
+
+    return {
+      message: "Berhasil menambahkan jalur seleksi baru",
+    };
+  }
+
+  async createEducation(payload: TCreateEducationRequest): Promise<TGeneralResponse> {
+    const newEducation = await this.prisma.education.create({
+      data: {
+        name: payload.name,
+        npsn: payload.npsn,
+        district_city: payload.district_city,
+        sub_district: payload.sub_district,
+        province: payload.province,
+        street_address: payload.street_address,
+        education_type: {
+          connect: {
+            id: payload.education_type_id,
+          },
+        },
+      },
+    });
+
+    if (!newEducation) {
+      throw new RpcException(new BadRequestException("Gagal membuat data sekolah baru"));
+    }
+
+    return {
+      message: "Berhasil menambahkan data sekolah baru",
+    };
+  }
+
+  async createScholarship(payload: TCreateScholarshipRequest): Promise<TGeneralResponse> {
+    const newScholarship = await this.prisma.scholarship.create({
+      data: {
+        name: payload.name,
+      },
+    });
+
+    if (!newScholarship) {
+      throw new RpcException(new BadRequestException("Gagal menambahkan gagal beasiswa baru"));
+    }
+
+    return {
+      message: "Berhasil menambahkan beasiswa baru",
+    };
+  }
+
+  async updateFaculty(id: number, payload: TCreateFacultyRequest): Promise<TGeneralResponse> {
+    const updatedFaculty = await this.prisma.faculty.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        name: payload.name,
+        degree_program_id: payload.degree_program_id,
+      },
+    });
+
+    if (!updatedFaculty) {
+      throw new RpcException(new BadRequestException(`Gagal memperbarui fakultas dengan ID ${id}`));
+    }
+
+    return {
+      message: `Berhasil memperbarui fakultas dengan ID ${id}`,
+    };
+  }
+  async updateDepartment(id: number, payload: TCreateDepartmentRequest): Promise<TGeneralResponse> {
+    const updatedDepartment = await this.prisma.department.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        name: payload.name,
+        faculty_id: payload.faculty_id,
+        degree_program_id: payload.degree_program_id,
+      },
+    });
+
+    if (!updatedDepartment) {
+      throw new RpcException(new BadRequestException("Gagal memperbarui program studi"));
+    }
+
+    return {
+      message: "Berhasil memperbarui program studi",
+    };
+  }
+
+  async updateSelectionPath(
+    id: number,
+    payload: TCreateSelectionPathRequest,
+  ): Promise<TGeneralResponse> {
+    const updatedSelectionPath = await this.prisma.selectionPath.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        name: payload.name,
+        degree_program_id: payload.degree_program_id,
+      },
+    });
+
+    if (!updatedSelectionPath) {
+      throw new RpcException(new BadRequestException("Gagal memperbarui jalur seleksi"));
+    }
+
+    return {
+      message: "Berhasil memperbarui jalur seleksi",
+    };
+  }
+
+  async updateEducation(id: number, payload: TCreateEducationRequest): Promise<TGeneralResponse> {
+    const updatedEducation = await this.prisma.education.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        name: payload.name,
+        npsn: payload.npsn,
+        district_city: payload.district_city,
+        sub_district: payload.sub_district,
+        province: payload.province,
+        street_address: payload.street_address,
+        education_type_id: payload.education_type_id,
+      },
+    });
+
+    if (!updatedEducation) {
+      throw new RpcException(new BadRequestException("Gagal memperbarui data sekolah"));
+    }
+
+    return {
+      message: "Berhasil memperbarui data sekolah",
+    };
+  }
+
+  async updateScholarship(
+    id: number,
+    payload: TCreateScholarshipRequest,
+  ): Promise<TGeneralResponse> {
+    const updateScholarship = await this.prisma.scholarship.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        name: payload.name,
+      },
+    });
+
+    if (!updateScholarship) {
+      throw new RpcException(new BadRequestException("Gagal memperbarui Beasiswa"));
+    }
+
+    return {
+      message: "Berhasil memperbarui data beasiswa",
+    };
+  }
+
+  async deleteFaculty(id: number): Promise<TGeneralResponse> {
+    const deletedFaculty = await this.prisma.faculty.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!deletedFaculty) {
+      throw new RpcException(new BadRequestException(`Gagal menghapus fakultas`));
+    }
+
+    return {
+      message: `Berhasil menghapus fakultas `,
+    };
+  }
+
+  async deleteDepartment(id: number): Promise<TGeneralResponse> {
+    const deleteDepartment = await this.prisma.department.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!deleteDepartment) {
+      throw new RpcException(new BadRequestException(`Gagal menghapus program studi`));
+    }
+
+    return {
+      message: `Berhasil menghapus program studi `,
+    };
+  }
+
+  async deleteSelectionPath(id: number): Promise<TGeneralResponse> {
+    const selctionPath = await this.prisma.selectionPath.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!selctionPath) {
+      throw new RpcException(new BadRequestException(`Gagal menghapus Jalur seleksi`));
+    }
+
+    return {
+      message: `Berhasil menghapus Jalur seleksi `,
+    };
+  }
+
+  async deleteEducation(id: number): Promise<TGeneralResponse> {
+    const deleteEducation = await this.prisma.education.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!deleteEducation) {
+      throw new RpcException(new BadRequestException(`Gagal menghapus data sekolah`));
+    }
+
+    return {
+      message: `Berhasil menghapus data sekolah `,
+    };
+  }
+
+  async deleteScholarship(id: number): Promise<TGeneralResponse> {
+    const deleteScholarship = await this.prisma.faculty.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!deleteScholarship) {
+      throw new RpcException(new BadRequestException(`Gagal menghapus beasiswa`));
+    }
+
+    return {
+      message: `Berhasil menghapus beasiswa `,
+    };
   }
 }
