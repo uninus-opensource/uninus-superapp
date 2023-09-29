@@ -40,7 +40,7 @@ export class UserController {
     description: "Application Origin",
   })
   @Get("/me")
-  @UseGuards(JwtAuthGuard, PermissionGuard([...Object.values(EAppsOrigin)]))
+  @UseGuards(JwtAuthGuard)
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async getUser(@Request() reqToken: TReqToken) {
     const { sub } = reqToken.user;
