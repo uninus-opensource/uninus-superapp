@@ -1,5 +1,4 @@
 import {
-  IDegreeProgramRequest,
   IUpdateStudentGradeResponse,
   TCreateScholarshipRequest,
   TDegreeProgramResponse,

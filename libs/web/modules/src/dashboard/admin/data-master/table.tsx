@@ -32,6 +32,7 @@ import {
   useProgramGet,
   useScholarshipCreate,
 } from "../hook";
+import { toast } from "react-toastify";
 
 const Table: FC = (): ReactElement => {
   const [tableMaster, setTableMaster] = useState([{}]);
@@ -129,7 +130,7 @@ const Table: FC = (): ReactElement => {
     [getDegreProgram?.degree_program],
   );
   const { mutate } = useScholarshipCreate();
-  const { data: getBeasiswa } = useGetBeasiswa();
+  const { data: getBeasiswa, refetch } = useGetBeasiswa();
   const beasiswa = useMemo(
     () =>
       getBeasiswa?.scholarship?.map((beasiswa) => ({
@@ -157,12 +158,46 @@ const Table: FC = (): ReactElement => {
     //   console.log("fakultas", data.faculty);
     // }
     try {
-      mutate({
-        name: data.scholarship,
-      });
-      console.log("sukses");
+      mutate(
+        {
+          name: data.scholarship,
+        },
+        {
+          onSuccess: () => {
+            setIsAddModalShow(false);
+            refetch();
+            setTimeout(() => {
+              toast.success("Berhasil Menambah Beasiswa", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setIsAddModalShow(false);
+            setTimeout(() => {
+              toast.error("Gagal Menambah Beasiswa", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+        },
+      );
     } catch (error) {
-      console.error("error", error);
+      console.error(error);
     }
   });
   const columns: TableColumn<TDataMaster>[] = [
@@ -190,7 +225,7 @@ const Table: FC = (): ReactElement => {
             {row.name === "Data Sekolah" &&
               education?.map((item, index) => <li key={index}>{item.label}</li>)}
             {row.name === "Beasiswa" &&
-              beasiswa?.slice(0, 5).map((item, index) => <li key={index}>{item.label}</li>)}
+              beasiswa?.map((item, index) => <li key={index}>{item.label}</li>)}
             {row.name === "Biaya Formulir" &&
               row.current_data?.map((item, index) => <li key={index}>{item.data}</li>)}
           </ul>

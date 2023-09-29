@@ -1,5 +1,5 @@
 "use client";
-import { FC, ReactElement, useState, useEffect } from "react";
+import { FC, ReactElement, useState, useEffect, SetStateAction } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataBayar, TTabSection } from "./types";
 import { dataBayar } from "./store";
@@ -11,6 +11,7 @@ import {
   TextField,
   RadioButton,
   Accordion,
+  SearchInput,
 } from "@uninus/web/components";
 import { AuditOutlined } from "@ant-design/icons";
 import { match } from "ts-pattern";
@@ -138,9 +139,9 @@ const Table: FC = (): ReactElement => {
       item.status.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  // const handleSearch = (event: { target: { value: SetStateAction<string> } }) => {
-  //   setSearchQuery(event.target.value);
-  // };
+  const handleSearch = (event: { target: { value: SetStateAction<string> } }) => {
+    setSearchQuery(event.target.value);
+  };
   const handleCloseModal = () => {
     setIsValidModalShow(false);
   };
@@ -184,23 +185,23 @@ const Table: FC = (): ReactElement => {
           <div className={isActive === 1 ? "block" : "hidden"}>
             <TextField
               name="s1"
-              label="Biaya Formulir - Program Sarjana(1)"
+              label="Biaya Formulir - Program Sarjana(S1)"
               variant="lg"
               placeholder="Biaya Formulir - Program Sarjana(1)"
               control={control}
             />
             <TextField
               name="s2"
-              label="Biaya Formulir - Program Pascarjana(2)"
+              label="Biaya Formulir - Program Pascarjana(S2)"
               variant="lg"
-              placeholder="Biaya Formulir - Program Sarjana(3)"
+              placeholder="Biaya Formulir - Program PascaSarjana(S2)"
               control={control}
             />
             <TextField
-              name="s2"
-              label="Biaya Formulir - Program Pascarjana(3)"
+              name="s3"
+              label="Biaya Formulir - Program Pascarjana(S3)"
               variant="lg"
-              placeholder="Biaya Formulir - Program Sarjana(3)"
+              placeholder="Biaya Formulir - Program Sarjana(S3)"
               control={control}
             />
             <p>Persetujuan</p>
@@ -251,8 +252,8 @@ const Table: FC = (): ReactElement => {
               titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
               className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline  xl:ml-[5vw] pb-6 md:pb-0"
             >
-              <p>Fakultas </p>
-              <div className=" px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-center">
+              <p className="ml-[3vw]">Fakultas </p>
+              <div className=" px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-center gap-x-6">
                 <TextField
                   placeholder="Nomor Handphone"
                   name="phone_number"
@@ -283,11 +284,39 @@ const Table: FC = (): ReactElement => {
             </Accordion>
             <Accordion
               key="data-diri-section"
-              title="Program Pascarjana(S1)"
+              title="Program Pascarjana(S2 S3)"
               titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
-              className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[5vw] pb-6 md:pb-0"
+              className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline  xl:ml-[5vw] pb-6 md:pb-0"
             >
-              <p>Text </p>
+              <p className="ml-[3vw]">Fakultas </p>
+              <div className=" px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-center gap-x-6">
+                <TextField
+                  placeholder="Nomor Handphone"
+                  name="phone_number"
+                  label="Nomor Handphone"
+                  labelclassname="text-xl font-semibold"
+                  variant="sm"
+                  required
+                  disabled
+                  inputWidth="w-full md:w-[33vw] lg:w-[23vw] xl:w-[25vw]"
+                  inputHeight="h-10"
+                  type="text"
+                  control={control}
+                />
+                <TextField
+                  placeholder="Nomor Handphone"
+                  name="phone_number"
+                  label="Nomor Handphone"
+                  labelclassname="text-xl font-semibold"
+                  variant="sm"
+                  required
+                  disabled
+                  inputWidth="w-full md:w-[33vw] lg:w-[23vw] xl:w-[25vw]"
+                  inputHeight="h-10"
+                  type="text"
+                  control={control}
+                />
+              </div>
             </Accordion>
             <div className="flex gap-x-6  justify-end">
               <Button variant="filled-red" width="w-36" height="h-6" onClick={handleCloseModal}>
@@ -300,16 +329,18 @@ const Table: FC = (): ReactElement => {
           </div>
         </div>
       </Modal>
-      <div className="w-full flex p-2 py-4 lg:justify-end justify-start">
+      <div className="w-full flex p-2 py-4 gap-4 lg:justify-end justify-start items-center">
         <Button variant="outlined" height="h-9" width="w-24">
           <AiOutlineFilter className="text-lg text-primary-black" />
           <span className="text-sm font-medium pl-2 text-primary-black">Filter</span>
         </Button>
-        {/* <SearchInput
+
+        <SearchInput
           value={searchQuery}
           onChange={handleSearch}
-          placeholder="Cari Nama,Email dan Nomor telepon"
-        /> */}
+          placeholder="Cari No registrasi"
+          width="w-[100%]"
+        />
       </div>
       <DataTable
         columns={columnsAkun}
