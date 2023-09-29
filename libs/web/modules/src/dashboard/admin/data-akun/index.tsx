@@ -7,7 +7,13 @@ import { redirect } from "next/navigation";
 export const ModuleDataAkun: FC = (): ReactElement => {
   const { data: session } = useSession();
 
-  if (session?.user.role !== "Super Admin PMB") {
+  const roles = {
+    admin_Selek_PMB: "Admin Seleksi PMB",
+    super_Admin_PMB: "Super Admin PMB",
+    admin_keuangan_PMB: "Admin Keuangan PMB",
+  };
+
+  if (session?.user.role !== roles.super_Admin_PMB) {
     redirect("/dashboard");
   }
 

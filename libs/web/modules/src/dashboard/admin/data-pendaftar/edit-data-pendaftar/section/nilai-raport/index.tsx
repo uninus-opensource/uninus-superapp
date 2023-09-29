@@ -1,15 +1,27 @@
-import { FC, ReactElement, useEffect } from "react";
-import { Button, TextField, UploadField } from "@uninus/web/components";
+import { FC, ReactElement, useEffect, useMemo, useState } from "react";
+import { Button, TextField } from "@uninus/web/components";
 import { useForm } from "react-hook-form";
-import { ToastContainer } from "react-toastify";
-
-// import { TVSDataNilai, VSDataNilai } from "./schema";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { ToastContainer, toast } from "react-toastify";
+import Link from "next/link";
+import { useStudentDataById } from "@uninus/web/services";
+import { usePathname } from "next/navigation";
+import { useBiodataUpdateById } from "../../hooks";
+import { NilaiValuesEdit } from "../../type";
 
 export const EditDataNilaiRaport: FC = (): ReactElement => {
-  const { control, setValue, watch, getValues } = useForm({
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { control, setValue, watch, getValues, reset, handleSubmit } = useForm<NilaiValuesEdit>({
     mode: "all",
   });
+  const { getStudentbyId } = useStudentDataById();
+
+  const student = useMemo(() => {
+    return getStudentbyId;
+  }, [getStudentbyId]);
+
+  const path = usePathname();
+  const id = path.slice(46);
 
   const watchStudentGrade = watch([
     "mtk1",
@@ -27,6 +39,37 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
   ]);
 
   const watchUtbk = watch(["utbk_kk", "utbk_pu", "utbk_ppu", "utbk_kmbm"]);
+
+  const dataStudentGrade = useMemo(
+    () =>
+      student?.student_grade?.reduce(
+        (obj, item) => (
+          (obj[
+            `${
+              item?.subject?.includes("indonesia")
+                ? `bind${item.semester}`
+                : item?.subject?.includes("matematika")
+                ? `mtk${item?.semester}`
+                : item?.subject?.includes("inggris") && `bing${item?.semester}`
+            }`
+          ] = item.grade),
+          obj
+        ),
+        {} as { [key: string]: number | null },
+      ),
+
+    [student?.student_grade],
+  );
+
+  useEffect(() => {
+    reset({
+      ...dataStudentGrade,
+      utbk_kk: student?.utbk_kk,
+      utbk_pu: student?.utbk_pu,
+      utbk_ppu: student?.utbk_ppu,
+      utbk_kmbm: student?.utbk_kmbm,
+    });
+  }, [dataStudentGrade, reset, student]);
 
   useEffect(() => {
     const {
@@ -71,13 +114,123 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
 
     const resultUtbk = Number(averageUtbk.reduce((acc, curr) => Number(acc) + Number(curr), 0));
 
-    setValue("average_grade", Number((result / 12).toFixed(1)));
+    setValue(
+      "average_grade",
+      Number(student?.average_grade === 0 ? (result / 12).toFixed(1) : student?.average_grade),
+    );
 
-    setValue("average_utbk", Number((resultUtbk / 4).toFixed(1)));
-  }, [getValues, setValue, watchStudentGrade, watchUtbk]);
+    setValue(
+      "average_utbk",
+      Number(student?.average_utbk === 0 ? (resultUtbk / 4).toFixed(1) : student?.average_utbk),
+    );
+  }, [
+    getValues,
+    setValue,
+    student?.average_grade,
+    student?.average_utbk,
+    watchStudentGrade,
+    watchUtbk,
+  ]);
+
+  const link = [
+    {
+      href: student?.documents?.find((x) => x?.name === "Rapot Semester 1")?.path,
+    },
+    {
+      href: student?.documents?.find((x) => x?.name === "Rapot Semester 2")?.path,
+    },
+    {
+      href: student?.documents?.find((x) => x?.name === "Rapot Semester 3")?.path,
+    },
+    {
+      href: student?.documents?.find((x) => x?.name === "Rapot Semester 4")?.path,
+    },
+  ];
+
+  const { mutate } = useBiodataUpdateById(id);
+
+  const onSubmit = handleSubmit(async (data) => {
+    setIsLoading(true);
+    try {
+      const { average_grade, average_utbk, utbk_pu, utbk_kk, utbk_ppu, utbk_kmbm, ...dataGrade } =
+        data;
+      const studentGrade = JSON.stringify(dataGrade)
+        .replace(/{|}/gi, "")
+        .split(",")
+        .map((el) => {
+          const data = el?.split(":");
+          return {
+            subject: data?.[0]?.includes("mtk")
+              ? "matematika"
+              : data?.[0]?.includes("bind")
+              ? "indonesia"
+              : data?.[0]?.includes("bing")
+              ? "inggris"
+              : "",
+            semester: data?.[0]?.includes("1")
+              ? "1"
+              : data?.[0]?.includes("2")
+              ? "2"
+              : data?.[0]?.includes("3")
+              ? "3"
+              : data?.[0]?.includes("4")
+              ? "4"
+              : "0",
+            grade: Number(data?.[1]?.replace(/"|'/gi, "")),
+          };
+        });
+
+      mutate(
+        {
+          student_grade: studentGrade,
+          average_grade: Number(average_grade),
+          average_utbk: Number(average_utbk),
+          utbk_kk: Number(utbk_kk),
+          utbk_kmbm: Number(utbk_kmbm),
+          utbk_pu: Number(utbk_pu),
+          utbk_ppu: Number(utbk_ppu),
+        },
+        {
+          onSuccess: () => {
+            setIsLoading(false);
+
+            setTimeout(() => {
+              toast.success("Berhasil mengedit data pendaftar", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setIsLoading(false);
+            setTimeout(() => {
+              toast.error("Gagal mengedit data pendaftar", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
   return (
-    <form className="bg-primary-white py-4 px-8">
+    <form onSubmit={onSubmit} className="bg-primary-white py-4 px-8">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -268,41 +421,19 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
             />
           </div>
         </div>
-        <div className="flex flex-col md:flex-row md:items-center gap-x-6 lg:gap-x-4 w-full">
-          <p className="text-[12px] lg:text-base font-bold text-left">Upload Rapor</p>
+        <div className="flex flex-col md:flex-row md:items-center gap-x-6 lg:gap-x-4 w-full justify-around">
+          <p className="text-[12px] lg:text-base font-bold text-left">Rapor</p>
           <div className="flex gap-4 mt-2">
-            <UploadField
-              control={control}
-              name="dokumen1"
-              variant="custom"
-              labels="Buka File"
-              labelClassName={watch("dokumen1") ? "labelTextUploaded" : "labelText"}
-              preview={false}
-            />
-            <UploadField
-              control={control}
-              name="dokumen2"
-              variant="custom"
-              labels="Buka File"
-              labelClassName={watch("dokumen2") ? "labelTextUploaded" : "labelText"}
-              preview={false}
-            />
-            <UploadField
-              control={control}
-              name="dokumen3"
-              variant="custom"
-              labels="Buka File"
-              labelClassName={watch("dokumen3") ? "labelTextUploaded" : "labelText"}
-              preview={false}
-            />
-            <UploadField
-              control={control}
-              name="dokumen4"
-              variant="custom"
-              labels="Buka File"
-              labelClassName={watch("dokumen4") ? "labelTextUploaded" : "labelText"}
-              preview={false}
-            />
+            {link.map((item, index) => (
+              <Link
+                key={index}
+                href={(item.href as string) || ""}
+                className="flex items-center justify-center bg-primary-green w-[17vw] md:w-[10vw] text-primary-white p-2 rounded-[3px] \
+               text-base"
+              >
+                Buka File
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -376,20 +507,30 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
         </div>
         <div className="flex items-center justify-between w-full   ">
           <p className="flex-shrink-0  font-bold text-sm md:text-base">Sertifikat UTBK : </p>
-          <UploadField
-            control={control}
-            name="UTBK"
-            variant="custom"
-            labels="Buka File"
-            labelClassName={watch("UTBK") ? "labelTextUploaded" : "labelText"}
-            preview={false}
-          />
+          <Link
+            href={(student?.documents?.find((x) => x?.name === "Nilai UTBK")?.path as string) || ""}
+            className="flex items-center justify-center bg-primary-green w-[17vw] md:w-[10vw] text-primary-white p-2 rounded-[3px] \
+               text-base"
+          >
+            Buka File
+          </Link>
         </div>
         <div className="flex w-full justify-center lg:justify-end py-4 mt-8 gap-x-3">
-          <Button type="submit" variant="filled-red" size="md" width="w-70% lg:w-15% xl:w-15%">
+          <Button
+            href={"dashboard/data-pendaftar"}
+            variant="filled-red"
+            size="md"
+            width="w-70% lg:w-15% xl:w-15%"
+          >
             Batal
           </Button>
-          <Button type="submit" variant="filled" size="md" width="w-70% lg:w-15% xl:w-15%">
+          <Button
+            type="submit"
+            loading={isLoading}
+            variant="filled"
+            size="md"
+            width="w-70% lg:w-15% xl:w-15%"
+          >
             Submit
           </Button>
         </div>

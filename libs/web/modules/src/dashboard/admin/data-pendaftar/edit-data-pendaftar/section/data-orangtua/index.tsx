@@ -10,7 +10,7 @@ import {
   useParentEducationGet,
   useParentStatusGet,
   useStudentDataById,
-  // useOccupationPositionGet,
+  useOccupationPositionGet,
 } from "@uninus/web/services";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -24,12 +24,31 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export const EditDataOrangtua: FC = (): ReactElement => {
   const { getStudentbyId } = useStudentDataById();
 
-  // const [isFatherStatus, setIsFatherStatus] = useState(false);
-  // const [isMotherStatus, setIsMotherStatus] = useState(false);
-  // const [isGuardianStatus, setIsGuardianStatus] = useState(false);
-  const [isUnemployedFather, setIsUnemployedFather] = useState(false);
-  const [isUnemployedMother, setIsUnemployedMother] = useState(false);
-  const [isUnemployedGuardian, setIsUnemployedGuardian] = useState(false);
+  const [isFatherStatus, setIsFatherStatus] = useState<boolean | undefined>(undefined);
+  const [isMotherStatus, setIsMotherStatus] = useState<boolean | undefined>(undefined);
+  const [isGuardianStatus, setIsGuardianStatus] = useState<boolean | undefined>(undefined);
+  const [isUnemployedFather, setIsUnemployedFather] = useState<boolean | undefined>(undefined);
+  const [isUnemployedMother, setIsUnemployedMother] = useState<boolean | undefined>(undefined);
+  const [isUnemployedGuardian, setIsUnemployedGuardian] = useState<boolean | undefined>(undefined);
+
+  const student = useMemo(() => {
+    return getStudentbyId;
+  }, [getStudentbyId]);
+
+  const path = usePathname();
+  const id = path.slice(46);
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues | TVSDataOrtu>({
+    resolver: zodResolver(VSDataOrtu),
+    mode: "all",
+  });
 
   const [parentStatus] = useState({
     search: "",
@@ -48,25 +67,6 @@ export const EditDataOrangtua: FC = (): ReactElement => {
     province_id: "",
     city_id: "",
   });
-
-  const {
-    control,
-    handleSubmit,
-    watch,
-    setValue,
-    reset,
-    formState: { errors },
-  } = useForm<FieldValues | TVSDataOrtu>({
-    resolver: zodResolver(VSDataOrtu),
-    mode: "all",
-  });
-
-  const student = useMemo(() => {
-    return getStudentbyId;
-  }, [getStudentbyId]);
-
-  const path = usePathname();
-  const id = path.slice(46);
 
   const { data: getParentStatus } = useParentStatusGet(parentStatus);
   const { data: getParentEducation } = useParentEducationGet(parentEducation);
@@ -90,18 +90,18 @@ export const EditDataOrangtua: FC = (): ReactElement => {
     search: "",
   });
 
-  // const { data: getOccupationPositionFather } = useOccupationPositionGet({
-  //   search: "",
-  //   occupation_id: watch("father_occupation_id"),
-  // });
-  // const { data: getOccupationPositionMother } = useOccupationPositionGet({
-  //   search: "",
-  //   occupation_id: watch("mother_occupation_id"),
-  // });
-  // const { data: getOccupationPositionGuardian } = useOccupationPositionGet({
-  //   search: "",
-  //   occupation_id: watch("guardian_occupation_id"),
-  // });
+  const { data: getOccupationPositionFather } = useOccupationPositionGet({
+    search: "",
+    occupation_id: watch("father_occupation_id"),
+  });
+  const { data: getOccupationPositionMother } = useOccupationPositionGet({
+    search: "",
+    occupation_id: watch("mother_occupation_id"),
+  });
+  const { data: getOccupationPositionGuardian } = useOccupationPositionGet({
+    search: "",
+    occupation_id: watch("guardian_occupation_id"),
+  });
 
   const addressStudent = student?.address;
   const parentStatusOptions = useMemo(
@@ -138,30 +138,30 @@ export const EditDataOrangtua: FC = (): ReactElement => {
     [getOccupation?.occupation],
   );
 
-  // const occupationPositionFatherOptions = useMemo(
-  //   () =>
-  //     getOccupationPositionFather?.occupation_position?.map((occupationPosition) => ({
-  //       label: occupationPosition?.name,
-  //       value: occupationPosition?.id.toString(),
-  //     })),
-  //   [getOccupationPositionFather?.occupation_position],
-  // );
-  // const occupationPositionMotherOptions = useMemo(
-  //   () =>
-  //     getOccupationPositionMother?.occupation_position?.map((occupationPosition) => ({
-  //       label: occupationPosition?.name,
-  //       value: occupationPosition?.id.toString(),
-  //     })),
-  //   [getOccupationPositionMother?.occupation_position],
-  // );
-  // const occupationPositionGuardOptions = useMemo(
-  //   () =>
-  //     getOccupationPositionGuardian?.occupation_position?.map((occupationPosition) => ({
-  //       label: occupationPosition?.name,
-  //       value: occupationPosition?.id.toString(),
-  //     })),
-  //   [getOccupationPositionGuardian?.occupation_position],
-  // );
+  const occupationPositionFatherOptions = useMemo(
+    () =>
+      getOccupationPositionFather?.occupation_position?.map((occupationPosition) => ({
+        label: occupationPosition?.name,
+        value: occupationPosition?.id.toString(),
+      })),
+    [getOccupationPositionFather?.occupation_position],
+  );
+  const occupationPositionMotherOptions = useMemo(
+    () =>
+      getOccupationPositionMother?.occupation_position?.map((occupationPosition) => ({
+        label: occupationPosition?.name,
+        value: occupationPosition?.id.toString(),
+      })),
+    [getOccupationPositionMother?.occupation_position],
+  );
+  const occupationPositionGuardOptions = useMemo(
+    () =>
+      getOccupationPositionGuardian?.occupation_position?.map((occupationPosition) => ({
+        label: occupationPosition?.name,
+        value: occupationPosition?.id.toString(),
+      })),
+    [getOccupationPositionGuardian?.occupation_position],
+  );
   const provinceOptions = useMemo(
     () =>
       getProvincies?.province?.map((province) => ({
@@ -233,29 +233,29 @@ export const EditDataOrangtua: FC = (): ReactElement => {
     }
   }, [student, setValue, addressStudent]);
 
-  // useEffect(() => {
-  //   const fatherStatus = watch("father_status_id");
-  //   const motherStatus = watch("mother_status_id");
-  //   const guardianStatus = watch("guardian_status_id");
+  useEffect(() => {
+    const fatherStatus = watch("father_status_id");
+    const motherStatus = watch("mother_status_id");
+    const guardianStatus = watch("guardian_status_id");
 
-  //   if (fatherStatus === "2" || fatherStatus === null || fatherStatus === undefined) {
-  //     setIsFatherStatus(true);
-  //   } else {
-  //     setIsFatherStatus(false);
-  //   }
+    if (fatherStatus === "2" || fatherStatus === null || fatherStatus === undefined) {
+      setIsFatherStatus(true);
+    } else {
+      setIsFatherStatus(false);
+    }
 
-  //   if (motherStatus === "2" || motherStatus === null || motherStatus === undefined) {
-  //     setIsMotherStatus(true);
-  //   } else {
-  //     setIsMotherStatus(false);
-  //   }
+    if (motherStatus === "2" || motherStatus === null || motherStatus === undefined) {
+      setIsMotherStatus(true);
+    } else {
+      setIsMotherStatus(false);
+    }
 
-  //   if (guardianStatus === "2" || guardianStatus === null || guardianStatus === undefined) {
-  //     setIsGuardianStatus(true);
-  //   } else {
-  //     setIsGuardianStatus(false);
-  //   }
-  // }, [watch("father_status_id"), watch("mother_status_id"), watch("guardian_status_id")]);
+    if (guardianStatus === "2" || guardianStatus === null || guardianStatus === undefined) {
+      setIsGuardianStatus(true);
+    } else {
+      setIsGuardianStatus(false);
+    }
+  }, [watch("father_status_id"), watch("mother_status_id"), watch("guardian_status_id")]);
 
   useEffect(() => {
     const statusProfecy = {
@@ -287,6 +287,10 @@ export const EditDataOrangtua: FC = (): ReactElement => {
       setValue("guardian_salary_id", "6");
     }
   }, [isUnemployedFather, isUnemployedMother, isUnemployedGuardian, setValue]);
+
+  useEffect(() => {
+    reset(student);
+  }, [student, reset, getStudentbyId]);
 
   const { mutate } = useBiodataUpdateById(id);
 
@@ -460,7 +464,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             isMulti={false}
             isClearable={true}
             status="error"
-            message={errors?.mother_status_id?.message as string}
+            message={errors?.father_status_id?.message as string}
           />
 
           <SelectOption
@@ -525,7 +529,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             status="error"
           />
         </div>
-        <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+        <div className="w-80% px-5 flex flex-col flex-wrap gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
           <SelectOption
             name="father_occupation_id"
             labels="Pekerjaan Ayah"
@@ -543,10 +547,11 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={isFatherStatus}
+            disabled={isFatherStatus}
             status="error"
             message={errors?.mother_occupation_id?.message as string}
           />
+
           <SelectOption
             name="mother_occupation_id"
             labels="Pekerjaan Ibu"
@@ -564,9 +569,66 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={isMotherStatus}
+            disabled={isMotherStatus}
             status="error"
             message={errors?.mother_occupation_id?.message as string}
+          />
+          <SelectOption
+            name="father_occupation_position_id"
+            labels="Jabatan"
+            placeholder={
+              student?.father_position_id
+                ? getOccupationPositionFather?.occupation_position?.find(
+                    (occupation_position) => occupation_position.id === student?.father_position_id,
+                  )?.name
+                : "Pilih Jabatan"
+            }
+            className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+            labelClassName="text-left font-bold text-xs py-2"
+            options={occupationPositionFatherOptions || []}
+            isClearable={true}
+            isSearchable={true}
+            required={false}
+            control={control}
+            isMulti={false}
+            disabled={
+              !watch("father_occupation_id")
+                ? true
+                : false || occupationPositionFatherOptions?.length === 0
+                ? true
+                : false
+            }
+            status={"error"}
+            message={errors?.father_occupation_position_id?.message as string}
+          />
+
+          <SelectOption
+            name="mother_occupation_position_id"
+            labels="Jabatan"
+            placeholder={
+              student?.mother_position_id
+                ? getOccupationPositionMother?.occupation_position?.find(
+                    (occupation_position) => occupation_position.id === student?.mother_position_id,
+                  )?.name
+                : "Pilih Jabatan"
+            }
+            className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+            labelClassName="text-left font-bold text-xs py-2"
+            options={occupationPositionMotherOptions || []}
+            isClearable={true}
+            isSearchable={true}
+            required={false}
+            control={control}
+            isMulti={false}
+            disabled={
+              !watch("mother_occupation_id")
+                ? true
+                : false || occupationPositionMotherOptions?.length === 0
+                ? true
+                : false
+            }
+            status={"error"}
+            message={errors?.mother_occupation_position_id?.message as string}
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
@@ -587,7 +649,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={isFatherStatus || isUnemployedFather}
+            disabled={isFatherStatus || isUnemployedFather}
             status="error"
             message={errors?.mother_salary_id?.message as string}
           />
@@ -608,7 +670,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={isMotherStatus || isUnemployedMother}
+            disabled={isMotherStatus || isUnemployedMother}
             status="error"
             message={errors?.mother_salary_id?.message as string}
           />
@@ -657,7 +719,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            // disabled={!watch("parent_province_id")}
+            disabled={!watch("parent_province_id")}
             status="error"
             message={errors?.parent_city_id?.message as string}
           />
@@ -680,7 +742,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={!watch("parent_city_id")}
+            disabled={!watch("parent_city_id")}
             status="error"
             message={errors?.parent_subdistrict_id?.message as string}
           />
@@ -780,7 +842,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            // disabled={!watch("guardian_province_id")}
+            disabled={!watch("guardian_province_id")}
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
@@ -820,7 +882,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={!watch("guardian_city_id")}
+            disabled={!watch("guardian_city_id")}
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
@@ -839,6 +901,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             isSearchable={true}
             control={control}
+            disabled={isGuardianStatus}
             isMulti={false}
             isClearable={true}
             status="error"
@@ -858,6 +921,34 @@ export const EditDataOrangtua: FC = (): ReactElement => {
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
           <SelectOption
+            name="guardian_position_id"
+            labels="Jabatan"
+            placeholder={
+              student?.guardian_position_id
+                ? getOccupationPositionGuardian?.occupation_position?.find(
+                    (occupation_position) =>
+                      occupation_position.id === student?.guardian_position_id,
+                  )?.name
+                : "Pilih Jabatan"
+            }
+            labelClassName="text-left font-bold text-xs py-2"
+            options={occupationPositionGuardOptions || []}
+            isClearable={true}
+            isSearchable={true}
+            required={false}
+            control={control}
+            isMulti={false}
+            disabled={
+              !watch("mother_occupation_id")
+                ? true
+                : false || occupationPositionGuardOptions?.length === 0
+                ? true
+                : false
+            }
+            status={"error"}
+            className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+          />
+          <SelectOption
             name="guardian_salary_id"
             labels="Pendapatan Wali ( Per Bulan )"
             labelClassName="font-bold text-xs py-2"
@@ -874,11 +965,16 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={isGuardianStatus || isUnemployedGuardian}
+            disabled={isGuardianStatus || isUnemployedGuardian}
           />
         </div>
         <div className="flex w-full justify-center lg:justify-end py-4 mt-8 gap-x-3">
-          <Button type="submit" variant="filled-red" size="md" width="w-70% lg:w-15% xl:w-15%">
+          <Button
+            href={"dashboard/data-pendaftar"}
+            variant="filled-red"
+            size="md"
+            width="w-70% lg:w-15% xl:w-15%"
+          >
             Batal
           </Button>
           <Button type="submit" variant="filled" size="md" width="w-70% lg:w-15% xl:w-15%">

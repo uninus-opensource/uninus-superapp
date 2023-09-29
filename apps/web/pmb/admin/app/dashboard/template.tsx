@@ -59,6 +59,16 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     { label: "Data Pendaftar", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
   ];
 
+  const sideListsAdminKeuangan: TSideList = [
+    {
+      label: "Beranda",
+      link: "/dashboard",
+      icon: <HomeOutlined />,
+    },
+
+    { label: "Pembayaran", link: "/dashboard/data-bayar", icon: <CreditCardOutlined /> },
+  ];
+
   const { data } = useGetRegistrans();
 
   const { setRegistransData } = useRegistransData();
@@ -70,8 +80,9 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   setPopularData(popularProgram);
 
   const roles = {
-    Admin_Selek_PMB: "Admin Seleksi PMB",
-    Super_Admin_PMB: "Super Admin PMB",
+    admin_Selek_PMB: "Admin Seleksi PMB",
+    super_Admin_PMB: "Super Admin PMB",
+    admin_keuangan_PMB: "Admin Keuangan PMB",
   };
 
   return (
@@ -81,9 +92,11 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
         profileEmail="mwrsdh@gmail.com"
         onLogout={handleLogout}
         sideList={
-          session?.user?.role === roles?.Admin_Selek_PMB
+          session?.user?.role === roles?.admin_Selek_PMB
             ? sideListsAdminSeleksi
-            : sideListsSuperAdmin
+            : session?.user?.role === roles?.super_Admin_PMB
+            ? sideListsSuperAdmin
+            : sideListsAdminKeuangan
         }
       />
 

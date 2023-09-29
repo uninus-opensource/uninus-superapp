@@ -1,24 +1,40 @@
 "use client";
 import { BreadCrumb } from "@uninus/web/components";
-import { ReactElement, FC, useState } from "react";
+import { ReactElement, FC, useState, Fragment } from "react";
 import { TTabSection } from "./type";
 import { EditDataDiri } from "./section/data-diri";
 import { EditDataPendidikan } from "./section/data-pendidikan";
 import { EditDataNilaiRaport } from "./section/nilai-raport";
 import { EditDataOrangtua } from "./section/data-orangtua";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { useStudentDataById } from "@uninus/web/services";
 import { useGetStudentById } from "./hooks";
+import { useSession } from "next-auth/react";
 
 export const ModuleEditDataPendaftar: FC = (): ReactElement => {
   const [isActive, setIsActive] = useState<number>(1);
+
+  const { data: session } = useSession();
+
+  const roles = {
+    admin_Selek_PMB: "Admin Seleksi PMB",
+    super_Admin_PMB: "Super Admin PMB",
+    admin_keuangan_PMB: "Admin Keuangan PMB",
+  };
+
+  if (
+    session?.user.role !== roles.super_Admin_PMB ||
+    session?.user.role !== roles.admin_Selek_PMB
+  ) {
+    redirect("/dashboard");
+  }
 
   const path = usePathname();
   const id = path.slice(46);
 
   const { setStudentbyId } = useStudentDataById();
 
-  const { data } = useGetStudentById(id);
+  const { data, isLoading } = useGetStudentById(id);
   setStudentbyId(data);
 
   const tabList: TTabSection[] = [
@@ -75,18 +91,24 @@ export const ModuleEditDataPendaftar: FC = (): ReactElement => {
         </section>
       </div>
       <div className="flex flex-col justify-center gap-2 text-sm">
-        <div className={isActive === 1 ? "block" : "hidden"}>
-          <EditDataDiri />
-        </div>
-        <div className={isActive === 2 ? "block" : "hidden"}>
-          <EditDataPendidikan />
-        </div>
-        <div className={isActive === 3 ? "block" : "hidden"}>
-          <EditDataNilaiRaport />
-        </div>
-        <div className={isActive === 4 ? "block" : "hidden"}>
-          <EditDataOrangtua />
-        </div>
+        {isLoading ? (
+          <span className="bg-grayscale-2 w-full h-screen  rounded-md animate-pulse"></span>
+        ) : (
+          <Fragment>
+            <div className={isActive === 1 ? "block" : "hidden"}>
+              <EditDataDiri />
+            </div>
+            <div className={isActive === 2 ? "block" : "hidden"}>
+              <EditDataPendidikan />
+            </div>
+            <div className={isActive === 3 ? "block" : "hidden"}>
+              <EditDataNilaiRaport />
+            </div>
+            <div className={isActive === 4 ? "block" : "hidden"}>
+              <EditDataOrangtua />
+            </div>{" "}
+          </Fragment>
+        )}
       </div>
     </section>
   );

@@ -869,7 +869,12 @@ export const EditDataDiri: FC = (): ReactElement => {
             </section>
           )}
           <div className="flex w-full justify-center lg:justify-end py-4 mt-8 gap-x-3">
-            <Button type="submit" variant="filled-red" size="md" width="w-70% lg:w-15% xl:w-15%">
+            <Button
+              href={"dashboard/data-pendaftar"}
+              variant="filled-red"
+              size="md"
+              width="w-70% lg:w-15% xl:w-15%"
+            >
               Batal
             </Button>
             <Button type="submit" variant="filled" size="md" width="w-70% lg:w-15% xl:w-15%">
