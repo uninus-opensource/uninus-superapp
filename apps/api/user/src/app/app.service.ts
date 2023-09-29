@@ -142,6 +142,7 @@ export class AppService {
       data: {
         email: payload.email,
         fullname: payload.fullname,
+        role_id: payload.role_id,
         ...(payload.password && { password: await encryptPassword(payload.password) }),
       },
     });
