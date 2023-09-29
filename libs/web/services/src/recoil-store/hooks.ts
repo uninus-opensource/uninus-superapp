@@ -1,6 +1,7 @@
 "use client";
 import { useRecoilState } from "recoil";
 import {
+  dashboardState,
   getStudentbyId,
   popularPrograms,
   registransData,
@@ -19,6 +20,7 @@ import {
 import {
   ReturnTypeUpdate,
   ReturnTypeUserEmail,
+  ReturnTypesDashboardState,
   ReturnTypesPopularPrograms,
   ReturnTypesRegistransData,
   ReturnTypesStudentData,
@@ -87,5 +89,13 @@ export const useStudentDataById = (): ReturnTypesStudentDataId => {
   return {
     setStudentbyId: (val) => set(val),
     getStudentbyId: get,
+  };
+};
+
+export const useDashboardStateControl = (): ReturnTypesDashboardState => {
+  const [get, set] = useRecoilState<boolean | undefined>(dashboardState);
+  return {
+    setDashboardControlState: (val) => set(val),
+    getDashboardControlState: get,
   };
 };
