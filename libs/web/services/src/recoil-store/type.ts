@@ -2,6 +2,7 @@
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
+  TFacultyResponse,
   TInterestEducationPrograms,
   TTotalRegistransResponse,
 } from "@uninus/entities";
@@ -48,6 +49,10 @@ export type ReturnTypesUpdateAvatar = {
 export type ReturnTypesStudentDataId = {
   setStudentbyId: (val: IGetStudentResponse | undefined) => void;
   getStudentbyId: IGetStudentResponse | undefined;
+};
+export type ReturnTypeFaculty = {
+  setFaculties: (val: TFacultyResponse | undefined) => void;
+  getFaculties: TFacultyResponse | undefined;
 };
 
 export type ReturnTypesDashboardState = {

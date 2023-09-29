@@ -9,6 +9,7 @@ export const dataMaster: TDataMaster[] = [
       },
     ],
     add_data: false,
+    title: "Biaya Formulir",
   },
   {
     name: "Program Studi",
@@ -19,6 +20,7 @@ export const dataMaster: TDataMaster[] = [
       { data: "S1-Teknik Informatika" },
     ],
     add_data: true,
+    title: "department",
   },
   {
     name: "Fakultas",
@@ -29,6 +31,7 @@ export const dataMaster: TDataMaster[] = [
       { data: "Fakultas Pendidikan" },
     ],
     add_data: true,
+    title: "faculty",
   },
   {
     name: "Jalur Seleksi",
@@ -39,6 +42,7 @@ export const dataMaster: TDataMaster[] = [
       { data: "Seleksi Prestasi Non Akademik" },
     ],
     add_data: true,
+    title: "selection-path",
   },
   {
     name: "Data Sekolah",
@@ -49,6 +53,7 @@ export const dataMaster: TDataMaster[] = [
       { data: "SMK NEGERI" },
     ],
     add_data: true,
+    title: "school_type",
   },
   {
     name: "Beasiswa",
@@ -59,5 +64,6 @@ export const dataMaster: TDataMaster[] = [
       { data: "Besiswa Nusantara Unggul" },
     ],
     add_data: true,
+    title: "scholarship",
   },
 ];

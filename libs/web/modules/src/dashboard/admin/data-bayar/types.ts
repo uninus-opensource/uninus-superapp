@@ -4,3 +4,7 @@ export type TDataBayar = {
   nama_petugas: string;
   status: string;
 };
+export type TTabSection = {
+  no: number;
+  item: string;
+};
