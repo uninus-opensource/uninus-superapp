@@ -39,30 +39,30 @@ export const RekapProgram: FC = (): ReactElement => {
 
         <div className="flex justify-between w-full items-center h-[52px] rounded-md shadow-md my-4 p-2 ">
           <section className="flex text-md gap-4 text-slate-5">
-            <div
+            <button
               className={`p-1 hover:shadow-md hover:rounded-md hover:text-primary-green ${
                 chartType === "mingguan" ? "font-bold text-primary-green shadow-md rounded-md" : ""
               }`}
               onClick={() => setChartType("mingguan")}
             >
               Mingguan
-            </div>
-            <div
+            </button>
+            <button
               className={`p-1 hover:shadow-md hover:rounded-md hover:text-primary-green ${
                 chartType === "bulanan" ? "font-bold text-primary-green shadow-md rounded-md" : ""
               }`}
               onClick={() => setChartType("bulanan")}
             >
               Bulanan
-            </div>
-            <div
+            </button>
+            <button
               className={`p-1 hover:shadow-md hover:rounded-md hover:text-primary-green ${
                 chartType === "tahunan" ? "font-bold text-primary-green shadow-md rounded-md" : ""
               }`}
               onClick={() => setChartType("tahunan")}
             >
               Tahunan
-            </div>
+            </button>
           </section>
         </div>
         <div className="pt-8">

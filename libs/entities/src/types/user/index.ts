@@ -19,7 +19,7 @@ export type TUser = {
   id: string;
   email: string;
   fullname: string;
-  role: string | null;
+  role: string;
   createdAt: Date;
   avatar: string | null;
   isVerified: boolean | null;
@@ -29,9 +29,10 @@ export type TUser = {
 };
 
 export interface IUser {
-  email: string;
-  fullname: string;
-  password: string;
+  id: string;
+  email?: string;
+  fullname?: string;
+  password?: string;
   employees?: number | null;
   lecturers?: number | null;
 }

@@ -11,7 +11,7 @@ import {
   AiFillFastForward,
   AiOutlineAudit,
   AiOutlineEdit,
-  AiOutlineFilter,
+  // AiOutlineFilter,
 } from "react-icons/ai";
 import { useGetAllStudent } from "../hook";
 
@@ -149,7 +149,7 @@ const Table: FC = (): ReactElement => {
         cell: (row) => (
           <div className="flex gap-2 w-full ml-2">
             <Button
-              href={`/dashboard/data-pendaftar/edit-data-pendaftar/${row.id}`}
+              href={`/dashboard/data-pendaftar/edit-data-pendaftar/${row.student?.user?.id}`}
               variant="filled"
               height="h-4"
               width="w-20"
@@ -217,10 +217,10 @@ const Table: FC = (): ReactElement => {
   return (
     <section className="rounded-lg w-full">
       <div className="w-full flex p-2 py-4 gap-4 lg:justify-end justify-start items-center">
-        <Button variant="outlined" height="h-9" width="w-24">
+        {/* <Button variant="outlined" height="h-9" width="w-24">
           <AiOutlineFilter className="text-lg text-primary-black" />
           <span className="text-sm font-medium pl-2 text-primary-black">Filter</span>
-        </Button>
+        </Button> */}
 
         <SearchInput
           value={searchQuery}
@@ -235,6 +235,7 @@ const Table: FC = (): ReactElement => {
         customStyles={customStyles}
         fixedHeader={true}
         progressPending={isLoading}
+        fixedHeaderScrollHeight="400px"
         striped
         progressComponent={<TableLoadingData className="w-full h-80" />}
         noDataComponent={

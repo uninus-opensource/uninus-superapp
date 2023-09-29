@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { beasiswa, berkasKhusus } from "./type";
+import { berkasKhusus } from "./type";
 import { useStudentData } from "@uninus/web/services";
 import {
   TUploadFileRequest,
@@ -16,6 +16,7 @@ import {
   useBiodataUpdate,
   useUploadFile,
 } from "../biodata";
+import { beasiswa } from "./store";
 
 export const beasiswaBreadcrumb = [
   {
@@ -37,6 +38,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
   const [isLoadingFile, setIsLoadingFile] = useState<boolean>(false);
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
   const [isDisabledFile, setIsdisabledFile] = useState<boolean>(false);
+  const [scholarshipId, setScholarshipId] = useState<number | null | undefined>(undefined);
 
   const {
     control,
@@ -96,6 +98,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
         onSuccess: () => {
           setIsLoading(false);
           setIsdisabled(true);
+          setScholarshipId(beasiswa.scholarship_id);
           setTimeout(() => {
             toast.success("Berhasil Memilih Beasiswa", {
               position: "top-center",
@@ -202,7 +205,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
             onSuccess: () => {
               setIsdisabledFile(true);
               setIsLoadingFile(false);
-
+              setScholarshipId(beasiswa.scholarship_id);
               setTimeout(() => {
                 toast.success("Berhasil Upload File", {
                   position: "top-center",
@@ -335,8 +338,8 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
     reset(student);
   }, [student, reset]);
 
-  const scholarsipProgram = useMemo(() => {
-    return student?.scholarship_id;
+  useEffect(() => {
+    setScholarshipId(student?.scholarship_id);
   }, [student?.scholarship_id]);
 
   return (
@@ -380,7 +383,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
             name="scholarship_id"
             control={control}
             required={true}
-            disabled={isDisabled || student?.scholarship_id ? true : false}
+            disabled={isDisabled || !!student?.scholarship_id}
             isMulti={false}
           />
           <div className="flex w-full justify-center lg:justify-end py-8">
@@ -421,7 +424,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
           <section className="flex flex-col h-auto mt-5">
             <div className="md:w-full lg:w-[66vw] xl:w-[66vw] md:h-auto flex">
               <section className="flex gap-10 w-50% ">
-                {scholarsipProgram === 1 && (
+                {scholarshipId === 1 && (
                   <Fragment>
                     <div className="flex flex-col gap-2">
                       <h3 className="font-semibold text-xs md:text-base py-3">
@@ -474,7 +477,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                     </div>
                   </Fragment>
                 )}
-                {scholarsipProgram === 2 && (
+                {scholarshipId === 2 && (
                   <Fragment>
                     <div className="flex flex-col gap-2">
                       <h3 className="font-semibold text-xs md:text-base">Sertifikat Kejuaraan</h3>
@@ -483,6 +486,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                         control={controlBeasiswa}
                         required
                         name="sertifikat_kejuaraan"
+                        labels="Pilih File"
                         labelClassName={
                           watch("sertifikat_kejuaraan")
                             ? "labelTextUploaded"
@@ -506,6 +510,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                       <UploadField
                         control={controlBeasiswa}
                         required
+                        labels="Pilih File"
                         name="tahfidzh"
                         labelClassName={
                           watch("tahfidzh")
@@ -522,15 +527,15 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                   </Fragment>
                 )}
 
-                {scholarsipProgram === 3 && (
+                {scholarshipId === 3 && (
                   <div className="flex flex-col gap-2">
                     <h3 className="font-semibold text-xs md:text-base py-3">
                       Surat Keterangan Dokter
                     </h3>
                     <UploadField
                       control={controlBeasiswa}
+                      labels="Pilih File"
                       name="surat_dokter"
-                      variant="custom"
                       labelClassName={
                         watch("surat_dokter")
                           ? "labelTextUploaded"
@@ -539,18 +544,20 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                           : "labelText"
                       }
                       preview={false}
+                      variant="custom"
                       isDisabled={!!student?.documents?.find((doc) => doc.name === "Surat Dokter")}
                     />
                   </div>
                 )}
 
-                {scholarsipProgram === 4 && (
+                {scholarshipId === 4 && (
                   <Fragment>
                     <div className="flex flex-col gap-2">
                       <h3 className="font-semibold text-xs md:text-base py-3">Bukti Anggota NU</h3>
                       <UploadField
                         control={controlBeasiswa}
                         name="surat_anggota_nu"
+                        labels="Pilih File"
                         labelClassName={
                           watch("surat_anggota_nu")
                             ? "labelTextUploaded"
@@ -573,6 +580,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                       <UploadField
                         control={controlBeasiswa}
                         name="surat_tugas"
+                        labels="Pilih File"
                         labelClassName={
                           watch("surat_tugas")
                             ? "labelTextUploaded"

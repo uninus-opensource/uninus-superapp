@@ -134,16 +134,16 @@ export class AppService {
     };
   }
 
-  async updateUser(id: string, payload: IUserRequest): Promise<IUserResponse> {
-    const password = await encryptPassword(payload.password);
+  async updateUser(payload: IUserRequest): Promise<IUserResponse> {
     const user = await this.prisma.users.update({
       where: {
-        id,
+        id: payload.id,
       },
       data: {
         email: payload.email,
         fullname: payload.fullname,
-        password,
+        role_id: payload.role_id,
+        ...(payload.password && { password: await encryptPassword(payload.password) }),
       },
     });
     if (!user) {
