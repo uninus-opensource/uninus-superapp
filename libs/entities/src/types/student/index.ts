@@ -184,11 +184,11 @@ export type TGraduationStatusReponse = {
 
 export type TGetUserDataResponse = {
   data: Array<{
-    id?: string;
-    fullname: string | null;
+    id: string;
+    fullname?: string | null;
     role: { id?: number; name?: string };
-    phone_number: string | null;
-    email: string | null;
-    password: string | null;
+    email?: string | null;
+    password?: string | null;
+    phone_number?: string | null;
   }>;
 };

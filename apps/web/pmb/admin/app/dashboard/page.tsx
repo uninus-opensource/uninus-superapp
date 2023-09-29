@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   description: "Dashboard PMB-Admin",
 };
 
-const DashboardHomeAdmin: NextPage = (): ReactElement => <DashboardModuleAdmin />;
+const DashboardHomeAdmin: NextPage = (): ReactElement => (
+  <DashboardModuleAdmin key="dashboard-admin" />
+);
 
 export default DashboardHomeAdmin;
