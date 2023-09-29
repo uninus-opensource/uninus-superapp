@@ -30,9 +30,9 @@ export type TUser = {
 
 export interface IUser {
   id: string;
-  email: string;
-  fullname: string;
-  password: string;
+  email?: string;
+  fullname?: string;
+  password?: string;
   employees?: number | null;
   lecturers?: number | null;
 }
