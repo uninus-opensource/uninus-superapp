@@ -13,7 +13,7 @@ import {
 } from "./api";
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
-import { TDataAkun, TUserRoles } from "./types";
+import { TDataAkun, TUpdateDataAkun, TUserRoles } from "./types";
 import { filterActionUser } from "./store";
 import { TUsersPaginationParams } from "../type";
 
@@ -41,7 +41,7 @@ export const useCreateDataUser = (): UseMutationResult<
 export const useUpdateDataUsers = (): UseMutationResult<
   TGetUserDataResponse,
   TMetaErrorResponse,
-  TDataAkun,
+  TUpdateDataAkun,
   unknown
 > => {
   return useMutation({

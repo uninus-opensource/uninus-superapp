@@ -68,7 +68,6 @@ const Table: FC = (): ReactElement => {
 
   const handleModalAdd = () => {
     setModalAdd(!ModalAdd);
-    console.log(data);
   };
 
   const handleDeleteAkun = (): void => {
@@ -89,8 +88,8 @@ const Table: FC = (): ReactElement => {
           id: data?.id,
           fullname: data?.fullname,
           email: data?.email,
-
-          role: { id: data?.role.id, name: data.role.name },
+          password: data?.password,
+          role_id: data?.role.id,
           phone_number: data?.phone_number,
         },
         {
@@ -341,20 +340,19 @@ const Table: FC = (): ReactElement => {
               control={updateControl}
             />
           </div>
-          {/* <div className="w-full">
+          <div className="w-full">
             <TextField
               inputHeight="h-10"
               name="password"
               variant="sm"
               type="text"
-              required
               labelclassname="text-sm font-semibold"
               label="Password"
               placeholder="********"
               inputWidth="w-full"
               control={updateControl}
             />
-          </div> */}
+          </div>
 
           <div className="w-full flex justify-end items-center gap-3 py-2">
             <Button variant="filled" size="md" loading={updateIsLoading} type="submit">
