@@ -2,13 +2,18 @@ import {
   TGetUserDataResponse,
   TMetaErrorResponse,
   TRegisterRequest,
-  TUser,
   TUsersPaginatonResponse,
 } from "@uninus/entities";
-import { GetDataUserPagination, CreateDataUser, UpdateDataUser, DeleteDataUser } from "./api";
+import {
+  CreateDataUser,
+  UpdateDataUser,
+  DeleteDataUser,
+  GetUserRole,
+  GetDataUserPagination,
+} from "./api";
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
-import { TDataAkun } from "./types";
+import { TDataAkun, TUserRoles } from "./types";
 import { filterActionUser } from "./store";
 import { TUsersPaginationParams } from "../type";
 
@@ -34,9 +39,9 @@ export const useCreateDataUser = (): UseMutationResult<
 };
 
 export const useUpdateDataUsers = (): UseMutationResult<
-  TUser,
-  TMetaErrorResponse,
   TGetUserDataResponse,
+  TMetaErrorResponse,
+  TDataAkun,
   unknown
 > => {
   return useMutation({
@@ -45,7 +50,7 @@ export const useUpdateDataUsers = (): UseMutationResult<
   });
 };
 
-export const useDeleteDataUsers = (): UseMutationResult<
+export const useDeleteAction = (): UseMutationResult<
   TGetUserDataResponse,
   TMetaErrorResponse,
   string,
@@ -63,3 +68,21 @@ export const useFilterAction = () => {
     setFilterAction: (params: TDataAkun) => set(params),
   };
 };
+
+export const useGetUserRoles = (): UseQueryResult<TUserRoles, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["get-user-roles"],
+    queryFn: async () => await GetUserRole(),
+  });
+};
+
+export const useDeleteDataUsers = (): UseMutationResult<
+  TGetUserDataResponse,
+  TMetaErrorResponse,
+  string,
+  unknown
+> =>
+  useMutation({
+    mutationKey: ["delete-user"],
+    mutationFn: async (id) => await DeleteDataUser(id),
+  });

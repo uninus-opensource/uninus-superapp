@@ -216,7 +216,7 @@ export const LoginAdminModule: FC = (): ReactElement => {
       <div className="w-full h-screen flex justify-center items-center z-50 absolute">
         <form
           onSubmit={onSubmit}
-          className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6"
+          className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6 z-50"
         >
           <figure className="w-full flex items-center justify-between mb-6 lg:mb-2">
             <Image
