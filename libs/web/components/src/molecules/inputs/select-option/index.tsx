@@ -73,7 +73,7 @@ export const SelectOption = forwardRef(
           value={props.options.find((option) => option.value === field.value)}
           onChange={handleChange}
           ref={ref}
-          isDisabled={props.disabled}
+          isDisabled={props?.disabled}
           onMenuOpen={() => setDropDown(true)}
           onMenuClose={() => setDropDown(false)}
           styles={{

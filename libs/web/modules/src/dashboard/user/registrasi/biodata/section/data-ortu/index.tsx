@@ -37,15 +37,15 @@ export const DataOrtuSection: FC = (): ReactElement => {
     province_id: "",
     city_id: "",
   });
-  const [parentAddressSame, setParentAddressSame] = useState(true);
-  const [guardianAddressSame, setGuardianAddressSame] = useState(true);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isFatherStatus, setIsFatherStatus] = useState(false);
-  const [isMotherStatus, setIsMotherStatus] = useState(false);
-  const [isGuardianStatus, setIsGuardianStatus] = useState(false);
-  const [isUnemployedFather, setIsUnemployedFather] = useState(false);
-  const [isUnemployedMother, setIsUnemployedMother] = useState(false);
-  const [isUnemployedGuardian, setIsUnemployedGuardian] = useState(false);
+  const [parentAddressSame, setParentAddressSame] = useState<boolean | undefined>(true);
+  const [guardianAddressSame, setGuardianAddressSame] = useState<boolean | undefined>(true);
+  const [isSubmitted, setIsSubmitted] = useState<boolean | undefined>(undefined);
+  const [isFatherStatus, setIsFatherStatus] = useState<boolean | undefined>(undefined);
+  const [isMotherStatus, setIsMotherStatus] = useState<boolean | undefined>(undefined);
+  const [isGuardianStatus, setIsGuardianStatus] = useState<boolean | undefined>(undefined);
+  const [isUnemployedFather, setIsUnemployedFather] = useState<boolean | undefined>(undefined);
+  const [isUnemployedMother, setIsUnemployedMother] = useState<boolean | undefined>(undefined);
+  const [isUnemployedGuardian, setIsUnemployedGuardian] = useState<boolean | undefined>(undefined);
 
   const {
     control,

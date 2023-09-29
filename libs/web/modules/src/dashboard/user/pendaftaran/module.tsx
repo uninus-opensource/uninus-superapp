@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
-import { useStudentData } from "@uninus/web/services";
+import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TVSPendaftaran, VSPendaftaran } from "./schema";
@@ -20,8 +20,9 @@ export type CustomSelectInstance = {
 };
 
 export const ModulePendaftaran: FC = (): ReactElement => {
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isS3Selected, setIs3Selected] = useState(false);
+
+  const { setDashboardControlState } = useDashboardStateControl();
 
   const {
     control,
@@ -145,7 +146,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     try {
       mutate(studentPendaftaran, {
         onSuccess: () => {
-          setIsFormSubmitted(true);
+          setDashboardControlState(true);
           setTimeout(() => {
             toast.success("Berhasil mengisi formulir", {
               position: "top-center",
@@ -229,8 +230,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isSearchable={true}
               isMulti={false}
               isClearable={true}
-              required={true}
-              disabled={isFormSubmitted || !!student?.degree_program_id}
+              disabled={!!student?.degree_program_id || undefined}
               status="error"
               message={errors?.degree_program_id?.message as string}
             />
@@ -247,9 +247,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={
-                !watch("degree_program_id") || isFormSubmitted || !!student?.first_deparment_id
-              }
+              // disabled={
+              //   !watch("degree_program_id") || isFormSubmitted || !!student?.first_deparment_id
+              // }
+              disabled={!watch("degree_program_id") || !!student?.first_deparment_id}
               status="error"
               message={
                 watch("degree_program_id") && !student?.first_deparment_id
@@ -270,9 +271,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 isMulti={false}
                 isClearable={true}
                 required={true}
-                disabled={
-                  !watch("degree_program_id") || isFormSubmitted || !!student?.second_deparment_id
-                }
+                // disabled={
+                //   !watch("degree_program_id") || isFormSubmitted || !!student?.second_deparment_id
+                // }
+                disabled={!watch("degree_program_id") || !!student?.second_deparment_id}
                 ref={prodi2Ref}
                 status="error"
                 message={
@@ -295,9 +297,10 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={
-                isFormSubmitted || !!student?.selection_path_id || !watch("degree_program_id")
-              }
+              // disabled={
+              //   isFormSubmitted || !!student?.selection_path_id || !watch("degree_program_id")
+              // }
+              disabled={!watch("degree_program_id") || !!student?.selection_path_id}
               status="error"
               message={errors?.selection_path_id?.message as string}
             />
@@ -318,10 +321,9 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               height="h-12"
               disabled={
                 !isValid ||
-                isFormSubmitted ||
+                watch("first_deparment_id") === watch("second_deparment_id") ||
                 !!student?.degree_program_id ||
-                !!student?.selection_path_id ||
-                watch("first_deparment_id") === watch("second_deparment_id")
+                !!student?.selection_path_id
               }
               className={`${
                 isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"

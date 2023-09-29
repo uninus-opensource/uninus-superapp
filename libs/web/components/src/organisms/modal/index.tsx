@@ -18,6 +18,7 @@ export const Modal: FC<ModalProps> = ({
   footerColor = "white",
   bodyClassName = "p-6 space-y-8",
   titleColor = "black",
+  modalFooter = false,
 }): ReactElement | null => {
   if (!showModal) {
     return null;
@@ -72,7 +73,7 @@ export const Modal: FC<ModalProps> = ({
               )}
             </div>
             <div className={bodyClassName}>{children}</div>
-            <div className={modalFooterColors}></div>
+            {modalFooter && <div className={modalFooterColors}></div>}
           </div>
         </div>
       </div>,

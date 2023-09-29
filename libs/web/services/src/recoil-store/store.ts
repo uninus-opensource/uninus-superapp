@@ -8,9 +8,9 @@ import {
 } from "@uninus/entities";
 import { atom } from "recoil";
 
-export const studentState = atom({
+export const studentState = atom<IGetStudentResponse | undefined>({
   key: "studentState",
-  default: [] as unknown as IGetStudentResponse | undefined,
+  default: undefined,
 });
 
 export const userState = atom({
@@ -47,7 +47,12 @@ export const getStudentbyId = atom<IGetStudentResponse | undefined>({
   key: "getStudentbyId",
   default: undefined,
 });
+
 export const getFaculties = atom<TFacultyResponse | undefined>({
   key: "getFaculties",
   default: [] as unknown as TFacultyResponse | undefined,
+});
+export const dashboardState = atom<boolean | undefined>({
+  key: "dashboardState",
+  default: false,
 });

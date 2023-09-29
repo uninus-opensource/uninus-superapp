@@ -22,10 +22,8 @@ export class AppController {
   }
 
   @MessagePattern("update_user")
-  async updateUser(data: { id: string; payload: IUserRequest }) {
-    const payload = data.payload;
-    const id = data.id;
-    return await this.appService.updateUser(id, payload);
+  async updateUser(payload: IUserRequest) {
+    return await this.appService.updateUser(payload);
   }
 
   @MessagePattern("delete_user")

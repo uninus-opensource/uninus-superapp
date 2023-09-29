@@ -14,15 +14,25 @@ export const RekapProgram: FC = (): ReactElement => {
     return getPopularData;
   }, [getPopularData]);
 
-  const values = popularData?.data.map((items) => items.total);
+  // const values = popularData?.data.map((items) => items.total);
   const labels = popularData?.data.map((items) => items.name);
+
+  let dataset: number[] = [];
+
+  if (chartType === "mingguan") {
+    dataset = [10, 10, 3];
+  } else if (chartType === "tahunan") {
+    dataset = [7, 7, 9];
+  } else {
+    dataset = [17, 3, 3];
+  }
 
   const dataDoughnut = {
     labels: labels,
     datasets: [
       {
         label: "",
-        data: values,
+        data: dataset,
         backgroundColor: ["#02E56D", "#06753B", "#009647"],
         borderColor: ["#02E56D", "#06753B", "#009647"],
         borderWidth: 1,

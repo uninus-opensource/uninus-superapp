@@ -5,21 +5,19 @@ import {
   Delete,
   Get,
   Param,
-  Put,
   Query,
   Request,
   UseGuards,
   UseFilters,
-  UsePipes,
+  Patch,
 } from "@nestjs/common";
 import {
   TReqToken,
-  VSUpdateUser,
   TProfileResponse,
   EAppsOrigin,
   EOrderByPagination,
+  IUserRequest,
 } from "@uninus/entities";
-import { ZodValidationPipe } from "@uninus/api/validator";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { UpdateUserDto } from "@uninus/api/dto";
 import {
@@ -48,8 +46,8 @@ export class UserController {
     description: "Application Origin",
   })
   @Get("/me")
-  @UseGuards(JwtAuthGuard, PermissionGuard([...Object.values(EAppsOrigin)]))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @UseGuards(JwtAuthGuard)
   async getUser(@Request() reqToken: TReqToken) {
     const { sub } = reqToken.user;
     const response = await firstValueFrom(
@@ -66,9 +64,11 @@ export class UserController {
   @ApiQuery({ name: "order_by", required: false })
   @ApiQuery({ name: "filter_by", required: false })
   @ApiQuery({ name: "search", required: false })
+  @ApiBearerAuth()
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
+    required: true,
   })
   @Get()
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
@@ -113,6 +113,7 @@ export class UserController {
 
   @ApiOperation({ summary: "Get Data User By Id" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiBearerAuth()
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
@@ -132,6 +133,7 @@ export class UserController {
   @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({ status: 201, description: "Berhasil delete user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiBearerAuth()
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
@@ -151,12 +153,12 @@ export class UserController {
   @ApiOperation({ summary: "Edit User By Id" })
   @ApiResponse({ status: 201, description: "Berhasil update user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiBearerAuth()
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
   })
-  @Put("/:id")
-  @UsePipes(new ZodValidationPipe(VSUpdateUser))
+  @Patch("/:id")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async updateData(
@@ -166,10 +168,7 @@ export class UserController {
   ) {
     const response = await firstValueFrom(
       this.client
-        .send("update_user", {
-          id,
-          payload,
-        })
+        .send<IUserRequest>("update_user", { id, ...payload })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

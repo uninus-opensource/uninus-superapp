@@ -54,3 +54,8 @@ export type ReturnTypeFaculty = {
   setFaculties: (val: TFacultyResponse | undefined) => void;
   getFaculties: TFacultyResponse | undefined;
 };
+
+export type ReturnTypesDashboardState = {
+  setDashboardControlState: (val: boolean | undefined) => void;
+  getDashboardControlState: boolean | undefined;
+};

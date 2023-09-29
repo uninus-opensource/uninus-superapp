@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const VSUpdateStudent = z
-  .object({
+export const VSUpdateStudent = z.optional(
+  z.object({
     avatar: z.any().optional(),
     fullname: z.string().optional(),
     nik: z.string().min(16).max(16).optional(),
@@ -71,14 +71,16 @@ export const VSUpdateStudent = z
     average_grade: z.number().optional(),
     student_grade: z
       .array(
-        z.object({
-          subject: z.string(),
-          semester: z.string(),
-          grade: z.number(),
-        }),
+        z
+          .object({
+            subject: z.string(),
+            semester: z.string(),
+            grade: z.number(),
+          })
+          .optional(),
       )
       .optional(),
-  })
-  .optional();
+  }),
+);
 
 export type TVSUpdateStudent = z.infer<typeof VSUpdateStudent>;
