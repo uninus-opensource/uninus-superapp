@@ -41,6 +41,7 @@ export class AppService {
     if (!student) {
       throw new RpcException(new BadRequestException("User tidak ditemukan"));
     }
+    console.log(student);
     const {
       avatar,
       email,

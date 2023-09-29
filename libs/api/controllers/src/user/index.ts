@@ -5,11 +5,11 @@ import {
   Delete,
   Get,
   Param,
-  Put,
   Query,
   Request,
   UseGuards,
   UseFilters,
+  Patch,
 } from "@nestjs/common";
 import { TReqToken, TProfileResponse, EAppsOrigin, EOrderByPagination } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
@@ -62,6 +62,7 @@ export class UserController {
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
+    required: true,
   })
   @Get()
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
@@ -151,7 +152,7 @@ export class UserController {
     name: "app-origin",
     description: "Application Origin",
   })
-  @Put("/:id")
+  @Patch("/:id")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async updateData(
