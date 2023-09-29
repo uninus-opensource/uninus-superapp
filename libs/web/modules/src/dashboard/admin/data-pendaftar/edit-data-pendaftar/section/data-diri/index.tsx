@@ -26,8 +26,9 @@ import { FieldValues, useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { TVSDataDiri, VSDataDiri } from "./schema";
 import { GroupBase, SelectInstance } from "react-select";
-import { useBiodataUpdate } from "../../../../../user";
 import { dataDiri, disabilitiesDataDiri, occupationS2S3 } from "../../../../../user";
+import { useBiodataUpdateById } from "../../hooks";
+import { usePathname } from "next/navigation";
 
 export const EditDataDiri: FC = (): ReactElement => {
   const [occValue, setOccValue] = useState<string | null>(null);
@@ -37,6 +38,9 @@ export const EditDataDiri: FC = (): ReactElement => {
   const student = useMemo(() => {
     return getStudentbyId;
   }, [getStudentbyId]);
+
+  const path = usePathname();
+  const id = path.slice(46);
 
   const {
     control,
@@ -292,7 +296,7 @@ export const EditDataDiri: FC = (): ReactElement => {
     }
   }, [citizenshipId]);
 
-  const { mutate } = useBiodataUpdate();
+  const { mutate } = useBiodataUpdateById(id);
 
   const onSubmit = handleSubmit((data) => {
     dataDiri.fullname = data?.fullname;
@@ -341,7 +345,7 @@ export const EditDataDiri: FC = (): ReactElement => {
         {
           onSuccess: () => {
             setTimeout(() => {
-              toast.success("Berhasil mengisi formulir", {
+              toast.success("Berhasil mengedit data pendaftar", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -355,7 +359,7 @@ export const EditDataDiri: FC = (): ReactElement => {
           },
           onError: () => {
             setTimeout(() => {
-              toast.error("Gagal mengisi formulir", {
+              toast.error("Gagal mengedit data pendaftar", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -384,8 +388,13 @@ export const EditDataDiri: FC = (): ReactElement => {
   });
 
   return (
-    <div>
-      <form onSubmit={onSubmit} key="data-diri-form" noValidate className="bg-primary-white">
+    <section>
+      <form
+        onSubmit={onSubmit}
+        key="data-diri-form"
+        noValidate
+        className="bg-primary-white py-4 px-8"
+      >
         <ToastContainer
           position="top-center"
           autoClose={5000}
@@ -411,7 +420,6 @@ export const EditDataDiri: FC = (): ReactElement => {
               labelclassname="text-xl font-semibold"
               variant="sm"
               required
-              disabled
               inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
               inputHeight="h-10"
               type="text"
@@ -436,7 +444,6 @@ export const EditDataDiri: FC = (): ReactElement => {
               isClearable={true}
               status={"error"}
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.marital_status_id?.message as string}
             />
           </div>
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
@@ -447,7 +454,6 @@ export const EditDataDiri: FC = (): ReactElement => {
               labelclassname="text-xl font-semibold"
               variant="sm"
               required
-              disabled
               inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
               inputHeight="h-10"
               type="text"
@@ -472,7 +478,6 @@ export const EditDataDiri: FC = (): ReactElement => {
               required={true}
               status={"error"}
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.citizenship_id?.message as string}
             />
           </div>
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
@@ -487,7 +492,6 @@ export const EditDataDiri: FC = (): ReactElement => {
               inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
               inputHeight="h-10"
               control={control}
-              disabled
             />
             <SelectOption
               name="country_id"
@@ -503,12 +507,12 @@ export const EditDataDiri: FC = (): ReactElement => {
               isClearable={true}
               isSearchable={true}
               // ref={countryref}
+              disabled={!watch("citizenship_id")}
               control={control}
               isMulti={false}
               required={false}
               status={"error"}
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.country_id?.message as string}
             />
           </div>
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
@@ -542,10 +546,10 @@ export const EditDataDiri: FC = (): ReactElement => {
               isClearable={true}
               control={control}
               // ref={citizenref}
+              disabled={!watch("country_id") || countryOptions?.length !== 1}
               isMulti={false}
               status={errors?.province_id?.message ? "error" : "none"}
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.province_id?.message as string}
             />
           </div>
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
@@ -576,11 +580,11 @@ export const EditDataDiri: FC = (): ReactElement => {
               isSearchable={true}
               isClearable={true}
               // ref={provinceref}
+              disabled={!watch("province_id") || countryOptions?.length !== 1}
               control={control}
               isMulti={false}
               status={"error"}
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.city_id?.message as string}
             />
           </div>
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
@@ -612,12 +616,12 @@ export const EditDataDiri: FC = (): ReactElement => {
               options={subDistrictOptions || []}
               isSearchable={true}
               // ref={subdisref}
+              disabled={!watch("city_id") || countryOptions?.length !== 1}
               control={control}
               isMulti={false}
               isClearable={true}
               status={"error"}
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.subdistrict_id?.message as string}
             />
           </div>
 
@@ -638,7 +642,6 @@ export const EditDataDiri: FC = (): ReactElement => {
               control={control}
               status={"error"}
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.gender_id?.message as string}
             />
 
             <TextField
@@ -691,7 +694,6 @@ export const EditDataDiri: FC = (): ReactElement => {
               isMulti={false}
               status={"error"}
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              message={errors?.religion_id?.message as string}
             />
           </div>
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
@@ -728,17 +730,7 @@ export const EditDataDiri: FC = (): ReactElement => {
               required={false}
               control={control}
               isMulti={false}
-              // disabled={
-              //   disValue === "Ya" && student?.disabilities_id
-              //     ? true
-              //     : disValue === "Tidak" && student?.disabilities_id
-              //     ? true
-              //     : disValue === "Ya"
-              //     ? false
-              //     : disValue === "Tidak"
-              //     ? true
-              //     : false
-              // }
+              disabled={disValue === "Ya" ? false : true}
               status={"error"}
             />
           </div>
@@ -752,7 +744,6 @@ export const EditDataDiri: FC = (): ReactElement => {
             label="Tanggal Lahir"
             inputWidth="lg:w-[27vw] xl:w-[25vw] md:w-[33vw] w-[70vw]"
             control={control}
-            message={errors?.birth_date?.message as string}
           />
 
           {student?.degree_program_id !== 1 && (
@@ -794,20 +785,9 @@ export const EditDataDiri: FC = (): ReactElement => {
                   required={false}
                   control={control}
                   isMulti={false}
-                  // disabled={
-                  //   occValue === "Sudah" && student?.occupation_id
-                  //     ? true
-                  //     : occValue === "Belum" && student?.occupation_id
-                  //     ? true
-                  //     : occValue === "Sudah"
-                  //     ? false
-                  //     : occValue === "Belum"
-                  //     ? true
-                  //     : false
-                  // }
+                  disabled={occValue === "Sudah" ? false : true}
                   status={"error"}
                   className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-                  message={errors?.occupation_id?.message as string}
                 />
               </div>
               <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
@@ -828,10 +808,18 @@ export const EditDataDiri: FC = (): ReactElement => {
                   isSearchable={true}
                   required={false}
                   control={control}
+                  disabled={
+                    occValue === "Belum" || !watch("occupation_id")
+                      ? true
+                      : false ||
+                        occupationPositionOptions?.length === 0 ||
+                        student?.occupation_position_id
+                      ? true
+                      : false
+                  }
                   isMulti={false}
                   status={"error"}
                   className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-                  message={errors?.occupation_position_id?.message as string}
                 />
                 <TextField
                   inputHeight="h-10"
@@ -877,12 +865,16 @@ export const EditDataDiri: FC = (): ReactElement => {
                 isMulti={false}
                 size="md"
                 status="error"
-                message={errors?.salary_id?.message as string}
               />
             </section>
           )}
           <div className="flex w-full justify-center lg:justify-end py-4 mt-8 gap-x-3">
-            <Button type="submit" variant="filled-red" size="md" width="w-70% lg:w-15% xl:w-15%">
+            <Button
+              href={"dashboard/data-pendaftar"}
+              variant="filled-red"
+              size="md"
+              width="w-70% lg:w-15% xl:w-15%"
+            >
               Batal
             </Button>
             <Button type="submit" variant="filled" size="md" width="w-70% lg:w-15% xl:w-15%">
@@ -891,6 +883,6 @@ export const EditDataDiri: FC = (): ReactElement => {
           </div>
         </section>
       </form>
-    </div>
+    </section>
   );
 };

@@ -1,21 +1,55 @@
-import { FC, ReactElement, useMemo, useState } from "react";
+import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { TextField, SelectOption, Button } from "@uninus/web/components";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import {
   useCityGet,
   useProvinceGet,
-  useStudentData,
   useSubdistrictGet,
   useOccupationGet,
   useSalaryGet,
   useParentEducationGet,
   useParentStatusGet,
+  useStudentDataById,
+  useOccupationPositionGet,
 } from "@uninus/web/services";
 
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { usePathname } from "next/navigation";
+import { TVSDataOrtu, VSDataOrtu } from "./schema";
+import { studentGuardianData, studentParentData } from "../../../../../user";
+import { useBiodataUpdateById } from "../../hooks";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const EditDataOrangtua: FC = (): ReactElement => {
+  const { getStudentbyId } = useStudentDataById();
+
+  const [isFatherStatus, setIsFatherStatus] = useState<boolean | undefined>(undefined);
+  const [isMotherStatus, setIsMotherStatus] = useState<boolean | undefined>(undefined);
+  const [isGuardianStatus, setIsGuardianStatus] = useState<boolean | undefined>(undefined);
+  const [isUnemployedFather, setIsUnemployedFather] = useState<boolean | undefined>(undefined);
+  const [isUnemployedMother, setIsUnemployedMother] = useState<boolean | undefined>(undefined);
+  const [isUnemployedGuardian, setIsUnemployedGuardian] = useState<boolean | undefined>(undefined);
+
+  const student = useMemo(() => {
+    return getStudentbyId;
+  }, [getStudentbyId]);
+
+  const path = usePathname();
+  const id = path.slice(46);
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues | TVSDataOrtu>({
+    resolver: zodResolver(VSDataOrtu),
+    mode: "all",
+  });
+
   const [parentStatus] = useState({
     search: "",
   });
@@ -33,16 +67,6 @@ export const EditDataOrangtua: FC = (): ReactElement => {
     province_id: "",
     city_id: "",
   });
-
-  const {
-    control,
-
-    watch,
-  } = useForm({
-    mode: "all",
-  });
-
-  const { getStudent } = useStudentData();
 
   const { data: getParentStatus } = useParentStatusGet(parentStatus);
   const { data: getParentEducation } = useParentEducationGet(parentEducation);
@@ -66,10 +90,20 @@ export const EditDataOrangtua: FC = (): ReactElement => {
     search: "",
   });
 
-  const student = useMemo(() => {
-    return getStudent;
-  }, [getStudent]);
+  const { data: getOccupationPositionFather } = useOccupationPositionGet({
+    search: "",
+    occupation_id: watch("father_occupation_id"),
+  });
+  const { data: getOccupationPositionMother } = useOccupationPositionGet({
+    search: "",
+    occupation_id: watch("mother_occupation_id"),
+  });
+  const { data: getOccupationPositionGuardian } = useOccupationPositionGet({
+    search: "",
+    occupation_id: watch("guardian_occupation_id"),
+  });
 
+  const addressStudent = student?.address;
   const parentStatusOptions = useMemo(
     () =>
       getParentStatus?.parent_status?.map((parentStatus) => ({
@@ -103,30 +137,31 @@ export const EditDataOrangtua: FC = (): ReactElement => {
       })),
     [getOccupation?.occupation],
   );
-  // const occupationPositionFatherOptions = useMemo(
-  //   () =>
-  //     getOccupationPositionFather?.occupation_position?.map((occupationPosition) => ({
-  //       label: occupationPosition?.name,
-  //       value: occupationPosition?.id.toString(),
-  //     })),
-  //   [getOccupationPositionFather?.occupation_position],
-  // );
-  // const occupationPositionMotherOptions = useMemo(
-  //   () =>
-  //     getOccupationPositionMother?.occupation_position?.map((occupationPosition) => ({
-  //       label: occupationPosition?.name,
-  //       value: occupationPosition?.id.toString(),
-  //     })),
-  //   [getOccupationPositionMother?.occupation_position],
-  // );
-  // const occupationPositionGuardOptions = useMemo(
-  //   () =>
-  //     getOccupationPositionGuardian?.occupation_position?.map((occupationPosition) => ({
-  //       label: occupationPosition?.name,
-  //       value: occupationPosition?.id.toString(),
-  //     })),
-  //   [getOccupationPositionGuardian?.occupation_position],
-  // );
+
+  const occupationPositionFatherOptions = useMemo(
+    () =>
+      getOccupationPositionFather?.occupation_position?.map((occupationPosition) => ({
+        label: occupationPosition?.name,
+        value: occupationPosition?.id.toString(),
+      })),
+    [getOccupationPositionFather?.occupation_position],
+  );
+  const occupationPositionMotherOptions = useMemo(
+    () =>
+      getOccupationPositionMother?.occupation_position?.map((occupationPosition) => ({
+        label: occupationPosition?.name,
+        value: occupationPosition?.id.toString(),
+      })),
+    [getOccupationPositionMother?.occupation_position],
+  );
+  const occupationPositionGuardOptions = useMemo(
+    () =>
+      getOccupationPositionGuardian?.occupation_position?.map((occupationPosition) => ({
+        label: occupationPosition?.name,
+        value: occupationPosition?.id.toString(),
+      })),
+    [getOccupationPositionGuardian?.occupation_position],
+  );
   const provinceOptions = useMemo(
     () =>
       getProvincies?.province?.map((province) => ({
@@ -168,202 +203,193 @@ export const EditDataOrangtua: FC = (): ReactElement => {
     [getSubdistrictGuard?.subdistrict],
   );
 
-  // const addressProvinceParent = watch("parent_province_id");
-  // const addressProvinceGuard = watch("guardian_province_id");
+  const addressProvinceParent = watch("parent_province_id");
+  const addressProvinceGuard = watch("guardian_province_id");
 
-  // useEffect(() => {
-  //   setValue("parent_city_id", null);
-  // }, [addressProvinceParent]);
+  useEffect(() => {
+    setValue("parent_city_id", null);
+  }, [addressProvinceParent]);
 
-  // useEffect(() => {
-  //   setValue("guardian_city_id", null);
-  // }, [addressProvinceGuard]);
+  useEffect(() => {
+    setValue("guardian_city_id", null);
+  }, [addressProvinceGuard]);
 
-  // useEffect(() => {
-  //   reset(student);
-  // }, [student, reset, getStudent]);
+  useEffect(() => {
+    reset(student);
+  }, [student, reset, getStudentbyId]);
 
-  // useEffect(() => {
-  //   if (parentAddressSame) {
-  //     setValue("parent_address", "");
-  //   } else {
-  //     setValue("parent_address", addressStudent);
-  //   }
+  useEffect(() => {
+    if (student?.parent_address) {
+      setValue("parent_address", student?.parent_address);
+      if (student?.parent_address === addressStudent) {
+        setValue("check_parent_address", true);
+      }
+    }
+    if (student?.guardian_address) {
+      setValue("guardian_address", student?.guardian_address);
+      if (student?.guardian_address === addressStudent) {
+        setValue("check_guardian_address", true);
+      }
+    }
+  }, [student, setValue, addressStudent]);
 
-  //   if (guardianAddressSame) {
-  //     setValue("guardian_address", "");
-  //   } else {
-  //     setValue("guardian_address", addressStudent);
-  //   }
-  // }, [parentAddressSame, guardianAddressSame, setValue, addressStudent]);
+  useEffect(() => {
+    const fatherStatus = watch("father_status_id");
+    const motherStatus = watch("mother_status_id");
+    const guardianStatus = watch("guardian_status_id");
 
-  // useEffect(() => {
-  //   if (student?.parent_address) {
-  //     setValue("parent_address", student?.parent_address);
-  //     if (student?.parent_address === addressStudent) {
-  //       setValue("check_parent_address", true);
-  //     }
-  //   }
-  //   if (student?.guardian_address) {
-  //     setValue("guardian_address", student?.guardian_address);
-  //     if (student?.guardian_address === addressStudent) {
-  //       setValue("check_guardian_address", true);
-  //     }
-  //   }
-  // }, [student, setValue, addressStudent]);
+    if (fatherStatus === "2" || fatherStatus === null || fatherStatus === undefined) {
+      setIsFatherStatus(true);
+    } else {
+      setIsFatherStatus(false);
+    }
 
-  // useEffect(() => {
-  //   const fatherStatus = watch("father_status_id");
-  //   const motherStatus = watch("mother_status_id");
-  //   const guardianStatus = watch("guardian_status_id");
+    if (motherStatus === "2" || motherStatus === null || motherStatus === undefined) {
+      setIsMotherStatus(true);
+    } else {
+      setIsMotherStatus(false);
+    }
 
-  //   if (fatherStatus === "2" || fatherStatus === null || fatherStatus === undefined) {
-  //     setIsFatherStatus(true);
-  //   } else {
-  //     setIsFatherStatus(false);
-  //   }
+    if (guardianStatus === "2" || guardianStatus === null || guardianStatus === undefined) {
+      setIsGuardianStatus(true);
+    } else {
+      setIsGuardianStatus(false);
+    }
+  }, [watch("father_status_id"), watch("mother_status_id"), watch("guardian_status_id")]);
 
-  //   if (motherStatus === "2" || motherStatus === null || motherStatus === undefined) {
-  //     setIsMotherStatus(true);
-  //   } else {
-  //     setIsMotherStatus(false);
-  //   }
+  useEffect(() => {
+    const statusProfecy = {
+      father: watch("father_occupation_id"),
+      mother: watch("mother_occupation_id"),
+      guardian: watch("guardian_occupation_id"),
+    };
 
-  //   if (guardianStatus === "2" || guardianStatus === null || guardianStatus === undefined) {
-  //     setIsGuardianStatus(true);
-  //   } else {
-  //     setIsGuardianStatus(false);
-  //   }
-  // }, [watch("father_status_id"), watch("mother_status_id"), watch("guardian_status_id")]);
+    statusProfecy.father === "14" ? setIsUnemployedFather(true) : setIsUnemployedFather(false);
+    statusProfecy.mother === "14" ? setIsUnemployedMother(true) : setIsUnemployedMother(false);
+    statusProfecy.guardian === "14"
+      ? setIsUnemployedGuardian(true)
+      : setIsUnemployedGuardian(false);
+  }, [
+    watch("father_occupation_id"),
+    watch("mother_occupation_id"),
+    watch("guardian_occupation_id"),
+  ]);
 
-  // useEffect(() => {
-  //   const statusProfecy = {
-  //     father: watch("father_occupation_id"),
-  //     mother: watch("mother_occupation_id"),
-  //     guardian: watch("guardian_occupation_id"),
-  //   };
+  useEffect(() => {
+    if (isUnemployedFather) {
+      setValue("father_salary_id", "6");
+    }
 
-  //   statusProfecy.father === "14" ? setIsUnemployedFather(true) : setIsUnemployedFather(false);
-  //   statusProfecy.mother === "14" ? setIsUnemployedMother(true) : setIsUnemployedMother(false);
-  //   statusProfecy.guardian === "14"
-  //     ? setIsUnemployedGuardian(true)
-  //     : setIsUnemployedGuardian(false);
-  // }, [
-  //   watch("father_occupation_id"),
-  //   watch("mother_occupation_id"),
-  //   watch("guardian_occupation_id"),
-  // ]);
+    if (isUnemployedMother) {
+      setValue("mother_salary_id", "6");
+    }
+    if (isUnemployedGuardian) {
+      setValue("guardian_salary_id", "6");
+    }
+  }, [isUnemployedFather, isUnemployedMother, isUnemployedGuardian, setValue]);
 
-  // useEffect(() => {
-  //   if (isUnemployedFather) {
-  //     setValue("father_salary_id", "6");
-  //   }
+  useEffect(() => {
+    reset(student);
+  }, [student, reset, getStudentbyId]);
 
-  //   if (isUnemployedMother) {
-  //     setValue("mother_salary_id", "6");
-  //   }
-  //   if (isUnemployedGuardian) {
-  //     setValue("guardian_salary_id", "6");
-  //   }
-  // }, [isUnemployedFather, isUnemployedMother, isUnemployedGuardian, setValue]);
+  const { mutate } = useBiodataUpdateById(id);
 
-  // const onSubmit = handleSubmit((data) => {
-  //   studentParentData.father_name = data?.father_name;
-  //   studentParentData.father_status_id = Number(data?.father_status_id);
-  //   studentParentData.father_education_id = Number(data?.father_education_id);
+  const onSubmit = handleSubmit((data) => {
+    studentParentData.father_name = data?.father_name;
+    studentParentData.father_status_id = Number(data?.father_status_id);
+    studentParentData.father_education_id = Number(data?.father_education_id);
 
-  //   studentParentData.father_occupation_id = data?.father_occupation_id
-  //     ? Number(data?.father_occupation_id)
-  //     : (undefined as unknown as number);
+    studentParentData.father_occupation_id = data?.father_occupation_id
+      ? Number(data?.father_occupation_id)
+      : (undefined as unknown as number);
 
-  //   studentParentData.father_position_id = data?.father_occupation_position_id
-  //     ? Number(data?.father_occupation_position_id)
-  //     : (undefined as unknown as number);
+    studentParentData.father_position_id = data?.father_occupation_position_id
+      ? Number(data?.father_occupation_position_id)
+      : (undefined as unknown as number);
 
-  //   studentParentData.father_salary_id = data?.father_salary_id
-  //     ? Number(data?.father_salary_id)
-  //     : (undefined as unknown as number);
+    studentParentData.father_salary_id = data?.father_salary_id
+      ? Number(data?.father_salary_id)
+      : (undefined as unknown as number);
 
-  //   studentParentData.mother_name = data?.mother_name;
-  //   studentParentData.mother_status_id = Number(data?.mother_status_id);
-  //   studentParentData.mother_education_id = Number(data?.mother_education_id);
+    studentParentData.mother_name = data?.mother_name;
+    studentParentData.mother_status_id = Number(data?.mother_status_id);
+    studentParentData.mother_education_id = Number(data?.mother_education_id);
 
-  //   studentParentData.mother_occupation_id = data?.mother_occupation_id
-  //     ? Number(data?.mother_occupation_id)
-  //     : (undefined as unknown as number);
+    studentParentData.mother_occupation_id = data?.mother_occupation_id
+      ? Number(data?.mother_occupation_id)
+      : (undefined as unknown as number);
 
-  //   studentParentData.mother_position_id = data?.mother_occupation_position_id
-  //     ? Number(data?.mother_occupation_position_id)
-  //     : (undefined as unknown as number);
+    studentParentData.mother_position_id = data?.mother_occupation_position_id
+      ? Number(data?.mother_occupation_position_id)
+      : (undefined as unknown as number);
 
-  //   studentParentData.mother_salary_id = data?.mother_salary_id
-  //     ? Number(data?.mother_salary_id)
-  //     : (undefined as unknown as number);
+    studentParentData.mother_salary_id = data?.mother_salary_id
+      ? Number(data?.mother_salary_id)
+      : (undefined as unknown as number);
 
-  //   studentParentData.parent_address = data?.parent_address;
-  //   studentParentData.parent_province_id = Number(data?.parent_province_id);
-  //   studentParentData.parent_city_id = Number(data?.parent_city_id);
-  //   studentParentData.parent_subdistrict_id = Number(data?.parent_subdistrict_id);
+    studentParentData.parent_address = data?.parent_address;
+    studentParentData.parent_province_id = Number(data?.parent_province_id);
+    studentParentData.parent_city_id = Number(data?.parent_city_id);
+    studentParentData.parent_subdistrict_id = Number(data?.parent_subdistrict_id);
 
-  //   if (data?.guardian_name) {
-  //     studentGuardianData.guardian_name = data?.guardian_name;
-  //     studentGuardianData.guardian_status_id = Number(data?.guardian_status_id);
-  //     studentGuardianData.guardian_education_id = Number(data?.guardian_education_id);
-  //     studentGuardianData.guardian_occupation_id = Number(data?.guardian_occupation_id);
-  //     studentGuardianData.guardian_position_id = Number(data?.guardian_position_id);
-  //     studentGuardianData.guardian_salary_id = Number(data?.guardian_salary_id);
-  //     studentGuardianData.guardian_province_id = Number(data?.guardian_province_id);
-  //     studentGuardianData.guardian_city_id = Number(data?.guardian_city_id);
-  //     studentGuardianData.guardian_subdistrict_id = Number(data?.guardian_subdistrict_id);
-  //     studentGuardianData.guardian_address = data?.guardian_address;
-  //   }
+    if (data?.guardian_name) {
+      studentGuardianData.guardian_name = data?.guardian_name;
+      studentGuardianData.guardian_status_id = Number(data?.guardian_status_id);
+      studentGuardianData.guardian_education_id = Number(data?.guardian_education_id);
+      studentGuardianData.guardian_occupation_id = Number(data?.guardian_occupation_id);
+      studentGuardianData.guardian_position_id = Number(data?.guardian_position_id);
+      studentGuardianData.guardian_salary_id = Number(data?.guardian_salary_id);
+      studentGuardianData.guardian_province_id = Number(data?.guardian_province_id);
+      studentGuardianData.guardian_city_id = Number(data?.guardian_city_id);
+      studentGuardianData.guardian_subdistrict_id = Number(data?.guardian_subdistrict_id);
+      studentGuardianData.guardian_address = data?.guardian_address;
+    }
 
-  //   try {
-  //     console.log(data);
-  //     console.log(studentParentData);
-  //     mutate(
-  //       data?.guardian_name
-  //         ? { ...studentParentData, ...studentGuardianData }
-  //         : { ...studentParentData },
-  //       {
-  //         onSuccess: () => {
-  //           setIsSubmitted(true);
-  //           setTimeout(() => {
-  //             toast.success("Berhasil mengisi formulir", {
-  //               position: "top-center",
-  //               autoClose: 5000,
-  //               hideProgressBar: false,
-  //               closeOnClick: true,
-  //               pauseOnHover: true,
-  //               draggable: true,
-  //               progress: undefined,
-  //               theme: "light",
-  //             });
-  //           }, 500);
-  //         },
-  //         onError: () => {
-  //           setTimeout(() => {
-  //             toast.error("Gagal mengisi formulir", {
-  //               position: "top-center",
-  //               autoClose: 5000,
-  //               hideProgressBar: false,
-  //               closeOnClick: true,
-  //               pauseOnHover: true,
-  //               draggable: true,
-  //               progress: undefined,
-  //               theme: "light",
-  //             });
-  //           }, 500);
-  //         },
-  //       },
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // });
+    try {
+      console.log(data);
+      console.log(studentParentData);
+      mutate(
+        data?.guardian_name
+          ? { ...studentParentData, ...studentGuardianData }
+          : { ...studentParentData },
+        {
+          onSuccess: () => {
+            setTimeout(() => {
+              toast.success("Berhasil mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setTimeout(() => {
+              toast.error("Gagal mengisi formulir", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
   return (
-    <form noValidate>
+    <form onSubmit={onSubmit} noValidate className="bg-primary-white py-4 px-8">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -413,9 +439,8 @@ export const EditDataOrangtua: FC = (): ReactElement => {
               label="Nama Ibu"
               inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
               control={control}
-              // disabled={isSubmitted || !!student?.mother_name}
-              // message={errors?.mother_name?.message as string}
-              // status={errors?.mother_name?.message ? "error" : "none"}
+              message={errors?.mother_name?.message as string}
+              status={errors?.mother_name?.message ? "error" : "none"}
             />
           </div>
         </div>
@@ -438,9 +463,8 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={isSubmitted || !!student?.mother_status_id}
             status="error"
-            // message={errors?.mother_status_id?.message as string}
+            message={errors?.father_status_id?.message as string}
           />
 
           <SelectOption
@@ -461,9 +485,8 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={isSubmitted || !!student?.mother_status_id}
             status="error"
-            // message={errors?.mother_status_id?.message as string}
+            message={errors?.mother_status_id?.message as string}
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
@@ -506,7 +529,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             status="error"
           />
         </div>
-        <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+        <div className="w-80% px-5 flex flex-col flex-wrap gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
           <SelectOption
             name="father_occupation_id"
             labels="Pekerjaan Ayah"
@@ -524,15 +547,11 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={
-            //   isSubmitted ||
-            //   !!student?.mother_occupation_id ||
-            //   isMotherStatus ||
-            //   !!student?.mother_status_id
-            // }
+            disabled={isFatherStatus}
             status="error"
-            // message={errors?.mother_occupation_id?.message as string}
+            message={errors?.mother_occupation_id?.message as string}
           />
+
           <SelectOption
             name="mother_occupation_id"
             labels="Pekerjaan Ibu"
@@ -550,14 +569,66 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={
-            //   isSubmitted ||
-            //   !!student?.mother_occupation_id ||
-            //   isMotherStatus ||
-            //   !!student?.mother_status_id
-            // }
+            disabled={isMotherStatus}
             status="error"
-            // message={errors?.mother_occupation_id?.message as string}
+            message={errors?.mother_occupation_id?.message as string}
+          />
+          <SelectOption
+            name="father_occupation_position_id"
+            labels="Jabatan"
+            placeholder={
+              student?.father_position_id
+                ? getOccupationPositionFather?.occupation_position?.find(
+                    (occupation_position) => occupation_position.id === student?.father_position_id,
+                  )?.name
+                : "Pilih Jabatan"
+            }
+            className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+            labelClassName="text-left font-bold text-xs py-2"
+            options={occupationPositionFatherOptions || []}
+            isClearable={true}
+            isSearchable={true}
+            required={false}
+            control={control}
+            isMulti={false}
+            disabled={
+              !watch("father_occupation_id")
+                ? true
+                : false || occupationPositionFatherOptions?.length === 0
+                ? true
+                : false
+            }
+            status={"error"}
+            message={errors?.father_occupation_position_id?.message as string}
+          />
+
+          <SelectOption
+            name="mother_occupation_position_id"
+            labels="Jabatan"
+            placeholder={
+              student?.mother_position_id
+                ? getOccupationPositionMother?.occupation_position?.find(
+                    (occupation_position) => occupation_position.id === student?.mother_position_id,
+                  )?.name
+                : "Pilih Jabatan"
+            }
+            className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+            labelClassName="text-left font-bold text-xs py-2"
+            options={occupationPositionMotherOptions || []}
+            isClearable={true}
+            isSearchable={true}
+            required={false}
+            control={control}
+            isMulti={false}
+            disabled={
+              !watch("mother_occupation_id")
+                ? true
+                : false || occupationPositionMotherOptions?.length === 0
+                ? true
+                : false
+            }
+            status={"error"}
+            message={errors?.mother_occupation_position_id?.message as string}
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
@@ -578,15 +649,9 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={
-            //   isSubmitted ||
-            //   !!student?.mother_salary_id ||
-            //   isMotherStatus ||
-            //   isUnemployedMother ||
-            //   !!student?.mother_status_id
-            // }
+            disabled={isFatherStatus || isUnemployedFather}
             status="error"
-            // message={errors?.mother_salary_id?.message as string}
+            message={errors?.mother_salary_id?.message as string}
           />
           <SelectOption
             name="mother_salary_id"
@@ -605,15 +670,9 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={
-            //   isSubmitted ||
-            //   !!student?.mother_salary_id ||
-            //   isMotherStatus ||
-            //   isUnemployedMother ||
-            //   !!student?.mother_status_id
-            // }
+            disabled={isMotherStatus || isUnemployedMother}
             status="error"
-            // message={errors?.mother_salary_id?.message as string}
+            message={errors?.mother_salary_id?.message as string}
           />
         </div>
       </section>
@@ -641,9 +700,8 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            // disabled={isSubmitted || !!student?.parent_province_id}
             status="error"
-            // message={errors?.parent_province_id?.message as string}
+            message={errors?.parent_province_id?.message as string}
           />
           <SelectOption
             labels="Kota/Kabupaten"
@@ -661,9 +719,9 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            // disabled={!watch("parent_province_id") || isSubmitted || !!student?.parent_city_id}
+            disabled={!watch("parent_province_id")}
             status="error"
-            // message={errors?.parent_city_id?.message as string}
+            message={errors?.parent_city_id?.message as string}
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
@@ -684,9 +742,9 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={!watch("parent_city_id") || isSubmitted || !!student?.parent_subdistrict_id}
+            disabled={!watch("parent_city_id")}
             status="error"
-            // message={errors?.parent_subdistrict_id?.message as string}
+            message={errors?.parent_subdistrict_id?.message as string}
           />
 
           <TextField
@@ -700,7 +758,6 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             label="Alamat Orang Tua"
             inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             control={control}
-            // disabled={isSubmitted || !!student?.father_name}
           />
         </div>
       </section>
@@ -722,7 +779,6 @@ export const EditDataOrangtua: FC = (): ReactElement => {
               label="Nama Wali"
               inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
               control={control}
-              // disabled={isSubmitted || !!student?.father_name}
             />
           </div>
           <div className="flex-col">
@@ -746,9 +802,8 @@ export const EditDataOrangtua: FC = (): ReactElement => {
               isClearable={true}
               control={control}
               isMulti={false}
-              // disabled={isSubmitted || !!student?.parent_province_id}
               status="error"
-              // message={errors?.parent_province_id?.message as string}
+              message={errors?.parent_province_id?.message as string}
             />
           </div>
         </div>
@@ -787,12 +842,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             isClearable={true}
             control={control}
             isMulti={false}
-            // disabled={
-            //   !watch("guardian_province_id") ||
-            //   isSubmitted ||
-            //   !!student?.guardian_city_id ||
-            //   !!student?.mother_name
-            // }
+            disabled={!watch("guardian_province_id")}
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
@@ -813,7 +863,6 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={isSubmitted || !!student?.guardian_education_id || !!student?.mother_name}
           />
           <SelectOption
             labels="Kecamatan"
@@ -833,12 +882,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={
-            //   !watch("guardian_city_id") ||
-            //   isSubmitted ||
-            //   !!student?.guardian_subdistrict_id ||
-            //   !!student?.mother_name
-            // }
+            disabled={!watch("guardian_city_id")}
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
@@ -857,6 +901,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             isSearchable={true}
             control={control}
+            disabled={isGuardianStatus}
             isMulti={false}
             isClearable={true}
             status="error"
@@ -872,10 +917,37 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             label="Alamat Domisili"
             inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             control={control}
-            // disabled={isSubmitted || !!student?.father_name}
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
+          <SelectOption
+            name="guardian_position_id"
+            labels="Jabatan"
+            placeholder={
+              student?.guardian_position_id
+                ? getOccupationPositionGuardian?.occupation_position?.find(
+                    (occupation_position) =>
+                      occupation_position.id === student?.guardian_position_id,
+                  )?.name
+                : "Pilih Jabatan"
+            }
+            labelClassName="text-left font-bold text-xs py-2"
+            options={occupationPositionGuardOptions || []}
+            isClearable={true}
+            isSearchable={true}
+            required={false}
+            control={control}
+            isMulti={false}
+            disabled={
+              !watch("mother_occupation_id")
+                ? true
+                : false || occupationPositionGuardOptions?.length === 0
+                ? true
+                : false
+            }
+            status={"error"}
+            className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+          />
           <SelectOption
             name="guardian_salary_id"
             labels="Pendapatan Wali ( Per Bulan )"
@@ -893,17 +965,16 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             control={control}
             isMulti={false}
             isClearable={true}
-            // disabled={
-            //   isSubmitted ||
-            //   !!student?.guardian_salary_id ||
-            //   isGuardianStatus ||
-            //   isUnemployedGuardian ||
-            //   !!student?.mother_name
-            // }
+            disabled={isGuardianStatus || isUnemployedGuardian}
           />
         </div>
         <div className="flex w-full justify-center lg:justify-end py-4 mt-8 gap-x-3">
-          <Button type="submit" variant="filled-red" size="md" width="w-70% lg:w-15% xl:w-15%">
+          <Button
+            href={"dashboard/data-pendaftar"}
+            variant="filled-red"
+            size="md"
+            width="w-70% lg:w-15% xl:w-15%"
+          >
             Batal
           </Button>
           <Button type="submit" variant="filled" size="md" width="w-70% lg:w-15% xl:w-15%">
