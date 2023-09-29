@@ -32,7 +32,6 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     mutate(session?.user?.refresh_token);
   };
 
-  console.log(session?.user.role);
   const sideListsSuperAdmin: TSideList = [
     {
       label: "Beranda",
@@ -47,7 +46,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     },
     { label: "Data Pendaftar", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
 
-    { label: "Pembayaran", link: "/dashboard/data-bayar", icon: <CreditCardOutlined /> },
+    { label: "Pengajuan", link: "/dashboard/data-bayar", icon: <CreditCardOutlined /> },
   ];
 
   const sideListsAdminSeleksi: TSideList = [

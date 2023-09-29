@@ -1,5 +1,5 @@
 "use client";
-import { FC, ReactElement, useEffect, useState, SetStateAction, Fragment } from "react";
+import { FC, ReactElement, useEffect, useState, SetStateAction, Fragment, useMemo } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataMaster } from "./type";
@@ -23,6 +23,16 @@ import {
   AiOutlinePlus,
 } from "react-icons/ai";
 
+import {
+  useGetBeasiswa,
+  useGetEducation,
+  useGetFaculties,
+  useGetProdi,
+  useGetSeleksi,
+  useProgramGet,
+  useScholarshipCreate,
+} from "../hook";
+
 const Table: FC = (): ReactElement => {
   const [tableMaster, setTableMaster] = useState([{}]);
   const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
@@ -33,7 +43,9 @@ const Table: FC = (): ReactElement => {
   const [searchQuery, setSearchQuery] = useState("");
   const [pending, setPending] = useState(true);
 
-  const { control } = useForm<FieldValues>({});
+  const { control, handleSubmit } = useForm<FieldValues>({
+    mode: "all",
+  });
   const handleDeleteModal = () => {
     setIsDeleteModalShow(!isDeleteModalShow);
   };
@@ -68,6 +80,91 @@ const Table: FC = (): ReactElement => {
   useEffect(() => {
     generateOptions();
   }, [activeItem]);
+  const { data: getFaculties } = useGetFaculties();
+
+  const faculty = useMemo(
+    () =>
+      getFaculties?.faculty?.map((fakultas) => ({
+        label: fakultas?.name,
+        value: fakultas?.id.toString(),
+      })),
+    [getFaculties?.faculty],
+  );
+
+  const { data: getProdi } = useGetProdi();
+  const prodi = useMemo(
+    () =>
+      getProdi?.department?.map((prodi) => ({
+        label: prodi?.name,
+        value: prodi?.id.toString(),
+      })),
+    [getProdi?.department],
+  );
+
+  const { data: getSeleksi } = useGetSeleksi();
+  const seleksi = useMemo(
+    () =>
+      getSeleksi?.selection?.map((seleksi) => ({
+        label: seleksi?.name,
+        value: seleksi?.id.toString(),
+      })),
+    [getSeleksi?.selection],
+  );
+  const { data: getEducation } = useGetEducation();
+  const education = useMemo(
+    () =>
+      getEducation?.school_type?.map((education) => ({
+        label: education?.name,
+        value: education?.id.toString(),
+      })),
+    [getEducation?.school_type],
+  );
+  const { data: getDegreProgram } = useProgramGet();
+  const degreProgram = useMemo(
+    () =>
+      getDegreProgram?.degree_program?.map((degreProgram) => ({
+        label: degreProgram?.name,
+        value: degreProgram?.id.toString(),
+      })),
+    [getDegreProgram?.degree_program],
+  );
+  const { mutate } = useScholarshipCreate();
+  const { data: getBeasiswa } = useGetBeasiswa();
+  const beasiswa = useMemo(
+    () =>
+      getBeasiswa?.scholarship?.map((beasiswa) => ({
+        label: beasiswa?.name,
+        value: beasiswa?.id.toString(),
+      })),
+    [getBeasiswa?.scholarship],
+  );
+
+  const onSubmit = handleSubmit((data) => {
+    // if (activeItem?.title === "department") {
+    //   console.log("departnm", data.department);
+    // }
+    // if (activeItem?.title === "school_type") {
+    //   console.log("sekolah", data.school_type);
+    // }
+    // if (activeItem?.title === "scholarship") {
+    //   console.log("beasiswa", data.scholarship);
+    // }
+    // if (activeItem?.title === "selection-path") {
+    //   console.log("seleksi", data.selection_path);
+    // }
+
+    // if (activeItem?.title === "faculty") {
+    //   console.log("fakultas", data.faculty);
+    // }
+    try {
+      mutate({
+        name: data.scholarship,
+      });
+      console.log("sukses");
+    } catch (error) {
+      console.error("error", error);
+    }
+  });
   const columns: TableColumn<TDataMaster>[] = [
     {
       name: <div className="pl-4">No</div>,
@@ -84,12 +181,24 @@ const Table: FC = (): ReactElement => {
       cell: (row) => (
         <div className="w-full">
           <ul className={`${Number(row.current_data?.length) !== 1 ? "list-disc" : ""} pl-5`}>
-            {row.current_data?.map((item, index) => <li key={index}>{item.data}</li>)}
+            {row.name === "Fakultas" &&
+              faculty?.slice(0, 3).map((item, index) => <li key={index}>{item.label}</li>)}
+            {row.name === "Program Studi" &&
+              prodi?.slice(0, 3).map((item, index) => <li key={index}>{item.label}</li>)}
+            {row.name === "Jalur Seleksi" &&
+              seleksi?.map((item, index) => <li key={index}>{item.label}</li>)}
+            {row.name === "Data Sekolah" &&
+              education?.map((item, index) => <li key={index}>{item.label}</li>)}
+            {row.name === "Beasiswa" &&
+              beasiswa?.slice(0, 5).map((item, index) => <li key={index}>{item.label}</li>)}
+            {row.name === "Biaya Formulir" &&
+              row.current_data?.map((item, index) => <li key={index}>{item.data}</li>)}
           </ul>
         </div>
       ),
       width: "24%",
     },
+
     {
       name: "Penambahan Data",
       cell: (row) => (
@@ -228,81 +337,205 @@ const Table: FC = (): ReactElement => {
             rangeSeparatorText: "ditampilkan dari",
             rowsPerPageText: "Tampilkan",
           }}
-          paginationPerPage={5}
-          paginationRowsPerPageOptions={[5, 10, 15, 20]}
+          paginationPerPage={6}
+          paginationRowsPerPageOptions={[6, 10, 15, 20]}
           paginationIconPrevious={<AiFillCaretLeft className="text-xl" />}
           paginationIconNext={<AiFillCaretRight className="text-xl ml-0.5" />}
           paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
           paginationIconLastPage={<AiFillFastForward className="text-xl ml-0.5" />}
         />
       </section>
-      <Modal
-        key="modal-edit-data"
-        showModal={isEditModalShow}
-        onClose={handleCloseModal}
-        iconClose={false}
-        modalTitle="Edit Data"
-        titleColor="white"
-        size="modal-question"
-        headerColor="green"
-      >
-        <div className="gap-y-4 flex flex-col p-4">
-          <SelectOption
-            name={activeItem?.name || ""}
-            options={options}
-            control={control}
-            isClearable
-            isSearchable
-            placeholder={`Pilih ${activeItem?.name}`}
-            labels={`${activeItem?.name} Asal`}
-          />
-          <TextField
-            name={activeItem?.name || ""}
-            control={control}
-            label={`${activeItem?.name} Baru`}
-            variant="md"
-            placeholder={`Masukan ${activeItem?.name} Baru`}
-          />
-        </div>
+      {activeItem?.name === "Biaya Formulir" ? (
+        <Modal
+          key="modal-edit-data"
+          showModal={isEditModalShow}
+          onClose={handleCloseModal}
+          iconClose={false}
+          size="modal-question"
+          modalTitle="Edit Data"
+          titleColor="white"
+          headerColor="green"
+        >
+          <div className=" flex flex-row gap-x-4 justify-between">
+            <TextField
+              name={`${activeItem?.title}`}
+              control={control}
+              label="Nama Pengajuan"
+              variant="md"
+              placeholder="Nama Keterangan"
+            />
+            <TextField
+              name={`${activeItem?.title}`}
+              control={control}
+              label="Biaya Formulir Asal"
+              variant="md"
+              defaultValue={`${activeItem?.current_data?.map((item) => item.data)}`}
+              placeholder="Rp."
+            />
+          </div>
+          <div className="gap-x-4 flex flex-row  justify-between">
+            <TextField
+              name={`${activeItem?.title}`}
+              control={control}
+              label="Nama Petugas"
+              variant="md"
+              placeholder="Nama Petugas"
+            />
+            <TextField
+              name={`${activeItem?.title}`}
+              control={control}
+              label="Biaya Formulir Baru"
+              variant="md"
+              placeholder="Rp."
+            />
+          </div>
 
-        <div className="flex gap-x-6 items-end w- justify-center">
-          <Button variant="filled-red" width="w-36" height="h-6" onClick={handleCloseModal}>
-            Batal
-          </Button>
-          <Button variant="filled" width="w-36" height="h-6" onClick={handleCloseModal}>
-            Simpan
-          </Button>
-        </div>
-      </Modal>
-      <Modal
-        key="modal-add-data"
-        showModal={isAddModalShow}
-        onClose={handleCloseModalAdd}
-        iconClose={false}
-        modalTitle="Tambah Data"
-        titleColor="white"
-        size="modal-question"
-        headerColor="green"
-      >
-        <div className="gap-y-2 flex flex-col px-4">
-          <TextField
-            name={activeItem?.name || ""}
-            control={control}
-            label={`${activeItem?.name} Baru`}
-            variant="md"
-            placeholder={`Masukan ${activeItem?.name} Baru`}
-          />
-        </div>
+          <div className="flex gap-x-3 items-end  justify-end">
+            <Button variant="filled-red" width="w-36" height="h-6" onClick={handleCloseModal}>
+              Batal
+            </Button>
+            <Button variant="filled" width="w-36" height="h-6" onClick={handleCloseModal}>
+              Simpan
+            </Button>
+          </div>
+        </Modal>
+      ) : (
+        <Modal
+          key="modal-edit-data"
+          showModal={isEditModalShow}
+          onClose={handleCloseModal}
+          iconClose={false}
+          modalTitle="Edit Data"
+          titleColor="white"
+          size="modal-question"
+          headerColor="green"
+        >
+          <div className="gap-y-4 flex flex-col p-4">
+            <SelectOption
+              name={`${activeItem?.title}`}
+              options={
+                activeItem?.name === "Fakultas"
+                  ? faculty || []
+                  : activeItem?.name === "Program Studi"
+                  ? prodi || []
+                  : activeItem?.name === "Jalur Seleksi"
+                  ? seleksi || []
+                  : activeItem?.name === "Data Sekolah"
+                  ? education || []
+                  : activeItem?.name === "Beasiswa"
+                  ? beasiswa || []
+                  : options
+              }
+              control={control}
+              isClearable
+              isSearchable
+              placeholder={`Pilih ${activeItem?.name}`}
+              labels={`${activeItem?.name} Asal`}
+            />
 
-        <div className="flex gap-x-6  justify-center">
-          <Button variant="filled-red" width="w-36" height="h-6" onClick={handleCloseModalAdd}>
-            Batal
-          </Button>
-          <Button variant="filled" width="w-36" height="h-6" onClick={handleCloseModalAdd}>
-            Simpan
-          </Button>
-        </div>
-      </Modal>
+            <TextField
+              name={`${activeItem?.title}`}
+              control={control}
+              label={`${activeItem?.name} Baru`}
+              variant="md"
+              placeholder={`Masukan ${activeItem?.name} Baru`}
+            />
+          </div>
+
+          <div className="flex gap-x-6 items-end w- justify-center">
+            <Button variant="filled-red" width="w-36" height="h-6" onClick={handleCloseModal}>
+              Batal
+            </Button>
+            <Button variant="filled" width="w-36" height="h-6" onClick={handleCloseModal}>
+              Simpan
+            </Button>
+          </div>
+        </Modal>
+      )}
+      {activeItem?.title === "faculty" || activeItem?.title === "selection-path" ? (
+        <Modal
+          key="modal-add-data"
+          showModal={isAddModalShow}
+          onClose={handleCloseModalAdd}
+          iconClose={false}
+          modalTitle="Tambah Data"
+          titleColor="white"
+          size="modal-question"
+          headerColor="green"
+        >
+          <form onSubmit={onSubmit}>
+            <div className="gap-y-2 flex flex-col px-4  justify-center">
+              <p className="text-primary-green text-center">
+                Silahkan masukkan data yang akan ditambahkan!
+              </p>
+              <div className="gap-y-4 flex flex-col p-4">
+                <SelectOption
+                  name="degree_program_id"
+                  options={degreProgram || []}
+                  control={control}
+                  isClearable
+                  isSearchable
+                  placeholder="Pilih Program Pendidikan"
+                  labels="Program Pendidikan"
+                />
+                <TextField
+                  name={`${activeItem?.title}`}
+                  control={control}
+                  label={`${activeItem?.name} Baru`}
+                  variant="md"
+                  placeholder={`Masukan ${activeItem?.name} Baru`}
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-x-6  justify-center">
+              <Button variant="filled-red" width="w-36" height="h-6" onClick={handleCloseModalAdd}>
+                Batal
+              </Button>
+              <Button variant="filled" width="w-36" height="h-6" type="submit">
+                Simpan
+              </Button>
+            </div>
+          </form>
+        </Modal>
+      ) : (
+        <Modal
+          key="modal-add-data"
+          showModal={isAddModalShow}
+          onClose={handleCloseModalAdd}
+          iconClose={false}
+          modalTitle="Tambah Data"
+          titleColor="white"
+          size="modal-question"
+          headerColor="green"
+        >
+          <form onSubmit={onSubmit}>
+            <div className="gap-y-2 flex flex-col px-4  justify-center">
+              <p className="text-primary-green text-center">
+                Silahkan masukkan data yang akan ditambahkan!
+              </p>
+
+              <TextField
+                name={`${activeItem?.title}`}
+                control={control}
+                label={`${activeItem?.name} Baru`}
+                variant="md"
+                placeholder={`Masukan ${activeItem?.name} Baru`}
+              />
+            </div>
+
+            <div className="flex gap-x-6  justify-center">
+              <Button variant="filled-red" width="w-36" height="h-6" onClick={handleCloseModalAdd}>
+                Batal
+              </Button>
+              <Button variant="filled" width="w-36" height="h-6" type="submit">
+                Simpan
+              </Button>
+            </div>
+          </form>
+        </Modal>
+      )}
+
       <Modal
         key="modal-delete-data"
         showModal={isDeleteModalShow}

@@ -2,6 +2,7 @@
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
+  TFacultyResponse,
   TInterestEducationPrograms,
   TTotalRegistransResponse,
 } from "@uninus/entities";
@@ -45,4 +46,8 @@ export const updateAvatar = atom<string | null>({
 export const getStudentbyId = atom<IGetStudentResponse | undefined>({
   key: "getStudentbyId",
   default: undefined,
+});
+export const getFaculties = atom<TFacultyResponse | undefined>({
+  key: "getFaculties",
+  default: [] as unknown as TFacultyResponse | undefined,
 });
