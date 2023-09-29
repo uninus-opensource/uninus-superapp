@@ -149,7 +149,6 @@ export class StudentController {
     description: "Application Origin",
   })
   @Patch("/:id")
-  @UsePipes(new ZodValidationPipe(VSUpdateStudent))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async updateDataById(

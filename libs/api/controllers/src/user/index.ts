@@ -10,16 +10,8 @@ import {
   Request,
   UseGuards,
   UseFilters,
-  UsePipes,
 } from "@nestjs/common";
-import {
-  TReqToken,
-  VSUpdateUser,
-  TProfileResponse,
-  EAppsOrigin,
-  EOrderByPagination,
-} from "@uninus/entities";
-import { ZodValidationPipe } from "@uninus/api/validator";
+import { TReqToken, TProfileResponse, EAppsOrigin, EOrderByPagination } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { UpdateUserDto } from "@uninus/api/dto";
 import {
@@ -66,6 +58,7 @@ export class UserController {
   @ApiQuery({ name: "order_by", required: false })
   @ApiQuery({ name: "filter_by", required: false })
   @ApiQuery({ name: "search", required: false })
+  @ApiBearerAuth()
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
@@ -113,6 +106,7 @@ export class UserController {
 
   @ApiOperation({ summary: "Get Data User By Id" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiBearerAuth()
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
@@ -132,6 +126,7 @@ export class UserController {
   @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({ status: 201, description: "Berhasil delete user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiBearerAuth()
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
@@ -151,12 +146,12 @@ export class UserController {
   @ApiOperation({ summary: "Edit User By Id" })
   @ApiResponse({ status: 201, description: "Berhasil update user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiBearerAuth()
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
   })
   @Put("/:id")
-  @UsePipes(new ZodValidationPipe(VSUpdateUser))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async updateData(
