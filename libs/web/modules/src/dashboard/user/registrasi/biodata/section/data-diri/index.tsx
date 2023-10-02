@@ -477,18 +477,20 @@ export const DataDiriSection: FC = (): ReactElement => {
           preview={true}
           message={imageErrors?.file?.message}
         />
-
-        <Button
-          type="submit"
-          variant="green-outline"
-          size="sm"
-          styling="w-[50%] md:w-[25%] xl:w-[20%]"
-          title="change-image"
-          loading={isLoading}
-          disabled={isLoading}
-        >
-          Simpan Gambar
-        </Button>
+        <div className="flex flex-col w-full md:w-[80%] items-center md:items-start gap-y-3 ">
+          <Button
+            type="submit"
+            variant="green-outline"
+            size="sm"
+            title="change-image"
+            width="w-[50%] md:w-[70%] xl:w-[50%]"
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            Simpan Gambar
+          </Button>
+          <p className="text-red-4">*Masukan foto formal berlatar belakang biru/merah</p>
+        </div>
       </form>
 
       <form key="data-diri-form" onSubmit={onSubmit} noValidate>
@@ -600,6 +602,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               isClearable={true}
               isSearchable={false}
               control={control}
+              required
               disabled={isDisabled || !!student?.gender_id}
               status={"error"}
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
@@ -620,6 +623,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               options={religionOptions || []}
               isClearable={true}
               isSearchable={true}
+              required
               control={control}
               isMulti={false}
               disabled={isDisabled || !!student?.religion_id}
@@ -673,6 +677,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               isSearchable={false}
               control={control}
               isMulti={false}
+              required
               isClearable={true}
               disabled={isDisabled || !!student?.marital_status_id}
               status={"error"}
@@ -708,6 +713,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               name="country_id"
               labels="Asal Negara"
               labelClassName="font-bold text-xs py-2"
+              required
               placeholder={
                 student?.country_id
                   ? countryOptions?.find((country) => Number(country.value) === student?.country_id)
@@ -719,7 +725,6 @@ export const DataDiriSection: FC = (): ReactElement => {
               isSearchable={true}
               control={control}
               isMulti={false}
-              required={false}
               disabled={isDisabled || !!student?.country_id || !watch("citizenship_id")}
               status={"error"}
               className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
@@ -740,6 +745,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               isSearchable={true}
               isClearable={true}
               control={control}
+              required={countryOptions?.length !== 1}
               ref={citizenref}
               isMulti={false}
               disabled={isDisabled || !!student?.province_id || countryOptions?.length !== 1}
@@ -762,6 +768,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               isSearchable={true}
               isClearable={true}
               ref={provinceref}
+              required={countryOptions?.length !== 1}
               control={control}
               isMulti={false}
               disabled={
@@ -791,6 +798,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               control={control}
               isMulti={false}
               isClearable={true}
+              required={countryOptions?.length !== 1}
               disabled={
                 isDisabled ||
                 !!student?.subdistrict_id ||
