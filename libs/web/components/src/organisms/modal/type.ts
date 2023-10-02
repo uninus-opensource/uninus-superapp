@@ -13,4 +13,5 @@ export type ModalProps = PropsWithChildren<{
   titleColor?: "black" | "white" | "green" | "yellow" | "red";
   footerColor?: "green" | "white";
   bodyClassName?: string;
+  modalFooter?: boolean;
 }>;

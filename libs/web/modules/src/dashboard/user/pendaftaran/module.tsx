@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
-import { useStudentData } from "@uninus/web/services";
+import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TVSPendaftaran, VSPendaftaran } from "./schema";
@@ -20,8 +20,9 @@ export type CustomSelectInstance = {
 };
 
 export const ModulePendaftaran: FC = (): ReactElement => {
-  // const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isS3Selected, setIs3Selected] = useState(false);
+
+  const { setDashboardControlState } = useDashboardStateControl();
 
   const {
     control,
@@ -145,7 +146,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     try {
       mutate(studentPendaftaran, {
         onSuccess: () => {
-          // setIsFormSubmitted(true);
+          setDashboardControlState(true);
           setTimeout(() => {
             toast.success("Berhasil mengisi formulir", {
               position: "top-center",
@@ -229,7 +230,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isSearchable={true}
               isMulti={false}
               isClearable={true}
-              // disabled={student?.degree_program_id ? true : false}
+              disabled={!!student?.degree_program_id || undefined}
               status="error"
               message={errors?.degree_program_id?.message as string}
             />
@@ -318,13 +319,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               size="sm"
               width="w-48"
               height="h-12"
-              // disabled={
-              //   !isValid ||
-              //   isFormSubmitted ||
-              //   !!student?.degree_program_id ||
-              //   !!student?.selection_path_id ||
-              //   watch("first_deparment_id") === watch("second_deparment_id")
-              // }
               disabled={
                 !isValid ||
                 watch("first_deparment_id") === watch("second_deparment_id") ||

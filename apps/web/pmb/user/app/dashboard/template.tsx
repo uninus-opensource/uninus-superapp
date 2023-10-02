@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { FileTextOutlined, FormOutlined, HomeOutlined, UploadOutlined } from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
 import { useGetBiodata } from "@uninus/web/modules";
-import { useStudentData, useUserData } from "@uninus/web/services";
+import { useDashboardStateControl, useStudentData, useUserData } from "@uninus/web/services";
 import Loading from "./loading";
 
 const monserrat = Montserrat({
@@ -31,13 +31,15 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
 
   const { getUser } = useUserData();
 
+  const { getDashboardControlState } = useDashboardStateControl();
+
   const userStatus = useMemo(() => {
     return getUser?.registration_status;
   }, [getUser?.registration_status]);
 
   useEffect(() => {
     setFormStatus(getStudent?.degree_program_id);
-  }, [getStudent]);
+  }, [getStudent, getDashboardControlState]);
 
   const sideLists = [
     { label: "Beranda", link: "/dashboard", icon: <HomeOutlined />, disabledStatus: false },

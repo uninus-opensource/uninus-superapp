@@ -1,6 +1,8 @@
 "use client";
 import { useRecoilState } from "recoil";
 import {
+  getFaculties,
+  dashboardState,
   getStudentbyId,
   popularPrograms,
   registransData,
@@ -13,12 +15,15 @@ import {
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
+  TFacultyResponse,
   TInterestEducationPrograms,
   TTotalRegistransResponse,
 } from "@uninus/entities";
 import {
+  ReturnTypeFaculty,
   ReturnTypeUpdate,
   ReturnTypeUserEmail,
+  ReturnTypesDashboardState,
   ReturnTypesPopularPrograms,
   ReturnTypesRegistransData,
   ReturnTypesStudentData,
@@ -87,5 +92,20 @@ export const useStudentDataById = (): ReturnTypesStudentDataId => {
   return {
     setStudentbyId: (val) => set(val),
     getStudentbyId: get,
+  };
+};
+
+export const useFaculty = (): ReturnTypeFaculty => {
+  const [get, set] = useRecoilState<TFacultyResponse | undefined>(getFaculties);
+  return {
+    setFaculties: (val) => set(val),
+    getFaculties: get,
+  };
+};
+export const useDashboardStateControl = (): ReturnTypesDashboardState => {
+  const [get, set] = useRecoilState<boolean | undefined>(dashboardState);
+  return {
+    setDashboardControlState: (val) => set(val),
+    getDashboardControlState: get,
   };
 };

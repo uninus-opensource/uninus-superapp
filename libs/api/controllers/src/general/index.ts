@@ -890,4 +890,18 @@ export class GeneralController {
     );
     return response;
   }
+
+  @Get("employee-categories")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Get Employee Categories" })
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "search", required: false })
+  async getCategories(@Query("id") id: number, @Query("search") search: string) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_employee_categories", { search, id })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
 }
