@@ -403,3 +403,8 @@ export type TCreateEducationRequest = {
 export type TGeneralResponse = {
   message: string;
 };
+
+export type TEmployeeCategoriesResponse = Array<{
+  id: number;
+  name: string;
+}>;

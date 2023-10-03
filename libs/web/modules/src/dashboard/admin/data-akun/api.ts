@@ -1,12 +1,13 @@
 import {
   TGetUserDataResponse,
+  TMetaErrorResponse,
   TRegisterRequest,
-  TUser,
   TUsersPaginatonResponse,
 } from "@uninus/entities";
 import { api } from "@uninus/web/services";
-
+import { TUpdateDataAkun, TUserRoles } from "./types";
 import { TUsersPaginationParams } from "../type";
+import { UseMutationResult, useMutation } from "@tanstack/react-query";
 
 export const GetDataUserPagination = async (
   params: TUsersPaginationParams,
@@ -31,14 +32,14 @@ export const CreateDataUser = async (payload: TRegisterRequest): Promise<TGetUse
   return data;
 };
 
-export const UpdateDataUser = async (id: TGetUserDataResponse): Promise<TUser> => {
+export const UpdateDataUser = async (payload: TUpdateDataAkun): Promise<TGetUserDataResponse> => {
   const { data } = await api({
-    method: "PUT",
+    method: "PATCH",
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     },
-    url: `/user/${id}`,
-    data: id,
+    url: `/user/${payload.id}`,
+    data: payload,
   });
   return data;
 };
@@ -53,3 +54,22 @@ export const DeleteDataUser = async (id: string): Promise<TGetUserDataResponse> 
   });
   return data;
 };
+export const GetUserRole = async (): Promise<TUserRoles> => {
+  const { data } = await api<TUserRoles>({
+    headers: {
+      "Content-Type": "application/json",
+    },
+    url: "/roles",
+  });
+  return data;
+};
+export const useDeleteDataUsers = (): UseMutationResult<
+  TGetUserDataResponse,
+  TMetaErrorResponse,
+  string,
+  unknown
+> =>
+  useMutation({
+    mutationKey: ["delete-user"],
+    mutationFn: async (id) => await DeleteDataUser(id),
+  });

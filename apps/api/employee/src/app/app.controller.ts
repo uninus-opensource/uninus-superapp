@@ -17,4 +17,9 @@ export class AppController {
   getTotalEmployees() {
     return this.appService.getTotalEmployees();
   }
+
+  @MessagePattern("get_lecturer")
+  getLecturer(id: string) {
+    return this.appService.getLecturer(id);
+  }
 }

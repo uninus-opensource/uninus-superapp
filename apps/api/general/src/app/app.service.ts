@@ -64,6 +64,7 @@ import {
   TGeneralResponse,
   TCreateScholarshipRequest,
   TRegistrationPathResponse,
+  TEmployeeCategoriesResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -1623,5 +1624,25 @@ export class AppService {
     return {
       message: `Berhasil menghapus beasiswa `,
     };
+  }
+
+  async getCategories({ search, id }: ISelectRequest): Promise<TEmployeeCategoriesResponse> {
+    const employeeCategories = await this.prisma.employeeCategories.findMany({
+      where: {
+        id: id && Number(id),
+        name: {
+          ...(search && { contains: search }),
+          mode: "insensitive",
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    if (!employeeCategories) {
+      throw new RpcException(new NotFoundException("Data tidak ditemukan"));
+    }
+    return employeeCategories;
   }
 }

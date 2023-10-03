@@ -241,4 +241,104 @@ export class AppService {
       };
     }
   }
+
+  async getLecturer(id: string) {
+    const lecturer = await this.prisma.lecturers.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        employee: {
+          select: {
+            user: {
+              select: {
+                fullname: true,
+              },
+            },
+            nip: true,
+            nidn: true,
+            nik: true,
+            addition_task: true,
+            employee_has_workunit: {
+              select: {
+                work_unit: {
+                  select: {
+                    id: true,
+                    name: true,
+                    work_unit_category: {
+                      select: {
+                        id: true,
+                        name: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        lecturer_faculty_department: {
+          select: {
+            faculty: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            department: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+        lecturer_position: {
+          select: {
+            name: true,
+            civil_service: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
+        lecturer_status: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!lecturer) {
+      return {
+        message: "Lecturer not found!",
+      };
+    }
+
+    return {
+      id,
+      fullname: lecturer.employee.user.fullname,
+      nip: lecturer.employee.nip,
+      nidn: lecturer.employee.nidn,
+      nik: lecturer.employee.nik,
+      addition_task: lecturer.employee.addition_task,
+      lecturer_status: lecturer.lecturer_status.name,
+      lecturer_position: lecturer.lecturer_position.name,
+      civil_service_level: lecturer.lecturer_position.civil_service?.name,
+      employee_work_unit: lecturer.employee.employee_has_workunit.map((el) => ({
+        id: el.work_unit.id,
+        name: el.work_unit.name,
+        work_unit_category: el.work_unit.work_unit_category.name,
+      })),
+      lecturer_faculty_department: lecturer.lecturer_faculty_department.map((el) => ({
+        id: el.department.id,
+        department: el.department.name,
+        faculty: el.faculty.name,
+      })),
+    };
+  }
 }

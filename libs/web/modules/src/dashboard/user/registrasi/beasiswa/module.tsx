@@ -7,7 +7,6 @@ import { useScholarshipGet } from "./hooks";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
-import Link from "next/link";
 import { berkasKhusus } from "./type";
 import { useStudentData } from "@uninus/web/services";
 import {
@@ -36,7 +35,7 @@ export const beasiswaBreadcrumb = [
 export const BeasiswaDashboardModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingFile, setIsLoadingFile] = useState<boolean>(false);
-  const [isDisabled, setIsdisabled] = useState<boolean>(false);
+  const [isDisabled, setIsdisabled] = useState<boolean | undefined>(undefined);
   const [isDisabledFile, setIsdisabledFile] = useState<boolean>(false);
   const [scholarshipId, setScholarshipId] = useState<number | null | undefined>(undefined);
 
@@ -90,7 +89,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
   };
 
   const onSubmit = handleSubmit((data) => {
-    beasiswa.scholarship_id = Number(data.scholarship_id);
+    beasiswa.scholarship_id = Number(data?.scholarship_id);
 
     try {
       setIsLoading(true);
@@ -383,7 +382,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
             name="scholarship_id"
             control={control}
             required={true}
-            disabled={isDisabled || !!student?.scholarship_id}
+            disabled={isDisabled || !!student?.scholarship_id || undefined}
             isMulti={false}
           />
           <div className="flex w-full justify-center lg:justify-end py-8">
@@ -632,18 +631,27 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
       </div>
 
       <div className="flex w-full justify-between py-8">
-        <Link href="/dashboard/registrasi/biodata">
-          <Button type="button" variant="filled" size="md" width="w-auto">
-            <CaretLeftOutlined />
-            <p className="px-2 md:flex hidden"> Data Registrasi</p>
-          </Button>
-        </Link>
-        <Link href="/dashboard/registrasi/pembayaran/detail">
-          <Button type="button" variant="filled" size="md" width="w-auto">
-            <p className="px-2 md:flex hidden">Lakukan Pembayaran</p>
-            <CaretRightOutlined />
-          </Button>
-        </Link>
+        <Button
+          href="/dashboard/registrasi/biodata"
+          type="button"
+          variant="filled"
+          size="md"
+          width="w-auto"
+        >
+          <CaretLeftOutlined />
+          <p className="px-2 md:flex hidden"> Data Registrasi</p>
+        </Button>
+
+        <Button
+          href="/dashboard/registrasi/pembayaran/detail"
+          type="button"
+          variant="filled"
+          size="md"
+          width="w-auto"
+        >
+          <p className="px-2 md:flex hidden">Lakukan Pembayaran</p>
+          <CaretRightOutlined />
+        </Button>
       </div>
     </section>
   );

@@ -9,10 +9,11 @@ import {
   Button,
   TextField,
   SelectOption,
+  TSelectOption,
 } from "@uninus/web/components";
 import { Control, FieldValues, useForm } from "react-hook-form";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useDataUsers, useDeleteDataUsers } from "./hook";
+import { useDataUsers, useDeleteDataUsers, useGetUserRoles, useUpdateDataUsers } from "./hook";
 import {
   AiFillCaretLeft,
   AiFillCaretRight,
@@ -31,7 +32,8 @@ const Table: FC = (): ReactElement => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(5);
 
-  const { mutate: deleteUser } = useDeleteDataUsers();
+  const { mutate: deleteUser, isLoading: deleteIsLoading } = useDeleteDataUsers();
+  const { mutate: updateDataAkunUser } = useUpdateDataUsers();
   const {
     data,
     isLoading: isLoadingData,
@@ -41,7 +43,7 @@ const Table: FC = (): ReactElement => {
     per_page: perPage,
     search: searchQuery,
   });
-
+  const { data: getRoles } = useGetUserRoles();
   const {
     control,
     handleSubmit,
@@ -50,6 +52,7 @@ const Table: FC = (): ReactElement => {
     mode: "all",
     defaultValues: {},
   });
+
   const {
     control: updateControl,
     handleSubmit: updateSubmit,
@@ -59,16 +62,6 @@ const Table: FC = (): ReactElement => {
     mode: "all",
   });
 
-  const selectUpdateRole = [
-    {
-      value: 1 as unknown as string,
-      label: "Admin",
-    },
-    {
-      value: 2 as unknown as string,
-      label: "Calon Mahasiswa",
-    },
-  ];
   const handleCloseModal = () => {
     setIsShowModal(!isShowModal);
   };
@@ -76,25 +69,41 @@ const Table: FC = (): ReactElement => {
   const handleModalAdd = () => {
     setModalAdd(!ModalAdd);
   };
+
   const handleDeleteAkun = (): void => {
     deleteUser(currentId, {
       onSuccess: () => refetch(),
     });
     handleDeleteModal();
-    console.log(currentId);
   };
+
   const handleDeleteModal = () => {
     setIsDeleteModalShow(!isDeleteModalShow);
   };
+
   const onEditData = updateSubmit((data) => {
     try {
-      // mutate({
-      //    ...data,
-      // });
+      updateDataAkunUser(
+        {
+          id: data?.id,
+          fullname: data?.fullname,
+          email: data?.email,
+          password: data?.password,
+          role_id: data?.role.id,
+          phone_number: data?.phone_number,
+        },
+        {
+          onSuccess: () => {
+            refetch();
+            handleCloseModal();
+          },
+        },
+      );
     } catch (error) {
       console.log(error);
     }
   });
+
   const onAddData = handleSubmit((data) => {
     try {
       // mutate({
@@ -104,6 +113,12 @@ const Table: FC = (): ReactElement => {
       console.log(error);
     }
   });
+
+  const selectRoleUser = getRoles?.map((role) => {
+    const dataRoles = { label: role.name, value: role.id };
+    return dataRoles;
+  });
+
   const columnsAkun: TableColumn<TDataAkun>[] = useMemo(
     () => [
       {
@@ -139,6 +154,7 @@ const Table: FC = (): ReactElement => {
             <button
               onClick={handleCloseModal}
               className="flex gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center"
+              key="modal-edit-data"
             >
               <div className="flex items-center gap-x-2" onClick={() => updateReset({ ...row })}>
                 <FormOutlined />
@@ -151,6 +167,7 @@ const Table: FC = (): ReactElement => {
                 setCurrentId(row.id);
                 handleDeleteModal();
               }}
+              key="modal-delete-user"
             >
               <div className="flex items-center gap-x-2">
                 <DeleteOutlined />
@@ -259,10 +276,11 @@ const Table: FC = (): ReactElement => {
         showModal={isShowModal}
         onClose={handleCloseModal}
         modalTitle="Edit Data Akun"
+        modalFooter={false}
       >
         <form
-          onClick={onEditData}
-          className="w-full flex flex-col justify-center items-center gap-1"
+          onSubmit={onEditData}
+          className="w-full flex flex-col justify-center items-center gap-y-[2px]"
         >
           <div className="w-full">
             <TextField
@@ -280,12 +298,12 @@ const Table: FC = (): ReactElement => {
           </div>
           <div className="w-full">
             <SelectOption
-              labels="role"
-              className="text-left"
-              labelClassName="text-left py-2"
+              labels="Role"
+              className="text-left mb-2"
+              labelClassName="text-left font-bold text-xs mb-2"
               control={updateControl as unknown as Control<FieldValues>}
-              name="role"
-              options={selectUpdateRole || []}
+              name="role.id"
+              options={selectRoleUser as unknown as TSelectOption[]}
               isMulti={false}
               isClearable={true}
               required={true}
@@ -303,7 +321,7 @@ const Table: FC = (): ReactElement => {
               required
               labelclassname="text-sm font-semibold"
               label="Nomor Telepon"
-              placeholder="085797807376"
+              placeholder="85797807376"
               inputWidth="w-full"
               control={updateControl}
             />
@@ -318,6 +336,19 @@ const Table: FC = (): ReactElement => {
               labelclassname="text-sm font-semibold"
               label="Email"
               placeholder="Fnny04@gmail.com"
+              inputWidth="w-full"
+              control={updateControl}
+            />
+          </div>
+          <div className="w-full">
+            <TextField
+              inputHeight="h-10"
+              name="password"
+              variant="sm"
+              type="text"
+              labelclassname="text-sm font-semibold"
+              label="Password"
+              placeholder="********"
               inputWidth="w-full"
               control={updateControl}
             />
@@ -337,7 +368,7 @@ const Table: FC = (): ReactElement => {
         modalTitle="Delete Data Akun ?"
       >
         <div className="flex gap-x-6">
-          <Button variant="filled" size="md" onClick={handleDeleteAkun}>
+          <Button loading={deleteIsLoading} variant="filled" size="md" onClick={handleDeleteAkun}>
             Iya
           </Button>
           <Button variant="filled" size="md" onClick={handleDeleteModal}>
@@ -345,7 +376,12 @@ const Table: FC = (): ReactElement => {
           </Button>
         </div>
       </Modal>
-      <Modal showModal={ModalAdd} onClose={handleModalAdd} modalTitle="Tambah Data Akun">
+      <Modal
+        key="modal-add-user"
+        showModal={ModalAdd}
+        onClose={handleModalAdd}
+        modalTitle="Tambah Data Akun"
+      >
         <form
           onSubmit={onAddData}
           className="w-full flex flex-col justify-center items-center gap-1"
@@ -364,22 +400,21 @@ const Table: FC = (): ReactElement => {
               control={control}
             />
           </div>
-
           <div className="w-full">
-            <TextField
-              inputHeight="h-10"
-              name="role"
-              variant="sm"
-              type="text"
-              required
-              labelclassname="text-sm font-semibold"
-              label="Role"
-              placeholder="Role"
-              inputWidth="w-full"
-              control={control}
+            <SelectOption
+              labels="Role"
+              className="text-left mb-2"
+              labelClassName="text-left font-bold text-xs mb-2"
+              control={control as unknown as Control<FieldValues>}
+              name="role.id"
+              options={selectRoleUser as unknown as TSelectOption[]}
+              isMulti={false}
+              isClearable={true}
+              required={true}
+              status="error"
+              message={updateErrors.root?.message}
             />
           </div>
-
           <div className="w-full">
             <TextField
               inputHeight="h-10"
