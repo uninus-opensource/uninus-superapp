@@ -172,7 +172,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^29.5.4",
     "@types/node": "20.7.2",
-    "@types/react": "18.2.23",
+    "@types/react": "18.2.24",
     "@types/react-dom": "18.2.8",
     "@types/react-table": "^7.7.15",
     "@typescript-eslint/eslint-plugin": "6.7.4",
