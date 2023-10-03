@@ -134,6 +134,13 @@ export type TSelectionResponse = {
   }>;
 };
 
+export type TRegistrationPathResponse = {
+  registration_path: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
 export interface ISalaryRequest {
   search: string;
 }
