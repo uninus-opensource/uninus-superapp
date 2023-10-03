@@ -976,6 +976,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               <RadioButton
                 name="difabel"
                 label="Ya"
+                required
                 fieldName="Berkebutuhan Khusus"
                 control={control}
                 options={[
