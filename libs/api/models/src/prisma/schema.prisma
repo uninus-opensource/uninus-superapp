@@ -409,15 +409,16 @@ model Questions {
 }
 
 model Employees {
-  user_id                  String                    @unique
-  createdAt                DateTime                  @default(now())
-  addition_task            String?
+  id                       Int                       @unique @default(autoincrement())
+  nip                      String?
+  nidn                     String?
+  nik                      String?
   birth_date               String?
   employee_status_id       Int?
-  nidn                     String?
-  nip                      String?
-  id                       Int                       @unique @default(autoincrement())
   employee_type_id         Int?
+  addition_task            String?
+  user_id                  String                    @unique
+  createdAt                DateTime                  @default(now())
   academic_staff           AcademicStaff?
   appointment_decree       AppointmentDecree[]
   certification_profession CertificationProfession[]
@@ -425,7 +426,7 @@ model Employees {
   employee_has_education   EmployeeHasEducation[]
   employee_has_workunit    EmployeeHasWorkUnit[]
   employee_status          EmployeeStatus?           @relation(fields: [employee_status_id], references: [id])
-  EmployeeType             EmployeeType?             @relation(fields: [employee_type_id], references: [id])
+  Employee_type            EmployeeType?             @relation(fields: [employee_type_id], references: [id])
   user                     Users                     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   lecturers                Lecturers?
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Query, UseFilters } from "@nestjs/common";
+import { Controller, Get, Inject, Param, Query, UseFilters } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { ApiHeader, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
@@ -67,11 +67,29 @@ export class EmployeeController {
     name: "app-origin",
     description: "Application Origin",
   })
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Total Employees" })
   @Get("/total-employees")
   async getTotalEmployees() {
     const response = await firstValueFrom(
       this.client
         .send("get_total_employees", {})
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  // @ApiHeader({
+  //   name: "app-origin",
+  //   description: "Application Origin",
+  // })
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Get Employees" })
+  @Get("/lecturer/:id")
+  async getEmployee(@Param("id") id: string) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_lecturer", id)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
