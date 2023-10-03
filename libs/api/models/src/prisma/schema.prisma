@@ -143,6 +143,7 @@ model PMB {
   registration_status_id Int?
   registration_number    String?
   selection_path_id      Int?
+  registration_path_id   Int?
   student_id             String?             @unique
   utbk_pu                Float?              @default(0)
   utbk_kk                Float?              @default(0)
@@ -158,6 +159,7 @@ model PMB {
   registration_status    RegistrationStatus? @relation(fields: [registration_status_id], references: [id])
   second_deparment       Department?         @relation("second_deparment", fields: [second_deparment_id], references: [id])
   selection_path         SelectionPath?      @relation(fields: [selection_path_id], references: [id])
+  registration_path      RegistrationPath?   @relation(fields: [registration_path_id], references: [id])
   student                Students?           @relation(fields: [student_id], references: [id], onDelete: Cascade)
   student_grade          StudentGrade[]
 }
@@ -282,6 +284,12 @@ model SelectionPath {
   degree_program_id Int?
   PMB               PMB[]
   degree_program    DegreeProgram? @relation(fields: [degree_program_id], references: [id])
+}
+
+model RegistrationPath {
+  id   Int    @id @default(autoincrement())
+  name String
+  PMB  PMB[]
 }
 
 model Faculty {

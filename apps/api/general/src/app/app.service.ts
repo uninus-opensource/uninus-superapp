@@ -63,6 +63,7 @@ import {
   TCreateEducationRequest,
   TGeneralResponse,
   TCreateScholarshipRequest,
+  TRegistrationPathResponse,
   TEmployeeCategoriesResponse,
 } from "@uninus/entities";
 
@@ -245,6 +246,24 @@ export class AppService {
     return { selection };
   }
 
+  async getRegistrationPath({ search, id }: ISelectionRequest): Promise<TRegistrationPathResponse> {
+    const registration_path = await this.prisma.registrationPath.findMany({
+      where: {
+        ...(id && { id: Number(id) }),
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!registration_path) {
+      throw new RpcException(new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!"));
+    }
+
+    return { registration_path };
+  }
   async getSalary({ search, id }: ISelectRequest): Promise<TSalaryResponse> {
     const salary = await this.prisma.salary.findMany({
       where: {

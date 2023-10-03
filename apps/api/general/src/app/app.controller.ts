@@ -72,6 +72,11 @@ export class AppController {
     return await this.appService.getSelectionPath(payload);
   }
 
+  @MessagePattern("get_registration_path")
+  async getRegistrationPath(payload: ISelectionRequest) {
+    return await this.appService.getRegistrationPath(payload);
+  }
+
   @MessagePattern("get_salary")
   async getSalary(payload: ISelectRequest) {
     return await this.appService.getSalary(payload);
