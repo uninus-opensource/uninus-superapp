@@ -3,7 +3,6 @@ import { useRecoilState } from "recoil";
 import {
   getFaculties,
   dashboardState,
-  getStudentbyId,
   popularPrograms,
   registransData,
   studentState,
@@ -11,6 +10,8 @@ import {
   updateState,
   userEmail,
   userState,
+  getStudentbyIdEditData,
+  getStudentbyIdValidasiData,
 } from "./store";
 import {
   IGetStudentResponse,
@@ -88,7 +89,7 @@ export const useUpdateAvatar = (): ReturnTypesUpdateAvatar => {
 };
 
 export const useStudentDataById = (): ReturnTypesStudentDataId => {
-  const [get, set] = useRecoilState<IGetStudentResponse | undefined>(getStudentbyId);
+  const [get, set] = useRecoilState<IGetStudentResponse | undefined>(getStudentbyIdEditData);
   return {
     setStudentbyId: (val) => set(val),
     getStudentbyId: get,
@@ -107,5 +108,13 @@ export const useDashboardStateControl = (): ReturnTypesDashboardState => {
   return {
     setDashboardControlState: (val) => set(val),
     getDashboardControlState: get,
+  };
+};
+
+export const useStudentDataByIdValidation = (): ReturnTypesStudentDataId => {
+  const [get, set] = useRecoilState<IGetStudentResponse | undefined>(getStudentbyIdValidasiData);
+  return {
+    setStudentbyId: (val) => set(val),
+    getStudentbyId: get,
   };
 };

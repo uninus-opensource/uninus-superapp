@@ -147,7 +147,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
         mutate(
           {
             documents: [
-              { name: "Sertifikat Asli Organisasi", path: sertifikat_aktif },
+              { name: "Sertifikat Aktif Organisasi", path: sertifikat_aktif },
               { name: "Sertifikat Lainnya", path: sertifikat_lainnya },
             ],
           },
@@ -197,7 +197,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
           {
             documents: [
               { name: "Sertifikat Kejuaraan", path: sertifikat_kejuaraan },
-              { name: "Tahfidz", path: tahfidzh },
+              { name: "Tahfizh", path: tahfidzh },
             ],
           },
           {
