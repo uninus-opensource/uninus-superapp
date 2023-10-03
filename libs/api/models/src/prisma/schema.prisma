@@ -143,6 +143,7 @@ model PMB {
   registration_status_id Int?
   registration_number    String?
   selection_path_id      Int?
+  registration_path_id   Int?
   student_id             String?             @unique
   utbk_pu                Float?              @default(0)
   utbk_kk                Float?              @default(0)
@@ -158,6 +159,7 @@ model PMB {
   registration_status    RegistrationStatus? @relation(fields: [registration_status_id], references: [id])
   second_deparment       Department?         @relation("second_deparment", fields: [second_deparment_id], references: [id])
   selection_path         SelectionPath?      @relation(fields: [selection_path_id], references: [id])
+  registration_path      RegistrationPath?   @relation(fields: [registration_path_id], references: [id])
   student                Students?           @relation(fields: [student_id], references: [id], onDelete: Cascade)
   student_grade          StudentGrade[]
 }
@@ -282,6 +284,12 @@ model SelectionPath {
   degree_program_id Int?
   PMB               PMB[]
   degree_program    DegreeProgram? @relation(fields: [degree_program_id], references: [id])
+}
+
+model RegistrationPath {
+  id   Int    @id @default(autoincrement())
+  name String
+  PMB  PMB[]
 }
 
 model Faculty {
@@ -409,15 +417,16 @@ model Questions {
 }
 
 model Employees {
-  user_id                  String                    @unique
-  createdAt                DateTime                  @default(now())
-  addition_task            String?
+  id                       Int                       @unique @default(autoincrement())
+  nip                      String?
+  nidn                     String?
+  nik                      String?
   birth_date               String?
   employee_status_id       Int?
-  nidn                     String?
-  nip                      String?
-  id                       Int                       @unique @default(autoincrement())
   employee_type_id         Int?
+  addition_task            String?
+  user_id                  String                    @unique
+  createdAt                DateTime                  @default(now())
   academic_staff           AcademicStaff?
   appointment_decree       AppointmentDecree[]
   certification_profession CertificationProfession[]
@@ -425,7 +434,7 @@ model Employees {
   employee_has_education   EmployeeHasEducation[]
   employee_has_workunit    EmployeeHasWorkUnit[]
   employee_status          EmployeeStatus?           @relation(fields: [employee_status_id], references: [id])
-  EmployeeType             EmployeeType?             @relation(fields: [employee_type_id], references: [id])
+  Employee_type            EmployeeType?             @relation(fields: [employee_type_id], references: [id])
   user                     Users                     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   lecturers                Lecturers?
 }
