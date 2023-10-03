@@ -11,7 +11,6 @@ import {
   useEducationHistoryGet,
   useEducationMajorGet,
   useEducationTypeGet,
-  useYearGraduationGet,
   useProvinceGet,
   useCityGet,
   useSubdistrictGet,
@@ -84,22 +83,6 @@ export const DataPendidikanSection: FC = (): ReactElement => {
       street_address: educationHistory.street_address,
     }));
   }, [getEducationHistory?.education]);
-
-  // Graduate Year
-  const [graduate] = useState({
-    search: "",
-  });
-
-  const { data: getGraduate } = useYearGraduationGet(graduate);
-
-  const graduateOptions = useMemo(
-    () =>
-      getGraduate?.year?.map((year) => ({
-        label: year?.name.toString(),
-        value: year?.id.toString(),
-      })),
-    [getGraduate?.year],
-  );
 
   // Education Major
 
@@ -292,23 +275,20 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               status={"error"}
               message={errors?.education_type_id?.message as string}
             />
-            <SelectOption
+
+            <TextField
+              inputHeight="h-10"
               name="graduation_year"
-              labelClassName="font-bold text-xs py-2"
-              labels="Tahun Lulus"
-              placeholder={
-                student?.graduation_year
-                  ? graduateOptions?.find((item) => item.value === student?.graduation_year)?.label
-                  : "Tahun Lulus"
-              }
-              options={graduateOptions || []}
-              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              isSearchable={false}
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Tahun Lulus"
+              placeholder="Nama Sekolah"
+              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
               control={control}
-              isMulti={false}
-              disabled={isDisabled || !!student?.graduation_year}
-              status="error"
               message={errors?.graduation_year?.message as string}
+              disabled={isDisabled || !!student?.graduation_year}
             />
           </div>
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
@@ -410,7 +390,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               control={control}
               disabled
             />
-            {majorOptions?.length !== 1 && (
+            {majorOptions?.find((item) => Number(item.value) === 1) ? (
               <SelectOption
                 name="education_major_id"
                 labels="Jurusan Pendidikan Asal"
@@ -437,25 +417,20 @@ export const DataPendidikanSection: FC = (): ReactElement => {
                 message={errors?.education_major_id?.message as string}
                 className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
               />
-            )}
-
-            {majorOptions?.length === 1 && student?.degree_program_id === 1 && (
+            ) : (
               <TextField
                 inputHeight="h-10"
                 name="vocational_high_school"
                 variant="sm"
                 type="text"
                 labelclassname="text-sm font-semibold"
-                label="Jurusan SMK"
+                label="Jurusan Pendidikan Asal"
                 placeholder="Masukan jurusan sekolah anda"
                 inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw] "
                 control={control}
                 required
                 disabled={
-                  isDisabled ||
-                  !watch("education_type_id") ||
-                  !!student?.education_major_id ||
-                  majorOptions?.length !== 1
+                  isDisabled || !watch("education_type_id") || !!student?.education_major_id
                 }
               />
             )}
