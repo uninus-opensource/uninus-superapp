@@ -1,8 +1,7 @@
 import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
-import { IUserRequest, TUsersPaginationArgs } from "@uninus/entities";
-import { Prisma } from "@prisma/client";
+import { IUserRequest, TCreateUserRequest, TUsersPaginationArgs } from "@uninus/entities";
 
 @Controller()
 export class AppController {
@@ -17,7 +16,7 @@ export class AppController {
   }
 
   @MessagePattern("create_user")
-  async createUser(payload: Prisma.UsersCreateInput) {
+  async createUser(payload: TCreateUserRequest) {
     return await this.appService.createUser(payload);
   }
 
