@@ -18,6 +18,7 @@ import {
   EAppsOrigin,
   EOrderByPagination,
   IUserRequest,
+  TCreateUserRequest,
 } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { CreateUserDto, UpdateUserDto } from "@uninus/api/dto";
@@ -191,7 +192,7 @@ export class UserController {
   ) {
     const response = await firstValueFrom(
       this.client
-        .send<IUserRequest>("create_user", payload)
+        .send<TCreateUserRequest>("create_user", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
