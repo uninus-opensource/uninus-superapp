@@ -6,7 +6,7 @@ import { Modal } from "@uninus/web/components";
 import { FieldValues, useForm } from "react-hook-form";
 import Link from "next/link";
 import { useStudentData } from "@uninus/web/services";
-import { useDegreeProgramGet } from "../../../pendaftaran";
+import { useDegreeProgramGet, useDepartmentGet } from "../../../pendaftaran";
 
 export const detailBreadcrumb = [
   {
@@ -63,6 +63,14 @@ export const DetailPembayaran: FC = (): ReactElement => {
     return getStudent?.degree_program_id;
   }, [getStudent?.degree_program_id]);
 
+  const firstDepartement = useMemo(() => {
+    return getStudent?.first_deparment_id;
+  }, [getStudent?.first_deparment_id]);
+
+  const secondDepartement = useMemo(() => {
+    return getStudent?.second_deparment_id;
+  }, [getStudent?.second_deparment_id]);
+
   const [programMeta] = useState({
     search: "",
     degree_program_id: "",
@@ -70,6 +78,11 @@ export const DetailPembayaran: FC = (): ReactElement => {
   });
 
   const { data: getDegreeProgram } = useDegreeProgramGet(programMeta);
+  const { data: getDepartment } = useDepartmentGet({
+    degree_program_id: "",
+    faculty_id: "",
+    search: "",
+  });
 
   const DegreeProgramOptions = useMemo(
     () =>
@@ -78,6 +91,15 @@ export const DetailPembayaran: FC = (): ReactElement => {
         value: program?.id,
       })),
     [getDegreeProgram?.degree_program],
+  );
+
+  const DepartmentOptions = useMemo(
+    () =>
+      getDepartment?.department?.map((department) => ({
+        label: department?.name,
+        value: department?.id,
+      })),
+    [getDepartment?.department],
   );
 
   const { control } = useForm<FieldValues>({
@@ -115,6 +137,22 @@ export const DetailPembayaran: FC = (): ReactElement => {
                 : "loading data program pendidikan..."}
             </h1>
             <p className="font-bold">Rp. 250.000</p>
+          </div>
+          <div className="flex justify-between p-4 text-left">
+            <h1 className="font-extramedium">
+              Prodi pilihan 1 - {""}
+              {firstDepartement
+                ? DepartmentOptions?.find((x) => x.value === firstDepartement)?.label
+                : "loading prodi pilihan 1..."}
+            </h1>
+          </div>
+          <div className="flex justify-between p-4 text-left">
+            <h1 className="font-extramedium">
+              Prodi pilihan 2 - {""}
+              {secondDepartement
+                ? DepartmentOptions?.find((x) => x.value === secondDepartement)?.label
+                : "loading prodi pilihan 2..."}
+            </h1>
           </div>
           <p></p>
           <div className="bg-slate-5 w-full h-[2px] "></div>
