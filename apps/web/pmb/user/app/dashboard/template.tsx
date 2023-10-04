@@ -3,7 +3,13 @@ import { FC, PropsWithChildren, ReactElement, useEffect, useMemo, useState } fro
 import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
-import { FileTextOutlined, FormOutlined, HomeOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  CreditCardOutlined,
+  FileTextOutlined,
+  FormOutlined,
+  HomeOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
 import { useGetBiodata } from "@uninus/web/modules";
 import { useDashboardStateControl, useStudentData, useUserData } from "@uninus/web/services";
@@ -61,6 +67,12 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       icon: <UploadOutlined />,
       disabledStatus:
         userStatus === "Belum Mendaftar" || userStatus === "Belum Membayar" ? true : false,
+    },
+    {
+      label: "Pembayaran",
+      link: "/dashboard/pembayaran",
+      icon: <CreditCardOutlined />,
+      disabledStatus: false,
     },
   ];
 
