@@ -47,11 +47,11 @@ export const DashboardModule: FC = (): ReactElement => {
 
         {/* flow register */}
         <div className=" md:w-[50%] sm:w-full lg:w-full h-auto px-12">
-          <div className=" w-full flex justify-between items-center p-4 gap-4">
+          <div className=" w-full flex justify-between xl:flex-row items-center p-4 gap-4">
             <div className="lg:w-[300px] md:w-[300px] w-full h-auto bg-primary-white shadow-md grid place-items-start">
               <div className="flex text-left lg:w-[80%] w-full lg:p-4 p-2">
                 <h1 className="text-grayscale-9 text-[9.5px] md:text-[10px] xl:text-[12px]">
-                  <span className="text-primary-green font-semibold md:text-[11px] xl:text-[13px]">
+                  <span className="text-primary-green font-bold md:text-[11px] xl:text-[13px]">
                     Halaman Formulir :
                   </span>{" "}
                   <br />
@@ -66,11 +66,11 @@ export const DashboardModule: FC = (): ReactElement => {
             <div className="lg:w-[300px] md:w-[300px] w-full h-auto bg-primary-white shadow-md grid place-items-start">
               <div className="flex text-left lg:w-[80%] w-full lg:p-4 p-2">
                 <h1 className="text-grayscale-9 text-[9.5px] md:text-[10px] xl:text-[12px]">
-                  <span className="text-primary-green font-semibold md:text-[11px] xl:text-[13px]">
+                  <span className="text-primary-green font-bold md:text-[11px] xl:text-[13px]">
                     Halaman Registrasi :
                   </span>{" "}
                   <br />
-                  Mengisi semua data registrasi yang diperlukan, dan melakukan pembayaran.
+                  Mengisi semua data registrasi yang diperlukan.
                 </h1>
               </div>
             </div>
@@ -79,11 +79,11 @@ export const DashboardModule: FC = (): ReactElement => {
             <ArrowDownOutlined />
           </div>
 
-          <div className=" w-full justify-between items-center flex p-4 gap-4">
+          <div className=" w-full justify-between xl:flex-row items-center flex p-4 gap-4">
             <div className="lg:w-[300px] md:w-[300px] w-full h-auto bg-primary-white shadow-md grid place-items-start">
               <div className="flex text-left lg:w-[80%] w-full lg:p-4 p-2">
                 <h1 className="text-grayscale-9 text-[9.5px] md:text-[10px] xl:text-[12px]">
-                  <span className="text-primary-green font-semibold md:text-[11px] xl:text-[13px]">
+                  <span className="text-primary-green font-bold md:text-[11px] xl:text-[13px]">
                     Halaman Upload Berkas :
                   </span>{" "}
                   <br />
@@ -101,7 +101,7 @@ export const DashboardModule: FC = (): ReactElement => {
             <div className="lg:w-[300px] md:w-[300px] w-full h-auto bg-primary-white shadow-md grid place-items-start">
               <div className="flex text-left lg:w-[80%] w-full lg:p-4 p-2">
                 <h1 className="text-grayscale-9 text-[9.5px] md:text-[10px] xl:text-[12px]">
-                  <span className="text-primary-green font-semibold md:text-[11px] xl:text-[13px]">
+                  <span className="text-primary-green font-bold md:text-[11px] xl:text-[13px]">
                     Melakukan Pembayaran :
                   </span>{" "}
                   <br />
@@ -118,7 +118,7 @@ export const DashboardModule: FC = (): ReactElement => {
             <div className="lg:w-[300px] md:w-[300px] w-full h-auto bg-primary-white shadow-md grid place-items-start">
               <div className="flex text-left lg:w-[80%] w-full lg:p-4 p-2">
                 <h1 className="text-grayscale-9 text-[9.5px] md:text-[10px] xl:text-[12px]">
-                  <span className="text-primary-green font-semibold md:text-[11px] xl:text-[13px]">
+                  <span className="text-primary-green font-bold md:text-[11px] xl:text-[13px]">
                     Halaman Tes Seleksi :
                   </span>{" "}
                   <br />
@@ -129,10 +129,10 @@ export const DashboardModule: FC = (): ReactElement => {
             <div className="text-primary-green">
               <ArrowRightOutlined />
             </div>
-            <div className="lg:w-[300px] md:w-[300px] w-full h-auto bg-primary-green shadow-md grid place-items-start">
-              <div className="flex text-left lg:w-[80%] w-full lg:p-4 p-2">
+            <div className="lg:w-[300px] md:w-[300px] w-full h-auto bg-primary-green shadow-md grid justify-center">
+              <div className="flex text-center w-full lg:p-4 p-2">
                 <h1 className="text-grayscale-9 text-[9.5px] md:text-[10px] xl:text-[12px]">
-                  <span className=" text-primary-white font-semibold md:text-[11px] xl:text-[13px]">
+                  <span className=" text-primary-white font-bold md:text-[11px] xl:text-[13px]">
                     Pendaftaran PMB UNINUS selesai, dan menunggu hasil seleksi
                   </span>
                 </h1>
