@@ -258,6 +258,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               name="education_type_id"
               labels="Jenis Pendidikan Asal"
               labelClassName="font-bold text-xs py-2"
+              required
               placeholder={
                 student?.education_type_id
                   ? educationTypeOptions?.find(
@@ -355,6 +356,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               name="school_province"
               variant="sm"
               type="text"
+              required
               labelclassname="text-sm font-semibold"
               label="Provinsi"
               placeholder="Provinsi Sekolah"
@@ -367,6 +369,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               inputHeight="h-10"
               name="school_city"
               variant="sm"
+              required
               type="text"
               labelclassname="text-sm font-semibold"
               label="Kota/Kabupaten"
@@ -383,6 +386,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               name="school_subdistrict"
               variant="sm"
               type="text"
+              required
               labelclassname="text-sm font-semibold"
               label="Kecamatan"
               placeholder="Kecamatan Sekolah"

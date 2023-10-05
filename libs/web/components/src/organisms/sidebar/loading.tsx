@@ -7,6 +7,7 @@ export const Loading: FC = (): ReactElement => {
       <li className="bg-grayscale-2 animate-pulse h-12 w-[15vw] rounded-md mt-2"></li>
       <li className="bg-grayscale-2 animate-pulse h-12 w-[15vw] rounded-md mt-2"></li>
       <li className="bg-grayscale-2 animate-pulse h-12 w-[15vw] rounded-md mt-2"></li>
+      <li className="bg-grayscale-2 animate-pulse h-12 w-[15vw] rounded-md mt-2"></li>
     </Fragment>
   );
 };

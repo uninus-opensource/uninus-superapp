@@ -236,6 +236,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       control={control}
                       name="kartu_keluarga_S1"
                       variant="custom"
+                      required
                       labels="Pilih File"
                       labelClassName={
                         watch("kartu_keluarga_S1")
@@ -255,6 +256,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       name="KTP_S1"
                       variant="custom"
                       labels="Pilih File"
+                      required
                       labelClassName={
                         watch("KTP_S1")
                           ? "labelTextUploaded"
@@ -314,6 +316,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       name="ijazahS1_S2"
                       variant="custom"
                       labels="Pilih File"
+                      required
                       labelClassName={
                         watch("ijazahS1_S2")
                           ? "labelTextUploaded"
@@ -331,6 +334,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       control={control}
                       name="kartu_keluarga_S2"
                       variant="custom"
+                      required
                       labels="Pilih File"
                       labelClassName={
                         watch("kartu_keluarga_S2")
@@ -350,6 +354,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       name="KTP_S2"
                       variant="custom"
                       labels="Pilih File"
+                      required
                       labelClassName={
                         watch("KTP_S2")
                           ? "labelTextUploaded"
@@ -376,6 +381,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           : "labelText"
                       }
                       preview={false}
+                      required
                       isDisabled={!!documents?.find((doc) => doc.name === "Transkrip Nilai")}
                     />
                   </div>
@@ -408,6 +414,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       control={control}
                       name="ijazahS1_S3"
                       variant="custom"
+                      required
                       labels="Pilih File"
                       labelClassName={
                         watch("ijazahS1_S3")
@@ -426,6 +433,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       control={control}
                       name="ijazahS2_S3"
                       variant="custom"
+                      required
                       labels="Pilih File"
                       labelClassName={
                         watch("ijazahS2_S3")
@@ -444,6 +452,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       control={control}
                       name="kartu_keluarga_S3"
                       variant="custom"
+                      required
                       labels="Pilih File"
                       labelClassName={
                         watch("kartu_keluarga_S3")
@@ -463,6 +472,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       name="KTP_S3"
                       variant="custom"
                       labels="Pilih File"
+                      required
                       labelClassName={
                         watch("KTP_S3")
                           ? "labelTextUploaded"
@@ -480,6 +490,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       control={control}
                       name="transkrip_nilai_S3"
                       variant="custom"
+                      required
                       labels="Pilih File"
                       labelClassName={
                         watch("transkrip_nilai_S3")

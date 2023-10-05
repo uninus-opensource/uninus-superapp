@@ -45,8 +45,6 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       icon: <FileTextOutlined />,
     },
     { label: "Data Pendaftar", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
-
-    { label: "Pengajuan", link: "/dashboard/data-bayar", icon: <CreditCardOutlined /> },
   ];
 
   const sideListsAdminSeleksi: TSideList = [
