@@ -6,42 +6,55 @@ import { DataPendidikanSection } from "./section/data-pendidikan";
 import { DataOrtuSection } from "./section/data-ortu";
 import { DataNilaiSection } from "./section/data-nilai";
 import { Button } from "@uninus/web/components";
+import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
+// import { useStudentData, useUpdate } from "@uninus/web/services";
 
-import { useStudentData, useUpdate } from "@uninus/web/services";
-import { useGetBiodata } from "./hooks";
+// import { useGetBiodata } from "./hooks";
 
 export const ModuleBiodata: FC = (): ReactElement => {
   const [degreeProgram, setDegreeProgram] = useState<number | null | undefined>(null);
-  const [route, setRoute] = useState<boolean>(false);
-  const { data: student, refetch } = useGetBiodata();
-
-  const { getStudent, setStudent } = useStudentData();
-
-  const { getUpdate, setUpdate } = useUpdate();
+  const [route, setRoute] = useState<boolean>(true);
+  // const { data: student, refetch } = useGetBiodata();
+  const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
+  const { getStudent } = useStudentData();
 
   useEffect(() => {
-    setDegreeProgram(student?.degree_program_id);
-
-    if (getUpdate === true) {
-      refetch()
-        .then((newData) => {
-          setStudent(newData?.data);
-          if (
-            Number(newData?.data?.average_grade) >= 80 ||
-            Number(newData?.data?.average_utbk) >= 500 ||
-            Number(newData?.data?.disabilities_id) >= 1
-          ) {
-            setRoute(true);
-          }
-
-          setUpdate(false);
-        })
-
-        .catch((error) => {
-          console.error(error);
-        });
+    if (
+      (getStudent?.nik && getStudent?.education_type_id && getStudent?.father_name) ||
+      (getStudent?.nik &&
+        getStudent?.education_type_id &&
+        getStudent?.average_utbk &&
+        getStudent?.father_name)
+    ) {
+      setRoute(false);
     }
-  }, [student, route, getUpdate, refetch, getStudent, setStudent, setUpdate]);
+    setDegreeProgram(getStudent?.degree_program_id);
+  }, [getStudent]);
+  // const { getUpdate, setUpdate } = useUpdate();
+
+  // useEffect(() => {
+  //   setDegreeProgram(student?.degree_program_id);
+
+  //   if (getUpdate === true) {
+  //     refetch()
+  //       .then((newData) => {
+  //         setStudent(newData?.data);
+  //         if (
+  //           Number(newData?.data?.average_grade) >= 80 ||
+  //           Number(newData?.data?.average_utbk) >= 500 ||
+  //           Number(newData?.data?.disabilities_id) >= 1
+  //         ) {
+  //           setRoute(true);
+  //         }
+
+  //         setUpdate(false);
+  //       })
+
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  // }, [student, route, getUpdate, refetch, getStudent, setStudent, setUpdate]);
 
   return (
     <section
@@ -74,17 +87,20 @@ export const ModuleBiodata: FC = (): ReactElement => {
             </section>
           )}
         </section>
+
         <div className="flex gap-6 justify-end px-8 py-4">
           <Button
             variant="filled"
-            href={
-              route ? "/dashboard/registrasi/beasiswa" : "/dashboard/registrasi/pembayaran/detail"
-            }
+            href={"/dashboard/dokumen"}
+            onClick={() => {
+              setDashboardControlState(!getDashboardControlState);
+            }}
             size="md"
             width="w-auto"
             styling="text-xs md:text-sm lg:text-base"
+            disabled={route}
           >
-            <span className="px-2 flex">{route ? "Pilih Beasiswa" : "Lakukan Pembayaran"}</span>
+            <span className="px-2 flex">Upload Berkas</span>
             <CaretRightOutlined />
           </Button>
         </div>
