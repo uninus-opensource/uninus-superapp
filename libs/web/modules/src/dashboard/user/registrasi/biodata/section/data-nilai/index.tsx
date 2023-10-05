@@ -294,19 +294,19 @@ export const DataNilaiSection: FC = (): ReactElement => {
           <div className="md:ml-20 lg:ml-[8.5rem] flex gap-x-12 md:gap-x-5 mt-9 lg:gap-x-11 lg:w-full ">
             <p className="text-[12px] lg:text-base font-bold lg:pr-0 md:hidden">Semester</p>
             <div className="mb-4 flex-shrink-0">
-              <p className="labelSemesterStyle">Semester 1</p>
+              <p className="inputLabelemesterStyle">Semester 1</p>
               <p className="text-[13px] md:hidden">1</p>
             </div>
             <div className="mb-4 flex-shrink-0">
-              <p className="labelSemesterStyle">Semester 2</p>
+              <p className="inputLabelemesterStyle">Semester 2</p>
               <p className="text-[13px] md:hidden">2</p>
             </div>
             <div className="mb-4 flex-shrink-0">
-              <p className="labelSemesterStyle">Semester 3</p>
+              <p className="inputLabelemesterStyle">Semester 3</p>
               <p className="text-[13px] md:hidden">3</p>
             </div>
             <div className="mb-4 flex-shrink-0">
-              <p className="labelSemesterStyle">Semester 4</p>
+              <p className="inputLabelemesterStyle">Semester 4</p>
               <p className="text-[13px] md:hidden">4</p>
             </div>
           </div>
@@ -471,7 +471,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 control={control}
                 name="dokumen1"
                 variant="custom"
-                labels="Pilih File"
+                inputLabel="Pilih File"
                 labelClassName={
                   watch("dokumen1")
                     ? "labelTextUploaded"
@@ -486,7 +486,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 control={control}
                 name="dokumen2"
                 variant="custom"
-                labels="Pilih File"
+                inputLabel="Pilih File"
                 labelClassName={
                   watch("dokumen2")
                     ? "labelTextUploaded"
@@ -501,7 +501,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 control={control}
                 name="dokumen3"
                 variant="custom"
-                labels="Pilih File"
+                inputLabel="Pilih File"
                 labelClassName={
                   watch("dokumen3")
                     ? "labelTextUploaded"
@@ -516,7 +516,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 control={control}
                 name="dokumen4"
                 variant="custom"
-                labels="Pilih File"
+                inputLabel="Pilih File"
                 labelClassName={
                   watch("dokumen4")
                     ? "labelTextUploaded"
@@ -611,7 +611,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               control={control}
               name="UTBK"
               variant="custom"
-              labels="Pilih File"
+              inputLabel="Pilih File"
               labelClassName={
                 watch("UTBK") ? "labelTextUploaded" : isDisabled ? "labelTextDisabled" : "labelText"
               }
