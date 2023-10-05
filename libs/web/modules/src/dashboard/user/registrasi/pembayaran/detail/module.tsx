@@ -128,7 +128,7 @@ export const DetailPembayaran: FC = (): ReactElement => {
         </div>
 
         <div className="bg-primary-green w-full h-[3px] mt-3"></div>
-        <div className="p-4">
+        <div className="px-4 py-2">
           <div className="flex justify-between p-4 text-left">
             <h1 className="font-extramedium">
               Biaya Formulir - {""}
@@ -138,16 +138,15 @@ export const DetailPembayaran: FC = (): ReactElement => {
             </h1>
             <p className="font-bold">Rp. 250.000</p>
           </div>
-          <div className="flex justify-between p-4 text-left">
-            <h1 className="font-extramedium">
+          <div className="flex flex-col gap-y-1 pl-4 py-1 text-left">
+            <h1>
               Prodi pilihan 1 - {""}
               {firstDepartement
                 ? DepartmentOptions?.find((x) => x.value === firstDepartement)?.label
                 : "loading prodi pilihan 1..."}
             </h1>
-          </div>
-          <div className="flex justify-between p-4 text-left">
-            <h1 className="font-extramedium">
+
+            <h1>
               Prodi pilihan 2 - {""}
               {secondDepartement
                 ? DepartmentOptions?.find((x) => x.value === secondDepartement)?.label

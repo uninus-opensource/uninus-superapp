@@ -84,14 +84,10 @@ export const DashboardModule: FC = (): ReactElement => {
               <div className="flex text-left lg:w-[80%] w-full lg:p-4 p-2">
                 <h1 className="text-grayscale-9 text-[9.5px] md:text-[10px] xl:text-[12px]">
                   <span className="text-primary-green font-bold md:text-[11px] xl:text-[13px]">
-                    Halaman Upload Berkas :
+                    Melakukan Pembayaran :
                   </span>{" "}
                   <br />
-                  Selanjutnya <span className="text-primary-green font-bold">
-                    {" "}
-                    Upload Berkas
-                  </span>{" "}
-                  untuk melengkapi persyaratan yang ditentukan.
+                  Setelah semua tahap dilakukan, segera lakukan pembayaran registrasi
                 </h1>
               </div>
             </div>
@@ -102,10 +98,14 @@ export const DashboardModule: FC = (): ReactElement => {
               <div className="flex text-left lg:w-[80%] w-full lg:p-4 p-2">
                 <h1 className="text-grayscale-9 text-[9.5px] md:text-[10px] xl:text-[12px]">
                   <span className="text-primary-green font-bold md:text-[11px] xl:text-[13px]">
-                    Melakukan Pembayaran :
+                    Halaman Upload Berkas :
                   </span>{" "}
                   <br />
-                  Setelah semua tahap dilakukan, segera lakukan pembayaran registrasi
+                  Selanjutnya <span className="text-primary-green font-bold">
+                    {" "}
+                    Upload Berkas
+                  </span>{" "}
+                  untuk melengkapi persyaratan yang ditentukan.
                 </h1>
               </div>
             </div>
