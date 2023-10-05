@@ -87,6 +87,12 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       icon: <CreditCardOutlined />,
       disabledStatus: documentsStatus ? false : true,
     },
+    {
+      label: "Pembayaran",
+      link: "/dashboard/pembayaran",
+      icon: <CreditCardOutlined />,
+      disabledStatus: false,
+    },
   ];
 
   return (
