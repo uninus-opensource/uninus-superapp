@@ -155,7 +155,7 @@
     "@nestjs/testing": "^10.2.4",
     "@nx/cypress": "16.9.1",
     "@nx/eslint-plugin": "16.9.1",
-    "@nx/jest": "16.9.1",
+    "@nx/jest": "16.10.0",
     "@nx/js": "16.9.1",
     "@nx/linter": "16.9.1",
     "@nx/nest": "16.9.1",
