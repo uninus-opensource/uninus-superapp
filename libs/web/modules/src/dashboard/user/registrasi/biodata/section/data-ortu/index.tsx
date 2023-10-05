@@ -924,36 +924,27 @@ export const DataOrtuSection: FC = (): ReactElement => {
                   />
                 </div>
                 <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
-                  <SelectOption
+                  <TextField
+                    inputHeight="h-10"
                     name="guardian_position_id"
-                    labels="Jabatan"
-                    placeholder={
-                      student?.guardian_position_id
-                        ? getOccupationPositionGuardian?.occupation_position?.find(
-                            (occupation_position) =>
-                              occupation_position.id === student?.guardian_position_id,
-                          )?.name
-                        : "Pilih Jabatan"
-                    }
-                    labelClassName="text-left font-bold text-xs py-2"
-                    options={occupationPositionGuardOptions || []}
-                    isClearable={true}
-                    isSearchable={true}
-                    required={false}
+                    variant="sm"
+                    type="text"
+                    placeholder="Jabatan"
+                    labelclassname="text-sm font-semibold"
+                    label="Jabatan"
+                    inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
                     control={control}
-                    isMulti={false}
                     disabled={
-                      isSubmitted || !watch("mother_occupation_id")
+                      isSubmitted || !watch("guardian_occupation_id")
                         ? true
                         : false ||
                           occupationPositionGuardOptions?.length === 0 ||
                           student?.occupation_position_id
                         ? true
-                        : false || !!student?.mother_name
+                        : false || !!student?.guardian_name
                     }
-                    status={"error"}
-                    className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
                   />
+
                   <SelectOption
                     name="guardian_salary_id"
                     labels="Pendapatan Wali ( Per Bulan )"
