@@ -8,6 +8,9 @@ export class CreateUserDto {
   public phone_number!: string;
 
   @ApiProperty()
+  public role_id!: number;
+
+  @ApiProperty()
   public fullname!: string;
 
   @ApiProperty({
