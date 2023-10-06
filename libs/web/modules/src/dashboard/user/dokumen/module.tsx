@@ -231,12 +231,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
               {degreeProgram === 1 && (
                 <Fragment>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Kartu Keluarga</h3>
                     <UploadField
+                      label="Kartu Keluarga"
                       control={control}
                       name="kartu_keluarga_S1"
                       variant="custom"
-                      labels="Pilih File"
+                      required
+                      inputLabel="Pilih File"
                       labelClassName={
                         watch("kartu_keluarga_S1")
                           ? "labelTextUploaded"
@@ -249,12 +250,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">KTP</h3>
                     <UploadField
+                      label="KTP"
                       control={control}
                       name="KTP_S1"
                       variant="custom"
-                      labels="Pilih File"
+                      inputLabel="Pilih File"
+                      required
                       labelClassName={
                         watch("KTP_S1")
                           ? "labelTextUploaded"
@@ -267,12 +269,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Akta Kelahiran</h3>
                     <UploadField
+                      label="Akta Kelahiran"
                       control={control}
                       name="akta_kelahiran_S1"
                       variant="custom"
-                      labels="Pilih File"
+                      inputLabel="Pilih File"
+                      required
                       labelClassName={
                         watch("akta_kelahiran_S1")
                           ? "labelTextUploaded"
@@ -285,12 +288,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Ijazah/SKL</h3>
                     <UploadField
+                      label="Ijazah/SKL"
                       control={control}
                       name="ijazah_SKL_S1"
                       variant="custom"
-                      labels="Pilih File"
+                      inputLabel="Pilih File"
+                      required
                       labelClassName={
                         watch("ijazah_SKL_S1")
                           ? "labelTextUploaded"
@@ -308,12 +312,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
               {degreeProgram === 2 && (
                 <Fragment>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Ijazah S1</h3>
                     <UploadField
+                      label="Ijazah S1"
                       control={control}
                       name="ijazahS1_S2"
                       variant="custom"
-                      labels="Pilih File"
+                      inputLabel="Pilih File"
+                      required
                       labelClassName={
                         watch("ijazahS1_S2")
                           ? "labelTextUploaded"
@@ -326,12 +331,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Kartu Keluarga</h3>
                     <UploadField
+                      label="Kartu Keluarga"
                       control={control}
                       name="kartu_keluarga_S2"
                       variant="custom"
-                      labels="Pilih File"
+                      required
+                      inputLabel="Pilih File"
                       labelClassName={
                         watch("kartu_keluarga_S2")
                           ? "labelTextUploaded"
@@ -344,12 +350,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">KTP</h3>
                     <UploadField
+                      label="KTP"
                       control={control}
                       name="KTP_S2"
                       variant="custom"
-                      labels="Pilih File"
+                      inputLabel="Pilih File"
+                      required
                       labelClassName={
                         watch("KTP_S2")
                           ? "labelTextUploaded"
@@ -362,12 +369,12 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Transkrip Nilai</h3>
                     <UploadField
+                      label="Transkrip Nilai"
                       control={control}
                       name="transkrip_nilai_S2"
                       variant="custom"
-                      labels="Pilih File"
+                      inputLabel="Pilih File"
                       labelClassName={
                         watch("transkrip_nilai_S2")
                           ? "labelTextUploaded"
@@ -376,16 +383,18 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           : "labelText"
                       }
                       preview={false}
+                      required
                       isDisabled={!!documents?.find((doc) => doc.name === "Transkrip Nilai")}
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Porlap Dikti</h3>
                     <UploadField
+                      label="Porlap Dikti"
                       control={control}
                       name="porlap_dikti_S2"
                       variant="custom"
-                      labels="Pilih File"
+                      inputLabel="Pilih File"
+                      required
                       labelClassName={
                         watch("porlap_dikti_S2")
                           ? "labelTextUploaded"
@@ -403,12 +412,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
               {degreeProgram === 3 && (
                 <Fragment>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Ijazah S1</h3>
                     <UploadField
+                      label="Ijazah S1"
                       control={control}
                       name="ijazahS1_S3"
                       variant="custom"
-                      labels="Pilih File"
+                      required
+                      inputLabel="Pilih File"
                       labelClassName={
                         watch("ijazahS1_S3")
                           ? "labelTextUploaded"
@@ -421,12 +431,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Ijazah S2</h3>
                     <UploadField
+                      label="Ijazah S2"
                       control={control}
                       name="ijazahS2_S3"
                       variant="custom"
-                      labels="Pilih File"
+                      required
+                      inputLabel="Pilih File"
                       labelClassName={
                         watch("ijazahS2_S3")
                           ? "labelTextUploaded"
@@ -439,12 +450,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Kartu Keluarga</h3>
                     <UploadField
+                      label="Kartu Keluarga"
                       control={control}
                       name="kartu_keluarga_S3"
                       variant="custom"
-                      labels="Pilih File"
+                      required
+                      inputLabel="Pilih File"
                       labelClassName={
                         watch("kartu_keluarga_S3")
                           ? "labelTextUploaded"
@@ -457,12 +469,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">KTP</h3>
                     <UploadField
+                      label="KTP"
                       control={control}
                       name="KTP_S3"
                       variant="custom"
-                      labels="Pilih File"
+                      inputLabel="Pilih File"
+                      required
                       labelClassName={
                         watch("KTP_S3")
                           ? "labelTextUploaded"
@@ -475,12 +488,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Transkip Nilai</h3>
                     <UploadField
+                      label="Transkip Nilai"
                       control={control}
                       name="transkrip_nilai_S3"
                       variant="custom"
-                      labels="Pilih File"
+                      required
+                      inputLabel="Pilih File"
                       labelClassName={
                         watch("transkrip_nilai_S3")
                           ? "labelTextUploaded"
@@ -493,12 +507,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-xs text-left">Porlap Dikti</h3>
                     <UploadField
+                      label="Porlap Dikti"
                       control={control}
                       name="porlap_dikti_S3"
                       variant="custom"
-                      labels="Pilih File"
+                      inputLabel="Pilih File"
+                      required
                       labelClassName={
                         watch("porlap_dikti_S3")
                           ? "labelTextUploaded"

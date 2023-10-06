@@ -224,6 +224,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labels="Program Pendidikan"
               className="text-left"
               labelClassName="text-left py-2"
+              required
               control={control}
               name="degree_program_id"
               options={DegreeProgramOptions || []}
