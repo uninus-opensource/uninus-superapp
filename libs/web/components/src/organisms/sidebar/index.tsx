@@ -31,7 +31,6 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
   const { data, isLoading } = useStudentGet();
 
   const { getUser, setUser } = useUserData();
-  setUser(data);
 
   const { getUpdateAvatar } = useUpdateAvatar();
 
@@ -49,6 +48,10 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
     const userStatus = getUser?.registration_status;
     return userStatus;
   }, [getUser]);
+
+  useEffect(() => {
+    setUser(data);
+  }, [data]);
 
   useEffect(() => {
     setAvatar(userAvatar);
