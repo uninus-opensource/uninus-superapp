@@ -1611,7 +1611,7 @@ export class AppService {
   }
 
   async deleteScholarship(id: number): Promise<TGeneralResponse> {
-    const deleteScholarship = await this.prisma.faculty.delete({
+    const deleteScholarship = await this.prisma.scholarship.delete({
       where: {
         id: Number(id),
       },
