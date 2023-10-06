@@ -89,7 +89,7 @@ Untuk bisa menggunakan husky agar berjalan baik dan benar maka perlu di inisiali
 
 - 4 Lanjutkan Pekerjaan dengan Semestinya
 
-- 5 Tapi jika ketika melakukan langkah-langkah di atas masih terjadi error konflik atau karena ketololan kamu, maka ikuti langkah yang bawah
+- 5 Tapi jika ketika melakukan langkah-langkah di atas masih terjadi error konflik atau karena kecerobohan kamu, maka ikuti langkah yang bawah
 
 ## Cara Mengatasi Konflik Versi 2
 
