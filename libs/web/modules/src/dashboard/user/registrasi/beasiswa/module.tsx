@@ -432,7 +432,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                       <UploadField
                         control={controlBeasiswa}
                         name="sertifikat_aktif"
-                        labels="Pilih File"
+                        inputLabel="Pilih File"
                         labelClassName={
                           watch("sertifikat_aktif")
                             ? "labelTextUploaded"
@@ -459,7 +459,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                       <UploadField
                         control={controlBeasiswa}
                         name="sertifikat_lainnya"
-                        labels="Pilih File"
+                        inputLabel="Pilih File"
                         labelClassName={
                           watch("sertifikat_lainnya")
                             ? "labelTextUploaded"
@@ -485,7 +485,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                         control={controlBeasiswa}
                         required
                         name="sertifikat_kejuaraan"
-                        labels="Pilih File"
+                        inputLabel="Pilih File"
                         labelClassName={
                           watch("sertifikat_kejuaraan")
                             ? "labelTextUploaded"
@@ -509,7 +509,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                       <UploadField
                         control={controlBeasiswa}
                         required
-                        labels="Pilih File"
+                        inputLabel="Pilih File"
                         name="tahfidzh"
                         labelClassName={
                           watch("tahfidzh")
@@ -533,7 +533,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                     </h3>
                     <UploadField
                       control={controlBeasiswa}
-                      labels="Pilih File"
+                      inputLabel="Pilih File"
                       name="surat_dokter"
                       labelClassName={
                         watch("surat_dokter")
@@ -556,7 +556,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                       <UploadField
                         control={controlBeasiswa}
                         name="surat_anggota_nu"
-                        labels="Pilih File"
+                        inputLabel="Pilih File"
                         labelClassName={
                           watch("surat_anggota_nu")
                             ? "labelTextUploaded"
@@ -579,7 +579,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                       <UploadField
                         control={controlBeasiswa}
                         name="surat_tugas"
-                        labels="Pilih File"
+                        inputLabel="Pilih File"
                         labelClassName={
                           watch("surat_tugas")
                             ? "labelTextUploaded"
