@@ -119,7 +119,7 @@ export class AppService {
         password: await encryptPassword(payload.password),
         role_id: payload.role_id,
         avatar: "https://uninus-demo.s3.ap-southeast-1.amazonaws.com/avatar-default.png",
-        ...(payload.role_id === 1 && {
+        ...(payload.role_id == 1 && {
           students: {
             create: {
               phone_number: `62${payload.phone_number}`,
