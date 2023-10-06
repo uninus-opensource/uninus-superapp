@@ -8,11 +8,12 @@ export type TUploadFile<T extends FieldValues> = UseControllerProps<T> & {
   previewImage?: string;
   classNameField?: string;
   preview?: boolean;
-  labels?: string | ReactNode;
+  inputLabel?: string | ReactNode;
   labelClassName?: string;
   layoutInputClassName?: string;
   required?: boolean;
   variant: string;
   message?: string;
   isDisabled?: boolean;
+  label?: string;
 };

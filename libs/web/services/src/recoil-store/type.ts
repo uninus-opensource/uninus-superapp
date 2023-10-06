@@ -50,6 +50,7 @@ export type ReturnTypesStudentDataId = {
   setStudentbyId: (val: IGetStudentResponse | undefined) => void;
   getStudentbyId: IGetStudentResponse | undefined;
 };
+
 export type ReturnTypeFaculty = {
   setFaculties: (val: TFacultyResponse | undefined) => void;
   getFaculties: TFacultyResponse | undefined;

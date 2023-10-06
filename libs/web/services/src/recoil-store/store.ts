@@ -43,7 +43,7 @@ export const updateAvatar = atom<string | null>({
   default: null,
 });
 
-export const getStudentbyId = atom<IGetStudentResponse | undefined>({
+export const getStudentbyIdEditData = atom<IGetStudentResponse | undefined>({
   key: "getStudentbyId",
   default: undefined,
 });
@@ -52,7 +52,13 @@ export const getFaculties = atom<TFacultyResponse | undefined>({
   key: "getFaculties",
   default: [] as unknown as TFacultyResponse | undefined,
 });
+
 export const dashboardState = atom<boolean | undefined>({
   key: "dashboardState",
   default: false,
+});
+
+export const getStudentbyIdValidasiData = atom<IGetStudentResponse | undefined>({
+  key: "getStudentbyIdValidation",
+  default: undefined,
 });

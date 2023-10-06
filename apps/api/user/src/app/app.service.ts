@@ -7,10 +7,11 @@ import {
 import {
   IUserRequest,
   IUserResponse,
+  TCreateUserRequest,
   TUsersPaginationArgs,
   TUsersPaginatonResponse,
 } from "@uninus/entities";
-import { Prisma, PrismaService } from "@uninus/api/models";
+import { PrismaService } from "@uninus/api/models";
 import { encryptPassword } from "@uninus/api/utilities";
 import { RpcException } from "@nestjs/microservices";
 
@@ -85,7 +86,7 @@ export class AppService {
     };
   }
 
-  async createUser(payload: Prisma.UsersCreateInput) {
+  async createUser(payload: TCreateUserRequest) {
     const isEmailExist = await this.prisma.users.findUnique({
       where: {
         email: payload.email,

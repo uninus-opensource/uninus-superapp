@@ -9,6 +9,7 @@ import { EditDataOrangtua } from "./section/data-orangtua";
 import { usePathname } from "next/navigation";
 import { useStudentDataById } from "@uninus/web/services";
 import { useGetStudentById } from "./hooks";
+import { EditFormulirPendaftar } from "./section/data-formulir";
 // import { useSession } from "next-auth/react";
 
 export const ModuleEditDataPendaftar: FC = (): ReactElement => {
@@ -46,6 +47,10 @@ export const ModuleEditDataPendaftar: FC = (): ReactElement => {
     {
       no: 4,
       item: "Data Orang Tua",
+    },
+    {
+      no: 5,
+      item: "Data Formulir Pendaftar",
     },
   ];
 
@@ -99,7 +104,10 @@ export const ModuleEditDataPendaftar: FC = (): ReactElement => {
             </div>
             <div className={isActive === 4 ? "block" : "hidden"}>
               <EditDataOrangtua />
-            </div>{" "}
+            </div>
+            <div className={isActive === 5 ? "block" : "hidden"}>
+              <EditFormulirPendaftar />
+            </div>
           </Fragment>
         )}
       </div>

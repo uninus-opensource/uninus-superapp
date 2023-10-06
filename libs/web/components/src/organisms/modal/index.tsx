@@ -30,7 +30,7 @@ export const Modal: FC<ModalProps> = ({
     "w-[70vw]": size === "md",
   });
   const modalPositions = clsx(
-    `fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex  bg-primary-black bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 backdrop-blur-sm `,
+    `fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex bg-primary-black bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 backdrop-blur-sm `,
     {
       " justify-center items-center": position === "center",
       "justify-end items-start": position === "right-start",

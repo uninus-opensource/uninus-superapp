@@ -3,10 +3,16 @@ import { FC, PropsWithChildren, ReactElement, useEffect, useMemo, useState } fro
 import { SideBar } from "@uninus/web/components";
 import { useLogout } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
-import { FileTextOutlined, FormOutlined, HomeOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  CreditCardOutlined,
+  FileTextOutlined,
+  FormOutlined,
+  HomeOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
 import { useGetBiodata } from "@uninus/web/modules";
-import { useDashboardStateControl, useStudentData, useUserData } from "@uninus/web/services";
+import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
 import Loading from "./loading";
 
 const monserrat = Montserrat({
@@ -19,6 +25,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { data: session } = useSession();
 
   const [formStatus, setFormStatus] = useState<number | null | undefined>(null);
+  const [biodataStatus, setBiodataStatus] = useState<boolean | null | undefined>(null);
 
   const handleLogout = async () => {
     mutate(session?.user?.refresh_token);
@@ -29,15 +36,28 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { getStudent, setStudent } = useStudentData();
   setStudent(student);
 
-  const { getUser } = useUserData();
+  // const { getUser } = useUserData();
 
   const { getDashboardControlState } = useDashboardStateControl();
 
-  const userStatus = useMemo(() => {
-    return getUser?.registration_status;
-  }, [getUser?.registration_status]);
+  // const userStatus = useMemo(() => {
+  //   return getUser?.registration_status;
+  // }, [getUser?.registration_status]);
+
+  const documentsStatus = useMemo(() => {
+    return getStudent?.documents?.find((doc) => doc.name === "KTP");
+  }, [getStudent?.documents]);
 
   useEffect(() => {
+    if (
+      (getStudent?.nik && getStudent?.education_type_id && getStudent?.father_name) ||
+      (getStudent?.nik &&
+        getStudent?.education_type_id &&
+        getStudent?.average_utbk &&
+        getStudent?.father_name)
+    ) {
+      setBiodataStatus(true);
+    }
     setFormStatus(getStudent?.degree_program_id);
   }, [getStudent, getDashboardControlState]);
 
@@ -59,8 +79,13 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       label: "Upload Berkas",
       link: "/dashboard/dokumen",
       icon: <UploadOutlined />,
-      disabledStatus:
-        userStatus === "Belum Mendaftar" || userStatus === "Belum Membayar" ? true : false,
+      disabledStatus: biodataStatus ? false : true,
+    },
+    {
+      label: "Pembayaran",
+      link: "/dashboard/pembayaran",
+      icon: <CreditCardOutlined />,
+      disabledStatus: documentsStatus ? false : true,
     },
   ];
 
