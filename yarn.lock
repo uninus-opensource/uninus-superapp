@@ -2982,12 +2982,12 @@
   dependencies:
     "@nx/nest" "16.9.1"
 
-"@nrwl/next@16.9.1":
-  version "16.9.1"
-  resolved "https://registry.yarnpkg.com/@nrwl/next/-/next-16.9.1.tgz#c11cc398e3dbe8b276f8fb92750899078ddee3d7"
-  integrity sha512-Sejbm3KrSCnnYrLvLVXA8kfUoJsBf7uVfwYxkvWKQ/5Rd4lHdH48hx+kVvIT8609//2qLhkCvtlC6nRmm57UEg==
+"@nrwl/next@16.10.0":
+  version "16.10.0"
+  resolved "https://registry.yarnpkg.com/@nrwl/next/-/next-16.10.0.tgz#9c6bc5988208e961c6983900b16144be26306b77"
+  integrity sha512-amGM11dlHD9A7xNss4mrLcOE5vtVcVnlgeM+75cOCrjmGM1+PVA8kblLt/3uqC5Z4i6bshIVug9/tJ5xDeWYvQ==
   dependencies:
-    "@nx/next" "16.9.1"
+    "@nx/next" "16.10.0"
 
 "@nrwl/node@16.9.1":
   version "16.9.1"
@@ -3285,19 +3285,19 @@
     semver "7.5.3"
     tslib "^2.3.0"
 
-"@nx/next@16.9.1":
-  version "16.9.1"
-  resolved "https://registry.yarnpkg.com/@nx/next/-/next-16.9.1.tgz#916cd76d071c5480b73b943f646275688a366e78"
-  integrity sha512-fM+AgUlVmh4bbpIimnrlGTodEuTqHnfYGHuNRYtIVVD5hR9GL9UqCCYN7g82WCdlNkVJcK/+bLrB0GVDMaIorQ==
+"@nx/next@16.10.0":
+  version "16.10.0"
+  resolved "https://registry.yarnpkg.com/@nx/next/-/next-16.10.0.tgz#4f5eaa4a5d5fc96466b6cb9ab3d8436266e3668f"
+  integrity sha512-SXyNJjZvpklhJmp99erlvISn26ZgMP7r3JbKqilxcFVxT3YJrlS/89L4/WRmh9GK0yjzt1kWvKWFqfxY4augxA==
   dependencies:
     "@babel/plugin-proposal-decorators" "^7.22.7"
-    "@nrwl/next" "16.9.1"
-    "@nx/devkit" "16.9.1"
-    "@nx/js" "16.9.1"
-    "@nx/linter" "16.9.1"
-    "@nx/react" "16.9.1"
-    "@nx/web" "16.9.1"
-    "@nx/workspace" "16.9.1"
+    "@nrwl/next" "16.10.0"
+    "@nx/devkit" "16.10.0"
+    "@nx/js" "16.10.0"
+    "@nx/linter" "16.10.0"
+    "@nx/react" "16.10.0"
+    "@nx/web" "16.10.0"
+    "@nx/workspace" "16.10.0"
     "@svgr/webpack" "^8.0.1"
     chalk "^4.1.0"
     copy-webpack-plugin "^10.2.4"
