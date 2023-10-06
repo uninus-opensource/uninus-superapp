@@ -104,7 +104,7 @@ export class AppService {
         name: { ...(search && { contains: search }), mode: "insensitive" },
 
         ...(degree_program_id && {
-          degreeProgram_id: Number(degree_program_id),
+          degree_program_id: Number(degree_program_id),
         }),
       },
       select: {
