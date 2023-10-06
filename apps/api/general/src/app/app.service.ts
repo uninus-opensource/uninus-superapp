@@ -104,7 +104,7 @@ export class AppService {
         name: { ...(search && { contains: search }), mode: "insensitive" },
 
         ...(degree_program_id && {
-          degreeProgram_id: Number(degree_program_id),
+          degree_program_id: Number(degree_program_id),
         }),
       },
       select: {
@@ -1611,7 +1611,7 @@ export class AppService {
   }
 
   async deleteScholarship(id: number): Promise<TGeneralResponse> {
-    const deleteScholarship = await this.prisma.faculty.delete({
+    const deleteScholarship = await this.prisma.scholarship.delete({
       where: {
         id: Number(id),
       },
