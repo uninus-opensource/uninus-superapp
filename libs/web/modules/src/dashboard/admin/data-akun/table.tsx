@@ -12,14 +12,22 @@ import {
   TSelectOption,
 } from "@uninus/web/components";
 import { Control, FieldValues, useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
 import { FormOutlined, DeleteOutlined } from "@ant-design/icons";
-import { useDataUsers, useDeleteDataUsers, useGetUserRoles, useUpdateDataUsers } from "./hook";
+import {
+  useCreateDataUser,
+  useDataUsers,
+  useDeleteDataUsers,
+  useGetUserRoles,
+  useUpdateDataUsers,
+} from "./hook";
 import {
   AiFillCaretLeft,
   AiFillCaretRight,
   AiFillFastBackward,
   AiFillFastForward,
 } from "react-icons/ai";
+import { PiWarningCircleBold } from "react-icons/pi";
 
 const Table: FC = (): ReactElement => {
   const [tableAkun, setTableAkun] = useState([{}]);
@@ -27,13 +35,14 @@ const Table: FC = (): ReactElement => {
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
   const [isDeleteModalShow, setIsDeleteModalShow] = useState<boolean>(false);
   const [ModalAdd, setModalAdd] = useState<boolean>(false);
-
+  const [currentFullname, setCurrentFullname] = useState<string>("");
   const [currentId, setCurrentId] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(5);
 
   const { mutate: deleteUser, isLoading: deleteIsLoading } = useDeleteDataUsers();
   const { mutate: updateDataAkunUser } = useUpdateDataUsers();
+  const { mutate: addDataAkunUser } = useCreateDataUser();
   const {
     data,
     isLoading: isLoadingData,
@@ -45,18 +54,17 @@ const Table: FC = (): ReactElement => {
   });
   const { data: getRoles } = useGetUserRoles();
   const {
-    control,
-    handleSubmit,
-    formState: { isLoading },
+    control: addControl,
+    handleSubmit: addAkunHandleSubmit,
+    formState: { isLoading: addAkunIsloading },
   } = useForm<TDataAkun>({
     mode: "all",
-    defaultValues: {},
   });
 
   const {
     control: updateControl,
     handleSubmit: updateSubmit,
-    formState: { isLoading: updateIsLoading, errors: updateErrors },
+    formState: { isLoading: updateIsLoading },
     reset: updateReset,
   } = useForm<TDataAkun>({
     mode: "all",
@@ -70,17 +78,29 @@ const Table: FC = (): ReactElement => {
     setModalAdd(!ModalAdd);
   };
 
-  const handleDeleteAkun = (): void => {
-    deleteUser(currentId, {
-      onSuccess: () => refetch(),
-    });
-    handleDeleteModal();
-  };
-
   const handleDeleteModal = () => {
     setIsDeleteModalShow(!isDeleteModalShow);
   };
-
+  const handleDeleteAkun = (): void => {
+    deleteUser(currentId, {
+      onSuccess: () => {
+        refetch();
+        setTimeout(() => {
+          toast.success("Berhasil Delete Akun", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }, 100);
+        handleDeleteModal();
+      },
+    });
+  };
   const onEditData = updateSubmit((data) => {
     try {
       updateDataAkunUser(
@@ -95,6 +115,18 @@ const Table: FC = (): ReactElement => {
         {
           onSuccess: () => {
             refetch();
+            setTimeout(() => {
+              toast.success("Berhasil Update Data Akun", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 100);
             handleCloseModal();
           },
         },
@@ -104,11 +136,35 @@ const Table: FC = (): ReactElement => {
     }
   });
 
-  const onAddData = handleSubmit((data) => {
+  const onAddData = addAkunHandleSubmit((data) => {
     try {
-      // mutate({
-      //    ...data,
-      // });
+      addDataAkunUser(
+        {
+          fullname: data?.fullname,
+          email: data?.email,
+          password: data?.password,
+          role_id: data?.role.id,
+          phone_number: data?.phone_number,
+        },
+        {
+          onSuccess: () => {
+            refetch();
+            setTimeout(() => {
+              toast.success("Berhasil Tambah Data Akun ", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 300);
+            handleModalAdd();
+          },
+        },
+      );
     } catch (error) {
       console.log(error);
     }
@@ -165,6 +221,7 @@ const Table: FC = (): ReactElement => {
               className="flex gap-2 bg-red-4 text-primary-white rounded-md p-1 px-3 items-center"
               onClick={() => {
                 setCurrentId(row.id);
+                setCurrentFullname(row.fullname);
                 handleDeleteModal();
               }}
               key="modal-delete-user"
@@ -225,6 +282,17 @@ const Table: FC = (): ReactElement => {
   return (
     <Fragment>
       <section className="rounded-lg w-full">
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
         <div className="w-full flex p-2 py-4 justify-between">
           <Button
             variant="custom"
@@ -269,6 +337,7 @@ const Table: FC = (): ReactElement => {
           paginationIconNext={<AiFillCaretRight className="text-xl ml-0.5" />}
           paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
           paginationIconLastPage={<AiFillFastForward className="text-xl ml-0.5" />}
+          responsive
         />
       </section>
       <Modal
@@ -308,7 +377,6 @@ const Table: FC = (): ReactElement => {
               isClearable={true}
               required={true}
               status="error"
-              message={updateErrors.root?.message}
             />
           </div>
 
@@ -365,13 +433,31 @@ const Table: FC = (): ReactElement => {
         key="modal-delete-user"
         showModal={isDeleteModalShow}
         onClose={handleDeleteModal}
-        modalTitle="Delete Data Akun ?"
+        modalTitle="Hapus Akun"
       >
-        <div className="flex gap-x-6">
-          <Button loading={deleteIsLoading} variant="filled" size="md" onClick={handleDeleteAkun}>
+        <div className="flex flex-col text-base items-center gap-2 -mt-9">
+          <PiWarningCircleBold className="text-primary-yellow text-center mx-auto text-[5rem] md:text-[7rem]" />
+          <h1 className="text-[10px] md:text-base">
+            Apakah anda yakin ingin menghapus akun
+            <span className="text-red-5 font-semibold"> {currentFullname}</span> ?
+          </h1>
+        </div>
+        <div className="flex gap-x-6 justify-center">
+          <Button
+            loading={deleteIsLoading}
+            width="w-20 md:w-24"
+            variant="filled"
+            size="md"
+            onClick={handleDeleteAkun}
+          >
             Iya
           </Button>
-          <Button variant="filled" size="md" onClick={handleDeleteModal}>
+          <Button
+            variant="green-outline"
+            width="w-20 md:w-24"
+            size="md"
+            onClick={handleDeleteModal}
+          >
             Batal
           </Button>
         </div>
@@ -381,6 +467,7 @@ const Table: FC = (): ReactElement => {
         showModal={ModalAdd}
         onClose={handleModalAdd}
         modalTitle="Tambah Data Akun"
+        modalFooter={false}
       >
         <form
           onSubmit={onAddData}
@@ -397,7 +484,7 @@ const Table: FC = (): ReactElement => {
               label="Nama Lengkap"
               placeholder="Masukan Lengkap"
               inputWidth="w-full"
-              control={control}
+              control={addControl}
             />
           </div>
           <div className="w-full">
@@ -405,14 +492,13 @@ const Table: FC = (): ReactElement => {
               labels="Role"
               className="text-left mb-2"
               labelClassName="text-left font-bold text-xs mb-2"
-              control={control as unknown as Control<FieldValues>}
+              control={addControl as unknown as Control<FieldValues>}
               name="role.id"
               options={selectRoleUser as unknown as TSelectOption[]}
               isMulti={false}
               isClearable={true}
               required={true}
               status="error"
-              message={updateErrors.root?.message}
             />
           </div>
           <div className="w-full">
@@ -426,7 +512,7 @@ const Table: FC = (): ReactElement => {
               label="Nomor Telepon"
               placeholder="Nomor Telepon"
               inputWidth="w-full"
-              control={control}
+              control={addControl}
             />
           </div>
           <div className="w-full">
@@ -440,7 +526,7 @@ const Table: FC = (): ReactElement => {
               label="Email"
               placeholder="Email"
               inputWidth="w-full"
-              control={control}
+              control={addControl}
             />
           </div>
           <div className="w-full">
@@ -454,12 +540,12 @@ const Table: FC = (): ReactElement => {
               label="Password"
               placeholder="Password"
               inputWidth="w-full"
-              control={control}
+              control={addControl}
             />
           </div>
 
           <div className="w-full flex justify-end items-center gap-3 py-2">
-            <Button variant="filled" size="md" loading={isLoading}>
+            <Button variant="filled" size="md" loading={addAkunIsloading}>
               Tambahkan
             </Button>
           </div>

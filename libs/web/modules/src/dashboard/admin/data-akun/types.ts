@@ -1,10 +1,10 @@
 export type TDataAkun = {
   id: string;
-  fullname?: string | null;
-  role: { id?: number; name: string };
-  email?: string | null;
-  phone_number?: string | null;
-  password?: string | null;
+  fullname: string;
+  role: { id: number; name: string };
+  email: string;
+  phone_number: string;
+  password: string;
 };
 export type TUserRoles = Array<{
   id?: number | null;
