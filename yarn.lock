@@ -2933,6 +2933,13 @@
   dependencies:
     "@nx/eslint-plugin" "16.9.1"
 
+"@nrwl/jest@16.10.0":
+  version "16.10.0"
+  resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-16.10.0.tgz#5c7cd692e7aacba43687271bb3528568c14c1239"
+  integrity sha512-hZuIK3xXh4HaE6/Ny8hGidjkJ4aLZjnQtPDxKD/423gznQe2FdHx3avoSlbOEOx5Oc6sJ9QGGZLcvckKQ5uWww==
+  dependencies:
+    "@nx/jest" "16.10.0"
+
 "@nrwl/jest@16.9.1":
   version "16.9.1"
   resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-16.9.1.tgz#6fa50c8fc3c6f978e94c9338f7c6fbb8e3d2bdeb"
@@ -3124,6 +3131,25 @@
     confusing-browser-globals "^1.0.9"
     jsonc-eslint-parser "^2.1.0"
     semver "7.5.3"
+    tslib "^2.3.0"
+
+"@nx/jest@16.10.0":
+  version "16.10.0"
+  resolved "https://registry.yarnpkg.com/@nx/jest/-/jest-16.10.0.tgz#f3f15e777035877b5c37172c5611b53af9917310"
+  integrity sha512-QseeLjDrl4c9q9Dd/057SXYqd47JVLhD2VQlQDraYwjsHz3lWkzlGaaHy0ZrVu8LSzY7lUUhJMPyYO3qo8wT6A==
+  dependencies:
+    "@jest/reporters" "^29.4.1"
+    "@jest/test-result" "^29.4.1"
+    "@nrwl/jest" "16.10.0"
+    "@nx/devkit" "16.10.0"
+    "@nx/js" "16.10.0"
+    "@phenomnomnominal/tsquery" "~5.0.1"
+    chalk "^4.1.0"
+    identity-obj-proxy "3.0.0"
+    jest-config "^29.4.1"
+    jest-resolve "^29.4.1"
+    jest-util "^29.4.1"
+    resolve.exports "1.1.0"
     tslib "^2.3.0"
 
 "@nx/jest@16.9.1":
