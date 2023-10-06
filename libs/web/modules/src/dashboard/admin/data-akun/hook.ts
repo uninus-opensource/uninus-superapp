@@ -1,7 +1,7 @@
 import {
+  TCreateUserRequest,
   TGetUserDataResponse,
   TMetaErrorResponse,
-  TRegisterRequest,
   TUsersPaginatonResponse,
 } from "@uninus/entities";
 import {
@@ -29,7 +29,7 @@ export const useDataUsers = (
 export const useCreateDataUser = (): UseMutationResult<
   TGetUserDataResponse,
   TMetaErrorResponse,
-  TRegisterRequest,
+  TCreateUserRequest,
   unknown
 > => {
   return useMutation({

@@ -1,7 +1,7 @@
 import {
+  TCreateUserRequest,
   TGetUserDataResponse,
   TMetaErrorResponse,
-  TRegisterRequest,
   TUsersPaginatonResponse,
 } from "@uninus/entities";
 import { api } from "@uninus/web/services";
@@ -20,11 +20,13 @@ export const GetDataUserPagination = async (
   return data;
 };
 
-export const CreateDataUser = async (payload: TRegisterRequest): Promise<TGetUserDataResponse> => {
+export const CreateDataUser = async (
+  payload: TCreateUserRequest,
+): Promise<TGetUserDataResponse> => {
   const { data } = await api({
-    method: "post",
+    method: "POST",
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "application/json",
     },
     url: `/user`,
     data: payload,

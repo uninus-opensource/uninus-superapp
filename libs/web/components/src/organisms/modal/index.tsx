@@ -61,11 +61,16 @@ export const Modal: FC<ModalProps> = ({
     createPortal(
       <div className={modalPositions}>
         <div data-testid="modal-landing" className={modalWidth}>
-          <div className="relative bg-white rounded-lg shadow">
+          <div className="relative bg-white rounded-lg shadow w-full">
             <div className={modalHeaderColors}>
               <div className={titleColors}>{modalTitle}</div>
               {iconClose ? (
-                <Button onClick={onClose} variant="text-icon" size="sm">
+                <Button
+                  onClick={onClose}
+                  variant="text-icon"
+                  size="sm"
+                  styling="absolute top-0 right-0"
+                >
                   <IoCloseSharp size={25} className={closeClassName} />
                 </Button>
               ) : (
