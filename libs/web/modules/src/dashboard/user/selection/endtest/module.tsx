@@ -2,8 +2,7 @@
 import { FC, ReactElement, useMemo } from "react";
 import Image from "next/image";
 import { useStudentData } from "@uninus/web/services";
-import Link from "next/link";
-import { CaretRightFilled } from "@ant-design/icons";
+import { RedirectLink } from "@uninus/web/components";
 
 export const EndTestModule: FC = (): ReactElement => {
   const { getStudent } = useStudentData();
@@ -54,27 +53,13 @@ export const EndTestModule: FC = (): ReactElement => {
         </div>
       </div>
       {selectionType === 1 && (
-        <section className="w-full flex justify-end pr-[3rem]">
-          <Link
-            href="/dashboard/registrasi/beasiswa"
-            className="bg-primary-green text-primary-white rounded-[5px] px-2 py-1 flex justify-center items-center gap-2"
-          >
-            Beasiswa
-            <CaretRightFilled />
-          </Link>
-        </section>
+        <RedirectLink link="/dashboard/registrasi/beasiswa">Beasiswa</RedirectLink>
       )}
 
       {selectionType === 3 && (
-        <section className="w-full flex justify-end pr-[3rem]">
-          <Link
-            href="/dashboard/registrasi/pembayaran/detail"
-            className="bg-primary-green text-primary-white rounded-[5px] px-3 py-1 flex justify-center items-center gap-2"
-          >
-            Lanjut Pembayaran
-            <CaretRightFilled />
-          </Link>
-        </section>
+        <RedirectLink link="/dashboard/registrasi/pembayaran/detail">
+          Lanjut Pembayaran
+        </RedirectLink>
       )}
     </section>
   );
