@@ -1,4 +1,4 @@
-# Uninus Digitalization Monorepo
+# Uninus Superapp
 
 ## Didalam Repo ini terdapat 11 Aplikasi Berikut
 
@@ -17,9 +17,18 @@
 ## Demo Aplikasi
 
 - https://pmb.dev.uninus.ac.id
-- https://pmb.admin.dev.uninus.ac.id
+- https://pmb.dev.admin.uninus.ac.id
 - https://siakad.dev.uninus.ac.id
 - https://evaluasi.dev.uninus.ac.id
+- https://tatausaha.dev.uninus.ac.id
+-https://sisfo.akuntansi.dev.uninus.ac.id
+- https://sisfo.aset.dev.uninus.ac.id
+- https://sisfo.pengeluaran.dev.uninus.ac.id
+- https://sisfo.pembayaran.dev.uninus.ac.id
+- https://pegawai.dev.uninus.ac.id
+- https://tata-usaha.dev.uninus.ac.id
+- https://tracer.dev.uninus.ac.id
+- https://dashboard.dev.uninus.ac.id
 
 # WAJIB Setup Husky
 
@@ -80,7 +89,7 @@ Untuk bisa menggunakan husky agar berjalan baik dan benar maka perlu di inisiali
 
 - 4 Lanjutkan Pekerjaan dengan Semestinya
 
-- 5 Tapi jika ketika melakukan langkah-langkah di atas masih terjadi error konflik atau karena ketololan kamu, maka ikuti langkah yang bawah
+- 5 Tapi jika ketika melakukan langkah-langkah di atas masih terjadi error konflik atau karena kecerobohan kamu, maka ikuti langkah yang bawah
 
 ## Cara Mengatasi Konflik Versi 2
 

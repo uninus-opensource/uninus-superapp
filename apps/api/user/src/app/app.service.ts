@@ -7,10 +7,11 @@ import {
 import {
   IUserRequest,
   IUserResponse,
+  TCreateUserRequest,
   TUsersPaginationArgs,
   TUsersPaginatonResponse,
 } from "@uninus/entities";
-import { Prisma, PrismaService } from "@uninus/api/models";
+import { PrismaService } from "@uninus/api/models";
 import { encryptPassword } from "@uninus/api/utilities";
 import { RpcException } from "@nestjs/microservices";
 
@@ -85,7 +86,7 @@ export class AppService {
     };
   }
 
-  async createUser(payload: Prisma.UsersCreateInput) {
+  async createUser(payload: TCreateUserRequest) {
     const isEmailExist = await this.prisma.users.findUnique({
       where: {
         email: payload.email,
@@ -94,9 +95,98 @@ export class AppService {
     if (isEmailExist) {
       throw new RpcException(new ConflictException("Email sudah digunakan"));
     }
+    const now = new Date();
+    const year = now.getFullYear().toString();
+    const month = (now.getMonth() + 1).toString().padStart(2, "0");
+    const day = now.getDate().toString().padStart(2, "0");
 
+    const lastRegistration = await this.prisma.pMB.findFirst({
+      orderBy: { registration_number: "desc" },
+    });
+
+    let registrationCounter = 1;
+    if (lastRegistration) {
+      registrationCounter = parseInt(lastRegistration.registration_number.substring(8)) + 1;
+    }
+
+    const formattedCounter = registrationCounter.toString().padStart(6, "0");
+
+    const registrationNumber = `${year}${month}${day}${formattedCounter}`;
     const user = await this.prisma.users.create({
-      data: payload,
+      data: {
+        fullname: payload.fullname,
+        email: payload.email.toLowerCase(),
+        password: await encryptPassword(payload.password),
+        role_id: payload.role_id,
+        avatar: "https://uninus-demo.s3.ap-southeast-1.amazonaws.com/avatar-default.png",
+        ...(payload.role_id == 1 && {
+          students: {
+            create: {
+              phone_number: `62${payload.phone_number}`,
+              pmb: {
+                create: {
+                  registration_number: registrationNumber,
+                  registration_status_id: 1,
+                  student_grade: {
+                    createMany: {
+                      data: [
+                        {
+                          subject: "indonesia",
+                          semester: "1",
+                        },
+                        {
+                          subject: "indonesia",
+                          semester: "2",
+                        },
+                        {
+                          subject: "indonesia",
+                          semester: "3",
+                        },
+                        {
+                          subject: "indonesia",
+                          semester: "4",
+                        },
+                        {
+                          subject: "matematika",
+                          semester: "1",
+                        },
+                        {
+                          subject: "matematika",
+                          semester: "2",
+                        },
+                        {
+                          subject: "matematika",
+                          semester: "3",
+                        },
+                        {
+                          subject: "matematika",
+                          semester: "4",
+                        },
+                        {
+                          subject: "inggris",
+                          semester: "1",
+                        },
+                        {
+                          subject: "inggris",
+                          semester: "2",
+                        },
+                        {
+                          subject: "inggris",
+                          semester: "3",
+                        },
+                        {
+                          subject: "inggris",
+                          semester: "4",
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          },
+        }),
+      },
     });
     return {
       data: user,

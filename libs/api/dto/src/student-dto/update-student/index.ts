@@ -173,6 +173,9 @@ export class UpdateStudentDto {
   selection_path_id!: number;
 
   @ApiProperty()
+  registration_path_id!: number;
+
+  @ApiProperty()
   average_utbk!: number;
 
   @ApiProperty()

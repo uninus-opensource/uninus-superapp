@@ -159,10 +159,11 @@ const Table: FC = (): ReactElement => {
             </Button>
 
             <Button
+              href={`/dashboard/data-pendaftar/validasi/${row.student?.user?.id}`}
               variant="filled"
               height="h-4"
               width="w-28"
-              styling="bg-primary-yellow hover:bg-secondary-orange-2"
+              styling="bg-primary-yellow hover:bg-secondary-orange-2 active:bg-secondary-orange-1 focus:bg-secondary-orange-1"
             >
               <AiOutlineAudit className="text-lg cursor-pointer text-primary-black" />
               <span className="pl-2 text-[10px] text-primary-black">Validasi</span>

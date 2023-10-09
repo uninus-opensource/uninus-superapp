@@ -30,7 +30,7 @@ export const Modal: FC<ModalProps> = ({
     "w-[70vw]": size === "md",
   });
   const modalPositions = clsx(
-    `fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex  bg-primary-black bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 backdrop-blur-sm `,
+    `fixed w-full top-0 left-0 right-0 bottom-0 h-screen flex bg-primary-black bg-opacity-50 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 backdrop-blur-sm `,
     {
       " justify-center items-center": position === "center",
       "justify-end items-start": position === "right-start",
@@ -61,11 +61,16 @@ export const Modal: FC<ModalProps> = ({
     createPortal(
       <div className={modalPositions}>
         <div data-testid="modal-landing" className={modalWidth}>
-          <div className="relative bg-white rounded-lg shadow">
+          <div className="relative bg-white rounded-lg shadow w-full">
             <div className={modalHeaderColors}>
               <div className={titleColors}>{modalTitle}</div>
               {iconClose ? (
-                <Button onClick={onClose} variant="text-icon" size="sm">
+                <Button
+                  onClick={onClose}
+                  variant="text-icon"
+                  size="sm"
+                  styling="absolute top-0 right-0"
+                >
                   <IoCloseSharp size={25} className={closeClassName} />
                 </Button>
               ) : (

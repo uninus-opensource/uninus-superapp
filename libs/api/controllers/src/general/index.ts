@@ -258,6 +258,24 @@ export class GeneralController {
     return response;
   }
 
+  @Get("registration-path")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Get Registration Path" })
+  @ApiResponse({
+    status: 400,
+    description: "Registration Path Not Found",
+  })
+  @ApiQuery({ name: "search", required: false })
+  @ApiQuery({ name: "id", required: false })
+  async getRegistrationPath(@Query("id") id: number, @Query("search") search: string) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_registration_path", { search, id })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
   @Get("salary")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Salary" })

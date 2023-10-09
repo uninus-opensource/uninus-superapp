@@ -470,7 +470,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           control={image}
           variant="custom"
           labelClassName="iconUpload"
-          labels={<EditOutlined className="text-3xl rounded-full" />}
+          inputLabel={<EditOutlined className="text-3xl rounded-full" />}
           defaultImage={student?.avatar || "/illustrations/dummy-avatar.webp"}
           previewImage="w-[200px] h-[200px] bg-cover object-cover rounded-full -z-10"
           layoutInputClassName="flex flex-col justify-center items-center"

@@ -31,7 +31,6 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
   const { data, isLoading } = useStudentGet();
 
   const { getUser, setUser } = useUserData();
-  setUser(data);
 
   const { getUpdateAvatar } = useUpdateAvatar();
 
@@ -49,6 +48,10 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
     const userStatus = getUser?.registration_status;
     return userStatus;
   }, [getUser]);
+
+  useEffect(() => {
+    setUser(data);
+  }, [data]);
 
   useEffect(() => {
     setAvatar(userAvatar);
@@ -97,7 +100,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
         data-testid="sidebar"
         className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[25vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
-        <section className={` w-full flex flex-col items-center gap-y-2`}>
+        <section className={` w-full flex flex-col items-center gap-y-1`}>
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
             {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
           </h1>
@@ -111,7 +114,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
               height={500}
               priority={true}
             />
-            <figcaption className="text-center flex flex-col gap-y-3 mt-3  ">
+            <figcaption className="text-center flex flex-col  ">
               <div className=" text-sm text-secondary-green-4 p-2 font-bold rounded-md leading-[14px] capitalize">
                 <h3>{userName}</h3>
               </div>
@@ -123,7 +126,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
               <div className="w-3/5 mt-2 font-bold p-2 rounded-md bg-grayscale-2 animate-pulse h-10"></div>
             ) : (
               <div
-                className={`w-3/5 mt-2 font-bold ${
+                className={`w-3/5 font-bold ${
                   userStatus === "Belum Membayar" ||
                   userStatus === "Tidak Lulus" ||
                   userStatus === "Belum Mendaftar"
@@ -142,13 +145,13 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
 
           <div className="flex flex-col h-full justify-between 2xl:h-full">
             <nav>
-              <ul className="flex flex-col gap-y-1 xl:gap-y-2 items-start">
+              <ul className="flex flex-col items-start">
                 {process.env.NEXT_PUBLIC_WORKSPACE === "user" &&
                   (isLoading ? (
                     <Loading />
                   ) : (
                     sideList?.map((sideList, idx) => (
-                      <li key={idx} className="flex flex-col gap-y-6">
+                      <li key={idx} className="flex flex-col gap-y-2">
                         <Link
                           href={sideList?.link as string}
                           role="link"

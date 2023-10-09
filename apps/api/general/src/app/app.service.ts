@@ -63,6 +63,7 @@ import {
   TCreateEducationRequest,
   TGeneralResponse,
   TCreateScholarshipRequest,
+  TRegistrationPathResponse,
   TEmployeeCategoriesResponse,
 } from "@uninus/entities";
 
@@ -103,7 +104,7 @@ export class AppService {
         name: { ...(search && { contains: search }), mode: "insensitive" },
 
         ...(degree_program_id && {
-          degreeProgram_id: Number(degree_program_id),
+          degree_program_id: Number(degree_program_id),
         }),
       },
       select: {
@@ -245,6 +246,24 @@ export class AppService {
     return { selection };
   }
 
+  async getRegistrationPath({ search, id }: ISelectionRequest): Promise<TRegistrationPathResponse> {
+    const registration_path = await this.prisma.registrationPath.findMany({
+      where: {
+        ...(id && { id: Number(id) }),
+        name: { ...(search && { contains: search }), mode: "insensitive" },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    if (!registration_path) {
+      throw new RpcException(new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!"));
+    }
+
+    return { registration_path };
+  }
   async getSalary({ search, id }: ISelectRequest): Promise<TSalaryResponse> {
     const salary = await this.prisma.salary.findMany({
       where: {
@@ -1592,7 +1611,7 @@ export class AppService {
   }
 
   async deleteScholarship(id: number): Promise<TGeneralResponse> {
-    const deleteScholarship = await this.prisma.faculty.delete({
+    const deleteScholarship = await this.prisma.scholarship.delete({
       where: {
         id: Number(id),
       },

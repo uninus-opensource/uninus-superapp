@@ -42,6 +42,14 @@ export interface IUserRequest extends IUser {
   role_id?: number | null;
 }
 
+export type TCreateUserRequest = {
+  email: string;
+  fullname: string;
+  password: string;
+  phone_number: string;
+  role_id: number;
+};
+
 export interface IUserResponse extends IUser {
   id: string;
   refresh_token: string | null;

@@ -54,6 +54,12 @@ export const UploadField = <T extends FieldValues>({
       )}
 
       <div className={layoutInputClassName}>
+        <div className="flex">
+          {props.label && <h3 className="font-bold text-xs text-left">{props.label}</h3>}
+          {props.required && (
+            <span className="relative ml-1 font-bold text-primary-green bottom-1">*</span>
+          )}
+        </div>
         <input
           type="file"
           accept="image/*,.pdf"
@@ -70,7 +76,7 @@ export const UploadField = <T extends FieldValues>({
           ) : props.isDisabled ? (
             <AiOutlineCheck className="text-2xl text-center" />
           ) : (
-            props.labels
+            props.inputLabel
           )}
         </label>
         {props.message && (

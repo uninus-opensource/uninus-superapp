@@ -84,7 +84,6 @@ export class AppService {
         fullname: payload.fullname,
         email: payload.email.toLowerCase(),
         password,
-        role_id: payload.role_id,
         otp: {
           create: {
             token,
@@ -92,73 +91,71 @@ export class AppService {
           },
         },
         avatar: "https://uninus-demo.s3.ap-southeast-1.amazonaws.com/avatar-default.png",
-        ...(!payload.role_id && {
-          students: {
-            create: {
-              phone_number: `62${payload.phone_number}`,
-              pmb: {
-                create: {
-                  registration_number: registrationNumber,
-                  registration_status_id: 1,
-                  student_grade: {
-                    createMany: {
-                      data: [
-                        {
-                          subject: "indonesia",
-                          semester: "1",
-                        },
-                        {
-                          subject: "indonesia",
-                          semester: "2",
-                        },
-                        {
-                          subject: "indonesia",
-                          semester: "3",
-                        },
-                        {
-                          subject: "indonesia",
-                          semester: "4",
-                        },
-                        {
-                          subject: "matematika",
-                          semester: "1",
-                        },
-                        {
-                          subject: "matematika",
-                          semester: "2",
-                        },
-                        {
-                          subject: "matematika",
-                          semester: "3",
-                        },
-                        {
-                          subject: "matematika",
-                          semester: "4",
-                        },
-                        {
-                          subject: "inggris",
-                          semester: "1",
-                        },
-                        {
-                          subject: "inggris",
-                          semester: "2",
-                        },
-                        {
-                          subject: "inggris",
-                          semester: "3",
-                        },
-                        {
-                          subject: "inggris",
-                          semester: "4",
-                        },
-                      ],
-                    },
+        students: {
+          create: {
+            phone_number: `62${payload.phone_number}`,
+            pmb: {
+              create: {
+                registration_number: registrationNumber,
+                registration_status_id: 1,
+                student_grade: {
+                  createMany: {
+                    data: [
+                      {
+                        subject: "indonesia",
+                        semester: "1",
+                      },
+                      {
+                        subject: "indonesia",
+                        semester: "2",
+                      },
+                      {
+                        subject: "indonesia",
+                        semester: "3",
+                      },
+                      {
+                        subject: "indonesia",
+                        semester: "4",
+                      },
+                      {
+                        subject: "matematika",
+                        semester: "1",
+                      },
+                      {
+                        subject: "matematika",
+                        semester: "2",
+                      },
+                      {
+                        subject: "matematika",
+                        semester: "3",
+                      },
+                      {
+                        subject: "matematika",
+                        semester: "4",
+                      },
+                      {
+                        subject: "inggris",
+                        semester: "1",
+                      },
+                      {
+                        subject: "inggris",
+                        semester: "2",
+                      },
+                      {
+                        subject: "inggris",
+                        semester: "3",
+                      },
+                      {
+                        subject: "inggris",
+                        semester: "4",
+                      },
+                    ],
                   },
                 },
               },
             },
           },
-        }),
+        },
       },
       select: {
         fullname: true,
@@ -204,12 +201,12 @@ export class AppService {
     });
 
     const isMatch = user && (await comparePassword(payload.password as string, user.password));
-    const userPermission = user?.role?.appsOrigin.map((el) => el.name);
-    const isHashPermission = userPermission.includes(payload.app_origin);
 
     if (!user || !isMatch) {
       throw new RpcException(new UnauthorizedException("Email atau password tidak valid"));
     }
+    const userPermission = user?.role?.appsOrigin.map((el) => el.name);
+    const isHashPermission = userPermission.includes(payload.app_origin);
 
     if (!isHashPermission) {
       throw new RpcException(new ForbiddenException("Anda tidak memiliki akses ke aplikasi ini"));

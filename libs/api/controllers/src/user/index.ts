@@ -10,6 +10,7 @@ import {
   UseGuards,
   UseFilters,
   Patch,
+  Post,
 } from "@nestjs/common";
 import {
   TReqToken,
@@ -17,9 +18,10 @@ import {
   EAppsOrigin,
   EOrderByPagination,
   IUserRequest,
+  TCreateUserRequest,
 } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
-import { UpdateUserDto } from "@uninus/api/dto";
+import { CreateUserDto, UpdateUserDto } from "@uninus/api/dto";
 import {
   ApiResponse,
   ApiTags,
@@ -169,6 +171,28 @@ export class UserController {
     const response = await firstValueFrom(
       this.client
         .send<IUserRequest>("update_user", { id, ...payload })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @ApiOperation({ summary: "Create user" })
+  @ApiResponse({ status: 201, description: "Berhasil membuat user" })
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+  })
+  @Post()
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
+  async createUser(
+    @Body()
+    payload: CreateUserDto,
+  ) {
+    const response = await firstValueFrom(
+      this.client
+        .send<TCreateUserRequest>("create_user", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

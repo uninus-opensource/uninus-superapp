@@ -22,4 +22,9 @@ export class AppController {
   getLecturer(id: string) {
     return this.appService.getLecturer(id);
   }
+
+  @MessagePattern("get_academic_staff")
+  getAcademicStaff(id: string) {
+    return this.appService.getAcademicStaff(id);
+  }
 }

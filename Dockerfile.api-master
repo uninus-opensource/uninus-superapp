@@ -6,7 +6,6 @@ RUN yarn install --frozen-lockfile --ignore-scripts
 RUN yarn  prisma generate
 RUN yarn nx build api
 
-
 FROM node:18.17.1-alpine3.17 AS Service
 WORKDIR /app/
 COPY --from=Builder /app/node_modules ./node_modules

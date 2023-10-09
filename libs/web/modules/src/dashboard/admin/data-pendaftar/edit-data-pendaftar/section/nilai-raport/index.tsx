@@ -517,7 +517,7 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
         </div>
         <div className="flex w-full justify-center lg:justify-end py-4 mt-8 gap-x-3">
           <Button
-            href={"dashboard/data-pendaftar"}
+            href={"/dashboard/data-pendaftar"}
             variant="filled-red"
             size="md"
             width="w-70% lg:w-15% xl:w-15%"
