@@ -7,11 +7,18 @@ import {
   UserModule,
   FileModule,
   EmployeeModule,
-  PaymentModule
 } from "@uninus/api/modules";
 
 @Module({
-  imports: [PrismaModule, AuthModule, StudentModule, UserModule, GeneralModule, FileModule, EmployeeModule,PaymentModule],
+  imports: [
+    PrismaModule,
+    AuthModule,
+    StudentModule,
+    UserModule,
+    GeneralModule,
+    FileModule,
+    EmployeeModule,
+  ],
   controllers: [],
   providers: [],
 })
