@@ -368,10 +368,25 @@ export type TCreateScholarshipRequest = {
 };
 
 export type TUpdateFacultyRequest = {
+  id?: number;
   name: string;
   degree_program_id?: number;
 };
-
+export type TUpdateScholarshipRequest = {
+  id?: number;
+  name: string;
+};
+export type TUpdateDepartmentRequest = {
+  id?: number;
+  name: string;
+  faculty_id?: number;
+  degree_program_id?: number;
+};
+export type TUpdateSelectionPathRequest = {
+  id?: number;
+  name: string;
+  degree_program_id?: number;
+};
 export type TCreateDepartmentRequest = {
   name: string;
   faculty_id: number;
