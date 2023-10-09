@@ -65,8 +65,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       label: "Upload Berkas",
       link: "/dashboard/dokumen",
       icon: <UploadOutlined />,
-      disabledStatus:
-        userStatus === "Belum Mendaftar" || userStatus === "Belum Membayar" ? true : false,
+      disabledStatus: userStatus === "Belum Mendaftar" || userStatus === "Belum Membayar",
     },
     {
       label: "Pembayaran",

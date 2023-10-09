@@ -24,7 +24,7 @@ import {
 } from "react-icons/ai";
 
 import {
-  useDepartmentCrete,
+  useDepartmentCreate,
   useDepartmentDelete,
   useDepartmentUpdate,
   useFacultyCreate,
@@ -212,7 +212,7 @@ const Table: FC = (): ReactElement => {
     [getDegreProgram?.degree_program],
   );
   const { mutate: createScholarship } = useScholarshipCreate();
-  const { mutate: createDepartment } = useDepartmentCrete();
+  const { mutate: createDepartment } = useDepartmentCreate();
   const { data: getBeasiswa, refetch: refetchScholarship } = useGetBeasiswa();
   // const { mutate: createSchool } = useSchoolCreate();
   const { mutate: createSelection } = useSelectionCreate();

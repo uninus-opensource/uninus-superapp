@@ -88,7 +88,7 @@ export const useProgramGet = (): UseQueryResult<TDegreeProgramResponse, TMetaErr
   });
 };
 
-export const useDepartmentCrete = (): UseMutationResult<
+export const useDepartmentCreate = (): UseMutationResult<
   TDepartmentResponse,
   TMetaErrorResponse,
   TCreateDepartmentRequest,
