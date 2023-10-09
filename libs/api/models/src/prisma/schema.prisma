@@ -143,7 +143,6 @@ model PMB {
   registration_status_id Int?
   registration_number    String?
   selection_path_id      Int?
-  registration_path_id   Int?
   student_id             String?             @unique
   utbk_pu                Float?              @default(0)
   utbk_kk                Float?              @default(0)
@@ -153,13 +152,14 @@ model PMB {
   utbk                   Float?              @default(0)
   average_grade          Float?              @default(0)
   createdAt              DateTime            @default(now())
+  registration_path_id   Int?
   documents              Documents[]
   degree_program         DegreeProgram?      @relation(fields: [degree_program_id], references: [id])
   first_deparment        Department?         @relation("first_deparment", fields: [first_deparment_id], references: [id])
+  registration_path      RegistrationPath?   @relation(fields: [registration_path_id], references: [id])
   registration_status    RegistrationStatus? @relation(fields: [registration_status_id], references: [id])
   second_deparment       Department?         @relation("second_deparment", fields: [second_deparment_id], references: [id])
   selection_path         SelectionPath?      @relation(fields: [selection_path_id], references: [id])
-  registration_path      RegistrationPath?   @relation(fields: [registration_path_id], references: [id])
   student                Students?           @relation(fields: [student_id], references: [id], onDelete: Cascade)
   student_grade          StudentGrade[]
 }
@@ -216,12 +216,13 @@ model ParentStatus {
 }
 
 model Province {
-  id       Int        @id @default(autoincrement())
-  name     String
-  cities   City[]
-  guardian Students[] @relation("guardian")
-  parent   Students[] @relation("parent")
-  students Students[] @relation("student")
+  id        Int         @id @default(autoincrement())
+  name      String
+  cities    City[]
+  Employees Employees[]
+  guardian  Students[]  @relation("guardian")
+  parent    Students[]  @relation("parent")
+  students  Students[]  @relation("student")
 }
 
 model City {
@@ -229,6 +230,7 @@ model City {
   name         String
   province_id  Int
   province     Province      @relation(fields: [province_id], references: [id], onDelete: Cascade)
+  Employees    Employees[]
   students     Students[]    @relation("student")
   guardian     Students[]    @relation("guardian")
   parent       Students[]    @relation("parent")
@@ -236,21 +238,22 @@ model City {
 }
 
 model SubDistrict {
-  id       Int        @id @default(autoincrement())
-  name     String
-  city_id  Int
-  guardian Students[] @relation("guardian")
-  parent   Students[] @relation("parent")
-  students Students[] @relation("student")
-  city     City       @relation(fields: [city_id], references: [id], onDelete: Cascade)
+  id        Int         @id @default(autoincrement())
+  name      String
+  city_id   Int
+  Employees Employees[]
+  guardian  Students[]  @relation("guardian")
+  parent    Students[]  @relation("parent")
+  students  Students[]  @relation("student")
+  city      City        @relation(fields: [city_id], references: [id], onDelete: Cascade)
 }
 
 model Roles {
   id         Int          @id @default(autoincrement())
   name       String
   createdAt  DateTime     @default(now())
-  appsOrigin AppsOrigin[] @relation("RolesAppOrigin")
   users      Users[]
+  appsOrigin AppsOrigin[] @relation("RolesAppOrigin")
 }
 
 model AppsOrigin {
@@ -325,25 +328,27 @@ model MaritalStatus {
 }
 
 model Religion {
-  id       Int             @id @default(autoincrement())
-  name     String
-  alumni   AlumniProfile[]
-  students Students[]
+  id        Int             @id @default(autoincrement())
+  name      String
+  alumni    AlumniProfile[]
+  Employees Employees[]
+  students  Students[]
 }
 
 model Gender {
   id        Int             @id @default(autoincrement())
   name      String
   alumni    AlumniProfile[]
-  students  Students[]
   Employees Employees[]
+  students  Students[]
 }
 
 model Citizenship {
-  id       Int        @id @default(autoincrement())
-  name     String
-  Country  Country[]
-  students Students[]
+  id        Int         @id @default(autoincrement())
+  name      String
+  Country   Country[]
+  Employees Employees[]
+  students  Students[]
 }
 
 model Salary {
@@ -374,6 +379,7 @@ model Country {
   name           String
   citizenship_id Int?
   citizenship    Citizenship? @relation(fields: [citizenship_id], references: [id])
+  Employees      Employees[]
   students       Students[]
 }
 
@@ -418,26 +424,40 @@ model Questions {
 }
 
 model Employees {
-  id                       Int                       @unique @default(autoincrement())
-  nip                      String?
-  nidn                     String?
-  nik                      String?
+  user_id                  String                    @unique
+  createdAt                DateTime                  @default(now())
+  addition_task            String?
   birth_date               String?
   employee_status_id       Int?
+  nidn                     String?
+  nip                      String?
+  id                       Int                       @unique @default(autoincrement())
   employee_type_id         Int?
+  nik                      String?
   gender_id                Int?
-  user_id                  String                    @unique
-  addition_task            String?
-  createdAt                DateTime                  @default(now())
-  gender                   Gender?                   @relation(fields: [gender_id], references: [id])
+  address                  String?
+  birth_place              String?
+  citizenship_id           Int?
+  city_id                  Int?
+  country_id               Int?
+  province_id              Int?
+  religion_id              Int?
+  sub_district_id          Int?
   academic_staff           AcademicStaff?
-  employee_document        EmployeeDocuments[]
   certification_profession CertificationProfession[]
+  employee_document        EmployeeDocuments[]
   employee_has_category    EmployeeHasCategory[]
   employee_has_education   EmployeeHasEducation[]
   employee_has_workunit    EmployeeHasWorkUnit[]
+  Citizenship              Citizenship?              @relation(fields: [citizenship_id], references: [id])
+  City                     City?                     @relation(fields: [city_id], references: [id])
+  Country                  Country?                  @relation(fields: [country_id], references: [id])
   employee_status          EmployeeStatus?           @relation(fields: [employee_status_id], references: [id])
   Employee_type            EmployeeType?             @relation(fields: [employee_type_id], references: [id])
+  gender                   Gender?                   @relation(fields: [gender_id], references: [id])
+  Province                 Province?                 @relation(fields: [province_id], references: [id])
+  Religion                 Religion?                 @relation(fields: [religion_id], references: [id])
+  SubDistrict              SubDistrict?              @relation(fields: [sub_district_id], references: [id])
   user                     Users                     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   lecturers                Lecturers?
 }

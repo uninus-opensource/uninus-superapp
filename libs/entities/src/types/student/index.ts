@@ -25,6 +25,7 @@ export interface IStudentData {
   first_deparment_id?: number | null;
   second_deparment_id?: number | null;
   selection_path_id?: number | null;
+  registration_path_id?: number | null;
   degree_program_id?: number | null;
   nik?: string | null;
   nisn?: string | null;
