@@ -571,7 +571,20 @@ export const ModuleDokumen: FC = (): ReactElement => {
           </Button>
         </section>
       </section>
-      {selectionType === 3 && (
+
+      {selectionType === 2 && (
+        <section className="w-full flex justify-end pr-[3rem]">
+          <Link
+            href="/dashboard/registrasi/beasiswa"
+            className="bg-primary-green text-primary-white rounded-[5px] px-2 py-1 flex justify-center items-center gap-2"
+          >
+            Beasiswa
+            <CaretRightFilled />
+          </Link>
+        </section>
+      )}
+
+      {(selectionType === 3 || selectionType === 1) && (
         <section className="w-full flex justify-end pr-[3rem]">
           <Link
             href="/dashboard/selection"

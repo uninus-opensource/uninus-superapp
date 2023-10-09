@@ -16,6 +16,7 @@ import {
   useUploadFile,
 } from "../biodata";
 import { beasiswa } from "./store";
+import { redirect } from "next/navigation";
 
 export const beasiswaBreadcrumb = [
   {
@@ -38,6 +39,24 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
   const [isDisabled, setIsdisabled] = useState<boolean | undefined>(undefined);
   const [isDisabledFile, setIsdisabledFile] = useState<boolean>(false);
   const [scholarshipId, setScholarshipId] = useState<number | null | undefined>(undefined);
+
+  const { getStudent } = useStudentData();
+
+  const selectionType = useMemo(() => {
+    return getStudent?.selection_path_id;
+  }, [getStudent?.selection_path_id]);
+
+  const documents = useMemo(() => {
+    return getStudent?.documents;
+  }, [getStudent?.documents]);
+
+  useEffect(() => {
+    if (selectionType === 3) {
+      redirect("/dashboard");
+    } else if (!documents?.find((doc) => doc.name === "Kartu Keluarga")) {
+      redirect("/dashboard");
+    }
+  }, [selectionType, documents]);
 
   const {
     control,
@@ -73,7 +92,6 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
 
   const { mutate } = useBiodataUpdate();
   const { mutate: upload } = useUploadFile();
-  const { getStudent } = useStudentData();
 
   const student = useMemo(() => {
     return getStudent;
@@ -437,7 +455,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                           watch("sertifikat_aktif")
                             ? "labelTextUploaded"
                             : student?.documents?.find(
-                                (doc) => doc.name === "Sertifikat Asli Organisasi",
+                                (doc) => doc.name === "Sertifikat Aktif Organisasi",
                               )
                             ? "labelTextDisabled"
                             : "labelText"
@@ -446,7 +464,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
                         preview={false}
                         isDisabled={
                           !!student?.documents?.find(
-                            (doc) => doc.name === "Sertifikat Asli Organisasi",
+                            (doc) => doc.name === "Sertifikat Aktif Organisasi",
                           )
                         }
                       />

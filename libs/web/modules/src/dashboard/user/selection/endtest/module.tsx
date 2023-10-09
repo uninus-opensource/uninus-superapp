@@ -1,8 +1,17 @@
 "use client";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useMemo } from "react";
 import Image from "next/image";
+import { useStudentData } from "@uninus/web/services";
+import Link from "next/link";
+import { CaretRightFilled } from "@ant-design/icons";
 
 export const EndTestModule: FC = (): ReactElement => {
+  const { getStudent } = useStudentData();
+
+  const selectionType = useMemo(() => {
+    return getStudent?.selection_path_id;
+  }, [getStudent?.selection_path_id]);
+
   return (
     <section key="endtest" className="flex flex-col w-full h-full justify-center items-center ">
       {/* header */}
@@ -44,6 +53,29 @@ export const EndTestModule: FC = (): ReactElement => {
           </div>
         </div>
       </div>
+      {selectionType === 1 && (
+        <section className="w-full flex justify-end pr-[3rem]">
+          <Link
+            href="/dashboard/registrasi/beasiswa"
+            className="bg-primary-green text-primary-white rounded-[5px] px-2 py-1 flex justify-center items-center gap-2"
+          >
+            Beasiswa
+            <CaretRightFilled />
+          </Link>
+        </section>
+      )}
+
+      {selectionType === 3 && (
+        <section className="w-full flex justify-end pr-[3rem]">
+          <Link
+            href="/dashboard/registrasi/pembayaran/detail"
+            className="bg-primary-green text-primary-white rounded-[5px] px-3 py-1 flex justify-center items-center gap-2"
+          >
+            Lanjut Pembayaran
+            <CaretRightFilled />
+          </Link>
+        </section>
+      )}
     </section>
   );
 };

@@ -248,9 +248,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              // disabled={
-              //   !watch("degree_program_id") || isFormSubmitted || !!student?.first_deparment_id
-              // }
               disabled={!watch("degree_program_id") || !!student?.first_deparment_id}
               status="error"
               message={
@@ -272,9 +269,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 isMulti={false}
                 isClearable={true}
                 required={true}
-                // disabled={
-                //   !watch("degree_program_id") || isFormSubmitted || !!student?.second_deparment_id
-                // }
                 disabled={!watch("degree_program_id") || !!student?.second_deparment_id}
                 ref={prodi2Ref}
                 status="error"
@@ -298,9 +292,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               isMulti={false}
               isClearable={true}
               required={true}
-              // disabled={
-              //   isFormSubmitted || !!student?.selection_path_id || !watch("degree_program_id")
-              // }
               disabled={!watch("degree_program_id") || !!student?.selection_path_id}
               status="error"
               message={errors?.selection_path_id?.message as string}
