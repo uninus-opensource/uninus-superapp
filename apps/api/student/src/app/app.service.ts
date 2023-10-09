@@ -58,6 +58,7 @@ export class AppService {
           first_deparment_id: pmb.first_deparment_id,
           second_deparment_id: pmb.second_deparment_id,
           selection_path_id: pmb.selection_path_id,
+          registration_path_id: pmb.registration_path_id,
           degree_program_id: pmb.degree_program_id,
           student_grade: pmb.student_grade,
           average_grade: pmb.average_grade,
@@ -94,6 +95,7 @@ export class AppService {
       average_grade,
       document,
       documents,
+      registration_path_id,
       ...updateStudentPayload
     } = payload;
     if (student_grade) {
@@ -146,6 +148,7 @@ export class AppService {
                 first_deparment_id,
                 second_deparment_id,
                 selection_path_id,
+                registration_path_id,
                 degree_program_id,
                 utbk_pu,
                 utbk_kk,
@@ -204,6 +207,7 @@ export class AppService {
           first_deparment_id: pmb?.first_deparment_id,
           second_deparment_id: pmb?.second_deparment_id,
           selection_path_id: pmb?.selection_path_id,
+          registration_path_id: pmb?.registration_path_id,
           degree_program_id: pmb?.degree_program_id,
           student_grade: pmb?.student_grade,
           average_grade: average_grade,
