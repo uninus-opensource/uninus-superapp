@@ -1,6 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { RpcException } from "@nestjs/microservices";
 import { PrismaService } from "@uninus/api/models";
 import {
+  TAcademicStaffResponse,
   TEmployeePaginationArgs,
   TEmployeesResponse,
   TTotalEmployeesResponse,
@@ -314,9 +316,7 @@ export class AppService {
     });
 
     if (!lecturer) {
-      return {
-        message: "Lecturer not found!",
-      };
+      throw new RpcException(new NotFoundException("Dosen tidak ditemukan"));
     }
 
     return {
@@ -338,6 +338,77 @@ export class AppService {
         id: el.department.id,
         department: el.department.name,
         faculty: el.faculty.name,
+      })),
+    };
+  }
+
+  async getAcademicStaff(id: string): Promise<TAcademicStaffResponse> {
+    const academicStaff = await this.prisma.academicStaff.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        employee: {
+          select: {
+            user: {
+              select: {
+                fullname: true,
+              },
+            },
+            nip: true,
+            nik: true,
+            gender: {
+              select: {
+                name: true,
+              },
+            },
+            employee_has_workunit: {
+              select: {
+                work_unit: {
+                  select: {
+                    name: true,
+                    work_unit_category: {
+                      select: {
+                        name: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            employee_document: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        academic_status: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!academicStaff) {
+      throw new RpcException(new NotFoundException("Tendik tidak ditemukan"));
+    }
+
+    return {
+      id: academicStaff.id,
+      fullname: academicStaff.employee.user.fullname,
+      nip: academicStaff.employee.nip,
+      nik: academicStaff.employee.nik,
+      gender: academicStaff.employee.gender.name,
+      academic_status: academicStaff.academic_status.name,
+      employee_work_unit: academicStaff.employee.employee_has_workunit.map((el) => ({
+        name: el.work_unit.name,
+        work_unit_category: el.work_unit.work_unit_category.name,
+      })),
+      employee_document: academicStaff.employee.employee_document.map((el) => ({
+        name: el.name,
       })),
     };
   }
