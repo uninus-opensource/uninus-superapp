@@ -332,10 +332,11 @@ model Religion {
 }
 
 model Gender {
-  id       Int             @id @default(autoincrement())
-  name     String
-  alumni   AlumniProfile[]
-  students Students[]
+  id        Int             @id @default(autoincrement())
+  name      String
+  alumni    AlumniProfile[]
+  students  Students[]
+  Employees Employees[]
 }
 
 model Citizenship {
@@ -424,11 +425,13 @@ model Employees {
   birth_date               String?
   employee_status_id       Int?
   employee_type_id         Int?
-  addition_task            String?
+  gender_id                Int?
   user_id                  String                    @unique
+  addition_task            String?
   createdAt                DateTime                  @default(now())
+  gender                   Gender?                   @relation(fields: [gender_id], references: [id])
   academic_staff           AcademicStaff?
-  appointment_decree       AppointmentDecree[]
+  employee_document        EmployeeDocuments[]
   certification_profession CertificationProfession[]
   employee_has_category    EmployeeHasCategory[]
   employee_has_education   EmployeeHasEducation[]
@@ -484,7 +487,7 @@ model AcademicStaff {
   createdAt            DateTime          @default(now())
   academic_status_id   Int?
   academin_position    AcademicPosition? @relation(fields: [academic_position_id], references: [id])
-  AcademicStatus       AcademicStatus?   @relation(fields: [academic_status_id], references: [id])
+  academic_status      AcademicStatus?   @relation(fields: [academic_status_id], references: [id])
   employee             Employees?        @relation(fields: [employee_id], references: [id])
 }
 
@@ -552,7 +555,7 @@ model EmployeeCategories {
   employee_has_caegory EmployeeHasCategory[]
 }
 
-model AppointmentDecree {
+model EmployeeDocuments {
   id          Int       @id @default(autoincrement())
   name        String
   employee_id Int

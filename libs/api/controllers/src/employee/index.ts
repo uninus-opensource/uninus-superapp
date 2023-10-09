@@ -94,4 +94,16 @@ export class EmployeeController {
     );
     return response;
   }
+
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Get Academic Staff" })
+  @Get("/academic-staff/:id")
+  async getAcademicStaff(@Param("id") id: string) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_academic_staff", id)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
 }
