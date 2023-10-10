@@ -380,18 +380,20 @@ model Country {
 }
 
 model Occupation {
-  id   Int    @id @default(autoincrement())
-  name String
-
-  father   Students[] @relation("father")
-  guardian Students[] @relation("guardian")
-  mother   Students[] @relation("mother")
-  Students Students[] @relation("student")
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  occupationposition OccupationPosition[]
+  father             Students[]           @relation("father")
+  guardian           Students[]           @relation("guardian")
+  mother             Students[]           @relation("mother")
+  Students           Students[]           @relation("student")
 }
 
 model OccupationPosition {
-  id   Int    @id @default(autoincrement())
-  name String
+  id            Int         @id @default(autoincrement())
+  occupation_id Int?
+  occupation    Occupation? @relation(fields: [occupation_id], references: [id])
+  name          String
 }
 
 model Disabilities {
@@ -453,11 +455,11 @@ model Employees {
 }
 
 model EmployeeHasEducation {
-  id           Int       @id @default(autoincrement())
-  education_id Int
+  id           Int        @id @default(autoincrement())
+  education_id Int?
   employee_id  Int
-  education    Education @relation(fields: [education_id], references: [id])
-  employee     Employees @relation(fields: [employee_id], references: [id])
+  education    Education? @relation(fields: [education_id], references: [id])
+  employee     Employees  @relation(fields: [employee_id], references: [id])
 }
 
 model EmployeeHasCategory {
