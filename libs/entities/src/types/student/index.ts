@@ -94,8 +94,8 @@ export interface IStudentData {
 export interface IGetStudentResponse extends IStudentData {
   avatar: string | null;
   documents?: Array<{
-    id: string;
-    isVerified: boolean;
+    id?: string;
+    isVerified?: boolean;
     name: string;
     path: string;
   }> | null;
@@ -124,8 +124,8 @@ export interface IUpdateStudentResponse extends IStudentData {
     grade: number | null;
   }>;
   documents?: Array<{
-    id: string;
-    isVerified: boolean;
+    id?: string;
+    isVerified?: boolean;
     name: string;
     path: string;
   }> | null;
@@ -137,8 +137,8 @@ export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData 
     path: string;
   } | null;
   documents?: Array<{
-    id: string;
-    isVerified: boolean;
+    id?: string;
+    isVerified?: boolean;
     name: string;
     path: string;
   }> | null;

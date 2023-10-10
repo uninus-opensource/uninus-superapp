@@ -794,14 +794,7 @@ export const EditDataDiri: FC = (): ReactElement => {
                 <SelectOption
                   name="occupation_position_id"
                   labels="Jabatan"
-                  placeholder={
-                    student?.occupation_position_id
-                      ? getOccupationPosition?.occupation_position?.find(
-                          (occupation_position) =>
-                            occupation_position.id === student?.occupation_position_id,
-                        )?.name
-                      : "Pilih Jabatan"
-                  }
+                  placeholder={student?.occupation_position || "Pilih Jabatan"}
                   labelClassName="text-left font-bold text-xs py-2"
                   options={occupationPositionOptions || []}
                   isClearable={true}
@@ -813,7 +806,7 @@ export const EditDataDiri: FC = (): ReactElement => {
                       ? true
                       : false ||
                         occupationPositionOptions?.length === 0 ||
-                        student?.occupation_position_id
+                        student?.occupation_position
                       ? true
                       : false
                   }
