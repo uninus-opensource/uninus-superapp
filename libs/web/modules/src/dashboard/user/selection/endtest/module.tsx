@@ -1,8 +1,16 @@
 "use client";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useMemo } from "react";
 import Image from "next/image";
+import { useStudentData } from "@uninus/web/services";
+import { RedirectLink } from "@uninus/web/components";
 
 export const EndTestModule: FC = (): ReactElement => {
+  const { getStudent } = useStudentData();
+
+  const selectionType = useMemo(() => {
+    return getStudent?.selection_path_id;
+  }, [getStudent?.selection_path_id]);
+
   return (
     <section key="endtest" className="flex flex-col w-full h-full justify-center items-center ">
       {/* header */}
@@ -44,6 +52,15 @@ export const EndTestModule: FC = (): ReactElement => {
           </div>
         </div>
       </div>
+      {selectionType === 1 && (
+        <RedirectLink link="/dashboard/registrasi/beasiswa">Beasiswa</RedirectLink>
+      )}
+
+      {selectionType === 3 && (
+        <RedirectLink link="/dashboard/registrasi/pembayaran/detail">
+          Lanjut Pembayaran
+        </RedirectLink>
+      )}
     </section>
   );
 };

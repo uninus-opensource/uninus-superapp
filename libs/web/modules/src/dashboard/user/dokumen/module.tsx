@@ -1,6 +1,6 @@
 "use client";
 import { FC, Fragment, ReactElement, useMemo, useState } from "react";
-import { Button, UploadField, Modal } from "@uninus/web/components";
+import { Button, UploadField, Modal, RedirectLink } from "@uninus/web/components";
 import { useForm } from "react-hook-form";
 import {
   TUploadFileRequest,
@@ -8,8 +8,6 @@ import {
   useBiodataUpdate,
   useUploadFile,
 } from "../registrasi";
-import Link from "next/link";
-import { CaretRightFilled } from "@ant-design/icons";
 import { TDokumenPendaftaran } from "./type";
 import { useStudentData } from "@uninus/web/services";
 
@@ -571,16 +569,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
           </Button>
         </section>
       </section>
-      {selectionType === 3 && (
-        <section className="w-full flex justify-end pr-[3rem]">
-          <Link
-            href="/dashboard/selection"
-            className="bg-primary-green text-primary-white rounded-[5px] px-2 py-1 flex justify-center items-center gap-2"
-          >
-            Tes seleksi
-            <CaretRightFilled />
-          </Link>
-        </section>
+
+      {selectionType === 2 && (
+        <RedirectLink link="/dashboard/registrasi/beasiswa">Beasiswa</RedirectLink>
+      )}
+
+      {(selectionType === 3 || selectionType === 1) && (
+        <RedirectLink link="/dashboard/selection">Tes seleksi</RedirectLink>
       )}
     </form>
   );

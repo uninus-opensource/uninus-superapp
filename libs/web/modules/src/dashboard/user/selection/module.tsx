@@ -1,8 +1,27 @@
 "use client";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useEffect, useMemo } from "react";
 import { Button } from "@uninus/web/components";
 import Image from "next/image";
+import { useStudentData } from "@uninus/web/services";
+import { redirect } from "next/navigation";
 export const ModuleSelectionTest: FC = (): ReactElement => {
+  const { getStudent } = useStudentData();
+
+  const selectionType = useMemo(() => {
+    return getStudent?.selection_path_id;
+  }, [getStudent?.selection_path_id]);
+
+  const documents = useMemo(() => {
+    return getStudent?.documents;
+  }, [getStudent?.documents]);
+
+  useEffect(() => {
+    if (selectionType === 2) {
+      redirect("/dashboard");
+    } else if (!documents?.find((doc) => doc.name === "Kartu Keluarga")) {
+      redirect("/dashboard");
+    }
+  }, [selectionType, documents]);
   return (
     <section key="seleksi" className="flex flex-col w-full h-full justify-center items-center ">
       {/* header */}
