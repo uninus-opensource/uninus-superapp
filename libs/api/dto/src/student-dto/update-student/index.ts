@@ -74,7 +74,7 @@ export class UpdateStudentDto {
   occupation_id!: number;
 
   @ApiProperty()
-  occupation_position_id!: number;
+  occupation_position!: string;
 
   @ApiProperty()
   salary_id!: number;
@@ -92,7 +92,7 @@ export class UpdateStudentDto {
   father_occupation_id!: number;
 
   @ApiProperty()
-  father_position_id!: number;
+  father_position!: string;
 
   @ApiProperty()
   father_salary_id!: number;
@@ -110,7 +110,7 @@ export class UpdateStudentDto {
   mother_occupation_id!: number;
 
   @ApiProperty()
-  mother_position_id!: number;
+  mother_position!: string;
 
   @ApiProperty()
   mother_salary_id!: number;
@@ -128,7 +128,7 @@ export class UpdateStudentDto {
   guardian_occupation_id!: number;
 
   @ApiProperty()
-  guardian_position_id!: number;
+  guardian_position!: string;
 
   @ApiProperty()
   guardian_salary_id!: number;

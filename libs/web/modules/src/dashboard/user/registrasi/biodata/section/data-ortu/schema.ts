@@ -13,7 +13,7 @@ export const VSDataOrtu = z.object({
     message: "Pendidikan ayah harus diisi",
   }),
   father_occupation_id: z.string().nullable().optional(),
-  father_occupation_position_id: z.string().nullable().optional(),
+  father_position: z.string().nullable().optional(),
   father_salary_id: z.string().nullable().optional(),
   mother_name: z.nullable(
     z
@@ -27,7 +27,7 @@ export const VSDataOrtu = z.object({
     message: "Pendidikan ibu harus diisi",
   }),
   mother_occupation_id: z.string().nullable().optional(),
-  mother_occupation_position_id: z.string().nullable().optional(),
+  mother_position: z.string().nullable().optional(),
   mother_salary_id: z.string().nullable().optional(),
   parent_province_id: z.any().refine((value) => value, {
     message: "Provinsi harus diisi",
@@ -44,7 +44,7 @@ export const VSDataOrtu = z.object({
   guardian_status_id: z.string().nullable().optional(),
   guardian_education_id: z.string().nullable().optional(),
   guardian_occupation_id: z.string().nullable().optional(),
-  guardian_position_id: z.string().nullable().optional(),
+  guardian_position: z.string().nullable().optional(),
   guardian_salary_id: z.string().nullable().optional(),
   guardian_province_id: z.string().nullable().optional(),
   guardian_city_id: z.string().nullable().optional(),

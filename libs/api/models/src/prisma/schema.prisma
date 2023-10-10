@@ -25,7 +25,7 @@ model Users {
 }
 
 model Students {
-  id                      String              @unique @default(uuid())
+  id                      String           @unique @default(uuid())
   nik                     String?
   nisn                    String?
   no_kk                   String?
@@ -33,7 +33,7 @@ model Students {
   religion_id             Int?
   birth_place             String?
   birth_date              String?
-  phone_number            String?             @unique
+  phone_number            String?          @unique
   citizenship_id          Int?
   marital_status_id       Int?
   country_id              Int?
@@ -47,26 +47,26 @@ model Students {
   education_npsn          String?
   salary_id               Int?
   occupation_id           Int?
-  occupation_position_id  Int?
+  occupation_position     String?
   company_name            String?
   company_address         String?
   father_name             String?
   father_status_id        Int?
   father_education_id     Int?
   father_occupation_id    Int?
-  father_position_id      Int?
+  father_position         String?
   father_salary_id        Int?
   mother_name             String?
   mother_status_id        Int?
   mother_education_id     Int?
   mother_occupation_id    Int?
-  mother_position_id      Int?
+  mother_position         String?
   mother_salary_id        Int?
   guardian_name           String?
   guardian_status_id      Int?
   guardian_education_id   Int?
   guardian_occupation_id  Int?
-  guardian_position_id    Int?
+  guardian_position       String?
   guardian_salary_id      Int?
   guardian_province_id    Int?
   guardian_subdistrict_id Int?
@@ -81,49 +81,45 @@ model Students {
   faculty_id              Int?
   department_id           Int?
   academic_year           String?
-  user_id                 String              @unique
-  createdAt               DateTime            @default(now())
+  user_id                 String           @unique
+  createdAt               DateTime         @default(now())
   pmb                     PMB?
-  citizenship             Citizenship?        @relation(fields: [citizenship_id], references: [id])
-  city                    City?               @relation("student", fields: [city_id], references: [id])
-  country                 Country?            @relation(fields: [country_id], references: [id])
-  department              Department?         @relation("student", fields: [department_id], references: [id])
-  disabilities            Disabilities?       @relation(fields: [disabilities_id], references: [id])
-  education_major         EducationMajor?     @relation(fields: [education_major_id], references: [id])
-  education               Education?          @relation(fields: [education_npsn], references: [npsn])
-  education_type          EducationTypes?     @relation(fields: [education_type_id], references: [id])
-  faculty                 Faculty?            @relation(fields: [faculty_id], references: [id])
-  father_education        ParentEducation?    @relation("father", fields: [father_education_id], references: [id])
-  father_occupation       Occupation?         @relation("father", fields: [father_occupation_id], references: [id])
-  father_position         OccupationPosition? @relation("father", fields: [father_position_id], references: [id])
-  father_salary           Salary?             @relation("father", fields: [father_salary_id], references: [id])
-  father_status           ParentStatus?       @relation("father", fields: [father_status_id], references: [id])
-  gender                  Gender?             @relation(fields: [gender_id], references: [id])
-  guardian_city           City?               @relation("guardian", fields: [guardian_city_id], references: [id])
-  guardian_education      ParentEducation?    @relation("guardian", fields: [guardian_education_id], references: [id])
-  guardian_occupation     Occupation?         @relation("guardian", fields: [guardian_occupation_id], references: [id])
-  guardian_position       OccupationPosition? @relation("guardian", fields: [guardian_position_id], references: [id])
-  guardian_province       Province?           @relation("guardian", fields: [guardian_province_id], references: [id])
-  guardian_salary         Salary?             @relation("guardian", fields: [guardian_salary_id], references: [id])
-  guardian_status         ParentStatus?       @relation("guardian", fields: [guardian_status_id], references: [id])
-  guardian_subdistrict    SubDistrict?        @relation("guardian", fields: [guardian_subdistrict_id], references: [id])
-  marital_status          MaritalStatus?      @relation(fields: [marital_status_id], references: [id])
-  mother_education        ParentEducation?    @relation("mother", fields: [mother_education_id], references: [id])
-  mother_occupation       Occupation?         @relation("mother", fields: [mother_occupation_id], references: [id])
-  mother_position         OccupationPosition? @relation("mother", fields: [mother_position_id], references: [id])
-  mother_salary           Salary?             @relation("mother", fields: [mother_salary_id], references: [id])
-  mother_status           ParentStatus?       @relation("mother", fields: [mother_status_id], references: [id])
-  occupation              Occupation?         @relation("student", fields: [occupation_id], references: [id])
-  occupation_position     OccupationPosition? @relation("student", fields: [occupation_position_id], references: [id])
-  parent_city             City?               @relation("parent", fields: [parent_city_id], references: [id])
-  parent_province         Province?           @relation("parent", fields: [parent_province_id], references: [id])
-  parent_subdistrict      SubDistrict?        @relation("parent", fields: [parent_subdistrict_id], references: [id])
-  province                Province?           @relation("student", fields: [province_id], references: [id])
-  religion                Religion?           @relation(fields: [religion_id], references: [id])
-  salary                  Salary?             @relation("student", fields: [salary_id], references: [id])
-  scholarship             Scholarship?        @relation(fields: [scholarship_id], references: [id])
-  subdistrict             SubDistrict?        @relation("student", fields: [subdistrict_id], references: [id])
-  user                    Users               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  citizenship             Citizenship?     @relation(fields: [citizenship_id], references: [id])
+  city                    City?            @relation("student", fields: [city_id], references: [id])
+  country                 Country?         @relation(fields: [country_id], references: [id])
+  department              Department?      @relation("student", fields: [department_id], references: [id])
+  disabilities            Disabilities?    @relation(fields: [disabilities_id], references: [id])
+  education_major         EducationMajor?  @relation(fields: [education_major_id], references: [id])
+  education               Education?       @relation(fields: [education_npsn], references: [npsn])
+  education_type          EducationTypes?  @relation(fields: [education_type_id], references: [id])
+  faculty                 Faculty?         @relation(fields: [faculty_id], references: [id])
+  father_education        ParentEducation? @relation("father", fields: [father_education_id], references: [id])
+  father_occupation       Occupation?      @relation("father", fields: [father_occupation_id], references: [id])
+  father_salary           Salary?          @relation("father", fields: [father_salary_id], references: [id])
+  father_status           ParentStatus?    @relation("father", fields: [father_status_id], references: [id])
+  gender                  Gender?          @relation(fields: [gender_id], references: [id])
+  guardian_city           City?            @relation("guardian", fields: [guardian_city_id], references: [id])
+  guardian_education      ParentEducation? @relation("guardian", fields: [guardian_education_id], references: [id])
+  guardian_occupation     Occupation?      @relation("guardian", fields: [guardian_occupation_id], references: [id])
+  guardian_province       Province?        @relation("guardian", fields: [guardian_province_id], references: [id])
+  guardian_salary         Salary?          @relation("guardian", fields: [guardian_salary_id], references: [id])
+  guardian_status         ParentStatus?    @relation("guardian", fields: [guardian_status_id], references: [id])
+  guardian_subdistrict    SubDistrict?     @relation("guardian", fields: [guardian_subdistrict_id], references: [id])
+  marital_status          MaritalStatus?   @relation(fields: [marital_status_id], references: [id])
+  mother_education        ParentEducation? @relation("mother", fields: [mother_education_id], references: [id])
+  mother_occupation       Occupation?      @relation("mother", fields: [mother_occupation_id], references: [id])
+  mother_salary           Salary?          @relation("mother", fields: [mother_salary_id], references: [id])
+  mother_status           ParentStatus?    @relation("mother", fields: [mother_status_id], references: [id])
+  occupation              Occupation?      @relation("student", fields: [occupation_id], references: [id])
+  parent_city             City?            @relation("parent", fields: [parent_city_id], references: [id])
+  parent_province         Province?        @relation("parent", fields: [parent_province_id], references: [id])
+  parent_subdistrict      SubDistrict?     @relation("parent", fields: [parent_subdistrict_id], references: [id])
+  province                Province?        @relation("student", fields: [province_id], references: [id])
+  religion                Religion?        @relation(fields: [religion_id], references: [id])
+  salary                  Salary?          @relation("student", fields: [salary_id], references: [id])
+  scholarship             Scholarship?     @relation(fields: [scholarship_id], references: [id])
+  subdistrict             SubDistrict?     @relation("student", fields: [subdistrict_id], references: [id])
+  user                    Users            @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model StudentGrade {
@@ -384,24 +380,18 @@ model Country {
 }
 
 model Occupation {
-  id                 Int                  @id @default(autoincrement())
-  name               String
-  occupationposition OccupationPosition[]
-  father             Students[]           @relation("father")
-  guardian           Students[]           @relation("guardian")
-  mother             Students[]           @relation("mother")
-  Students           Students[]           @relation("student")
+  id   Int    @id @default(autoincrement())
+  name String
+
+  father   Students[] @relation("father")
+  guardian Students[] @relation("guardian")
+  mother   Students[] @relation("mother")
+  Students Students[] @relation("student")
 }
 
 model OccupationPosition {
-  id            Int         @id @default(autoincrement())
-  name          String
-  occupation_id Int?
-  occupation    Occupation? @relation(fields: [occupation_id], references: [id])
-  father        Students[]  @relation("father")
-  guardian      Students[]  @relation("guardian")
-  mother        Students[]  @relation("mother")
-  Students      Students[]  @relation("student")
+  id   Int    @id @default(autoincrement())
+  name String
 }
 
 model Disabilities {

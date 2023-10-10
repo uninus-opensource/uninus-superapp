@@ -316,9 +316,9 @@ export const DataOrtuSection: FC = (): ReactElement => {
       ? Number(data?.father_occupation_id)
       : (undefined as unknown as number);
 
-    studentParentData.father_position_id = data?.father_occupation_position_id
-      ? Number(data?.father_occupation_position_id)
-      : (undefined as unknown as number);
+    studentParentData.father_position = data?.father_position
+      ? data?.father_position
+      : (undefined as unknown as string);
 
     studentParentData.father_salary_id = data?.father_salary_id
       ? Number(data?.father_salary_id)
@@ -332,9 +332,9 @@ export const DataOrtuSection: FC = (): ReactElement => {
       ? Number(data?.mother_occupation_id)
       : (undefined as unknown as number);
 
-    studentParentData.mother_position_id = data?.mother_occupation_position_id
-      ? Number(data?.mother_occupation_position_id)
-      : (undefined as unknown as number);
+    studentParentData.mother_position = data?.mother_position
+      ? data?.mother_position
+      : (undefined as unknown as string);
 
     studentParentData.mother_salary_id = data?.mother_salary_id
       ? Number(data?.mother_salary_id)
@@ -350,7 +350,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
       studentGuardianData.guardian_status_id = Number(data?.guardian_status_id);
       studentGuardianData.guardian_education_id = Number(data?.guardian_education_id);
       studentGuardianData.guardian_occupation_id = Number(data?.guardian_occupation_id);
-      studentGuardianData.guardian_position_id = Number(data?.guardian_position_id);
+      studentGuardianData.guardian_position = data?.guardian_position;
       studentGuardianData.guardian_salary_id = Number(data?.guardian_salary_id);
       studentGuardianData.guardian_province_id = Number(data?.guardian_province_id);
       studentGuardianData.guardian_city_id = Number(data?.guardian_city_id);
@@ -526,7 +526,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
             <TextField
               inputHeight="h-10"
-              name="father_occupation_position_id"
+              name="father_position"
               variant="sm"
               type="text"
               placeholder="Jabatan"
@@ -539,12 +539,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
                   ? true
                   : false ||
                     occupationPositionFatherOptions?.length === 0 ||
-                    student?.occupation_position_id
+                    student?.occupation_position
                   ? true
                   : false
               }
-              status={errors?.father_occupation_position_id?.message ? "error" : "none"}
-              message={errors?.father_occupation_position_id?.message as string}
+              status={errors?.father_position?.message ? "error" : "none"}
+              message={errors?.father_position?.message as string}
             />
 
             <SelectOption
@@ -674,7 +674,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
             <TextField
               inputHeight="h-10"
-              name="mother_occupation_position_id"
+              name="mother_position"
               variant="sm"
               type="text"
               placeholder="Jabatan"
@@ -687,12 +687,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
                   ? true
                   : false ||
                     occupationPositionMotherOptions?.length === 0 ||
-                    student?.occupation_position_id
+                    student?.occupation_position
                   ? true
                   : false
               }
-              status={errors?.mother_occupation_position_id ? "error" : "none"}
-              message={errors?.mother_occupation_position_id?.message as string}
+              status={errors?.mother_position ? "error" : "none"}
+              message={errors?.mother_position?.message as string}
             />
             <SelectOption
               name="mother_salary_id"
@@ -926,7 +926,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
                   <TextField
                     inputHeight="h-10"
-                    name="guardian_position_id"
+                    name="guardian_position"
                     variant="sm"
                     type="text"
                     placeholder="Jabatan"
@@ -939,7 +939,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                         ? true
                         : false ||
                           occupationPositionGuardOptions?.length === 0 ||
-                          student?.occupation_position_id
+                          student?.occupation_position
                         ? true
                         : false || !!student?.guardian_name
                     }
