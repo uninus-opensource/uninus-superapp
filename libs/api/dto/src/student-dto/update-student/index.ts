@@ -205,6 +205,10 @@ export class UpdateStudentDto {
         name: "kk",
         path: "https://uninus.s3.ap-southeast-1.amazonaws.com/169393489551WhatsAp-Image-2023-08-31-a-20.10.31.jpeg",
       },
+      {
+        id: "04422755-dafb-46e1-aeeb-1aec363c9af2",
+        isVerified: true,
+      },
     ],
   })
   documents!: [];
