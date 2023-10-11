@@ -7,6 +7,7 @@ import {
   ISelectionRequest,
   TSelectionResponse,
   IStudentData,
+  TRegistrationPathResponse,
 } from "@uninus/entities";
 
 export const DegreeProgramGet = async (
@@ -42,5 +43,14 @@ export const SelectionGet = async (params: ISelectionRequest): Promise<TSelectio
 
 export const StudentUpdate = async (payload: IStudentData): Promise<IStudentData> => {
   const { data } = await api.patch<IStudentData>("/student", payload);
+  return data;
+};
+
+export const RegistrationsPath = async (): Promise<TRegistrationPathResponse> => {
+  const { data } = await api<TRegistrationPathResponse>({
+    method: "GET",
+    url: "/registration-path",
+  });
+
   return data;
 };

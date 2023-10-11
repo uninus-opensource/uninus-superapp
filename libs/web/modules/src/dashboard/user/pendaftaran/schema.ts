@@ -13,6 +13,9 @@ export const VSPendaftaran = z.object({
   selection_path_id: z.any().refine((value) => value, {
     message: "Jalur seleksi harus diisi",
   }),
+  registration_path_id: z.any().refine((value) => value, {
+    message: "Jalur pendaftaran harus diisi",
+  }),
 });
 
 export type TVSPendaftaran = z.infer<typeof VSPendaftaran>;
