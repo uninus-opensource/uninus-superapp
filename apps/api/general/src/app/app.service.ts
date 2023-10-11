@@ -903,7 +903,7 @@ export class AppService {
       where: {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-          first_deparment_id: 1,
+          first_department_id: 1,
           ...whereClause,
         },
       },
@@ -913,7 +913,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 2,
+          first_department_id: 2,
         },
       },
     });
@@ -922,7 +922,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 3,
+          first_department_id: 3,
         },
       },
     });
@@ -931,7 +931,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 4,
+          first_department_id: 4,
         },
       },
     });
@@ -940,7 +940,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 5,
+          first_department_id: 5,
         },
       },
     });
@@ -949,7 +949,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 6,
+          first_department_id: 6,
         },
       },
     });
@@ -958,7 +958,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 7,
+          first_department_id: 7,
         },
       },
     });
@@ -967,7 +967,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 8,
+          first_department_id: 8,
         },
       },
     });
@@ -976,7 +976,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 9,
+          first_department_id: 9,
         },
       },
     });
@@ -985,7 +985,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 10,
+          first_department_id: 10,
         },
       },
     });
@@ -994,7 +994,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 11,
+          first_department_id: 11,
         },
       },
     });
@@ -1003,7 +1003,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 12,
+          first_department_id: 12,
         },
       },
     });
@@ -1012,7 +1012,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 13,
+          first_department_id: 13,
         },
       },
     });
@@ -1021,7 +1021,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 14,
+          first_department_id: 14,
         },
       },
     });
@@ -1030,7 +1030,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 15,
+          first_department_id: 15,
         },
       },
     });
@@ -1039,7 +1039,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 16,
+          first_department_id: 16,
         },
       },
     });
@@ -1048,7 +1048,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 17,
+          first_department_id: 17,
         },
       },
     });
@@ -1057,7 +1057,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 18,
+          first_department_id: 18,
         },
       },
     });
@@ -1066,7 +1066,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 19,
+          first_department_id: 19,
         },
       },
     });
@@ -1075,7 +1075,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 20,
+          first_department_id: 20,
         },
       },
     });
@@ -1084,7 +1084,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 21,
+          first_department_id: 21,
         },
       },
     });
@@ -1093,7 +1093,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 22,
+          first_department_id: 22,
         },
       },
     });
@@ -1102,7 +1102,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 23,
+          first_department_id: 23,
         },
       },
     });
@@ -1111,7 +1111,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 24,
+          first_department_id: 24,
         },
       },
     });
@@ -1120,7 +1120,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 25,
+          first_department_id: 25,
         },
       },
     });
@@ -1256,13 +1256,13 @@ export class AppService {
               name: true,
             },
           },
-          first_deparment: {
+          first_department: {
             select: {
               id: true,
               name: true,
             },
           },
-          second_deparment: {
+          second_department: {
             select: {
               id: true,
               name: true,

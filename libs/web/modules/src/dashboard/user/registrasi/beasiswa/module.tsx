@@ -1,10 +1,9 @@
 "use client";
-import { BreadCrumb, SelectOption, Button, UploadField } from "@uninus/web/components";
+import { BreadCrumb, Button, UploadField, RadioButton } from "@uninus/web/components";
 import { FC, Fragment, ReactElement, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
-import { useScholarshipGet } from "./hooks";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { berkasKhusus } from "./type";
@@ -34,9 +33,9 @@ export const beasiswaBreadcrumb = [
 ];
 
 export const BeasiswaDashboardModule: FC = (): ReactElement => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  //const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingFile, setIsLoadingFile] = useState<boolean>(false);
-  const [isDisabled, setIsdisabled] = useState<boolean | undefined>(undefined);
+  //const [isDisabled, setIsdisabled] = useState<boolean | undefined>(undefined);
   const [isDisabledFile, setIsdisabledFile] = useState<boolean>(false);
   const [scholarshipId, setScholarshipId] = useState<number | null | undefined>(undefined);
 
@@ -62,7 +61,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
     control,
     handleSubmit,
     reset,
-    formState: { isValid },
+    // formState: { isValid },
   } = useForm<FieldValues>({
     mode: "all",
   });
@@ -74,21 +73,6 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
   } = useForm<berkasKhusus>({
     mode: "all",
   });
-
-  const [scholarship] = useState({
-    search: "",
-  });
-
-  const { data: getScholarship } = useScholarshipGet(scholarship);
-
-  const scholarshipOptions = useMemo(
-    () =>
-      getScholarship?.scholarship?.map((scholarship) => ({
-        label: scholarship?.name,
-        value: scholarship?.id.toString(),
-      })),
-    [getScholarship?.scholarship],
-  );
 
   const { mutate } = useBiodataUpdate();
   const { mutate: upload } = useUploadFile();
@@ -110,11 +94,11 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
     beasiswa.scholarship_id = Number(data?.scholarship_id);
 
     try {
-      setIsLoading(true);
+      //setIsLoading(true);
       mutate(beasiswa, {
         onSuccess: () => {
-          setIsLoading(false);
-          setIsdisabled(true);
+          //setIsLoading(false);
+          //setIsdisabled(true);
           setScholarshipId(beasiswa.scholarship_id);
           setTimeout(() => {
             toast.success("Berhasil Memilih Beasiswa", {
@@ -130,7 +114,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
           }, 500);
         },
         onError: () => {
-          setIsLoading(false);
+          //setIsLoading(false);
           setTimeout(() => {
             toast.error("Gagal Memilih Beasiswa", {
               position: "top-center",
@@ -381,54 +365,132 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
           </p>
         </div>
       </div>
-      <form onSubmit={onSubmit}>
-        <div className="flex flex-col p-8 bg-primary-white shadow-lg rounded-md w-full lg:h-[240px] h-auto">
-          <SelectOption
-            labels="Pilih salah satu beasiswa yang tersedia"
-            labelClassName="lg:text-xl text-sm py-2"
-            className="shadow-md bg-slate-4 rounded-md text-primary-black w-full"
-            placeholder={
-              student?.scholarship_id
-                ? getScholarship?.scholarship?.find(
-                    (scholarship) => scholarship.id === student?.scholarship_id,
-                  )?.name
-                : "Pilih Beasiswa"
-            }
-            options={scholarshipOptions || []}
-            isClearable={false}
-            isSearchable={false}
-            name="scholarship_id"
-            control={control}
-            required={true}
-            disabled={isDisabled || !!student?.scholarship_id || undefined}
-            isMulti={false}
-          />
-          <div className="flex w-full justify-center lg:justify-end py-8">
-            <Button
-              type="submit"
-              variant="filled"
+      <form onSubmit={onSubmit} className="flex flex-col w-full gap-3">
+        <div className="flex bg-primary-white p-5 shadow-lg rounded-md w-full h-auto justify-between">
+          <div className="flex items-center gap-3 w-[80%]">
+            <h1 className="text-[13px] md:text-[1rem] xl:text-[1.3rem] text-primary-green font-extrabold text-left">
+              Beasiswa Nusantara Unggul
+            </h1>
+            <h2 className="text-[11px] md:text-[0.9rem] xl:text-[1rem] text-secondary-green-4 font-bold text-left">
+              (50% Potongan UKT Semester 1)
+            </h2>
+          </div>
+          <div className="w-[20%] xl:w-[25%] flex justify-end items-center pb-2">
+            <RadioButton
+              name="beasiswa"
+              control={control}
               size="md"
-              width="w-50% lg:w-25% xl:w-15%"
-              loading={isLoading}
-              disabled={isDisabled || student?.scholarship_id ? true : false}
-              className={`${
-                isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"
-              } text-white rounded-md`}
-            >
-              Submit
-            </Button>
-            <ToastContainer
-              position="top-right"
-              autoClose={3000}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="colored"
+              options={[{ label: "", value: "beasiswa-nusantara-unggul" }]}
+              variant="primary"
             />
           </div>
+        </div>
+        <div className="flex bg-primary-white p-5 shadow-lg rounded-md w-full h-auto justify-between">
+          <div className="flex flex-col items-center gap-3 w-[80%]">
+            <div className="w-full flex items-center gap-2">
+              <h1 className="text-[13px] md:text-[1rem] xl:text-[1.3rem] text-primary-green font-extrabold text-left">
+                Beasiswa Nusantara Berprestasi
+              </h1>
+              <h2 className="text-[11px] md:text-[0.9rem] xl:text-[1rem] text-secondary-green-4 font-extrabold text-left">
+                (25% Potongan UKT Semester 1)
+              </h2>
+            </div>
+            <div className="w-full flex flex-col justify-center gap-1 xl:gap-3">
+              <p className="text-grayscale-6 text-[11px] md:text-[0.9rem] xl:text-[1rem] text-left">
+                Persyaratan Dokumen :{" "}
+              </p>
+              <ol className="text-grayscale-6 list-decimal pl-5 text-[11px] md:text-[0.9rem] xl:text-[1rem] text-left">
+                <li>Bukti kejuaraan minimal juara 3 tingkat kabupaten/daerah, atau</li>
+                <li>Bukti tahfiz qur &apos; an minimal 3 juz</li>
+              </ol>
+            </div>
+          </div>
+          <div className="w-[20%] xl:w-[25%] flex justify-end items-center pb-2">
+            <RadioButton
+              name="beasiswa"
+              control={control}
+              size="md"
+              options={[{ label: "", value: "beasiswa-nusantara-berprestasi" }]}
+              variant="primary"
+            />
+          </div>
+        </div>
+        <div className="flex bg-primary-white p-5 shadow-lg rounded-md w-full h-auto justify-between">
+          <div className="flex flex-col items-center gap-3 w-[80%]">
+            <div className="w-full flex items-center gap-2">
+              <h1 className="text-[13px] md:text-[1rem] xl:text-[1.3rem] text-primary-green font-extrabold text-left">
+                Beasiswa Mitra Nusantara
+              </h1>
+              <h2 className="text-[11px] md:text-[0.9rem] xl:text-[1rem] text-secondary-green-4 font-extrabold text-left">
+                (20% Potongan UKT Semester 1)
+              </h2>
+            </div>
+            <div className="w-full flex flex-col justify-center gap-1 xl:gap-3">
+              <p className="text-grayscale-6 text-[11px] text-left md:text-[0.9rem] xl:text-[1rem]">
+                Persyaratan Dokumen :{" "}
+              </p>
+              <ol className="text-grayscale-6 list-decimal pl-5 text-[11px] md:text-[0.9rem] xl:text-[1rem] text-left">
+                <li>Bukti keanggotaan NU(Orang tua), atau</li>
+                <li>Surat tugas mengajar bagi guru SMA/SMK/MA atau Sederajat (Orang Tua)</li>
+              </ol>
+            </div>
+          </div>
+          <div className="w-[20%] xl:w-[25%] flex justify-end items-center pb-2">
+            <RadioButton
+              name="beasiswa"
+              control={control}
+              size="md"
+              options={[{ label: "", value: "beasiswa-nusantara-berprestasi" }]}
+              variant="primary"
+            />
+          </div>
+        </div>
+        <div className="flex bg-primary-white p-5 shadow-lg rounded-md w-full h-auto justify-between">
+          <div className="flex flex-col items-center gap-3 w-[80%]">
+            <div className="w-full flex items-center gap-2">
+              <h1 className="text-[13px] md:text-[1rem] xl:text-[1.3rem] text-primary-green font-extrabold text-left">
+                Beasiswa Nusantara Peduli Difabel
+              </h1>
+              <h2 className="text-[11px] md:text-[0.9rem] xl:text-[1rem] text-secondary-green-4 font-extrabold text-left">
+                (20% Potongan UKT Semester 1)
+              </h2>
+            </div>
+            <div className="w-full flex flex-col justify-center gap-1 xl:gap-3">
+              <p className="text-grayscale-6 text-[11px] md:text-[0.9rem] xl:text-[1rem] text-left">
+                Persyaratan Dokumen :{" "}
+              </p>
+              <ol className="text-grayscale-6 list-decimal pl-5 text-[11px] md:text-[0.9rem] xl:text-[1rem] text-left">
+                <li>Surat Keterangan difabel dari dokter/rumah sakit</li>
+              </ol>
+            </div>
+          </div>
+          <div className="w-[20%] xl:w-[25%] flex justify-end items-center pb-2">
+            <RadioButton
+              name="beasiswa-nusantara-peduli-difabel"
+              control={control}
+              size="md"
+              options={[{ label: "", value: "beasiswa-nusantara-berprestasi" }]}
+              variant="primary"
+            />
+          </div>
+        </div>
+
+        <div className="flex w-full justify-between py-8">
+          <Button
+            href="/dashboard/registrasi/biodata"
+            type="button"
+            variant="filled"
+            size="md"
+            width="w-auto"
+          >
+            <CaretLeftOutlined />
+            <p className="px-2 md:flex hidden"> Data Registrasi</p>
+          </Button>
+
+          <Button type="submit" variant="filled" size="md" width="w-auto">
+            <p className="px-2 md:flex hidden">Upload berkas</p>
+            <CaretRightOutlined />
+          </Button>
         </div>
       </form>
 

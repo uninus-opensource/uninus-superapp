@@ -2,7 +2,13 @@
 import { ReactElement, FC, useEffect, useMemo, useState, useRef } from "react";
 import { Button, SelectOption } from "@uninus/web/components";
 import { FieldValues, useForm } from "react-hook-form";
-import { useDegreeProgramGet, useDepartmentGet, useSelectionGet, useStudentUpdate } from "./hooks";
+import {
+  useDegreeProgramGet,
+  useDepartmentGet,
+  useRegistrationsPathGet,
+  useSelectionGet,
+  useStudentUpdate,
+} from "./hooks";
 import { studentPendaftaran } from "./store";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -122,13 +128,24 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     (degree) => degree.id === student?.degree_program_id,
   );
   const selectionFirstDepartement = getDepartment?.department.find(
-    (degree) => degree.id === student?.first_deparment_id,
+    (degree) => degree.id === student?.first_department_id,
   );
   const selectionSecondDepartement = getDepartment?.department.find(
-    (degree) => degree.id === student?.second_deparment_id,
+    (degree) => degree.id === student?.second_department_id,
   );
   const selectionType = getSelection?.selection.find(
     (degree) => degree.id === student?.selection_path_id,
+  );
+
+  const { data: getRegistrationsPath } = useRegistrationsPathGet();
+
+  const RegistationsPathOptions = useMemo(
+    () =>
+      getRegistrationsPath?.registration_path.map((registrations) => ({
+        label: registrations?.name,
+        value: registrations?.id.toString(),
+      })),
+    [getRegistrationsPath?.registration_path],
   );
 
   useEffect(() => {
@@ -139,8 +156,9 @@ export const ModulePendaftaran: FC = (): ReactElement => {
 
   const onSubmit = handleSubmit((data) => {
     studentPendaftaran.degree_program_id = Number(data.degree_program_id);
-    studentPendaftaran.first_deparment_id = Number(data.first_deparment_id);
-    studentPendaftaran.second_deparment_id = Number(data.second_deparment_id);
+    studentPendaftaran.first_department_id = Number(data.first_department_id);
+    studentPendaftaran.second_department_id = Number(data.second_department_id);
+    studentPendaftaran.registration_path_id = Number(data.registration_path_id);
     studentPendaftaran.selection_path_id = Number(data.selection_path_id);
 
     try {
@@ -242,17 +260,17 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               labelClassName="text-left py-2"
               labels={isS3Selected ? "Pilih Program Studi" : "Pilihan Program Studi 1"}
               control={control}
-              name="first_deparment_id"
+              name="first_department_id"
               options={DepartmentOptions || []}
               isSearchable={true}
               isMulti={false}
               isClearable={true}
               required={true}
-              disabled={!watch("degree_program_id") || !!student?.first_deparment_id}
+              disabled={!watch("degree_program_id") || !!student?.first_department_id}
               status="error"
               message={
-                watch("degree_program_id") && !student?.first_deparment_id
-                  ? (errors?.first_deparment_id?.message as string)
+                watch("degree_program_id") && !student?.first_department_id
+                  ? (errors?.first_department_id?.message as string)
                   : ""
               }
             />
@@ -263,23 +281,38 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 className="text-left"
                 labelClassName="text-left py-2"
                 control={control}
-                name="second_deparment_id"
+                name="second_department_id"
                 options={DepartmentOptions || []}
                 isSearchable={true}
                 isMulti={false}
                 isClearable={true}
                 required={true}
-                disabled={!watch("degree_program_id") || !!student?.second_deparment_id}
+                disabled={!watch("degree_program_id") || !!student?.second_department_id}
                 ref={prodi2Ref}
                 status="error"
                 message={
-                  watch("degree_program_id") && !isS3Selected && !student?.second_deparment_id
-                    ? (errors?.second_deparment_id?.message as string)
+                  watch("degree_program_id") && !isS3Selected && !student?.second_department_id
+                    ? (errors?.second_department_id?.message as string)
                     : ""
                 }
               />
             )}
-
+            <SelectOption
+              placeholder={selectionType?.name || "Pilih Jalur Pendaftaran"}
+              labels="Jalur Pendaftaran"
+              className="text-left"
+              labelClassName="text-left py-2"
+              control={control}
+              name="registration_path_id"
+              options={RegistationsPathOptions || []}
+              isSearchable={true}
+              isMulti={false}
+              isClearable={true}
+              required={true}
+              disabled={!!student?.registration_path_id || !watch("degree_program_id")}
+              status="error"
+              message={errors?.registration_path_id?.message as string}
+            />
             <SelectOption
               placeholder={selectionType?.name || "Pilih Jalur Seleksi"}
               labels="Jalur Seleksi"

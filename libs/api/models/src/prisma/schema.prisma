@@ -47,22 +47,26 @@ model Students {
   education_npsn          String?
   salary_id               Int?
   occupation_id           Int?
+  occupation_position     String?
   company_name            String?
   company_address         String?
   father_name             String?
   father_status_id        Int?
   father_education_id     Int?
   father_occupation_id    Int?
+  father_position         String?
   father_salary_id        Int?
   mother_name             String?
   mother_status_id        Int?
   mother_education_id     Int?
   mother_occupation_id    Int?
+  mother_position         String?
   mother_salary_id        Int?
   guardian_name           String?
   guardian_status_id      Int?
   guardian_education_id   Int?
   guardian_occupation_id  Int?
+  guardian_position       String?
   guardian_salary_id      Int?
   guardian_province_id    Int?
   guardian_subdistrict_id Int?
@@ -79,10 +83,6 @@ model Students {
   academic_year           String?
   user_id                 String           @unique
   createdAt               DateTime         @default(now())
-  father_position         String?
-  guardian_position       String?
-  mother_position         String?
-  occupation_position     String?
   pmb                     PMB?
   citizenship             Citizenship?     @relation(fields: [citizenship_id], references: [id])
   city                    City?            @relation("student", fields: [city_id], references: [id])
@@ -380,17 +380,20 @@ model Country {
 }
 
 model Occupation {
-  id       Int        @id @default(autoincrement())
-  name     String
-  father   Students[] @relation("father")
-  guardian Students[] @relation("guardian")
-  mother   Students[] @relation("mother")
-  Students Students[] @relation("student")
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  father             Students[]           @relation("father")
+  guardian           Students[]           @relation("guardian")
+  mother             Students[]           @relation("mother")
+  Students           Students[]           @relation("student")
+  OccupationPosition OccupationPosition[]
 }
 
 model OccupationPosition {
-  id   Int    @id @default(autoincrement())
-  name String
+  id            Int         @id @default(autoincrement())
+  name          String
+  occupation_id Int?
+  occupation    Occupation? @relation(fields: [occupation_id], references: [id])
 }
 
 model Disabilities {

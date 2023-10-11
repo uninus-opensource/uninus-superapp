@@ -8,8 +8,15 @@ import {
   ISelectionRequest,
   TSelectionResponse,
   IStudentData,
+  TRegistrationPathResponse,
 } from "@uninus/entities";
-import { DegreeProgramGet, DepartmentGet, SelectionGet, StudentUpdate } from "./api";
+import {
+  DegreeProgramGet,
+  DepartmentGet,
+  RegistrationsPath,
+  SelectionGet,
+  StudentUpdate,
+} from "./api";
 
 export const useDegreeProgramGet = (
   params: IDegreeProgramRequest,
@@ -50,3 +57,13 @@ export const useStudentUpdate = (): UseMutationResult<
       return await StudentUpdate(payload);
     },
   });
+
+export const useRegistrationsPathGet = (): UseQueryResult<
+  TRegistrationPathResponse,
+  TMetaErrorResponse
+> => {
+  return useQuery({
+    queryKey: ["getRegistrationsPath"],
+    queryFn: async () => await RegistrationsPath(),
+  });
+};
