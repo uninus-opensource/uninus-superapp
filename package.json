@@ -84,7 +84,7 @@
     "@tailwindcss/forms": "^0.5.6",
     "@tanstack/react-query": "^4.36.1",
     "@types/buffer-to-stream": "^1.0.0",
-    "@types/express": "^4.17.17",
+    "@types/express": "^4.17.19",
     "@types/multer": "^1.4.7",
     "@types/nodemailer": "^6.4.10",
     "@types/passport-jwt": "^3.0.9",
