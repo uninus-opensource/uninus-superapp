@@ -22,8 +22,8 @@ export interface IGetStudentRequest {
 export interface IStudentData {
   email?: string | null;
   fullname?: string | null;
-  first_deparment_id?: number | null;
-  second_deparment_id?: number | null;
+  first_department_id?: number | null;
+  second_department_id?: number | null;
   selection_path_id?: number | null;
   registration_path_id?: number | null;
   degree_program_id?: number | null;
