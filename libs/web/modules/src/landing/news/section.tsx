@@ -35,7 +35,7 @@ export const NewsSection: FC = (): ReactElement => {
   ];
 
   return (
-    <section className="my-10  h-full w-full gap-3 lg:px-14 px-4 py-2 flex flex-col  xl:px-32">
+    <section className="my-16 h-full w-full gap-3 lg:px-14 px-4 py-2 flex flex-col pt-20 xl:px-32">
       <h1 className=" text-2xl text-center lg:text-4xl text-secondary-green-4 font-bold">
         Berita <span className="text-primary-green">Terkini</span>
       </h1>
@@ -47,13 +47,13 @@ export const NewsSection: FC = (): ReactElement => {
         target="_blank"
         className="flex justify-end items-end place-content-end lg:mr-[6.5vw]"
       >
-        <h1 className="text-secondary-green-4  md:text-lg text-md text-right font-bold ">
+        <h1 className="text-secondary-green-4 md:text-lg text-md pr-8 lg:pr-0 text-right font-bold ">
           Lihat Semua
         </h1>
       </Link>
 
-      <div className="flex flex-col gap-10 md:flex-row md:gap-x-4 mx-[5vw] md:mx-0 justify-between xl:justify-evenly">
-        <div className="bigest w-full md:w-[47%] xl:w-30%">
+      <div className="flex flex-col md:flex-row  mx-[5vw] md:mx-0 justify-between xl:justify-evenly">
+        <div className="bigest w-full md:w-[47%] xl:w-40% mb-8 lg:mb-0">
           <Link
             href="https://uninus.ac.id/uninus-masuk-4-besar-kampus-islam-terbaik-di-jawa-barat/"
             target="_blank"
