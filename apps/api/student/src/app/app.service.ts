@@ -97,7 +97,7 @@ export class AppService {
       registration_path_id,
       ...updateStudentPayload
     } = payload;
-    if (documents[0]?.isVerified) {
+    if (documents && typeof documents[0]["isVerified"] == "undefined") {
       for await (const data of documents) {
         const documentsStudent = await this.prisma.users.update({
           where: {
