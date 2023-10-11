@@ -74,7 +74,7 @@ export class UpdateStudentDto {
   occupation_id!: number;
 
   @ApiProperty()
-  occupation_position_id!: number;
+  occupation_position!: string;
 
   @ApiProperty()
   salary_id!: number;
@@ -92,7 +92,7 @@ export class UpdateStudentDto {
   father_occupation_id!: number;
 
   @ApiProperty()
-  father_position_id!: number;
+  father_position!: string;
 
   @ApiProperty()
   father_salary_id!: number;
@@ -110,7 +110,7 @@ export class UpdateStudentDto {
   mother_occupation_id!: number;
 
   @ApiProperty()
-  mother_position_id!: number;
+  mother_position!: string;
 
   @ApiProperty()
   mother_salary_id!: number;
@@ -128,7 +128,7 @@ export class UpdateStudentDto {
   guardian_occupation_id!: number;
 
   @ApiProperty()
-  guardian_position_id!: number;
+  guardian_position!: string;
 
   @ApiProperty()
   guardian_salary_id!: number;
@@ -204,6 +204,10 @@ export class UpdateStudentDto {
       {
         name: "kk",
         path: "https://uninus.s3.ap-southeast-1.amazonaws.com/169393489551WhatsAp-Image-2023-08-31-a-20.10.31.jpeg",
+      },
+      {
+        id: "04422755-dafb-46e1-aeeb-1aec363c9af2",
+        isVerified: true,
       },
     ],
   })

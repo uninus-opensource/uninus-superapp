@@ -52,7 +52,7 @@ export const EndTestModule: FC = (): ReactElement => {
           </div>
         </div>
       </div>
-      {selectionType === 1 && (
+      {(selectionType === 1 || selectionType === 2) && (
         <RedirectLink link="/dashboard/registrasi/beasiswa">Beasiswa</RedirectLink>
       )}
 

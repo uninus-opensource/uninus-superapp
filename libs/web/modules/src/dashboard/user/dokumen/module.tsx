@@ -570,13 +570,11 @@ export const ModuleDokumen: FC = (): ReactElement => {
         </section>
       </section>
 
-      {selectionType === 2 && (
+      {(selectionType === 1 || selectionType === 2) && (
         <RedirectLink link="/dashboard/registrasi/beasiswa">Beasiswa</RedirectLink>
       )}
 
-      {(selectionType === 3 || selectionType === 1) && (
-        <RedirectLink link="/dashboard/selection">Tes seleksi</RedirectLink>
-      )}
+      {selectionType === 3 && <RedirectLink link="/dashboard/selection">Tes seleksi</RedirectLink>}
     </form>
   );
 };

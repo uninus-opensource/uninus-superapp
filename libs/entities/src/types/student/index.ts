@@ -50,19 +50,19 @@ export interface IStudentData {
   father_status_id?: number | null;
   father_education_id?: number | null;
   father_occupation_id?: number | null;
-  father_position_id?: number | null;
+  father_position?: string | null;
   father_salary_id?: number | null;
   mother_name?: string | null;
   mother_status_id?: number | null;
   mother_education_id?: number | null;
   mother_occupation_id?: number | null;
-  mother_position_id?: number | null;
+  mother_position?: string | null;
   mother_salary_id?: number | null;
   guardian_name?: string | null;
   guardian_status_id?: number | null;
   guardian_education_id?: number | null;
   guardian_occupation_id?: number | null;
-  guardian_position_id?: number | null;
+  guardian_position?: string | null;
   guardian_salary_id?: number | null;
   guardian_province_id?: number | null;
   guardian_subdistrict_id?: number | null;
@@ -81,7 +81,7 @@ export interface IStudentData {
   occupation_id?: number | null;
   company_name?: string | null;
   company_address?: string | null;
-  occupation_position_id?: number | null;
+  occupation_position?: string | null;
   utbk_pu?: number | null;
   utbk_kk?: number | null;
   utbk_ppu?: number | null;
@@ -94,6 +94,8 @@ export interface IStudentData {
 export interface IGetStudentResponse extends IStudentData {
   avatar: string | null;
   documents?: Array<{
+    id?: string;
+    isVerified?: boolean;
     name: string;
     path: string;
   }> | null;
@@ -122,6 +124,8 @@ export interface IUpdateStudentResponse extends IStudentData {
     grade: number | null;
   }>;
   documents?: Array<{
+    id?: string;
+    isVerified?: boolean;
     name: string;
     path: string;
   }> | null;
@@ -133,6 +137,8 @@ export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData 
     path: string;
   } | null;
   documents?: Array<{
+    id?: string;
+    isVerified?: boolean;
     name: string;
     path: string;
   }> | null;

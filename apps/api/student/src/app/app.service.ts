@@ -41,7 +41,6 @@ export class AppService {
     if (!student) {
       throw new RpcException(new BadRequestException("User tidak ditemukan"));
     }
-    console.log(student);
     const {
       avatar,
       email,
@@ -98,6 +97,38 @@ export class AppService {
       registration_path_id,
       ...updateStudentPayload
     } = payload;
+    if (documents[0]?.isVerified) {
+      for await (const data of documents) {
+        const documentsStudent = await this.prisma.users.update({
+          where: {
+            id,
+          },
+          data: {
+            students: {
+              update: {
+                pmb: {
+                  update: {
+                    documents: {
+                      update: {
+                        where: {
+                          id: data.id,
+                        },
+                        data: {
+                          isVerified: data.isVerified,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+        if (!documentsStudent) {
+          throw new RpcException(new BadRequestException("Gagal update berkas"));
+        }
+      }
+    }
     if (student_grade) {
       for await (const data of student_grade) {
         const updateStudentGrade = await this.prisma.users.update({
