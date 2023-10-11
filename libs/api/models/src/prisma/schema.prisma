@@ -380,7 +380,6 @@ model Country {
 }
 
 model Occupation {
-<<<<<<< HEAD
   id                 Int                  @id @default(autoincrement())
   name               String
   father             Students[]           @relation("father")
@@ -395,20 +394,6 @@ model OccupationPosition {
   name          String
   occupation_id Int?
   occupation    Occupation? @relation(fields: [occupation_id], references: [id])
-=======
-  id   Int    @id @default(autoincrement())
-  name String
-
-  father   Students[] @relation("father")
-  guardian Students[] @relation("guardian")
-  mother   Students[] @relation("mother")
-  Students Students[] @relation("student")
-}
-
-model OccupationPosition {
-  id   Int    @id @default(autoincrement())
-  name String
->>>>>>> de3d5b1f (improve: change position)
 }
 
 model Disabilities {

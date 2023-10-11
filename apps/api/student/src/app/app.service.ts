@@ -97,11 +97,7 @@ export class AppService {
       registration_path_id,
       ...updateStudentPayload
     } = payload;
-<<<<<<< HEAD
-    if (documents && typeof documents[0]["isVerified"] != "undefined") {
-=======
-    if (documents[0]?.isVerified) {
->>>>>>> de3d5b1f (improve: change position)
+    if (documents && typeof documents[0]?.isVerified != "undefined") {
       for await (const data of documents) {
         const documentsStudent = await this.prisma.users.update({
           where: {
@@ -191,13 +187,14 @@ export class AppService {
                 utbk_kmbm,
                 average_utbk,
                 registration_status_id: 2,
-                ...(documents && {
-                  documents: {
-                    createMany: {
-                      data: documents,
+                ...(documents &&
+                  typeof documents[0]?.name != "undefined" && {
+                    documents: {
+                      createMany: {
+                        data: documents,
+                      },
                     },
-                  },
-                }),
+                  }),
                 ...(document && {
                   documents: {
                     createMany: {
