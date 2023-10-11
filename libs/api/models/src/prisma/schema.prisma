@@ -391,9 +391,9 @@ model Occupation {
 
 model OccupationPosition {
   id            Int         @id @default(autoincrement())
-  name          String
   occupation_id Int?
   occupation    Occupation? @relation(fields: [occupation_id], references: [id])
+  name          String
 }
 
 model Disabilities {
