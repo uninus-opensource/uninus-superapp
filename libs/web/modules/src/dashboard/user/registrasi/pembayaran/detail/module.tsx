@@ -64,12 +64,12 @@ export const DetailPembayaran: FC = (): ReactElement => {
   }, [getStudent?.degree_program_id]);
 
   const firstDepartement = useMemo(() => {
-    return getStudent?.first_deparment_id;
-  }, [getStudent?.first_deparment_id]);
+    return getStudent?.first_department_id;
+  }, [getStudent?.first_department_id]);
 
   const secondDepartement = useMemo(() => {
-    return getStudent?.second_deparment_id;
-  }, [getStudent?.second_deparment_id]);
+    return getStudent?.second_department_id;
+  }, [getStudent?.second_department_id]);
 
   const [programMeta] = useState({
     search: "",

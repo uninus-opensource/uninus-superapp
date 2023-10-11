@@ -164,10 +164,10 @@ export class UpdateStudentDto {
   degree_program_id!: number;
 
   @ApiProperty()
-  first_deparment_id!: number;
+  first_department_id!: number;
 
   @ApiProperty()
-  second_deparment_id!: number;
+  second_department_id!: number;
 
   @ApiProperty()
   selection_path_id!: number;

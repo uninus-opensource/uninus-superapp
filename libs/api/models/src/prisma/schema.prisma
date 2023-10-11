@@ -134,8 +134,8 @@ model StudentGrade {
 model PMB {
   id                     String              @unique @default(uuid())
   degree_program_id      Int?
-  first_deparment_id     Int?
-  second_deparment_id    Int?
+  first_department_id    Int?
+  second_department_id   Int?
   registration_status_id Int?
   registration_number    String?
   selection_path_id      Int?
@@ -151,10 +151,10 @@ model PMB {
   registration_path_id   Int?
   documents              Documents[]
   degree_program         DegreeProgram?      @relation(fields: [degree_program_id], references: [id])
-  first_deparment        Department?         @relation("first_deparment", fields: [first_deparment_id], references: [id])
+  first_department       Department?         @relation("first_deparment", fields: [first_department_id], references: [id])
   registration_path      RegistrationPath?   @relation(fields: [registration_path_id], references: [id])
   registration_status    RegistrationStatus? @relation(fields: [registration_status_id], references: [id])
-  second_deparment       Department?         @relation("second_deparment", fields: [second_deparment_id], references: [id])
+  second_department      Department?         @relation("second_deparment", fields: [second_department_id], references: [id])
   selection_path         SelectionPath?      @relation(fields: [selection_path_id], references: [id])
   student                Students?           @relation(fields: [student_id], references: [id], onDelete: Cascade)
   student_grade          StudentGrade[]
@@ -382,18 +382,18 @@ model Country {
 model Occupation {
   id                 Int                  @id @default(autoincrement())
   name               String
-  occupationposition OccupationPosition[]
   father             Students[]           @relation("father")
   guardian           Students[]           @relation("guardian")
   mother             Students[]           @relation("mother")
   Students           Students[]           @relation("student")
+  OccupationPosition OccupationPosition[]
 }
 
 model OccupationPosition {
   id            Int         @id @default(autoincrement())
+  name          String
   occupation_id Int?
   occupation    Occupation? @relation(fields: [occupation_id], references: [id])
-  name          String
 }
 
 model Disabilities {
@@ -456,8 +456,8 @@ model Employees {
 
 model EmployeeHasEducation {
   id           Int        @id @default(autoincrement())
-  education_id Int?
   employee_id  Int
+  education_id Int?
   education    Education? @relation(fields: [education_id], references: [id])
   employee     Employees  @relation(fields: [employee_id], references: [id])
 }
