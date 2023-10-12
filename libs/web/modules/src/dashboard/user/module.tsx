@@ -12,19 +12,19 @@ export const DashboardModule: FC = (): ReactElement => {
         </h1>
         <p className=" text-lg 2xl:text-2xl pt-2 font-extrabold text-secondary-green-4">Beranda</p>
       </div>
-      <div className="flex w-full h-[150px] bg-[#FBFDE9] rounded-md p-4">
+      <div className="flex flex-col justify-center items-center md:flex-row w-full h-[275px] md:h-[150px] bg-[#FBFDE9] rounded-md p-4">
         <Image
           src={"/illustrations/warning.svg"}
-          width={200}
-          height={100}
+          width={500}
+          height={500}
           priority
           quality={100}
           alt={"neo-uninus"}
-          className="w-30 p-4"
+          className="w-28 md:w-30 p-4"
         />
-        <div>
+        <div className="h-auto w-full">
           <h1 className="font-bold">PERINGATAN</h1>
-          <p className="text-sm">
+          <p className="text-xs md:text-sm mt-2 md:mt-0">
             Untuk mempermudah proses PMB, harap mempersiapkan dokumen - dokumen berikut:
             <br />
             S1 : Ijazah, Akte, Ktp, KK <br />

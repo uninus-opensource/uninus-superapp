@@ -330,7 +330,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               message={errors?.selection_path_id?.message as string}
             />
           </div>
-          <div className="flex flex-col gap-2 w-full items-center mt-4 lg:mt-10 lg:items-end">
+          <div className="flex flex-col gap-2 w-full items-center mt-8 md:mt-4 lg:mt-10 lg:items-end">
             {watch("second_deparment_id") &&
               !isS3Selected &&
               watch("first_deparment_id") === watch("second_deparment_id") && (
