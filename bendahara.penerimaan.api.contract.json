@@ -12,11 +12,11 @@
   "servers": [
     {
       "url":"https://api.dev.uninus.ac.id/api",
-      "description": "Uninus Digizatilation API Server"
+      "description": "Uninus Digitalitation API Server"
     }
   ],
   "paths": {
-    "/payment_summary": {
+    "/payment-summary": {
       "get": {
         "summary": "Get data payment summary",
         "description": "Will return data total student, student with scholarship, full payment, installment payment, unpaid with addtion per day or by filter",
@@ -36,7 +36,7 @@
           "200": {
             "description": "Get Data Finance1",
             "content": {
-              "appcation/json": {
+              "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -93,6 +93,75 @@
                         "additions_undone_payment": {
                           "type": "integer"
                         }
+                      }
+                    }
+                  }
+                },
+                "examples":{
+                  "daily": {
+                    "description": "Example for filter daily",
+                    "value": {
+                      "data": [
+                        {
+                          "label": "Senin",
+                          "total_student": 100,
+                          "paid": 100,
+                          "unpaid": 0,
+                          "installment_payment": 0   
+                        },
+                        {
+                          "label": "Selasa",
+                          "total_student": 110,
+                          "paid": 120,
+                          "unpaid": 30,
+                          "installment_payment": 40  
+                        },
+                        {
+                          "label": "Rabu",
+                          "total_student": 120,
+                          "paid": 130,
+                          "unpaid": 40,
+                          "installment_payment": 50   
+                        },
+                        {
+                          "label": "Kamis",
+                          "total_student": 120,
+                          "paid": 140,
+                          "unpaid": 50,
+                          "installment_payment": 60   
+                        },
+                        {
+                          "label": "Jumat",
+                          "total_student": 130,
+                          "paid": 150,
+                          "unpaid": 60,
+                          "installment_payment": 70   
+                        },
+                        {
+                          "label": "Sabtu",
+                          "total_student": 140,
+                          "paid": 160,
+                          "unpaid": 70,
+                          "installment_payment": 80   
+                        },
+                        {
+                          "label": "Minggu",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80,
+                          "installment_payment": 90   
+                        }
+                      ],
+                      "summary": {
+                        "total_student": 700,
+                        "student_with_scholarship": 500,
+                        "additions_student_scholarship": 20,
+                        "paids": 700,
+                        "additions_paids": 55,
+                        "installment_payment": 30,
+                        "additions_installment_payment": 13,
+                        "undone_payment": 6000,
+                        "additions_undone_payment": 30
                       }
                     }
                   }
