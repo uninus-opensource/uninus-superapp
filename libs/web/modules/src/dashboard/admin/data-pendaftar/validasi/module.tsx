@@ -13,7 +13,7 @@ export const ModuleValidasiDataPendaftar: FC = (): ReactElement => {
   const id = path.split("/")[4];
 
   const { setStudentbyId } = useStudentDataByIdValidation();
-  const { data, isError } = useGetStudentById(id);
+  const { data, isError, isLoading } = useGetStudentById(id);
   setStudentbyId(data);
 
   const degreeProgram = useMemo(() => {
@@ -51,7 +51,9 @@ export const ModuleValidasiDataPendaftar: FC = (): ReactElement => {
           </p>
         </div>
 
-        {isError ? (
+        {isLoading ? (
+          <div className="bg-grayscale-2 w-full h-[25em] rounded-md animate-pulse"></div>
+        ) : isError ? (
           <section className="flex flex-col justify-center items-center gap-4 w-full bg-primary-white p-4 rounded-lg shadow-lg">
             <h1 className="text-secondary-green-4 text-xl md:text-3xl lg:text-4xl font-bold">
               Data tidak tersedia!

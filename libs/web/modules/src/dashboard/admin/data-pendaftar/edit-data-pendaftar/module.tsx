@@ -90,7 +90,7 @@ export const ModuleEditDataPendaftar: FC = (): ReactElement => {
       </div>
       <div className="flex flex-col justify-center gap-2 text-sm">
         {isLoading ? (
-          <span className="bg-grayscale-2 w-full h-screen  rounded-md animate-pulse"></span>
+          <span className="bg-grayscale-2 w-full h-screen rounded-md animate-pulse"></span>
         ) : (
           <Fragment>
             <div className={isActive === 1 ? "block" : "hidden"}>
