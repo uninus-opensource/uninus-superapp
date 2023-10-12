@@ -67,7 +67,7 @@
     "@builder.io/partytown": "^0.8.0",
     "@casl/ability": "^6.5.0",
     "@casl/prisma": "^1.4.1",
-    "@hookform/resolvers": "^3.3.1",
+    "@hookform/resolvers": "^3.3.2",
     "@mobily/ts-belt": "^3.13.1",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/common": "^10.2.7",
