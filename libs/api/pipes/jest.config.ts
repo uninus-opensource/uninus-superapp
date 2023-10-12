@@ -1,11 +1,11 @@
 /* eslint-disable */
 export default {
-  displayName: "api-validator",
+  displayName: "api-pipes",
   preset: "../../../jest.preset.js",
   testEnvironment: "node",
   transform: {
     "^.+\\.[tj]s$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.spec.json" }],
   },
   moduleFileExtensions: ["ts", "js", "html"],
-  coverageDirectory: "../../../coverage/libs/api/validator",
+  coverageDirectory: "../../../coverage/libs/api/pipes",
 };

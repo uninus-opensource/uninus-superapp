@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { PrismaModule } from "@uninus/api/models";
+import { PrismaModule } from "@uninus/api/modules";
 
 @Module({
   imports: [PrismaModule],

@@ -15,7 +15,7 @@ import {
 import { EAppsOrigin, VSRegistrationNumber } from "@uninus/entities";
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
-import { ZodValidationPipe } from "@uninus/api/validator";
+import { ZodValidationPipe } from "@uninus/api/pipes";
 import { GraduationStatusDto, UpdateStudentDto } from "@uninus/api/dto";
 import {
   ApiResponse,
@@ -27,7 +27,7 @@ import {
 } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
-import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
 
 @Controller("student")
 @ApiTags("Student")
