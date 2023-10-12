@@ -4,13 +4,19 @@ import { FC, ReactElement, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { NilaiValuesEdit } from "../../../edit-data-pendaftar/type";
 import { useStudentDataByIdValidation } from "@uninus/web/services";
+import { usePathname } from "next/navigation";
+import { useBiodataUpdateById } from "../../../edit-data-pendaftar/hooks";
 
 export const RaporSnbt: FC = (): ReactElement => {
   const { control, setValue, watch, getValues, reset } = useForm<NilaiValuesEdit>({
     mode: "all",
   });
 
-  const { control: checkBoxControl } = useForm({
+  const {
+    control: checkBoxControl,
+    handleSubmit,
+    setValue: checkBoxSetValue,
+  } = useForm({
     mode: "all",
   });
 
@@ -18,6 +24,13 @@ export const RaporSnbt: FC = (): ReactElement => {
 
   const student = useMemo(() => {
     return getStudentbyId;
+  }, [getStudentbyId]);
+
+  const path = usePathname();
+  const id = path.split("/")[4];
+
+  const documents = useMemo(() => {
+    return getStudentbyId?.documents;
   }, [getStudentbyId]);
 
   const watchStudentGrade = watch([
@@ -129,20 +142,36 @@ export const RaporSnbt: FC = (): ReactElement => {
     watchUtbk,
   ]);
 
+  const semester_1 = documents?.find((doc) => doc.name === "Rapot Semester 1");
+  const semester_2 = documents?.find((doc) => doc.name === "Rapot Semester 2");
+  const semester_3 = documents?.find((doc) => doc.name === "Rapot Semester 3");
+  const semester_4 = documents?.find((doc) => doc.name === "Rapot Semester 4");
+  const utbk = documents?.find((doc) => doc.name === "Nilai UTBK");
+
   const link = [
-    {
-      href: student?.documents?.find((x) => x?.name === "Rapot Semester 1")?.path,
-    },
-    {
-      href: student?.documents?.find((x) => x?.name === "Rapot Semester 2")?.path,
-    },
-    {
-      href: student?.documents?.find((x) => x?.name === "Rapot Semester 3")?.path,
-    },
-    {
-      href: student?.documents?.find((x) => x?.name === "Rapot Semester 4")?.path,
-    },
+    { href: semester_1?.path },
+    { href: semester_2?.path },
+    { href: semester_3?.path },
+    { href: semester_4?.path },
   ];
+
+  const { mutate } = useBiodataUpdateById(id);
+
+  const onSubmit = handleSubmit((data) => {
+    try {
+      mutate({
+        documents: [
+          { id: semester_1?.id, isVerified: true },
+          { id: semester_2?.id, isVerified: true },
+          { id: semester_3?.id, isVerified: true },
+          { id: semester_4?.id, isVerified: true },
+          { id: utbk?.id, isVerified: data?.rapor_snbt },
+        ],
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
   return (
     <Accordion
@@ -151,7 +180,7 @@ export const RaporSnbt: FC = (): ReactElement => {
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[1.5vw] pb-6 md:pb-0"
     >
-      <form className="bg-primary-white py-4 px-8">
+      <form onSubmit={onSubmit} className="bg-primary-white py-4 px-8">
         <h1 className="font-bold text-2xl md:pl-16 lg:pl-0 mt-3 place-self-start text-center md:text-left">
           Nilai Rapor
         </h1>
@@ -189,7 +218,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-xs md:text-sm "
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.mtk1 ? true : false}
               />
               <TextField
                 inputHeight="h-10"
@@ -199,7 +227,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-xs md:text-sm "
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.mtk2 ? true : false}
               />
               <TextField
                 inputHeight="h-10"
@@ -209,7 +236,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-sm "
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.mtk3 ? true : false}
               />
               <TextField
                 inputHeight="h-10"
@@ -219,7 +245,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-sm "
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.mtk4 ? true : false}
               />
             </div>
           </div>
@@ -234,7 +259,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-xs md:text-sm"
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.bind1 ? true : false}
               />
               <TextField
                 inputHeight="h-10"
@@ -244,7 +268,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-xs md:text-sm"
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.bind2 ? true : false}
               />
               <TextField
                 inputHeight="h-10"
@@ -254,7 +277,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-sm "
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.bind3 ? true : false}
               />
               <TextField
                 inputHeight="h-10"
@@ -264,7 +286,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-sm "
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.bind4 ? true : false}
               />
             </div>
           </div>
@@ -280,7 +301,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
                 className="ml-4"
-                // disabled={isDisabled || dataStudentGrade?.bing1 ? true : false}
               />
               <TextField
                 inputHeight="h-10"
@@ -290,7 +310,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-sm "
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.bing2 ? true : false}
               />
               <TextField
                 inputHeight="h-10"
@@ -300,7 +319,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-sm "
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.bing3 ? true : false}
               />
               <TextField
                 inputHeight="h-10"
@@ -310,7 +328,6 @@ export const RaporSnbt: FC = (): ReactElement => {
                 labelclassname="text-sm "
                 inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
                 control={control}
-                // disabled={isDisabled || dataStudentGrade?.bing4 ? true : false}
               />
             </div>
           </div>
@@ -420,9 +437,7 @@ export const RaporSnbt: FC = (): ReactElement => {
           <div className="flex items-center justify-between w-full   ">
             <p className="flex-shrink-0  font-bold text-sm md:text-base">Sertifikat UTBK : </p>
             <Link
-              href={
-                (student?.documents?.find((x) => x?.name === "Nilai UTBK")?.path as string) || ""
-              }
+              href={(utbk?.path as string) || ""}
               className="flex items-center justify-center bg-primary-green w-[17vw] md:w-[10vw] text-primary-white p-2 rounded-[3px] \
                text-base"
             >
@@ -431,10 +446,17 @@ export const RaporSnbt: FC = (): ReactElement => {
           </div>
           <div className="font-bold flex gap-4 mt-12">
             <h3>Sudah Sesuai?</h3>
-            <CheckBox name="rapor-snbt" control={checkBoxControl} />
+            <CheckBox
+              name="rapor_snbt"
+              control={checkBoxControl}
+              onChange={(e) => {
+                checkBoxSetValue("rapor_snbt", e.target.checked);
+              }}
+              defaultChecked={utbk?.isVerified}
+            />
           </div>
 
-          <div className="flex w-full justify-center lg:justify-end py-4 mt-8 relative left-24">
+          <div className="flex w-full justify-center lg:justify-end py-4 mt-8 relative">
             <Button type="submit" variant="filled" size="md" width="w-[10%]" height="h-6">
               Submit
             </Button>

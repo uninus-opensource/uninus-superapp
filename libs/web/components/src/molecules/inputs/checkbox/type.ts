@@ -9,7 +9,7 @@ export type TCheckBoxProps<T extends FieldValues> = UseControllerProps<T> & {
   label?: string;
   name?: string;
   required?: boolean;
-  checked?: boolean;
+  defaultChecked?: boolean;
   message?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   onClick?: MouseEventHandler<HTMLInputElement>;
