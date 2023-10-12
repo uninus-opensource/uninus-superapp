@@ -47,26 +47,22 @@ model Students {
   education_npsn          String?
   salary_id               Int?
   occupation_id           Int?
-  occupation_position     String?
   company_name            String?
   company_address         String?
   father_name             String?
   father_status_id        Int?
   father_education_id     Int?
   father_occupation_id    Int?
-  father_position         String?
   father_salary_id        Int?
   mother_name             String?
   mother_status_id        Int?
   mother_education_id     Int?
   mother_occupation_id    Int?
-  mother_position         String?
   mother_salary_id        Int?
   guardian_name           String?
   guardian_status_id      Int?
   guardian_education_id   Int?
   guardian_occupation_id  Int?
-  guardian_position       String?
   guardian_salary_id      Int?
   guardian_province_id    Int?
   guardian_subdistrict_id Int?
@@ -83,6 +79,10 @@ model Students {
   academic_year           String?
   user_id                 String           @unique
   createdAt               DateTime         @default(now())
+  father_position         String?
+  guardian_position       String?
+  mother_position         String?
+  occupation_position     String?
   pmb                     PMB?
   citizenship             Citizenship?     @relation(fields: [citizenship_id], references: [id])
   city                    City?            @relation("student", fields: [city_id], references: [id])
@@ -120,6 +120,7 @@ model Students {
   scholarship             Scholarship?     @relation(fields: [scholarship_id], references: [id])
   subdistrict             SubDistrict?     @relation("student", fields: [subdistrict_id], references: [id])
   user                    Users            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  test_score              Int?
 }
 
 model StudentGrade {
@@ -134,8 +135,6 @@ model StudentGrade {
 model PMB {
   id                     String              @unique @default(uuid())
   degree_program_id      Int?
-  first_department_id    Int?
-  second_department_id   Int?
   registration_status_id Int?
   registration_number    String?
   selection_path_id      Int?
@@ -149,6 +148,8 @@ model PMB {
   average_grade          Float?              @default(0)
   createdAt              DateTime            @default(now())
   registration_path_id   Int?
+  first_department_id    Int?
+  second_department_id   Int?
   documents              Documents[]
   degree_program         DegreeProgram?      @relation(fields: [degree_program_id], references: [id])
   first_department       Department?         @relation("first_deparment", fields: [first_department_id], references: [id])
@@ -380,20 +381,17 @@ model Country {
 }
 
 model Occupation {
-  id                 Int                  @id @default(autoincrement())
-  name               String
-  father             Students[]           @relation("father")
-  guardian           Students[]           @relation("guardian")
-  mother             Students[]           @relation("mother")
-  Students           Students[]           @relation("student")
-  OccupationPosition OccupationPosition[]
+  id       Int        @id @default(autoincrement())
+  name     String
+  father   Students[] @relation("father")
+  guardian Students[] @relation("guardian")
+  mother   Students[] @relation("mother")
+  Students Students[] @relation("student")
 }
 
 model OccupationPosition {
-  id            Int         @id @default(autoincrement())
-  name          String
-  occupation_id Int?
-  occupation    Occupation? @relation(fields: [occupation_id], references: [id])
+  id   Int    @id @default(autoincrement())
+  name String
 }
 
 model Disabilities {

@@ -113,3 +113,23 @@ export class CreateScholarship {
   })
   public name!: string;
 }
+
+export class createQuestion {
+  @ApiProperty({
+    example: "Kapan Indonesia Merdeka?",
+    type: "string",
+  })
+  public question!: string;
+
+  @ApiProperty({
+    example: "1945",
+    type: "string",
+  })
+  public correct_answer!: string;
+
+  @ApiProperty({
+    example: ["1986", "1988", "1950"],
+    type: "array",
+  })
+  public incorrect_answers!: string[];
+}
