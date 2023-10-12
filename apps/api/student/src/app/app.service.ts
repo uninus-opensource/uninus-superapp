@@ -174,6 +174,7 @@ export class AppService {
         avatar,
         students: {
           update: {
+            test_score,
             ...updateStudentPayload,
             pmb: {
               update: {

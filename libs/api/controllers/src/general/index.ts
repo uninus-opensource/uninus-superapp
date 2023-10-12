@@ -5,7 +5,6 @@ import {
   Post,
   Delete,
   Body,
-  Put,
   Param,
   Inject,
   UseFilters,
@@ -14,12 +13,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery, ApiParam } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
-import {
-  EOrderByPagination,
-  TCreateQuestionRequest,
-  TProfileResponse,
-  TUpdateQuestionRequest,
-} from "@uninus/entities";
+import { EOrderByPagination, TProfileResponse } from "@uninus/entities";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
 import {
   CreateDepartment,
