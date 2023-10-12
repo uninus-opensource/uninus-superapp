@@ -82,17 +82,20 @@ export const BerkasKhusus: FC = (): ReactElement => {
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[1.5vw] pb-6 md:pb-0 overflow-y-hidden"
     >
-      <form onSubmit={onSubmit} className="w-[85%] flex flex-col gap-5 bg-primary-white py-4 px-8">
+      <form
+        onSubmit={onSubmit}
+        className="w-full md:w-[85%] flex flex-col gap-5 bg-primary-white py-4 px-4 md:px-8 text-sm md:text-lg"
+      >
         {/* 1 */}
         {scholarship === 1 && (
           <Fragment>
-            <section className="w-full flex items-center justify-between">
-              <div className="h-[5em] flex flex-col gap-2">
-                <h3 className="font-bold">Sertifikat Aktif Organisasi</h3>
-                <div className="w-full flex gap-2">
+            <section className="w-full flex items-center justify-between mt-8 md:mt-0 text-xs md:text-lg">
+              <div className="h-[5em] flex flex-col gap-2 items-start">
+                <h3 className="font-bold text-left">Sertifikat Aktif Organisasi</h3>
+                <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
                     href={`${sertifikat_aktif?.path}`}
-                    className="text-primary-green underline truncate w-[18em]"
+                    className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                     target="_blank"
                   >
                     {sertifikat_aktif?.path.split("/")[4].slice(10)}
@@ -108,7 +111,7 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4">
+              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
                 <CheckBox
                   name="sertifikat_aktif"
@@ -119,13 +122,13 @@ export const BerkasKhusus: FC = (): ReactElement => {
               </div>
             </section>
 
-            <section className="w-full flex items-center justify-between">
-              <div className="h-[5em] flex flex-col gap-2">
+            <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+              <div className="h-[5em] flex flex-col gap-2 items-start">
                 <h3 className="font-bold">Sertifikat Lainnya</h3>
-                <div className="w-full flex gap-2">
+                <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
                     href={`${sertifikat_lainnya?.path}`}
-                    className="text-primary-green underline truncate w-[18em]"
+                    className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                     target="_blank"
                   >
                     {sertifikat_lainnya?.path.split("/")[4].slice(10)}
@@ -141,7 +144,7 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4">
+              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
                 <CheckBox
                   name="sertifikat_lainnya"
@@ -157,13 +160,13 @@ export const BerkasKhusus: FC = (): ReactElement => {
         {/* 2 */}
         {scholarship === 2 && (
           <Fragment>
-            <section className="w-full flex items-center justify-between">
-              <div className="h-[5em] flex flex-col gap-2">
+            <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+              <div className="h-[5em] flex flex-col gap-2 items-start">
                 <h3 className="font-bold">Sertifikat Kejuaraan</h3>
-                <div className="w-full flex gap-2">
+                <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
                     href={`${sertifikat_kejuaraan?.path}`}
-                    className="text-primary-green underline truncate w-[18em]"
+                    className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                     target="_blank"
                   >
                     {sertifikat_kejuaraan?.path.split("/")[4].slice(10)}
@@ -179,7 +182,7 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4">
+              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
                 <CheckBox
                   name="sertifikat_kejuaraan"
@@ -190,13 +193,13 @@ export const BerkasKhusus: FC = (): ReactElement => {
               </div>
             </section>
 
-            <section className="w-full flex items-center justify-between">
-              <div className="h-[5em] flex flex-col gap-2">
+            <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+              <div className="h-[5em] flex flex-col gap-2 items-start">
                 <h3 className="font-bold">Sertifikat Tahfizh Qur'an</h3>
-                <div className="w-full flex gap-2">
+                <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
                     href={`${tahfizh?.path}`}
-                    className="text-primary-green underline truncate w-[18em]"
+                    className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                     target="_blank"
                   >
                     {tahfizh?.path.split("/")[4].slice(10)}
@@ -212,7 +215,7 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4">
+              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
                 <CheckBox
                   name="tahfizh"
@@ -227,13 +230,13 @@ export const BerkasKhusus: FC = (): ReactElement => {
 
         {/* 3 */}
         {scholarship === 3 && (
-          <section className="w-full flex items-center justify-between">
-            <div className="h-[5em] flex flex-col gap-2">
+          <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+            <div className="h-[5em] flex flex-col gap-2 items-start">
               <h3 className="font-bold">Surat Keterangan Dokter</h3>
-              <div className="w-full flex gap-2">
+              <div className="w-full flex flex-col md:flex-row gap-2">
                 <Link
                   href={`${surat_dokter?.path}`}
-                  className="text-primary-green underline truncate w-[18em]"
+                  className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                   target="_blank"
                 >
                   {surat_dokter?.path.split("/")[4].slice(10)}
@@ -249,7 +252,7 @@ export const BerkasKhusus: FC = (): ReactElement => {
               </div>
             </div>
 
-            <div className="font-bold h-[5em] flex flex-col gap-4">
+            <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
               <CheckBox
                 name="surat_dokter"
@@ -264,13 +267,13 @@ export const BerkasKhusus: FC = (): ReactElement => {
         {/* 4 */}
         {scholarship === 4 && (
           <Fragment>
-            <section className="w-full flex items-center justify-between">
-              <div className="h-[5em] flex flex-col gap-2">
+            <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+              <div className="h-[5em] flex flex-col gap-2 items-start">
                 <h3 className="font-bold">Bukti Anggota NU</h3>
-                <div className="w-full flex gap-2">
+                <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
                     href={`${surat_anggota_nu?.path}`}
-                    className="text-primary-green underline truncate w-[18em]"
+                    className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                     target="_blank"
                   >
                     {surat_anggota_nu?.path.split("/")[4].slice(10)}
@@ -286,7 +289,7 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4">
+              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
                 <CheckBox
                   name="surat_angota_nu"
@@ -297,13 +300,13 @@ export const BerkasKhusus: FC = (): ReactElement => {
               </div>
             </section>
 
-            <section className="w-full flex items-center justify-between">
-              <div className="h-[5em] flex flex-col gap-2">
+            <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+              <div className="h-[5em] flex flex-col gap-2 items-start">
                 <h3 className="font-bold">Surat Tugas Dari Sekolah</h3>
-                <div className="w-full flex gap-2">
+                <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
                     href={`${surat_tugas?.path}`}
-                    className="text-primary-green underline truncate w-[18em]"
+                    className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                     target="_blank"
                   >
                     {surat_tugas?.path.split("/")[4].slice(10)}
@@ -319,7 +322,7 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4">
+              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
                 <CheckBox
                   name="surat_tugas"
@@ -332,8 +335,8 @@ export const BerkasKhusus: FC = (): ReactElement => {
           </Fragment>
         )}
 
-        <div className="flex w-full justify-center lg:justify-end py-4 mt-8 relative left-20">
-          <Button type="submit" variant="filled" size="md" width="w-[10%]" height="h-6">
+        <div className="flex w-full justify-center lg:justify-end py-4 mt-12 relative md:left-20">
+          <Button type="submit" variant="filled" size="md" height="h-6">
             Submit
           </Button>
         </div>

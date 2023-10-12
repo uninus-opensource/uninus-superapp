@@ -96,7 +96,7 @@ const Table: FC = (): ReactElement => {
       {
         name: "Tanggal Daftar",
         cell: (row) => convertDate(row.createdAt as string),
-        width: "190px",
+        width: "200px",
       },
       {
         name: "Nama Lengkap",

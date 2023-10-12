@@ -60,11 +60,11 @@ export const CardSection: FC = (): ReactElement => {
     items: CardDesc.map((x, i) => (
       <div key={i} className="flex h-full p-4">
         <div
-          className=" bg-primary-white w-full h-[130px] gap-y-4 shadow-md rounded-md p-4 text-lg"
+          className="flex flex-col justify-center items-center bg-primary-white w-full h-[130px] gap-y-1 shadow-md rounded-md p-4 text-lg"
           key={i}
         >
           <figure
-            className={`flex justify-center items-center w-[40px] p-1 rounded-md ${x.background} ${x.tcolor}`}
+            className={`flex justify-center items-center w-[40px] p-1 rounded-md  ${x.background} ${x.tcolor}`}
           >
             {x.icon}
           </figure>
