@@ -11,7 +11,7 @@ import {
   TUsersPaginationArgs,
   TUsersPaginatonResponse,
 } from "@uninus/entities";
-import { PrismaService } from "@uninus/api/models";
+import { PrismaService } from "@uninus/api/services";
 import { encryptPassword } from "@uninus/api/utilities";
 import { RpcException } from "@nestjs/microservices";
 

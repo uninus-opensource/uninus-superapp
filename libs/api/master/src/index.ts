@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { PrismaModule } from "@uninus/api/models";
+import { PrismaModule } from "@uninus/api/modules";
 import {
   AuthModule,
   GeneralModule,

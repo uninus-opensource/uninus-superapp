@@ -1,21 +1,21 @@
 {
-  "name": "api-validator",
+  "name": "api-pipes",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/api/validator/src",
+  "sourceRoot": "libs/api/pipes/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/api/validator/**/*.ts"]
+        "lintFilePatterns": ["libs/api/pipes/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "libs/api/validator/jest.config.ts",
+        "jestConfig": "libs/api/pipes/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {

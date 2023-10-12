@@ -20,7 +20,7 @@ import {
   TProfileResponse,
   TUpdateQuestionRequest,
 } from "@uninus/entities";
-import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
 import {
   CreateDepartment,
   CreateEducation,

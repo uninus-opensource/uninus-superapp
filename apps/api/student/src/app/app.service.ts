@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "@uninus/api/models";
+import { PrismaService } from "@uninus/api/services";
 import {
   IGetStudentRequest,
   IGetStudentResponse,
