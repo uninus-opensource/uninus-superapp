@@ -668,36 +668,56 @@ export class AppService {
       }
     }
 
-    const [total_registrans, accepted_registrans, paidsCount, unpaidsCount] = await Promise.all([
-      this.prisma.users.count({
-        select: {
-          _all: true,
-        },
-        where: whereClause,
-      }),
-      this.prisma.pMB.count({
-        where: {
-          ...whereClause,
-          registration_status_id: 5,
-        },
-      }),
-      this.prisma.pMB.count({
-        where: {
-          ...whereClause,
-          registration_status_id: 3,
-        },
-      }),
-      this.prisma.pMB.count({
-        where: {
-          ...whereClause,
-          registration_status_id: 2,
-        },
-      }),
-    ]);
+    const [total_registrans, total_interest, accepted_registrans, paidsUKTCount, paidsFormCount] =
+      await Promise.all([
+        this.prisma.users.count({
+          select: {
+            _all: true,
+          },
+          where: whereClause,
+        }),
+
+        this.prisma.students.count({
+          select: {
+            _all: true,
+          },
+          where: {
+            ...whereClause,
+            pmb: {
+              documents: {
+                some: {
+                  pmb_id: {
+                    not: null,
+                  },
+                },
+              },
+            },
+          },
+        }),
+        this.prisma.pMB.count({
+          where: {
+            ...whereClause,
+            registration_status_id: 4,
+          },
+        }),
+        this.prisma.pMB.count({
+          where: {
+            ...whereClause,
+            registration_status_id: 6,
+          },
+        }),
+        this.prisma.pMB.count({
+          where: {
+            ...whereClause,
+            registration_status_id: 3,
+          },
+        }),
+      ]);
     return {
       total_registrans: total_registrans._all,
-      paids: paidsCount,
-      unpaids: unpaidsCount,
+      total_interest: total_interest._all,
+      paids_form: paidsFormCount,
+      paids_ukt: paidsUKTCount,
       accepted_registrans: accepted_registrans,
     };
   }
