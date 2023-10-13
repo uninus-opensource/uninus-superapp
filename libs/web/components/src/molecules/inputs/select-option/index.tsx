@@ -36,7 +36,7 @@ export const SelectOption = forwardRef(
       "text-base font-bold": props.size === SELECT_SIZE.MD,
     });
 
-    const messageClassName = clsx("ml-2 mt-1 text-xs", {
+    const messageClassName = clsx("text-left md:ml-2 mt-1 text-xs", {
       "text-green-4": props.status === SELECT_STATUS.SUCCESS,
       "text-amber-3": props.status === SELECT_STATUS.WARNING,
       "text-red-4": props.status === SELECT_STATUS.ERROR,

@@ -294,20 +294,20 @@ export const DataNilaiSection: FC = (): ReactElement => {
           <div className="md:ml-20 lg:ml-[8.5rem] flex gap-x-12 md:gap-x-5 mt-9 lg:gap-x-11 lg:w-full ">
             <p className="text-[12px] lg:text-base font-bold lg:pr-0 md:hidden">Semester</p>
             <div className="mb-4 flex-shrink-0">
-              <p className="inputLabelemesterStyle">Semester 1</p>
-              <p className="text-[13px] md:hidden">1</p>
+              <p className="labelSemesterStyle">Semester 1</p>
+              <p className="text-[13px] ml-[2px] md:hidden">1</p>
             </div>
             <div className="mb-4 flex-shrink-0">
-              <p className="inputLabelemesterStyle">Semester 2</p>
-              <p className="text-[13px] md:hidden">2</p>
+              <p className="labelSemesterStyle">Semester 2</p>
+              <p className="text-[13px] ml-[2px] md:hidden">2</p>
             </div>
             <div className="mb-4 flex-shrink-0">
-              <p className="inputLabelemesterStyle">Semester 3</p>
-              <p className="text-[13px] md:hidden">3</p>
+              <p className="labelSemesterStyle">Semester 3</p>
+              <p className="text-[13px] ml-[2px] md:hidden">3</p>
             </div>
             <div className="mb-4 flex-shrink-0">
-              <p className="inputLabelemesterStyle">Semester 4</p>
-              <p className="text-[13px] md:hidden">4</p>
+              <p className="labelSemesterStyle">Semester 4</p>
+              <p className="text-[13px] ml-[2px] md:hidden">4</p>
             </div>
           </div>
 

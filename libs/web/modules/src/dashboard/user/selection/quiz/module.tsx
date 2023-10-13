@@ -134,21 +134,33 @@ export const QuizModule: FC = (): ReactElement => {
               </div>
             </Fragment>
           </Modal>
-          <div className="w-[80%] lg:w-full relative rounded-lg h-auto md:h-[30rem] lg:h-[27rem] xl:h-[83vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex flex-col  md:p-4">
+          <div className="w-[80%] lg:w-full relative rounded-lg h-auto md:h-[30rem] lg:h-[27rem] xl:h-[83vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex flex-col p-4 mt-5">
             <div className="flex flex-col gap-y-3">
-              <h1 className="text-primary-green text-lg lg:text-3xl py-3 font-extrabold">
+              <h1 className="hidden md:block text-primary-green text-lg lg:text-3xl py-3 font-extrabold">
                 Seleksi Test
               </h1>
 
-              <div className="flex w-full pb-3 justify-between items-center border-b-[3px] border-b-slate-5">
+              <div className="flex items-center justify-between">
+                <h1 className="text-primary-green text-lg lg:text-3xl py-3 font-extrabold">
+                  Seleksi Test
+                </h1>
+                <div
+                  className="md:hidden icon p-2 rounded-full bg-primary-white shadow-lg cursor-pointer"
+                  onClick={handleShowList}
+                >
+                  <BiSolidLeftArrow className="text-primary-green" />
+                </div>
+              </div>
+
+              <div className="flex w-full pb-3 justify-between items-center border-b-[3px] border-b-slate-5 mt-3 md:mt-0">
                 <h2 className="font-extrabold lg:text-2xl">
                   {`Soal No. ${isActiveQuestion + 1}`}{" "}
                 </h2>
                 <div className="flex flex-row justify-center items-center ">
                   <div className="bg-[#BDBDBD] px-4 py-1">
-                    <p className="text-primary-white text-sm font-bold">Sisa Waktu</p>
+                    <p className="text-primary-white text-xs md:text-sm font-bold">Sisa Waktu</p>
                   </div>
-                  <div className="px-2 lg:px-4 py-1  text-sm  text-primary-white bg-secondary-green-1 font-bold  mr-5">
+                  <div className="px-2 lg:px-4 py-1 text-xs md:text-sm text-primary-white bg-secondary-green-1 font-bold mr-5">
                     {minutes === 0 && seconds === 0 ? null : (
                       <h1>
                         {minutes} : {seconds < 10 ? `0${seconds}` : seconds}
@@ -156,7 +168,7 @@ export const QuizModule: FC = (): ReactElement => {
                     )}
                   </div>
                   <div
-                    className="icon p-2 rounded-full bg-primary-white shadow-lg cursor-pointer"
+                    className="hidden md:block icon p-2 rounded-full bg-primary-white shadow-lg cursor-pointer"
                     onClick={handleShowList}
                   >
                     <BiSolidLeftArrow className="text-primary-green" />
