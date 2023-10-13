@@ -231,6 +231,13 @@ export type TDisabilitiesResponse = {
   }>;
 };
 
+export type TQuestionResponse = {
+  id: number;
+  question: string;
+  correct_answer: string;
+  incorrect_answers: string[];
+};
+
 export interface IYearGraduationRequest {
   search: string;
 }

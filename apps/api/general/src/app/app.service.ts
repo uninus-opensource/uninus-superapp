@@ -65,6 +65,7 @@ import {
   TCreateScholarshipRequest,
   TRegistrationPathResponse,
   TEmployeeCategoriesResponse,
+  TQuestionResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -427,12 +428,20 @@ export class AppService {
     return { school_type: educationTypes };
   }
 
-  async getAllQuestion() {
+  async getAllQuestion(): Promise<TQuestionResponse[]> {
     const questions = await this.prisma.questions.findMany();
-    if (!questions) {
+    if (questions.length === 0) {
       throw new RpcException(new NotFoundException("Soal tidak tersedia"));
     }
-    return questions;
+
+    const formattedQuestions: TQuestionResponse[] = questions.map((question) => ({
+      id: question.id,
+      question: question.question,
+      correct_answer: question.correct_answer,
+      incorrect_answers: question.incorrect_answers,
+    }));
+
+    return formattedQuestions;
   }
 
   async createQuestion(data: TCreateQuestionRequest) {
@@ -447,44 +456,60 @@ export class AppService {
     }
 
     const newQuestion = await this.prisma.questions.create({
-      data: data,
+      data: {
+        question: data.question,
+        correct_answer: data.correct_answer,
+        incorrect_answers: data.incorrect_answers,
+      },
     });
 
     return newQuestion;
   }
 
-  async updateQuestion(id: number, data: TUpdateQuestionRequest) {
+  async updateQuestion(id: number, data: TUpdateQuestionRequest): Promise<TGeneralResponse> {
     const existingQuestion = await this.prisma.questions.findFirst({
       where: {
-        question: data.question,
+        id: Number(id),
       },
     });
 
-    if (existingQuestion && existingQuestion.id !== id) {
-      throw new RpcException(new ConflictException("Soal sudah tersedia"));
-    }
-
-    await this.prisma.questions.update({
-      where: { id },
-      data: data,
-    });
-
-    return this.prisma.questions.findUnique({ where: { id } });
-  }
-
-  async deleteQuestion(id: number): Promise<TDeleteQuestionResponse> {
-    const question = await this.prisma.questions.findUnique({
-      where: {
-        id,
-      },
-    });
-    if (!question) {
+    if (!existingQuestion) {
       throw new RpcException(new NotFoundException("Soal tidak ditemukan"));
     }
 
-    await this.prisma.questions.delete({ where: { id } });
+    const updateQuestion = await this.prisma.questions.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        question: data.question,
+        correct_answer: data.correct_answer,
+        incorrect_answers: data.incorrect_answers,
+      },
+    });
+
+    if (!updateQuestion) {
+      throw new RpcException(new BadRequestException("Gagal mengubah soal"));
+    }
+
     return {
-      message: "Question deleted",
+      message: "Berhasil mengubah soal",
+    };
+  }
+
+  async deleteQuestion(id: number): Promise<TDeleteQuestionResponse> {
+    const deletedQuestion = await this.prisma.questions.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!deletedQuestion) {
+      throw new RpcException(new BadRequestException("Soal tidak tersedia"));
+    }
+
+    return {
+      message: "Soal berhasil dihapus",
     };
   }
 
