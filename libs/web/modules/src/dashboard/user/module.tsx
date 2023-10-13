@@ -12,7 +12,7 @@ export const DashboardModule: FC = (): ReactElement => {
         </h1>
         <p className=" text-lg 2xl:text-2xl pt-2 font-extrabold text-secondary-green-4">Beranda</p>
       </div>
-      <div className="flex flex-col justify-center items-center md:flex-row w-full h-[275px] md:h-[150px] bg-[#FBFDE9] rounded-md p-4">
+      <div className="flex flex-col justify-center items-center md:flex-row w-full h-[275px] md:h-[150px] bg-secondary-yellow-1 rounded-md p-4">
         <Image
           src={"/illustrations/warning.svg"}
           width={500}

@@ -69,6 +69,9 @@ module.exports = {
           1: "#1678682E",
           2: "#B9DEDA",
         },
+        yellow: {
+          1: "#FBFDE9",
+        },
       },
       grayscale: {
         10: "#141414",
