@@ -29,12 +29,30 @@
               "type": "string",
               "nullable": true,
               "enum": ["DAILY", "WEEKLY", "MONTHLY", "YEARLY"]
+            },
+            "examples": {
+              "daily": {
+                "summary": "Example for filter daily",
+                "value": "DAILY"
+              },
+              "weekly": {
+                "summary": "Example for filter weekly",
+                "value": "WEEKLY"
+              },
+              "monthly": {
+                "summary": "Example for filter monthly",
+                "value": "MONTHLY"
+              },
+              "yearly": {
+                "summary": "Example for filter yearly",
+                "value": "YEARLY"
+              }
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Get Data Finance1",
+            "description": "Get Data Payment Summary",
             "content": {
               "application/json": {
                 "schema": {
@@ -164,6 +182,140 @@
                         "additions_undone_payment": 30
                       }
                     }
+                  },
+                  "monthly": {
+                    "description": "Example for filter daily",
+                    "value": {
+                      "data": [
+                        {
+                          "label": "Januari",
+                          "total_student": 100,
+                          "paid": 100,
+                          "unpaid": 0,
+                          "installment_payment": 0   
+                        },
+                        {
+                          "label": "Februari",
+                          "total_student": 110,
+                          "paid": 120,
+                          "unpaid": 30,
+                          "installment_payment": 40  
+                        },
+                        {
+                          "label": "Maret",
+                          "total_student": 120,
+                          "paid": 130,
+                          "unpaid": 40,
+                          "installment_payment": 50   
+                        },
+                        {
+                          "label": "April",
+                          "total_student": 120,
+                          "paid": 140,
+                          "unpaid": 50,
+                          "installment_payment": 60   
+                        },
+                        {
+                          "label": "Mei",
+                          "total_student": 130,
+                          "paid": 150,
+                          "unpaid": 60,
+                          "installment_payment": 70   
+                        },
+                        {
+                          "label": "Juni",
+                          "total_student": 140,
+                          "paid": 160,
+                          "unpaid": 70,
+                          "installment_payment": 80   
+                        },
+                        {
+                          "label": "Juli",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80,
+                          "installment_payment": 90   
+                        },
+                        {
+                          "label": "Agustus",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80,
+                          "installment_payment": 90   
+                        },
+                        {
+                          "label": "September",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80,
+                          "installment_payment": 90   
+                        },
+                        {
+                          "label": "Oktober",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80,
+                          "installment_payment": 90   
+                        },
+                        {
+                          "label": "November",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80,
+                          "installment_payment": 90   
+                        },
+                        {
+                          "label": "Desember",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80,
+                          "installment_payment": 90   
+                        }
+                      ],
+                      "summary": {
+                        "total_student": 700,
+                        "student_with_scholarship": 500,
+                        "additions_student_scholarship": 20,
+                        "paids": 700,
+                        "additions_paids": 55,
+                        "installment_payment": 30,
+                        "additions_installment_payment": 13,
+                        "undone_payment": 6000,
+                        "additions_undone_payment": 30
+                      }
+                    }
+                  },
+                  "yearly": {
+                    "description": "Example for filter daily",
+                    "value": {
+                      "data": [
+                        {
+                          "label": "2023",
+                          "total_student": 100,
+                          "paid": 100,
+                          "unpaid": 0,
+                          "installment_payment": 0   
+                        },
+                        {
+                          "label": "2024",
+                          "total_student": 110,
+                          "paid": 120,
+                          "unpaid": 30,
+                          "installment_payment": 40  
+                        }
+                      ],
+                      "summary": {
+                        "total_student": 700,
+                        "student_with_scholarship": 500,
+                        "additions_student_scholarship": 20,
+                        "paids": 700,
+                        "additions_paids": 55,
+                        "installment_payment": 30,
+                        "additions_installment_payment": 13,
+                        "undone_payment": 6000,
+                        "additions_undone_payment": 30
+                      }
+                    }
                   }
                 }
               }
@@ -178,9 +330,9 @@
         "description": "Will return data deposit from faculty to finance",
         "responses": {
           "200": {
-            "description": "Get Data Finance1",
+            "description": "Get Data Faculty Deposit",
             "content": {
-              "appcation/json": {
+              "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
@@ -193,9 +345,6 @@
                             "type": "integer"
                           },
                           "faculty": {
-                            "type": "string"
-                          },
-                          "department": {
                             "type": "string"
                           },
                           "total_student": {
@@ -221,10 +370,141 @@
                         },
                         "unpaid": {
                           "type": "integer"
-                        },
-                        "additions": {
-                          "type": "integer"
                         }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "daily": {
+                    "summary": "Example for filter daily just for summary",
+                    "value": {
+                      "data": [
+                        {
+                          "id": 1,
+                          "faculty": "Teknik Informatika",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        },
+                        {
+                          "id": 2,
+                          "faculty": "Teknik Industri",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        },
+                        {
+                          "id": 3,
+                          "faculty": "Teknik Elektro",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        }
+                      ],
+                      "summary": {
+                        "total_student": 700,
+                        "paid": 700,
+                        "unpaid": 0
+                      }
+                    }
+                  },
+                  "weekly": {
+                    "summary": "Example for filter weekly just for summary",
+                    "value": {
+                      "data": [
+                        {
+                          "id": 1,
+                          "faculty": "Teknik Informatika",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        },
+                        {
+                          "id": 2,
+                          "faculty": "Teknik Industri",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        },
+                        {
+                          "id": 3,
+                          "faculty": "Teknik Elektro",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        }
+                      ],
+                      "summary": {
+                        "total_student": 700,
+                        "paid": 700,
+                        "unpaid": 0
+                      }
+                    }
+                  },
+                  "monthly": {
+                    "summary": "Example for filter monthly just for summary",
+                    "value": {
+                      "data": [
+                        {
+                          "id": 1,
+                          "faculty": "Teknik Informatika",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        },
+                        {
+                          "id": 2,
+                          "faculty": "Teknik Industri",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        },
+                        {
+                          "id": 3,
+                          "faculty": "Teknik Elektro",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        }
+                      ],
+                      "summary": {
+                        "total_student": 700,
+                        "paid": 700,
+                        "unpaid": 0
+                      }
+                    }
+                  },
+                  "yearly": {
+                    "summary": "Example for filter yearly just for summary",
+                    "value": {
+                      "data": [
+                        {
+                          "id": 1,
+                          "faculty": "Teknik Informatika",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        },
+                        {
+                          "id": 2,
+                          "faculty": "Teknik Industri",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        },
+                        {
+                          "id": 3,
+                          "faculty": "Teknik Elektro",
+                          "total_student": 150,
+                          "paid": 170,
+                          "unpaid": 80
+                        }
+                      ],
+                      "summary": {
+                        "total_student": 700,
+                        "paid": 700,
+                        "unpaid": 0
                       }
                     }
                   }
