@@ -438,7 +438,7 @@ export const RaporSnbt: FC = (): ReactElement => {
             <p className="flex-shrink-0  font-bold text-sm md:text-base">Sertifikat UTBK : </p>
             <Link
               href={(utbk?.path as string) || ""}
-              className="flex items-center justify-center bg-primary-green w-[17vw] md:w-[10vw] text-primary-white p-2 rounded-[3px] \
+              className="flex items-center justify-center bg-primary-green md:w-[10vw] text-primary-white p-2 rounded-[3px] \
                text-base"
             >
               Buka File
@@ -457,7 +457,7 @@ export const RaporSnbt: FC = (): ReactElement => {
           </div>
 
           <div className="flex w-full justify-center lg:justify-end py-4 mt-8 relative">
-            <Button type="submit" variant="filled" size="md" width="w-[10%]" height="h-6">
+            <Button type="submit" variant="filled" size="md" height="h-6">
               Submit
             </Button>
           </div>

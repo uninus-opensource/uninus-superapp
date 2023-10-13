@@ -95,6 +95,7 @@ export class AppService {
       document,
       documents,
       registration_path_id,
+      test_score,
       ...updateStudentPayload
     } = payload;
     if (documents && typeof documents[0]?.isVerified != "undefined") {
@@ -173,6 +174,7 @@ export class AppService {
         avatar,
         students: {
           update: {
+            test_score,
             ...updateStudentPayload,
             pmb: {
               update: {

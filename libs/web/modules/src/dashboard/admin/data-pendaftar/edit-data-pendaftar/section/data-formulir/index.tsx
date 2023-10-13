@@ -284,7 +284,7 @@ export const EditFormulirPendaftar: FC = (): ReactElement => {
             message={errors?.selection_path_id?.message as string}
           />
         </div>
-        <div className="flex flex-col gap-2 w-full items-center mt-4 lg:mt-10 lg:items-end">
+        <div className="flex flex-col gap-2 w-full items-center mt-10 lg:mt-10 lg:items-end ">
           {watch("second_deparment_id") &&
             !isS3Selected &&
             watch("first_deparment_id") === watch("second_deparment_id") && (
@@ -300,7 +300,7 @@ export const EditFormulirPendaftar: FC = (): ReactElement => {
             height="h-12"
             disabled={watch("first_deparment_id") === watch("second_deparment_id")}
           >
-            Daftar Sekarang
+            Simpan
           </Button>
         </div>
       </form>

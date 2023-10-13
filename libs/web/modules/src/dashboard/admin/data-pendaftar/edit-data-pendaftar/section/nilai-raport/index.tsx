@@ -230,7 +230,7 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
   });
 
   return (
-    <form onSubmit={onSubmit} className="bg-primary-white py-4 px-8">
+    <form onSubmit={onSubmit} className="bg-primary-white py-4 px-8 mb-20">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -279,7 +279,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-xs md:text-sm "
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.mtk1 ? true : false}
             />
             <TextField
               inputHeight="h-10"
@@ -289,7 +288,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-xs md:text-sm "
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.mtk2 ? true : false}
             />
             <TextField
               inputHeight="h-10"
@@ -299,7 +297,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.mtk3 ? true : false}
             />
             <TextField
               inputHeight="h-10"
@@ -309,7 +306,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.mtk4 ? true : false}
             />
           </div>
         </div>
@@ -324,7 +320,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-xs md:text-sm"
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.bind1 ? true : false}
             />
             <TextField
               inputHeight="h-10"
@@ -334,7 +329,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-xs md:text-sm"
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.bind2 ? true : false}
             />
             <TextField
               inputHeight="h-10"
@@ -344,7 +338,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.bind3 ? true : false}
             />
             <TextField
               inputHeight="h-10"
@@ -354,7 +347,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.bind4 ? true : false}
             />
           </div>
         </div>
@@ -370,7 +362,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
               className="ml-4"
-              // disabled={isDisabled || dataStudentGrade?.bing1 ? true : false}
             />
             <TextField
               inputHeight="h-10"
@@ -380,7 +371,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.bing2 ? true : false}
             />
             <TextField
               inputHeight="h-10"
@@ -390,7 +380,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.bing3 ? true : false}
             />
             <TextField
               inputHeight="h-10"
@@ -400,7 +389,6 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
               labelclassname="text-sm "
               inputWidth="lg:w-26 w-10 md:w-16 text-xs md:text-base text-center"
               control={control}
-              // disabled={isDisabled || dataStudentGrade?.bing4 ? true : false}
             />
           </div>
         </div>
@@ -509,28 +497,17 @@ export const EditDataNilaiRaport: FC = (): ReactElement => {
           <p className="flex-shrink-0  font-bold text-sm md:text-base">Sertifikat UTBK : </p>
           <Link
             href={(student?.documents?.find((x) => x?.name === "Nilai UTBK")?.path as string) || ""}
-            className="flex items-center justify-center bg-primary-green w-[17vw] md:w-[10vw] text-primary-white p-2 rounded-[3px] \
+            className="flex items-center justify-center bg-primary-green md:w-[10vw] text-primary-white p-2 rounded-[3px] \
                text-base"
           >
             Buka File
           </Link>
         </div>
         <div className="flex w-full justify-center lg:justify-end py-4 mt-8 gap-x-3">
-          <Button
-            href={"/dashboard/data-pendaftar"}
-            variant="filled-red"
-            size="md"
-            width="w-70% lg:w-15% xl:w-15%"
-          >
+          <Button href={"/dashboard/data-pendaftar"} variant="filled-red" size="md">
             Batal
           </Button>
-          <Button
-            type="submit"
-            loading={isLoading}
-            variant="filled"
-            size="md"
-            width="w-70% lg:w-15% xl:w-15%"
-          >
+          <Button type="submit" loading={isLoading} variant="filled" size="md">
             Submit
           </Button>
         </div>

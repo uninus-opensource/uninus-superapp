@@ -351,7 +351,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
   });
 
   return (
-    <form onSubmit={onSubmit} noValidate className="bg-primary-white py-4 px-8">
+    <form onSubmit={onSubmit} noValidate className="bg-primary-white py-4 px-8 mb-20">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -905,15 +905,10 @@ export const EditDataOrangtua: FC = (): ReactElement => {
           />
         </div>
         <div className="flex w-full justify-center lg:justify-end py-4 mt-8 gap-x-3">
-          <Button
-            href={"/dashboard/data-pendaftar"}
-            variant="filled-red"
-            size="md"
-            width="w-70% lg:w-15% xl:w-15%"
-          >
+          <Button href={"/dashboard/data-pendaftar"} variant="filled-red" size="md">
             Batal
           </Button>
-          <Button type="submit" variant="filled" size="md" width="w-70% lg:w-15% xl:w-15%">
+          <Button type="submit" variant="filled" size="md">
             Submit
           </Button>
         </div>
