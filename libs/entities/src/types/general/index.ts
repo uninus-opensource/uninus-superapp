@@ -291,8 +291,9 @@ export type TParentEducationResponse = {
 
 export type TTotalRegistransResponse = {
   total_registrans: number;
-  paids: number;
-  unpaids: number;
+  total_interest: number;
+  paids_ukt: number;
+  paids_form: number;
   accepted_registrans: number;
 };
 

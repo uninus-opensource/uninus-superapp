@@ -22,21 +22,21 @@ export const CardSection: FC = (): ReactElement => {
     {
       icon: <AiOutlineTeam className="text-3xl" />,
       desc: "Total Peminat",
-      jumlah: registrans?.total_registrans,
+      jumlah: registrans?.total_interest,
       background: "bg-[#FBFDE9]",
       tcolor: "text-red-7",
     },
     {
       icon: <AiOutlineTeam className="text-3xl" />,
       desc: "Total Pendaftar",
-      jumlah: registrans?.unpaids,
+      jumlah: registrans?.total_registrans,
       background: "bg-blue-5",
       tcolor: "text-blue-1",
     },
     {
       icon: <AiOutlineFileText className="text-3xl" />,
       desc: "Membayar Formulir",
-      jumlah: registrans?.paids,
+      jumlah: registrans?.paids_form,
       background: "bg-[#FBFDE9]",
       tcolor: "text-secondary-yellow-1",
     },
@@ -50,7 +50,7 @@ export const CardSection: FC = (): ReactElement => {
     {
       icon: <AiOutlineFileDone className="text-3xl" />,
       desc: "Membayar UKT",
-      jumlah: registrans?.accepted_registrans,
+      jumlah: registrans?.paids_ukt,
       background: "bg-[#F1FFF8]",
       tcolor: "text-blue-4",
     },
