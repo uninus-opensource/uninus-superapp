@@ -5539,10 +5539,10 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.3.tgz#3d06b6769518450871fbc40770b7586334bdfd90"
   integrity sha512-THo502dA5PzG/sfQH+42Lw3fvmYkceefOspdCwpHRul8ik2Jv1K8I5OZz1AT3/rs46kwgMCe9bSBmDLYkkOMGg==
 
-"@types/validator@^13.11.1", "@types/validator@^13.7.10":
-  version "13.11.2"
-  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.11.2.tgz#a2502325a3c0bd29f36dbac3b763223edd801e17"
-  integrity sha512-nIKVVQKT6kGKysnNt+xLobr+pFJNssJRi2s034wgWeFBUx01fI8BeHTW2TcRp7VcFu9QCYG8IlChTuovcm0oKQ==
+"@types/validator@^13.11.3", "@types/validator@^13.7.10":
+  version "13.11.3"
+  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.11.3.tgz#6afba392782b44dd6cfeb390cc06c45833066ad9"
+  integrity sha512-jxjhh33aTYDHnrV1vZ3AvWQHfrGx2f5UxKjaP13l5q04fG+/hCKKm0MfodIoCqxevhbcfBb6ZjynyHuQ/jueGQ==
 
 "@types/ws@^8.5.5":
   version "8.5.6"
