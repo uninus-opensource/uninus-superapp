@@ -150,7 +150,7 @@
     "schema": "libs/api/models/src/prisma/schema.prisma"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.17",
+    "@babel/core": "^7.23.2",
     "@babel/preset-react": "^7.14.5",
     "@nestjs/schematics": "^10.0.2",
     "@nestjs/testing": "^10.2.7",
