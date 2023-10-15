@@ -7,6 +7,7 @@ import {
   UserModule,
   FileModule,
   EmployeeModule,
+  FinanceModule,
 } from "@uninus/api/modules";
 
 @Module({
@@ -18,6 +19,7 @@ import {
     GeneralModule,
     FileModule,
     EmployeeModule,
+    FinanceModule,
   ],
   controllers: [],
   providers: [],

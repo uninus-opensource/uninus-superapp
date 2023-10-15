@@ -7,3 +7,4 @@ export * from "./general";
 export * from "./file";
 export * from "./employee";
 export * from "./prisma";
+export * from "./finance";
