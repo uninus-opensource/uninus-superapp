@@ -45,6 +45,8 @@ export const Button: FC<IButtonProps> = ({
       "hover:cursor-wait ": loading,
       "bg-red-7 text-primary-white   active:shadow-inset ": variant === "filled-red",
       "bg-primary-yellow text-primary-white   active:shadow-inset ": variant === "filled-yellow",
+      "bg-secondary-green-4 text-primary-white   active:shadow-inset ":
+        variant === "filled-green-secondary",
     },
   );
 
