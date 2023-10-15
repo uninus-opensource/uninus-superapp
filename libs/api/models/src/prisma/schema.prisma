@@ -83,6 +83,8 @@ model Students {
   guardian_position       String?
   mother_position         String?
   occupation_position     String?
+  guardian_lecturer_id    String?
+  guardian_lecturer       Lecturers?       @relation(fields: [guardian_lecturer_id], references: [id])
   pmb                     PMB?
   citizenship             Citizenship?     @relation(fields: [citizenship_id], references: [id])
   city                    City?            @relation("student", fields: [city_id], references: [id])
@@ -121,6 +123,25 @@ model Students {
   subdistrict             SubDistrict?     @relation("student", fields: [subdistrict_id], references: [id])
   user                    Users            @relation(fields: [user_id], references: [id], onDelete: Cascade)
   test_score              Int?
+  payment_history         PaymentHistory[]
+}
+
+model PaymentHistory {
+  id                    String              @unique @default(uuid())
+  payment_method        String?
+  payment_code          String?
+  payment_obligation_id Int?
+  payment_obligation    PaymentObligations? @relation(fields: [payment_obligation_id], references: [id])
+  createdAt             DateTime            @default(now())
+  student               Students?           @relation(fields: [student_id], references: [id])
+  student_id            String?
+}
+
+model PaymentObligations {
+  id             Int              @unique @default(autoincrement())
+  name           String
+  amount         Int
+  PaymentHistory PaymentHistory[]
 }
 
 model StudentGrade {
@@ -365,8 +386,8 @@ model Education {
   district_city          String
   sub_district           String
   street_address         String
-  education_type_id      Int
-  education_type         EducationTypes         @relation(fields: [education_type_id], references: [id])
+  education_type_id      Int?
+  education_type         EducationTypes?        @relation(fields: [education_type_id], references: [id])
   employee_has_education EmployeeHasEducation[]
   students               Students[]
 }
@@ -488,6 +509,7 @@ model Lecturers {
   employee                    Employees?                  @relation(fields: [employee_id], references: [id])
   lecturer_position           LecturerPosition?           @relation(fields: [lecturer_position_id], references: [id])
   lecturer_status             LecturerStatus?             @relation(fields: [lecturer_status_id], references: [id])
+  students                    Students[]
 }
 
 model AcademicStaff {
