@@ -50,8 +50,10 @@ export const CheckBox = <T extends FieldValues>({
         type="checkbox"
         className={className}
         {...{ ...props, ...field }}
+        onChange={props.onChange}
         onClick={props.onClick}
         disabled={props.disabled}
+        defaultChecked={props.defaultChecked}
       />
       <label htmlFor={props.name} className={lblSize}>
         {props.label}

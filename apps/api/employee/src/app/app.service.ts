@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-import { PrismaService } from "@uninus/api/models";
+import { PrismaService } from "@uninus/api/services";
 import {
   TAcademicStaffResponse,
   TEmployeePaginationArgs,

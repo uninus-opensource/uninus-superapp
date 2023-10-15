@@ -18,7 +18,7 @@ export const IntructionTestModule: FC = (): ReactElement => {
       </div>
 
       {/* body */}
-      <div className="w-[80%] lg:w-full relative rounded-lg h-auto md:h-[30rem] lg:h-[27rem] xl:h-[83vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex flex-col items-center lg:p-16 ">
+      <div className="w-[80%] lg:w-full relative rounded-lg h-auto md:h-[30rem] lg:h-[27rem] xl:h-[83vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex flex-col items-center lg:p-16 text-sm md:text-base p-4">
         <div className="flex flex-col items-center gap-y-3">
           <h1 className="text-center text-primary-green text-3xl py-3 font-extrabold">
             Petunjuk Test

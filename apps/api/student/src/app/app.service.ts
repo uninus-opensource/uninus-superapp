@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "@uninus/api/models";
+import { PrismaService } from "@uninus/api/services";
 import {
   IGetStudentRequest,
   IGetStudentResponse,
@@ -41,12 +41,11 @@ export class AppService {
     if (!student) {
       throw new RpcException(new BadRequestException("User tidak ditemukan"));
     }
-    console.log(student);
     const {
       avatar,
       email,
       fullname,
-      students: { pmb, ...studentData },
+      students: { pmb, test_score, ...studentData },
     } = student;
 
     return JSON.parse(
@@ -55,8 +54,9 @@ export class AppService {
           avatar,
           email,
           fullname,
-          first_deparment_id: pmb.first_deparment_id,
-          second_deparment_id: pmb.second_deparment_id,
+          test_score,
+          first_department_id: pmb.first_department_id,
+          second_department_id: pmb.second_department_id,
           selection_path_id: pmb.selection_path_id,
           registration_path_id: pmb.registration_path_id,
           degree_program_id: pmb.degree_program_id,
@@ -82,8 +82,8 @@ export class AppService {
       id,
       fullname,
       avatar,
-      first_deparment_id,
-      second_deparment_id,
+      first_department_id,
+      second_department_id,
       selection_path_id,
       degree_program_id,
       average_utbk,
@@ -96,8 +96,42 @@ export class AppService {
       document,
       documents,
       registration_path_id,
+      test_score,
       ...updateStudentPayload
     } = payload;
+    if (documents && typeof documents[0]?.isVerified != "undefined") {
+      for await (const data of documents) {
+        const documentsStudent = await this.prisma.users.update({
+          where: {
+            id,
+          },
+          data: {
+            students: {
+              update: {
+                test_score,
+                pmb: {
+                  update: {
+                    documents: {
+                      update: {
+                        where: {
+                          id: data.id,
+                        },
+                        data: {
+                          isVerified: data.isVerified,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+        if (!documentsStudent) {
+          throw new RpcException(new BadRequestException("Gagal update berkas"));
+        }
+      }
+    }
     if (student_grade) {
       for await (const data of student_grade) {
         const updateStudentGrade = await this.prisma.users.update({
@@ -142,11 +176,12 @@ export class AppService {
         avatar,
         students: {
           update: {
+            test_score,
             ...updateStudentPayload,
             pmb: {
               update: {
-                first_deparment_id,
-                second_deparment_id,
+                first_department_id,
+                second_department_id,
                 selection_path_id,
                 registration_path_id,
                 degree_program_id,
@@ -156,13 +191,14 @@ export class AppService {
                 utbk_kmbm,
                 average_utbk,
                 registration_status_id: 2,
-                ...(documents && {
-                  documents: {
-                    createMany: {
-                      data: documents,
+                ...(documents &&
+                  typeof documents[0]?.name != "undefined" && {
+                    documents: {
+                      createMany: {
+                        data: documents,
+                      },
                     },
-                  },
-                }),
+                  }),
                 ...(document && {
                   documents: {
                     createMany: {
@@ -204,8 +240,8 @@ export class AppService {
           avatar: student.avatar,
           email: student.email,
           fullname: student.fullname,
-          first_deparment_id: pmb?.first_deparment_id,
-          second_deparment_id: pmb?.second_deparment_id,
+          first_department_id: pmb?.first_department_id,
+          second_department_id: pmb?.second_department_id,
           selection_path_id: pmb?.selection_path_id,
           registration_path_id: pmb?.registration_path_id,
           degree_program_id: pmb?.degree_program_id,

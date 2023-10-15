@@ -64,7 +64,7 @@ export const TestimonialSection: FC = (): ReactElement => {
               <p className="font-medium">{x.faculty}</p>
             </figcaption>
           </div>
-          <div className="testimonial p-4 text-center mt-3 text-secondary-green-4 font-medium md:h-[18rem] h-[13rem] ">
+          <div className="testimonial p-4 text-center mt-3 text-secondary-green-4 font-medium h-[13rem]">
             <p className="text-4xl  text-primary-green font-bold">”</p>
             <p>{x.testimonial}</p>
           </div>
@@ -90,6 +90,7 @@ export const TestimonialSection: FC = (): ReactElement => {
     animationDuration: 1000,
     infinite: true,
     disableButtonsControls: true,
+    disableDotsControls: true,
   };
   return (
     <section className="lg:mt-32 h-full w-full gap-4 lg:px-16 px-4 py-2 flex flex-col items-center ">

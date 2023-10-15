@@ -33,7 +33,7 @@ import {
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
-import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
 
 @Controller("user")
 @ApiTags("User")

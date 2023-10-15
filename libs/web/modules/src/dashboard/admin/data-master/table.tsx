@@ -486,18 +486,18 @@ const Table: FC = (): ReactElement => {
       {
         name: <div className="pl-4">No</div>,
         cell: (row, rowIndex) => <div className="pl-5">{rowIndex + 1}</div>,
-        width: "10%",
+        width: "100px",
       },
       {
         name: "Jenis",
         cell: (row) => row.name,
-        width: "15%",
+        width: "200px",
       },
       {
         name: "Data Terkini",
         cell: (row) => (
           <div className="w-full">
-            <ul className={`${Number(row.current_data?.length) !== 1 ? "list-disc" : ""} pl-5`}>
+            <ul className={`${Number(row.current_data?.length) !== 1 ? "list-disc" : ""}`}>
               {row.name === "Fakultas" &&
                 faculty?.slice(0, 3).map((item, index) => <li key={index}>{item.label}</li>)}
               {row.name === "Program Studi" &&
@@ -513,7 +513,7 @@ const Table: FC = (): ReactElement => {
             </ul>
           </div>
         ),
-        width: "24%",
+        width: "350px",
       },
 
       {
@@ -536,6 +536,7 @@ const Table: FC = (): ReactElement => {
             ) : null}
           </div>
         ),
+
         width: "20%",
       },
 
@@ -648,7 +649,7 @@ const Table: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      <section className="rounded-lg w-full">
+      <section className="rounded-lg w-full mb-24 md:mb-0">
         <div className="w-full flex p-2 py-4 gap-4 lg:justify-end justify-start items-center">
           <SearchInput
             value={searchQuery}
@@ -662,6 +663,7 @@ const Table: FC = (): ReactElement => {
           data={filteredDataMaster}
           customStyles={customStyles}
           fixedHeader={true}
+          fixedHeaderScrollHeight="400px"
           progressPending={pending}
           striped
           progressComponent={<TableLoadingData className="w-full h-80" />}

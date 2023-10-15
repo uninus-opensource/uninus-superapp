@@ -12,7 +12,10 @@ export const EndTestModule: FC = (): ReactElement => {
   }, [getStudent?.selection_path_id]);
 
   return (
-    <section key="endtest" className="flex flex-col w-full h-full justify-center items-center ">
+    <section
+      key="endtest"
+      className="flex flex-col w-full h-full justify-center items-center overflow-y-auto"
+    >
       {/* header */}
       <div className="w-[80%] lg:w-full flex flex-col justify-start items-start">
         <h1 className="text-slate-5">
@@ -22,7 +25,7 @@ export const EndTestModule: FC = (): ReactElement => {
       </div>
 
       {/* body */}
-      <div className="w-[80%] lg:w-full relative rounded-lg h-full md:h-[30rem] lg:h-[27rem] xl:h-[83vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex items-center lg:p-16 ">
+      <div className="w-[80%] lg:w-full relative rounded-lg h-full md:h-[30rem] lg:h-[27rem] xl:h-[83vh] xl:w-full bg-primary-white  2xl:w-full 2xl:h-[84vh] flex items-center p-2 lg:p-16 mt-4 md:mt-0">
         <div className="w-full h-full flex flex-col lg:flex-row justify-center items-center ">
           {/* Image */}
           <figure className="w-full lg:w-1/2 relative ">
@@ -52,9 +55,12 @@ export const EndTestModule: FC = (): ReactElement => {
           </div>
         </div>
       </div>
-      {selectionType === 1 && (
-        <RedirectLink link="/dashboard/registrasi/beasiswa">Beasiswa</RedirectLink>
-      )}
+
+      <div className="w-full mt-4 md:mt-0">
+        {(selectionType === 1 || selectionType === 2) && (
+          <RedirectLink link="/dashboard/registrasi/beasiswa">Beasiswa</RedirectLink>
+        )}
+      </div>
 
       {selectionType === 3 && (
         <RedirectLink link="/dashboard/registrasi/pembayaran/detail">

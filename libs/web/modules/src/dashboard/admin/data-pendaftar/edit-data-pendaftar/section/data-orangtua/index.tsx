@@ -10,7 +10,6 @@ import {
   useParentEducationGet,
   useParentStatusGet,
   useStudentDataById,
-  useOccupationPositionGet,
 } from "@uninus/web/services";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -90,19 +89,6 @@ export const EditDataOrangtua: FC = (): ReactElement => {
     search: "",
   });
 
-  const { data: getOccupationPositionFather } = useOccupationPositionGet({
-    search: "",
-    occupation_id: watch("father_occupation_id"),
-  });
-  const { data: getOccupationPositionMother } = useOccupationPositionGet({
-    search: "",
-    occupation_id: watch("mother_occupation_id"),
-  });
-  const { data: getOccupationPositionGuardian } = useOccupationPositionGet({
-    search: "",
-    occupation_id: watch("guardian_occupation_id"),
-  });
-
   const addressStudent = student?.address;
   const parentStatusOptions = useMemo(
     () =>
@@ -138,30 +124,6 @@ export const EditDataOrangtua: FC = (): ReactElement => {
     [getOccupation?.occupation],
   );
 
-  const occupationPositionFatherOptions = useMemo(
-    () =>
-      getOccupationPositionFather?.occupation_position?.map((occupationPosition) => ({
-        label: occupationPosition?.name,
-        value: occupationPosition?.id.toString(),
-      })),
-    [getOccupationPositionFather?.occupation_position],
-  );
-  const occupationPositionMotherOptions = useMemo(
-    () =>
-      getOccupationPositionMother?.occupation_position?.map((occupationPosition) => ({
-        label: occupationPosition?.name,
-        value: occupationPosition?.id.toString(),
-      })),
-    [getOccupationPositionMother?.occupation_position],
-  );
-  const occupationPositionGuardOptions = useMemo(
-    () =>
-      getOccupationPositionGuardian?.occupation_position?.map((occupationPosition) => ({
-        label: occupationPosition?.name,
-        value: occupationPosition?.id.toString(),
-      })),
-    [getOccupationPositionGuardian?.occupation_position],
-  );
   const provinceOptions = useMemo(
     () =>
       getProvincies?.province?.map((province) => ({
@@ -303,8 +265,8 @@ export const EditDataOrangtua: FC = (): ReactElement => {
       ? Number(data?.father_occupation_id)
       : (undefined as unknown as number);
 
-    studentParentData.father_position_id = data?.father_occupation_position_id
-      ? Number(data?.father_occupation_position_id)
+    studentParentData.father_position = data?.father_position
+      ? data?.father_position
       : (undefined as unknown as number);
 
     studentParentData.father_salary_id = data?.father_salary_id
@@ -319,8 +281,8 @@ export const EditDataOrangtua: FC = (): ReactElement => {
       ? Number(data?.mother_occupation_id)
       : (undefined as unknown as number);
 
-    studentParentData.mother_position_id = data?.mother_occupation_position_id
-      ? Number(data?.mother_occupation_position_id)
+    studentParentData.mother_position = data?.mother_position
+      ? data?.mother_position
       : (undefined as unknown as number);
 
     studentParentData.mother_salary_id = data?.mother_salary_id
@@ -337,7 +299,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
       studentGuardianData.guardian_status_id = Number(data?.guardian_status_id);
       studentGuardianData.guardian_education_id = Number(data?.guardian_education_id);
       studentGuardianData.guardian_occupation_id = Number(data?.guardian_occupation_id);
-      studentGuardianData.guardian_position_id = Number(data?.guardian_position_id);
+      studentGuardianData.guardian_position = data?.guardian_position;
       studentGuardianData.guardian_salary_id = Number(data?.guardian_salary_id);
       studentGuardianData.guardian_province_id = Number(data?.guardian_province_id);
       studentGuardianData.guardian_city_id = Number(data?.guardian_city_id);
@@ -389,7 +351,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
   });
 
   return (
-    <form onSubmit={onSubmit} noValidate className="bg-primary-white py-4 px-8">
+    <form onSubmit={onSubmit} noValidate className="bg-primary-white py-4 px-8 mb-20">
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -573,62 +535,46 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             status="error"
             message={errors?.mother_occupation_id?.message as string}
           />
-          <SelectOption
-            name="father_occupation_position_id"
-            labels="Jabatan"
-            placeholder={
-              student?.father_position_id
-                ? getOccupationPositionFather?.occupation_position?.find(
-                    (occupation_position) => occupation_position.id === student?.father_position_id,
-                  )?.name
-                : "Pilih Jabatan"
-            }
-            className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-            labelClassName="text-left font-bold text-xs py-2"
-            options={occupationPositionFatherOptions || []}
-            isClearable={true}
-            isSearchable={true}
-            required={false}
+          <TextField
+            inputHeight="h-10"
+            name="father_position"
+            variant="sm"
+            type="text"
+            placeholder="Jabatan"
+            labelclassname="text-sm font-semibold"
+            label="Jabatan"
+            inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             control={control}
-            isMulti={false}
             disabled={
               !watch("father_occupation_id")
                 ? true
-                : false || occupationPositionFatherOptions?.length === 0
+                : false || student?.occupation_position
                 ? true
                 : false
             }
-            status={"error"}
-            message={errors?.father_occupation_position_id?.message as string}
+            status={errors?.father_position?.message ? "error" : "none"}
+            message={errors?.father_position?.message as string}
           />
 
-          <SelectOption
-            name="mother_occupation_position_id"
-            labels="Jabatan"
-            placeholder={
-              student?.mother_position_id
-                ? getOccupationPositionMother?.occupation_position?.find(
-                    (occupation_position) => occupation_position.id === student?.mother_position_id,
-                  )?.name
-                : "Pilih Jabatan"
-            }
-            className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-            labelClassName="text-left font-bold text-xs py-2"
-            options={occupationPositionMotherOptions || []}
-            isClearable={true}
-            isSearchable={true}
-            required={false}
+          <TextField
+            inputHeight="h-10"
+            name="mother_position"
+            variant="sm"
+            type="text"
+            placeholder="Jabatan"
+            labelclassname="text-sm font-semibold"
+            label="Jabatan"
+            inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             control={control}
-            isMulti={false}
             disabled={
               !watch("mother_occupation_id")
                 ? true
-                : false || occupationPositionMotherOptions?.length === 0
+                : false || student?.occupation_position
                 ? true
                 : false
             }
-            status={"error"}
-            message={errors?.mother_occupation_position_id?.message as string}
+            status={errors?.mother_position ? "error" : "none"}
+            message={errors?.mother_position?.message as string}
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
@@ -920,33 +866,23 @@ export const EditDataOrangtua: FC = (): ReactElement => {
           />
         </div>
         <div className="w-80% px-5 flex flex-col gap-y-4 md:flex md:flex-row md:w-full md:px-0 md:justify-between">
-          <SelectOption
-            name="guardian_position_id"
-            labels="Jabatan"
-            placeholder={
-              student?.guardian_position_id
-                ? getOccupationPositionGuardian?.occupation_position?.find(
-                    (occupation_position) =>
-                      occupation_position.id === student?.guardian_position_id,
-                  )?.name
-                : "Pilih Jabatan"
-            }
-            labelClassName="text-left font-bold text-xs py-2"
-            options={occupationPositionGuardOptions || []}
-            isClearable={true}
-            isSearchable={true}
-            required={false}
+          <TextField
+            inputHeight="h-10"
+            name="guardian_position"
+            variant="sm"
+            type="text"
+            placeholder="Jabatan"
+            labelclassname="text-sm font-semibold"
+            label="Jabatan"
+            inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             control={control}
-            isMulti={false}
             disabled={
-              !watch("mother_occupation_id")
+              !watch("guardian_occupation_id")
                 ? true
-                : false || occupationPositionGuardOptions?.length === 0
+                : false || student?.occupation_position
                 ? true
-                : false
+                : false || !!student?.guardian_name
             }
-            status={"error"}
-            className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
           />
           <SelectOption
             name="guardian_salary_id"
@@ -969,15 +905,10 @@ export const EditDataOrangtua: FC = (): ReactElement => {
           />
         </div>
         <div className="flex w-full justify-center lg:justify-end py-4 mt-8 gap-x-3">
-          <Button
-            href={"/dashboard/data-pendaftar"}
-            variant="filled-red"
-            size="md"
-            width="w-70% lg:w-15% xl:w-15%"
-          >
+          <Button href={"/dashboard/data-pendaftar"} variant="filled-red" size="md">
             Batal
           </Button>
-          <Button type="submit" variant="filled" size="md" width="w-70% lg:w-15% xl:w-15%">
+          <Button type="submit" variant="filled" size="md">
             Submit
           </Button>
         </div>

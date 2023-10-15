@@ -129,10 +129,10 @@ export const EditFormulirPendaftar: FC = (): ReactElement => {
     (degree) => degree.id === student?.degree_program_id,
   );
   const selectionFirstDepartement = getDepartment?.department.find(
-    (degree) => degree.id === student?.first_deparment_id,
+    (degree) => degree.id === student?.first_department_id,
   );
   const selectionSecondDepartement = getDepartment?.department.find(
-    (degree) => degree.id === student?.second_deparment_id,
+    (degree) => degree.id === student?.second_department_id,
   );
   const selectionType = getSelection?.selection.find(
     (degree) => degree.id === student?.selection_path_id,
@@ -146,8 +146,8 @@ export const EditFormulirPendaftar: FC = (): ReactElement => {
 
   const onSubmit = handleSubmit((data) => {
     studentPendaftaran.degree_program_id = Number(data.degree_program_id);
-    studentPendaftaran.first_deparment_id = Number(data.first_deparment_id);
-    studentPendaftaran.second_deparment_id = Number(data.second_deparment_id);
+    studentPendaftaran.first_department_id = Number(data.first_department_id);
+    studentPendaftaran.second_department_id = Number(data.second_department_id);
     studentPendaftaran.selection_path_id = Number(data.selection_path_id);
 
     try {
@@ -229,7 +229,7 @@ export const EditFormulirPendaftar: FC = (): ReactElement => {
             labelClassName="text-left py-2"
             labels={isS3Selected ? "Pilih Program Studi" : "Pilihan Program Studi 1"}
             control={control}
-            name="first_deparment_id"
+            name="first_department_id"
             options={DepartmentOptions || []}
             isSearchable={true}
             isMulti={false}
@@ -238,8 +238,8 @@ export const EditFormulirPendaftar: FC = (): ReactElement => {
             disabled={!watch("degree_program_id")}
             status="error"
             message={
-              watch("degree_program_id") && !student?.first_deparment_id
-                ? (errors?.first_deparment_id?.message as string)
+              watch("degree_program_id") && !student?.first_department_id
+                ? (errors?.first_department_id?.message as string)
                 : ""
             }
           />
@@ -250,7 +250,7 @@ export const EditFormulirPendaftar: FC = (): ReactElement => {
               className="text-left"
               labelClassName="text-left py-2"
               control={control}
-              name="second_deparment_id"
+              name="second_department_id"
               options={DepartmentOptions || []}
               isSearchable={true}
               isMulti={false}
@@ -260,8 +260,8 @@ export const EditFormulirPendaftar: FC = (): ReactElement => {
               ref={prodi2Ref}
               status="error"
               message={
-                watch("degree_program_id") && !isS3Selected && !student?.second_deparment_id
-                  ? (errors?.second_deparment_id?.message as string)
+                watch("degree_program_id") && !isS3Selected && !student?.second_department_id
+                  ? (errors?.second_department_id?.message as string)
                   : ""
               }
             />
@@ -284,7 +284,7 @@ export const EditFormulirPendaftar: FC = (): ReactElement => {
             message={errors?.selection_path_id?.message as string}
           />
         </div>
-        <div className="flex flex-col gap-2 w-full items-center mt-4 lg:mt-10 lg:items-end">
+        <div className="flex flex-col gap-2 w-full items-center mt-10 lg:mt-10 lg:items-end ">
           {watch("second_deparment_id") &&
             !isS3Selected &&
             watch("first_deparment_id") === watch("second_deparment_id") && (
@@ -300,7 +300,7 @@ export const EditFormulirPendaftar: FC = (): ReactElement => {
             height="h-12"
             disabled={watch("first_deparment_id") === watch("second_deparment_id")}
           >
-            Daftar Sekarang
+            Simpan
           </Button>
         </div>
       </form>

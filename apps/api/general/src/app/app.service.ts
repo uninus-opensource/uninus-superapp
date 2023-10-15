@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-import { PrismaService } from "@uninus/api/models";
+import { PrismaService } from "@uninus/api/services";
 import {
   TCitizenshipResponse,
   TDepartmentResponse,
@@ -65,6 +65,7 @@ import {
   TCreateScholarshipRequest,
   TRegistrationPathResponse,
   TEmployeeCategoriesResponse,
+  TQuestionResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -427,12 +428,20 @@ export class AppService {
     return { school_type: educationTypes };
   }
 
-  async getAllQuestion() {
+  async getAllQuestion(): Promise<TQuestionResponse[]> {
     const questions = await this.prisma.questions.findMany();
-    if (!questions) {
+    if (questions.length === 0) {
       throw new RpcException(new NotFoundException("Soal tidak tersedia"));
     }
-    return questions;
+
+    const formattedQuestions: TQuestionResponse[] = questions.map((question) => ({
+      id: question.id,
+      question: question.question,
+      correct_answer: question.correct_answer,
+      incorrect_answers: question.incorrect_answers,
+    }));
+
+    return formattedQuestions;
   }
 
   async createQuestion(data: TCreateQuestionRequest) {
@@ -447,44 +456,60 @@ export class AppService {
     }
 
     const newQuestion = await this.prisma.questions.create({
-      data: data,
+      data: {
+        question: data.question,
+        correct_answer: data.correct_answer,
+        incorrect_answers: data.incorrect_answers,
+      },
     });
 
     return newQuestion;
   }
 
-  async updateQuestion(id: number, data: TUpdateQuestionRequest) {
+  async updateQuestion(id: number, data: TUpdateQuestionRequest): Promise<TGeneralResponse> {
     const existingQuestion = await this.prisma.questions.findFirst({
       where: {
-        question: data.question,
+        id: Number(id),
       },
     });
 
-    if (existingQuestion && existingQuestion.id !== id) {
-      throw new RpcException(new ConflictException("Soal sudah tersedia"));
-    }
-
-    await this.prisma.questions.update({
-      where: { id },
-      data: data,
-    });
-
-    return this.prisma.questions.findUnique({ where: { id } });
-  }
-
-  async deleteQuestion(id: number): Promise<TDeleteQuestionResponse> {
-    const question = await this.prisma.questions.findUnique({
-      where: {
-        id,
-      },
-    });
-    if (!question) {
+    if (!existingQuestion) {
       throw new RpcException(new NotFoundException("Soal tidak ditemukan"));
     }
 
-    await this.prisma.questions.delete({ where: { id } });
+    const updateQuestion = await this.prisma.questions.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        question: data.question,
+        correct_answer: data.correct_answer,
+        incorrect_answers: data.incorrect_answers,
+      },
+    });
+
+    if (!updateQuestion) {
+      throw new RpcException(new BadRequestException("Gagal mengubah soal"));
+    }
+
     return {
-      message: "Question deleted",
+      message: "Berhasil mengubah soal",
+    };
+  }
+
+  async deleteQuestion(id: number): Promise<TDeleteQuestionResponse> {
+    const deletedQuestion = await this.prisma.questions.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!deletedQuestion) {
+      throw new RpcException(new BadRequestException("Soal tidak tersedia"));
+    }
+
+    return {
+      message: "Soal berhasil dihapus",
     };
   }
 
@@ -643,36 +668,56 @@ export class AppService {
       }
     }
 
-    const [total_registrans, accepted_registrans, paidsCount, unpaidsCount] = await Promise.all([
-      this.prisma.users.count({
-        select: {
-          _all: true,
-        },
-        where: whereClause,
-      }),
-      this.prisma.pMB.count({
-        where: {
-          ...whereClause,
-          registration_status_id: 5,
-        },
-      }),
-      this.prisma.pMB.count({
-        where: {
-          ...whereClause,
-          registration_status_id: 3,
-        },
-      }),
-      this.prisma.pMB.count({
-        where: {
-          ...whereClause,
-          registration_status_id: 2,
-        },
-      }),
-    ]);
+    const [total_registrans, total_interest, accepted_registrans, paidsUKTCount, paidsFormCount] =
+      await Promise.all([
+        this.prisma.users.count({
+          select: {
+            _all: true,
+          },
+          where: whereClause,
+        }),
+
+        this.prisma.students.count({
+          select: {
+            _all: true,
+          },
+          where: {
+            ...whereClause,
+            pmb: {
+              documents: {
+                some: {
+                  pmb_id: {
+                    not: null,
+                  },
+                },
+              },
+            },
+          },
+        }),
+        this.prisma.pMB.count({
+          where: {
+            ...whereClause,
+            registration_status_id: 4,
+          },
+        }),
+        this.prisma.pMB.count({
+          where: {
+            ...whereClause,
+            registration_status_id: 6,
+          },
+        }),
+        this.prisma.pMB.count({
+          where: {
+            ...whereClause,
+            registration_status_id: 3,
+          },
+        }),
+      ]);
     return {
       total_registrans: total_registrans._all,
-      paids: paidsCount,
-      unpaids: unpaidsCount,
+      total_interest: total_interest._all,
+      paids_form: paidsFormCount,
+      paids_ukt: paidsUKTCount,
       accepted_registrans: accepted_registrans,
     };
   }
@@ -903,7 +948,7 @@ export class AppService {
       where: {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-          first_deparment_id: 1,
+          first_department_id: 1,
           ...whereClause,
         },
       },
@@ -913,7 +958,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 2,
+          first_department_id: 2,
         },
       },
     });
@@ -922,7 +967,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 3,
+          first_department_id: 3,
         },
       },
     });
@@ -931,7 +976,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 4,
+          first_department_id: 4,
         },
       },
     });
@@ -940,7 +985,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 5,
+          first_department_id: 5,
         },
       },
     });
@@ -949,7 +994,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 6,
+          first_department_id: 6,
         },
       },
     });
@@ -958,7 +1003,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 7,
+          first_department_id: 7,
         },
       },
     });
@@ -967,7 +1012,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 8,
+          first_department_id: 8,
         },
       },
     });
@@ -976,7 +1021,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 9,
+          first_department_id: 9,
         },
       },
     });
@@ -985,7 +1030,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 10,
+          first_department_id: 10,
         },
       },
     });
@@ -994,7 +1039,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 11,
+          first_department_id: 11,
         },
       },
     });
@@ -1003,7 +1048,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 12,
+          first_department_id: 12,
         },
       },
     });
@@ -1012,7 +1057,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 13,
+          first_department_id: 13,
         },
       },
     });
@@ -1021,7 +1066,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 14,
+          first_department_id: 14,
         },
       },
     });
@@ -1030,7 +1075,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 15,
+          first_department_id: 15,
         },
       },
     });
@@ -1039,7 +1084,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 16,
+          first_department_id: 16,
         },
       },
     });
@@ -1048,7 +1093,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 17,
+          first_department_id: 17,
         },
       },
     });
@@ -1057,7 +1102,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 18,
+          first_department_id: 18,
         },
       },
     });
@@ -1066,7 +1111,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 19,
+          first_department_id: 19,
         },
       },
     });
@@ -1075,7 +1120,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 20,
+          first_department_id: 20,
         },
       },
     });
@@ -1084,7 +1129,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 21,
+          first_department_id: 21,
         },
       },
     });
@@ -1093,7 +1138,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 22,
+          first_department_id: 22,
         },
       },
     });
@@ -1102,7 +1147,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 23,
+          first_department_id: 23,
         },
       },
     });
@@ -1111,7 +1156,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 24,
+          first_department_id: 24,
         },
       },
     });
@@ -1120,7 +1165,7 @@ export class AppService {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
-          first_deparment_id: 25,
+          first_department_id: 25,
         },
       },
     });
@@ -1256,13 +1301,13 @@ export class AppService {
               name: true,
             },
           },
-          first_deparment: {
+          first_department: {
             select: {
               id: true,
               name: true,
             },
           },
-          second_deparment: {
+          second_department: {
             select: {
               id: true,
               name: true,

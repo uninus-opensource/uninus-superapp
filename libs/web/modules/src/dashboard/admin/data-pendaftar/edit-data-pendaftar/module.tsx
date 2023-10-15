@@ -70,16 +70,18 @@ export const ModuleEditDataPendaftar: FC = (): ReactElement => {
   ];
 
   return (
-    <section className="flex flex-col text-center gap-y-6 lg:text-start">
-      <BreadCrumb items={EditDataBreadcrumb} />
+    <section className="flex flex-col text-center gap-y-6 lg:text-start px-1 md:px-0">
+      <div className="mx-3 md:mx-0">
+        <BreadCrumb items={EditDataBreadcrumb} />
+      </div>
       <h1 className="text-lg lg:text-2xl font-bold text-secondary-green-4">Edit Data Pendaftar</h1>
-      <div className="flex justify-between w-full items-center h-[52px] rounded-md shadow-md my-4 p-2 ">
-        <section className="flex text-md gap-4 text-slate-5">
+      <div className="flex w-full max-h-[100px] h-[70px] md:h-[50px] items-center rounded-md shadow-md my-4 p-2 ">
+        <section className="flex w-full justify-between h-auto text-sm md:text-lg gap-4 text-slate-5 overflow-x-auto">
           {tabList.map((list, idx) => (
             <div
               key={idx}
               onClick={() => setIsActive(list.no)}
-              className={`p-1 hover:shadow-md hover:rounded-md hover:text-primary-green cursor-pointer ${
+              className={`p-1 flex justify-center text-center md:m-4 items-center text-xs w-full hover:shadow-md hover:rounded-md hover:text-primary-green cursor-pointer ${
                 isActive === list.no ? "text-primary-green shadow-md rounded md" : ""
               }`}
             >
@@ -90,7 +92,7 @@ export const ModuleEditDataPendaftar: FC = (): ReactElement => {
       </div>
       <div className="flex flex-col justify-center gap-2 text-sm">
         {isLoading ? (
-          <span className="bg-grayscale-2 w-full h-screen  rounded-md animate-pulse"></span>
+          <span className="bg-grayscale-2 w-full h-screen rounded-md animate-pulse"></span>
         ) : (
           <Fragment>
             <div className={isActive === 1 ? "block" : "hidden"}>

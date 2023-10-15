@@ -64,12 +64,12 @@ export const DetailPembayaran: FC = (): ReactElement => {
   }, [getStudent?.degree_program_id]);
 
   const firstDepartement = useMemo(() => {
-    return getStudent?.first_deparment_id;
-  }, [getStudent?.first_deparment_id]);
+    return getStudent?.first_department_id;
+  }, [getStudent?.first_department_id]);
 
   const secondDepartement = useMemo(() => {
-    return getStudent?.second_deparment_id;
-  }, [getStudent?.second_deparment_id]);
+    return getStudent?.second_department_id;
+  }, [getStudent?.second_department_id]);
 
   const [programMeta] = useState({
     search: "",
@@ -128,33 +128,38 @@ export const DetailPembayaran: FC = (): ReactElement => {
         </div>
 
         <div className="bg-primary-green w-full h-[3px] mt-3"></div>
-        <div className="px-4 py-2">
+        <div className="px-2 md:px-4 py-2 text-sm md:text-base">
           <div className="flex justify-between p-4 text-left">
-            <h1 className="font-extramedium">
-              Biaya Formulir - {""}
-              {degreeProgram
-                ? DegreeProgramOptions?.find((x) => x.value === degreeProgram)?.label
-                : "loading data program pendidikan..."}
+            <h1 className="font-extramedium flex flex-col md:flex-row">
+              <p>Biaya Formulir - {""}</p>
+              <p>
+                {degreeProgram
+                  ? DegreeProgramOptions?.find((x) => x.value === degreeProgram)?.label
+                  : "loading data program pendidikan..."}
+              </p>
             </h1>
             <p className="font-bold">Rp. 250.000</p>
           </div>
-          <div className="flex flex-col gap-y-1 pl-4 py-1 text-left">
-            <h1>
-              Prodi pilihan 1 - {""}
-              {firstDepartement
-                ? DepartmentOptions?.find((x) => x.value === firstDepartement)?.label
-                : "loading prodi pilihan 1..."}
+          <div className="flex flex-col gap-y-2 pl-4 py-1 text-left">
+            <h1 className="flex flex-col md:flex-row">
+              <p>Prodi pilihan 1 - {""}</p>
+              <p>
+                {firstDepartement
+                  ? DepartmentOptions?.find((x) => x.value === firstDepartement)?.label
+                  : "loading prodi pilihan 1..."}
+              </p>
             </h1>
 
-            <h1>
-              Prodi pilihan 2 - {""}
-              {secondDepartement
-                ? DepartmentOptions?.find((x) => x.value === secondDepartement)?.label
-                : "loading prodi pilihan 2..."}
+            <h1 className="flex flex-col md:flex-row">
+              <p>Prodi pilihan 2 - {""}</p>
+              <p>
+                {secondDepartement
+                  ? DepartmentOptions?.find((x) => x.value === secondDepartement)?.label
+                  : "loading prodi pilihan 2..."}
+              </p>
             </h1>
           </div>
-          <p></p>
-          <div className="bg-slate-5 w-full h-[2px] "></div>
+          <div className="bg-slate-5 w-full h-[2px] mt-4"></div>
           <div className="flex justify-between p-4 text-left">
             <h1 className="font-bold">Total Pembayaran</h1>
             <p className="font-bold">Rp. 250.000</p>

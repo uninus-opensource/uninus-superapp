@@ -75,6 +75,9 @@ module.exports = {
           1: "#E3642C",
           2: "#eb7909",
         },
+        yellow: {
+          1: "#F89602",
+        },
       },
       grayscale: {
         12: "#F5F5F5",
@@ -108,6 +111,11 @@ module.exports = {
         5: "#ff0000",
         6: "#a70000",
         7: "#BB2D3B",
+      },
+      blue: {
+        1: "#0CA3D2",
+        4: "#60FFAB",
+        5: "#EDFFF5",
       },
     },
   },

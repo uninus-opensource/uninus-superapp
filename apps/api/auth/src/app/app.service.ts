@@ -26,7 +26,7 @@ import {
   TUserEmailResponse,
   TRegisterResponse,
 } from "@uninus/entities";
-import { PrismaService } from "@uninus/api/models";
+import { PrismaService } from "@uninus/api/services";
 import {
   comparePassword,
   encryptPassword,

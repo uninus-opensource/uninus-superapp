@@ -16,7 +16,7 @@ export const ModuleSelectionTest: FC = (): ReactElement => {
   }, [getStudent?.documents]);
 
   useEffect(() => {
-    if (selectionType === 2) {
+    if (selectionType !== 3) {
       redirect("/dashboard");
     } else if (!documents?.find((doc) => doc.name === "Kartu Keluarga")) {
       redirect("/dashboard");

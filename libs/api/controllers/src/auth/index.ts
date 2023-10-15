@@ -19,7 +19,7 @@ import {
   VSLogout,
 } from "@uninus/entities";
 import { RtGuard } from "@uninus/api/guard";
-import { ZodValidationPipe } from "@uninus/api/validator";
+import { ZodValidationPipe } from "@uninus/api/pipes";
 import { AuthService } from "@uninus/api/services";
 import {
   RegisterDto,
@@ -31,7 +31,7 @@ import {
   VerifyOtpDto,
   RefreshTokenDto,
 } from "@uninus/api/dto";
-import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filter";
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
 import {
   ApiTags,
   ApiBody,

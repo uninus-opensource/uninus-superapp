@@ -1,6 +1,6 @@
 import { JwtService } from "@nestjs/jwt";
 import { TGenerateToken, TGenerateTokenResponse } from "@uninus/entities";
-import { PrismaService } from "@uninus/api/models";
+import { PrismaService } from "@uninus/api/services";
 
 const jwt = new JwtService();
 const prisma = new PrismaService();

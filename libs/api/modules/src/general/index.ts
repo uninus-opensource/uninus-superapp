@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { PrismaModule } from "@uninus/api/models";
+import { PrismaModule } from "../prisma";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { GeneralController } from "@uninus/api/controllers";
 

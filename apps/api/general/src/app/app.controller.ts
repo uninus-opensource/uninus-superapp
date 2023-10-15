@@ -128,7 +128,9 @@ export class AppController {
   }
 
   @MessagePattern("update_question")
-  async updateQuestion(id: number, payload: TUpdateQuestionRequest) {
+  async updateQuestion(data: { id: number; payload: TUpdateQuestionRequest }) {
+    const id = data.id;
+    const payload = data.payload;
     return await this.appService.updateQuestion(id, payload);
   }
 

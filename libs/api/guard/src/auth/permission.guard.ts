@@ -1,7 +1,7 @@
 import { Type, CanActivate, ExecutionContext, mixin } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { EAppsOrigin } from "@uninus/entities";
-import { PrismaClient } from "@uninus/api/models";
+import { PrismaClient } from "@uninus/api/services";
 
 export const PermissionGuard = (appsWhiteList: Array<EAppsOrigin>): Type<CanActivate> => {
   class PermissionGuardMixin implements CanActivate {

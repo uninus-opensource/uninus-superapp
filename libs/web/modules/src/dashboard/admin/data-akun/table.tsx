@@ -293,10 +293,10 @@ const Table: FC = (): ReactElement => {
           pauseOnHover
           theme="colored"
         />
-        <div className="w-full flex p-2 py-4 justify-between">
+        <div className="w-full flex flex-col gap-y-3 md:gap-y-0 md:flex-row p-2 py-4 justify-between">
           <Button
             variant="custom"
-            styling="text-xs lg:text-base w-auto h-5 xl:h-10 border border-primary-green text-primary-green"
+            styling="text-xs lg:text-base w-[8rem] md:w-auto h-5 xl:h-10 border border-primary-green text-primary-green"
             onClick={handleModalAdd}
           >
             + Tambah Data
@@ -305,7 +305,7 @@ const Table: FC = (): ReactElement => {
             value={searchQuery}
             onChange={handleSearch}
             placeholder="Cari Nama,Email dan Nomor telepon"
-            width="w-[24rem]"
+            width="w-[15rem] md:w-[24rem]"
           />
         </div>
         <DataTable
