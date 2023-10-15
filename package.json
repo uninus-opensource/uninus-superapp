@@ -147,7 +147,8 @@
     "zod": "^3.22.4"
   },
   "prisma": {
-    "schema": "libs/api/models/src/prisma/schema.prisma"
+    "schema": "libs/api/models/src/prisma/schema.prisma",
+    "seed": "dotenv -e ./apps/api/.env -- node libs/api/models/src/prisma/seed.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.22.17",
