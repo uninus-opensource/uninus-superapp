@@ -16,7 +16,8 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "sidebarbutton"
     | "green-outline"
     | "filled-red"
-    | "filled-yellow";
+    | "filled-yellow"
+    | "filled-green-secondary";
 
   loading?: boolean;
   href?: string;

@@ -2,6 +2,7 @@
 import { FC, ReactElement, useEffect, useState, SetStateAction, Fragment, useMemo } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import DataTable, { TableColumn } from "react-data-table-component";
+import { motion } from "framer-motion";
 import { TDataMaster } from "./type";
 import { dataMaster } from "./store";
 import {
@@ -19,7 +20,8 @@ import {
   AiFillFastForward,
   AiOutlineDelete,
   AiOutlineEdit,
-  AiOutlineFilter,
+  AiOutlineFileDone,
+  AiOutlineFileSearch,
   AiOutlinePlus,
 } from "react-icons/ai";
 
@@ -43,9 +45,9 @@ import {
   useSelectionDelete,
   useSelectionUpdate,
 } from "./hook";
-import { ToastContainer, toast } from "react-toastify";
 import { match } from "ts-pattern";
 import { useCityGet, useProvinceGet, useSubdistrictGet } from "@uninus/web/services";
+import { BiErrorCircle } from "react-icons/bi";
 
 const Table: FC = (): ReactElement => {
   const [tableMaster, setTableMaster] = useState([{}]);
@@ -53,6 +55,11 @@ const Table: FC = (): ReactElement => {
   const [isAddModalShow, setIsAddModalShow] = useState<boolean>(false);
   const [isDeleteModalShow, setIsDeleteModalShow] = useState<boolean>(false);
   const [isEditModalShow, setIsEditModalShow] = useState<boolean>(false);
+  const [isDetailModalShow, setIsDetailModalShow] = useState<boolean>(false);
+  const [isConfirmDeleteModal, setIsConfirmDeleteModal] = useState<boolean>(false);
+  const [isSuccesDeleteModal, setIsSuccesDeleteModal] = useState<boolean>(false);
+  const [isSuccesAddModal, setIsSuccesAddModal] = useState<boolean>(false);
+  const [isSuccesUpdateModal, setIsSuccesUpdateModal] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<TDataMaster | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [pending, setPending] = useState(true);
@@ -74,7 +81,6 @@ const Table: FC = (): ReactElement => {
     control: deleteControl,
     handleSubmit: deleteSubmit,
     reset: deleteReset,
-    formState: { isLoading: isLoadingDelete },
   } = useForm<FieldValues>({
     mode: "all",
   });
@@ -89,6 +95,7 @@ const Table: FC = (): ReactElement => {
     const Selected = dataMaster.find((item) => item.name === name);
     setActiveItem(Selected || null);
     setIsDeleteModalShow(!isDeleteModalShow);
+    setIsConfirmDeleteModal(false);
   };
   const handleCloseDeleteModal = () => {
     setIsDeleteModalShow(!isDeleteModalShow);
@@ -97,6 +104,17 @@ const Table: FC = (): ReactElement => {
     const Selected = dataMaster.find((item) => item.name === name);
     setActiveItem(Selected || null);
     setIsEditModalShow(!isEditModalShow);
+  };
+  const handleOpenModalDetail = (name: string) => {
+    const Selected = dataMaster.find((item) => item.name === name);
+    setActiveItem(Selected || null);
+    setIsDetailModalShow(!isDetailModalShow);
+  };
+  const handleCloseModalDetail = () => {
+    setIsDetailModalShow(!isDetailModalShow);
+  };
+  const handleCloseConfirmDelete = () => {
+    setIsConfirmDeleteModal(!isConfirmDeleteModal);
   };
   const handleCloseModal = () => {
     setIsEditModalShow(!isEditModalShow);
@@ -233,7 +251,42 @@ const Table: FC = (): ReactElement => {
       })),
     [getBeasiswa?.scholarship],
   );
+  useEffect(() => {
+    if (isSuccesDeleteModal === true) {
+      const timeout = setTimeout(() => {
+        setIsSuccesDeleteModal(false);
+      }, 2000);
 
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+    if (isSuccesAddModal === true) {
+      const timeout = setTimeout(() => {
+        setIsSuccesAddModal(false);
+      }, 2000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+    if (isSuccesUpdateModal === true) {
+      const timeout = setTimeout(() => {
+        setIsSuccesUpdateModal(false);
+      }, 2000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [isSuccesDeleteModal, isSuccesAddModal, isSuccesUpdateModal]);
+  const handleCloseSuccesDelete = () => {
+    setIsSuccesDeleteModal(false);
+  };
+  const handleCloseSuccesAdd = () => {
+    setIsSuccesAddModal(false);
+  };
+  const handleCloseSuccesUpdate = () => {
+    setIsSuccesUpdateModal(false);
+  };
   const onSubmit = handleSubmit((data) => {
     try {
       match(activeItem?.title)
@@ -244,34 +297,9 @@ const Table: FC = (): ReactElement => {
             },
             {
               onSuccess: () => {
+                setIsSuccesAddModal(true);
                 refetchScholarship();
-                setTimeout(() => {
-                  toast.success("Berhasil Menambahkan Beasiswa", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
                 setIsAddModalShow(false);
-              },
-              onError: () => {
-                setTimeout(() => {
-                  toast.error("Gagal Menambahkan Beasiswa", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
               },
             },
           );
@@ -285,34 +313,10 @@ const Table: FC = (): ReactElement => {
             },
             {
               onSuccess: () => {
+                setIsSuccesAddModal(true);
                 refetchDepartment();
-                setTimeout(() => {
-                  toast.success("Berhasil Menambahkan Program Studi", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
+
                 setIsAddModalShow(false);
-              },
-              onError: () => {
-                setTimeout(() => {
-                  toast.error("Gagal Menambahkan Program Studi", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
               },
             },
           );
@@ -336,34 +340,9 @@ const Table: FC = (): ReactElement => {
             },
             {
               onSuccess: () => {
+                setIsSuccesAddModal(true);
                 refetchSelection();
-                setTimeout(() => {
-                  toast.success("Berhasil Menambahkan Jalur Seleksi", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
                 setIsAddModalShow(false);
-              },
-              onError: () => {
-                setTimeout(() => {
-                  toast.error("Gagal Menambahkan Jalur Seleksi", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
               },
             },
           );
@@ -376,34 +355,9 @@ const Table: FC = (): ReactElement => {
             },
             {
               onSuccess: () => {
+                setIsSuccesAddModal(true);
                 refetchFaculty();
-                setTimeout(() => {
-                  toast.success("Berhasil Menambahkan Program Studi", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
                 setIsAddModalShow(false);
-              },
-              onError: () => {
-                setTimeout(() => {
-                  toast.error("Gagal Menambahkan Program Studi", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
               },
             },
           );
@@ -418,140 +372,39 @@ const Table: FC = (): ReactElement => {
         .with("faculty", () => {
           deleteFaculty(Number(data.id), {
             onSuccess: () => {
+              setIsSuccesDeleteModal(true);
               refetchFaculty();
-              setTimeout(() => {
-                toast.success("Berhasil Menghapus Program Studi", {
-                  position: "top-center",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                });
-              }, 500);
-              setIsDeleteModalShow(false);
-            },
-            onError: () => {
-              setTimeout(() => {
-                toast.error("Gagal Menghapus Program Studi", {
-                  position: "top-center",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                });
-              }, 500);
+              setIsConfirmDeleteModal(false);
             },
           });
         })
         .with("scholarship", () => {
           deleteScholarship(Number(data.id), {
             onSuccess: () => {
+              setIsSuccesDeleteModal(true);
               refetchScholarship();
-              setTimeout(() => {
-                toast.success("Berhasil Menghapus Beasiswa", {
-                  position: "top-center",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                });
-              }, 500);
-              setIsDeleteModalShow(false);
-            },
-            onError: () => {
-              setTimeout(() => {
-                toast.error("Gagal Menghapus Beasiswa", {
-                  position: "top-center",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                });
-              }, 500);
+              setIsConfirmDeleteModal(false);
             },
           });
         })
         .with("selection_path", () => {
           deleteSelection(Number(data.id), {
             onSuccess: () => {
+              setIsSuccesDeleteModal(true);
               refetchSelection();
-              setTimeout(() => {
-                toast.success("Berhasil Menghapus Jalur Seleksi", {
-                  position: "top-center",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                });
-              }, 500);
-              setIsDeleteModalShow(false);
-            },
-            onError: () => {
-              setTimeout(() => {
-                toast.error("Gagal Menghapus Jalur Seleksi", {
-                  position: "top-center",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                });
-              }, 500);
+              setIsConfirmDeleteModal(false);
             },
           });
         })
         .with("department", () => {
           deleteDepartment(Number(data.id), {
             onSuccess: () => {
+              setIsSuccesDeleteModal(true);
               refetchDepartment();
-              setTimeout(() => {
-                toast.success("Berhasil Menghapus Program Studi", {
-                  position: "top-center",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                });
-              }, 500);
-              setIsDeleteModalShow(false);
-            },
-            onError: () => {
-              setTimeout(() => {
-                toast.error("Gagal Menghapus Program Studi", {
-                  position: "top-center",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                });
-              }, 500);
+              setIsConfirmDeleteModal(false);
             },
           });
         });
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -567,34 +420,10 @@ const Table: FC = (): ReactElement => {
             },
             {
               onSuccess: () => {
+                setIsSuccesUpdateModal(true);
                 refetchScholarship();
-                setTimeout(() => {
-                  toast.success("Berhasil Mengubah Beasiswa", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
+
                 setIsEditModalShow(false);
-              },
-              onError: () => {
-                setTimeout(() => {
-                  toast.error("Gagal Mengubah Beasiswa", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
               },
             },
           );
@@ -609,34 +438,9 @@ const Table: FC = (): ReactElement => {
             },
             {
               onSuccess: () => {
+                setIsSuccesUpdateModal(true);
                 refetchDepartment();
-                setTimeout(() => {
-                  toast.success("Berhasil Mengubah Program Studi", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
                 setIsEditModalShow(false);
-              },
-              onError: () => {
-                setTimeout(() => {
-                  toast.error("Gagal Mengubah Program Studi", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
               },
             },
           );
@@ -650,34 +454,9 @@ const Table: FC = (): ReactElement => {
             },
             {
               onSuccess: () => {
+                setIsSuccesUpdateModal(true);
                 refetchFaculty();
-                setTimeout(() => {
-                  toast.success("Berhasil Mengubah Fakultas", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
                 setIsEditModalShow(false);
-              },
-              onError: () => {
-                setTimeout(() => {
-                  toast.error("Gagal Mengubah Fakultas", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
               },
             },
           );
@@ -691,34 +470,9 @@ const Table: FC = (): ReactElement => {
             },
             {
               onSuccess: () => {
+                setIsSuccesUpdateModal(true);
                 refetchSelection();
-                setTimeout(() => {
-                  toast.success("Berhasil Mengubah Jalur Seleksi", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
                 setIsEditModalShow(false);
-              },
-              onError: () => {
-                setTimeout(() => {
-                  toast.error("Gagal Mengubah Jalur Seleksi", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                }, 500);
               },
             },
           );
@@ -782,17 +536,31 @@ const Table: FC = (): ReactElement => {
             ) : null}
           </div>
         ),
-        width: "24%",
+        width: "20%",
       },
 
       {
         name: "Tindakan",
+        width: "350px",
         cell: (row) => (
           <div className="flex gap-2 w-full">
             <Button
+              variant="filled-green-secondary"
+              height="h-6"
+              width="w-full"
+              onClick={() => {
+                setActiveItem(row);
+                handleOpenModalDetail(row.name);
+              }}
+            >
+              <AiOutlineFileSearch className="text-lg text-primary-white cursor-pointer" />
+              <span className="pl-2 text-[10px] text-primary-white">Details</span>
+            </Button>
+
+            <Button
               variant="filled-yellow"
               height="h-6"
-              width="w-24"
+              width="w-full"
               onClick={() => {
                 setActiveItem(row);
                 handleOpenModal(row.name);
@@ -806,7 +574,7 @@ const Table: FC = (): ReactElement => {
             <Button
               variant="filled-red"
               height="h-6"
-              width="w-24"
+              width="w-full"
               styling="bg-secondary-orange-1 hover:bg-secondary-orange-2"
               onClick={() => {
                 setActiveItem(row);
@@ -821,18 +589,23 @@ const Table: FC = (): ReactElement => {
         ),
       },
     ],
-    [addReset, faculty, prodi, seleksi, education, beasiswa, deleteReset],
+    [addReset, faculty, prodi, seleksi, education, beasiswa, deleteReset, handleOpenModalDetail],
   );
 
   const customStyles = {
     rows: {
       style: {
-        width: "100%",
-        minHeight: "70px",
-        background: "#F5F5F5",
+        minHeight: "45px",
+
+        "&:nth-child(odd)": {
+          backgroundColor: "#FFFFFF",
+        },
+        "&:nth-child(even)": {
+          backgroundColor: "#F5F5F5",
+        },
       },
       stripedStyle: {
-        background: "#FFFFFF",
+        background: "#F5F5F5",
       },
     },
     headCells: {
@@ -875,25 +648,8 @@ const Table: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      {/* TAble */}
       <section className="rounded-lg w-full">
         <div className="w-full flex p-2 py-4 gap-4 lg:justify-end justify-start items-center">
-          <Button variant="outlined" height="h-9" width="w-24">
-            <AiOutlineFilter className="text-lg text-primary-black" />
-            <span className="text-sm font-medium pl-2 text-primary-black">Filter</span>
-          </Button>
           <SearchInput
             value={searchQuery}
             onChange={handleSearch}
@@ -928,6 +684,76 @@ const Table: FC = (): ReactElement => {
           paginationIconLastPage={<AiFillFastForward className="text-xl ml-0.5" />}
         />
       </section>
+      <Modal
+        key="modal-detail"
+        showModal={isDetailModalShow}
+        onClose={handleCloseModalDetail}
+        modalTitle={`Detail ${activeItem?.name}`}
+        bodyClassName="overflow-y-auto p-8"
+        titleColor="white"
+        size="md"
+        closeClassName="text-primary-white"
+        headerColor="green"
+      >
+        <div className="modal flex flex-col h-full max-h-[50vh] ">
+          <ul>
+            {activeItem?.name === "Fakultas" &&
+              faculty?.map((item, index) => (
+                <li
+                  className="even:bg-grayscale-12 text-lg flex flex-col gap-y-8 font-medium odd:bg-primary-white"
+                  key={index}
+                >
+                  {item.label}
+                </li>
+              ))}
+            {activeItem?.name === "Program Studi" &&
+              prodi?.map((item, index) => (
+                <li
+                  className="even:bg-grayscale-12 text-lg flex flex-col gap-y-8 font-medium odd:bg-primary-white"
+                  key={index}
+                >
+                  {item.label}
+                </li>
+              ))}
+            {activeItem?.name === "Jalur Seleksi" &&
+              seleksi?.map((item, index) => (
+                <li
+                  className="even:bg-grayscale-12 text-lg flex flex-col gap-y-8 font-medium odd:bg-primary-white"
+                  key={index}
+                >
+                  {item.label}
+                </li>
+              ))}
+            {activeItem?.name === "Data Sekolah" &&
+              education?.map((item, index) => (
+                <li
+                  className="even:bg-grayscale-12 text-lg flex flex-col gap-y-8 font-medium odd:bg-primary-white"
+                  key={index}
+                >
+                  {item.label}
+                </li>
+              ))}
+            {activeItem?.name === "Beasiswa" &&
+              beasiswa?.map((item, index) => (
+                <li
+                  className="even:bg-grayscale-12 text-lg flex flex-col gap-y-8 font-medium odd:bg-primary-white"
+                  key={index}
+                >
+                  {item.label}
+                </li>
+              ))}
+            {activeItem?.name === "Biaya Formulir" &&
+              activeItem?.current_data?.map((item, index) => (
+                <li
+                  className="even:bg-grayscale-12 text-lg flex flex-col gap-y-8 font-medium odd:bg-primary-white"
+                  key={index}
+                >
+                  {item.data}
+                </li>
+              ))}
+          </ul>
+        </div>
+      </Modal>
       {activeItem?.name === "Biaya Formulir" ? (
         <Modal
           key="modal-edit-data"
@@ -1418,56 +1244,167 @@ const Table: FC = (): ReactElement => {
           </form>
         </Modal>
       )}
+      <form onSubmit={onDeleteData}>
+        <Modal
+          key="modal-delete-data"
+          showModal={isDeleteModalShow}
+          onClose={handleCloseDeleteModal}
+          iconClose={false}
+          modalTitle="Hapus Data"
+          titleColor="white"
+          size="modal-question"
+          headerColor="green"
+        >
+          <div className="gap-y-[7vh] flex flex-col px-4  justify-center">
+            <p className="text-primary-green text-center">Silahkan pilih data yang akan dihapus!</p>
 
-      <Modal
-        key="modal-delete-data"
-        showModal={isDeleteModalShow}
-        onClose={handleCloseDeleteModal}
-        iconClose={true}
-        modalTitle="Apakah anda yakin akan menghapus?"
-        titleColor="green"
-      >
-        <form onSubmit={onDeleteData}>
-          <p className="text-grayscale-11">
-            Penghapusan akan merubah data yang ada dan ini tidak bisa menampilkan kembali data
-            tersebut
-          </p>
-          <SelectOption
-            name="id"
-            options={
-              activeItem?.name === "Fakultas"
-                ? faculty || []
-                : activeItem?.name === "Program Studi"
-                ? prodi || []
-                : activeItem?.name === "Jalur Seleksi"
-                ? seleksi || []
-                : activeItem?.name === "Data Sekolah"
-                ? education || []
-                : activeItem?.name === "Beasiswa"
-                ? beasiswa || []
-                : options
-            }
-            control={deleteControl}
-            isClearable
-            isSearchable
-            placeholder={`Pilih ${activeItem?.name}`}
-            labels={`${activeItem?.name} Asal`}
-          />
-          <div className="flex gap-x-6 items-end w- justify-end">
-            <Button variant="filled" width="w-36" height="h-6" onClick={handleCloseDeleteModal}>
-              Batal
-            </Button>
-            <Button
-              variant="filled-red"
-              width="w-36"
-              height="h-6"
-              type="submit"
-              loading={isLoadingDelete}
-            >
-              Hapus
-            </Button>
+            <SelectOption
+              name="id"
+              options={
+                activeItem?.name === "Fakultas"
+                  ? faculty || []
+                  : activeItem?.name === "Program Studi"
+                  ? prodi || []
+                  : activeItem?.name === "Jalur Seleksi"
+                  ? seleksi || []
+                  : activeItem?.name === "Data Sekolah"
+                  ? education || []
+                  : activeItem?.name === "Beasiswa"
+                  ? beasiswa || []
+                  : options
+              }
+              control={deleteControl}
+              isClearable
+              isSearchable
+              placeholder={`Pilih ${activeItem?.name}`}
+              labels={`${activeItem?.name} Asal`}
+            />
+
+            <div className="flex gap-x-6  justify-center">
+              <Button
+                variant="filled-red"
+                width="w-36"
+                height="h-6"
+                onClick={handleCloseDeleteModal}
+              >
+                Batal
+              </Button>
+              <Button
+                variant="filled"
+                width="w-36"
+                height="h-6"
+                onClick={() => {
+                  handleCloseDeleteModal();
+                  setIsConfirmDeleteModal(!isConfirmDeleteModal);
+                }}
+              >
+                Simpan
+              </Button>
+            </div>
           </div>
-        </form>
+        </Modal>
+        <Modal
+          showModal={isConfirmDeleteModal}
+          onClose={handleCloseConfirmDelete}
+          iconClose={false}
+          size="sm"
+        >
+          <div className="flex gap-y-6  justify-center items-center flex-col ">
+            <BiErrorCircle className="text-red-7 text-9xl" />
+            <div className="flex flex-col items-center gap-y-4 px-5">
+              <div className="text-center">
+                <h1 className="text-xl font-bold">Perhatian</h1>
+                <p>Apakah Anda ingin menghapus data ini?</p>
+              </div>
+
+              <div className="flex flex-row justify-center gap-x-6">
+                <Button
+                  variant="filled-red"
+                  width="w-36"
+                  height="h-6"
+                  onClick={handleCloseConfirmDelete}
+                >
+                  Batal
+                </Button>
+                <Button
+                  variant="filled"
+                  width="w-36"
+                  height="h-6"
+                  type="submit"
+                  onClick={onDeleteData}
+                >
+                  Hapus
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </form>
+      <Modal
+        showModal={isSuccesDeleteModal}
+        onClose={handleCloseSuccesDelete}
+        iconClose={false}
+        size="sm"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+        >
+          <div className="flex flex-col items-center gap-y-4 px-5">
+            <AiOutlineFileDone className="text-secondary-green-8 text-9xl text-center" />
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+              <div className="text-center">
+                <h1 className="text-xl font-bold">Berhasil</h1>
+                <p>Data Berhasil Dihapus</p>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </Modal>
+      <Modal
+        showModal={isSuccesAddModal}
+        onClose={handleCloseSuccesAdd}
+        iconClose={false}
+        size="sm"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+        >
+          <div className="flex flex-col items-center gap-y-4 px-5">
+            <AiOutlineFileDone className="text-secondary-green-8 text-9xl text-center" />
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+              <div className="text-center">
+                <h1 className="text-xl font-bold">Berhasil</h1>
+                <p>Data Berhasil Ditambahkan</p>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </Modal>
+      <Modal
+        showModal={isSuccesUpdateModal}
+        onClose={handleCloseSuccesUpdate}
+        iconClose={false}
+        size="sm"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+        >
+          <div className="flex flex-col items-center gap-y-4 px-5">
+            <AiOutlineFileDone className="text-secondary-green-8 text-9xl text-center" />
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+              <div className="text-center">
+                <h1 className="text-xl font-bold">Berhasil</h1>
+                <p>Data Berhasil Diubah</p>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
       </Modal>
     </Fragment>
   );
