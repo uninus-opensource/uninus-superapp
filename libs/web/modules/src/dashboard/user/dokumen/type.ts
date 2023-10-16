@@ -19,4 +19,8 @@ export type TDokumenPendaftaran = {
   KTP_S3: File;
   transkrip_nilai_S3: File;
   porlap_dikti_S3: File;
+
+  // jalur pindahan
+  surat_pindahan: File;
+  transkip_nilai_pindahan: File;
 };

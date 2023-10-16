@@ -1,5 +1,5 @@
 "use client";
-import { FC, Fragment, ReactElement, useMemo, useState } from "react";
+import { FC, Fragment, ReactElement, useEffect, useMemo, useState } from "react";
 import { Button, UploadField, Modal, RedirectLink } from "@uninus/web/components";
 import { useForm } from "react-hook-form";
 import {
@@ -10,6 +10,7 @@ import {
 } from "../registrasi";
 import { TDokumenPendaftaran } from "./type";
 import { useStudentData } from "@uninus/web/services";
+import { redirect } from "next/navigation";
 
 export const ModuleDokumen: FC = (): ReactElement => {
   const [showModal, setShowModal] = useState(false);
@@ -49,6 +50,12 @@ export const ModuleDokumen: FC = (): ReactElement => {
     setShowModal(false);
   };
 
+  useEffect(() => {
+    if (!getStudent?.father_name) {
+      redirect("/dashboard");
+    }
+  }, [getStudent]);
+
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsLoading(true);
@@ -66,6 +73,39 @@ export const ModuleDokumen: FC = (): ReactElement => {
         const { file_url: ijazah_SKL_S1 } = await uploadFile({
           file: data.ijazah_SKL_S1,
         });
+
+        if (getStudent?.registration_path_id === 2) {
+          const { file_url: surat_pindahan } = await uploadFile({
+            file: data.surat_pindahan,
+          });
+          const { file_url: transkip_nilai_pindahan } = await uploadFile({
+            file: data.transkip_nilai_pindahan,
+          });
+
+          mutate(
+            {
+              documents: [
+                { name: "Kartu Keluarga", path: kartu_keluarga_S1 },
+                { name: "KTP", path: KTP_S1 },
+                { name: "Akta Kelahiran", path: akta_kelahiran_S1 },
+                { name: "Ijazah/SKL", path: ijazah_SKL_S1 },
+                { name: "Surat Pindahan", path: surat_pindahan },
+                { name: "Transkip Nilai Pindahan", path: transkip_nilai_pindahan },
+              ],
+            },
+            {
+              onSuccess: () => {
+                setIsLoading(false);
+                setShowModal(true);
+                setIsDisabled(true);
+              },
+              onError: () => {
+                setIsLoading(false);
+              },
+            },
+          );
+        }
+
         mutate(
           {
             documents: [
@@ -304,6 +344,50 @@ export const ModuleDokumen: FC = (): ReactElement => {
                       isDisabled={!!documents?.find((doc) => doc.name === "Ijazah/SKL")}
                     />
                   </div>
+                  {getStudent?.registration_path_id === 2 && (
+                    <Fragment>
+                      <div className="flex flex-col gap-2">
+                        <UploadField
+                          label="Surat Pindahan"
+                          control={control}
+                          name="surat_pindahan"
+                          variant="custom"
+                          inputLabel="Pilih File"
+                          required
+                          labelClassName={
+                            watch("surat_pindahan")
+                              ? "labelTextUploaded"
+                              : documents?.find((doc) => doc.name === "Surat Pindahan")
+                              ? "labelTextDisabled"
+                              : "labelText"
+                          }
+                          preview={false}
+                          isDisabled={!!documents?.find((doc) => doc.name === "Surat Pindahan")}
+                        />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <UploadField
+                          label="Transkip nilai"
+                          control={control}
+                          name="transkip_nilai_pindahan"
+                          variant="custom"
+                          inputLabel="Pilih File"
+                          required
+                          labelClassName={
+                            watch("transkip_nilai_pindahan")
+                              ? "labelTextUploaded"
+                              : documents?.find((doc) => doc.name === "Transkip Nilai Pindahan")
+                              ? "labelTextDisabled"
+                              : "labelText"
+                          }
+                          preview={false}
+                          isDisabled={
+                            !!documents?.find((doc) => doc.name === "Transkip Nilai Pindahan")
+                          }
+                        />
+                      </div>
+                    </Fragment>
+                  )}
                 </Fragment>
               )}
 
@@ -542,8 +626,11 @@ export const ModuleDokumen: FC = (): ReactElement => {
                 ? watch("kartu_keluarga_S1") &&
                   watch("ijazah_SKL_S1") &&
                   watch("KTP_S1") &&
-                  watch("akta_kelahiran_S1")
-                  ? false
+                  watch("akta_kelahiran_S1") &&
+                  getStudent?.registration_path_id === 2
+                  ? watch("surat_pindahan") && watch("transkip_nilai_pindahan")
+                    ? false
+                    : true
                   : true
                 : degreeProgram === 2
                 ? watch("ijazahS1_S2") &&
