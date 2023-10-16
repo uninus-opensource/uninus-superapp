@@ -191,13 +191,10 @@ export const DetailPembayaran: FC = (): ReactElement => {
                     <RadioButton
                       name="payment method"
                       label="payment"
-                      fieldName=""
                       control={control}
-                      options={[{ label: "", value: "" }]}
                       size="md"
                       variant="primary"
                     />
-
                     <div className="lg:text-md text-sm">
                       <h1 className="font-semibold text-primary-green">{x.name}</h1>
                       <p className="text-slate-5">{x.desc}</p>

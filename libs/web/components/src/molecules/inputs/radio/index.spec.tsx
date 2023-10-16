@@ -22,25 +22,18 @@ const RadioButtonWithControl: FC<{
     control,
     size,
     variant,
-    options: [
-      { value: "option1", name: "Option 1" },
-      { value: "option2", name: "Option 2" },
-      // Add more options if needed
-    ],
+    value: "value 1",
+    defaultChecked: true,
   };
 
-  return <RadioButton {...props} name={"testRadio"} />;
+  return <RadioButton data-testid="radio-button" {...props} name={"testRadio"} />;
 };
 
 describe("Test RadioButton Component", () => {
   it("Should renders correctly", () => {
-    const { getAllByRole } = render(<RadioButtonWithControl />);
-    const radioButtons = getAllByRole("radio");
-    expect(radioButtons.length).toBe(2); // Adjust the count based on the number of options
-    radioButtons.forEach((radioButton) => {
-      expect(radioButton).toBeInTheDocument();
-      expect(radioButton).not.toBeChecked();
-    });
+    const { getByTestId } = render(<RadioButtonWithControl />);
+    const radioButtons = getByTestId("radio-button");
+    expect(radioButtons).toBeDefined();
   });
 
   it("Should Have Label Test Radio", () => {
@@ -49,18 +42,16 @@ describe("Test RadioButton Component", () => {
     expect(label).toBeInTheDocument();
   });
 
-  it("Should Have valid className when variant set to primary", () => {
-    const { getAllByRole } = render(<RadioButtonWithControl variant="primary" />);
-    const radioButtons = getAllByRole("radio");
-    radioButtons.forEach((radioButton) => {
-      expect(radioButton).toHaveClass("checked:bg-primary-green");
-    });
+  it("Should Have valid variant when variant set to primary", () => {
+    const { getByTestId } = render(<RadioButtonWithControl variant="primary" />);
+    const radioButtons = getByTestId("radio-button");
+    expect(radioButtons).toHaveClass("checked:bg-primary-green");
   });
 
   it("Should triggers onChange correctly", async () => {
-    const { getAllByRole } = render(<RadioButtonWithControl />);
-    const radioButtons = getAllByRole("radio");
-    fireEvent.click(radioButtons[0]);
-    await waitFor(() => expect(radioButtons[0]).toBeChecked());
+    const { getByTestId } = render(<RadioButtonWithControl />);
+    const radioButtons = getByTestId("radio-button");
+    fireEvent.click(radioButtons);
+    await waitFor(() => expect(radioButtons).toBeChecked());
   });
 });

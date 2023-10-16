@@ -6,14 +6,15 @@ export type TRadioButtonProps<T extends FieldValues> = UseControllerProps<T> & {
   variant?: RADIO_VARIANT | string;
   size?: RADIO_SIZE | string;
   fieldName?: string;
+  defaultChecked?: boolean;
   labelSize?: LABEL_SIZE | string;
-  options?: Array<{ label?: string; value?: string }>;
+  id?: string;
   label?: string;
   name?: string;
   inputname?: string;
   required?: boolean;
   message?: "primary" | "error" | "warning";
   onChange?: ChangeEventHandler<HTMLInputElement>;
-  buttonValue?: string | null | void;
   disabled?: boolean;
+  value?: string;
 };
