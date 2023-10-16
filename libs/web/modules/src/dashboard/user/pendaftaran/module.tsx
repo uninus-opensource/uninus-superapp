@@ -124,19 +124,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
 
   const { mutate } = useStudentUpdate();
 
-  const selectionDegreeProgram = getDegreeProgram?.degree_program.find(
-    (degree) => degree.id === student?.degree_program_id,
-  );
-  const selectionFirstDepartement = getDepartment?.department.find(
-    (degree) => degree.id === student?.first_department_id,
-  );
-  const selectionSecondDepartement = getDepartment?.department.find(
-    (degree) => degree.id === student?.second_department_id,
-  );
-  const selectionType = getSelection?.selection.find(
-    (degree) => degree.id === student?.selection_path_id,
-  );
-
   const { data: getRegistrationsPath } = useRegistrationsPathGet();
 
   const RegistationsPathOptions = useMemo(
@@ -146,6 +133,22 @@ export const ModulePendaftaran: FC = (): ReactElement => {
         value: registrations?.id.toString(),
       })),
     [getRegistrationsPath?.registration_path],
+  );
+
+  const selectionDegreeProgram = getDegreeProgram?.degree_program.find(
+    (degree) => degree.id === student?.degree_program_id,
+  );
+  const selectionFirstDepartement = getDepartment?.department.find(
+    (degree) => degree.id === student?.first_department_id,
+  );
+  const selectionSecondDepartement = getDepartment?.department.find(
+    (degree) => degree.id === student?.second_department_id,
+  );
+  const selectionRegistrationPath = getRegistrationsPath?.registration_path.find(
+    (degree) => degree.id === student?.registration_path_id,
+  );
+  const selectionType = getSelection?.selection.find(
+    (degree) => degree.id === student?.selection_path_id,
   );
 
   useEffect(() => {
@@ -298,7 +301,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               />
             )}
             <SelectOption
-              placeholder={selectionType?.name || "Pilih Jalur Pendaftaran"}
+              placeholder={selectionRegistrationPath?.name || "Pilih Jalur Pendaftaran"}
               labels="Jalur Pendaftaran"
               className="text-left"
               labelClassName="text-left py-2"
