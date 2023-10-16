@@ -36,7 +36,7 @@ export const SelectOption = forwardRef(
       "text-base font-bold": props.size === SELECT_SIZE.MD,
     });
 
-    const messageClassName = clsx("ml-2 mt-1 text-xs", {
+    const messageClassName = clsx("text-left md:ml-2 mt-1 text-xs", {
       "text-green-4": props.status === SELECT_STATUS.SUCCESS,
       "text-amber-3": props.status === SELECT_STATUS.WARNING,
       "text-red-4": props.status === SELECT_STATUS.ERROR,
@@ -50,6 +50,7 @@ export const SelectOption = forwardRef(
     const handleChange = (payload: MultiValue<TSelectOption> | SingleValue<TSelectOption>) => {
       const pay = payload as TSelectOption;
       field.onChange(pay?.value);
+      // console.log(pay?.value);
     };
 
     const [dropdown, setDropDown] = useState<boolean>(false);

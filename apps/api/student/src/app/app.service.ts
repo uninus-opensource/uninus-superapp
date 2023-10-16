@@ -45,7 +45,7 @@ export class AppService {
       avatar,
       email,
       fullname,
-      students: { pmb, ...studentData },
+      students: { pmb, test_score, ...studentData },
     } = student;
 
     return JSON.parse(
@@ -54,6 +54,7 @@ export class AppService {
           avatar,
           email,
           fullname,
+          test_score,
           first_department_id: pmb.first_department_id,
           second_department_id: pmb.second_department_id,
           selection_path_id: pmb.selection_path_id,
@@ -95,6 +96,7 @@ export class AppService {
       document,
       documents,
       registration_path_id,
+      test_score,
       ...updateStudentPayload
     } = payload;
     if (documents && typeof documents[0]?.isVerified != "undefined") {
@@ -106,6 +108,7 @@ export class AppService {
           data: {
             students: {
               update: {
+                test_score,
                 pmb: {
                   update: {
                     documents: {
@@ -173,6 +176,7 @@ export class AppService {
         avatar,
         students: {
           update: {
+            test_score,
             ...updateStudentPayload,
             pmb: {
               update: {

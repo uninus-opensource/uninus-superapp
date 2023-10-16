@@ -5,7 +5,6 @@ import {
   Post,
   Delete,
   Body,
-  Put,
   Param,
   Inject,
   UseFilters,
@@ -14,12 +13,7 @@ import {
 import { ApiOperation, ApiResponse, ApiTags, ApiQuery, ApiParam } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
-import {
-  EOrderByPagination,
-  TCreateQuestionRequest,
-  TProfileResponse,
-  TUpdateQuestionRequest,
-} from "@uninus/entities";
+import { EOrderByPagination, TProfileResponse } from "@uninus/entities";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
 import {
   CreateDepartment,
@@ -27,6 +21,7 @@ import {
   CreateFaculty,
   CreateScholarship,
   CreateSelectionPath,
+  createQuestion,
 } from "@uninus/api/dto";
 
 @Controller()
@@ -479,29 +474,27 @@ export class GeneralController {
     status: 500,
     description: "Internal Server Error",
   })
-  async createQuestion(@Body() createQuestion: TCreateQuestionRequest) {
+  async createQuestion(@Body() createQuestion: createQuestion) {
     const response = await firstValueFrom(
       this.client
-        .send("create_question", { createQuestion })
+        .send("create_question", createQuestion)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
   }
 
-  @Put("update-question/:id")
+  @Patch("update-question/:id")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiParam({ name: "id", required: true })
   @ApiOperation({ summary: "Update question by Id" })
   @ApiResponse({
     status: 500,
     description: "Internal Server Error",
   })
-  async updateQuestionById(
-    @Param("id") id: string,
-    @Body() updateQuestion: TUpdateQuestionRequest,
-  ) {
+  async updateQuestionById(@Param("id") id: number, @Body() payload: createQuestion) {
     const response = await firstValueFrom(
       this.client
-        .send("update_question", { id, updateQuestion })
+        .send("update_question", { id, payload })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -509,15 +502,16 @@ export class GeneralController {
 
   @Delete("delete-question/:id")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiParam({ name: "id", required: true })
   @ApiOperation({ summary: "Delete question by Id" })
   @ApiResponse({
     status: 500,
     description: "Internal Server Error",
   })
-  async deleteQuestionById(@Param("id") id: string) {
+  async deleteQuestionById(@Param("id") id: number) {
     const response = await firstValueFrom(
       this.client
-        .send("delete_question", { id })
+        .send("delete_question", id)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

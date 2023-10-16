@@ -22,21 +22,21 @@ export const CardSection: FC = (): ReactElement => {
     {
       icon: <AiOutlineTeam className="text-3xl" />,
       desc: "Total Peminat",
-      jumlah: registrans?.total_registrans,
+      jumlah: registrans?.total_interest,
       background: "bg-[#FBFDE9]",
       tcolor: "text-red-7",
     },
     {
       icon: <AiOutlineTeam className="text-3xl" />,
       desc: "Total Pendaftar",
-      jumlah: registrans?.unpaids,
+      jumlah: registrans?.total_registrans,
       background: "bg-blue-5",
       tcolor: "text-blue-1",
     },
     {
       icon: <AiOutlineFileText className="text-3xl" />,
       desc: "Membayar Formulir",
-      jumlah: registrans?.paids,
+      jumlah: registrans?.paids_form,
       background: "bg-[#FBFDE9]",
       tcolor: "text-secondary-yellow-1",
     },
@@ -50,7 +50,7 @@ export const CardSection: FC = (): ReactElement => {
     {
       icon: <AiOutlineFileDone className="text-3xl" />,
       desc: "Membayar UKT",
-      jumlah: registrans?.accepted_registrans,
+      jumlah: registrans?.paids_ukt,
       background: "bg-[#F1FFF8]",
       tcolor: "text-blue-4",
     },
@@ -60,11 +60,11 @@ export const CardSection: FC = (): ReactElement => {
     items: CardDesc.map((x, i) => (
       <div key={i} className="flex h-full p-4">
         <div
-          className=" bg-primary-white w-full h-[130px] gap-y-4 shadow-md rounded-md p-4 text-lg"
+          className="flex flex-col justify-center items-center bg-primary-white w-full h-[130px] gap-y-1 shadow-md rounded-md p-4 text-lg"
           key={i}
         >
           <figure
-            className={`flex justify-center items-center w-[40px] p-1 rounded-md ${x.background} ${x.tcolor}`}
+            className={`flex justify-center items-center w-[40px] p-1 rounded-md  ${x.background} ${x.tcolor}`}
           >
             {x.icon}
           </figure>

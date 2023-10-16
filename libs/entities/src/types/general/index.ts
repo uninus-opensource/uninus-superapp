@@ -231,6 +231,13 @@ export type TDisabilitiesResponse = {
   }>;
 };
 
+export type TQuestionResponse = {
+  id: number;
+  question: string;
+  correct_answer: string;
+  incorrect_answers: string[];
+};
+
 export interface IYearGraduationRequest {
   search: string;
 }
@@ -284,8 +291,9 @@ export type TParentEducationResponse = {
 
 export type TTotalRegistransResponse = {
   total_registrans: number;
-  paids: number;
-  unpaids: number;
+  total_interest: number;
+  paids_ukt: number;
+  paids_form: number;
   accepted_registrans: number;
 };
 

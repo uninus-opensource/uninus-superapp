@@ -94,16 +94,19 @@ export const BerkasUmum: FC = (): ReactElement => {
       titleClassName="lg:text-lg text-md font-extrabold text-secondary-green-4"
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[1.5vw] pb-6 md:pb-0 overflow-y-hidden"
     >
-      <form onSubmit={onSubmit} className="w-[85%] flex flex-col gap-5 bg-primary-white py-4 px-8">
+      <form
+        onSubmit={onSubmit}
+        className="w-full md:w-[85%] flex flex-col gap-5 bg-primary-white py-4 px-4 md:px-8 text-sm md:text-lg"
+      >
         {/* Ijazah S1 */}
         {degreeProgram !== 1 && (
           <section className="w-full flex items-center justify-between">
-            <div className="h-[5em] flex flex-col gap-2">
+            <div className="h-[5em] flex flex-col gap-2 items-start">
               <h3 className="font-bold">Ijazah S1</h3>
-              <div className="w-full  flex gap-2">
+              <div className="w-full flex flex-col md:flex-row gap-2">
                 <Link
                   href={`${ijazah_S1?.path}`}
-                  className="text-primary-green underline truncate w-[18em]"
+                  className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                   target="_blank"
                 >
                   {ijazah_S1?.path.split("/")[4].slice(10)}
@@ -119,7 +122,7 @@ export const BerkasUmum: FC = (): ReactElement => {
               </div>
             </div>
 
-            <div className="font-bold h-[5em] flex flex-col gap-4">
+            <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
               <CheckBox
                 name="ijazah_S1"
@@ -133,13 +136,13 @@ export const BerkasUmum: FC = (): ReactElement => {
 
         {/* Ijazah S2 */}
         {degreeProgram === 3 && (
-          <section className="w-full flex items-center justify-between">
-            <div className="h-[5em] flex flex-col gap-2">
+          <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+            <div className="h-[5em] flex flex-col gap-2 items-start">
               <h3 className="font-bold">Ijazah S2</h3>
-              <div className="w-full  flex gap-2">
+              <div className="w-full flex flex-col md:flex-row gap-2">
                 <Link
                   href={`${ijazah_S2?.path}`}
-                  className="text-primary-green underline truncate w-[18em]"
+                  className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                   target="_blank"
                 >
                   {ijazah_S2?.path.split("/")[4].slice(10)}
@@ -155,7 +158,7 @@ export const BerkasUmum: FC = (): ReactElement => {
               </div>
             </div>
 
-            <div className="font-bold h-[5em] flex flex-col gap-4">
+            <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
               <CheckBox
                 name="ijazah_S2"
@@ -169,13 +172,13 @@ export const BerkasUmum: FC = (): ReactElement => {
 
         {/* Transkrip Nilai */}
         {degreeProgram !== 1 && (
-          <section className="w-full flex items-center justify-between">
-            <div className="h-[5em] flex flex-col gap-2">
+          <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+            <div className="h-[5em] flex flex-col gap-2 items-start">
               <h3 className="font-bold">Transkip Nilai</h3>
-              <div className="w-full  flex gap-2">
+              <div className="w-full flex flex-col md:flex-row gap-2">
                 <Link
                   href={`${transkrip_nilai?.path}`}
-                  className="text-primary-green underline truncate w-[18em]"
+                  className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                   target="_blank"
                 >
                   {transkrip_nilai?.path.split("/")[4].slice(10)}
@@ -191,7 +194,7 @@ export const BerkasUmum: FC = (): ReactElement => {
               </div>
             </div>
 
-            <div className="font-bold h-[5em] flex flex-col gap-4">
+            <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
               <CheckBox
                 name="transkrip_nilai"
@@ -204,13 +207,13 @@ export const BerkasUmum: FC = (): ReactElement => {
         )}
 
         {/* Kartu Keluarga */}
-        <section className="w-full flex items-center justify-between">
-          <div className="h-[5em] flex flex-col gap-2">
+        <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+          <div className="h-[5em] flex flex-col gap-2 items-start">
             <h3 className="font-bold">Kartu Keluarga</h3>
-            <div className="w-full  flex gap-2">
+            <div className="w-full flex flex-col md:flex-row gap-2">
               <Link
                 href={`${kartu_keluarga?.path}`}
-                className="text-primary-green underline truncate w-[18em]"
+                className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                 target="_blank"
               >
                 {kartu_keluarga?.path.split("/")[4].slice(10)}
@@ -226,7 +229,7 @@ export const BerkasUmum: FC = (): ReactElement => {
             </div>
           </div>
 
-          <div className="font-bold h-[5em] flex flex-col gap-4">
+          <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
             <h3>Sudah Sesuai?</h3>
             <CheckBox
               name="kartu_keluarga"
@@ -239,13 +242,13 @@ export const BerkasUmum: FC = (): ReactElement => {
 
         {/* Porlap Dikti */}
         {degreeProgram !== 1 && (
-          <section className="w-full flex items-center justify-between">
-            <div className="h-[5em] flex flex-col gap-2">
+          <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+            <div className="h-[5em] flex flex-col gap-2 items-start">
               <h3 className="font-bold">Porlap Dikti</h3>
-              <div className="w-full  flex gap-2">
+              <div className="w-full flex flex-col md:flex-row gap-2">
                 <Link
                   href={`${porlap_dikti?.path}`}
-                  className="text-primary-green underline truncate w-[18em]"
+                  className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                   target="_blank"
                 >
                   {porlap_dikti?.path.split("/")[4].slice(10)}
@@ -261,7 +264,7 @@ export const BerkasUmum: FC = (): ReactElement => {
               </div>
             </div>
 
-            <div className="font-bold h-[5em] flex flex-col gap-4">
+            <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
               <CheckBox
                 name="porlap_dikti"
@@ -275,13 +278,13 @@ export const BerkasUmum: FC = (): ReactElement => {
 
         {/* Akta Kelahiran */}
         {degreeProgram === 1 && (
-          <section className="w-full flex items-center justify-between">
-            <div className="h-[5em] flex flex-col gap-2">
+          <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+            <div className="h-[5em] flex flex-col gap-2 items-start">
               <h3 className="font-bold">Akta Kelahiran</h3>
-              <div className="w-full  flex gap-2">
+              <div className="w-full flex flex-col md:flex-row gap-2">
                 <Link
                   href={`${akta_kelahiran?.path}`}
-                  className="text-primary-green underline truncate w-[18em]"
+                  className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                   target="_blank"
                 >
                   {akta_kelahiran?.path.split("/")[4].slice(10)}
@@ -297,7 +300,7 @@ export const BerkasUmum: FC = (): ReactElement => {
               </div>
             </div>
 
-            <div className="font-bold h-[5em] flex flex-col gap-4">
+            <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
               <CheckBox
                 name="akta_kelahiran"
@@ -310,13 +313,13 @@ export const BerkasUmum: FC = (): ReactElement => {
         )}
 
         {/* KTP */}
-        <section className="w-full flex items-center justify-between">
-          <div className="h-[5em] flex flex-col gap-2">
+        <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+          <div className="h-[5em] flex flex-col gap-2 items-start">
             <h3 className="font-bold">KTP</h3>
-            <div className="w-full  flex gap-2">
+            <div className="w-full flex flex-col md:flex-row gap-2">
               <Link
                 href={`${ktp?.path}`}
-                className="text-primary-green underline truncate w-[18em]"
+                className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                 target="_blank"
               >
                 {ktp?.path.split("/")[4].slice(10)}
@@ -332,7 +335,7 @@ export const BerkasUmum: FC = (): ReactElement => {
             </div>
           </div>
 
-          <div className="font-bold h-[5em] flex flex-col gap-4">
+          <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
             <h3>Sudah Sesuai?</h3>
             <CheckBox
               name="ktp"
@@ -345,13 +348,13 @@ export const BerkasUmum: FC = (): ReactElement => {
 
         {/* Ijazah/SKL */}
         {degreeProgram === 1 && (
-          <section className="w-full flex items-center justify-between">
-            <div className="h-[5em] flex flex-col gap-2">
+          <section className="w-full flex items-center justify-between mt-8 md:mt-0">
+            <div className="h-[5em] flex flex-col gap-2 items-start">
               <h3 className="font-bold">Ijazah/SKL</h3>
-              <div className="w-full  flex gap-2">
+              <div className="w-full flex flex-col md:flex-row gap-2">
                 <Link
                   href={`${ijazah?.path}`}
-                  className="text-primary-green underline truncate w-[18em]"
+                  className="text-primary-green underline truncate w-[10em] md:w-[18em]"
                   target="_blank"
                 >
                   {ijazah?.path.split("/")[4].slice(10)}
@@ -367,7 +370,7 @@ export const BerkasUmum: FC = (): ReactElement => {
               </div>
             </div>
 
-            <div className="font-bold h-[5em] flex flex-col gap-4">
+            <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
               <CheckBox
                 name="ijazah_skl"
@@ -379,8 +382,8 @@ export const BerkasUmum: FC = (): ReactElement => {
           </section>
         )}
 
-        <div className="flex w-full justify-center lg:justify-end py-4 mt-8 relative left-16">
-          <Button type="submit" variant="filled" size="md" width="w-[10%]" height="h-6">
+        <div className="flex w-full justify-center lg:justify-end py-4 mt-12 md:mt-8 relative md:left-16">
+          <Button type="submit" variant="filled" size="md" height="h-6">
             Submit
           </Button>
         </div>

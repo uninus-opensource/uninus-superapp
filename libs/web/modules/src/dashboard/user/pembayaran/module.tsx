@@ -1,28 +1,35 @@
 "use client";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useMemo } from "react";
 import { DataMahasiswa, DataTransaksi } from "./store";
 import { TDataTransaksi } from "./type";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { match } from "ts-pattern";
 import { PrinterOutlined } from "@ant-design/icons";
 import Image from "next/image";
+import { useStudentData } from "@uninus/web/services";
 
 export const ModulePembayaran: FC = (): ReactElement => {
+  const { getStudent } = useStudentData();
+
+  const student = useMemo(() => {
+    return getStudent;
+  }, [getStudent]);
+
   const columnsAkun: TableColumn<TDataTransaksi>[] = [
     {
-      name: "No",
-      cell: (row, rowIndex) => <div className="px-1">{rowIndex + 1}</div>,
-      width: "8%",
+      name: <div className="px-3">No</div>,
+      cell: (row, rowIndex) => <div className="px-5">{rowIndex + 1}</div>,
+      width: "80px",
     },
     {
       name: "Jenis Pembayaran",
       cell: (row) => row.jenis_pembayaran,
-      width: "30%",
+      width: "240px",
     },
     {
       name: "Total Tagihan",
       cell: (row) => row.total,
-      width: "20%",
+      width: "180px",
     },
 
     {
@@ -38,7 +45,7 @@ export const ModulePembayaran: FC = (): ReactElement => {
           {row.status}
         </button>
       ),
-      width: "150px",
+      width: "180px",
     },
     {
       name: "Tindakan",
@@ -100,9 +107,17 @@ export const ModulePembayaran: FC = (): ReactElement => {
           Pembayaran
         </p>
       </div>
-      <div className="flex flex-col gap-4 w-full bg-primary-white p-8 rounded-lg shadow-lg ">
+      <div className="flex flex-col gap-4 w-full bg-primary-white p-10 rounded-lg shadow-lg ">
         <h1 className="text-lg font-bold text-grayscale-9 text-left">Data Mahasiswa</h1>
-        <div className="flex flex-row justify-between lg:w-50% md:w-70%">
+        <div className="flex flex-col gap-y-5 md:gap-y-0 justify-center items-center md:flex-row md:justify-between lg:w-60% md:w-80%">
+          <Image
+            src={student?.avatar || ""}
+            alt="printer"
+            width={150}
+            height={150}
+            quality={100}
+            className="border-2 md:hidden"
+          />
           <div className="flex flex-row justify-start gap-x-7">
             <div className="title flex gap-y-3 flex-col font-medium text-sm text-grayscale-8 text-left">
               <h1 className="">Tahun Ajaran</h1>
@@ -114,14 +129,21 @@ export const ModulePembayaran: FC = (): ReactElement => {
             <div className="title flex gap-y-3 flex-col font-medium text-sm text-primary-green text-left">
               <h1>{DataMahasiswa?.school_year}</h1>
               <h1>{DataMahasiswa?.nim}</h1>
-              <h1>{DataMahasiswa?.name}</h1>
+              <h1>{student?.fullname}</h1>
               <h1>{DataMahasiswa?.mother_name}</h1>
               <h1>{DataMahasiswa?.semester}</h1>
             </div>
           </div>
-          <Image src="/illustrations/talent-focus.webp" alt="printer" width={120} height={120} />
+          <Image
+            src={student?.avatar || ""}
+            alt="printer"
+            width={200}
+            height={200}
+            quality={100}
+            className="hidden md:block"
+          />
         </div>
-        <h1 className="text-lg font-bold text-grayscale-9 text-left">Riwayat Transaksi</h1>
+        <h1 className="text-lg font-bold text-grayscale-9 text-left mt-6">Riwayat Transaksi</h1>
         <DataTable
           columns={columnsAkun}
           data={DataTransaksi}

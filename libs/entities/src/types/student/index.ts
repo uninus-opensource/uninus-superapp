@@ -89,6 +89,7 @@ export interface IStudentData {
   average_utbk?: number | null;
   average_grade?: number | null;
   utbk?: number | null;
+  test_score?: number | null;
 }
 
 export interface IGetStudentResponse extends IStudentData {

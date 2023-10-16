@@ -80,6 +80,9 @@ export class UpdateStudentDto {
   salary_id!: number;
 
   @ApiProperty()
+  guardian_lecturer_id!: string;
+
+  @ApiProperty()
   father_name!: string;
 
   @ApiProperty()
