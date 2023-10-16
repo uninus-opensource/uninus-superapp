@@ -331,9 +331,9 @@ export const ModulePendaftaran: FC = (): ReactElement => {
             />
           </div>
           <div className="flex flex-col gap-2 w-full items-center mt-8 md:mt-4 lg:mt-10 lg:items-end">
-            {watch("second_deparment_id") &&
+            {watch("second_department_id") &&
               !isS3Selected &&
-              watch("first_deparment_id") === watch("second_deparment_id") && (
+              watch("first_department_id") === watch("second_department_id") && (
                 <span className="text-xs text-red-4 font-bold">
                   Program studi pilihan 1 dan 2 tidak boleh sama
                 </span>
@@ -346,7 +346,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               height="h-12"
               disabled={
                 !isValid ||
-                watch("first_deparment_id") === watch("second_deparment_id") ||
+                watch("first_department_id") === watch("second_department_id") ||
                 !!student?.degree_program_id ||
                 !!student?.selection_path_id
               }

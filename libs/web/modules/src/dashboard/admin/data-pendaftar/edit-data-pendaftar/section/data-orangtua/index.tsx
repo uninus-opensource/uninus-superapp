@@ -383,7 +383,6 @@ export const EditDataOrangtua: FC = (): ReactElement => {
               label="Nama Wali"
               inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
               control={control}
-              // disabled={isSubmitted || !!student?.father_name}
             />
           </div>
           <div className="flex-col">
@@ -545,13 +544,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             label="Jabatan"
             inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             control={control}
-            disabled={
-              !watch("father_occupation_id")
-                ? true
-                : false || student?.occupation_position
-                ? true
-                : false
-            }
+            disabled={!watch("father_occupation_id") ? true : false}
             status={errors?.father_position?.message ? "error" : "none"}
             message={errors?.father_position?.message as string}
           />
@@ -566,13 +559,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             label="Jabatan"
             inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             control={control}
-            disabled={
-              !watch("mother_occupation_id")
-                ? true
-                : false || student?.occupation_position
-                ? true
-                : false
-            }
+            disabled={!watch("mother_occupation_id") ? true : false}
             status={errors?.mother_position ? "error" : "none"}
             message={errors?.mother_position?.message as string}
           />
@@ -876,13 +863,7 @@ export const EditDataOrangtua: FC = (): ReactElement => {
             label="Jabatan"
             inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
             control={control}
-            disabled={
-              !watch("guardian_occupation_id")
-                ? true
-                : false || student?.occupation_position
-                ? true
-                : false || !!student?.guardian_name
-            }
+            disabled={!watch("guardian_occupation_id") ? true : false}
           />
           <SelectOption
             name="guardian_salary_id"
