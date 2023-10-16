@@ -6,7 +6,7 @@ export type ModalProps = PropsWithChildren<{
   iconClose?: boolean;
   modalTitle?: ReactNode;
   position?: "center" | "right-start";
-  size?: "full" | "modal-question" | "md";
+  size?: "full" | "modal-question" | "md" | "sm";
   className?: string;
   closeClassName?: string;
   headerColor?: "secondary-green" | "white-shadow" | "red" | "white" | "orange" | "green";

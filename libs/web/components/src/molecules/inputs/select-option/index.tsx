@@ -50,6 +50,7 @@ export const SelectOption = forwardRef(
     const handleChange = (payload: MultiValue<TSelectOption> | SingleValue<TSelectOption>) => {
       const pay = payload as TSelectOption;
       field.onChange(pay?.value);
+      // console.log(pay?.value);
     };
 
     const [dropdown, setDropDown] = useState<boolean>(false);
