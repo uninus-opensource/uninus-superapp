@@ -670,13 +670,6 @@ export class AppService {
 
     const [total_registrans, total_interest, accepted_registrans, paidsUKTCount, paidsFormCount] =
       await Promise.all([
-        this.prisma.users.count({
-          select: {
-            _all: true,
-          },
-          where: whereClause,
-        }),
-
         this.prisma.students.count({
           select: {
             _all: true,
@@ -690,6 +683,17 @@ export class AppService {
                     not: null,
                   },
                 },
+              },
+            },
+          },
+        }),
+
+        this.prisma.students.findMany({
+          where: {
+            ...whereClause,
+            pmb: {
+              documents: {
+                none: {},
               },
             },
           },
@@ -715,7 +719,7 @@ export class AppService {
       ]);
     return {
       total_registrans: total_registrans._all,
-      total_interest: total_interest._all,
+      total_interest: total_interest.length,
       paids_form: paidsFormCount,
       paids_ukt: paidsUKTCount,
       accepted_registrans: accepted_registrans,
