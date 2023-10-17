@@ -84,7 +84,7 @@ export const dataDiri = {
 };
 
 export const disabilitiesDataDiri = {
-  disabilities_id: null as number | null,
+  disabilities_id: null as number | null | undefined,
 };
 
 export const occupationS2S3 = {

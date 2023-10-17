@@ -124,19 +124,6 @@ export const ModulePendaftaran: FC = (): ReactElement => {
 
   const { mutate } = useStudentUpdate();
 
-  const selectionDegreeProgram = getDegreeProgram?.degree_program.find(
-    (degree) => degree.id === student?.degree_program_id,
-  );
-  const selectionFirstDepartement = getDepartment?.department.find(
-    (degree) => degree.id === student?.first_department_id,
-  );
-  const selectionSecondDepartement = getDepartment?.department.find(
-    (degree) => degree.id === student?.second_department_id,
-  );
-  const selectionType = getSelection?.selection.find(
-    (degree) => degree.id === student?.selection_path_id,
-  );
-
   const { data: getRegistrationsPath } = useRegistrationsPathGet();
 
   const RegistationsPathOptions = useMemo(
@@ -146,6 +133,22 @@ export const ModulePendaftaran: FC = (): ReactElement => {
         value: registrations?.id.toString(),
       })),
     [getRegistrationsPath?.registration_path],
+  );
+
+  const selectionDegreeProgram = getDegreeProgram?.degree_program.find(
+    (degree) => degree.id === student?.degree_program_id,
+  );
+  const selectionFirstDepartement = getDepartment?.department.find(
+    (degree) => degree.id === student?.first_department_id,
+  );
+  const selectionSecondDepartement = getDepartment?.department.find(
+    (degree) => degree.id === student?.second_department_id,
+  );
+  const selectionRegistrationPath = getRegistrationsPath?.registration_path.find(
+    (degree) => degree.id === student?.registration_path_id,
+  );
+  const selectionType = getSelection?.selection.find(
+    (degree) => degree.id === student?.selection_path_id,
   );
 
   useEffect(() => {
@@ -298,7 +301,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               />
             )}
             <SelectOption
-              placeholder={selectionType?.name || "Pilih Jalur Pendaftaran"}
+              placeholder={selectionRegistrationPath?.name || "Pilih Jalur Pendaftaran"}
               labels="Jalur Pendaftaran"
               className="text-left"
               labelClassName="text-left py-2"
@@ -331,9 +334,9 @@ export const ModulePendaftaran: FC = (): ReactElement => {
             />
           </div>
           <div className="flex flex-col gap-2 w-full items-center mt-8 md:mt-4 lg:mt-10 lg:items-end">
-            {watch("second_deparment_id") &&
+            {watch("second_department_id") &&
               !isS3Selected &&
-              watch("first_deparment_id") === watch("second_deparment_id") && (
+              watch("first_department_id") === watch("second_department_id") && (
                 <span className="text-xs text-red-4 font-bold">
                   Program studi pilihan 1 dan 2 tidak boleh sama
                 </span>
@@ -346,7 +349,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               height="h-12"
               disabled={
                 !isValid ||
-                watch("first_deparment_id") === watch("second_deparment_id") ||
+                watch("first_department_id") === watch("second_department_id") ||
                 !!student?.degree_program_id ||
                 !!student?.selection_path_id
               }
