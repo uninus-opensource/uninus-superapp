@@ -36,7 +36,6 @@ const beasiswaBreadcrumb = [
 ];
 
 export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
-  //   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingFile, setIsLoadingFile] = useState<boolean>(false);
   const [isDisabledFile, setIsdisabledFile] = useState<boolean>(false);
 
