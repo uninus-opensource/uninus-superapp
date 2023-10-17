@@ -23,15 +23,19 @@ export type TDataUser = {
   average_grade?: number;
   average_utbk?: number;
   createdAt?: string;
+  registration_path?: {
+    id?: number;
+    name?: string;
+  };
   selection_path?: {
     id?: number;
     name?: string;
   };
-  first_deparment?: {
+  first_department?: {
     id?: number;
     name?: string;
   };
-  second_deparment?: {
+  second_department?: {
     id?: number;
     name?: string;
   };

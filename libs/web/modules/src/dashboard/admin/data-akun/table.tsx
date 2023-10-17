@@ -305,40 +305,42 @@ const Table: FC = (): ReactElement => {
             value={searchQuery}
             onChange={handleSearch}
             placeholder="Cari Nama,Email dan Nomor telepon"
-            width="w-[15rem] md:w-[24rem]"
+            width="w-[15rem] md:w-[21rem]"
           />
         </div>
-        <DataTable
-          columns={columnsAkun}
-          data={data?.data as TDataAkun[]}
-          customStyles={customStyles}
-          fixedHeader={true}
-          fixedHeaderScrollHeight="400px"
-          progressPending={isLoadingData}
-          progressComponent={<TableLoadingData className="w-full h-80" />}
-          noDataComponent={
-            <div className="flex flex-col w-full h-screen justify-center items-center">
-              <h1 className="font-bold my-2">Data Tidak Tersedia</h1>
-              <p>Table akan ditampilkan apabila sudah tersedia data yang diperlukan</p>
-            </div>
-          }
-          pagination
-          paginationComponentOptions={{
-            rangeSeparatorText: "ditampilkan dari",
-            rowsPerPageText: "Tampilkan",
-          }}
-          paginationPerPage={perPage}
-          paginationRowsPerPageOptions={[5, 10, 15, 20]}
-          paginationServer
-          onChangePage={(page: number) => setPage(page)}
-          onChangeRowsPerPage={(perPage: number) => setPerPage(perPage)}
-          paginationTotalRows={data?.meta.total as number}
-          paginationIconPrevious={<AiFillCaretLeft className="text-xl" />}
-          paginationIconNext={<AiFillCaretRight className="text-xl ml-0.5" />}
-          paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
-          paginationIconLastPage={<AiFillFastForward className="text-xl ml-0.5" />}
-          responsive
-        />
+        <div className="p-2 md:p-0">
+          <DataTable
+            columns={columnsAkun}
+            data={data?.data as TDataAkun[]}
+            customStyles={customStyles}
+            fixedHeader={true}
+            fixedHeaderScrollHeight="400px"
+            progressPending={isLoadingData}
+            progressComponent={<TableLoadingData className="w-full h-80" />}
+            noDataComponent={
+              <div className="flex flex-col w-full h-screen justify-center items-center">
+                <h1 className="font-bold my-2">Data Tidak Tersedia</h1>
+                <p>Table akan ditampilkan apabila sudah tersedia data yang diperlukan</p>
+              </div>
+            }
+            pagination
+            paginationComponentOptions={{
+              rangeSeparatorText: "ditampilkan dari",
+              rowsPerPageText: "Tampilkan",
+            }}
+            paginationPerPage={perPage}
+            paginationRowsPerPageOptions={[5, 10, 15, 20]}
+            paginationServer
+            onChangePage={(page: number) => setPage(page)}
+            onChangeRowsPerPage={(perPage: number) => setPerPage(perPage)}
+            paginationTotalRows={data?.meta.total as number}
+            paginationIconPrevious={<AiFillCaretLeft className="text-xl" />}
+            paginationIconNext={<AiFillCaretRight className="text-xl ml-0.5" />}
+            paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
+            paginationIconLastPage={<AiFillFastForward className="text-xl ml-0.5" />}
+            responsive
+          />
+        </div>
       </section>
       <Modal
         key="modal-edit-user"
