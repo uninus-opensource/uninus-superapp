@@ -8,7 +8,6 @@ import {
   IUpdateStudentRequest,
   TGraduationStatusRequest,
 } from "@uninus/entities";
-
 @Controller()
 export class AppController {
   constructor(private readonly studentService: AppService) {}
