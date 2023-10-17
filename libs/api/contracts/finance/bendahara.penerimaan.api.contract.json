@@ -11,12 +11,12 @@
   },
   "servers": [
     {
-      "url":"https://api.dev.uninus.ac.id/api",
+      "url":"http://localhost/api",
       "description": "Uninus Digitalitation API Server"
     }
   ],
   "paths": {
-    "/payment-summary": {
+    "/finance/payment-summary": {
       "get": {
         "summary": "Get data payment summary",
         "description": "Will return data total student, student with scholarship, full payment, installment payment, unpaid with addtion per day or by filter",
@@ -184,7 +184,7 @@
                     }
                   },
                   "monthly": {
-                    "description": "Example for filter daily",
+                    "description": "Example for filter monthly",
                     "value": {
                       "data": [
                         {
@@ -286,7 +286,7 @@
                     }
                   },
                   "yearly": {
-                    "description": "Example for filter daily",
+                    "description": "Example for filter yearly",
                     "value": {
                       "data": [
                         {
@@ -324,7 +324,7 @@
         }
       }
     },
-    "/faculty-payment-deposit": {
+    "/finance/faculty-payment-deposit": {
       "get": {
         "summary": "Get Data Faculty Deposit",
         "description": "Will return data deposit from faculty to finance",
