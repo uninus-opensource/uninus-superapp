@@ -355,7 +355,7 @@ export type TRegistrationStatusResponse = {
 };
 
 export type TStudentsPaginationArgs = {
-  where?: Prisma.PMBWhereInput;
+  search?: string;
   orderBy?: Prisma.PMBOrderByWithRelationInput;
   page?: number;
   perPage?: number;

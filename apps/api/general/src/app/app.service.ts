@@ -1283,7 +1283,7 @@ export class AppService {
   }
 
   async getStudentsPagination({
-    where,
+    search,
     orderBy,
     page = 1,
     perPage = 10,
@@ -1292,7 +1292,26 @@ export class AppService {
       this.prisma.pMB.findMany({
         ...(perPage && { take: Number(perPage ?? 10) }),
         ...(page && { skip: Number(page > 0 ? perPage * (page - 1) : 0) }),
-        where,
+        where: {
+          OR: [
+            {
+              registration_number: {
+                contains: search || "",
+                mode: "insensitive",
+              },
+            },
+            {
+              student: {
+                user: {
+                  fullname: {
+                    contains: search || "",
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          ],
+        },
         select: {
           id: true,
           registration_number: true,
@@ -1323,6 +1342,12 @@ export class AppService {
               name: true,
             },
           },
+          registration_path: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
           student: {
             select: {
               user: {
@@ -1337,7 +1362,26 @@ export class AppService {
         orderBy,
       }),
       this.prisma.pMB.count({
-        where,
+        where: {
+          OR: [
+            {
+              registration_number: {
+                contains: search || "",
+                mode: "insensitive",
+              },
+            },
+            {
+              student: {
+                user: {
+                  fullname: {
+                    contains: search || "",
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          ],
+        },
       }),
     ]);
 

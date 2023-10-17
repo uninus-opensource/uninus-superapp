@@ -681,12 +681,7 @@ export class GeneralController {
     const response = await firstValueFrom(
       this.client
         .send<Array<TProfileResponse>>("get_registrans_pagination", {
-          where: {
-            registration_number: {
-              contains: search || "",
-              mode: "insensitive",
-            },
-          },
+          search,
           orderBy: {
             [filterBy]: orderBy,
           },
