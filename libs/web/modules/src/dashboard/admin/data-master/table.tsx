@@ -537,7 +537,7 @@ const Table: FC = (): ReactElement => {
           </div>
         ),
 
-        width: "20%",
+        width: "200px",
       },
 
       {
@@ -654,37 +654,39 @@ const Table: FC = (): ReactElement => {
           <SearchInput
             value={searchQuery}
             onChange={handleSearch}
-            placeholder="Cari Nama, dan Data Terkini"
-            width="w-[100%]"
+            placeholder="Cari Jenis"
+            width="w-[15rem] md:w-[21rem]"
           />
         </div>
-        <DataTable
-          columns={columns}
-          data={filteredDataMaster}
-          customStyles={customStyles}
-          fixedHeader={true}
-          fixedHeaderScrollHeight="400px"
-          progressPending={pending}
-          striped
-          progressComponent={<TableLoadingData className="w-full h-80" />}
-          noDataComponent={
-            <div className="flex flex-col w-full h-80 justify-center items-center">
-              <h1 className="font-bold my-2">Data Tidak Tersedia</h1>
-              <p>Table akan ditampilkan apabila sudah tersedia data yang diperlukan</p>
-            </div>
-          }
-          pagination
-          paginationComponentOptions={{
-            rangeSeparatorText: "ditampilkan dari",
-            rowsPerPageText: "Tampilkan",
-          }}
-          paginationPerPage={6}
-          paginationRowsPerPageOptions={[6, 10, 15, 20]}
-          paginationIconPrevious={<AiFillCaretLeft className="text-xl" />}
-          paginationIconNext={<AiFillCaretRight className="text-xl ml-0.5" />}
-          paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
-          paginationIconLastPage={<AiFillFastForward className="text-xl ml-0.5" />}
-        />
+        <div className="p-2 md:p-0">
+          <DataTable
+            columns={columns}
+            data={filteredDataMaster}
+            customStyles={customStyles}
+            fixedHeader={true}
+            fixedHeaderScrollHeight="400px"
+            progressPending={pending}
+            striped
+            progressComponent={<TableLoadingData className="w-full h-80" />}
+            noDataComponent={
+              <div className="flex flex-col w-full h-80 justify-center items-center">
+                <h1 className="font-bold my-2">Data Tidak Tersedia</h1>
+                <p>Table akan ditampilkan apabila sudah tersedia data yang diperlukan</p>
+              </div>
+            }
+            pagination
+            paginationComponentOptions={{
+              rangeSeparatorText: "ditampilkan dari",
+              rowsPerPageText: "Tampilkan",
+            }}
+            paginationPerPage={6}
+            paginationRowsPerPageOptions={[6, 10, 15, 20]}
+            paginationIconPrevious={<AiFillCaretLeft className="text-xl" />}
+            paginationIconNext={<AiFillCaretRight className="text-xl ml-0.5" />}
+            paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
+            paginationIconLastPage={<AiFillFastForward className="text-xl ml-0.5" />}
+          />
+        </div>
       </section>
       <Modal
         key="modal-detail"
