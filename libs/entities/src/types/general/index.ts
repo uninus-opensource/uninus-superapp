@@ -236,6 +236,7 @@ export type TQuestionResponse = {
   question: string;
   correct_answer: string;
   incorrect_answers: string[];
+  answer: string[];
 };
 
 export interface IYearGraduationRequest {

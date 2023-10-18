@@ -641,7 +641,7 @@ export class GeneralController {
     return response;
   }
 
-  @Get("registration_status")
+  @Get("registration-status")
   @ApiOperation({ summary: "Get registration status" })
   @ApiResponse({
     status: 500,

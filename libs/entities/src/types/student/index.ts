@@ -89,6 +89,7 @@ export interface IStudentData {
   utbk_kmbm?: number | null;
   average_utbk?: number | null;
   average_grade?: number | null;
+  registration_status_id?: number | null;
   utbk?: number | null;
   test_score?: number | null;
   registration_number?: string | null;

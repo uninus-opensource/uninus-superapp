@@ -98,6 +98,7 @@ export class AppService {
       second_department_id,
       selection_path_id,
       degree_program_id,
+      registration_status_id,
       average_utbk,
       utbk_pu,
       utbk_kk,
@@ -202,7 +203,7 @@ export class AppService {
                 utbk_ppu,
                 utbk_kmbm,
                 average_utbk,
-                registration_status_id: 2,
+                registration_status_id: registration_status_id ? registration_status_id : 2,
                 ...(documents &&
                   typeof documents[0]?.name != "undefined" && {
                     documents: {
