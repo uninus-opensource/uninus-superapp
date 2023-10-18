@@ -128,8 +128,13 @@ export class createQuestion {
   public correct_answer!: string;
 
   @ApiProperty({
-    example: ["1986", "1988", "1950"],
-    type: "array",
+    example: {
+      A: "1945",
+      B: "1923",
+      C: "2000",
+      D: "1909",
+    },
+    type: "object",
   })
-  public incorrect_answers!: string[];
+  public answers!: object;
 }

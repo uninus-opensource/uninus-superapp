@@ -1,6 +1,12 @@
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDeleteQuestion, TKelolaPertanyaan } from "./types";
-import { Button, Modal, SearchInput, TableLoadingData, TextField } from "@uninus/web/components";
+import {
+  Button,
+  Modal,
+  SearchInput,
+  TableLoadingData,
+  //  TextField
+} from "@uninus/web/components";
 import { motion } from "framer-motion";
 import {
   AiFillCaretLeft,
@@ -12,7 +18,12 @@ import {
 import { DeleteOutlined, EditOutlined, PrinterOutlined } from "@ant-design/icons";
 import { SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useGetQuestion, useQuestionCreate, useQuestionDelete, useQuestionUpdate } from "./hook";
+import {
+  useGetQuestion,
+  // useQuestionCreate,
+  useQuestionDelete,
+  // useQuestionUpdate
+} from "./hook";
 import { BiErrorCircle } from "react-icons/bi";
 
 export const Table = () => {
@@ -27,17 +38,17 @@ export const Table = () => {
   const [activeRow, setActiveRow] = useState<TKelolaPertanyaan | null>(null);
   const [questions, setQuestions] = useState<TKelolaPertanyaan[]>([]);
 
-  const { control, handleSubmit, reset } = useForm<TKelolaPertanyaan>({
-    mode: "all",
-  });
+  // const { control, handleSubmit, reset } = useForm<TKelolaPertanyaan>({
+  //   mode: "all",
+  // });
 
-  const {
-    control: editControl,
-    handleSubmit: editSubmit,
-    reset: updateReset,
-  } = useForm<TKelolaPertanyaan>({
-    mode: "all",
-  });
+  // const {
+  //   control: editControl,
+  //   handleSubmit: editSubmit,
+  //   reset: updateReset,
+  // } = useForm<TKelolaPertanyaan>({
+  //   mode: "all",
+  // });
 
   const { handleSubmit: deleteSubmit } = useForm<TDeleteQuestion>({
     mode: "all",
@@ -74,7 +85,7 @@ export const Table = () => {
             onClick={() => {
               setIsEditModalShow(true);
               setActiveRow(row);
-              updateReset({ ...row });
+              // updateReset({ ...row });
             }}
           >
             <EditOutlined />
@@ -108,49 +119,49 @@ export const Table = () => {
         answer.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
   );
-  const { mutate: AddQuestion } = useQuestionCreate();
-  const onAddQuestion = handleSubmit((data) => {
-    try {
-      AddQuestion(
-        {
-          question: data.question,
-          correct_answer: data.correct_answer,
-          incorrect_answers: data.incorrect_answers,
-        },
-        {
-          onSuccess: () => {
-            setIsSuccesAddModal(true);
-            refetchQeustion();
-            setIsAddDataModalShow(false);
-          },
-        },
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  });
-  const { mutate: updateQuestion } = useQuestionUpdate();
-  const onEditQuestion = editSubmit((data) => {
-    try {
-      updateQuestion(
-        {
-          id: data?.id,
-          question: data?.question,
-          correct_answer: data?.correct_answer,
-          incorrect_answers: data?.incorrect_answers,
-        },
-        {
-          onSuccess: () => {
-            setIsSuccesUpdateModal(true);
-            refetchQeustion();
-            setIsEditModalShow(false);
-          },
-        },
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  });
+  // const { mutate: AddQuestion } = useQuestionCreate();
+  // const onAddQuestion = handleSubmit((data) => {
+  //   try {
+  //     AddQuestion(
+  //       {
+  //         question: data.question,
+  //         correct_answer: data.correct_answer,
+  //         incorrect_answers: data.incorrect_answers,
+  //       },
+  //       {
+  //         onSuccess: () => {
+  //           setIsSuccesAddModal(true);
+  //           refetchQeustion();
+  //           setIsAddDataModalShow(false);
+  //         },
+  //       },
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // });
+  // const { mutate: updateQuestion } = useQuestionUpdate();
+  // const onEditQuestion = editSubmit((data) => {
+  //   try {
+  //     updateQuestion(
+  //       {
+  //         id: data?.id,
+  //         question: data?.question,
+  //         correct_answer: data?.correct_answer,
+  //         incorrect_answers: data?.incorrect_answers,
+  //       },
+  //       {
+  //         onSuccess: () => {
+  //           setIsSuccesUpdateModal(true);
+  //           refetchQeustion();
+  //           setIsEditModalShow(false);
+  //         },
+  //       },
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // });
   const { mutate: deleteQuestion } = useQuestionDelete();
   const onDeleteQuestion = deleteSubmit((data) => {
     try {
@@ -205,13 +216,13 @@ export const Table = () => {
   const handleCloseAddData = () => {
     setIsAddDataModalShow(!isAddDataModalShow);
   };
-  const handleCloseEditData = () => {
-    setIsEditModalShow(!isEditModalShow);
-  };
+  // const handleCloseEditData = () => {
+  //   setIsEditModalShow(!isEditModalShow);
+  // };
 
   const handleAddModal = () => {
     setIsAddDataModalShow(!isAddDataModalShow);
-    reset();
+    // reset();
   };
   const handleCloseSuccesAdd = () => {
     setIsSuccesAddModal(!isSuccesAddModal);
@@ -308,7 +319,7 @@ export const Table = () => {
         iconClose={false}
         modalTitle="Tambah Pertanyaan"
       >
-        <form onSubmit={onAddQuestion}>
+        {/* <form onSubmit={onAddQuestion}>
           <TextField control={control} name="question" label="Pertanyaan" variant="md" />
           <TextField control={control} name="correct_answer" label="Jawaban Benar" variant="md" />
           <ul>
@@ -330,7 +341,7 @@ export const Table = () => {
               Simpan
             </Button>
           </div>
-        </form>
+        </form> */}
       </Modal>
 
       <Modal
@@ -339,7 +350,7 @@ export const Table = () => {
         iconClose={false}
         modalTitle="Edit Pertanyaan"
       >
-        <form onSubmit={onEditQuestion}>
+        {/* <form onSubmit={onEditQuestion}>
           <TextField control={editControl} name="question" label="Pertanyaan" variant="md" />
           <TextField
             control={editControl}
@@ -366,7 +377,7 @@ export const Table = () => {
               Simpan
             </Button>
           </div>
-        </form>
+        </form> */}
       </Modal>
 
       <Modal

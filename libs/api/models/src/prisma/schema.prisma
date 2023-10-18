@@ -428,10 +428,10 @@ model Scholarship {
 }
 
 model Questions {
-  id                Int      @id @default(autoincrement())
-  question          String
-  correct_answer    String
-  incorrect_answers String[]
+  id             Int      @id @default(autoincrement())
+  question       String
+  correct_answer String
+  answers        String[]
 }
 
 model Employees {
