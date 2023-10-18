@@ -1,13 +1,16 @@
-import { Accordion, Button, CheckBox, TextField } from "@uninus/web/components";
+import { Accordion, Button, RadioButton, TextField } from "@uninus/web/components";
 import Link from "next/link";
-import { FC, ReactElement, useEffect, useMemo } from "react";
+import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { NilaiValuesEdit } from "../../../edit-data-pendaftar/type";
 import { useStudentDataByIdValidation } from "@uninus/web/services";
 import { usePathname } from "next/navigation";
 import { useBiodataUpdateById } from "../../../edit-data-pendaftar/hooks";
+import { ToastContainer, toast } from "react-toastify";
 
 export const RaporSnbt: FC = (): ReactElement => {
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [isRapor_Snbt, setIsRapor_Snbt] = useState<string | null>(null);
   const { control, setValue, watch, getValues, reset } = useForm<NilaiValuesEdit>({
     mode: "all",
   });
@@ -156,18 +159,64 @@ export const RaporSnbt: FC = (): ReactElement => {
   ];
 
   const { mutate } = useBiodataUpdateById(id);
-
+  useEffect(() => {
+    if (utbk?.isVerified) {
+      setIsRapor_Snbt("Ya");
+    } else {
+      setIsRapor_Snbt("Tidak");
+    }
+  }, [utbk]);
+  useEffect(() => {
+    if (isRapor_Snbt === "Tidak") {
+      checkBoxSetValue("rapor_snbt", false);
+    } else {
+      checkBoxSetValue("rapor_snbt", true);
+    }
+  }, [isRapor_Snbt, checkBoxSetValue]);
   const onSubmit = handleSubmit((data) => {
     try {
-      mutate({
-        documents: [
-          { id: semester_1?.id, isVerified: true },
-          { id: semester_2?.id, isVerified: true },
-          { id: semester_3?.id, isVerified: true },
-          { id: semester_4?.id, isVerified: true },
-          { id: utbk?.id, isVerified: data?.rapor_snbt },
-        ],
-      });
+      mutate(
+        {
+          documents: [
+            { id: semester_1?.id, isVerified: true },
+            { id: semester_2?.id, isVerified: true },
+            { id: semester_3?.id, isVerified: true },
+            { id: semester_4?.id, isVerified: true },
+            { id: utbk?.id, isVerified: data?.rapor_snbt },
+          ],
+        },
+        {
+          onSuccess: () => {
+            setIsDisabled(true);
+            setTimeout(() => {
+              toast.success("Data Berhasil Diverifikasi", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+          onError: () => {
+            setTimeout(() => {
+              toast.error("Data Gagal Diverifikasi", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }, 500);
+          },
+        },
+      );
     } catch (error) {
       console.error(error);
     }
@@ -181,6 +230,18 @@ export const RaporSnbt: FC = (): ReactElement => {
       className="w-full h-auto mt-[2rem] flex flex-col gap-5 items-center lg:items-baseline lg:ml-[3vw] xl:ml-[1.5vw] pb-6 md:pb-0"
     >
       <form onSubmit={onSubmit} className="bg-primary-white py-4 px-8">
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <h1 className="font-bold text-2xl md:pl-16 lg:pl-0 mt-3 place-self-start text-center md:text-left">
           Nilai Rapor
         </h1>
@@ -444,20 +505,37 @@ export const RaporSnbt: FC = (): ReactElement => {
               Buka File
             </Link>
           </div>
-          <div className="font-bold flex gap-4 mt-12">
+          <div className="font-bold flex-col gap-4 mt-12">
             <h3>Sudah Sesuai?</h3>
-            <CheckBox
-              name="rapor_snbt"
-              control={checkBoxControl}
-              onChange={(e) => {
-                checkBoxSetValue("rapor_snbt", e.target.checked);
-              }}
-              defaultChecked={utbk?.isVerified}
-            />
+            <div className="flex flex-row">
+              <RadioButton
+                name="rapor_snbt"
+                label="Ya"
+                size="sm"
+                options={[
+                  { label: "Ya", value: "Ya" },
+                  {
+                    label: "Tidak",
+                    value: "Tidak",
+                  },
+                ]}
+                variant="primary"
+                labelSize="sm"
+                control={checkBoxControl}
+                buttonValue={isRapor_Snbt}
+                onChange={(e) => setIsRapor_Snbt(e.target.value)}
+              />
+            </div>
           </div>
 
           <div className="flex w-full justify-center lg:justify-end py-4 mt-8 relative">
-            <Button type="submit" variant="filled" size="md" height="h-6">
+            <Button
+              type="submit"
+              variant="filled"
+              size="md"
+              height="h-6"
+              disabled={isDisabled || !!utbk}
+            >
               Submit
             </Button>
           </div>
