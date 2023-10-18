@@ -10,6 +10,7 @@ import {
   useSalaryGet,
   useParentEducationGet,
   useParentStatusGet,
+  useDashboardStateControl,
 } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
 import { studentGuardianData, studentParentData } from "../../store";
@@ -58,7 +59,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
     mode: "all",
     defaultValues: {},
   });
-
+  const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
   const { getStudent } = useStudentData();
 
   const { data: getParentStatus } = useParentStatusGet(parentStatus);
@@ -334,6 +335,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
         {
           onSuccess: () => {
             setIsSubmitted(true);
+            setDashboardControlState(!getDashboardControlState);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
                 position: "top-center",

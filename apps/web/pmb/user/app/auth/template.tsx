@@ -12,10 +12,7 @@ const AuthLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   return (
     <main
       key="auth"
-      className={
-        monserrat.className +
-        ` h-screen w-full flex flex-col lg:gap-y-10 xl:gap-y-16 bg-primary-green py-4 lg:py-8`
-      }
+      className={`${monserrat.className} h-screen w-full flex flex-col lg:gap-y-10 xl:gap-y-16 bg-primary-green py-4 lg:py-8`}
     >
       <header className="w-full flex justify-between h-auto px-4 lg:px-8">
         <figure className="flex w-full gap-8 h-auto items-center">
