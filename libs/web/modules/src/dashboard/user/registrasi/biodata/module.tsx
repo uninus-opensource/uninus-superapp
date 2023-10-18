@@ -14,7 +14,6 @@ import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
 export const ModuleBiodata: FC = (): ReactElement => {
   const [degreeProgram, setDegreeProgram] = useState<number | null | undefined>(null);
   const [route, setRoute] = useState<boolean>(true);
-  // const { data: student, refetch } = useGetBiodata();
   const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
   const { getStudent } = useStudentData();
 
@@ -72,7 +71,7 @@ export const ModuleBiodata: FC = (): ReactElement => {
 
       <section className="flex flex-col gap-4 w-full bg-primary-white p-4 rounded-lg shadow-lg">
         <section className="flex flex-col gap-8 w-full justify-center items-center py-2 rounded-lg bg-primary-white overflow-x-hidden">
-          {degreeProgram === 1 ? (
+          {degreeProgram === 1 && getStudent?.registration_path_id !== 2 ? (
             <section key="s1" className="w-full flex flex-col gap-y-2">
               <DataDiriSection />
               <DataPendidikanSection />

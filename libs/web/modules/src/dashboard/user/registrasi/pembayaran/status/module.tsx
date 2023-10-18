@@ -4,7 +4,6 @@ import { BreadCrumb, Button, Accordion } from "@uninus/web/components";
 import dynamic from "next/dynamic";
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import Image from "next/image";
 import "react-toastify/dist/ReactToastify.css";
 import { KartuPembayaran } from "../pdf";
 import { StatusAlert } from "./alertStatus";
@@ -137,11 +136,11 @@ export const Pembayaran: FC = (): ReactElement => {
           )}
 
           <div className="mt-5 flex justify-between items-center gap-y-2 w-full">
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <h2 className="text-grayscale-6 text-xs md:text-base">Metode Pembayaran</h2>
               <h2 className="font-bold text-xs md:text-base">Mandiri</h2>
-            </div>
-            <figure>
+            </div> */}
+            {/* <figure>
               <Image
                 src="/illustrations/payment/mandiri.webp"
                 width={100}
@@ -149,7 +148,7 @@ export const Pembayaran: FC = (): ReactElement => {
                 quality={100}
                 alt="mandiri"
               />
-            </figure>
+            </figure> */}
           </div>
           <div className="mt-4 md:mt-2 flex justify-between flex-col gap-y-2">
             <h2 className="text-grayscale-6 text-xs md:text-base">Nomor Virtual Account</h2>

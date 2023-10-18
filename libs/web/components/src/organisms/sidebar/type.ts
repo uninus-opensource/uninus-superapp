@@ -5,7 +5,7 @@ export type TSideBarProps = {
   profileName: string;
   profileEmail: string;
   onLogout?: () => void;
-
+  moduleName?: string;
   sideList?: TSideBarList[];
 };
 export type TSideBarList = {

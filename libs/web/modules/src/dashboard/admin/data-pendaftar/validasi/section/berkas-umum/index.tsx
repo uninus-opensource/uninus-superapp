@@ -184,7 +184,7 @@ export const BerkasUmum: FC = (): ReactElement => {
               setIsDisabled(true);
 
               setTimeout(() => {
-                toast.success("Data Berhasil Di Verifikasi", {
+                toast.success("Data Berhasil Diverifikasi", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -228,7 +228,7 @@ export const BerkasUmum: FC = (): ReactElement => {
               setIsDisabled(true);
 
               setTimeout(() => {
-                toast.success("Data Berhasil Di Verifikasi", {
+                toast.success("Data Berhasil Diverifikasi", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -356,23 +356,29 @@ export const BerkasUmum: FC = (): ReactElement => {
 
             <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
-              <div className="flex flex-row">
+              <div className="flex flex-row gap-x-4">
                 <RadioButton
                   name="ijazah_S1"
                   label="Ya"
-                  disabled={isDisabled || !!ijazah_S1}
+                  // disabled={isDisabled || !!ijazah_S1}
                   size="sm"
-                  options={[
-                    { label: "Ya", value: "Ya" },
-                    {
-                      label: "Tidak",
-                      value: "Tidak",
-                    },
-                  ]}
+                  value="Ya"
                   variant="primary"
                   labelSize="sm"
                   control={control}
-                  buttonValue={isIjazahS1}
+                  defaultChecked={ijazah_S1?.isVerified}
+                  onChange={(e) => setIsIjazahS1(e.target.value)}
+                />
+                <RadioButton
+                  name="ijazah_S1"
+                  label="Tidak"
+                  // disabled={isDisabled || !!ijazah_S1}
+                  size="sm"
+                  value="Tidak"
+                  variant="primary"
+                  labelSize="sm"
+                  control={control}
+                  defaultChecked={ijazah_S1?.isVerified !== true}
                   onChange={(e) => setIsIjazahS1(e.target.value)}
                 />
               </div>
@@ -406,23 +412,29 @@ export const BerkasUmum: FC = (): ReactElement => {
 
             <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
-              <div className="flex flex-row">
+              <div className="flex flex-row gap-x-4">
                 <RadioButton
                   name="ijazah_S2"
                   label="Ya"
                   size="sm"
-                  disabled={isDisabled || !!ijazah_S2}
-                  options={[
-                    { label: "Ya", value: "Ya" },
-                    {
-                      label: "Tidak",
-                      value: "Tidak",
-                    },
-                  ]}
+                  // disabled={isDisabled || !!ijazah_S2}
+                  value="Ya"
                   variant="primary"
                   labelSize="sm"
                   control={control}
-                  buttonValue={isIjazahS2}
+                  defaultChecked={ijazah_S2?.isVerified}
+                  onChange={(e) => setIsIjazahS2(e.target.value)}
+                />
+                <RadioButton
+                  name="ijazah_S2"
+                  label="Tidak"
+                  size="sm"
+                  // disabled={isDisabled || !!ijazah_S2}
+                  value="Tidak"
+                  variant="primary"
+                  labelSize="sm"
+                  control={control}
+                  defaultChecked={ijazah_S2?.isVerified !== true}
                   onChange={(e) => setIsIjazahS2(e.target.value)}
                 />
               </div>
@@ -456,23 +468,29 @@ export const BerkasUmum: FC = (): ReactElement => {
 
             <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
-              <div className="flex flex-row">
+              <div className="flex flex-row gap-x-4">
                 <RadioButton
                   name="transkrip_nilai"
                   label="Ya"
                   size="sm"
-                  disabled={isDisabled || !!transkrip_nilai}
-                  options={[
-                    { label: "Ya", value: "Ya" },
-                    {
-                      label: "Tidak",
-                      value: "Tidak",
-                    },
-                  ]}
+                  // disabled={isDisabled || !!transkrip_nilai}
+                  value="Ya"
                   variant="primary"
                   labelSize="sm"
                   control={control}
-                  buttonValue={isTranskrip}
+                  defaultChecked={transkrip_nilai?.isVerified}
+                  onChange={(e) => setIsTranskrip(e.target.value)}
+                />
+                <RadioButton
+                  name="transkrip_nilai"
+                  label="Tidak"
+                  size="sm"
+                  // disabled={isDisabled || !!transkrip_nilai}
+                  value="Tidak"
+                  variant="primary"
+                  labelSize="sm"
+                  control={control}
+                  defaultChecked={transkrip_nilai?.isVerified !== true}
                   onChange={(e) => setIsTranskrip(e.target.value)}
                 />
               </div>
@@ -505,23 +523,29 @@ export const BerkasUmum: FC = (): ReactElement => {
 
           <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
             <h3>Sudah Sesuai?</h3>
-            <div className="flex flex-row">
+            <div className="flex flex-row gap-x-4">
               <RadioButton
                 name="kartu_keluarga"
                 label="Ya"
                 disabled={isDisabled || !!kartu_keluarga}
                 size="sm"
-                options={[
-                  { label: "Ya", value: "Ya" },
-                  {
-                    label: "Tidak",
-                    value: "Tidak",
-                  },
-                ]}
+                value="Ya"
                 variant="primary"
                 labelSize="sm"
                 control={control}
-                buttonValue={isKartuKeluarga}
+                defaultChecked={kartu_keluarga?.isVerified}
+                onChange={(e) => setIsKartuKeluarga(e.target.value)}
+              />
+              <RadioButton
+                name="kartu_keluarga"
+                label="Tidak"
+                disabled={isDisabled || !!kartu_keluarga}
+                size="sm"
+                value="Tidak"
+                variant="primary"
+                labelSize="sm"
+                control={control}
+                defaultChecked={kartu_keluarga?.isVerified !== true}
                 onChange={(e) => setIsKartuKeluarga(e.target.value)}
               />
             </div>
@@ -554,23 +578,29 @@ export const BerkasUmum: FC = (): ReactElement => {
 
             <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
-              <div className="flex flex-row">
+              <div className="flex flex-row gap-x-4">
                 <RadioButton
                   name="porlap_dikti"
                   label="Ya"
                   disabled={isDisabled || !!porlap_dikti}
                   size="sm"
-                  options={[
-                    { label: "Ya", value: "Ya" },
-                    {
-                      label: "Tidak",
-                      value: "Tidak",
-                    },
-                  ]}
+                  value="Ya"
                   variant="primary"
                   labelSize="sm"
                   control={control}
-                  buttonValue={isPorlap}
+                  defaultChecked={porlap_dikti?.isVerified}
+                  onChange={(e) => setIsPorlap(e.target.value)}
+                />
+                <RadioButton
+                  name="porlap_dikti"
+                  label="Tidak"
+                  disabled={isDisabled || !!porlap_dikti}
+                  size="sm"
+                  value="Tidak"
+                  variant="primary"
+                  labelSize="sm"
+                  control={control}
+                  defaultChecked={porlap_dikti?.isVerified !== true}
                   onChange={(e) => setIsPorlap(e.target.value)}
                 />
               </div>
@@ -604,23 +634,29 @@ export const BerkasUmum: FC = (): ReactElement => {
 
             <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
-              <div className="flex flex-row">
+              <div className="flex flex-row gap-x-4">
                 <RadioButton
                   name="akta_kelahiran"
                   label="Ya"
                   size="sm"
                   disabled={isDisabled || !!akta_kelahiran}
-                  options={[
-                    { label: "Ya", value: "Ya" },
-                    {
-                      label: "Tidak",
-                      value: "Tidak",
-                    },
-                  ]}
+                  value="Ya"
                   variant="primary"
                   labelSize="sm"
                   control={control}
-                  buttonValue={isAkta}
+                  defaultChecked={akta_kelahiran?.isVerified}
+                  onChange={(e) => setIsAkta(e.target.value)}
+                />
+                <RadioButton
+                  name="akta_kelahiran"
+                  label="Tidak"
+                  size="sm"
+                  disabled={isDisabled || !!akta_kelahiran}
+                  value="Tidak"
+                  variant="primary"
+                  labelSize="sm"
+                  control={control}
+                  defaultChecked={akta_kelahiran?.isVerified !== true}
                   onChange={(e) => setIsAkta(e.target.value)}
                 />
               </div>
@@ -653,23 +689,29 @@ export const BerkasUmum: FC = (): ReactElement => {
 
           <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
             <h3>Sudah Sesuai?</h3>
-            <div className="flex flex-row">
+            <div className="flex flex-row gap-x-4">
               <RadioButton
                 name="ktp"
                 label="Ya"
                 size="sm"
                 disabled={isDisabled || !!ktp}
-                options={[
-                  { label: "Ya", value: "Ya" },
-                  {
-                    label: "Tidak",
-                    value: "Tidak",
-                  },
-                ]}
+                value="Ya"
                 variant="primary"
                 labelSize="sm"
                 control={control}
-                buttonValue={isKtp}
+                defaultChecked={ktp?.isVerified}
+                onChange={(e) => setIsKtp(e.target.value)}
+              />
+              <RadioButton
+                name="ktp"
+                label="Tidak"
+                size="sm"
+                disabled={isDisabled || !!ktp}
+                value="Tidak"
+                variant="primary"
+                labelSize="sm"
+                control={control}
+                defaultChecked={ktp?.isVerified !== true}
                 onChange={(e) => setIsKtp(e.target.value)}
               />
             </div>
@@ -702,23 +744,29 @@ export const BerkasUmum: FC = (): ReactElement => {
 
             <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
-              <div className="flex flex-row">
+              <div className="flex flex-row gap-x-4">
                 <RadioButton
                   name="ijazah_skl"
                   disabled={isDisabled || !!ijazah}
                   label="Ya"
                   size="sm"
-                  options={[
-                    { label: "Ya", value: "Ya" },
-                    {
-                      label: "Tidak",
-                      value: "Tidak",
-                    },
-                  ]}
+                  value="Ya"
                   variant="primary"
                   labelSize="sm"
                   control={control}
-                  buttonValue={isIjazahSkl}
+                  defaultChecked={ijazah?.isVerified}
+                  onChange={(e) => setIsIjazahSkl(e.target.value)}
+                />
+                <RadioButton
+                  name="ijazah_skl"
+                  disabled={isDisabled || !!ijazah}
+                  label="Tidak"
+                  size="sm"
+                  value="Tidak"
+                  variant="primary"
+                  labelSize="sm"
+                  control={control}
+                  defaultChecked={ijazah?.isVerified !== true}
                   onChange={(e) => setIsIjazahSkl(e.target.value)}
                 />
               </div>

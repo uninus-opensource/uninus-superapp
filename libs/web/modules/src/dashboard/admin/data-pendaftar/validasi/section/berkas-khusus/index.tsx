@@ -368,17 +368,24 @@ export const BerkasKhusus: FC = (): ReactElement => {
                     name="sertifikat_aktif"
                     label="Ya"
                     size="sm"
-                    options={[
-                      { label: "Ya", value: "Ya" },
-                      {
-                        label: "Tidak",
-                        value: "Tidak",
-                      },
-                    ]}
+                    value="Ya"
+                    disabled={isDisabled || !!sertifikat_aktif}
                     variant="primary"
                     labelSize="sm"
                     control={control}
-                    buttonValue={isSertifikatAktif}
+                    defaultChecked={sertifikat_aktif?.isVerified}
+                    onChange={(e) => setIsSertifikatAktif(e.target.value)}
+                  />
+                  <RadioButton
+                    name="sertifikat_aktif"
+                    label="Tidak"
+                    size="sm"
+                    value="Tidak"
+                    disabled={isDisabled || !!sertifikat_aktif}
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={sertifikat_aktif?.isVerified !== true}
                     onChange={(e) => setIsSertifikatAktif(e.target.value)}
                   />
                 </div>
@@ -414,17 +421,24 @@ export const BerkasKhusus: FC = (): ReactElement => {
                     name="sertifikat_lainnya"
                     label="Ya"
                     size="sm"
-                    options={[
-                      { label: "Ya", value: "Ya" },
-                      {
-                        label: "Tidak",
-                        value: "Tidak",
-                      },
-                    ]}
+                    value="Ya"
+                    disabled={isDisabled || !!sertifikat_lainnya}
                     variant="primary"
                     labelSize="sm"
                     control={control}
-                    buttonValue={isSertifikatLain}
+                    defaultChecked={sertifikat_lainnya?.isVerified}
+                    onChange={(e) => setIsSertifikatLain(e.target.value)}
+                  />
+                  <RadioButton
+                    name="sertifikat_lainnya"
+                    label="Tidak"
+                    size="sm"
+                    value="Tidak"
+                    disabled={isDisabled || !!sertifikat_lainnya}
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={sertifikat_lainnya?.isVerified !== true}
                     onChange={(e) => setIsSertifikatLain(e.target.value)}
                   />
                 </div>
@@ -465,17 +479,24 @@ export const BerkasKhusus: FC = (): ReactElement => {
                     name="sertifikat_kejuaraan"
                     label="Ya"
                     size="sm"
-                    options={[
-                      { label: "Ya", value: "Ya" },
-                      {
-                        label: "Tidak",
-                        value: "Tidak",
-                      },
-                    ]}
+                    value="Ya"
+                    variant="primary"
+                    labelSize="sm"
+                    disabled={isDisabled || !!sertifikat_kejuaraan}
+                    control={control}
+                    defaultChecked={sertifikat_kejuaraan?.isVerified}
+                    onChange={(e) => setIsSertifikatKejuaraan(e.target.value)}
+                  />
+                  <RadioButton
+                    name="sertifikat_kejuaraan"
+                    label="Tidak"
+                    size="sm"
+                    disabled={isDisabled || !!sertifikat_kejuaraan}
+                    value="Tidak"
                     variant="primary"
                     labelSize="sm"
                     control={control}
-                    buttonValue={isSertifikatKejuaraan}
+                    defaultChecked={sertifikat_kejuaraan?.isVerified !== true}
                     onChange={(e) => setIsSertifikatKejuaraan(e.target.value)}
                   />
                 </div>
@@ -511,17 +532,24 @@ export const BerkasKhusus: FC = (): ReactElement => {
                     name="tahfizh"
                     label="Ya"
                     size="sm"
-                    options={[
-                      { label: "Ya", value: "Ya" },
-                      {
-                        label: "Tidak",
-                        value: "Tidak",
-                      },
-                    ]}
+                    value="Ya"
                     variant="primary"
                     labelSize="sm"
                     control={control}
-                    buttonValue={isTahfizh}
+                    disabled={isDisabled || !!tahfizh}
+                    defaultChecked={tahfizh?.isVerified}
+                    onChange={(e) => setIsTahfizh(e.target.value)}
+                  />
+                  <RadioButton
+                    name="tahfizh"
+                    label="Tidak"
+                    size="sm"
+                    value="Tidak"
+                    disabled={isDisabled || !!tahfizh}
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={tahfizh?.isVerified !== true}
                     onChange={(e) => setIsTahfizh(e.target.value)}
                   />
                 </div>
@@ -561,17 +589,24 @@ export const BerkasKhusus: FC = (): ReactElement => {
                   name="surat_dokter"
                   label="Ya"
                   size="sm"
-                  options={[
-                    { label: "Ya", value: "Ya" },
-                    {
-                      label: "Tidak",
-                      value: "Tidak",
-                    },
-                  ]}
+                  value="Ya"
+                  variant="primary"
+                  labelSize="sm"
+                  disabled={isDisabled || !!surat_dokter}
+                  control={control}
+                  defaultChecked={surat_dokter?.isVerified}
+                  onChange={(e) => setIsSuratDokter(e.target.value)}
+                />
+                <RadioButton
+                  name="surat_dokter"
+                  label="Tidak"
+                  size="sm"
+                  disabled={isDisabled || !!surat_dokter}
+                  value="Tidak"
                   variant="primary"
                   labelSize="sm"
                   control={control}
-                  buttonValue={isSuratDokter}
+                  defaultChecked={surat_dokter?.isVerified !== true}
                   onChange={(e) => setIsSuratDokter(e.target.value)}
                 />
               </div>
@@ -611,17 +646,24 @@ export const BerkasKhusus: FC = (): ReactElement => {
                     name="surat_anggota_nu"
                     label="Ya"
                     size="sm"
-                    options={[
-                      { label: "Ya", value: "Ya" },
-                      {
-                        label: "Tidak",
-                        value: "Tidak",
-                      },
-                    ]}
+                    value="Ya"
                     variant="primary"
                     labelSize="sm"
+                    disabled={isDisabled || !!surat_anggota_nu}
                     control={control}
-                    buttonValue={isSuratAnggotaNu}
+                    defaultChecked={surat_anggota_nu?.isVerified}
+                    onChange={(e) => setIsSuratAnggotaNu(e.target.value)}
+                  />
+                  <RadioButton
+                    name="surat_anggota_nu"
+                    label="Tidak"
+                    size="sm"
+                    value="Tidak"
+                    variant="primary"
+                    labelSize="sm"
+                    disabled={isDisabled || !!surat_anggota_nu}
+                    control={control}
+                    defaultChecked={surat_anggota_nu?.isVerified !== true}
                     onChange={(e) => setIsSuratAnggotaNu(e.target.value)}
                   />
                 </div>
@@ -657,17 +699,24 @@ export const BerkasKhusus: FC = (): ReactElement => {
                     name="surat_tugas"
                     label="Ya"
                     size="sm"
-                    options={[
-                      { label: "Ya", value: "Ya" },
-                      {
-                        label: "Tidak",
-                        value: "Tidak",
-                      },
-                    ]}
+                    value="Ya"
                     variant="primary"
                     labelSize="sm"
                     control={control}
-                    buttonValue={isSuratTugas}
+                    disabled={isDisabled || !!surat_tugas}
+                    defaultChecked={surat_tugas?.isVerified}
+                    onChange={(e) => setIsSuratTugas(e.target.value)}
+                  />
+                  <RadioButton
+                    name="surat_tugas"
+                    label="Tidak"
+                    disabled={isDisabled || !!surat_tugas}
+                    size="sm"
+                    value="Tidak"
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={surat_tugas?.isVerified !== true}
                     onChange={(e) => setIsSuratTugas(e.target.value)}
                   />
                 </div>

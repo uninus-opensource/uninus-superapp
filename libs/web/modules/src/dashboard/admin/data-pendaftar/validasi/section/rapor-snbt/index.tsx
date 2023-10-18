@@ -512,17 +512,24 @@ export const RaporSnbt: FC = (): ReactElement => {
                 name="rapor_snbt"
                 label="Ya"
                 size="sm"
-                options={[
-                  { label: "Ya", value: "Ya" },
-                  {
-                    label: "Tidak",
-                    value: "Tidak",
-                  },
-                ]}
+                value="Ya"
+                variant="primary"
+                labelSize="sm"
+                disabled={isDisabled || !!utbk}
+                control={checkBoxControl}
+                defaultChecked={utbk?.isVerified}
+                onChange={(e) => setIsRapor_Snbt(e.target.value)}
+              />
+              <RadioButton
+                name="rapor_snbt"
+                label="Tidak"
+                size="sm"
+                value="Tidak"
+                disabled={isDisabled || !!utbk}
                 variant="primary"
                 labelSize="sm"
                 control={checkBoxControl}
-                buttonValue={isRapor_Snbt}
+                defaultChecked={utbk?.isVerified !== true}
                 onChange={(e) => setIsRapor_Snbt(e.target.value)}
               />
             </div>

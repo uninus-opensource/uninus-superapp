@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { NilaiValues, TUploadFileRequest, TUploadFileResponse } from "../../type";
 import { useBiodataUpdate, useGetStudentGrade, useUploadFile } from "../../hooks";
-import { useUpdate } from "@uninus/web/services";
+import { useDashboardStateControl } from "@uninus/web/services";
 
 // import { TVSDataNilai, VSDataNilai } from "./schema";
 // import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +12,7 @@ import { useUpdate } from "@uninus/web/services";
 export const DataNilaiSection: FC = (): ReactElement => {
   const [isDisabled, setIsdisabled] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
 
   const { control, handleSubmit, reset, setValue, watch, getValues } = useForm<NilaiValues>({
     mode: "all",
@@ -19,7 +20,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
 
   const { mutate: upload } = useUploadFile();
   const { mutate } = useBiodataUpdate();
-  const { setUpdate } = useUpdate();
   const uploadFile = async (payload: TUploadFileRequest): Promise<TUploadFileResponse> => {
     return new Promise((resolve, reject) => {
       upload(payload, {
@@ -110,7 +110,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
           onSuccess: () => {
             setIsdisabled(true);
             setIsLoading(false);
-            setUpdate(true);
+            setDashboardControlState(!getDashboardControlState);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
                 position: "top-center",

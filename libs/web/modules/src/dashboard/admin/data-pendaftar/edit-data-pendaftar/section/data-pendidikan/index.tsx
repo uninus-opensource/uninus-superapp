@@ -4,7 +4,6 @@ import {
   useEducationMajorGet,
   useEducationTypeGet,
   useStudentDataById,
-  useYearGraduationGet,
 } from "@uninus/web/services";
 import { usePathname } from "next/navigation";
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
@@ -71,22 +70,6 @@ export const EditDataPendidikan: FC = (): ReactElement => {
       street_address: educationHistory.street_address,
     }));
   }, [getEducationHistory?.education]);
-
-  // Graduate Year
-  const [graduate] = useState({
-    search: "",
-  });
-
-  const { data: getGraduate } = useYearGraduationGet(graduate);
-
-  const graduateOptions = useMemo(
-    () =>
-      getGraduate?.year?.map((year) => ({
-        label: year?.name.toString(),
-        value: year?.id.toString(),
-      })),
-    [getGraduate?.year],
-  );
 
   // Education Major
 
@@ -255,21 +238,17 @@ export const EditDataPendidikan: FC = (): ReactElement => {
             />
           </div>
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
-            <SelectOption
+            <TextField
+              inputHeight="h-10"
               name="graduation_year"
-              labelClassName="font-bold text-xs py-2"
-              labels="Tahun Lulus"
-              placeholder={
-                student?.graduation_year
-                  ? graduateOptions?.find((item) => item.value === student?.graduation_year)?.label
-                  : "Tahun Lulus"
-              }
-              options={graduateOptions || []}
-              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              isSearchable={false}
+              variant="sm"
+              type="text"
+              required
+              labelclassname="text-sm font-semibold"
+              label="Tahun Lulus"
+              placeholder="Nama Sekolah"
+              inputWidth="w-70% lg:w-[27vw] xl:w-[25vw] text-base md:w-[33vw] "
               control={control}
-              isMulti={false}
-              status="error"
               message={errors?.graduation_year?.message as string}
             />
             <TextField

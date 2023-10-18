@@ -27,6 +27,11 @@ export class AppService {
         fullname: true,
         students: {
           include: {
+            payment_history: {
+              include: {
+                payment_obligation: true,
+              },
+            },
             pmb: {
               include: {
                 student_grade: true,
@@ -45,7 +50,7 @@ export class AppService {
       avatar,
       email,
       fullname,
-      students: { pmb, test_score, ...studentData },
+      students: { pmb, test_score, payment_history, ...studentData },
     } = student;
 
     return JSON.parse(
@@ -59,6 +64,7 @@ export class AppService {
           second_department_id: pmb.second_department_id,
           selection_path_id: pmb.selection_path_id,
           registration_path_id: pmb.registration_path_id,
+          registration_number: pmb.registration_number,
           degree_program_id: pmb.degree_program_id,
           student_grade: pmb.student_grade,
           average_grade: pmb.average_grade,
@@ -68,6 +74,12 @@ export class AppService {
           utbk_ppu: pmb.utbk_ppu,
           utbk_kmbm: pmb.utbk_kmbm,
           documents: pmb.documents,
+          payment: payment_history?.map((el) => ({
+            name: el.payment_obligation.name,
+            amount: el.payment_obligation.amount,
+            payment_method: el.payment_method,
+            payment_code: el.payment_code,
+          })),
           ...studentData,
         },
         (key, value) => {
@@ -86,6 +98,7 @@ export class AppService {
       second_department_id,
       selection_path_id,
       degree_program_id,
+      registration_status_id,
       average_utbk,
       utbk_pu,
       utbk_kk,
@@ -190,7 +203,7 @@ export class AppService {
                 utbk_ppu,
                 utbk_kmbm,
                 average_utbk,
-                registration_status_id: 2,
+                registration_status_id: registration_status_id ? registration_status_id : 2,
                 ...(documents &&
                   typeof documents[0]?.name != "undefined" && {
                     documents: {

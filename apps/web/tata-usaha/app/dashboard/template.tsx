@@ -3,7 +3,7 @@ import { FC, PropsWithChildren, ReactElement } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogoutToRoot } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
-import { HomeOutlined } from "@ant-design/icons";
+import { FileDoneOutlined, HomeOutlined, TeamOutlined } from "@ant-design/icons";
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { mutate } = useLogoutToRoot();
@@ -15,11 +15,35 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
 
   const sideLists = [
     { label: "Beranda", link: "/dashboard", icon: <HomeOutlined />, disabledStatus: false },
+    {
+      label: "Data Dosen",
+      link: "/dashboard/data-dosen",
+      icon: <TeamOutlined />,
+      disabledStatus: false,
+    },
+    {
+      label: "Data Mahasiswa",
+      link: "/dashboard/data-mahasiswa",
+      icon: <TeamOutlined />,
+      disabledStatus: false,
+    },
+    {
+      label: "Data Nilai",
+      link: "/dashboard/data-nilai",
+      icon: <FileDoneOutlined />,
+      disabledStatus: false,
+    },
   ];
 
   return (
     <main key="main" className="flex w-full min-h-full overflow-x-hidden font-montserrat">
-      <SideBar profileName="" profileEmail="" onLogout={handleLogout} sideList={sideLists} />
+      <SideBar
+        moduleName="TATA USAHA"
+        profileName="mawar saidah"
+        profileEmail="mwrsdh@gmail.com"
+        onLogout={handleLogout}
+        sideList={sideLists}
+      />
 
       <section
         key="dashboard"

@@ -7,10 +7,10 @@ import {
   useStudentData,
   useSubdistrictGet,
   useOccupationGet,
-  useOccupationPositionGet,
   useSalaryGet,
   useParentEducationGet,
   useParentStatusGet,
+  useDashboardStateControl,
 } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
 import { studentGuardianData, studentParentData } from "../../store";
@@ -59,24 +59,13 @@ export const DataOrtuSection: FC = (): ReactElement => {
     mode: "all",
     defaultValues: {},
   });
-
+  const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
   const { getStudent } = useStudentData();
 
   const { data: getParentStatus } = useParentStatusGet(parentStatus);
   const { data: getParentEducation } = useParentEducationGet(parentEducation);
   const { data: getOccupation } = useOccupationGet(occupation);
-  const { data: getOccupationPositionFather } = useOccupationPositionGet({
-    search: "",
-    occupation_id: watch("father_occupation_id"),
-  });
-  const { data: getOccupationPositionMother } = useOccupationPositionGet({
-    search: "",
-    occupation_id: watch("mother_occupation_id"),
-  });
-  const { data: getOccupationPositionGuardian } = useOccupationPositionGet({
-    search: "",
-    occupation_id: watch("guardian_occupation_id"),
-  });
+
   const { data: getSalary } = useSalaryGet(salary);
   const { data: getProvincies } = useProvinceGet(locationMeta);
   const { data: getCityParent } = useCityGet({
@@ -110,6 +99,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
       })),
     [getParentStatus?.parent_status],
   );
+
   const parentEducationOptions = useMemo(
     () =>
       getParentEducation?.parent_education?.map((parentEducation) => ({
@@ -134,30 +124,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
       })),
     [getOccupation?.occupation],
   );
-  const occupationPositionFatherOptions = useMemo(
-    () =>
-      getOccupationPositionFather?.occupation_position?.map((occupationPosition) => ({
-        label: occupationPosition?.name,
-        value: occupationPosition?.id.toString(),
-      })),
-    [getOccupationPositionFather?.occupation_position],
-  );
-  const occupationPositionMotherOptions = useMemo(
-    () =>
-      getOccupationPositionMother?.occupation_position?.map((occupationPosition) => ({
-        label: occupationPosition?.name,
-        value: occupationPosition?.id.toString(),
-      })),
-    [getOccupationPositionMother?.occupation_position],
-  );
-  const occupationPositionGuardOptions = useMemo(
-    () =>
-      getOccupationPositionGuardian?.occupation_position?.map((occupationPosition) => ({
-        label: occupationPosition?.name,
-        value: occupationPosition?.id.toString(),
-      })),
-    [getOccupationPositionGuardian?.occupation_position],
-  );
+
   const provinceOptions = useMemo(
     () =>
       getProvincies?.province?.map((province) => ({
@@ -281,9 +248,11 @@ export const DataOrtuSection: FC = (): ReactElement => {
       guardian: watch("guardian_occupation_id"),
     };
 
-    statusProfecy.father === "14" ? setIsUnemployedFather(true) : setIsUnemployedFather(false);
-    statusProfecy.mother === "14" ? setIsUnemployedMother(true) : setIsUnemployedMother(false);
-    statusProfecy.guardian === "14"
+    statusProfecy.father === "15" ? setIsUnemployedFather(true) : setIsUnemployedFather(false);
+    statusProfecy.mother === "14" || statusProfecy.mother === "15"
+      ? setIsUnemployedMother(true)
+      : setIsUnemployedMother(false);
+    statusProfecy.guardian === "15"
       ? setIsUnemployedGuardian(true)
       : setIsUnemployedGuardian(false);
   }, [
@@ -359,8 +328,6 @@ export const DataOrtuSection: FC = (): ReactElement => {
     }
 
     try {
-      console.log(data);
-      console.log(studentParentData);
       mutate(
         data?.guardian_name
           ? { ...studentParentData, ...studentGuardianData }
@@ -368,6 +335,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
         {
           onSuccess: () => {
             setIsSubmitted(true);
+            setDashboardControlState(!getDashboardControlState);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
                 position: "top-center",
@@ -537,9 +505,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               disabled={
                 isSubmitted || !watch("father_occupation_id")
                   ? true
-                  : false ||
-                    occupationPositionFatherOptions?.length === 0 ||
-                    student?.occupation_position
+                  : false || student?.occupation_position
                   ? true
                   : false
               }
@@ -685,9 +651,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               disabled={
                 isSubmitted || !watch("mother_occupation_id")
                   ? true
-                  : false ||
-                    occupationPositionMotherOptions?.length === 0 ||
-                    student?.occupation_position
+                  : false || student?.occupation_position
                   ? true
                   : false
               }
@@ -937,9 +901,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                     disabled={
                       isSubmitted || !watch("guardian_occupation_id")
                         ? true
-                        : false ||
-                          occupationPositionGuardOptions?.length === 0 ||
-                          student?.occupation_position
+                        : false || student?.occupation_position
                         ? true
                         : false || !!student?.guardian_name
                     }
