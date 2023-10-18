@@ -1350,21 +1350,23 @@ export class AppService {
         },
       },
     });
-    response.plb = await this.prisma.students.count({
-      where: {
-        pmb: {
-          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-          ...whereClause,
-          first_department_id: 14,
-        },
-      },
-    });
+
     response.pls = await this.prisma.students.count({
       where: {
         pmb: {
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
           ...whereClause,
           first_department_id: 15,
+        },
+      },
+    });
+
+    response.plb = await this.prisma.students.count({
+      where: {
+        pmb: {
+          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
+          ...whereClause,
+          first_department_id: 14,
         },
       },
     });
