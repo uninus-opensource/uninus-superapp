@@ -4,7 +4,7 @@ import {
   IGetUserMeResponse,
   TFacultyResponse,
   TInterestEducationPrograms,
-  TTotalRegistransResponse,
+  TTotalRegistransRes,
 } from "@uninus/entities";
 import { atom } from "recoil";
 
@@ -25,7 +25,7 @@ export const userEmail = atom({
 
 export const registransData = atom({
   key: "registransData",
-  default: [] as unknown as TTotalRegistransResponse | undefined,
+  default: [] as unknown as TTotalRegistransRes | undefined,
 });
 
 export const popularPrograms = atom({

@@ -78,7 +78,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     { label: "Pembayaran", link: "/dashboard/data-bayar", icon: <CreditCardOutlined /> },
   ];
 
-  const { data } = useGetRegistrans();
+  const { data } = useGetRegistrans({ filter_type: "", start_date: "", end_date: "" });
 
   const { setRegistransData } = useRegistransData();
   setRegistransData(data);
