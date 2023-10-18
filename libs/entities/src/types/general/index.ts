@@ -362,7 +362,7 @@ export type TInterestDepartmentResponse = {
 
 export interface IInterestDepartment {
   filter_type?: string;
-  degree_program_id?: number;
+  degree_program_id?: string;
 }
 
 export type TRegistrationStatusResponse = {
