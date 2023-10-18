@@ -6,6 +6,7 @@ export type TCreateQuestionRequest = {
 };
 
 export type TUpdateQuestionRequest = {
+  id?: number;
   question?: string;
   correct_answer?: string;
   incorrect_answers?: string[];
@@ -90,6 +91,13 @@ export interface IStudentData {
   average_grade?: number | null;
   utbk?: number | null;
   test_score?: number | null;
+  registration_number?: string | null;
+  payment?: Array<{
+    name: string;
+    amount: number;
+    payment_method: string;
+    payment_code: string;
+  }>;
 }
 
 export interface IGetStudentResponse extends IStudentData {

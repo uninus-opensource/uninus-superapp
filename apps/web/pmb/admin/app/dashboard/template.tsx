@@ -10,6 +10,7 @@ import {
   FileTextOutlined,
   CreditCardOutlined,
   FileDoneOutlined,
+  QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { usePopularPrograms, useRegistransData } from "@uninus/web/services";
 
@@ -45,6 +46,11 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       icon: <FileTextOutlined />,
     },
     { label: "Data Pendaftar", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
+    {
+      label: "Kelola Pertanyaan",
+      link: "/dashboard/kelola-pertanyaan",
+      icon: <QuestionCircleOutlined />,
+    },
   ];
 
   const sideListsAdminSeleksi: TSideList = [
@@ -55,6 +61,11 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     },
 
     { label: "Data Pendaftar", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
+    {
+      label: "Kelola Pertanyaan",
+      link: "/dashboard/kelola-pertanyaan",
+      icon: <QuestionCircleOutlined />,
+    },
   ];
 
   const sideListsAdminKeuangan: TSideList = [

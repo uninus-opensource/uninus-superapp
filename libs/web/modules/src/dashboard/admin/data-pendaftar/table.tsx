@@ -105,17 +105,22 @@ const Table: FC = (): ReactElement => {
       },
       {
         name: "Prodi Pilihan 1",
-        cell: (row) => <div className="w-[80%] ">{row.first_deparment?.name}</div>,
+        cell: (row) => <div className="w-[80%] ">{row.first_department?.name}</div>,
         width: "200px",
       },
       {
         name: "Prodi Pilihan 2",
-        cell: (row) => <div className="w-[80%]">{row.second_deparment?.name}</div>,
+        cell: (row) => <div className="w-[80%]">{row.second_department?.name}</div>,
         width: "220px",
       },
       {
         name: <div className="ml-2">Jalur Seleksi</div>,
         cell: (row) => <div className="w-[80%]">{row.selection_path?.name}</div>,
+        width: "150px",
+      },
+      {
+        name: <div className="ml-2">Jalur Pendaftaran</div>,
+        cell: (row) => <div className="w-[80%]">{row.registration_path?.name}</div>,
         width: "150px",
       },
       {
@@ -226,41 +231,43 @@ const Table: FC = (): ReactElement => {
         <SearchInput
           value={searchQuery}
           onChange={handleSearch}
-          placeholder="Cari No registrasi"
-          width="w-[100%]"
+          placeholder="Cari No registrasi dan Nama"
+          width="w-[15rem] md:w-[21rem]"
         />
       </div>
-      <DataTable
-        columns={columns}
-        data={user as TDataUser[]}
-        customStyles={customStyles}
-        fixedHeader={true}
-        progressPending={isLoading}
-        fixedHeaderScrollHeight="400px"
-        striped
-        progressComponent={<TableLoadingData className="w-full h-80" />}
-        noDataComponent={
-          <div className="flex flex-col w-full h-80 justify-center items-center">
-            <h1 className="font-bold my-2">Data Tidak Tersedia</h1>
-            <p>Table akan ditampilkan apabila sudah tersedia data yang diperlukan</p>
-          </div>
-        }
-        pagination
-        paginationComponentOptions={{
-          rangeSeparatorText: "ditampilkan dari",
-          rowsPerPageText: "Tampilkan",
-        }}
-        paginationPerPage={perPage}
-        paginationRowsPerPageOptions={[5, 10, 15, 20]}
-        paginationServer
-        onChangePage={(page: number) => setPage(page)}
-        onChangeRowsPerPage={(perPage: number) => setPerPage(perPage)}
-        paginationTotalRows={data?.meta.total as number}
-        paginationIconPrevious={<AiFillCaretLeft className="text-xl" />}
-        paginationIconNext={<AiFillCaretRight className="text-xl ml-0.5" />}
-        paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
-        paginationIconLastPage={<AiFillFastForward className="text-xl ml-0.5" />}
-      />
+      <div className="p-2 md:p-0">
+        <DataTable
+          columns={columns}
+          data={user as TDataUser[]}
+          customStyles={customStyles}
+          fixedHeader={true}
+          progressPending={isLoading}
+          fixedHeaderScrollHeight="400px"
+          striped
+          progressComponent={<TableLoadingData className="w-full h-80" />}
+          noDataComponent={
+            <div className="flex flex-col w-full h-80 justify-center items-center">
+              <h1 className="font-bold my-2">Data Tidak Tersedia</h1>
+              <p>Table akan ditampilkan apabila sudah tersedia data yang diperlukan</p>
+            </div>
+          }
+          pagination
+          paginationComponentOptions={{
+            rangeSeparatorText: "ditampilkan dari",
+            rowsPerPageText: "Tampilkan",
+          }}
+          paginationPerPage={perPage}
+          paginationRowsPerPageOptions={[5, 10, 15, 20]}
+          paginationServer
+          onChangePage={(page: number) => setPage(page)}
+          onChangeRowsPerPage={(perPage: number) => setPerPage(perPage)}
+          paginationTotalRows={data?.meta.total as number}
+          paginationIconPrevious={<AiFillCaretLeft className="text-xl" />}
+          paginationIconNext={<AiFillCaretRight className="text-xl ml-0.5" />}
+          paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
+          paginationIconLastPage={<AiFillFastForward className="text-xl ml-0.5" />}
+        />
+      </div>
     </section>
   );
 };

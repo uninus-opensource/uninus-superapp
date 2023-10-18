@@ -4,3 +4,4 @@ export * from "./data-pendaftar";
 export * from "./data-bayar";
 export * from "./hook";
 export * from "./data-master";
+export * from "./kelola-pertanyaan";

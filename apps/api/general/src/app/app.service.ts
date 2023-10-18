@@ -32,7 +32,6 @@ import {
   TUpdateQuestionRequest,
   TDeleteQuestionResponse,
   TParentStatusResponse,
-  TTotalRegistransResponse,
   TParentEducationResponse,
   IEducationMajorRequest,
   TEducationMajorResponse,
@@ -66,6 +65,7 @@ import {
   TRegistrationPathResponse,
   TEmployeeCategoriesResponse,
   TQuestionResponse,
+  TTotalRegistransRes,
 } from "@uninus/entities";
 
 @Injectable()
@@ -579,68 +579,322 @@ export class AppService {
     filter_type,
     start_date,
     end_date,
-  }: IRegistransRequest): Promise<TTotalRegistransResponse> {
-    let whereClause: {
+  }: IRegistransRequest): Promise<TTotalRegistransRes> {
+    const whereClause: {
       createdAt?: {
         gte?: Date;
         lte?: Date;
       };
     } = {};
 
+    const responseData: TTotalRegistransRes = {
+      data: [],
+      summary: {
+        total_registrans: 0,
+        total_interest: 0,
+        paids_form: 0,
+        paids_ukt: 0,
+        accepted_registrans: 0,
+      },
+    };
+
     if (filter_type) {
       switch (filter_type) {
         case EFilterTypeTotalRegistrans.WEEKLY: {
-          const now = new Date();
-          const today = now.getUTCDay();
-          const weekStart = new Date(now);
-          weekStart.setUTCDate(now.getUTCDate() - today);
-          weekStart.setUTCHours(0, 0, 0, 0);
-          const weekEnd = new Date(weekStart);
-          weekEnd.setUTCDate(weekStart.getUTCDate() + 6);
-          weekEnd.setUTCHours(23, 59, 59, 999);
+          const weekData: TTotalRegistransRes["data"] = [];
 
-          whereClause = {
-            createdAt: {
-              gte: weekStart,
-              lte: weekEnd,
-            },
-          };
+          for (let i = 0; i < 7; i++) {
+            const currentDate = new Date();
+            currentDate.setDate(currentDate.getDate() - i);
+            currentDate.setUTCHours(0, 0, 0, 0);
+
+            const total_registrans = await this.prisma.students.count({
+              select: {
+                _all: true,
+              },
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: currentDate,
+                  lte: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
+                },
+                pmb: {
+                  documents: {
+                    some: {
+                      pmb_id: {
+                        not: null,
+                      },
+                    },
+                  },
+                },
+              },
+            });
+
+            const total_interest = await this.prisma.students.findMany({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: currentDate,
+                  lte: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
+                },
+                pmb: {
+                  documents: {
+                    none: {},
+                  },
+                },
+              },
+            });
+
+            const accepted_registrans = await this.prisma.pMB.count({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: currentDate,
+                  lte: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
+                },
+                registration_status_id: 6,
+              },
+            });
+
+            const paidsUKTCount = await this.prisma.pMB.count({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: currentDate,
+                  lte: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
+                },
+                registration_status_id: 4,
+              },
+            });
+
+            const paidsFormCount = await this.prisma.pMB.count({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: currentDate,
+                  lte: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
+                },
+                registration_status_id: 3,
+              },
+            });
+
+            const label = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(currentDate);
+            const dailyStats = {
+              label,
+              total_registrans: total_registrans._all,
+              total_interest: total_interest.length,
+              paids_form: paidsFormCount,
+              accepted_registrans: accepted_registrans,
+              paids_ukt: paidsUKTCount,
+            };
+
+            weekData.push(dailyStats);
+          }
+
+          responseData.data = weekData;
+
           break;
         }
 
         case EFilterTypeTotalRegistrans.MONTHLY: {
-          const currentDate = new Date();
-          const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-          const endOfMonth = new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth() + 1,
-            0,
-            23,
-            59,
-            59,
-            999,
-          );
+          const now = new Date();
+          const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+          const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+          const monthData: TTotalRegistransRes["data"] = [];
 
-          whereClause = {
-            createdAt: {
-              gte: startOfMonth,
-              lte: endOfMonth,
-            },
-          };
+          for (let i = 0; i < 12; i++) {
+            const start = new Date(startOfMonth);
+            start.setMonth(start.getMonth() - i);
+            start.setHours(0, 0, 0, 0);
+            const end = new Date(endOfMonth);
+            end.setMonth(end.getMonth() - i);
+            end.setHours(23, 59, 59, 999);
+
+            const total_registrans = await this.prisma.students.count({
+              select: {
+                _all: true,
+              },
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: start,
+                  lte: end,
+                },
+                pmb: {
+                  documents: {
+                    some: {
+                      pmb_id: {
+                        not: null,
+                      },
+                    },
+                  },
+                },
+              },
+            });
+
+            const total_interest = await this.prisma.students.findMany({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: start,
+                  lte: end,
+                },
+                pmb: {
+                  documents: {
+                    none: {},
+                  },
+                },
+              },
+            });
+
+            const accepted_registrans = await this.prisma.pMB.count({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: start,
+                  lte: end,
+                },
+                registration_status_id: 6,
+              },
+            });
+
+            const paidsUKTCount = await this.prisma.pMB.count({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: start,
+                  lte: end,
+                },
+                registration_status_id: 4,
+              },
+            });
+
+            const paidsFormCount = await this.prisma.pMB.count({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: start,
+                  lte: end,
+                },
+                registration_status_id: 3,
+              },
+            });
+
+            const label = `${start.toLocaleString("default", {
+              month: "long",
+            })} ${start.getFullYear()}`;
+
+            const monthlyStast = {
+              label,
+              total_registrans: total_registrans._all,
+              total_interest: total_interest.length,
+              paids_form: paidsFormCount,
+              accepted_registrans: accepted_registrans,
+              paids_ukt: paidsUKTCount,
+            };
+
+            monthData.push(monthlyStast);
+          }
+          monthData.reverse();
+          responseData.data = monthData;
           break;
         }
 
         case EFilterTypeTotalRegistrans.YEARLY: {
-          const currentYear = new Date().getFullYear();
-          const startOfYear = new Date(currentYear, 0, 1);
-          const endOfYear = new Date(currentYear, 11, 31, 23, 59, 59, 999);
+          const now = new Date();
+          const yearData: TTotalRegistransRes["data"] = [];
 
-          whereClause = {
-            createdAt: {
-              gte: startOfYear,
-              lte: endOfYear,
-            },
-          };
+          for (let i = 0; i < 5; i++) {
+            const currentYear = now.getFullYear() - i;
+            const currentYearStart = new Date(currentYear, 0, 1);
+            const currentYearEnd = new Date(currentYear, 11, 31, 23, 59, 59, 999);
+
+            const total_registrans = await this.prisma.students.count({
+              select: {
+                _all: true,
+              },
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: currentYearStart,
+                  lte: currentYearEnd,
+                },
+                pmb: {
+                  documents: {
+                    some: {
+                      pmb_id: {
+                        not: null,
+                      },
+                    },
+                  },
+                },
+              },
+            });
+
+            const total_interest = await this.prisma.students.findMany({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: currentYearStart,
+                  lte: currentYearEnd,
+                },
+                pmb: {
+                  documents: {
+                    none: {},
+                  },
+                },
+              },
+            });
+
+            const accepted_registrans = await this.prisma.pMB.count({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: currentYearStart,
+                  lte: currentYearEnd,
+                },
+                registration_status_id: 6,
+              },
+            });
+
+            const paidsUKTCount = await this.prisma.pMB.count({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: currentYearStart,
+                  lte: currentYearEnd,
+                },
+                registration_status_id: 4,
+              },
+            });
+
+            const paidsFormCount = await this.prisma.pMB.count({
+              where: {
+                ...whereClause,
+                createdAt: {
+                  gte: currentYearStart,
+                  lte: currentYearEnd,
+                },
+                registration_status_id: 3,
+              },
+            });
+
+            const label = currentYear.toString();
+
+            const yearlyStats = {
+              label,
+              total_registrans: total_registrans._all,
+              total_interest: total_interest.length,
+              paids_form: paidsFormCount,
+              accepted_registrans: accepted_registrans,
+              paids_ukt: paidsUKTCount,
+            };
+
+            yearData.push(yearlyStats);
+          }
+
+          responseData.data = yearData;
+
           break;
         }
 
@@ -653,12 +907,91 @@ export class AppService {
             );
           }
 
-          whereClause = {
-            createdAt: {
-              gte: new Date(`${start_date}T00:00:00Z`),
-              lte: new Date(`${end_date}T23:59:59Z`),
+          const startOfRange = new Date(start_date);
+          const endOfRange = new Date(end_date);
+          const total_registrans = await this.prisma.students.count({
+            select: {
+              _all: true,
             },
+            where: {
+              ...whereClause,
+              createdAt: {
+                gte: startOfRange,
+                lte: endOfRange,
+              },
+              pmb: {
+                documents: {
+                  some: {
+                    pmb_id: {
+                      not: null,
+                    },
+                  },
+                },
+              },
+            },
+          });
+
+          const total_interest = await this.prisma.students.findMany({
+            where: {
+              ...whereClause,
+              createdAt: {
+                gte: startOfRange,
+                lte: endOfRange,
+              },
+              pmb: {
+                documents: {
+                  none: {},
+                },
+              },
+            },
+          });
+
+          const accepted_registrans = await this.prisma.pMB.count({
+            where: {
+              ...whereClause,
+              createdAt: {
+                gte: startOfRange,
+                lte: endOfRange,
+              },
+              registration_status_id: 6,
+            },
+          });
+
+          const paidsUKTCount = await this.prisma.pMB.count({
+            where: {
+              ...whereClause,
+              createdAt: {
+                gte: startOfRange,
+                lte: endOfRange,
+              },
+              registration_status_id: 4,
+            },
+          });
+
+          const paidsFormCount = await this.prisma.pMB.count({
+            where: {
+              ...whereClause,
+              createdAt: {
+                gte: startOfRange,
+                lte: endOfRange,
+              },
+              registration_status_id: 3,
+            },
+          });
+
+          const label = `Data dari ${start_date} hingga ${end_date}`;
+
+          const rangeStats = {
+            label,
+            total_registrans: total_registrans._all,
+            total_interest: total_interest.length,
+            paids_form: paidsFormCount,
+            accepted_registrans: accepted_registrans,
+            paids_ukt: paidsUKTCount,
           };
+
+          responseData.data = [rangeStats];
+
           break;
         }
 
@@ -668,58 +1001,63 @@ export class AppService {
       }
     }
 
-    const [total_registrans, total_interest, accepted_registrans, paidsUKTCount, paidsFormCount] =
-      await Promise.all([
-        this.prisma.users.count({
-          select: {
-            _all: true,
-          },
-          where: whereClause,
-        }),
-
-        this.prisma.students.count({
-          select: {
-            _all: true,
-          },
-          where: {
-            ...whereClause,
-            pmb: {
-              documents: {
-                some: {
-                  pmb_id: {
-                    not: null,
-                  },
-                },
+    const total_registrans = await this.prisma.students.count({
+      select: {
+        _all: true,
+      },
+      where: {
+        ...whereClause,
+        pmb: {
+          documents: {
+            some: {
+              pmb_id: {
+                not: null,
               },
             },
           },
-        }),
-        this.prisma.pMB.count({
-          where: {
-            ...whereClause,
-            registration_status_id: 4,
+        },
+      },
+    });
+
+    const total_interest = await this.prisma.students.findMany({
+      where: {
+        ...whereClause,
+        pmb: {
+          documents: {
+            none: {},
           },
-        }),
-        this.prisma.pMB.count({
-          where: {
-            ...whereClause,
-            registration_status_id: 6,
-          },
-        }),
-        this.prisma.pMB.count({
-          where: {
-            ...whereClause,
-            registration_status_id: 3,
-          },
-        }),
-      ]);
-    return {
-      total_registrans: total_registrans._all,
-      total_interest: total_interest._all,
-      paids_form: paidsFormCount,
-      paids_ukt: paidsUKTCount,
-      accepted_registrans: accepted_registrans,
-    };
+        },
+      },
+    });
+
+    const accepted_registrans = await this.prisma.pMB.count({
+      where: {
+        ...whereClause,
+        registration_status_id: 6,
+      },
+    });
+
+    const paidsUKTCount = await this.prisma.pMB.count({
+      where: {
+        ...whereClause,
+        registration_status_id: 4,
+      },
+    });
+
+    const paidsFormCount = await this.prisma.pMB.count({
+      where: {
+        ...whereClause,
+        registration_status_id: 3,
+      },
+    });
+
+    (responseData.summary.total_registrans = total_registrans._all),
+      (responseData.summary.total_interest = total_interest.length),
+      (responseData.summary.accepted_registrans = accepted_registrans),
+      (responseData.summary.paids_form = paidsFormCount),
+      (responseData.summary.paids_ukt = paidsUKTCount);
+
+    return responseData;
   }
 
   async getInterestEducationPrograms({
@@ -1279,7 +1617,7 @@ export class AppService {
   }
 
   async getStudentsPagination({
-    where,
+    search,
     orderBy,
     page = 1,
     perPage = 10,
@@ -1288,7 +1626,26 @@ export class AppService {
       this.prisma.pMB.findMany({
         ...(perPage && { take: Number(perPage ?? 10) }),
         ...(page && { skip: Number(page > 0 ? perPage * (page - 1) : 0) }),
-        where,
+        where: {
+          OR: [
+            {
+              registration_number: {
+                contains: search || "",
+                mode: "insensitive",
+              },
+            },
+            {
+              student: {
+                user: {
+                  fullname: {
+                    contains: search || "",
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          ],
+        },
         select: {
           id: true,
           registration_number: true,
@@ -1319,6 +1676,12 @@ export class AppService {
               name: true,
             },
           },
+          registration_path: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
           student: {
             select: {
               user: {
@@ -1333,7 +1696,26 @@ export class AppService {
         orderBy,
       }),
       this.prisma.pMB.count({
-        where,
+        where: {
+          OR: [
+            {
+              registration_number: {
+                contains: search || "",
+                mode: "insensitive",
+              },
+            },
+            {
+              student: {
+                user: {
+                  fullname: {
+                    contains: search || "",
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          ],
+        },
       }),
     ]);
 

@@ -3,7 +3,7 @@ import { FC, ReactElement, useEffect, useMemo } from "react";
 import { Button } from "@uninus/web/components";
 import Image from "next/image";
 import { useStudentData } from "@uninus/web/services";
-import { redirect } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 export const ModuleSelectionTest: FC = (): ReactElement => {
   const { getStudent } = useStudentData();
 
@@ -16,12 +16,12 @@ export const ModuleSelectionTest: FC = (): ReactElement => {
   }, [getStudent?.documents]);
 
   useEffect(() => {
-    if (selectionType !== 3) {
-      redirect("/dashboard");
-    } else if (!documents?.find((doc) => doc.name === "Kartu Keluarga")) {
-      redirect("/dashboard");
+    if (selectionType !== 3 || !documents?.find((doc) => doc.name === "Kartu Keluarga")) {
+      redirect("/dashboard", RedirectType.replace);
+    } else if (getStudent?.test_score) {
+      redirect("/dashboard/selection/endtest", RedirectType.replace);
     }
-  }, [selectionType, documents]);
+  }, [selectionType, documents, getStudent]);
   return (
     <section key="seleksi" className="flex flex-col w-full h-full justify-center items-center ">
       {/* header */}
