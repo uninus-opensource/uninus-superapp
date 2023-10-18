@@ -1,8 +1,9 @@
 "use client";
-import { FC, ReactElement, useMemo } from "react";
+import { FC, ReactElement, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useStudentData } from "@uninus/web/services";
 import { RedirectLink } from "@uninus/web/components";
+import { RedirectType, redirect } from "next/navigation";
 
 export const EndTestModule: FC = (): ReactElement => {
   const { getStudent } = useStudentData();
@@ -10,6 +11,16 @@ export const EndTestModule: FC = (): ReactElement => {
   const selectionType = useMemo(() => {
     return getStudent?.selection_path_id;
   }, [getStudent?.selection_path_id]);
+
+  useEffect(() => {
+    if (localStorage.getItem("selectedAnswer") && Number(localStorage.getItem("minutes")) !== 0) {
+      redirect("/dashboard/selection/quiz", RedirectType.replace);
+    }
+  });
+
+  if (!getStudent?.test_score) {
+    redirect("/dashboard/selection", RedirectType.replace);
+  }
 
   return (
     <section

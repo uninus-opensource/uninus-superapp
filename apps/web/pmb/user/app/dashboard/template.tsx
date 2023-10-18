@@ -31,18 +31,12 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     mutate(session?.user?.refresh_token);
   };
 
-  const { data: student, isLoading } = useGetBiodata();
+  const { data: student, isLoading, refetch } = useGetBiodata();
 
   const { getStudent, setStudent } = useStudentData();
   setStudent(student);
 
-  // const { getUser } = useUserData();
-
   const { getDashboardControlState } = useDashboardStateControl();
-
-  // const userStatus = useMemo(() => {
-  //   return getUser?.registration_status;
-  // }, [getUser?.registration_status]);
 
   const documentsStatus = useMemo(() => {
     return getStudent?.documents?.find((doc) => doc.name === "KTP");
@@ -58,6 +52,10 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     ) {
       setBiodataStatus(true);
     }
+
+    refetch().then((newData) => {
+      setStudent(newData?.data);
+    });
     setFormStatus(getStudent?.degree_program_id);
   }, [getStudent, getDashboardControlState]);
 
@@ -90,7 +88,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   ];
 
   return (
-    <main key="main" className={monserrat.className + ` flex w-full min-h-full overflow-x-hidden`}>
+    <main key="main" className={`${monserrat.className} flex w-full min-h-full overflow-x-hidden`}>
       <SideBar
         profileName="mawar saidah"
         profileEmail="mwrsdh@gmail.com"

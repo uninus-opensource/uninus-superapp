@@ -9,7 +9,7 @@ import {
   useUploadFile,
 } from "../registrasi";
 import { TDokumenPendaftaran } from "./type";
-import { useStudentData } from "@uninus/web/services";
+import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
 import { ToastContainer, toast } from "react-toastify";
 
 export const ModuleDokumen: FC = (): ReactElement => {
@@ -19,7 +19,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
   const { control, watch, handleSubmit } = useForm<TDokumenPendaftaran>({
     mode: "all",
   });
-
+  const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
   const { getStudent } = useStudentData();
   const { mutate: upload } = useUploadFile();
   const { mutate } = useBiodataUpdate();
@@ -86,9 +86,34 @@ export const ModuleDokumen: FC = (): ReactElement => {
               onSuccess: () => {
                 setIsLoading(false);
                 setIsDisabled(true);
+                setDashboardControlState(!getDashboardControlState);
+                setTimeout(() => {
+                  toast.success("Berhasil Mengirim Berkas", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                }, 500);
               },
               onError: () => {
                 setIsLoading(false);
+                setTimeout(() => {
+                  toast.error("Gagal Mengirim Berkas", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                }, 500);
               },
             },
           );
@@ -99,14 +124,19 @@ export const ModuleDokumen: FC = (): ReactElement => {
             documents: [
               { name: "Kartu Keluarga", path: kartu_keluarga_S1 },
               { name: "KTP", path: KTP_S1 },
-              data?.akta_kelahiran_S1 ? { name: "Akta Kelahiran", path: akta_kelahiran_S1 } : {},
-              data?.ijazah_SKL_S1 ? { name: "Ijazah/SKL", path: ijazah_SKL_S1 } : {},
+              data?.akta_kelahiran_S1
+                ? { name: "Akta Kelahiran", path: akta_kelahiran_S1 }
+                : { name: "Akta Kelahiran", path: "" },
+              data?.ijazah_SKL_S1
+                ? { name: "Ijazah/SKL", path: ijazah_SKL_S1 }
+                : { name: "Ijazah/SKL", path: "" },
             ],
           },
           {
             onSuccess: () => {
               setIsLoading(false);
               setIsDisabled(true);
+              setDashboardControlState(!getDashboardControlState);
               setTimeout(() => {
                 toast.success("Berhasil Mengirim Berkas", {
                   position: "top-center",
@@ -123,7 +153,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
             onError: () => {
               setIsLoading(false);
               setTimeout(() => {
-                toast.success("Gagal Mengirim Berkas", {
+                toast.error("Gagal Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -162,13 +192,17 @@ export const ModuleDokumen: FC = (): ReactElement => {
               { name: "Kartu Keluarga", path: kartu_kerluarga_S2 },
               { name: "KTP", path: KTP_S2 },
               { name: "Transkrip Nilai", path: transkrip_nilai_S2 },
-              data?.porlap_dikti_S2 ? { name: "Porlap Dikti", path: porlap_dikti_S2 } : {},
+              data?.porlap_dikti_S2
+                ? { name: "Porlap Dikti", path: porlap_dikti_S2 }
+                : { name: "Porlap Dikti", path: "" },
             ],
           },
           {
             onSuccess: () => {
               setIsLoading(false);
               setIsDisabled(true);
+              setDashboardControlState(!getDashboardControlState);
+
               setTimeout(() => {
                 toast.success("Berhasil Mengirim Berkas", {
                   position: "top-center",
@@ -185,7 +219,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
             onError: () => {
               setIsLoading(false);
               setTimeout(() => {
-                toast.success("Gagal Mengirim Berkas", {
+                toast.error("Gagal Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -228,13 +262,17 @@ export const ModuleDokumen: FC = (): ReactElement => {
               { name: "Kartu Keluarga", path: kartu_kerluarga_S3 },
               { name: "KTP", path: KTP_S3 },
               { name: "Transkrip Nilai", path: transkrip_nilai_S3 },
-              data?.porlap_dikti_S3 ? { name: "Porlap Dikti", path: porlap_dikti_S3 } : {},
+              data?.porlap_dikti_S3
+                ? { name: "Porlap Dikti", path: porlap_dikti_S3 }
+                : { name: "Porlap Dikti", path: "" },
             ],
           },
           {
             onSuccess: () => {
               setIsLoading(false);
               setIsDisabled(true);
+              setDashboardControlState(!getDashboardControlState);
+
               setTimeout(() => {
                 toast.success("Berhasil Mengirim Berkas", {
                   position: "top-center",
@@ -251,7 +289,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
             onError: () => {
               setIsLoading(false);
               setTimeout(() => {
-                toast.success("Gagal Mengirim Berkas", {
+                toast.error("Gagal Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -622,18 +660,14 @@ export const ModuleDokumen: FC = (): ReactElement => {
               loading={isLoading}
               disabled={
                 degreeProgram === 1
-                  ? watch("kartu_keluarga_S1") &&
-                    watch("ijazah_SKL_S1") &&
-                    watch("KTP_S1") &&
-                    watch("akta_kelahiran_S1")
+                  ? watch("kartu_keluarga_S1") && watch("KTP_S1")
                     ? false
                     : true
                   : degreeProgram === 2
                   ? watch("ijazahS1_S2") &&
                     watch("kartu_keluarga_S2") &&
                     watch("KTP_S2") &&
-                    watch("transkrip_nilai_S2") &&
-                    watch("porlap_dikti_S2")
+                    watch("transkrip_nilai_S2")
                     ? false
                     : true
                   : degreeProgram === 3
@@ -641,8 +675,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     watch("ijazahS2_S3") &&
                     watch("kartu_keluarga_S3") &&
                     watch("KTP_S3") &&
-                    watch("transkrip_nilai_S3") &&
-                    watch("porlap_dikti_S3")
+                    watch("transkrip_nilai_S3")
                     ? false
                     : true
                   : false || isDisabled
@@ -652,13 +685,13 @@ export const ModuleDokumen: FC = (): ReactElement => {
             </Button>
           </section>
         </section>
-
+        {}
         {(selectionType === 1 || selectionType === 2) &&
           (isDisabled || documents?.find((doc) => doc.name === "KTP")) && (
             <RedirectLink link="/dashboard/registrasi/beasiswa">Beasiswa</RedirectLink>
           )}
 
-        {selectionType === 3 && (
+        {selectionType === 3 && (isDisabled || documents?.find((doc) => doc.name === "KTP")) && (
           <RedirectLink link="/dashboard/selection">Tes seleksi</RedirectLink>
         )}
       </form>
