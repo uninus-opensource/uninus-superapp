@@ -2,14 +2,14 @@ import { TFIle } from "../file";
 export type TCreateQuestionRequest = {
   question: string;
   correct_answer: string;
-  incorrect_answers: string[];
+  answers: { [key: string]: string };
 };
 
 export type TUpdateQuestionRequest = {
   id?: number;
-  question?: string;
-  correct_answer?: string;
-  incorrect_answers?: string[];
+  question: string;
+  correct_answer: string;
+  answers: { [key: string]: string };
 };
 
 export type TDeleteQuestionResponse = {
