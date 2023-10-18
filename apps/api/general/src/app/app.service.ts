@@ -439,6 +439,10 @@ export class AppService {
       question: question.question,
       correct_answer: question.correct_answer,
       incorrect_answers: question.incorrect_answers,
+      answer: [...question.incorrect_answers, question.correct_answer]
+        .map((value) => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value),
     }));
 
     return formattedQuestions;
