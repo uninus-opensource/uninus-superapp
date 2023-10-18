@@ -4,7 +4,7 @@ import {
   IGetUserMeResponse,
   TFacultyResponse,
   TInterestEducationPrograms,
-  TTotalRegistransResponse,
+  TTotalRegistransRes,
 } from "@uninus/entities";
 
 export type ReturnTypesStudentData = {
@@ -23,8 +23,8 @@ export type ReturnTypeUserEmail = {
 };
 
 export type ReturnTypesRegistransData = {
-  setRegistransData: (val: TTotalRegistransResponse | undefined) => void;
-  getRegistransData: TTotalRegistransResponse | undefined;
+  setRegistransData: (val: TTotalRegistransRes | undefined) => void;
+  getRegistransData: TTotalRegistransRes | undefined;
 };
 
 export type ReturnLoadingAvatar = {

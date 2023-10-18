@@ -2,14 +2,14 @@ import { TFIle } from "../file";
 export type TCreateQuestionRequest = {
   question: string;
   correct_answer: string;
-  incorrect_answers: string[];
+  answers: { [key: string]: string };
 };
 
 export type TUpdateQuestionRequest = {
   id?: number;
-  question?: string;
-  correct_answer?: string;
-  incorrect_answers?: string[];
+  question: string;
+  correct_answer: string;
+  answers: { [key: string]: string };
 };
 
 export type TDeleteQuestionResponse = {
@@ -89,6 +89,7 @@ export interface IStudentData {
   utbk_kmbm?: number | null;
   average_utbk?: number | null;
   average_grade?: number | null;
+  registration_status_id?: number | null;
   utbk?: number | null;
   test_score?: number | null;
   registration_number?: string | null;

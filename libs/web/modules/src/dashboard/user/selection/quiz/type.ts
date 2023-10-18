@@ -14,7 +14,8 @@ export type ReturnTypesQuestionData = {
   setQuestion: (val: TGetQuestionData | undefined) => void;
   getQuestion: TGetQuestionData | undefined;
 };
-export type TTimer = {
-  minutes: number;
-  seconds: number;
+export type TSelectedQuestion = {
+  index: number;
+  answer: string;
+  no_answer: number;
 };

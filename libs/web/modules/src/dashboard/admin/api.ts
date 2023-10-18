@@ -1,16 +1,28 @@
 import {
+  IRegistransRequest,
   IUpdateStudentGradeResponse,
   TInterestEducationPrograms,
   TStudentsPaginatonResponse,
-  TTotalRegistransResponse,
+  TTotalRegistransRes,
 } from "@uninus/entities";
 import { api } from "@uninus/web/services";
 import { TUploadFileRequest, TUploadFileResponse } from "../user";
 import axios from "axios";
 import { TUsersPaginationParams } from "./type";
 
-export const RegistransGet = async (): Promise<TTotalRegistransResponse> => {
-  const { data } = await api.get<TTotalRegistransResponse>("/registrans");
+export const RegistransGet = async (): Promise<TTotalRegistransRes> => {
+  const { data } = await api.get<TTotalRegistransRes>("/registrans");
+  return data;
+};
+
+export const RegistransGetData = async (
+  params: IRegistransRequest,
+): Promise<TTotalRegistransRes> => {
+  const { data } = await api<TTotalRegistransRes>("/registrans", {
+    method: "GET",
+    params,
+    url: "/registrans",
+  });
   return data;
 };
 

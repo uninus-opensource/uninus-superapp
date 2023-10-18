@@ -438,7 +438,12 @@ export class AppService {
       id: question.id,
       question: question.question,
       correct_answer: question.correct_answer,
-      incorrect_answers: question.incorrect_answers,
+      answers: question.answers.reduce((accumulator, value, index) => {
+        return {
+          ...accumulator,
+          [String.fromCharCode("a".charCodeAt(0) + index).toUpperCase()]: value,
+        };
+      }, {}),
     }));
 
     return formattedQuestions;
@@ -459,11 +464,15 @@ export class AppService {
       data: {
         question: data.question,
         correct_answer: data.correct_answer,
-        incorrect_answers: data.incorrect_answers,
+        answers: Object.values(data.answers),
       },
     });
-
-    return newQuestion;
+    if (!newQuestion) {
+      throw new RpcException(new BadRequestException("Gagal mengubah soal"));
+    }
+    return {
+      message: "Berhasil membuat soal",
+    };
   }
 
   async updateQuestion(id: number, data: TUpdateQuestionRequest): Promise<TGeneralResponse> {
@@ -484,7 +493,7 @@ export class AppService {
       data: {
         question: data.question,
         correct_answer: data.correct_answer,
-        incorrect_answers: data.incorrect_answers,
+        ...(data.answers && { answers: Object.values(data.answers) }),
       },
     });
 

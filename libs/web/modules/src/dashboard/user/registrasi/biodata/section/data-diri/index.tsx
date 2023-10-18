@@ -23,8 +23,8 @@ import {
   useCountryGet,
   useDisabilitiesGet,
   useStatusGet,
-  useUpdate,
   useUpdateAvatar,
+  useDashboardStateControl,
 } from "@uninus/web/services";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
@@ -39,6 +39,7 @@ export const DataDiriSection: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [disValue, setDisValue] = useState<string | null>(null);
   const [occValue, setOccValue] = useState<string | null>(null);
+  const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
   const { getStudent } = useStudentData();
   const { setUpdateAvatar } = useUpdateAvatar();
   const student = useMemo(() => {
@@ -307,7 +308,6 @@ export const DataDiriSection: FC = (): ReactElement => {
       countryref.current.clearValue();
     }
   }, [citizenshipId]);
-  const { setUpdate } = useUpdate();
   const { mutate: mutateUpload } = useUploadFile();
   const { mutate } = useBiodataUpdate();
 
@@ -408,7 +408,7 @@ export const DataDiriSection: FC = (): ReactElement => {
         {
           onSuccess: () => {
             setIsdisabled(true);
-            setUpdate(true);
+            setDashboardControlState(!getDashboardControlState);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
                 position: "top-center",
