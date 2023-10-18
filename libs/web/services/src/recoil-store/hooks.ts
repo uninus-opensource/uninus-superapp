@@ -18,7 +18,7 @@ import {
   IGetUserMeResponse,
   TFacultyResponse,
   TInterestEducationPrograms,
-  TTotalRegistransResponse,
+  TTotalRegistransRes,
 } from "@uninus/entities";
 import {
   ReturnTypeFaculty,
@@ -58,7 +58,7 @@ export const useUserEmail = (): ReturnTypeUserEmail => {
 };
 
 export const useRegistransData = (): ReturnTypesRegistransData => {
-  const [get, set] = useRecoilState<TTotalRegistransResponse | undefined>(registransData);
+  const [get, set] = useRecoilState<TTotalRegistransRes | undefined>(registransData);
   return {
     setRegistransData: (val) => set(val),
     getRegistransData: get,

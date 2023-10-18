@@ -1,20 +1,28 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import {
+  IRegistransRequest,
   TInterestEducationPrograms,
   TMetaErrorResponse,
   TStudentsPaginatonResponse,
-  TTotalRegistransResponse,
+  TTotalRegistransRes,
 } from "@uninus/entities";
-import { PopularProgramsGet, RegistransGet, allStudentGet } from "./api";
+import { PopularProgramsGet, RegistransGet, RegistransGetData, allStudentGet } from "./api";
 import { TUsersPaginationParams } from "./type";
 
-export const useGetRegistrans = (): UseQueryResult<
-  TTotalRegistransResponse,
-  TMetaErrorResponse
-> => {
+export const useGetRegistrans = (): UseQueryResult<TTotalRegistransRes, TMetaErrorResponse> => {
   return useQuery({
     queryKey: ["getStudentRegistrans"],
     queryFn: async () => await RegistransGet(),
+    keepPreviousData: true,
+  });
+};
+
+export const useGetRegistransData = (
+  params: IRegistransRequest,
+): UseQueryResult<TTotalRegistransRes, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getStudentRegistrans", params],
+    queryFn: async () => await RegistransGetData(params),
     keepPreviousData: true,
   });
 };
