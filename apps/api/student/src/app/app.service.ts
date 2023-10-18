@@ -110,6 +110,13 @@ export class AppService {
       documents,
       registration_path_id,
       test_score,
+      education_npsn,
+      education_name,
+      education_province,
+      education_district_city,
+      education_sub_district,
+      education_street_address,
+      education_type_id,
       ...updateStudentPayload
     } = payload;
     if (documents && typeof documents[0]?.isVerified != "undefined") {
@@ -180,6 +187,41 @@ export class AppService {
       }
     }
 
+    if (
+      education_npsn &&
+      education_name &&
+      education_province &&
+      education_district_city &&
+      education_sub_district &&
+      education_street_address &&
+      education_type_id
+    ) {
+      const findEducation = await this.prisma.education.findUnique({
+        where: {
+          npsn: education_npsn,
+        },
+      });
+      if (findEducation) {
+        throw new RpcException(new BadRequestException("Data sekolah sudah ada"));
+      }
+
+      const createEducation = await this.prisma.education.create({
+        data: {
+          npsn: education_npsn,
+          name: education_name,
+          province: education_province,
+          district_city: education_district_city,
+          sub_district: education_sub_district,
+          street_address: education_street_address,
+          education_type_id: education_type_id,
+        },
+      });
+
+      if (!createEducation) {
+        throw new RpcException(new BadRequestException("Gagal menambahkan data sekolah"));
+      }
+    }
+
     const student = await this.prisma.users.update({
       where: {
         id,
@@ -190,6 +232,8 @@ export class AppService {
         students: {
           update: {
             test_score,
+            education_npsn,
+            education_type_id,
             ...updateStudentPayload,
             pmb: {
               update: {

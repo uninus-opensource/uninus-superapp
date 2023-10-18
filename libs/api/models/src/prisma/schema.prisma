@@ -193,7 +193,7 @@ model Documents {
   name       String
   path       String
   pmb_id     String?
-  isVerified Boolean?       @default(false)
+  isVerified Boolean?
   alumni_id  String?
   alumni     AlumniProfile? @relation(fields: [alumni_id], references: [id])
   pmb        PMB?           @relation(fields: [pmb_id], references: [id], onDelete: Cascade)
@@ -422,9 +422,10 @@ model Disabilities {
 }
 
 model Scholarship {
-  id      Int        @id @default(autoincrement())
-  name    String
-  student Students[]
+  id       Int        @id @default(autoincrement())
+  name     String
+  discount Int?
+  student  Students[]
 }
 
 model Questions {
