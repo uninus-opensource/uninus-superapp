@@ -13,7 +13,11 @@ import { useStudentGet } from "./hooks";
 import { useUpdateAvatar, useUserData } from "@uninus/web/services";
 import { Loading } from "./loading";
 
-export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
+export const SideBar: FC<TSideBarProps> = ({
+  onLogout,
+  sideList,
+  moduleName = "PMB ADMIN",
+}): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string | null | undefined>(null);
   const [onToogle, setOnToogle] = useState<boolean>(false);
@@ -102,7 +106,7 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
       >
         <section className={` w-full flex flex-col items-center gap-y-1`}>
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
-            {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
+            {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? moduleName : "PMB UNINUS"}
           </h1>
           <figure className="flex flex-col items-center">
             <Image

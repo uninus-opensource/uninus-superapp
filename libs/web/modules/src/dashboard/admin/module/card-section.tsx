@@ -15,8 +15,10 @@ export const CardSection: FC = (): ReactElement => {
   const { getRegistransData } = useRegistransData();
 
   const registrans = useMemo(() => {
-    return getRegistransData;
-  }, [getRegistransData]);
+    return getRegistransData?.summary;
+  }, [getRegistransData?.summary]);
+
+  console.log(registrans);
 
   const CardDesc: TDataCard[] = [
     {
