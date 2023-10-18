@@ -297,6 +297,24 @@ export type TTotalRegistransResponse = {
   accepted_registrans: number;
 };
 
+export type TTotalRegistransRes = {
+  data: Array<{
+    label: string;
+    total_interest: number;
+    total_registrans: number;
+    paids_form: number;
+    accepted_registrans: number;
+    paids_ukt: number;
+  }>;
+  summary: {
+    total_registrans: number;
+    total_interest: number;
+    paids_form: number;
+    accepted_registrans: number;
+    paids_ukt: number;
+  };
+};
+
 export interface IRegistransRequest {
   filter_type?: string;
   start_date?: string;
