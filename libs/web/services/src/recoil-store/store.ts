@@ -3,6 +3,7 @@ import {
   IGetStudentResponse,
   IGetUserMeResponse,
   TFacultyResponse,
+  TInterestDepartmentResponse,
   TInterestEducationPrograms,
   TTotalRegistransRes,
 } from "@uninus/entities";
@@ -28,9 +29,14 @@ export const registransData = atom({
   default: [] as unknown as TTotalRegistransRes | undefined,
 });
 
-export const popularPrograms = atom({
+export const popularProgram = atom({
   key: "popularPrograms",
   default: [] as unknown as TInterestEducationPrograms | undefined,
+});
+
+export const popularDepartment = atom({
+  key: "popularDepartment",
+  default: [] as unknown as TInterestDepartmentResponse | undefined,
 });
 
 export const updateState = atom({

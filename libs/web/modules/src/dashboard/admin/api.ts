@@ -1,6 +1,9 @@
 import {
+  IInterestDepartment,
+  IInterestEducationPrograms,
   IRegistransRequest,
   IUpdateStudentGradeResponse,
+  TInterestDepartmentResponse,
   TInterestEducationPrograms,
   TStudentsPaginatonResponse,
   TTotalRegistransRes,
@@ -11,7 +14,7 @@ import axios from "axios";
 import { TUsersPaginationParams } from "./type";
 
 export const RegistransGet = async (params: IRegistransRequest): Promise<TTotalRegistransRes> => {
-  const { data } = await api<TTotalRegistransRes>("/registrans", {
+  const { data } = await api<TTotalRegistransRes>({
     method: "GET",
     params,
     url: "/registrans",
@@ -19,10 +22,28 @@ export const RegistransGet = async (params: IRegistransRequest): Promise<TTotalR
   return data;
 };
 
-export const PopularProgramsGet = async (): Promise<TInterestEducationPrograms> => {
-  const { data } = await api.get<TInterestEducationPrograms>("/interest-programs");
+export const PopularProgramGet = async (
+  params: IInterestEducationPrograms,
+): Promise<TInterestEducationPrograms> => {
+  const { data } = await api<TInterestEducationPrograms>({
+    method: "GET",
+    params,
+    url: "/interest-programs",
+  });
   return data;
 };
+
+export const PopularProgramDepartementGet = async (
+  params: IInterestDepartment,
+): Promise<TInterestDepartmentResponse> => {
+  const { data } = await api<TInterestDepartmentResponse>({
+    method: "GET",
+    params,
+    url: "/interest-department",
+  });
+  return data;
+};
+
 export const uploadFile = async (payload: TUploadFileRequest): Promise<TUploadFileResponse> => {
   const formData = new FormData();
   formData.append("file", payload.file);

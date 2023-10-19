@@ -18,8 +18,6 @@ export const CardSection: FC = (): ReactElement => {
     return getRegistransData?.summary;
   }, [getRegistransData?.summary]);
 
-  console.log(registrans);
-
   const CardDesc: TDataCard[] = [
     {
       icon: <AiOutlineTeam className="text-3xl" />,

@@ -3,7 +3,6 @@ import { useRecoilState } from "recoil";
 import {
   getFaculties,
   dashboardState,
-  popularPrograms,
   registransData,
   studentState,
   updateAvatar,
@@ -12,11 +11,14 @@ import {
   userState,
   getStudentbyIdEditData,
   getStudentbyIdValidasiData,
+  popularDepartment,
+  popularProgram,
 } from "./store";
 import {
   IGetStudentResponse,
   IGetUserMeResponse,
   TFacultyResponse,
+  TInterestDepartmentResponse,
   TInterestEducationPrograms,
   TTotalRegistransRes,
 } from "@uninus/entities";
@@ -25,7 +27,8 @@ import {
   ReturnTypeUpdate,
   ReturnTypeUserEmail,
   ReturnTypesDashboardState,
-  ReturnTypesPopularPrograms,
+  ReturnTypesPopularDepartment,
+  ReturnTypesPopularProgram,
   ReturnTypesRegistransData,
   ReturnTypesStudentData,
   ReturnTypesStudentDataId,
@@ -65,13 +68,22 @@ export const useRegistransData = (): ReturnTypesRegistransData => {
   };
 };
 
-export const usePopularPrograms = (): ReturnTypesPopularPrograms => {
-  const [get, set] = useRecoilState<TInterestEducationPrograms | undefined>(popularPrograms);
+export const usePopularPrograms = (): ReturnTypesPopularProgram => {
+  const [get, set] = useRecoilState<TInterestEducationPrograms | undefined>(popularProgram);
   return {
-    setPopularData: (val) => set(val),
-    getPopularData: get,
+    setPopularProgram: (val) => set(val),
+    getPopularProgram: get,
   };
 };
+
+export const usePopularDepartment = (): ReturnTypesPopularDepartment => {
+  const [get, set] = useRecoilState<TInterestDepartmentResponse | undefined>(popularDepartment);
+  return {
+    setPopularDepartment: (val) => set(val),
+    getPopularDepartment: get,
+  };
+};
+
 export const useUpdate = (): ReturnTypeUpdate => {
   const [get, set] = useRecoilState<boolean>(updateState);
   return {
