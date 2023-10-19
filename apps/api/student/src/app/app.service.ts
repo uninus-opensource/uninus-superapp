@@ -9,6 +9,8 @@ import {
   IUpdateStudentRequest,
   TGraduationStatusRequest,
   TGraduationStatusReponse,
+  TPaymentObligationsResponse,
+  IGetPaymentObligationsRequest,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
 
@@ -378,5 +380,60 @@ export class AppService {
       selection_path: graduationStatus.selection_path?.name,
       registration_status: graduationStatus.registration_status.name,
     };
+  }
+  async getPaymentObligations(
+    payload: IGetPaymentObligationsRequest,
+  ): Promise<TPaymentObligationsResponse> {
+    const [paymentObligations, user] = await Promise.all([
+      this.prisma.paymentObligations.findMany({
+        where: {
+          ...(payload?.search && {
+            name: {
+              contains: payload?.search || "",
+              mode: "insensitive",
+            },
+          }),
+          ...(payload?.id && {
+            id: Number(payload?.id),
+          }),
+        },
+        select: {
+          name: true,
+          amount: true,
+        },
+      }),
+      this.prisma.users.findUnique({
+        where: {
+          id: payload?.userId,
+        },
+        select: {
+          students: {
+            select: {
+              scholarship: {
+                select: {
+                  name: true,
+                  discount: true,
+                },
+              },
+            },
+          },
+        },
+      }),
+    ]);
+
+    if (!paymentObligations || !user) {
+      throw new RpcException(new NotFoundException("Gagal dalam mengambil data"));
+    }
+
+    return user?.students?.scholarship?.discount
+      ? paymentObligations.map((el) =>
+          el?.name?.includes("UKT")
+            ? {
+                name: el?.name,
+                amount: el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100,
+              }
+            : el,
+        )
+      : paymentObligations;
   }
 }

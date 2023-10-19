@@ -7,6 +7,7 @@ import {
   IDeleteStudentRequest,
   IUpdateStudentRequest,
   TGraduationStatusRequest,
+  IGetPaymentObligationsRequest,
 } from "@uninus/entities";
 @Controller()
 export class AppController {
@@ -28,5 +29,9 @@ export class AppController {
   @MessagePattern("get_graduation_status")
   async getGraduationStatus(payload: TGraduationStatusRequest) {
     return await this.studentService.checkGraduationStatus(payload);
+  }
+  @MessagePattern("get_payment_obligations")
+  async getPaymentObligations(payload: IGetPaymentObligationsRequest) {
+    return await this.studentService.getPaymentObligations(payload);
   }
 }

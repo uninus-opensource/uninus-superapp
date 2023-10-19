@@ -11,6 +11,7 @@ import {
   UseFilters,
   Patch,
   UsePipes,
+  Query,
 } from "@nestjs/common";
 import { EAppsOrigin, VSRegistrationNumber } from "@uninus/entities";
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
@@ -24,6 +25,7 @@ import {
   ApiOperation,
   ApiBearerAuth,
   ApiHeader,
+  ApiQuery,
 } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
@@ -33,6 +35,32 @@ import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
 @ApiTags("Student")
 export class StudentController {
   constructor(@Inject("STUDENT_SERVICE") private readonly client: ClientProxy) {}
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Get Payment Obligations Student" })
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "search", required: false })
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
+  @Get("payment-obligations")
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBUSER]))
+  async getPaymentObligations(
+    @Query("id") id: number,
+    @Query("search") search: string,
+    @Request() reqToken: TReqToken,
+  ) {
+    const { sub: userId } = reqToken.user;
+    const response = await firstValueFrom(
+      this.client
+        .send("get_payment_obligations", { userId, id, search })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
 
   @ApiOperation({ summary: "Get Graduation Status" })
   @ApiResponse({
