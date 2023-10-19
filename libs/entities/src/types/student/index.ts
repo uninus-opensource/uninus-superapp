@@ -26,6 +26,11 @@ export interface IGetPaymentObligationsRequest {
   search?: string;
 }
 
+export type TPaymentObligationsResponse = Array<{
+  name?: string;
+  amount?: number;
+  spelled_out?: string;
+}>;
 export interface IStudentData {
   email?: string | null;
   fullname?: string | null;
@@ -209,11 +214,6 @@ export type TGraduationStatusReponse = {
   registration_status?: string | null;
   message?: string;
 };
-
-export type TPaymentObligationsResponse = Array<{
-  name: string;
-  amount: number;
-}>;
 
 export type TGetUserDataResponse = {
   data: Array<{

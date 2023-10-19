@@ -13,6 +13,7 @@ import {
   IGetPaymentObligationsRequest,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
+import { convertNumberToWords } from "@uninus/api/utilities";
 
 @Injectable()
 export class AppService {
@@ -431,9 +432,15 @@ export class AppService {
             ? {
                 name: el?.name,
                 amount: el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100,
+                spelled_out: convertNumberToWords(
+                  String(el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100),
+                ),
               }
-            : el,
+            : { ...el, spelled_out: convertNumberToWords(String(el?.amount)) },
         )
-      : paymentObligations;
+      : paymentObligations.map((el) => ({
+          ...el,
+          spelled_out: convertNumberToWords(String(el?.amount)),
+        }));
   }
 }
