@@ -128,8 +128,8 @@ export function emailTemplateSelection(name: string, status: string): string {
               <td style="text-align: left; padding: 0px 50px" valign="top">
                 <p style="color: #1f1f1f">${
                   !status.includes("Tidak")
-                    ? `Selamat Kamu berhasil lulus penerimaan mahasisa baru. Tinggal satu langkah lagi kamu akan menjasi mahasiswa di UNINUS. Klik tombol di bawah ini untuk melihat detail hasil seleksi.`
-                    : `Maaf kamu tidak lulus penerimaan mahasisa baru. Terima kasih telah berpartisipasi, Tetap semangat ya!`
+                    ? `Selamat Kamu berhasil lulus penerimaan mahasiswa baru. Tinggal satu langkah lagi kamu akan menjasi mahasiswa di UNINUS. Klik tombol di bawah ini untuk melihat detail hasil seleksi.`
+                    : `Maaf kamu tidak lulus penerimaan mahasiswa baru. Terima kasih telah berpartisipasi, Tetap semangat ya!`
                 },</p>
                 ${
                   !status?.includes("Tidak")
