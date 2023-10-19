@@ -1,12 +1,20 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import {
+  IInterestDepartment,
+  IInterestEducationPrograms,
   IRegistransRequest,
+  TInterestDepartmentResponse,
   TInterestEducationPrograms,
   TMetaErrorResponse,
   TStudentsPaginatonResponse,
   TTotalRegistransRes,
 } from "@uninus/entities";
-import { PopularProgramsGet, RegistransGet, allStudentGet } from "./api";
+import {
+  PopularProgramDepartementGet,
+  PopularProgramGet,
+  RegistransGet,
+  allStudentGet,
+} from "./api";
 import { TUsersPaginationParams } from "./type";
 
 export const useGetRegistrans = (
@@ -19,13 +27,22 @@ export const useGetRegistrans = (
   });
 };
 
-export const useGetPopularData = (): UseQueryResult<
-  TInterestEducationPrograms,
-  TMetaErrorResponse
-> => {
+export const useGetPopularProgram = (
+  params: IInterestEducationPrograms,
+): UseQueryResult<TInterestEducationPrograms, TMetaErrorResponse> => {
   return useQuery({
-    queryKey: ["getPopularPrograms"],
-    queryFn: async () => await PopularProgramsGet(),
+    queryKey: ["getStudentPopularProgram", params],
+    queryFn: async () => await PopularProgramGet(params),
+    keepPreviousData: true,
+  });
+};
+
+export const useGetPopularDepartment = (
+  params: IInterestDepartment,
+): UseQueryResult<TInterestDepartmentResponse, TMetaErrorResponse> => {
+  return useQuery({
+    queryKey: ["getStudentPopularDepartment", params],
+    queryFn: async () => await PopularProgramDepartementGet(params),
     keepPreviousData: true,
   });
 };

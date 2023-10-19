@@ -109,15 +109,14 @@ export const ChartRekap: FC = (): ReactElement => {
       paidsForm = totalPaidsFormFilter;
       receiveds = totalReceivedsFilter;
       paidsUKT = totalPaidsUKT;
-
       break;
     case "mingguan":
-      labels = labelsFilter;
-      totalInterest = totalInterestFilter;
-      totalRegistrations = totalRegistrationsFilter;
-      paidsForm = totalPaidsFormFilter;
-      receiveds = totalReceivedsFilter;
-      paidsUKT = totalPaidsUKT;
+      labels = labelsFilter.reverse();
+      totalInterest = totalInterestFilter.reverse();
+      totalRegistrations = totalRegistrationsFilter.reverse();
+      paidsForm = totalPaidsFormFilter.reverse();
+      receiveds = totalReceivedsFilter.reverse();
+      paidsUKT = totalPaidsUKT.reverse();
       break;
     default:
       labels = [];

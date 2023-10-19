@@ -1,5 +1,5 @@
 "use client";
-import { ReactElement, FC, useState } from "react";
+import { ReactElement, FC, useState, useMemo, useEffect } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,15 +12,47 @@ import {
 import { Bar } from "react-chartjs-2";
 import { SelectOption } from "@uninus/web/components";
 import { FieldValues, useForm } from "react-hook-form";
+import { useGetPopularDepartment } from "../hook";
 
 export const ChartProgram: FC = (): ReactElement => {
   const [chartType, setChartType] = useState("bulanan");
+
+  const [registrationFilter, setRegistrationFilter] = useState<{
+    filter_type: string;
+    degree_program_id: string;
+  }>({
+    filter_type: "",
+    degree_program_id: "1",
+  });
+
+  const { data: getPopularDepartment } = useGetPopularDepartment(registrationFilter);
+
+  const popularData = useMemo(() => {
+    return getPopularDepartment;
+  }, [getPopularDepartment]);
 
   const { control, watch } = useForm<FieldValues>({
     defaultValues: {},
   });
 
   const rekap = watch("rekap");
+
+  useEffect(() => {
+    let convertFilterChart;
+
+    if (chartType === "mingguan") {
+      convertFilterChart = "weekly";
+    } else if (chartType === "tahunan") {
+      convertFilterChart = "yearly";
+    } else {
+      convertFilterChart = "monthly";
+    }
+
+    setRegistrationFilter({
+      filter_type: convertFilterChart,
+      degree_program_id: rekap,
+    });
+  }, [chartType, rekap]);
 
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -41,22 +73,82 @@ export const ChartProgram: FC = (): ReactElement => {
 
   let labels = [];
   let labelsDatasets: string;
-  let dataValues: number[] = [];
+  let dataValues: (number | undefined)[] = [];
 
   switch (chartType) {
     case "mingguan":
       dataValues = [
-        35, 42, 28, 56, 48, 60, 72, 90, 44, 62, 75, 68, 45, 50, 38, 55, 40, 55, 62, 78, 50,
+        popularData?.kpi,
+        popularData?.pai,
+        popularData?.pgmi,
+        popularData?.pbs,
+        popularData?.agrotek,
+        popularData?.akuntansi,
+        popularData?.manajemen,
+        popularData?.iHukum,
+        popularData?.iKomunikasi,
+        popularData?.iPerpustakaan,
+        popularData?.pba,
+        popularData?.pbsi,
+        popularData?.pbing,
+        popularData?.pgpaud,
+        popularData?.plb,
+        popularData?.pls,
+        popularData?.pmath,
+        popularData?.ppkn,
+        popularData?.te,
+        popularData?.tif,
+        popularData?.ti,
       ];
       break;
     case "bulanan":
       dataValues = [
-        60, 80, 60, 40, 20, 40, 60, 60, 80, 60, 40, 20, 40, 60, 60, 80, 60, 40, 20, 40, 60,
+        popularData?.kpi,
+        popularData?.pai,
+        popularData?.pgmi,
+        popularData?.pbs,
+        popularData?.agrotek,
+        popularData?.akuntansi,
+        popularData?.manajemen,
+        popularData?.iHukum,
+        popularData?.iKomunikasi,
+        popularData?.iPerpustakaan,
+        popularData?.pba,
+        popularData?.pbsi,
+        popularData?.pbing,
+        popularData?.pgpaud,
+        popularData?.plb,
+        popularData?.pls,
+        popularData?.pmath,
+        popularData?.ppkn,
+        popularData?.te,
+        popularData?.tif,
+        popularData?.ti,
       ];
       break;
     case "tahunan":
       dataValues = [
-        50, 65, 70, 80, 60, 42, 55, 35, 48, 60, 38, 65, 60, 68, 75, 50, 55, 40, 70, 72, 90, 4,
+        popularData?.kpi,
+        popularData?.pai,
+        popularData?.pgmi,
+        popularData?.pbs,
+        popularData?.agrotek,
+        popularData?.akuntansi,
+        popularData?.manajemen,
+        popularData?.iHukum,
+        popularData?.iKomunikasi,
+        popularData?.iPerpustakaan,
+        popularData?.pba,
+        popularData?.pbsi,
+        popularData?.pbing,
+        popularData?.pgpaud,
+        popularData?.plb,
+        popularData?.pls,
+        popularData?.pmath,
+        popularData?.ppkn,
+        popularData?.te,
+        popularData?.tif,
+        popularData?.ti,
       ];
       break;
     default:
@@ -66,34 +158,59 @@ export const ChartProgram: FC = (): ReactElement => {
   if (rekap === "2") {
     labels = ["Administrasi Pendidikan (S2)", "Pendidikan Agama Islam (S2)", "Ilmu Hukum (S2)"];
     labelsDatasets = `Program studi S2 (${chartType})`;
+    dataValues = [popularData?.mAdmPendidikan, popularData?.mPai, popularData?.mIHukum];
   } else if (rekap === "3") {
     labels = ["Ilmu Pendidikan (S3)"];
     labelsDatasets = `Program studi S3 (${chartType})`;
+    dataValues = [popularData?.dIPendidikan];
   } else {
     labels = [
-      "Pendidikan Agama Islam",
-      "Perbankan Syariah",
-      "Pendidikan Guru Madrasah ibtidaiyah",
       "Komunikasi Penyiaran Islam",
-      "Pendidikan Luar Biasa (PLB)",
-      "Pendidikan Luar Sekolah (PLS)",
-      "Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)",
+      "Pendidikan Agama Islam",
+      "Pendidikan Guru Madrasah ibtidaiyah",
+      "Perbankan Syariah",
+      "Agroteknologi",
+      "Akuntansi",
+      "Manajemen",
+      "Ilmu Hukum",
+      "Ilmu Komunikasi",
+      "Ilmu perpustakaan",
+      "Bahasa Arab",
       "Bahasa dan Sastra Indonesia",
       "Bahasa Inggris",
-      "Bahasa Arab",
+      "Pendidikan Guru Pendidikan Anak Usia Dini(PG-PAUD)",
+      "Pendidikan Luar Biasa (PLB)",
+      "Pendidikan Luar Sekolah (PLS)",
       "Matematika",
       "Pendidikan Pancasila dan Kewarganegaraan (PPKn)",
       "Teknik Elektronika",
       "Teknik Informatika",
       "Teknik Industri",
-      "Ilmu Komunikasi",
-      "Ilmu perpustakaan",
-      "Akuntansi",
-      "Manajemen",
-      "Ilmu Hukum",
-      "Agroteknologi",
     ];
     labelsDatasets = `Program studi S1 (${chartType})`;
+    dataValues = [
+      popularData?.kpi,
+      popularData?.pai,
+      popularData?.pgmi,
+      popularData?.pbs,
+      popularData?.agrotek,
+      popularData?.akuntansi,
+      popularData?.manajemen,
+      popularData?.iHukum,
+      popularData?.iKomunikasi,
+      popularData?.iPerpustakaan,
+      popularData?.pba,
+      popularData?.pbsi,
+      popularData?.pbing,
+      popularData?.pgpaud,
+      popularData?.plb,
+      popularData?.pls,
+      popularData?.pmath,
+      popularData?.ppkn,
+      popularData?.te,
+      popularData?.tif,
+      popularData?.ti,
+    ];
   }
 
   const data = {

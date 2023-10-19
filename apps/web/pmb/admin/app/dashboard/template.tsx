@@ -1,7 +1,12 @@
 "use client";
 import { FC, PropsWithChildren, ReactElement, ReactNode } from "react";
 import { SideBar } from "@uninus/web/components";
-import { useGetPopularData, useGetRegistrans, useLogoutToRoot } from "@uninus/web/modules";
+import {
+  useGetPopularDepartment,
+  useGetPopularProgram,
+  useGetRegistrans,
+  useLogoutToRoot,
+} from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import { Montserrat } from "next/font/google";
 import {
@@ -12,7 +17,7 @@ import {
   FileDoneOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
-import { usePopularPrograms, useRegistransData } from "@uninus/web/services";
+import { usePopularDepartment, usePopularPrograms, useRegistransData } from "@uninus/web/services";
 
 const monserrat = Montserrat({
   subsets: ["latin"],
@@ -83,10 +88,18 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { setRegistransData } = useRegistransData();
   setRegistransData(data);
 
-  const { data: popularProgram } = useGetPopularData();
+  const { data: popularProgram } = useGetPopularProgram({ filter_type: "" });
 
-  const { setPopularData } = usePopularPrograms();
-  setPopularData(popularProgram);
+  const { setPopularProgram } = usePopularPrograms();
+  setPopularProgram(popularProgram);
+
+  const { data: popularDepartment } = useGetPopularDepartment({
+    filter_type: "",
+    degree_program_id: "",
+  });
+
+  const { setPopularDepartment } = usePopularDepartment();
+  setPopularDepartment(popularDepartment);
 
   const roles = {
     admin_Selek_PMB: "Admin Seleksi PMB",
