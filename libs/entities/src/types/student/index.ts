@@ -141,6 +141,11 @@ export interface IUpdateStudentResponse extends IStudentData {
   }> | null;
 }
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
+  education_name?: string | null;
+  education_province?: string | null;
+  education_district_city?: string | null;
+  education_sub_district?: string | null;
+  education_street_address?: string | null;
   avatar?: string | null;
   document?: {
     name: string;
