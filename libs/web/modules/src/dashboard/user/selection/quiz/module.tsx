@@ -5,10 +5,9 @@ import { Modal } from "@uninus/web/components";
 import { PiWarningCircleBold } from "react-icons/pi";
 import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi";
 import { useGetQuestions } from "./hook";
-// import { TSelectedQuestion } from "./type";
+import { TSelectedQuestion } from "./type";
 import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
-import { redirect } from "next/navigation";
-import { RedirectType } from "next/navigation";
+import { redirect, RedirectType, useRouter } from "next/navigation";
 import { useBiodataUpdate } from "../../registrasi";
 
 export const QuizModule: FC = (): ReactElement => {
@@ -26,10 +25,12 @@ export const QuizModule: FC = (): ReactElement => {
     }
   });
 
+  const router = useRouter();
+
   const [isActiveQuestion, setIsActiveQuestion] = useState<number>(
     Number(localStorage.getItem("isActiveQuestion")) || 0,
   );
-  // const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [minutes, setMinutes] = useState<number>(Number(localStorage.getItem("minutes")));
   const [seconds, setSeconds] = useState<number>(Number(localStorage.getItem("seconds")));
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -48,7 +49,7 @@ export const QuizModule: FC = (): ReactElement => {
   const getQuestionData = data?.map((el) => ({
     no: el.id,
     question: el.question,
-    // options: [...el.incorrect_answers, el.correct_answer],
+    options: [el.answers["A"], el.answers["B"], el.answers["C"], el.answers["D"]],
     correct_answer: el.correct_answer,
   }));
 
@@ -85,6 +86,13 @@ export const QuizModule: FC = (): ReactElement => {
       }
     }, 1000);
 
+    if (minutes === 0 && seconds === 0) {
+      setMount(false);
+      score();
+      setDashboardControlState(!getDashboardControlState);
+      router.push("/dashboard/selection/endtest");
+    }
+
     return () => {
       localStorage.setItem("minutes", String(minutes));
       localStorage.setItem("seconds", String(seconds));
@@ -102,30 +110,32 @@ export const QuizModule: FC = (): ReactElement => {
     }
   }, []);
 
-  // const onOptionSelected = (answer: string, idx: number, no_answer: number): void => {
-  //   setSelectedAnswer(answer);
-  //   if (
-  //     answerSelected.length > 0 &&
-  //     !answerSelected.find((el: TSelectedQuestion) => el.index === idx)
-  //   ) {
-  //     answerSelected.push({ index: idx, answer, no_answer });
-  //     localStorage.setItem("selectedAnswer", JSON.stringify(answerSelected));
-  //   } else if (answerSelected.find((el: TSelectedQuestion) => el.index === idx)) {
-  //     answerSelected[idx].answer = answer;
-  //     answerSelected[idx].no_answer = no_answer;
-  //     localStorage.setItem("selectedAnswer", JSON.stringify(answerSelected));
-  //   } else {
-  //     localStorage.setItem("selectedAnswer", JSON.stringify([{ index: idx, answer, no_answer }]));
-  //   }
-  // };
+  const i = answerSelected?.findIndex((el: TSelectedQuestion) => el?.index === isActiveQuestion);
+
+  const onOptionSelected = (answer: string, idx: number, no_answer: number): void => {
+    setSelectedAnswer(answer);
+    if (
+      answerSelected.length > 0 &&
+      !answerSelected.find((el: TSelectedQuestion) => el.index === idx)
+    ) {
+      answerSelected.push({ index: idx, answer, no_answer });
+      localStorage.setItem("selectedAnswer", JSON.stringify(answerSelected));
+    } else if (answerSelected.find((el: TSelectedQuestion) => el.index === idx)) {
+      answerSelected[i].answer = answer;
+      answerSelected[i].no_answer = no_answer;
+      localStorage.setItem("selectedAnswer", JSON.stringify(answerSelected));
+    } else {
+      localStorage.setItem("selectedAnswer", JSON.stringify([{ index: idx, answer, no_answer }]));
+    }
+  };
 
   const nextQuestion = (): void => {
-    // setSelectedAnswer(null);
+    setSelectedAnswer(null);
     setIsActiveQuestion((prev) => prev + 1);
     localStorage.setItem("isActiveQuestion", String(isActiveQuestion + 1));
   };
   const prevQuestion = (): void => {
-    // setSelectedAnswer(null);
+    setSelectedAnswer(null);
     if (isActiveQuestion !== 0) {
       setIsActiveQuestion((prev) => prev - 1);
       localStorage.setItem("isActiveQuestion", String(isActiveQuestion - 1));
@@ -134,7 +144,7 @@ export const QuizModule: FC = (): ReactElement => {
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
-  // const optionsAlphabet: string[] = ["A", "B", "C", "D"];
+  const optionsAlphabet: string[] = ["A", "B", "C", "D"];
   return (
     <section key="quiz" className="flex flex-col w-full h-auto justify-center items-center ">
       {mount && (
@@ -215,7 +225,7 @@ export const QuizModule: FC = (): ReactElement => {
                         {getQuestionData[isActiveQuestion].question}
                       </h3>
                       <ul>
-                        {/* {getQuestionData[isActiveQuestion].options.map((option, idx) => (
+                        {getQuestionData[isActiveQuestion].options.map((option, idx) => (
                           <li
                             onClick={() => onOptionSelected(option, isActiveQuestion, idx)}
                             key={idx}
@@ -224,8 +234,7 @@ export const QuizModule: FC = (): ReactElement => {
                           >
                             <span
                               className={`border px-2 py-1 lg:px-3 text-sm lg:text-base ${
-                                selectedAnswer === option ||
-                                answerSelected?.[isActiveQuestion]?.no_answer === idx
+                                selectedAnswer === option || answerSelected?.[i]?.no_answer === idx
                                   ? "bg-secondary-sky-2"
                                   : ""
                               }`}
@@ -234,7 +243,7 @@ export const QuizModule: FC = (): ReactElement => {
                             </span>
                             <p className="text-sm">{option}</p>
                           </li>
-                        ))} */}
+                        ))}
                       </ul>
                       <div className="flex w-full justify-between items-center mt-5">
                         <Button
@@ -283,7 +292,6 @@ export const QuizModule: FC = (): ReactElement => {
                         <Button
                           variant="custom"
                           styling=" w-24 bg-primary-green text-primary-white font-semibold"
-                          href="/dashboard/selection/endtest"
                           onClick={() => {
                             score();
                             localStorage.removeItem("minutes");
@@ -291,6 +299,7 @@ export const QuizModule: FC = (): ReactElement => {
                             localStorage.removeItem("selectedAnswer");
                             localStorage.removeItem("isActiveQuestion");
                             setDashboardControlState(!getDashboardControlState);
+                            router.push("/dashboard/selection/endtest");
                           }}
                         >
                           Iya

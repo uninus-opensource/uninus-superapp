@@ -3,7 +3,7 @@ import { FC, ReactElement, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useStudentData } from "@uninus/web/services";
 import { RedirectLink } from "@uninus/web/components";
-import { RedirectType, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const EndTestModule: FC = (): ReactElement => {
   const { getStudent } = useStudentData();
@@ -12,14 +12,16 @@ export const EndTestModule: FC = (): ReactElement => {
     return getStudent?.selection_path_id;
   }, [getStudent?.selection_path_id]);
 
+  const router = useRouter();
+
   useEffect(() => {
     if (localStorage.getItem("selectedAnswer") && Number(localStorage.getItem("minutes")) !== 0) {
-      redirect("/dashboard/selection/quiz", RedirectType.replace);
+      router.push("/dashboard/selection/quiz");
     }
   });
 
   if (!getStudent?.test_score) {
-    redirect("/dashboard/selection", RedirectType.replace);
+    router.push("/dashboard/selection");
   }
 
   return (

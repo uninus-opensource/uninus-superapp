@@ -102,7 +102,7 @@ export const SideBar: FC<TSideBarProps> = ({
       {/* Desktop */}
       <aside
         data-testid="sidebar"
-        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[25vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform  overflow-y-auto lg:overflow-hidden -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
+        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[30vw] xl:w-[25vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform  overflow-y-auto lg:overflow-hidden -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
         <section className={` w-full flex flex-col items-center gap-y-1`}>
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
