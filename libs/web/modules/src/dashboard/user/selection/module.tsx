@@ -22,6 +22,7 @@ export const ModuleSelectionTest: FC = (): ReactElement => {
       redirect("/dashboard/selection/endtest", RedirectType.replace);
     }
   }, [selectionType, documents, getStudent]);
+
   return (
     <section key="seleksi" className="flex flex-col w-full h-full justify-center items-center ">
       {/* header */}

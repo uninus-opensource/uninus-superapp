@@ -17,6 +17,9 @@ export const ModuleBiodata: FC = (): ReactElement => {
   const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
   const { getStudent } = useStudentData();
 
+  const average = getStudent?.average_grade;
+  const selectionType = getStudent?.selection_path_id;
+
   useEffect(() => {
     if (
       (getStudent?.nik && getStudent?.education_type_id && getStudent?.father_name) ||
@@ -29,7 +32,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
     }
     setDegreeProgram(getStudent?.degree_program_id);
   }, [getStudent]);
-  // const { getUpdate, setUpdate } = useUpdate();
 
   // useEffect(() => {
   //   setDegreeProgram(student?.degree_program_id);
@@ -90,7 +92,11 @@ export const ModuleBiodata: FC = (): ReactElement => {
         <div className="flex gap-6 justify-end px-8 py-4">
           <Button
             variant="filled"
-            href={"/dashboard/dokumen"}
+            href={`${
+              average! >= 85 && selectionType !== 3
+                ? "/dashboard/registrasi/beasiswa"
+                : "/dashboard/dokumen"
+            }`}
             onClick={() => {
               setDashboardControlState(!getDashboardControlState);
             }}
@@ -99,7 +105,9 @@ export const ModuleBiodata: FC = (): ReactElement => {
             styling="text-xs md:text-sm lg:text-base"
             disabled={route}
           >
-            <span className="px-2 flex">Upload Berkas</span>
+            <span className="px-2 flex">{`${
+              average! >= 85 && selectionType !== 3 ? "Beasiswa" : "Upload Dokumen"
+            }`}</span>
             <CaretRightOutlined />
           </Button>
         </div>
