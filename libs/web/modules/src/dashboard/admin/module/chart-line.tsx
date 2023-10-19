@@ -13,7 +13,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { SelectOption } from "@uninus/web/components";
 import { FieldValues, useForm } from "react-hook-form";
-import { useGetRegistransData } from "../hook";
+import { useGetRegistrans } from "../hook";
 
 export const ChartRekap: FC = (): ReactElement => {
   const [chartType, setChartType] = useState("bulanan");
@@ -42,7 +42,7 @@ export const ChartRekap: FC = (): ReactElement => {
     end_date: "",
   });
 
-  const { data: registrationData } = useGetRegistransData(registrationFilter);
+  const { data: registrationData } = useGetRegistrans(registrationFilter);
 
   const getRegistraionData = useMemo(() => {
     return registrationData?.data;
@@ -95,12 +95,12 @@ export const ChartRekap: FC = (): ReactElement => {
 
   switch (chartType) {
     case "tahunan":
-      labels = labelsFilter;
-      totalInterest = totalInterestFilter;
-      totalRegistrations = totalRegistrationsFilter;
-      paidsForm = totalPaidsFormFilter;
-      receiveds = totalReceivedsFilter;
-      paidsUKT = totalPaidsUKT;
+      labels = labelsFilter.reverse();
+      totalInterest = totalInterestFilter.reverse();
+      totalRegistrations = totalRegistrationsFilter.reverse();
+      paidsForm = totalPaidsFormFilter.reverse();
+      receiveds = totalReceivedsFilter.reverse();
+      paidsUKT = totalPaidsUKT.reverse();
       break;
     case "bulanan":
       labels = labelsFilter;
