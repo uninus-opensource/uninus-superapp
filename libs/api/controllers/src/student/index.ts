@@ -12,8 +12,9 @@ import {
   Patch,
   UsePipes,
   Query,
+  BadRequestException,
 } from "@nestjs/common";
-import { EAppsOrigin, VSRegistrationNumber } from "@uninus/entities";
+import { EAppsOrigin, VSRegistrationNumber, emailTemplateSelection } from "@uninus/entities";
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/pipes";
@@ -184,12 +185,34 @@ export class StudentController {
     @Body()
     studentData: UpdateStudentDto,
   ) {
-    const response = await firstValueFrom(
+    const updateStudent = await firstValueFrom(
       this.client
         .send("update_student", { id, ...studentData })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
-    return response;
+
+    const html =
+      studentData?.registration_status_id &&
+      emailTemplateSelection(updateStudent.fullname, updateStudent?.registration_status);
+
+    const sendEmail =
+      studentData?.registration_status_id &&
+      (await firstValueFrom(
+        this.client
+          .send("send_email", {
+            email: updateStudent.email,
+            subject: "Hasil Seleksi Penerimaan Mahasiswa Baru",
+            html,
+          })
+          .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+      ));
+
+    if (studentData?.registration_status_id && !sendEmail) {
+      throw new BadRequestException("Gagal mengirimkan email");
+    }
+    return studentData?.registration_status_id
+      ? { message: "Berhasil mengirimkan email" }
+      : updateStudent;
   }
 
   @ApiBearerAuth()

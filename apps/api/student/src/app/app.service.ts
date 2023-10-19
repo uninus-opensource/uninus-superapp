@@ -279,6 +279,11 @@ export class AppService {
           include: {
             pmb: {
               include: {
+                registration_status: {
+                  select: {
+                    name: true,
+                  },
+                },
                 student_grade: true,
                 documents: true,
               },
@@ -309,6 +314,7 @@ export class AppService {
           average_grade: average_grade,
           documents: pmb?.documents,
           average_utbk: pmb?.average_utbk,
+          registration_status: pmb?.registration_status.name,
           utbk_pu: pmb?.utbk_pu,
           utbk_kk: pmb?.utbk_kk,
           utbk_ppu: pmb?.utbk_ppu,
