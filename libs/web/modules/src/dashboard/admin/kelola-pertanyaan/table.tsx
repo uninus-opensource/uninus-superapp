@@ -1,12 +1,6 @@
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDeleteQuestion, TKelolaPertanyaan } from "./types";
-import {
-  Button,
-  Modal,
-  SearchInput,
-  TableLoadingData,
-  //  TextField
-} from "@uninus/web/components";
+import { Button, Modal, SearchInput, TableLoadingData, TextField } from "@uninus/web/components";
 import { motion } from "framer-motion";
 import {
   AiFillCaretLeft,
@@ -18,12 +12,7 @@ import {
 import { DeleteOutlined, EditOutlined, PrinterOutlined } from "@ant-design/icons";
 import { SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  useGetQuestion,
-  // useQuestionCreate,
-  useQuestionDelete,
-  // useQuestionUpdate
-} from "./hook";
+import { useGetQuestion, useQuestionCreate, useQuestionDelete, useQuestionUpdate } from "./hook";
 import { BiErrorCircle } from "react-icons/bi";
 
 export const Table = () => {
@@ -38,18 +27,18 @@ export const Table = () => {
   const [activeRow, setActiveRow] = useState<TKelolaPertanyaan | null>(null);
   const [questions, setQuestions] = useState<TKelolaPertanyaan[]>([]);
 
-  // const { control, handleSubmit, reset } = useForm<TKelolaPertanyaan>({
-  //   mode: "all",
-  // });
+  const { control, handleSubmit, reset } = useForm<TKelolaPertanyaan>({
+    mode: "all",
+  });
 
-  // const {
-  //   control: editControl,
-  //   handleSubmit: editSubmit,
-  //   reset: updateReset,
-  // } = useForm<TKelolaPertanyaan>({
-  //   mode: "all",
-  // });
-
+  const {
+    control: editControl,
+    handleSubmit: editSubmit,
+    reset: updateReset,
+  } = useForm<TKelolaPertanyaan>({
+    mode: "all",
+  });
+  const answerLabels = ["A", "B", "C", "D"];
   const { handleSubmit: deleteSubmit } = useForm<TDeleteQuestion>({
     mode: "all",
   });
@@ -63,16 +52,22 @@ export const Table = () => {
     {
       name: "Soal",
       cell: (row) => row.question as string,
+      width: "30%",
     },
     {
       name: "Jawaban Benar",
       cell: (row) => row.correct_answer as string,
     },
+
     {
-      name: "Jawaban Salah",
+      name: "Pilihan Jawaban",
       cell: (row) => (
-        <ul className="list-disc">
-          {row.incorrect_answers?.map((item, index) => <li key={index}>{item}</li>)}
+        <ul>
+          {answerLabels.map((label, index) => (
+            <li key={index}>
+              {label}: {row.answers[label as keyof typeof row.answers]}
+            </li>
+          ))}
         </ul>
       ),
     },
@@ -85,7 +80,7 @@ export const Table = () => {
             onClick={() => {
               setIsEditModalShow(true);
               setActiveRow(row);
-              // updateReset({ ...row });
+              updateReset({ ...row });
             }}
           >
             <EditOutlined />
@@ -103,7 +98,7 @@ export const Table = () => {
       ),
     },
   ];
-  const { data, refetch: refetchQeustion, isLoading: isLoadingData } = useGetQuestion();
+  const { data, isLoading: isLoadingData, refetch: refetchQeustion } = useGetQuestion();
   useEffect(() => {
     if (data) {
       const questionsArray = Array.isArray(data) ? data : [data];
@@ -111,57 +106,70 @@ export const Table = () => {
     }
   }, [data]);
 
-  const filteredQuestions = questions.filter(
-    (item) =>
-      item.question.toLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
-      item.correct_answer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.incorrect_answers.some((answer) =>
-        answer.toLowerCase().includes(searchQuery.toLowerCase()),
-      ),
-  );
-  // const { mutate: AddQuestion } = useQuestionCreate();
-  // const onAddQuestion = handleSubmit((data) => {
-  //   try {
-  //     AddQuestion(
-  //       {
-  //         question: data.question,
-  //         correct_answer: data.correct_answer,
-  //         incorrect_answers: data.incorrect_answers,
-  //       },
-  //       {
-  //         onSuccess: () => {
-  //           setIsSuccesAddModal(true);
-  //           refetchQeustion();
-  //           setIsAddDataModalShow(false);
-  //         },
-  //       },
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // });
-  // const { mutate: updateQuestion } = useQuestionUpdate();
-  // const onEditQuestion = editSubmit((data) => {
-  //   try {
-  //     updateQuestion(
-  //       {
-  //         id: data?.id,
-  //         question: data?.question,
-  //         correct_answer: data?.correct_answer,
-  //         incorrect_answers: data?.incorrect_answers,
-  //       },
-  //       {
-  //         onSuccess: () => {
-  //           setIsSuccesUpdateModal(true);
-  //           refetchQeustion();
-  //           setIsEditModalShow(false);
-  //         },
-  //       },
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // });
+  const filteredQuestions = questions.filter((item) => {
+    const query = searchQuery.toLowerCase();
+    const allAnswers = Object.values(item.answers).join().toLowerCase();
+
+    return (
+      item.question.toLowerCase().includes(query) ||
+      item.correct_answer.toLowerCase().includes(query) ||
+      allAnswers.includes(query)
+    );
+  });
+
+  const { mutate: AddQuestion } = useQuestionCreate();
+  const onAddQuestion = handleSubmit((data) => {
+    try {
+      AddQuestion(
+        {
+          question: data.question,
+          correct_answer: data.correct_answer,
+          answers: {
+            A: data.answers.A,
+            B: data.answers.B,
+            C: data.answers.C,
+            D: data.answers.D,
+          },
+        },
+        {
+          onSuccess: () => {
+            setIsSuccesAddModal(true);
+            refetchQeustion();
+            setIsAddDataModalShow(false);
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  });
+  const { mutate: updateQuestion } = useQuestionUpdate();
+  const onEditQuestion = editSubmit((data) => {
+    try {
+      updateQuestion(
+        {
+          id: data.id,
+          question: data.question,
+          correct_answer: data.correct_answer,
+          answers: {
+            A: data.answers.A,
+            B: data.answers.B,
+            C: data.answers.C,
+            D: data.answers.D,
+          },
+        },
+        {
+          onSuccess: () => {
+            setIsSuccesUpdateModal(true);
+            refetchQeustion();
+            setIsEditModalShow(false);
+          },
+        },
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  });
   const { mutate: deleteQuestion } = useQuestionDelete();
   const onDeleteQuestion = deleteSubmit((data) => {
     try {
@@ -216,13 +224,13 @@ export const Table = () => {
   const handleCloseAddData = () => {
     setIsAddDataModalShow(!isAddDataModalShow);
   };
-  // const handleCloseEditData = () => {
-  //   setIsEditModalShow(!isEditModalShow);
-  // };
+  const handleCloseEditData = () => {
+    setIsEditModalShow(!isEditModalShow);
+  };
 
   const handleAddModal = () => {
     setIsAddDataModalShow(!isAddDataModalShow);
-    // reset();
+    reset();
   };
   const handleCloseSuccesAdd = () => {
     setIsSuccesAddModal(!isSuccesAddModal);
@@ -319,19 +327,19 @@ export const Table = () => {
         iconClose={false}
         modalTitle="Tambah Pertanyaan"
       >
-        {/* <form onSubmit={onAddQuestion}>
+        <form onSubmit={onAddQuestion}>
           <TextField control={control} name="question" label="Pertanyaan" variant="md" />
           <TextField control={control} name="correct_answer" label="Jawaban Benar" variant="md" />
-          <ul>
-            <p className="text-xs md:text-sm xl:text-md lg:text-xs 2xl:text-lg font-semibold">
-              Jawaban Salah
-            </p>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <li key={index}>
-                <TextField control={control} name={`incorrect_answers.${index}`} variant="md" />
-              </li>
-            ))}
-          </ul>
+          <TextField
+            control={control}
+            name="answers.A"
+            label="Pilihan"
+            placeholder="A."
+            variant="md"
+          />
+          <TextField control={control} name="answers.B" placeholder="B." variant="md" />
+          <TextField control={control} name="answers.C" placeholder="C." variant="md" />
+          <TextField control={control} name="answers.D" placeholder="D." variant="md" />
 
           <div className="flex gap-x-6  justify-center">
             <Button variant="filled-red" width="w-36" height="h-6" onClick={handleCloseAddData}>
@@ -341,7 +349,7 @@ export const Table = () => {
               Simpan
             </Button>
           </div>
-        </form> */}
+        </form>
       </Modal>
 
       <Modal
@@ -350,7 +358,7 @@ export const Table = () => {
         iconClose={false}
         modalTitle="Edit Pertanyaan"
       >
-        {/* <form onSubmit={onEditQuestion}>
+        <form onSubmit={onEditQuestion}>
           <TextField control={editControl} name="question" label="Pertanyaan" variant="md" />
           <TextField
             control={editControl}
@@ -358,16 +366,16 @@ export const Table = () => {
             label="Jawaban Benar"
             variant="md"
           />
-          <ul>
-            <p className="text-xs md:text-sm xl:text-md lg:text-xs 2xl:text-lg font-semibold">
-              Jawaban Salah
-            </p>
-            {Array.from({ length: 3 }).map((_, index) => (
-              <li key={index}>
-                <TextField control={editControl} name={`incorrect_answers.${index}`} variant="md" />
-              </li>
-            ))}
-          </ul>
+          <TextField
+            control={editControl}
+            name="answers.A"
+            label="Pilihan"
+            placeholder="A."
+            variant="md"
+          />
+          <TextField control={editControl} name="answers.B" placeholder="B." variant="md" />
+          <TextField control={editControl} name="answers.C" placeholder="C." variant="md" />
+          <TextField control={editControl} name="answers.D" placeholder="D." variant="md" />
 
           <div className="flex gap-x-6  justify-center">
             <Button variant="filled-red" width="w-36" height="h-6" onClick={handleCloseEditData}>
@@ -377,7 +385,7 @@ export const Table = () => {
               Simpan
             </Button>
           </div>
-        </form> */}
+        </form>
       </Modal>
 
       <Modal
