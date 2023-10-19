@@ -47,8 +47,6 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
   useEffect(() => {
     if (selectionType === 3) {
       redirect("/dashboard", RedirectType.replace);
-    } else if (!documents?.find((doc) => doc.name === "Kartu Keluarga")) {
-      redirect("/dashboard", RedirectType.replace);
     }
   }, [selectionType, documents]);
 

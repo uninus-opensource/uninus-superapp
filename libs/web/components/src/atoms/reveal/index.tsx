@@ -17,7 +17,6 @@ export const Reveal: FC<TRevealProps> = ({ children, w = "w-fit", blur = false }
 
   useEffect(() => {
     const width = window.screen.width;
-    console.log(width);
     setIsWidth(width);
   }, []);
 
