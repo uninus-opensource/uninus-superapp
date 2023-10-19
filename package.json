@@ -169,7 +169,7 @@
     "@nx/webpack": "16.10.0",
     "@nx/workspace": "16.10.0",
     "@react-native-community/cli": "11.3.9",
-    "@react-native-community/cli-platform-android": "11.3.6",
+    "@react-native-community/cli-platform-android": "11.3.9",
     "@react-native-community/cli-platform-ios": "11.3.6",
     "@react-native/metro-config": "^0.74.0",
     "@swc/cli": "~0.1.62",
