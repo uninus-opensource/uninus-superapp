@@ -10,14 +10,7 @@ import { TUploadFileRequest, TUploadFileResponse } from "../user";
 import axios from "axios";
 import { TUsersPaginationParams } from "./type";
 
-export const RegistransGet = async (): Promise<TTotalRegistransRes> => {
-  const { data } = await api.get<TTotalRegistransRes>("/registrans");
-  return data;
-};
-
-export const RegistransGetData = async (
-  params: IRegistransRequest,
-): Promise<TTotalRegistransRes> => {
+export const RegistransGet = async (params: IRegistransRequest): Promise<TTotalRegistransRes> => {
   const { data } = await api<TTotalRegistransRes>("/registrans", {
     method: "GET",
     params,

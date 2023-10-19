@@ -6,23 +6,15 @@ import {
   TStudentsPaginatonResponse,
   TTotalRegistransRes,
 } from "@uninus/entities";
-import { PopularProgramsGet, RegistransGet, RegistransGetData, allStudentGet } from "./api";
+import { PopularProgramsGet, RegistransGet, allStudentGet } from "./api";
 import { TUsersPaginationParams } from "./type";
 
-export const useGetRegistrans = (): UseQueryResult<TTotalRegistransRes, TMetaErrorResponse> => {
-  return useQuery({
-    queryKey: ["getStudentRegistrans"],
-    queryFn: async () => await RegistransGet(),
-    keepPreviousData: true,
-  });
-};
-
-export const useGetRegistransData = (
+export const useGetRegistrans = (
   params: IRegistransRequest,
 ): UseQueryResult<TTotalRegistransRes, TMetaErrorResponse> => {
   return useQuery({
     queryKey: ["getStudentRegistrans", params],
-    queryFn: async () => await RegistransGetData(params),
+    queryFn: async () => await RegistransGet(params),
     keepPreviousData: true,
   });
 };
