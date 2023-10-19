@@ -250,7 +250,11 @@ export class AppService {
                 utbk_ppu,
                 utbk_kmbm,
                 average_utbk,
-                registration_status_id: registration_status_id ? registration_status_id : 2,
+                registration_status_id: registration_status_id
+                  ? registration_status_id
+                  : ((documents && typeof documents[0]?.isVerified == "undefined") ||
+                      (document && typeof document?.name != "undefined")) &&
+                    2,
                 ...(documents &&
                   typeof documents[0]?.name != "undefined" && {
                     documents: {
