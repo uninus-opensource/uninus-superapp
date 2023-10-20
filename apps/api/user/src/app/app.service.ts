@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import {
+  EAppsOrigin,
   IUserRequest,
   IUserResponse,
   TCreateUserRequest,
@@ -19,8 +20,9 @@ import { RpcException } from "@nestjs/microservices";
 export class AppService {
   constructor(private prisma: PrismaService) {}
   async getUsers({
-    where,
+    search,
     orderBy,
+    app_origin,
     page = 1,
     perPage = 10,
   }: TUsersPaginationArgs): Promise<TUsersPaginatonResponse> {
@@ -28,7 +30,40 @@ export class AppService {
       this.prisma.users.findMany({
         ...(perPage && { take: Number(perPage ?? 10) }),
         ...(page && { skip: Number(page > 0 ? perPage * (page - 1) : 0) }),
-        where,
+        where: {
+          OR: [
+            {
+              fullname: {
+                contains: search || "",
+                mode: "insensitive",
+              },
+            },
+
+            {
+              email: {
+                contains: search || "",
+                mode: "insensitive",
+              },
+            },
+          ],
+          ...(app_origin == EAppsOrigin.PMBADMIN && {
+            NOT: [
+              {
+                role: {
+                  name: {
+                    contains: "Super",
+                    mode: "insensitive",
+                  },
+                },
+              },
+              {
+                role: {
+                  name: "Mahasiswa",
+                },
+              },
+            ],
+          }),
+        },
         select: {
           id: true,
           fullname: true,
@@ -57,7 +92,40 @@ export class AppService {
         orderBy,
       }),
       this.prisma.users.count({
-        where,
+        where: {
+          OR: [
+            {
+              fullname: {
+                contains: search || "",
+                mode: "insensitive",
+              },
+            },
+
+            {
+              email: {
+                contains: search || "",
+                mode: "insensitive",
+              },
+            },
+          ],
+          ...(app_origin == EAppsOrigin.PMBADMIN && {
+            NOT: [
+              {
+                role: {
+                  name: {
+                    contains: "Super",
+                    mode: "insensitive",
+                  },
+                },
+              },
+              {
+                role: {
+                  name: "Mahasiswa",
+                },
+              },
+            ],
+          }),
+        },
       }),
     ]);
 
