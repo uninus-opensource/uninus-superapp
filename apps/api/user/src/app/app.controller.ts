@@ -11,8 +11,8 @@ export class AppController {
     return await this.appService.getUser(id);
   }
   @MessagePattern("get_users")
-  async getUsers({ where, orderBy, page, perPage }: TUsersPaginationArgs) {
-    return await this.appService.getUsers({ where, orderBy, page, perPage });
+  async getUsers({ search, orderBy, page, perPage, app_origin }: TUsersPaginationArgs) {
+    return await this.appService.getUsers({ search, orderBy, page, perPage, app_origin });
   }
 
   @MessagePattern("create_user")
