@@ -1,13 +1,22 @@
-import { Accordion, Button, CheckBox } from "@uninus/web/components";
+import { Accordion, Button, RadioButton } from "@uninus/web/components";
 import { useStudentDataByIdValidation } from "@uninus/web/services";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChangeEvent, FC, Fragment, MouseEvent, ReactElement, useMemo } from "react";
+import { FC, Fragment, MouseEvent, ReactElement, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useBiodataUpdateById } from "../../../edit-data-pendaftar/hooks";
+import { ToastContainer, toast } from "react-toastify";
 
 export const BerkasKhusus: FC = (): ReactElement => {
   const { getStudentbyId } = useStudentDataByIdValidation();
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [isSertifikatAktif, setIsSertifikatAktif] = useState<string | null>(null);
+  const [isSertifikatLain, setIsSertifikatLain] = useState<string | null>(null);
+  const [isSertifikatKejuaraan, setIsSertifikatKejuaraan] = useState<string | null>(null);
+  const [isTahfizh, setIsTahfizh] = useState<string | null>(null);
+  const [isSuratDokter, setIsSuratDokter] = useState<string | null>(null);
+  const [isSuratAnggotaNu, setIsSuratAnggotaNu] = useState<string | null>(null);
+  const [isSuratTugas, setIsSuratTugas] = useState<string | null>(null);
 
   const path = usePathname();
   const id = path.split("/")[4];
@@ -36,39 +45,268 @@ export const BerkasKhusus: FC = (): ReactElement => {
     e.preventDefault();
     window.open(url, "_blank");
   };
-  const onChangeCheked = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.name, e.target.checked);
-  };
 
   const { mutate } = useBiodataUpdateById(id);
-
+  useEffect(() => {
+    if (sertifikat_aktif?.isVerified) {
+      setIsSertifikatAktif("Ya");
+    } else {
+      setIsSertifikatAktif("Tidak");
+    }
+  }, [sertifikat_aktif]);
+  useEffect(() => {
+    if (isSertifikatAktif === "Ya") {
+      setValue("sertifikat_aktif", true);
+    } else {
+      setValue("sertifikat_aktif", false);
+    }
+  }, [isSertifikatAktif, setValue]);
+  useEffect(() => {
+    if (sertifikat_lainnya?.isVerified) {
+      setIsSertifikatLain("Ya");
+    } else {
+      setIsSertifikatLain("Tidak");
+    }
+  }, [sertifikat_lainnya]);
+  useEffect(() => {
+    if (isSertifikatLain === "Ya") {
+      setValue("sertifikat_lainnya", true);
+    } else {
+      setValue("sertifikat_lainnya", false);
+    }
+  }, [isSertifikatLain, setValue]);
+  useEffect(() => {
+    if (sertifikat_kejuaraan?.isVerified) {
+      setIsSertifikatKejuaraan("Ya");
+    } else {
+      setIsSertifikatKejuaraan("Tidak");
+    }
+  }, [sertifikat_kejuaraan]);
+  useEffect(() => {
+    if (isSertifikatKejuaraan === "Ya") {
+      setValue("sertifikat_kejuaraan", true);
+    } else {
+      setValue("sertifikat_kejuaraan", false);
+    }
+  }, [isSertifikatKejuaraan, setValue]);
+  useEffect(() => {
+    if (tahfizh?.isVerified) {
+      setIsTahfizh("Ya");
+    } else {
+      setIsTahfizh("Tidak");
+    }
+  }, [tahfizh]);
+  useEffect(() => {
+    if (isTahfizh === "Ya") {
+      setValue("tahfizh", true);
+    } else {
+      setValue("tahfizh", false);
+    }
+  }, [isTahfizh, setValue]);
+  useEffect(() => {
+    if (surat_dokter?.isVerified) {
+      setIsSuratDokter("Ya");
+    } else {
+      setIsSuratDokter("Tidak");
+    }
+  }, [surat_dokter]);
+  useEffect(() => {
+    if (isSuratDokter === "Ya") {
+      setValue("surat_dokter", true);
+    } else {
+      setValue("surat_dokter", false);
+    }
+  }, [isSuratDokter, setValue]);
+  useEffect(() => {
+    if (surat_anggota_nu?.isVerified) {
+      setIsSuratAnggotaNu("Ya");
+    } else {
+      setIsSuratAnggotaNu("Tidak");
+    }
+  }, [surat_anggota_nu]);
+  useEffect(() => {
+    if (isSuratAnggotaNu === "Ya") {
+      setValue("surat_anggota_nu", true);
+    } else {
+      setValue("surat_anggota_nu", false);
+    }
+  }, [isSuratAnggotaNu, setValue]);
+  useEffect(() => {
+    if (surat_tugas?.isVerified) {
+      setIsSuratTugas("Ya");
+    } else {
+      setIsSuratTugas("Tidak");
+    }
+  }, [surat_tugas]);
+  useEffect(() => {
+    if (isSuratTugas === "Ya") {
+      setValue("surat_tugas", true);
+    } else {
+      setValue("surat_tugas", false);
+    }
+  }, [isSuratTugas, setValue]);
   const onSubmit = handleSubmit((data) => {
     try {
       if (scholarship === 1) {
-        mutate({
-          documents: [
-            { id: sertifikat_aktif?.id, isVerified: data?.sertifikat_aktif },
-            { id: sertifikat_lainnya?.id, isVerified: data?.sertifikat_lainnya },
-          ],
-        });
+        mutate(
+          {
+            documents: [
+              { id: sertifikat_aktif?.id, isVerified: data?.sertifikat_aktif },
+              { id: sertifikat_lainnya?.id, isVerified: data?.sertifikat_lainnya },
+            ],
+          },
+          {
+            onSuccess: () => {
+              setIsDisabled(true);
+              setTimeout(() => {
+                toast.success("Data Berhasil Diverifikasi", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+            onError: () => {
+              setTimeout(() => {
+                toast.error("Data Gagal Diverifikasi", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+          },
+        );
       } else if (scholarship === 2) {
-        mutate({
-          documents: [
-            { id: sertifikat_kejuaraan?.id, isVerified: data?.sertifikat_kejuaraan },
-            { id: tahfizh?.id, isVerified: data?.tahfizh },
-          ],
-        });
+        mutate(
+          {
+            documents: [
+              { id: sertifikat_kejuaraan?.id, isVerified: data?.sertifikat_kejuaraan },
+              { id: tahfizh?.id, isVerified: data?.tahfizh },
+            ],
+          },
+          {
+            onSuccess: () => {
+              setIsDisabled(true);
+
+              setTimeout(() => {
+                toast.success("Data Berhasil Diverifikasi", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+            onError: () => {
+              setTimeout(() => {
+                toast.error("Data Gagal Diverifikasi", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+          },
+        );
       } else if (scholarship === 3) {
-        mutate({
-          documents: [{ id: surat_dokter?.id, isVerified: data?.surat_dokter }],
-        });
+        mutate(
+          {
+            documents: [{ id: surat_dokter?.id, isVerified: data?.surat_dokter }],
+          },
+          {
+            onSuccess: () => {
+              setIsDisabled(true);
+
+              setTimeout(() => {
+                toast.success("Data Berhasil Diverifikasi", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+            onError: () => {
+              setTimeout(() => {
+                toast.error("Data Gagal Diverifikasi", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+          },
+        );
       } else if (scholarship === 4) {
-        mutate({
-          documents: [
-            { id: surat_anggota_nu?.id, isVerified: data?.surat_anggota_nu },
-            { id: surat_tugas?.id, isVerified: data?.surat_tugas },
-          ],
-        });
+        mutate(
+          {
+            documents: [
+              { id: surat_anggota_nu?.id, isVerified: data?.surat_anggota_nu },
+              { id: surat_tugas?.id, isVerified: data?.surat_tugas },
+            ],
+          },
+          {
+            onSuccess: () => {
+              setIsDisabled(true);
+
+              setTimeout(() => {
+                toast.success("Data Berhasil Diverifikasi", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+            onError: () => {
+              setTimeout(() => {
+                toast.error("Data Gagal Diverifikasi", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }, 500);
+            },
+          },
+        );
       }
     } catch (error) {
       console.error(error);
@@ -86,11 +324,23 @@ export const BerkasKhusus: FC = (): ReactElement => {
         onSubmit={onSubmit}
         className="w-full md:w-[85%] flex flex-col gap-5 bg-primary-white py-4 px-4 md:px-8 text-sm md:text-lg"
       >
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         {/* 1 */}
         {scholarship === 1 && (
           <Fragment>
             <section className="w-full flex items-center justify-between mt-8 md:mt-0 text-xs md:text-lg">
-              <div className="h-[5em] flex flex-col gap-2 items-start">
+              <div className=" flex flex-col gap-2 items-start">
                 <h3 className="font-bold text-left">Sertifikat Aktif Organisasi</h3>
                 <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
@@ -111,19 +361,39 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
+              <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
-                <CheckBox
-                  name="sertifikat_aktif"
-                  control={control}
-                  onChange={onChangeCheked}
-                  defaultChecked={sertifikat_aktif?.isVerified}
-                />
+                <div className="flex flex-row">
+                  <RadioButton
+                    name="sertifikat_aktif"
+                    label="Ya"
+                    size="sm"
+                    value="Ya"
+                    disabled={isDisabled || !!sertifikat_aktif}
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={sertifikat_aktif?.isVerified}
+                    onChange={(e) => setIsSertifikatAktif(e.target.value)}
+                  />
+                  <RadioButton
+                    name="sertifikat_aktif"
+                    label="Tidak"
+                    size="sm"
+                    value="Tidak"
+                    disabled={isDisabled || !!sertifikat_aktif}
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={sertifikat_aktif?.isVerified !== true}
+                    onChange={(e) => setIsSertifikatAktif(e.target.value)}
+                  />
+                </div>
               </div>
             </section>
 
             <section className="w-full flex items-center justify-between mt-8 md:mt-0">
-              <div className="h-[5em] flex flex-col gap-2 items-start">
+              <div className=" flex flex-col gap-2 items-start">
                 <h3 className="font-bold">Sertifikat Lainnya</h3>
                 <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
@@ -144,14 +414,34 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
+              <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
-                <CheckBox
-                  name="sertifikat_lainnya"
-                  control={control}
-                  onChange={onChangeCheked}
-                  defaultChecked={sertifikat_lainnya?.isVerified}
-                />
+                <div className="flex flex-row">
+                  <RadioButton
+                    name="sertifikat_lainnya"
+                    label="Ya"
+                    size="sm"
+                    value="Ya"
+                    disabled={isDisabled || !!sertifikat_lainnya}
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={sertifikat_lainnya?.isVerified}
+                    onChange={(e) => setIsSertifikatLain(e.target.value)}
+                  />
+                  <RadioButton
+                    name="sertifikat_lainnya"
+                    label="Tidak"
+                    size="sm"
+                    value="Tidak"
+                    disabled={isDisabled || !!sertifikat_lainnya}
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={sertifikat_lainnya?.isVerified !== true}
+                    onChange={(e) => setIsSertifikatLain(e.target.value)}
+                  />
+                </div>
               </div>
             </section>
           </Fragment>
@@ -161,7 +451,7 @@ export const BerkasKhusus: FC = (): ReactElement => {
         {scholarship === 2 && (
           <Fragment>
             <section className="w-full flex items-center justify-between mt-8 md:mt-0">
-              <div className="h-[5em] flex flex-col gap-2 items-start">
+              <div className=" flex flex-col gap-2 items-start">
                 <h3 className="font-bold">Sertifikat Kejuaraan</h3>
                 <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
@@ -182,19 +472,39 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
+              <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
-                <CheckBox
-                  name="sertifikat_kejuaraan"
-                  control={control}
-                  onChange={onChangeCheked}
-                  defaultChecked={sertifikat_kejuaraan?.isVerified}
-                />
+                <div className="flex flex-row">
+                  <RadioButton
+                    name="sertifikat_kejuaraan"
+                    label="Ya"
+                    size="sm"
+                    value="Ya"
+                    variant="primary"
+                    labelSize="sm"
+                    disabled={isDisabled || !!sertifikat_kejuaraan}
+                    control={control}
+                    defaultChecked={sertifikat_kejuaraan?.isVerified}
+                    onChange={(e) => setIsSertifikatKejuaraan(e.target.value)}
+                  />
+                  <RadioButton
+                    name="sertifikat_kejuaraan"
+                    label="Tidak"
+                    size="sm"
+                    disabled={isDisabled || !!sertifikat_kejuaraan}
+                    value="Tidak"
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={sertifikat_kejuaraan?.isVerified !== true}
+                    onChange={(e) => setIsSertifikatKejuaraan(e.target.value)}
+                  />
+                </div>
               </div>
             </section>
 
             <section className="w-full flex items-center justify-between mt-8 md:mt-0">
-              <div className="h-[5em] flex flex-col gap-2 items-start">
+              <div className=" flex flex-col gap-2 items-start">
                 <h3 className="font-bold">Sertifikat Tahfizh Qur'an</h3>
                 <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
@@ -215,14 +525,34 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
+              <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
-                <CheckBox
-                  name="tahfizh"
-                  control={control}
-                  onChange={onChangeCheked}
-                  defaultChecked={tahfizh?.isVerified}
-                />
+                <div className="flex flex-row">
+                  <RadioButton
+                    name="tahfizh"
+                    label="Ya"
+                    size="sm"
+                    value="Ya"
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    disabled={isDisabled || !!tahfizh}
+                    defaultChecked={tahfizh?.isVerified}
+                    onChange={(e) => setIsTahfizh(e.target.value)}
+                  />
+                  <RadioButton
+                    name="tahfizh"
+                    label="Tidak"
+                    size="sm"
+                    value="Tidak"
+                    disabled={isDisabled || !!tahfizh}
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={tahfizh?.isVerified !== true}
+                    onChange={(e) => setIsTahfizh(e.target.value)}
+                  />
+                </div>
               </div>
             </section>
           </Fragment>
@@ -231,7 +561,7 @@ export const BerkasKhusus: FC = (): ReactElement => {
         {/* 3 */}
         {scholarship === 3 && (
           <section className="w-full flex items-center justify-between mt-8 md:mt-0">
-            <div className="h-[5em] flex flex-col gap-2 items-start">
+            <div className=" flex flex-col gap-2 items-start">
               <h3 className="font-bold">Surat Keterangan Dokter</h3>
               <div className="w-full flex flex-col md:flex-row gap-2">
                 <Link
@@ -252,14 +582,34 @@ export const BerkasKhusus: FC = (): ReactElement => {
               </div>
             </div>
 
-            <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
+            <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
               <h3>Sudah Sesuai?</h3>
-              <CheckBox
-                name="surat_dokter"
-                control={control}
-                onChange={onChangeCheked}
-                defaultChecked={surat_dokter?.isVerified}
-              />
+              <div className="flex flex-row">
+                <RadioButton
+                  name="surat_dokter"
+                  label="Ya"
+                  size="sm"
+                  value="Ya"
+                  variant="primary"
+                  labelSize="sm"
+                  disabled={isDisabled || !!surat_dokter}
+                  control={control}
+                  defaultChecked={surat_dokter?.isVerified}
+                  onChange={(e) => setIsSuratDokter(e.target.value)}
+                />
+                <RadioButton
+                  name="surat_dokter"
+                  label="Tidak"
+                  size="sm"
+                  disabled={isDisabled || !!surat_dokter}
+                  value="Tidak"
+                  variant="primary"
+                  labelSize="sm"
+                  control={control}
+                  defaultChecked={surat_dokter?.isVerified !== true}
+                  onChange={(e) => setIsSuratDokter(e.target.value)}
+                />
+              </div>
             </div>
           </section>
         )}
@@ -268,7 +618,7 @@ export const BerkasKhusus: FC = (): ReactElement => {
         {scholarship === 4 && (
           <Fragment>
             <section className="w-full flex items-center justify-between mt-8 md:mt-0">
-              <div className="h-[5em] flex flex-col gap-2 items-start">
+              <div className=" flex flex-col gap-2 items-start">
                 <h3 className="font-bold">Bukti Anggota NU</h3>
                 <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
@@ -289,19 +639,39 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
+              <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
-                <CheckBox
-                  name="surat_angota_nu"
-                  control={control}
-                  onChange={onChangeCheked}
-                  defaultChecked={surat_anggota_nu?.isVerified}
-                />
+                <div className="flex flex-row">
+                  <RadioButton
+                    name="surat_anggota_nu"
+                    label="Ya"
+                    size="sm"
+                    value="Ya"
+                    variant="primary"
+                    labelSize="sm"
+                    disabled={isDisabled || !!surat_anggota_nu}
+                    control={control}
+                    defaultChecked={surat_anggota_nu?.isVerified}
+                    onChange={(e) => setIsSuratAnggotaNu(e.target.value)}
+                  />
+                  <RadioButton
+                    name="surat_anggota_nu"
+                    label="Tidak"
+                    size="sm"
+                    value="Tidak"
+                    variant="primary"
+                    labelSize="sm"
+                    disabled={isDisabled || !!surat_anggota_nu}
+                    control={control}
+                    defaultChecked={surat_anggota_nu?.isVerified !== true}
+                    onChange={(e) => setIsSuratAnggotaNu(e.target.value)}
+                  />
+                </div>
               </div>
             </section>
 
             <section className="w-full flex items-center justify-between mt-8 md:mt-0">
-              <div className="h-[5em] flex flex-col gap-2 items-start">
+              <div className=" flex flex-col gap-2 items-start">
                 <h3 className="font-bold">Surat Tugas Dari Sekolah</h3>
                 <div className="w-full flex flex-col md:flex-row gap-2">
                   <Link
@@ -322,21 +692,53 @@ export const BerkasKhusus: FC = (): ReactElement => {
                 </div>
               </div>
 
-              <div className="font-bold h-[5em] flex flex-col gap-4 items-end md:items-start">
+              <div className="font-bold  flex flex-col gap-4 items-end md:items-start">
                 <h3>Sudah Sesuai?</h3>
-                <CheckBox
-                  name="surat_tugas"
-                  control={control}
-                  onChange={onChangeCheked}
-                  defaultChecked={surat_tugas?.isVerified}
-                />
+                <div className="flex flex-row">
+                  <RadioButton
+                    name="surat_tugas"
+                    label="Ya"
+                    size="sm"
+                    value="Ya"
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    disabled={isDisabled || !!surat_tugas}
+                    defaultChecked={surat_tugas?.isVerified}
+                    onChange={(e) => setIsSuratTugas(e.target.value)}
+                  />
+                  <RadioButton
+                    name="surat_tugas"
+                    label="Tidak"
+                    disabled={isDisabled || !!surat_tugas}
+                    size="sm"
+                    value="Tidak"
+                    variant="primary"
+                    labelSize="sm"
+                    control={control}
+                    defaultChecked={surat_tugas?.isVerified !== true}
+                    onChange={(e) => setIsSuratTugas(e.target.value)}
+                  />
+                </div>
               </div>
             </section>
           </Fragment>
         )}
 
         <div className="flex w-full justify-center lg:justify-end py-4 mt-12 relative md:left-20">
-          <Button type="submit" variant="filled" size="md" height="h-6">
+          <Button
+            type="submit"
+            variant="filled"
+            size="md"
+            height="h-6"
+            disabled={
+              isDisabled ||
+              !!surat_anggota_nu ||
+              !!sertifikat_aktif ||
+              !!sertifikat_kejuaraan ||
+              !!surat_dokter
+            }
+          >
             Submit
           </Button>
         </div>

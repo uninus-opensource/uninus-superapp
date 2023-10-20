@@ -235,7 +235,7 @@ export type TQuestionResponse = {
   id: number;
   question: string;
   correct_answer: string;
-  incorrect_answers: string[];
+  answers: { [key: string]: string };
 };
 
 export interface IYearGraduationRequest {
@@ -297,6 +297,24 @@ export type TTotalRegistransResponse = {
   accepted_registrans: number;
 };
 
+export type TTotalRegistransRes = {
+  data: Array<{
+    label: string;
+    total_interest: number;
+    total_registrans: number;
+    paids_form: number;
+    accepted_registrans: number;
+    paids_ukt: number;
+  }>;
+  summary: {
+    total_registrans: number;
+    total_interest: number;
+    paids_form: number;
+    accepted_registrans: number;
+    paids_ukt: number;
+  };
+};
+
 export interface IRegistransRequest {
   filter_type?: string;
   start_date?: string;
@@ -344,7 +362,7 @@ export type TInterestDepartmentResponse = {
 
 export interface IInterestDepartment {
   filter_type?: string;
-  degree_program_id?: number;
+  degree_program_id?: string;
 }
 
 export type TRegistrationStatusResponse = {
@@ -355,7 +373,7 @@ export type TRegistrationStatusResponse = {
 };
 
 export type TStudentsPaginationArgs = {
-  where?: Prisma.PMBWhereInput;
+  search?: string;
   orderBy?: Prisma.PMBOrderByWithRelationInput;
   page?: number;
   perPage?: number;

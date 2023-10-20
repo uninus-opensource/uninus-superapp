@@ -3,8 +3,9 @@ import {
   IGetStudentResponse,
   IGetUserMeResponse,
   TFacultyResponse,
+  TInterestDepartmentResponse,
   TInterestEducationPrograms,
-  TTotalRegistransResponse,
+  TTotalRegistransRes,
 } from "@uninus/entities";
 
 export type ReturnTypesStudentData = {
@@ -23,8 +24,8 @@ export type ReturnTypeUserEmail = {
 };
 
 export type ReturnTypesRegistransData = {
-  setRegistransData: (val: TTotalRegistransResponse | undefined) => void;
-  getRegistransData: TTotalRegistransResponse | undefined;
+  setRegistransData: (val: TTotalRegistransRes | undefined) => void;
+  getRegistransData: TTotalRegistransRes | undefined;
 };
 
 export type ReturnLoadingAvatar = {
@@ -32,10 +33,16 @@ export type ReturnLoadingAvatar = {
   getLoadingAvatar: boolean;
 };
 
-export type ReturnTypesPopularPrograms = {
-  setPopularData: (val: TInterestEducationPrograms | undefined) => void;
-  getPopularData: TInterestEducationPrograms | undefined;
+export type ReturnTypesPopularProgram = {
+  setPopularProgram: (val: TInterestEducationPrograms | undefined) => void;
+  getPopularProgram: TInterestEducationPrograms | undefined;
 };
+
+export type ReturnTypesPopularDepartment = {
+  setPopularDepartment: (val: TInterestDepartmentResponse | undefined) => void;
+  getPopularDepartment: TInterestDepartmentResponse | undefined;
+};
+
 export type ReturnTypeUpdate = {
   setUpdate: (val: boolean) => void;
   getUpdate: boolean;

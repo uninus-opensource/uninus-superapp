@@ -36,7 +36,6 @@ const beasiswaBreadcrumb = [
 ];
 
 export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
-  //   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingFile, setIsLoadingFile] = useState<boolean>(false);
   const [isDisabledFile, setIsdisabledFile] = useState<boolean>(false);
 
@@ -56,8 +55,6 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
 
   useEffect(() => {
     if (selectionType === 3) {
-      redirect("/dashboard", RedirectType.replace);
-    } else if (!documents?.find((doc) => doc.name === "Kartu Keluarga")) {
       redirect("/dashboard", RedirectType.replace);
     }
   }, [selectionType, documents]);
@@ -543,14 +540,8 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
             <p className="px-2 md:flex hidden"> Data Registrasi</p>
           </Button>
 
-          <Button
-            href="/dashboard/registrasi/pembayaran/detail"
-            type="button"
-            variant="filled"
-            size="md"
-            width="w-auto"
-          >
-            <p className="px-2 md:flex hidden">Lakukan Pembayaran</p>
+          <Button href="/dashboard/dokumen" type="button" variant="filled" size="md" width="w-auto">
+            <p className="px-2 md:flex hidden">Upload Dokumen</p>
             <CaretRightOutlined />
           </Button>
         </div>

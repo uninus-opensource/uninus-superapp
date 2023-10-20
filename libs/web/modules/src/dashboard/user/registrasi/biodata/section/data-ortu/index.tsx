@@ -10,6 +10,7 @@ import {
   useSalaryGet,
   useParentEducationGet,
   useParentStatusGet,
+  useDashboardStateControl,
 } from "@uninus/web/services";
 import { useBiodataUpdate } from "../../hooks";
 import { studentGuardianData, studentParentData } from "../../store";
@@ -17,6 +18,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { TVSDataOrtu, VSDataOrtu } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+type TPositionState = {
+  father?: boolean;
+  mother?: boolean;
+  guardian?: boolean;
+};
 
 export const DataOrtuSection: FC = (): ReactElement => {
   const [parentStatus] = useState({
@@ -46,6 +53,12 @@ export const DataOrtuSection: FC = (): ReactElement => {
   const [isUnemployedMother, setIsUnemployedMother] = useState<boolean | undefined>(undefined);
   const [isUnemployedGuardian, setIsUnemployedGuardian] = useState<boolean | undefined>(undefined);
 
+  const [positionState, setPositionState] = useState<TPositionState>({
+    father: false,
+    mother: false,
+    guardian: false,
+  });
+
   const {
     control,
     handleSubmit,
@@ -58,7 +71,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
     mode: "all",
     defaultValues: {},
   });
-
+  const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
   const { getStudent } = useStudentData();
 
   const { data: getParentStatus } = useParentStatusGet(parentStatus);
@@ -273,6 +286,73 @@ export const DataOrtuSection: FC = (): ReactElement => {
     }
   }, [isUnemployedFather, isUnemployedMother, isUnemployedGuardian, setValue]);
 
+  useEffect(() => {
+    if (
+      watch("father_occupation_id") === "4" ||
+      watch("father_occupation_id") === "6" ||
+      watch("father_occupation_id") === "7" ||
+      watch("father_occupation_id") === "8" ||
+      watch("father_occupation_id") === "12" ||
+      watch("father_occupation_id") === "13" ||
+      watch("father_occupation_id") === "14" ||
+      watch("father_occupation_id") === "15"
+    ) {
+      setPositionState({
+        father: true,
+      });
+    } else {
+      setPositionState({
+        father: false,
+      });
+    }
+
+    console.log(positionState.father);
+  }, [watch("father_occupation_id")]);
+
+  useEffect(() => {
+    if (
+      watch("mother_occupation_id") === "4" ||
+      watch("mother_occupation_id") === "6" ||
+      watch("mother_occupation_id") === "7" ||
+      watch("mother_occupation_id") === "8" ||
+      watch("mother_occupation_id") === "12" ||
+      watch("mother_occupation_id") === "13" ||
+      watch("mother_occupation_id") === "14" ||
+      watch("mother_occupation_id") === "15"
+    ) {
+      setPositionState({
+        mother: true,
+      });
+    } else {
+      setPositionState({
+        mother: false,
+      });
+    }
+    console.log(positionState.mother);
+  }, [watch("mother_occupation_id")]);
+
+  useEffect(() => {
+    if (
+      watch("guardian_occupation_id") === "4" ||
+      watch("guardian_occupation_id") === "6" ||
+      watch("guardian_occupation_id") === "7" ||
+      watch("guardian_occupation_id") === "8" ||
+      watch("guardian_occupation_id") === "12" ||
+      watch("guardian_occupation_id") === "13" ||
+      watch("guardian_occupation_id") === "14" ||
+      watch("guardian_occupation_id") === "15"
+    ) {
+      setPositionState({
+        guardian: true,
+      });
+    } else {
+      setPositionState({
+        guardian: false,
+      });
+    }
+    console.log(positionState.guardian);
+  }, [watch("guardian_occupation_id")]);
+
   const { mutate } = useBiodataUpdate();
 
   const onSubmit = handleSubmit((data) => {
@@ -334,6 +414,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
         {
           onSuccess: () => {
             setIsSubmitted(true);
+            setDashboardControlState(!getDashboardControlState);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
                 position: "top-center",
@@ -505,7 +586,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                   ? true
                   : false || student?.occupation_position
                   ? true
-                  : false
+                  : false || positionState?.father
               }
               status={errors?.father_position?.message ? "error" : "none"}
               message={errors?.father_position?.message as string}
@@ -651,7 +732,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                   ? true
                   : false || student?.occupation_position
                   ? true
-                  : false
+                  : false || positionState?.mother
               }
               status={errors?.mother_position ? "error" : "none"}
               message={errors?.mother_position?.message as string}
@@ -901,7 +982,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
                         ? true
                         : false || student?.occupation_position
                         ? true
-                        : false || !!student?.guardian_name
+                        : false || !!student?.guardian_name || positionState?.guardian
                     }
                   />
 

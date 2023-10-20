@@ -13,7 +13,11 @@ import { useStudentGet } from "./hooks";
 import { useUpdateAvatar, useUserData } from "@uninus/web/services";
 import { Loading } from "./loading";
 
-export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement => {
+export const SideBar: FC<TSideBarProps> = ({
+  onLogout,
+  sideList,
+  moduleName = "PMB ADMIN",
+}): ReactElement => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [avatar, setAvatar] = useState<string | null | undefined>(null);
   const [onToogle, setOnToogle] = useState<boolean>(false);
@@ -98,11 +102,11 @@ export const SideBar: FC<TSideBarProps> = ({ onLogout, sideList }): ReactElement
       {/* Desktop */}
       <aside
         data-testid="sidebar"
-        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[25vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform 2xl:w-80 overflow-y-auto lg:overflow-hidden  -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
+        className={`sm:hidden lg:h-screen lg:relative fixed lg:w-[30vw] xl:w-[25vw] bg-sky-3 h-auto left-0 flex z-40 shadow-lg transition-transform  overflow-y-auto lg:overflow-hidden -translate-x-full lg:sm:translate-x-0 w-[240px] md:flex bg-grayscale-1 py-6`}
       >
         <section className={` w-full flex flex-col items-center gap-y-1`}>
           <h1 className="text-secondary-green-4 text-lg font-bold 2xl:text-xl">
-            {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
+            {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? moduleName : "PMB UNINUS"}
           </h1>
           <figure className="flex flex-col items-center">
             <Image

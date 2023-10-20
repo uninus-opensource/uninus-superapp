@@ -14,6 +14,7 @@ import {
   useProvinceGet,
   useCityGet,
   useSubdistrictGet,
+  useDashboardStateControl,
 } from "@uninus/web/services";
 
 export const DataPendidikanSection: FC = (): ReactElement => {
@@ -26,6 +27,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
     city_id: "",
   });
 
+  const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
   const { getStudent } = useStudentData();
   const student = useMemo(() => {
     return getStudent;
@@ -198,6 +200,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
         {
           onSuccess: () => {
             setIsdisabled(true);
+            setDashboardControlState(!getDashboardControlState);
             setTimeout(() => {
               toast.success("Berhasil mengisi formulir", {
                 position: "top-center",

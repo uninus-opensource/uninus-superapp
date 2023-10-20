@@ -1,14 +1,12 @@
-import { Metadata, NextPage } from "next";
+import { ModuleHomepage } from "@uninus/web/modules";
+import { NextPage } from "next";
 import { ReactElement } from "react";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
+  title: "Dashboard Evaluasi Dosen | Beranda",
+  description: "Beranda Edom",
 };
-const DashboardAdminEvaluasi: NextPage = (): ReactElement => {
-  return (
-    <section>
-      <h1>Ini dashboard Evaluasi</h1>
-    </section>
-  );
-};
-export default DashboardAdminEvaluasi;
+
+const DashboardHome: NextPage = (): ReactElement => <ModuleHomepage />;
+export default DashboardHome;

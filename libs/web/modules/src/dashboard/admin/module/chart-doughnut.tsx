@@ -1,34 +1,54 @@
 "use client";
-import { ReactElement, FC, useMemo, useState } from "react";
+import { ReactElement, FC, useMemo, useState, useEffect } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { usePopularPrograms } from "@uninus/web/services";
+import { useGetPopularProgram } from "../hook";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const RekapProgram: FC = (): ReactElement => {
   const [chartType, setChartType] = useState("bulanan");
-  const { getPopularData } = usePopularPrograms();
+
+  const [registrationFilter, setRegistrationFilter] = useState({
+    filter_type: "monthly",
+  });
+
+  const { data: getPopularData } = useGetPopularProgram(registrationFilter);
 
   const popularData = useMemo(() => {
-    return getPopularData;
-  }, [getPopularData]);
+    return getPopularData?.data;
+  }, [getPopularData?.data]);
 
-  // const values = popularData?.data.map((items) => items.total);
-  const labels = popularData?.data.map((items) => items.name);
+  const label = popularData?.map((item) => item.name);
 
   let dataset: number[] = [];
 
   if (chartType === "mingguan") {
-    dataset = [10, 10, 3];
+    dataset = popularData?.map((item) => item.total) ?? [];
   } else if (chartType === "tahunan") {
-    dataset = [7, 7, 9];
+    dataset = popularData?.map((item) => item.total) ?? [];
   } else {
-    dataset = [17, 3, 3];
+    dataset = popularData?.map((item) => item.total) ?? [];
   }
 
+  useEffect(() => {
+    let convertFilterChart;
+
+    if (chartType === "mingguan") {
+      convertFilterChart = "weekly";
+    } else if (chartType === "tahunan") {
+      convertFilterChart = "yearly";
+    } else {
+      convertFilterChart = "monthly";
+    }
+
+    setRegistrationFilter({
+      filter_type: convertFilterChart,
+    });
+  }, [chartType]);
+
   const dataDoughnut = {
-    labels: labels,
+    labels: label,
     datasets: [
       {
         label: "",
@@ -53,7 +73,9 @@ export const RekapProgram: FC = (): ReactElement => {
               className={`p-1 hover:shadow-md hover:rounded-md hover:text-primary-green ${
                 chartType === "mingguan" ? "font-bold text-primary-green shadow-md rounded-md" : ""
               }`}
-              onClick={() => setChartType("mingguan")}
+              onClick={() => {
+                setChartType("mingguan");
+              }}
             >
               Mingguan
             </button>

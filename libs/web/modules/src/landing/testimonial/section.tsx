@@ -64,7 +64,7 @@ export const TestimonialSection: FC = (): ReactElement => {
               <p className="font-medium">{x.faculty}</p>
             </figcaption>
           </div>
-          <div className="testimonial p-4 text-center mt-3 text-secondary-green-4 font-medium h-[13rem]">
+          <div className="testimonial p-4 text-center mt-3 text-secondary-green-4 font-medium h-[14rem]">
             <p className="text-4xl  text-primary-green font-bold">”</p>
             <p>{x.testimonial}</p>
           </div>

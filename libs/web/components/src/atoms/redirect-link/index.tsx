@@ -10,7 +10,7 @@ export const RedirectLink: FC<PropsWithChildren<{ link: string }>> = ({
     <section data-testid="redirect-link" className="w-full flex justify-end pr-[3rem]">
       <Link
         href={link}
-        className="bg-primary-green text-primary-white rounded-[5px] px-4 flex justify-center items-center gap-2"
+        className="bg-primary-green text-primary-white rounded-[5px] px-4 py-2 flex justify-center items-center gap-2"
       >
         {children}
         <CaretRightFilled />

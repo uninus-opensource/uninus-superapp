@@ -9,8 +9,11 @@ import {
   IUpdateStudentRequest,
   TGraduationStatusRequest,
   TGraduationStatusReponse,
+  TPaymentObligationsResponse,
+  IGetPaymentObligationsRequest,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
+import { convertNumberToWords } from "@uninus/api/utilities";
 
 @Injectable()
 export class AppService {
@@ -27,6 +30,11 @@ export class AppService {
         fullname: true,
         students: {
           include: {
+            payment_history: {
+              include: {
+                payment_obligation: true,
+              },
+            },
             pmb: {
               include: {
                 student_grade: true,
@@ -45,7 +53,7 @@ export class AppService {
       avatar,
       email,
       fullname,
-      students: { pmb, test_score, ...studentData },
+      students: { pmb, test_score, payment_history, ...studentData },
     } = student;
 
     return JSON.parse(
@@ -59,6 +67,7 @@ export class AppService {
           second_department_id: pmb.second_department_id,
           selection_path_id: pmb.selection_path_id,
           registration_path_id: pmb.registration_path_id,
+          registration_number: pmb.registration_number,
           degree_program_id: pmb.degree_program_id,
           student_grade: pmb.student_grade,
           average_grade: pmb.average_grade,
@@ -68,6 +77,12 @@ export class AppService {
           utbk_ppu: pmb.utbk_ppu,
           utbk_kmbm: pmb.utbk_kmbm,
           documents: pmb.documents,
+          payment: payment_history?.map((el) => ({
+            name: el.payment_obligation.name,
+            amount: el.payment_obligation.amount,
+            payment_method: el.payment_method,
+            payment_code: el.payment_code,
+          })),
           ...studentData,
         },
         (key, value) => {
@@ -86,6 +101,7 @@ export class AppService {
       second_department_id,
       selection_path_id,
       degree_program_id,
+      registration_status_id,
       average_utbk,
       utbk_pu,
       utbk_kk,
@@ -97,6 +113,13 @@ export class AppService {
       documents,
       registration_path_id,
       test_score,
+      education_npsn,
+      education_name,
+      education_province,
+      education_district_city,
+      education_sub_district,
+      education_street_address,
+      education_type_id,
       ...updateStudentPayload
     } = payload;
     if (documents && typeof documents[0]?.isVerified != "undefined") {
@@ -167,6 +190,41 @@ export class AppService {
       }
     }
 
+    if (
+      education_npsn &&
+      education_name &&
+      education_province &&
+      education_district_city &&
+      education_sub_district &&
+      education_street_address &&
+      education_type_id
+    ) {
+      const findEducation = await this.prisma.education.findUnique({
+        where: {
+          npsn: education_npsn,
+        },
+      });
+      if (findEducation) {
+        throw new RpcException(new BadRequestException("Data sekolah sudah ada"));
+      }
+
+      const createEducation = await this.prisma.education.create({
+        data: {
+          npsn: education_npsn,
+          name: education_name,
+          province: education_province,
+          district_city: education_district_city,
+          sub_district: education_sub_district,
+          street_address: education_street_address,
+          education_type_id: education_type_id,
+        },
+      });
+
+      if (!createEducation) {
+        throw new RpcException(new BadRequestException("Gagal menambahkan data sekolah"));
+      }
+    }
+
     const student = await this.prisma.users.update({
       where: {
         id,
@@ -177,6 +235,8 @@ export class AppService {
         students: {
           update: {
             test_score,
+            education_npsn,
+            education_type_id,
             ...updateStudentPayload,
             pmb: {
               update: {
@@ -190,7 +250,7 @@ export class AppService {
                 utbk_ppu,
                 utbk_kmbm,
                 average_utbk,
-                registration_status_id: 2,
+                registration_status_id: registration_status_id ? registration_status_id : 2,
                 ...(documents &&
                   typeof documents[0]?.name != "undefined" && {
                     documents: {
@@ -219,6 +279,11 @@ export class AppService {
           include: {
             pmb: {
               include: {
+                registration_status: {
+                  select: {
+                    name: true,
+                  },
+                },
                 student_grade: true,
                 documents: true,
               },
@@ -249,6 +314,7 @@ export class AppService {
           average_grade: average_grade,
           documents: pmb?.documents,
           average_utbk: pmb?.average_utbk,
+          registration_status: pmb?.registration_status.name,
           utbk_pu: pmb?.utbk_pu,
           utbk_kk: pmb?.utbk_kk,
           utbk_ppu: pmb?.utbk_ppu,
@@ -321,5 +387,66 @@ export class AppService {
       selection_path: graduationStatus.selection_path?.name,
       registration_status: graduationStatus.registration_status.name,
     };
+  }
+  async getPaymentObligations(
+    payload: IGetPaymentObligationsRequest,
+  ): Promise<TPaymentObligationsResponse> {
+    const [paymentObligations, user] = await Promise.all([
+      this.prisma.paymentObligations.findMany({
+        where: {
+          ...(payload?.search && {
+            name: {
+              contains: payload?.search || "",
+              mode: "insensitive",
+            },
+          }),
+          ...(payload?.id && {
+            id: Number(payload?.id),
+          }),
+        },
+        select: {
+          name: true,
+          amount: true,
+        },
+      }),
+      this.prisma.users.findUnique({
+        where: {
+          id: payload?.userId,
+        },
+        select: {
+          students: {
+            select: {
+              scholarship: {
+                select: {
+                  name: true,
+                  discount: true,
+                },
+              },
+            },
+          },
+        },
+      }),
+    ]);
+
+    if (!paymentObligations || !user) {
+      throw new RpcException(new NotFoundException("Gagal dalam mengambil data"));
+    }
+
+    return user?.students?.scholarship?.discount
+      ? paymentObligations.map((el) =>
+          el?.name?.includes("UKT")
+            ? {
+                name: el?.name,
+                amount: el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100,
+                spelled_out: convertNumberToWords(
+                  String(el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100),
+                ),
+              }
+            : { ...el, spelled_out: convertNumberToWords(String(el?.amount)) },
+        )
+      : paymentObligations.map((el) => ({
+          ...el,
+          spelled_out: convertNumberToWords(String(el?.amount)),
+        }));
   }
 }
