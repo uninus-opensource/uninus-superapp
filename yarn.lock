@@ -5343,10 +5343,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/buffer-to-stream@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/buffer-to-stream/-/buffer-to-stream-1.0.1.tgz#3f1036648f8c02c6ad8f8c6bbe12342336ca9a4a"
-  integrity sha512-k0xhus85n561x6vNAwmLp9Vqz+2SwtrR2asXH0vsAW8qAyg8aJvyDkO33kxERvGHqXIHHAIJ0EokbOZVpcBD2w==
+"@types/buffer-to-stream@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/buffer-to-stream/-/buffer-to-stream-1.0.2.tgz#2a572b74cf1966cebd4af0f9385fbbec305f0ccb"
+  integrity sha512-QtE+n9ZV4XE6AlUKmWIT4YbiyQg+N2zCTrZiZff8C9HRU4wKe/kDN1AoXxu9PncHqcRjx7TJ9qfRVfKP0FUyRw==
   dependencies:
     "@types/node" "*"
 
