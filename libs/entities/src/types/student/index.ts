@@ -20,6 +20,17 @@ export interface IGetStudentRequest {
   id?: string;
 }
 
+export interface IGetPaymentObligationsRequest {
+  userId?: string;
+  id?: number;
+  search?: string;
+}
+
+export type TPaymentObligationsResponse = Array<{
+  name?: string;
+  amount?: number;
+  spelled_out?: string;
+}>;
 export interface IStudentData {
   email?: string | null;
   fullname?: string | null;

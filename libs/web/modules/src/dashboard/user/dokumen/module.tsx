@@ -688,7 +688,9 @@ export const ModuleDokumen: FC = (): ReactElement => {
         {}
         {(selectionType === 1 || selectionType === 2) &&
           (isDisabled || documents?.find((doc) => doc.name === "KTP")) && (
-            <RedirectLink link="/dashboard/registrasi/beasiswa">Beasiswa</RedirectLink>
+            <RedirectLink link="/dashboard/registrasi/pembayaran/detail">
+              Lakukan Pembayaran
+            </RedirectLink>
           )}
 
         {selectionType === 3 && (isDisabled || documents?.find((doc) => doc.name === "KTP")) && (

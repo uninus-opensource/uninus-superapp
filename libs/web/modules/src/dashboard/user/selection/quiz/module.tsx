@@ -15,7 +15,9 @@ export const QuizModule: FC = (): ReactElement => {
   const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
 
   useEffect(() => {
-    if (getStudent?.test_score) {
+    if (getStudent?.selection_path_id !== 3) {
+      redirect("/dashboard", RedirectType.replace);
+    } else if (getStudent?.test_score) {
       redirect("/dashboard/selection/endtest", RedirectType.replace);
     } else if (
       !localStorage.getItem("selectedAnswer") &&

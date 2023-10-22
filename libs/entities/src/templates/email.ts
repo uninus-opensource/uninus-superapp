@@ -78,7 +78,7 @@ export function emailTemplate(name: string, otp: string, msg: string): string {
                 <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#ffffff" style="max-width: 650px; margin: auto;">
                   <tr>
                     <td colspan="2" align="center" class="logo">
-                      <a href="https://uninus.ac.id" target="_blank"><img src="https://uninus.ac.id/wp-content/uploads/2020/02/Logo-Uninus-Universitas-IslamNusantara-300x300.png" border="0" style="width: 100px;" /></a>
+                      <a href="https://uninus.ac.id" target="_blank"><img src="https://i0.wp.com/uninus.ac.id/wp-content/uploads/2023/09/Neo-Uninus.png?resize=300" border="0" style="width: 180px;" /></a>
                     </td>
                   </tr>
                   <tr>

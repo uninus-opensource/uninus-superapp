@@ -9,8 +9,11 @@ import {
   IUpdateStudentRequest,
   TGraduationStatusRequest,
   TGraduationStatusReponse,
+  TPaymentObligationsResponse,
+  IGetPaymentObligationsRequest,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
+import { convertNumberToWords } from "@uninus/api/utilities";
 
 @Injectable()
 export class AppService {
@@ -247,7 +250,11 @@ export class AppService {
                 utbk_ppu,
                 utbk_kmbm,
                 average_utbk,
-                registration_status_id: registration_status_id ? registration_status_id : 2,
+                registration_status_id: registration_status_id
+                  ? registration_status_id
+                  : ((documents && typeof documents[0]?.isVerified == "undefined") ||
+                      (document && typeof document?.name != "undefined")) &&
+                    2,
                 ...(documents &&
                   typeof documents[0]?.name != "undefined" && {
                     documents: {
@@ -276,6 +283,11 @@ export class AppService {
           include: {
             pmb: {
               include: {
+                registration_status: {
+                  select: {
+                    name: true,
+                  },
+                },
                 student_grade: true,
                 documents: true,
               },
@@ -306,6 +318,7 @@ export class AppService {
           average_grade: average_grade,
           documents: pmb?.documents,
           average_utbk: pmb?.average_utbk,
+          registration_status: pmb?.registration_status.name,
           utbk_pu: pmb?.utbk_pu,
           utbk_kk: pmb?.utbk_kk,
           utbk_ppu: pmb?.utbk_ppu,
@@ -378,5 +391,66 @@ export class AppService {
       selection_path: graduationStatus.selection_path?.name,
       registration_status: graduationStatus.registration_status.name,
     };
+  }
+  async getPaymentObligations(
+    payload: IGetPaymentObligationsRequest,
+  ): Promise<TPaymentObligationsResponse> {
+    const [paymentObligations, user] = await Promise.all([
+      this.prisma.paymentObligations.findMany({
+        where: {
+          ...(payload?.search && {
+            name: {
+              contains: payload?.search || "",
+              mode: "insensitive",
+            },
+          }),
+          ...(payload?.id && {
+            id: Number(payload?.id),
+          }),
+        },
+        select: {
+          name: true,
+          amount: true,
+        },
+      }),
+      this.prisma.users.findUnique({
+        where: {
+          id: payload?.userId,
+        },
+        select: {
+          students: {
+            select: {
+              scholarship: {
+                select: {
+                  name: true,
+                  discount: true,
+                },
+              },
+            },
+          },
+        },
+      }),
+    ]);
+
+    if (!paymentObligations || !user) {
+      throw new RpcException(new NotFoundException("Gagal dalam mengambil data"));
+    }
+
+    return user?.students?.scholarship?.discount
+      ? paymentObligations.map((el) =>
+          el?.name?.includes("UKT")
+            ? {
+                name: el?.name,
+                amount: el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100,
+                spelled_out: convertNumberToWords(
+                  String(el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100),
+                ),
+              }
+            : { ...el, spelled_out: convertNumberToWords(String(el?.amount)) },
+        )
+      : paymentObligations.map((el) => ({
+          ...el,
+          spelled_out: convertNumberToWords(String(el?.amount)),
+        }));
   }
 }
