@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { KartuPembayaran } from "../pdf";
 import { StatusAlert } from "./alertStatus";
 import { useUserData } from "@uninus/web/services";
+import { SessionProvider } from "next-auth/react";
 const PDFDownloadLink = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
   {
@@ -96,25 +97,27 @@ export const Pembayaran: FC = (): ReactElement => {
         />
         <div className="flex justify-between items-center w-full px-3 md:px-5">
           <h1 className="font-bold text-[1.2rem] mt-3">Pembayaran</h1>
-          {status === "success" && (
+          {status === "unpaid" && (
             <div className="h-auto">
-              <PDFDownloadLink
-                document={<KartuPembayaran />}
-                fileName="4103700434832748_Kartu Pembayaran.pdf"
-              >
-                {({ loading }) =>
-                  loading ? (
-                    <p className="text-primary-green">hampir selesai...</p>
-                  ) : (
-                    <Button variant="green-outline" size="sm">
-                      <div className="flex justify-center items-center gap-2">
-                        <DownloadOutlined />
-                        Download Bukti
-                      </div>
-                    </Button>
-                  )
-                }
-              </PDFDownloadLink>
+              <SessionProvider>
+                <PDFDownloadLink
+                  document={<KartuPembayaran />}
+                  fileName="4103700434832748_Kartu Pembayaran.pdf"
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      <p className="text-primary-green">hampir selesai...</p>
+                    ) : (
+                      <Button variant="green-outline" size="sm">
+                        <div className="flex justify-center items-center gap-2">
+                          <DownloadOutlined />
+                          Download Bukti
+                        </div>
+                      </Button>
+                    )
+                  }
+                </PDFDownloadLink>
+              </SessionProvider>
             </div>
           )}
         </div>

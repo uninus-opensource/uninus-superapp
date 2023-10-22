@@ -1,6 +1,8 @@
 "use client";
 import { Page, Text, View, Document, Image, Font } from "@react-pdf/renderer";
 import { createTw } from "react-pdf-tailwind";
+import { BiodatatGet } from "../../biodata";
+import { IGetStudentResponse } from "@uninus/entities";
 
 const tw = createTw({
   theme: {
@@ -25,25 +27,33 @@ Font.register({
   ],
 });
 
-const detailPembayaran = {
-  nomor_regis: "37592731238697",
-  nama_lengkap: "Thomas shelby",
-  tanggal_daftar: "27 Juli 2023",
-  jalur_pendaftaran: "Seleksi Prestasi Non Akademik",
-  tanggal_lahir: "30 Februari 2003",
-  periode: "2023/2024",
-  jenis_kelamin: "Laki-laki",
-  jurusan_1: "Teknik Informatika",
-  jurusan_2: "Teknik Elektro",
-  program_pendidikan: "Teknik Elektro",
-  nilai_tagihan: "Rp 250.000,-",
-  no_pembayaran: "4444081904377804",
-  biaya_admin: "Rp 2500,-",
-  total_pembayaran: "Rp 252.500,-",
-  batas_pembayaran: "20 Agustus 2023 23:23:23",
-};
+let students: IGetStudentResponse;
+
+async function getDetailPayment() {
+  students = await BiodatatGet();
+}
+
+getDetailPayment();
 
 export const KartuPembayaran = () => {
+  const detailPembayaran = {
+    nomor_regis: "37592731238697",
+    nama_lengkap: students?.fullname,
+    tanggal_daftar: "27 Juli 2023",
+    jalur_pendaftaran: "Seleksi Prestasi Non Akademik",
+    tanggal_lahir: "30 Februari 2003",
+    periode: "2023/2024",
+    jenis_kelamin: "Laki-laki",
+    jurusan_1: "Teknik Informatika",
+    jurusan_2: "Teknik Elektro",
+    program_pendidikan: "Teknik Elektro",
+    nilai_tagihan: "Rp 250.000,-",
+    no_pembayaran: "4444081904377804",
+    biaya_admin: "Rp 2500,-",
+    total_pembayaran: "Rp 252.500,-",
+    batas_pembayaran: "20 Agustus 2023 23:23:23",
+  };
+
   return (
     <Document
       title={`${detailPembayaran.nomor_regis}_${detailPembayaran.nama_lengkap}`}
