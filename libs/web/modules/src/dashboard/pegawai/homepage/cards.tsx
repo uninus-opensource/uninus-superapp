@@ -62,43 +62,43 @@ export const CardSection: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      <section className="relative flex flex-wrap gap-y-12 gap-x-8">
+      <section className="relative grid grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 px-5 lg:px-0">
         {sectionOne.map((x, i) => (
           <div
-            className="relative flex flex-col justify-center bg-primary-white xl:w-[16em] xl:h-[7em] p-4 shadow-md rounded-lg text-lg"
+            className="relative flex flex-col justify-center bg-primary-white xl:w-[16em] max-w-[16em] lg:h-[7em] max-h-[8em] p-4 shadow-md rounded-lg text-lg"
             key={i}
           >
-            <div className="absolute bg-primary-green w-2 h-[7em] -left-1 rounded-tl-lg rounded-bl-lg" />
-            <div className="absolute bg-primary-white w-2 h-[7em] left-0.5 rounded-tl-sm rounded-bl-sm" />
+            <div className="absolute bg-primary-green w-2 h-full max-h-[8em] -left-1 rounded-tl-lg rounded-bl-lg" />
+            <div className="absolute bg-primary-white w-2 h-full max-h-[8em] left-0.5 rounded-tl-sm rounded-bl-sm" />
 
             <figure
               className={`flex justify-center items-center text-xl w-[2em] h-auto p-2 rounded-md text-primary-green bg-secondary-green-8`}
             >
               {x.icon}
             </figure>
-            <div className="flex flex-col mt-3">
-              <h1 className="text-sm">{x.desc}</h1>
+            <div className="flex flex-col mt-3 text-left">
+              <h1 className="text-xs md:text-sm">{x.desc}</h1>
               <p className="text-2xl font-bold">{x.jumlah}</p>
             </div>
           </div>
         ))}
       </section>
-      <section className="relative flex flex-wrap gap-y-12 gap-x-8 mt-6">
+      <section className="relative grid grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 px-5 lg:px-0 mt-6">
         {sectionTwo.map((x, i) => (
           <div
-            className="relative flex flex-col justify-center bg-primary-white xl:w-[16em] xl:h-[7em] p-4 shadow-md rounded-lg text-lg"
+            className="relative flex flex-col justify-center bg-primary-white xl:w-[14em] max-w-[16em] lg:h-[7em] max-h-[8em] p-4 shadow-md rounded-lg text-lg"
             key={i}
           >
-            <div className="absolute bg-primary-green w-2 h-[7em] -left-1 rounded-tl-lg rounded-bl-lg" />
-            <div className="absolute bg-primary-white w-2 h-[7em] left-0.5 rounded-tl-sm rounded-bl-sm" />
+            <div className="absolute bg-primary-green w-2 h-full max-h-[8em] -left-1 rounded-tl-lg rounded-bl-lg" />
+            <div className="absolute bg-primary-white w-2 h-full max-h-[8em] left-0.5 rounded-tl-sm rounded-bl-sm" />
 
             <figure
               className={`flex justify-center items-center w-[2em] h-auto p-2 rounded-md text-primary-green bg-secondary-green-8`}
             >
               {x.icon}
             </figure>
-            <div className="flex flex-col mt-3">
-              <h1 className="text-sm">{x.desc}</h1>
+            <div className="flex flex-col mt-3 text-left">
+              <h1 className="text-xs md:text-sm">{x.desc}</h1>
               <p className="text-2xl font-bold">{x.jumlah}</p>
             </div>
           </div>
