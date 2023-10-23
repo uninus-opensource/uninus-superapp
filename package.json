@@ -164,7 +164,7 @@
     "@nx/nest": "17.0.0",
     "@nx/next": "16.10.0",
     "@nx/node": "16.10.0",
-    "@nx/react": "16.10.0",
+    "@nx/react": "17.0.1",
     "@nx/react-native": "^16.10.0",
     "@nx/webpack": "16.10.0",
     "@nx/workspace": "17.0.0",
