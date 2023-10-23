@@ -155,7 +155,7 @@
     "@babel/preset-react": "^7.14.5",
     "@nestjs/schematics": "^10.0.2",
     "@nestjs/testing": "^10.2.7",
-    "@nx/cypress": "16.10.0",
+    "@nx/cypress": "17.0.1",
     "@nx/detox": "16.10.0",
     "@nx/eslint-plugin": "16.10.0",
     "@nx/jest": "16.10.0",
