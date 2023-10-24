@@ -1,0 +1,176 @@
+{
+  "openapi":"3.0.2",
+  "info": {
+    "title":"Finance API RESTful API",
+    "version":"1.0",
+    "description": "Open API for Finance App",
+    "contact": {
+      "name": "Yusron Fauzan Nasrullah",
+      "email": "Yusronsronz7@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url":"http://localhost/api",
+      "description": "Uninus Digitalitation API Server"
+    }
+  ],
+  "paths": {
+    "/employee": {
+      "get": {
+        "summary": "Get All Employee With Paginated Data ",
+        "description": "Will Return Data Employee Depend On Query Param Type",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "nullable": true
+            }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "filter_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          },
+          {
+            "name": "app-origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Data All Employee Depend On Query Param",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "fullname": {
+                        "type": "string"
+                      },
+                      "nip": {
+                        "type": "string"
+                      },
+                      "nidn": {
+                        "type": "string"
+                      },
+                      "faculty": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "department": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "employee_category": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "employee_education": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "employee_workunit": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "category_id": {
+                            "type": "number"
+                          },
+                          "category": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples":{
+                  
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

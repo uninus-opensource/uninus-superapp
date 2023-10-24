@@ -1,6 +1,7 @@
 export type TFinanceSummaryRequest = {
   filter?: string;
-  range?: string;
+  start_date?: string;
+  end_date?: string;
 };
 
 export type TFinanceSummaryResponse = {

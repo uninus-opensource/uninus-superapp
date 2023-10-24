@@ -13,11 +13,16 @@ export class FinanceController {
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Data Finance Summary" })
   @ApiQuery({ name: "filter", required: false })
-  @ApiQuery({ name: "range", required: false })
-  async financeSummary(@Query("filter") filter: string, @Query("range") range: string) {
+  @ApiQuery({ name: "start_date", required: false })
+  @ApiQuery({ name: "end_date", required: false })
+  async financeSummary(
+    @Query("filter") filter: string,
+    @Query("start_date") start_date: string,
+    @Query("end_date") end_date: string,
+  ) {
     const response = await firstValueFrom(
       this.client
-        .send("get_finance_summary", { filter, range })
+        .send("get_data_finance_summary", { filter, start_date, end_date })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

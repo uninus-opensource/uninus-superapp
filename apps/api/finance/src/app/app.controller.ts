@@ -8,8 +8,8 @@ import { TFinanceSummaryRequest } from "@uninus/entities";
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @MessagePattern("get_finance_summary")
-  getFinanceSummary(payload: TFinanceSummaryRequest) {
-    return this.appService.getFinanceSummary(payload);
+  @MessagePattern("get_data_finance_summary")
+  async getFinanceSummary(payload: TFinanceSummaryRequest) {
+    return await this.appService.getFinanceSummary(payload);
   }
 }
