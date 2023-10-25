@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       boxShadow: {
         inset: "0px 2px 6px 0px rgba(0, 0, 0, 0.25) inset",
+        card: "0px 4px 6px -1px #e2e8f0",
       },
       fontWeight: {
         extramedium: "550",
@@ -26,7 +27,10 @@ module.exports = {
       },
       primary: {
         green: "#009647",
-        yellow: "#F8BF02",
+        yellow: {
+          300: "#FAD455",
+          500: "#F8BF02",
+        },
         white: "#FFFFFF",
         black: "#000000",
       },
@@ -72,6 +76,9 @@ module.exports = {
         3: "#ff5252",
         4: "#ff0000",
         5: "#a70000",
+      },
+      error: {
+        600: "#D34B21",
       },
     },
   },

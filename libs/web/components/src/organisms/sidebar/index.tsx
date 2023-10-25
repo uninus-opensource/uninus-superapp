@@ -316,7 +316,7 @@ export const SideBar: FC<TSideBarProps> = ({
           >
             <section className={` w-full flex flex-col items-center gap-y-6`}>
               <h1 className="text-secondary-green-4 text-lg font-bold">
-                {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
+                {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? moduleName : "PMB UNINUS"}
               </h1>
               <div className="flex flex-row  items-center gap-x-6">
                 <figure className="flex flex-col items-center">
