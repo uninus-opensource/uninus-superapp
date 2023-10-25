@@ -3113,6 +3113,13 @@
   dependencies:
     "@nx/react" "16.10.0"
 
+"@nrwl/react@17.0.1":
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/react/-/react-17.0.1.tgz#09fbd391715f622f6c8aba7a7ab13f2a87c80f80"
+  integrity sha512-YZHSQvFqgv4/ohIOeQJlRbKAhBWd1YZd3hoKJ/wE7L+UnhCACe+OKCM1X7QZiVeB2aCmbf5DSP78ic++q8Uc/g==
+  dependencies:
+    "@nx/react" "17.0.1"
+
 "@nrwl/tao@16.10.0":
   version "16.10.0"
   resolved "https://registry.yarnpkg.com/@nrwl/tao/-/tao-16.10.0.tgz#94642a0380709b8e387e1e33705a5a9624933375"
@@ -3143,6 +3150,13 @@
   integrity sha512-BRQGOHiuEptVhjmXnlqM47epUL00RoUMjhcsfMNjyZ7WpdY0JjwJaNx4afylt3h28mSXVi4t008oE5FEC+YfYw==
   dependencies:
     "@nx/web" "16.10.0"
+
+"@nrwl/web@17.0.1":
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/@nrwl/web/-/web-17.0.1.tgz#076cc19167c1e105f1f9e9beaae1c8fb602984fe"
+  integrity sha512-jA4msywPngESAOaZ3LgIx1FcYNdwX3ogm3v6937N9CnMRYJ9UDwT/hL/I2VD4Luy/hXa4BxlIHAgegi/sHrwDQ==
+  dependencies:
+    "@nx/web" "17.0.1"
 
 "@nrwl/webpack@16.10.0":
   version "16.10.0"
@@ -3710,6 +3724,23 @@
     minimatch "3.0.5"
     tslib "^2.3.0"
 
+"@nx/react@17.0.1":
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/@nx/react/-/react-17.0.1.tgz#6be8b4acfb581eabba922b8a6f85dd84f163d512"
+  integrity sha512-XN/ME2o5XsVsqBHmnmmPHhaOQfQz+mdh2oyQpwyfuX6XoIFefpRFXg4UrvY4CyQOTcRFfl7yJO8ptyY0mrMUBA==
+  dependencies:
+    "@nrwl/react" "17.0.1"
+    "@nx/devkit" "17.0.1"
+    "@nx/eslint" "17.0.1"
+    "@nx/js" "17.0.1"
+    "@nx/web" "17.0.1"
+    "@phenomnomnominal/tsquery" "~5.0.1"
+    "@svgr/webpack" "^8.0.1"
+    chalk "^4.1.0"
+    file-loader "^6.2.0"
+    minimatch "3.0.5"
+    tslib "^2.3.0"
+
 "@nx/web@16.10.0":
   version "16.10.0"
   resolved "https://registry.yarnpkg.com/@nx/web/-/web-16.10.0.tgz#b242a6403df8e54bdd22f6c19adff497bee2a726"
@@ -3718,6 +3749,19 @@
     "@nrwl/web" "16.10.0"
     "@nx/devkit" "16.10.0"
     "@nx/js" "16.10.0"
+    chalk "^4.1.0"
+    detect-port "^1.5.1"
+    http-server "^14.1.0"
+    tslib "^2.3.0"
+
+"@nx/web@17.0.1":
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/@nx/web/-/web-17.0.1.tgz#b9b16aab794a7e77bbd714e59441a3bd6c5a643f"
+  integrity sha512-YdUIR5W3tdoic37/f7eZMbTPuq6CawGGdy+NG6Nz7KczbY1fqXbm+0mXT6rp31ODeIdF7Rc26ipCmzK8d2b2Wg==
+  dependencies:
+    "@nrwl/web" "17.0.1"
+    "@nx/devkit" "17.0.1"
+    "@nx/js" "17.0.1"
     chalk "^4.1.0"
     detect-port "^1.5.1"
     http-server "^14.1.0"
