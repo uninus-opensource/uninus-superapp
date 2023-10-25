@@ -39,6 +39,7 @@ export const dataPegawai: TDataPegawai[] = [
     sertifikat_profesi: "https://google.com",
     status: "Aktif",
     tindakan: "",
+    sertifikat_pensiun: "https://google.com",
   },
 
   {
@@ -73,6 +74,7 @@ export const dataPegawai: TDataPegawai[] = [
     sertifikat_profesi: "https://google.com",
     status: "Cuti",
     tindakan: "",
+    sertifikat_pensiun: "https://google.com",
   },
 
   {
@@ -107,6 +109,7 @@ export const dataPegawai: TDataPegawai[] = [
     sertifikat_profesi: "https://google.com",
     status: "Sakit",
     tindakan: "",
+    sertifikat_pensiun: "https://google.com",
   },
   {
     name: "Aldo Febrian Dirgantara Mulyana",
@@ -140,6 +143,7 @@ export const dataPegawai: TDataPegawai[] = [
     sertifikat_profesi: "https://google.com",
     status: "Sakit",
     tindakan: "",
+    sertifikat_pensiun: "https://google.com",
   },
   {
     name: "Ahmad Luthfi",
@@ -173,6 +177,7 @@ export const dataPegawai: TDataPegawai[] = [
     sertifikat_profesi: "https://google.com",
     status: "Sakit",
     tindakan: "",
+    sertifikat_pensiun: "https://google.com",
   },
   {
     name: "Dianne Russell",
@@ -206,6 +211,7 @@ export const dataPegawai: TDataPegawai[] = [
     sertifikat_profesi: "https://google.com",
     status: "Sakit",
     tindakan: "",
+    sertifikat_pensiun: "https://google.com",
   },
   {
     name: "Maddog Norris",
@@ -239,6 +245,7 @@ export const dataPegawai: TDataPegawai[] = [
     sertifikat_profesi: "https://google.com",
     status: "Sakit",
     tindakan: "",
+    sertifikat_pensiun: "https://google.com",
   },
   {
     name: "Mang Cuneng Bai Sukabumi",
@@ -272,5 +279,6 @@ export const dataPegawai: TDataPegawai[] = [
     sertifikat_profesi: "https://google.com",
     status: "Tidak Aktif",
     tindakan: "",
+    sertifikat_pensiun: "https://google.com",
   },
 ];

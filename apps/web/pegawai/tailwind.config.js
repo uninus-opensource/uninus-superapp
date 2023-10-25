@@ -115,6 +115,7 @@ module.exports = {
         5: "#ff0000",
         6: "#a70000",
         7: "#BB2D3B",
+        8: "#D34B21",
       },
       conditional: {
         disable: "#B3B3B3",

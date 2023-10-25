@@ -43,32 +43,14 @@ const Table: FC = (): ReactElement => {
       item: <span className="text-base font-medium">: {dataTableModal?.nip}</span>,
     },
     {
-      name: <span className="text-base font-medium pl-2">NIDN</span>,
-      item: <span className="text-base font-medium">: {dataTableModal?.nidn}</span>,
-    },
-    {
-      name: <span className="text-base font-medium pl-2">Status Dosen</span>,
+      name: <span className="text-base font-medium pl-2">Status Tendik</span>,
       item: (
         <div className="w-full flex items-center text-base font-medium">
           :
-          <Link href={`${dataTableModal?.dosen_status?.[0].link}`} target="_blank">
+          <Link href={`${dataTableModal?.tendik_status?.[0].link}`} target="_blank">
             <AiFillFileText className="text-2xl text-primary-green cursor-pointer" />
           </Link>
-          <h3 className="ml-4">{dataTableModal?.dosen_status?.[0].nama}</h3>
-        </div>
-      ),
-    },
-    {
-      name: <span className="text-base font-medium pl-2">Jabatan Fungsional</span>,
-      item: (
-        <div className="w-full flex items-center text-base font-medium">
-          :
-          {dataTableModal?.jafung && (
-            <Link href={`${dataTableModal?.jafung?.[0].link}`} target="_blank">
-              <AiFillFileText className="text-2xl text-primary-green cursor-pointer" />
-            </Link>
-          )}
-          <h3 className="ml-4">{dataTableModal?.jafung?.[0].nama || "-"}</h3>
+          <h3 className="ml-4">{dataTableModal?.tendik_status?.[0].nama}</h3>
         </div>
       ),
     },
@@ -84,12 +66,12 @@ const Table: FC = (): ReactElement => {
       ),
     },
     {
-      name: <span className="text-base font-medium pl-2">SK Mengajar</span>,
+      name: <span className="text-base font-medium pl-2">SK Pensiun</span>,
       item: (
         <div className="w-full flex items-center text-base font-medium">
           :
-          {(dataTableModal?.sk_mengajar && (
-            <Link href={`${dataTableModal?.sk_mengajar}`} target="_blank">
+          {(dataTableModal?.sertifikat_pensiun && (
+            <Link href={`${dataTableModal?.sertifikat_pensiun}`} target="_blank">
               <AiFillFileText className="text-2xl text-primary-green cursor-pointer" />
             </Link>
           )) ||
@@ -122,28 +104,6 @@ const Table: FC = (): ReactElement => {
       ),
     },
     {
-      name: <span className="text-base font-medium pl-2">Fakultas</span>,
-      item: (
-        <div className="w-full flex items-center text-sm gap-2 font-medium">
-          :
-          <div className="flex flex-col">
-            {dataTableModal?.fakultas?.map((fakultas) => <h3>{fakultas.nama}</h3>)}
-          </div>
-        </div>
-      ),
-    },
-    {
-      name: <span className="text-base font-medium pl-2">Prodi</span>,
-      item: (
-        <div className="w-full flex items-center text-sm gap-2 font-medium">
-          :
-          <div className="flex flex-col">
-            {dataTableModal?.prodi?.map((prodi) => <h3>{prodi.nama}</h3>)}
-          </div>
-        </div>
-      ),
-    },
-    {
       name: <span className="text-base font-medium pl-2">Tugas Tambahan</span>,
       item: (
         <div className="w-full flex items-center text-base font-medium">
@@ -155,17 +115,7 @@ const Table: FC = (): ReactElement => {
         </div>
       ),
     },
-    {
-      name: <span className="text-base font-medium pl-2">Sertifikat Pendidik</span>,
-      item: (
-        <div className="w-full flex items-center text-base font-medium">
-          :
-          <Link href={`${dataTableModal?.sertifikat_pendidik}`} target="_blank">
-            <AiFillFileText className="text-2xl text-primary-green cursor-pointer" />
-          </Link>
-        </div>
-      ),
-    },
+
     {
       name: <span className="text-base font-medium pl-2">Sertifikat Profesi</span>,
       item: (
@@ -188,53 +138,33 @@ const Table: FC = (): ReactElement => {
     {
       name: "Nama Dosen",
       cell: (row) => <div className="text-left">{row.name}</div>,
-      width: "170px",
+      width: "180px",
     },
     {
       name: "NIP",
       cell: (row) => row.nip,
-      width: "140px",
+      width: "150px",
     },
     {
-      name: "NIDN",
-      cell: (row) => row.nidn,
-      width: "140px",
-    },
-
-    {
-      name: "Fakultas",
+      name: "Lingkup Kerja",
       cell: (row) => (
-        <div className="flex flex-col gap-1 text-left">
-          {row.fakultas?.map((fakultas) => <span>{fakultas.nama}</span>)}
-        </div>
+        <div className="flex flex-col gap-1 text-left">{row.lingkup_kerja?.[0]?.nama}</div>
       ),
-      width: "180px",
+      width: "150px",
     },
     {
-      name: "Prodi",
+      name: "Unit Kerja",
       cell: (row) => (
-        <div className="flex flex-col gap-1 text-left">
-          {row.prodi?.map((prodi) => <span>{prodi.nama}</span>)}
-        </div>
+        <div className="flex flex-col gap-1 text-left">{row.unit_kerja?.[0]?.nama}</div>
       ),
       width: "220px",
     },
     {
-      name: <div className="pl-4">Keterangan</div>,
+      name: "SK Pensiun",
       cell: (row) => (
-        <div
-          className={`text-primary-black ${
-            row.status === "Aktif"
-              ? "bg-secondary-green-7"
-              : row.status === "Cuti"
-              ? "bg-primary-yellow"
-              : row.status === "Sakit"
-              ? "bg-red-3"
-              : "bg-red-8"
-          } w-[100px] py-1 text-sm text-center rounded-md cursor-default`}
-        >
-          {row.status}
-        </div>
+        <Link href={`${row.sertifikat_pensiun}`} target="_blank">
+          <AiFillFileText className="text-2xl text-primary-green cursor-pointer" />
+        </Link>
       ),
       width: "180px",
     },
@@ -353,7 +283,7 @@ const Table: FC = (): ReactElement => {
   return (
     <Fragment>
       <Modal
-        modalTitle="Detail Data Dosen"
+        modalTitle="Detail Data Tendik"
         titleColor="black"
         headerColor="white"
         closeClassName="text-primary-black"
