@@ -12,7 +12,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <AuthProvider>
           <QueryProvider>
             <RecoilProvider>
-              <main key="landing-pegawai">{props.children}</main>
+              <main key="landing-tata-usaha">{props.children}</main>
               <div key="modal-landing" id="modal-landing" />
             </RecoilProvider>
           </QueryProvider>
