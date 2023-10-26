@@ -32,6 +32,12 @@ export const UploadField = <T extends FieldValues>({
       props.labelClassName === "labelTextDisabled",
     "rounded-full w-12 h-12 bg-primary-white text-primary-green z-15 relative bottom-12 left-12 md:left-14 flex items-center justify-center cursor-pointer":
       props.labelClassName === "iconUpload",
+    "flex justify-center items-center text-slate-5 bg-slate-3 w-[25vw] md:w-[15vw] lg:w-[10vw] px-1 lg:px-3 py-2 rounded cursor-not-allowed":
+      props.labelClassName === "labelTextDisabledLarge",
+    "flex justify-center items-center text-primary-green bg-slate-3 w-[25vw] md:w-[15vw] lg:w-[10vw] px-1 lg:px-3 py-2 rounded cursor-pointer":
+      props.labelClassName === "labelTextUploadedLarge",
+    "flex justify-center items-center text-primary-white bg-primary-green w-[25vw] md:w-[15vw] lg:w-[10vw] px-1 lg:px-3 py-2 rounded cursor-pointer":
+      props.labelClassName === "labelTextLarge",
   });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

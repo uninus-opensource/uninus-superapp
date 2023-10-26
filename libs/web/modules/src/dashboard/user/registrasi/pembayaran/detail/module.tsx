@@ -1,10 +1,6 @@
 "use client";
-import { BreadCrumb, Button, RadioButton } from "@uninus/web/components";
-import Image from "next/image";
+import { BreadCrumb, Button } from "@uninus/web/components";
 import { FC, ReactElement, useMemo, useState } from "react";
-import { Modal } from "@uninus/web/components";
-import { FieldValues, useForm } from "react-hook-form";
-import Link from "next/link";
 import { useStudentData } from "@uninus/web/services";
 import { useDegreeProgramGet, useDepartmentGet } from "../../../pendaftaran";
 
@@ -102,12 +98,13 @@ export const DetailPembayaran: FC = (): ReactElement => {
     [getDepartment?.department],
   );
 
-  const { control } = useForm<FieldValues>({
-    mode: "all",
-  });
-  const [showModal, setShowModal] = useState(false);
+  // const { control } = useForm<FieldValues>({
+  //   mode: "all",
+  // });
 
-  const handleShowModal = () => setShowModal(!showModal);
+  // const [showModal, setShowModal] = useState(false);
+
+  // const handleShowModal = () => setShowModal(!showModal);
 
   return (
     <section
@@ -167,7 +164,6 @@ export const DetailPembayaran: FC = (): ReactElement => {
         </div>
         <div className="flex flex-col w-full items-center lg:items-end p-8">
           <Button
-            onClick={handleShowModal}
             variant="elevated"
             size="sm"
             width="w-auto"
@@ -177,7 +173,7 @@ export const DetailPembayaran: FC = (): ReactElement => {
             Pilih Metode Pembayaran
           </Button>
         </div>
-        {showModal && (
+        {/* {showModal && (
           <Modal
             showModal={showModal}
             onClose={handleShowModal}
@@ -191,13 +187,10 @@ export const DetailPembayaran: FC = (): ReactElement => {
                     <RadioButton
                       name="payment method"
                       label="payment"
-                      fieldName=""
                       control={control}
-                      options={[{ label: "", value: "" }]}
                       size="md"
                       variant="primary"
                     />
-
                     <div className="lg:text-md text-sm">
                       <h1 className="font-semibold text-primary-green">{x.name}</h1>
                       <p className="text-slate-5">{x.desc}</p>
@@ -223,7 +216,7 @@ export const DetailPembayaran: FC = (): ReactElement => {
               </Link>
             </div>
           </Modal>
-        )}
+        )} */}
       </section>
     </section>
   );

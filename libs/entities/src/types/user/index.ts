@@ -59,10 +59,11 @@ export interface IUserResponse extends IUser {
 }
 
 export type TUsersPaginationArgs = {
-  where?: Prisma.UsersWhereInput;
+  search?: string;
   orderBy?: Prisma.UsersOrderByWithRelationInput;
   page?: number;
   perPage?: number;
+  app_origin?: string;
 };
 
 export type TUsersPaginatonResponse = {

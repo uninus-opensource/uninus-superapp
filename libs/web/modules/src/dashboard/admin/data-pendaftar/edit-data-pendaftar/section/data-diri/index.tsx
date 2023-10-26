@@ -32,7 +32,7 @@ import { usePathname } from "next/navigation";
 
 export const EditDataDiri: FC = (): ReactElement => {
   const [occValue, setOccValue] = useState<string | null>(null);
-  const [disValue, setDisValue] = useState<string | null>(null);
+  const [disValue, setDisValue] = useState<string | undefined>(undefined);
   const { getStudentbyId } = useStudentDataById();
 
   const student = useMemo(() => {
@@ -318,7 +318,7 @@ export const EditDataDiri: FC = (): ReactElement => {
     if (disValue === "Ya") {
       disabilitiesDataDiri.disabilities_id = Number(data?.disabilities_id);
     } else {
-      disabilitiesDataDiri.disabilities_id = null;
+      disabilitiesDataDiri.disabilities_id = undefined;
     }
 
     if (occValue === "Sudah" && student?.degree_program_id !== 1) {
@@ -545,7 +545,6 @@ export const EditDataDiri: FC = (): ReactElement => {
               isSearchable={true}
               isClearable={true}
               control={control}
-              // ref={citizenref}
               disabled={!watch("country_id") || countryOptions?.length !== 1}
               isMulti={false}
               status={errors?.province_id?.message ? "error" : "none"}
@@ -660,21 +659,31 @@ export const EditDataDiri: FC = (): ReactElement => {
             />
           </div>
           <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
-            <div className="w-full lg:w-[30%] py-2">
-              <RadioButton
-                name="difabel"
-                label="Ya"
-                fieldName="Berkebutuhan Khusus"
-                control={control}
-                options={[
-                  { label: "Ya", value: "Ya" },
-                  { label: "Tidak", value: "Tidak" },
-                ]}
-                size="lg"
-                variant="primary"
-                onChange={handleOnChange}
-                buttonValue={disValue}
-              />
+            <div className="flex flex-col justify-center gap-2">
+              <h3 className="text-xs font-semibold">Berkebutuhan Khusus</h3>
+              <div className=" w-full flex items-center lg:w-[30%] gap-x-10">
+                <RadioButton
+                  name="difabel"
+                  label="Ya"
+                  control={control}
+                  value="Ya"
+                  size="lg"
+                  variant="primary"
+                  onChange={handleOnChange}
+                  defaultChecked={disValue === "Ya"}
+                />
+
+                <RadioButton
+                  name="difabel"
+                  label="Tidak"
+                  control={control}
+                  value="Tidak"
+                  size="lg"
+                  variant="primary"
+                  onChange={handleOnChange}
+                  defaultChecked={disValue === "Tidak"}
+                />
+              </div>
             </div>
             <SelectOption
               name="religion_id"
@@ -755,19 +764,30 @@ export const EditDataDiri: FC = (): ReactElement => {
                 <h1 className="text-left font-bold text-xl pl-6 md:pl-0 pb-8">Pekerjaan</h1>
               </div>
               <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
-                <RadioButton
-                  name="bekerja"
-                  label="Sudah"
-                  fieldName="Status Bekerja"
-                  control={control}
-                  options={[
-                    { label: "Sudah", value: "Sudah" },
-                    { label: "Belum", value: "Belum" },
-                  ]}
-                  size="lg"
-                  variant="primary"
-                  onChange={handleOccupation}
-                />
+                <div className="flex flex-col justify-center gap-2">
+                  <h3 className="text-xs font-semibold">Status Bekerja</h3>
+                  <div className=" w-full flex items-center lg:w-[30%] gap-x-10">
+                    <RadioButton
+                      name="bekerja"
+                      label="Sudah"
+                      control={control}
+                      value="Sudah"
+                      size="lg"
+                      variant="primary"
+                      onChange={handleOccupation}
+                    />
+
+                    <RadioButton
+                      name="bekerja"
+                      label="Belum"
+                      control={control}
+                      value="Belum"
+                      size="lg"
+                      variant="primary"
+                      onChange={handleOccupation}
+                    />
+                  </div>
+                </div>
                 <SelectOption
                   name="occupation_id"
                   labels="Pekerjaan"

@@ -641,7 +641,7 @@ export class GeneralController {
     return response;
   }
 
-  @Get("registration_status")
+  @Get("registration-status")
   @ApiOperation({ summary: "Get registration status" })
   @ApiResponse({
     status: 500,
@@ -681,12 +681,7 @@ export class GeneralController {
     const response = await firstValueFrom(
       this.client
         .send<Array<TProfileResponse>>("get_registrans_pagination", {
-          where: {
-            registration_number: {
-              contains: search || "",
-              mode: "insensitive",
-            },
-          },
+          search,
           orderBy: {
             [filterBy]: orderBy,
           },

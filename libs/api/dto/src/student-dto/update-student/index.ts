@@ -227,4 +227,7 @@ export class UpdateStudentDto {
     ],
   })
   student_grade!: [];
+
+  @ApiProperty()
+  registration_status_id!: number;
 }

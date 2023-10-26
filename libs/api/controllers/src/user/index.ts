@@ -11,6 +11,7 @@ import {
   UseFilters,
   Patch,
   Post,
+  Headers,
 } from "@nestjs/common";
 import {
   TReqToken,
@@ -81,27 +82,13 @@ export class UserController {
     @Query("order_by") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
     @Query("filter_by") filterBy: string,
     @Query("search") search: string,
+    @Headers("app-origin") app_origin: string,
   ) {
     const response = await firstValueFrom(
       this.client
         .send<Array<TProfileResponse>>("get_users", {
-          where: {
-            OR: [
-              {
-                fullname: {
-                  contains: search || "",
-                  mode: "insensitive",
-                },
-              },
-
-              {
-                email: {
-                  contains: search || "",
-                  mode: "insensitive",
-                },
-              },
-            ],
-          },
+          app_origin,
+          search,
           orderBy: {
             [filterBy]: orderBy,
           },

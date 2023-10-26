@@ -1,4 +1,4 @@
-import { ModuleDataDosen } from "@uninus/web/modules";
+import { ModuleDataTendik } from "@uninus/web/modules";
 import { NextPage } from "next";
 import { ReactElement } from "react";
 import { Metadata } from "next";
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
   description: "Beranda PMB",
 };
 
-const DashboardHome: NextPage = (): ReactElement => <ModuleDataDosen />;
+const DashboardHome: NextPage = (): ReactElement => <ModuleDataTendik />;
 export default DashboardHome;

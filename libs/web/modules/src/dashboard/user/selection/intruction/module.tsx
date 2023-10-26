@@ -1,10 +1,27 @@
 "use client";
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement, useEffect, useState } from "react";
 import { Button } from "@uninus/web/components";
 import { Modal } from "@uninus/web/components";
 import { PiWarningCircleBold } from "react-icons/pi";
+import { useStudentData } from "@uninus/web/services";
+import { RedirectType, redirect } from "next/navigation";
 export const IntructionTestModule: FC = (): ReactElement => {
   const [showModal, setShowModal] = useState(false);
+
+  const { getStudent } = useStudentData();
+
+  useEffect(() => {
+    if (getStudent?.selection_path_id !== 3) {
+      redirect("/dashboard", RedirectType.replace);
+    } else if (getStudent?.test_score) {
+      redirect("/dashboard/selection/endtest", RedirectType.replace);
+    } else if (
+      localStorage.getItem("selectedAnswer") &&
+      Number(localStorage.getItem("minutes")) !== 0
+    ) {
+      redirect("/dashboard/selection/quiz", RedirectType.replace);
+    }
+  });
 
   const handleShowModal = () => setShowModal(!showModal);
   return (
@@ -66,6 +83,12 @@ export const IntructionTestModule: FC = (): ReactElement => {
                     variant="custom"
                     styling=" w-24 bg-primary-green text-primary-white font-semibold"
                     href="/dashboard/selection/quiz"
+                    onClick={() => {
+                      localStorage.setItem("minutes", "59");
+                      localStorage.setItem("seconds", "59");
+                      localStorage.setItem("selectedAnswer", JSON.stringify([]));
+                      localStorage.setItem("isActiveQuestion", "0");
+                    }}
                   >
                     Iya
                   </Button>

@@ -1,5 +1,5 @@
 "use client";
-import { ReactElement, FC, useState } from "react";
+import { ReactElement, FC, useState, useEffect, useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,9 +13,40 @@ import {
 import { Line } from "react-chartjs-2";
 import { SelectOption } from "@uninus/web/components";
 import { FieldValues, useForm } from "react-hook-form";
+import { useGetRegistrans } from "../hook";
 
 export const ChartRekap: FC = (): ReactElement => {
   const [chartType, setChartType] = useState("bulanan");
+
+  useEffect(() => {
+    let convertFilterChart;
+
+    if (chartType === "mingguan") {
+      convertFilterChart = "weekly";
+    } else if (chartType === "tahunan") {
+      convertFilterChart = "yearly";
+    } else {
+      convertFilterChart = "monthly";
+    }
+
+    setRegistrationFilter({
+      filter_type: convertFilterChart,
+      start_date: "",
+      end_date: "",
+    });
+  }, [chartType]);
+
+  const [registrationFilter, setRegistrationFilter] = useState({
+    filter_type: "monthly",
+    start_date: "",
+    end_date: "",
+  });
+
+  const { data: registrationData } = useGetRegistrans(registrationFilter);
+
+  const getRegistraionData = useMemo(() => {
+    return registrationData?.data;
+  }, [registrationData?.data]);
 
   const { control, watch } = useForm<FieldValues>({
     defaultValues: {},
@@ -45,73 +76,63 @@ export const ChartRekap: FC = (): ReactElement => {
   };
 
   let labels: string[] = [];
+  const labelsFilter = getRegistraionData?.map((item) => item.label) ?? [];
+
+  let totalInterest: number[] = [];
+  const totalInterestFilter = getRegistraionData?.map((item) => item.total_interest) ?? [];
+
   let totalRegistrations: number[] = [];
-  let unpaids: number[] = [];
-  let paids: number[] = [];
+  const totalRegistrationsFilter = getRegistraionData?.map((item) => item.total_registrans) ?? [];
+
+  let paidsForm: number[] = [];
+  const totalPaidsFormFilter = getRegistraionData?.map((item) => item.paids_form) ?? [];
+
   let receiveds: number[] = [];
+  const totalReceivedsFilter = getRegistraionData?.map((item) => item.accepted_registrans) ?? [];
+
+  let paidsUKT: number[] = [];
+  const totalPaidsUKT = getRegistraionData?.map((item) => item.paids_ukt) ?? [];
 
   switch (chartType) {
     case "tahunan":
-      labels = [
-        "Januari",
-        "Februari",
-        "Maret",
-        "April",
-        "Mei",
-        "Juni",
-        "Juli",
-        "Agustus",
-        "September",
-        "Oktober",
-        "November",
-        "Desember",
-      ];
-      totalRegistrations = [9, 4, 4, 6, 14, 7, 8, 10, 22, 8, 5, 9];
-      unpaids = [15, 2, 2, 11, 21, 19, 16, 9, 8, 5, 2, 3];
-      paids = [9, 3, 6, 8, 8, 7, 4, 13, 15, 10, 19, 11];
-      receiveds = [7, 5, 6, 2, 10, 11, 6, 8, 11, 2, 10, 8];
+      labels = labelsFilter.reverse();
+      totalInterest = totalInterestFilter.reverse();
+      totalRegistrations = totalRegistrationsFilter.reverse();
+      paidsForm = totalPaidsFormFilter.reverse();
+      receiveds = totalReceivedsFilter.reverse();
+      paidsUKT = totalPaidsUKT.reverse();
       break;
     case "bulanan":
-      labels = [
-        "Januari",
-        "Februari",
-        "Maret",
-        "April",
-        "Mei",
-        "Juni",
-        "Juli",
-        "Agustus",
-        "September",
-        "Oktober",
-        "November",
-        "Desember",
-      ];
-      totalRegistrations = [19, 24, 14, 26, 4, 17, 28, 9, 10, 8, 5, 7];
-      unpaids = [9, 3, 6, 8, 8, 7, 4, 13, 15, 10, 19, 11];
-      paids = [7, 5, 6, 2, 10, 11, 6, 8, 11, 2, 10, 8];
-      receiveds = [15, 2, 2, 11, 21, 19, 16, 9, 8, 5, 2, 3];
-
+      labels = labelsFilter;
+      totalInterest = totalInterestFilter;
+      totalRegistrations = totalRegistrationsFilter;
+      paidsForm = totalPaidsFormFilter;
+      receiveds = totalReceivedsFilter;
+      paidsUKT = totalPaidsUKT;
       break;
     case "mingguan":
-      labels = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-      totalRegistrations = [14, 10, 32, 11, 20, 19, 16];
-      unpaids = [1, 9, 21, 19, 1, 13, 4];
-      paids = [19, 13, 15, 9, 6, 3, 4];
-      receiveds = [11, 6, 4, 5, 20, 11, 1];
+      labels = labelsFilter.reverse();
+      totalInterest = totalInterestFilter.reverse();
+      totalRegistrations = totalRegistrationsFilter.reverse();
+      paidsForm = totalPaidsFormFilter.reverse();
+      receiveds = totalReceivedsFilter.reverse();
+      paidsUKT = totalPaidsUKT.reverse();
       break;
     default:
       labels = [];
+      totalInterest = [];
       totalRegistrations = [];
-      unpaids = [];
-      paids = [];
+      paidsForm = [];
       receiveds = [];
+      paidsUKT = [];
       break;
   }
 
-  const isTotalRegistrations = rekap === "2" || rekap === "3" || rekap === "4";
-  const isUnpaids = rekap === "1" || rekap === "3" || rekap === "4";
-  const isPaids = rekap === "1" || rekap === "2" || rekap === "4";
-  const isReceiveds = rekap === "1" || rekap === "2" || rekap === "3";
+  const isTotalInterest = rekap === "2" || rekap === "3" || rekap === "4" || rekap === "5";
+  const isTotalRegistrations = rekap === "1" || rekap === "3" || rekap === "4" || rekap === "5";
+  const isPaidForm = rekap === "1" || rekap === "2" || rekap === "4" || rekap === "5";
+  const isReceiveds = rekap === "1" || rekap === "2" || rekap === "3" || rekap === "5";
+  const isPaidUKT = rekap === "1" || rekap === "2" || rekap === "3" || rekap === "4";
 
   const data = {
     labels,
@@ -120,22 +141,22 @@ export const ChartRekap: FC = (): ReactElement => {
         label: "Total Peminat",
         borderColor: "#BB2D3B",
         backgroundColor: "#BB2D3B",
-        data: totalRegistrations,
-        hidden: isTotalRegistrations,
+        data: totalInterest,
+        hidden: isTotalInterest,
       },
       {
         label: "Total Pendaftar",
         borderColor: "#0CA3D2",
         backgroundColor: "#0CA3D2",
-        data: unpaids,
-        hidden: isUnpaids,
+        data: totalRegistrations,
+        hidden: isTotalRegistrations,
       },
       {
         label: "Membayar Formulir",
         borderColor: "#F89602",
         backgroundColor: "#F89602",
-        data: paids,
-        hidden: isPaids,
+        data: paidsForm,
+        hidden: isPaidForm,
       },
       {
         label: "Lulus",
@@ -148,8 +169,8 @@ export const ChartRekap: FC = (): ReactElement => {
         label: "Membayar UKT",
         borderColor: "#60FFAB",
         backgroundColor: "#60FFAB",
-        data: receiveds,
-        hidden: isReceiveds,
+        data: paidsUKT,
+        hidden: isPaidUKT,
       },
     ],
   };
@@ -165,19 +186,23 @@ export const ChartRekap: FC = (): ReactElement => {
               options={[
                 {
                   value: "1",
-                  label: "Total Pendaftar",
+                  label: "Total Peminat",
                 },
                 {
                   value: "2",
-                  label: "Belum Membayar",
+                  label: "Total Pendaftar",
                 },
                 {
                   value: "3",
-                  label: "Sudah Membayar",
+                  label: "Membayar Formulir",
                 },
                 {
                   value: "4",
-                  label: "Sudah Diterima",
+                  label: "Lulus",
+                },
+                {
+                  value: "5",
+                  label: "Membayar UKT",
                 },
               ]}
               placeholder="Semua"

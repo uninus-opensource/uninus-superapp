@@ -195,8 +195,8 @@ export class AppController {
   }
 
   @MessagePattern("get_registrans_pagination")
-  async getPaginationPMB({ where, orderBy, page, perPage }: TStudentsPaginationArgs) {
-    return await this.appService.getStudentsPagination({ where, orderBy, page, perPage });
+  async getPaginationPMB({ search, orderBy, page, perPage }: TStudentsPaginationArgs) {
+    return await this.appService.getStudentsPagination({ search, orderBy, page, perPage });
   }
 
   @MessagePattern("create_faculty")

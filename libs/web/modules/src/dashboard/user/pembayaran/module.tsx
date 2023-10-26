@@ -130,7 +130,7 @@ export const ModulePembayaran: FC = (): ReactElement => {
               <h1>{DataMahasiswa?.school_year}</h1>
               <h1>{DataMahasiswa?.nim}</h1>
               <h1>{student?.fullname}</h1>
-              <h1>{DataMahasiswa?.mother_name}</h1>
+              <h1>{student?.mother_name}</h1>
               <h1>{DataMahasiswa?.semester}</h1>
             </div>
           </div>
@@ -149,9 +149,7 @@ export const ModulePembayaran: FC = (): ReactElement => {
           data={DataTransaksi}
           customStyles={customStyles}
           fixedHeader={true}
-          //   progressPending={pending}
           striped
-          //   progressComponent={<TableLoadingData className="w-full h-80" />}
           noDataComponent={
             <div className="flex flex-col w-full h-80 justify-center items-center">
               <h1 className="font-bold my-2">Data Tidak Tersedia</h1>

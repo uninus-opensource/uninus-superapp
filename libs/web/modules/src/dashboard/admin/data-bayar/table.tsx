@@ -210,10 +210,16 @@ const Table: FC = (): ReactElement => {
                 name="difabel"
                 label="Ya"
                 control={control}
-                options={[
-                  { label: "Disetujui", value: "Ya" },
-                  { label: "Tidak Disetujui", value: "Tidak" },
-                ]}
+                value="Ya"
+                size="lg"
+                variant="primary"
+                onChange={(e) => SetIsAccept(e.target.value)}
+              />
+              <RadioButton
+                name="difabel"
+                label="Ya"
+                control={control}
+                value="Tidak"
                 size="lg"
                 variant="primary"
                 onChange={(e) => SetIsAccept(e.target.value)}

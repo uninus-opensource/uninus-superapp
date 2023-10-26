@@ -2,13 +2,14 @@ import { TFIle } from "../file";
 export type TCreateQuestionRequest = {
   question: string;
   correct_answer: string;
-  incorrect_answers: string[];
+  answers: { [key: string]: string };
 };
 
 export type TUpdateQuestionRequest = {
-  question?: string;
-  correct_answer?: string;
-  incorrect_answers?: string[];
+  id?: number;
+  question: string;
+  correct_answer: string;
+  answers: { [key: string]: string };
 };
 
 export type TDeleteQuestionResponse = {
@@ -19,6 +20,17 @@ export interface IGetStudentRequest {
   id?: string;
 }
 
+export interface IGetPaymentObligationsRequest {
+  userId?: string;
+  id?: number;
+  search?: string;
+}
+
+export type TPaymentObligationsResponse = Array<{
+  name?: string;
+  amount?: number;
+  spelled_out?: string;
+}>;
 export interface IStudentData {
   email?: string | null;
   fullname?: string | null;
@@ -88,8 +100,16 @@ export interface IStudentData {
   utbk_kmbm?: number | null;
   average_utbk?: number | null;
   average_grade?: number | null;
+  registration_status_id?: number | null;
   utbk?: number | null;
   test_score?: number | null;
+  registration_number?: string | null;
+  payment?: Array<{
+    name: string;
+    amount: number;
+    payment_method: string;
+    payment_code: string;
+  }>;
 }
 
 export interface IGetStudentResponse extends IStudentData {
@@ -132,6 +152,11 @@ export interface IUpdateStudentResponse extends IStudentData {
   }> | null;
 }
 export interface IUpdateStudentRequest extends IGetStudentRequest, IStudentData {
+  education_name?: string | null;
+  education_province?: string | null;
+  education_district_city?: string | null;
+  education_sub_district?: string | null;
+  education_street_address?: string | null;
   avatar?: string | null;
   document?: {
     name: string;

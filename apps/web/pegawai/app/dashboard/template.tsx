@@ -13,7 +13,8 @@ import {
 } from "react-icons/ai";
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
-  const [isDrop, setIsDrop] = useState<boolean>(false);
+  const [isDropPegawai, setIsDropPegawai] = useState<boolean>(false);
+  const [isDropPensiun, setIsDropPensiun] = useState<boolean>(false);
   const { mutate } = useLogoutToRoot();
   const { data: session } = useSession();
 
@@ -32,8 +33,11 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       label: "Data Pegawai",
       icon: <AiOutlineTeam className="text-2xl" />,
       sideDropdown: true,
-      isDropdown: isDrop,
-      onClick: () => setIsDrop(!isDrop),
+      isDropdown: isDropPegawai,
+      onClick: () => {
+        setIsDropPegawai(!isDropPegawai);
+        setIsDropPensiun(false);
+      },
       sideDropdownList: [
         {
           label: "Data Dosen",
@@ -51,13 +55,31 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     },
     {
       label: "Data Pensiun",
-      link: "/dashboard/data-pensiun",
       icon: <AiOutlineFileText className="text-2xl" />,
-      disabledStatus: false,
+      sideDropdown: true,
+      isDropdown: isDropPensiun,
+      onClick: () => {
+        setIsDropPensiun(!isDropPensiun);
+        setIsDropPegawai(false);
+      },
+      sideDropdownList: [
+        {
+          label: "Data Pensiun Dosen",
+          link: "/dashboard/data-pensiun-dosen",
+          icon: <AiOutlineAudit className="text-2xl" />,
+          disabledStatus: false,
+        },
+        {
+          label: "Data Pensiun Tendik",
+          link: "/dashboard/data-pensiun-tendik",
+          icon: <AiOutlineHdd className="text-2xl" />,
+          disabledStatus: false,
+        },
+      ],
     },
     {
       label: "Data Pelamar",
-      link: "/dashboard/data-pelamar",
+      link: "/dashboard/data-pelamar-dosen",
       icon: <AiOutlineForm className="text-2xl" />,
       disabledStatus: false,
     },
