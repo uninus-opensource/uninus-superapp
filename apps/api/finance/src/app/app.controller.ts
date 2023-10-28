@@ -25,4 +25,14 @@ export class AppController {
   statusPayment(payload: TStatusPaymentRequest) {
     return this.appService.statusPayment(payload);
   }
+
+  @MessagePattern("request_payment")
+  requestPayment(payload) {
+    return this.appService.requestPayment(payload);
+  }
+
+  @MessagePattern("status_payment")
+  statusPayment(payload) {
+    return this.appService.statusPayment(payload);
+  }
 }
