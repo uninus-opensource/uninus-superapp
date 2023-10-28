@@ -3,6 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "@uninus/api/services";
 import { ConfigService } from "@nestjs/config";
 import { AxiosRequestConfig } from "axios";
+import { hashing } from "@uninus/api/utilities";
 
 @Injectable()
 export class AppService {
@@ -31,7 +32,7 @@ export class AppService {
       transactionDetails: { amount, currency: "IDR", orderId, expiryDuration: "2m" },
     };
     this.config.headers.Timestamp = timeStamp;
-    this.config.headers.Signature = ``.trim();
+    this.config.headers.Signature = hashing(`${data}&${timeStamp}&${this.apiKey}`.trim());
     return this.httpService.post("/api/token", data, this.config);
   }
 
@@ -40,7 +41,7 @@ export class AppService {
     const timeStamp = new Date().getTime();
     const data = { trxRef: orderId };
     this.config.headers.Timestamp = timeStamp;
-    this.config.headers.Signature = ``.trim();
+    this.config.headers.Signature = hashing(`${data}&${timeStamp}&${this.apiKey}`.trim());
     return this.httpService.post("/api/checkstatus", data, this.config);
   }
 }
