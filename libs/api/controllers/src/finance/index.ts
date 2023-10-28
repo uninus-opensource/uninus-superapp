@@ -5,7 +5,7 @@ import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Controller("finance")
-@ApiTags("finance")
+@ApiTags("Finance")
 export class FinanceController {
   constructor(@Inject("FINANCE_SERVICE") private readonly client: ClientProxy) {}
 
