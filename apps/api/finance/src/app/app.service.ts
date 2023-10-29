@@ -1,20 +1,33 @@
 import { HttpService } from "@nestjs/axios";
 import { BadRequestException, Injectable } from "@nestjs/common";
+<<<<<<< HEAD
 import { RpcException } from "@nestjs/microservices";
+=======
+>>>>>>> 4aeb9d1e (improvement: setup integration payment)
 import { PrismaService } from "@uninus/api/services";
 import { ConfigService } from "@nestjs/config";
 import { AxiosRequestConfig } from "axios";
 import { createSignature, splitFullname } from "@uninus/api/utilities";
+<<<<<<< HEAD
 import { firstValueFrom, map } from "rxjs";
 import {
   TFinanceSummaryRequest,
   TFinanceSummaryResponse,
+=======
+import {
+>>>>>>> 4aeb9d1e (improvement: setup integration payment)
   TCreatePaymentRequest,
   TCreatePaymentResponse,
   TStatusPaymentRequest,
   TStatusPaymentResponse,
+<<<<<<< HEAD
   EFilterGraph,
 } from "@uninus/entities";
+=======
+} from "@uninus/entities";
+import { firstValueFrom, map } from "rxjs";
+import { RpcException } from "@nestjs/microservices";
+>>>>>>> 4aeb9d1e (improvement: setup integration payment)
 
 @Injectable()
 export class AppService {

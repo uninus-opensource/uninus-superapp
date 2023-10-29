@@ -1,11 +1,15 @@
 import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
+<<<<<<< HEAD
 import {
   TCreatePaymentRequest,
   TStatusPaymentRequest,
   TFinanceSummaryRequest,
 } from "@uninus/entities";
+=======
+import { TCreatePaymentRequest, TStatusPaymentRequest } from "@uninus/entities";
+>>>>>>> 4aeb9d1e (improvement: setup integration payment)
 
 @Controller()
 export class AppController {
@@ -27,12 +31,12 @@ export class AppController {
   }
 
   @MessagePattern("request_payment")
-  requestPayment(payload) {
+  requestPayment(payload: TCreatePaymentRequest) {
     return this.appService.requestPayment(payload);
   }
 
   @MessagePattern("status_payment")
-  statusPayment(payload) {
+  statusPayment(payload: TStatusPaymentRequest) {
     return this.appService.statusPayment(payload);
   }
 }
