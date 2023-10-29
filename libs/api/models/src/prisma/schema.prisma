@@ -128,6 +128,7 @@ model Students {
 
 model PaymentHistory {
   id                    String              @unique @default(uuid())
+  order_id              String              @unique
   payment_method        String?
   payment_code          String?
   payment_obligation_id Int?
