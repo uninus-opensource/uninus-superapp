@@ -5,5 +5,5 @@ export * from "./file";
 export * from "./auth";
 export * from "./general";
 export * from "./employee";
-export * from "./payment";
+export * from "./finance";
 export * from "./finance";

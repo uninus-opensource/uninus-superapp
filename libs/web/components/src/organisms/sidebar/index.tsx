@@ -2,7 +2,7 @@
 import { FC, ReactElement, useState, useMemo, Fragment, useEffect } from "react";
 import Image from "next/image";
 import { TSideBarProps } from "./type";
-import { AiOutlineLogout } from "react-icons/ai";
+import { AiOutlineDown, AiOutlineLogout } from "react-icons/ai";
 import Link from "next/link";
 import { Button } from "../../atoms";
 import { motion } from "framer-motion";
@@ -191,19 +191,16 @@ export const SideBar: FC<TSideBarProps> = ({
 
                 {process.env.NEXT_PUBLIC_WORKSPACE === "admin" &&
                   sideList?.map((sideList, idx) => (
-                    <li
-                      key={idx}
-                      className={`flex flex-col ${
-                        sideList.sideDropdown
-                          ? `${sideList.isDropdown ? "bg-primary-white" : ""}`
-                          : "gap-y-6"
-                      }`}
-                    >
+                    <li key={idx} className="flex flex-col">
                       {sideList.sideDropdown ? (
                         <Fragment>
                           <button
                             onClick={sideList.onClick}
                             className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto duration-200 ${
+                              sideList.sideDropdown
+                                ? `${sideList.isDropdown ? "bg-primary-white mt-2" : ""}`
+                                : ""
+                            } ${
                               pathname === sideList?.link &&
                               "bg-primary-white drop-shadow-md w-full "
                             }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
@@ -216,8 +213,13 @@ export const SideBar: FC<TSideBarProps> = ({
                             >
                               {sideList?.icon}
                             </p>
-                            <p className="text-primary-green text-left text-xs xl:text-base w-[22vh] font-normal">
+                            <p className="flex items-center justify-between text-primary-green text-left text-xs xl:text-base w-[22vh] font-normal">
                               {sideList?.label}
+                              <AiOutlineDown
+                                className={`${
+                                  sideList.isDropdown ? "rotate-180" : ""
+                                } xl:text-lg lg:text-base xl:mr-8 lg:mr-4`}
+                              />
                             </p>
                           </button>
 
@@ -227,10 +229,9 @@ export const SideBar: FC<TSideBarProps> = ({
                                 href={sideDropdownList?.link}
                                 key={idx}
                                 role="link"
-                                className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto ${
-                                  pathname === sideDropdownList?.link &&
-                                  "bg-primary-white drop-shadow-md w-full "
-                                }hover:bg-primary-white group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                                className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto duration-150 ${
+                                  pathname === sideDropdownList?.link && "drop-shadow-md w-full "
+                                } group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
                               >
                                 <p
                                   className={`${
@@ -313,9 +314,9 @@ export const SideBar: FC<TSideBarProps> = ({
             transition={{ duration: 0 }}
             style={{ pointerEvents: onToogle ? "auto" : "none" }}
           >
-            <section className={` w-full flex flex-col items-center  gap-y-6`}>
+            <section className={` w-full flex flex-col items-center gap-y-6`}>
               <h1 className="text-secondary-green-4 text-lg font-bold">
-                {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? "PMB ADMIN" : "PMB UNINUS"}
+                {process.env.NEXT_PUBLIC_WORKSPACE === "admin" ? moduleName : "PMB UNINUS"}
               </h1>
               <div className="flex flex-row  items-center gap-x-6">
                 <figure className="flex flex-col items-center">
@@ -392,7 +393,7 @@ export const SideBar: FC<TSideBarProps> = ({
                         </Link>
                       </li>
                     ))}
-
+                  {/* 
                   {process.env.NEXT_PUBLIC_WORKSPACE === "admin" &&
                     sideList?.map((sideList, idx) => (
                       <li key={idx} className="flex flex-col gap-y-6">
@@ -414,8 +415,86 @@ export const SideBar: FC<TSideBarProps> = ({
                           <p className="text-primary-green text-sm font-normal">{sideList.label}</p>
                         </Link>
                       </li>
+                    ))} */}
+                  {process.env.NEXT_PUBLIC_WORKSPACE === "admin" &&
+                    sideList?.map((sideList, idx) => (
+                      <li key={idx} className="flex flex-col">
+                        {sideList.sideDropdown ? (
+                          <Fragment>
+                            <button
+                              onClick={sideList.onClick}
+                              className={`flex gap-x-3 text-lg capitalize items-center p-2 rounded-md h-auto w-[12em] max-w-[12em] ${
+                                pathname === sideList.link && "bg-primary-white drop-shadow-md "
+                              }hover:bg-primary-white hover:text-secondary-green-1 `}
+                            >
+                              <p
+                                className={`flex items-center w-fit justify-center p-3 shadow-lg rounded-lg ${
+                                  pathname === sideList.link &&
+                                  " bg-gradient-to-br from-[#60ffab] to-primary-green  text-primary-white"
+                                } text-primary-green bg-primary-white drop-shadow-md `}
+                              >
+                                {sideList?.icon}
+                              </p>
+                              <p className="flex items-center justify-between w-full text-primary-green text-sm font-normal">
+                                {sideList.label}
+                                <AiOutlineDown
+                                  className={`${
+                                    sideList.isDropdown ? "rotate-180" : ""
+                                  } text-lg mr-5`}
+                                />
+                              </p>
+                            </button>
+
+                            {sideList.isDropdown &&
+                              sideList?.sideDropdownList?.map((sideDropdownList, idx) => (
+                                <Link
+                                  href={sideDropdownList?.link}
+                                  key={idx}
+                                  role="link"
+                                  className={`flex gap-x-3 text-lg capitalize items-center p-2 rounded-md h-auto ${
+                                    pathname === sideDropdownList.link &&
+                                    "bg-primary-white drop-shadow-md "
+                                  }hover:bg-primary-white hover:text-secondary-green-1 `}
+                                >
+                                  <p
+                                    className={`flex items-center w-fit justify-center p-3 shadow-lg rounded-lg ${
+                                      pathname === sideDropdownList.link &&
+                                      " bg-gradient-to-br from-[#60ffab] to-primary-green  text-primary-white"
+                                    } text-primary-green bg-primary-white drop-shadow-md `}
+                                  >
+                                    {sideDropdownList?.icon}
+                                  </p>
+                                  <p className="text-primary-green text-sm font-normal">
+                                    {sideDropdownList.label}
+                                  </p>
+                                </Link>
+                              ))}
+                          </Fragment>
+                        ) : (
+                          <Link
+                            href={sideList?.link as string}
+                            role="link"
+                            className={`flex gap-x-3 text-lg capitalize items-center p-2 rounded-md h-auto ${
+                              pathname === sideList.link && "bg-primary-white drop-shadow-md "
+                            }hover:bg-primary-white hover:text-secondary-green-1 `}
+                          >
+                            <p
+                              className={`flex items-center w-fit justify-center p-3 shadow-lg rounded-lg ${
+                                pathname === sideList.link &&
+                                " bg-gradient-to-br from-[#60ffab] to-primary-green  text-primary-white"
+                              } text-primary-green bg-primary-white drop-shadow-md `}
+                            >
+                              {sideList?.icon}
+                            </p>
+                            <p className="text-primary-green text-sm font-normal">
+                              {sideList?.label}
+                            </p>
+                          </Link>
+                        )}
+                      </li>
                     ))}
                 </ul>
+
                 <div className="flex w-full h-full items-center pt-16">
                   <Button variant="sidebarbutton" size="sm" onClick={handleOpenModal}>
                     <AiOutlineLogout
