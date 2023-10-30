@@ -9,10 +9,12 @@ import {
   EmployeeModule,
   FinanceModule,
 } from "@uninus/api/modules";
+import { HttpModule } from "@nestjs/axios";
 
 @Module({
   imports: [
     PrismaModule,
+    HttpModule,
     AuthModule,
     StudentModule,
     UserModule,
