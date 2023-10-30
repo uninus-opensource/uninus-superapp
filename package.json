@@ -93,7 +93,7 @@
     "amqp-connection-manager": "^4.1.14",
     "amqplib": "^0.10.3",
     "argon2": "^0.31.1",
-    "axios": "^1.5.0",
+    "axios": "^1.6.0",
     "body-parser": "^1.20.2",
     "buffer-to-stream": "^1.0.0",
     "chart.js": "^4.4.0",
