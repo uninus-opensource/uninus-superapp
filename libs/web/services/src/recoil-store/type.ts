@@ -67,3 +67,8 @@ export type ReturnTypesDashboardState = {
   setDashboardControlState: (val: boolean | undefined) => void;
   getDashboardControlState: boolean | undefined;
 };
+
+export type ReturnTypesSidebarSiakad = {
+  setSiakadToogle: (val: boolean | undefined) => void;
+  getSiakadToogle: boolean | undefined;
+};

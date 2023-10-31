@@ -1,6 +1,6 @@
 "use client";
-import { FC, PropsWithChildren, ReactElement } from "react";
-import { SidebarV2 } from "@uninus/web/components";
+import { FC, PropsWithChildren, ReactElement, useState } from "react";
+import { NavbarSiakad, SidebarV2 } from "@uninus/web/components";
 import {
   AiOutlineAppstore,
   AiOutlineAudit,
@@ -14,10 +14,14 @@ import {
 } from "react-icons/ai";
 import { useLogoutToRoot } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
+import { useSidebarSiakadToogle } from "@uninus/web/services";
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
+  const [isOpen, setIsOpen] = useState(false);
   const { mutate } = useLogoutToRoot();
   const { data: session } = useSession();
+
+  const { getSiakadToogle, setSiakadToogle } = useSidebarSiakadToogle();
 
   const handleLogout = async () => {
     mutate(session?.user?.refresh_token);
@@ -72,14 +76,33 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   ];
 
   return (
-    <main key="main" className="flex w-full min-h-full overflow-x-hidden">
-      <SidebarV2 title="NusaVerse" sideList={sideList} onLogout={handleLogout} />
-      <section
-        key="dashboard"
-        className="w-full bg-gray-100 lg:p-10 py-4 bg-grayscale-1 h-screen overflow-y-auto"
-      >
-        {children}
-      </section>
+    <main key="main" className={`flex w-full min-h-full overflow-x-hidden`}>
+      <SidebarV2
+        title="NusaVerse"
+        sideList={sideList}
+        onLogout={handleLogout}
+        showSideBar={isOpen}
+        onHoverOn={() => setIsOpen(true)}
+        onHoverOff={() => setIsOpen(false)}
+      />
+
+      <div className={`w-full flex flex-col h-full overflow-y-hidden`}>
+        {getSiakadToogle && (
+          <div
+            className="h-screen w-full absolute bg-opacity-30 bg-primary-black"
+            onClick={() => setSiakadToogle(false)}
+          />
+        )}
+
+        <NavbarSiakad />
+        <section
+          key="dashboard"
+          className={`w-full bg-grayscale-1 h-[91vh]`}
+          onClick={() => setSiakadToogle(false)}
+        >
+          {children}
+        </section>
+      </div>
     </main>
   );
 };

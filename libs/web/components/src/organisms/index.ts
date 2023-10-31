@@ -1,4 +1,5 @@
 export * from "./navbar";
+export * from "./navbar-siakad";
 export * from "./modal";
 export * from "./accordion";
 export * from "./hero-banner";

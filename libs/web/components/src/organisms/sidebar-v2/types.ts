@@ -8,4 +8,7 @@ export type TSidebarV2 = {
     link?: string;
     icon?: ReactNode;
   }>;
+  showSideBar: boolean;
+  onHoverOn: () => void;
+  onHoverOff: () => void;
 };
