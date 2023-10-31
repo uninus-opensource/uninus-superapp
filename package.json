@@ -167,7 +167,7 @@
     "@nx/node": "17.0.2",
     "@nx/react": "17.0.1",
     "@nx/react-native": "^16.10.0",
-    "@nx/webpack": "16.10.0",
+    "@nx/webpack": "17.0.2",
     "@nx/workspace": "17.0.0",
     "@react-native-community/cli": "11.3.9",
     "@react-native-community/cli-platform-android": "11.3.9",
