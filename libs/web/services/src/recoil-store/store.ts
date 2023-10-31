@@ -68,3 +68,8 @@ export const getStudentbyIdValidasiData = atom<IGetStudentResponse | undefined>(
   key: "getStudentbyIdValidation",
   default: undefined,
 });
+
+export const sidebarSiakad = atom<boolean | undefined>({
+  key: "showSiakadSidebar",
+  default: false,
+});

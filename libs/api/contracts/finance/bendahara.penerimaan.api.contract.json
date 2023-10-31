@@ -347,14 +347,14 @@
                           "faculty": {
                             "type": "string"
                           },
-                          "total_student": {
-                            "type": "integer"
+                          "total_payment_obligation": {
+                            "type": "string"
                           },
-                          "paid": {
-                            "type": "integer"
+                          "total_paid": {
+                            "type": "string"
                           },
-                          "unpaid": {
-                            "type": "integer"
+                          "total_unpaid": {
+                            "type": "string"
                           }
                         }
                       }
@@ -382,30 +382,49 @@
                       "data": [
                         {
                           "id": 1,
-                          "faculty": "Teknik Informatika",
+                          "faculty": "Fakultas Teknik",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         },
                         {
                           "id": 2,
-                          "faculty": "Teknik Industri",
+                          "faculty": "Fakultas Hukum",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         },
                         {
                           "id": 3,
-                          "faculty": "Teknik Elektro",
+                          "faculty": "Fakultas Agama Islam",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
+                        },
+                        {
+                          "id": 4,
+                          "faculty": "Fakultas Pendidikan",
+                          "total_student": 150,
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
+                        },
+                        {
+                          "id": 5,
+                          "faculty": "Teknik Film",
+                          "total_student": 150,
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         }
                       ],
                       "summary": {
-                        "total_student": 700,
-                        "paid": 700,
-                        "unpaid": 0
+                        "total_all_payment_obligation": 100000000,
+                        "total_all_paid": 70000000,
+                        "total_all_unpaid": 30000000
                       }
                     }
                   },
@@ -415,30 +434,49 @@
                       "data": [
                         {
                           "id": 1,
-                          "faculty": "Teknik Informatika",
+                          "faculty": "Fakultas Teknik",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         },
                         {
                           "id": 2,
-                          "faculty": "Teknik Industri",
+                          "faculty": "Fakultas Hukum",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         },
                         {
                           "id": 3,
-                          "faculty": "Teknik Elektro",
+                          "faculty": "Fakultas Agama Islam",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
+                        },
+                        {
+                          "id": 4,
+                          "faculty": "Fakultas Pendidikan",
+                          "total_student": 150,
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
+                        },
+                        {
+                          "id": 5,
+                          "faculty": "Teknik Film",
+                          "total_student": 150,
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         }
                       ],
                       "summary": {
-                        "total_student": 700,
-                        "paid": 700,
-                        "unpaid": 0
+                        "total_all_payment_obligation": 150000000,
+                        "total_all_paid": 100000000,
+                        "total_all_unpaid": 50000000
                       }
                     }
                   },
@@ -448,30 +486,49 @@
                       "data": [
                         {
                           "id": 1,
-                          "faculty": "Teknik Informatika",
+                          "faculty": "Fakultas Teknik",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         },
                         {
                           "id": 2,
-                          "faculty": "Teknik Industri",
+                          "faculty": "Fakultas Hukum",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         },
                         {
                           "id": 3,
-                          "faculty": "Teknik Elektro",
+                          "faculty": "Fakultas Agama Islam",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
+                        },
+                        {
+                          "id": 4,
+                          "faculty": "Fakultas Pendidikan",
+                          "total_student": 150,
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
+                        },
+                        {
+                          "id": 5,
+                          "faculty": "Teknik Film",
+                          "total_student": 150,
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         }
                       ],
                       "summary": {
-                        "total_student": 700,
-                        "paid": 700,
-                        "unpaid": 0
+                        "total_all_payment_obligation": 200000000,
+                        "total_all_paid": 150000000,
+                        "total_all_unpaid": 50000000
                       }
                     }
                   },
@@ -481,30 +538,49 @@
                       "data": [
                         {
                           "id": 1,
-                          "faculty": "Teknik Informatika",
+                          "faculty": "Fakultas Teknik",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         },
                         {
                           "id": 2,
-                          "faculty": "Teknik Industri",
+                          "faculty": "Fakultas Hukum",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         },
                         {
                           "id": 3,
-                          "faculty": "Teknik Elektro",
+                          "faculty": "Fakultas Agama Islam",
                           "total_student": 150,
-                          "paid": 170,
-                          "unpaid": 80
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
+                        },
+                        {
+                          "id": 4,
+                          "faculty": "Fakultas Pendidikan",
+                          "total_student": 150,
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
+                        },
+                        {
+                          "id": 5,
+                          "faculty": "Teknik Film",
+                          "total_student": 150,
+                          "total_payment_obligation": "100%",
+                          "paid": "50%",
+                          "unpaid": "50%"
                         }
                       ],
                       "summary": {
-                        "total_student": 700,
-                        "paid": 700,
-                        "unpaid": 0
+                        "total_all_payment_obligation": 250000000,
+                        "total_all_paid": 150000000,
+                        "total_all_unpaid": 100000000
                       }
                     }
                   }

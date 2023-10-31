@@ -13,6 +13,7 @@ import {
   getStudentbyIdValidasiData,
   popularDepartment,
   popularProgram,
+  sidebarSiakad,
 } from "./store";
 import {
   IGetStudentResponse,
@@ -30,6 +31,7 @@ import {
   ReturnTypesPopularDepartment,
   ReturnTypesPopularProgram,
   ReturnTypesRegistransData,
+  ReturnTypesSidebarSiakad,
   ReturnTypesStudentData,
   ReturnTypesStudentDataId,
   ReturnTypesUpdateAvatar,
@@ -128,5 +130,13 @@ export const useStudentDataByIdValidation = (): ReturnTypesStudentDataId => {
   return {
     setStudentbyId: (val) => set(val),
     getStudentbyId: get,
+  };
+};
+
+export const useSidebarSiakadToogle = (): ReturnTypesSidebarSiakad => {
+  const [get, set] = useRecoilState<boolean | undefined>(sidebarSiakad);
+  return {
+    setSiakadToogle: (val) => set(val),
+    getSiakadToogle: get,
   };
 };

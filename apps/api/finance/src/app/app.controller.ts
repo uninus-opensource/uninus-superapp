@@ -1,7 +1,11 @@
 import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
-import { TCreatePaymentRequest, TStatusPaymentRequest, TFinanceSummaryRequest } from "@uninus/entities";
+import {
+  TCreatePaymentRequest,
+  TStatusPaymentRequest,
+  TFinanceSummaryRequest,
+} from "@uninus/entities";
 
 @Controller()
 export class AppController {
@@ -21,5 +25,4 @@ export class AppController {
   statusPayment(payload: TStatusPaymentRequest) {
     return this.appService.statusPayment(payload);
   }
-
 }

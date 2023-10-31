@@ -13,7 +13,7 @@ import {
   TCreatePaymentRequest,
   TCreatePaymentResponse,
   TStatusPaymentRequest,
-  TStatusPaymentResponse,
+  TStatusPaymentResponse
 } from "@uninus/entities";
 
 @Injectable()
