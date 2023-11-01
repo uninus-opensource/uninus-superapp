@@ -5,6 +5,7 @@ import { GroupBase, SelectInstance } from "react-select";
 export type TSelectOption = {
   label: string;
   value: string;
+  color?: string;
 };
 
 export type TSelectFieldProps<T extends FieldValues> = UseControllerProps<T> & {
@@ -23,4 +24,7 @@ export type TSelectFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   isMulti?: boolean;
   ref?: Ref<SelectInstance<TSelectOption, true, GroupBase<TSelectOption>>>;
   message?: string;
+  selectedColor?: string;
+  textColor?: string;
+  renderSelectColor?: boolean;
 };

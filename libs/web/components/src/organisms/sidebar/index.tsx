@@ -230,20 +230,32 @@ export const SideBar: FC<TSideBarProps> = ({
                                 key={idx}
                                 role="link"
                                 className={`flex relative gap-x-3 xl:text-lg capitalize h-11 xl:h-auto duration-150 ${
-                                  pathname === sideDropdownList?.link && "drop-shadow-md w-full "
-                                } group hover:shadow-md  hover:text-secondary-green-1 items-center p-2 rounded-md`}
+                                  pathname === sideDropdownList?.link && "w-full"
+                                } group  items-center p-2 rounded-md ${
+                                  sideDropdownList?.icon
+                                    ? "hover:shadow-md hover:text-secondary-green-1"
+                                    : "hover:bg-secondary-green-0.5"
+                                }`}
                               >
-                                <p
-                                  className={`${
-                                    pathname === sideDropdownList?.link &&
-                                    "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
-                                  } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
-                                >
-                                  {sideDropdownList?.icon}
-                                </p>
-                                <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
-                                  {sideDropdownList?.label}
-                                </p>
+                                {sideDropdownList?.icon ? (
+                                  <Fragment>
+                                    <p
+                                      className={`${
+                                        pathname === sideDropdownList?.link &&
+                                        "bg-gradient-to-br from-[#60ffab] to-primary-green shadow-lg  text-primary-white"
+                                      } text-primary-green w-11 h-9 xl:w-fit xl:h-fit p-3 group-hover:bg-gradient-to-br from-[#60ffab]  to-primary-green shadow-lg group-hover:text-primary-white bg-primary-white drop-shadow-md rounded-lg flex justify-center items-center`}
+                                    >
+                                      {sideDropdownList?.icon}
+                                    </p>
+                                    <p className="text-primary-green text-xs xl:text-base w-[22vh] font-normal">
+                                      {sideDropdownList?.label}
+                                    </p>
+                                  </Fragment>
+                                ) : (
+                                  <p className="flex justify-center items-center text-primary-green text-base w-full h-[3em] font-normal">
+                                    {sideDropdownList?.label}
+                                  </p>
+                                )}
                               </Link>
                             ))}
                         </Fragment>

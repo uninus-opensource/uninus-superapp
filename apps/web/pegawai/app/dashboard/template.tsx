@@ -3,18 +3,12 @@ import { FC, PropsWithChildren, ReactElement, useState } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogoutToRoot } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
-import {
-  AiOutlineAudit,
-  AiOutlineFileText,
-  AiOutlineForm,
-  AiOutlineHdd,
-  AiOutlineHome,
-  AiOutlineTeam,
-} from "react-icons/ai";
+import { AiOutlineFileText, AiOutlineForm, AiOutlineHome, AiOutlineTeam } from "react-icons/ai";
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const [isDropPegawai, setIsDropPegawai] = useState<boolean>(false);
   const [isDropPensiun, setIsDropPensiun] = useState<boolean>(false);
+  const [isDropPelamar, setIsDropPelamar] = useState<boolean>(false);
   const { mutate } = useLogoutToRoot();
   const { data: session } = useSession();
 
@@ -37,18 +31,17 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       onClick: () => {
         setIsDropPegawai(!isDropPegawai);
         setIsDropPensiun(false);
+        setIsDropPelamar(false);
       },
       sideDropdownList: [
         {
           label: "Data Dosen",
           link: "/dashboard/data-dosen",
-          icon: <AiOutlineAudit className="text-2xl" />,
           disabledStatus: false,
         },
         {
           label: "Data Tendik",
           link: "/dashboard/data-tendik",
-          icon: <AiOutlineHdd className="text-2xl" />,
           disabledStatus: false,
         },
       ],
@@ -61,27 +54,43 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       onClick: () => {
         setIsDropPensiun(!isDropPensiun);
         setIsDropPegawai(false);
+        setIsDropPelamar(false);
       },
       sideDropdownList: [
         {
           label: "Data Pensiun Dosen",
           link: "/dashboard/data-pensiun-dosen",
-          icon: <AiOutlineAudit className="text-2xl" />,
           disabledStatus: false,
         },
         {
           label: "Data Pensiun Tendik",
           link: "/dashboard/data-pensiun-tendik",
-          icon: <AiOutlineHdd className="text-2xl" />,
           disabledStatus: false,
         },
       ],
     },
     {
       label: "Data Pelamar",
-      link: "/dashboard/data-pelamar-dosen",
       icon: <AiOutlineForm className="text-2xl" />,
-      disabledStatus: false,
+      sideDropdown: true,
+      isDropdown: isDropPelamar,
+      onClick: () => {
+        setIsDropPelamar(!isDropPelamar);
+        setIsDropPensiun(false);
+        setIsDropPegawai(false);
+      },
+      sideDropdownList: [
+        {
+          label: "Data Pelamar Dosen",
+          link: "/dashboard/data-pelamar-dosen",
+          disabledStatus: false,
+        },
+        {
+          label: "Data Pelamar Tendik",
+          link: "/dashboard/data-pelamar-tendik",
+          disabledStatus: false,
+        },
+      ],
     },
   ];
 
