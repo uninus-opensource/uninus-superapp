@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 export type TFinanceSummaryRequest = {
   filter?: string;
   start_date?: string;
@@ -20,8 +19,6 @@ export type TFinanceSummaryResponse = {
     additions_unpaids: number;
   };
 };
-=======
->>>>>>> 4aeb9d1e (improvement: setup integration payment)
 export type TCreatePaymentRequest = {
   email: string;
   fullname: string;

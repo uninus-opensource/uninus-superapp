@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
-=======
-import { Controller, Get, Inject, Post, UseFilters, Body, UseGuards } from "@nestjs/common";
-import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { ApiTags } from "@nestjs/swagger";
->>>>>>> 4aeb9d1e (improvement: setup integration payment)
 import { CreatePaymentDto, StatusPaymentDto } from "@uninus/api/dto";
 import { JwtAuthGuard } from "@uninus/api/guard";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";

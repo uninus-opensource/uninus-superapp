@@ -136,6 +136,15 @@ model PaymentHistory {
   createdAt             DateTime            @default(now())
   student               Students?           @relation(fields: [student_id], references: [id])
   student_id            String?
+  payment_type_id       Int?
+  payment_type          PaymentType?        @relation(fields: [payment_type_id], references: [id])
+}
+
+model PaymentType {
+  id             Int              @id @default(autoincrement())
+  name           String
+  createdAt      DateTime         @default(now())
+  PaymentHistory PaymentHistory[]
 }
 
 model PaymentObligations {
