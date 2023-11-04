@@ -154,7 +154,7 @@
   "devDependencies": {
     "@babel/core": "^7.23.2",
     "@babel/preset-react": "^7.14.5",
-    "@nestjs/schematics": "^10.0.2",
+    "@nestjs/schematics": "^10.0.3",
     "@nestjs/testing": "^10.2.7",
     "@nx/cypress": "17.0.2",
     "@nx/detox": "17.0.2",
