@@ -25,7 +25,13 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
 
   return (
     <main key="main" className={monserrat.className + ` flex w-full min-h-full overflow-x-hidden`}>
-      <SideBar profileName="" profileEmail="" onLogout={handleLogout} sideList={sideLists} />
+      <SideBar
+        profileName=""
+        profileEmail=""
+        onLogout={handleLogout}
+        sideList={sideLists}
+        moduleName="Tracer Alumni"
+      />
 
       <section
         key="dashboard"

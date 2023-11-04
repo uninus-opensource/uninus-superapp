@@ -10,9 +10,39 @@ module.exports = {
     extend: {
       boxShadow: {
         inset: "0px 2px 6px 0px rgba(0, 0, 0, 0.25) inset",
+        full: "0px 3px 10px rgb(0,0,0,0.2)",
       },
-      fontFamily: {
-        bebasNeue: ["Bebas Neue", "sans-serif"],
+      width: {
+        18: "72px",
+        26: "105px",
+        "100%": "100vw",
+        "95%": "95vw",
+        "90%": "90vw",
+        "85%": "85vw",
+        "80%": "80vw",
+        "75%": "75vw",
+        "70%": "70vw",
+        "65%": "65vw",
+        "60%": "60vw",
+        "55%": "55vw",
+        "50%": "50vw",
+        "45%": "45vw",
+        "40%": "40vw",
+        "35%": "35vw",
+        "30%": "30vw",
+        "25%": "25vw",
+        "20%": "20vw",
+        "15%": "15vw",
+        "10%": "10vw",
+        "5%": "5vw",
+      },
+      height: {
+        18: "72px",
+        26: "105px",
+        "navbar-mobile": "160px",
+        navbarlg: "120px",
+        footerHeight: "360px",
+        bannerLg: "520px",
       },
       fontWeight: {
         extramedium: "550",
@@ -21,6 +51,7 @@ module.exports = {
     colors: {
       primary: {
         green: "#009647",
+        blue: "#7CB9E8",
         yellow: "#F8BF02",
         white: "#FFFFFF",
         black: "#000000",
@@ -33,13 +64,24 @@ module.exports = {
           4: "#175349",
           5: "#113C35",
           6: "#162000",
+          7: "#EDFFF5",
+          8: "#00873F",
         },
         sky: {
           1: "#1678682E",
           2: "#B9DEDA",
         },
+        orange: {
+          1: "#E3642C",
+          2: "#eb7909",
+        },
+        yellow: {
+          1: "#F89602",
+        },
       },
       grayscale: {
+        12: "#F5F5F5",
+        11: "#989898",
         10: "#141414",
         9: "#292929",
         8: "#3D3D3D",
@@ -49,7 +91,7 @@ module.exports = {
         4: "#9E9E9E",
         3: "#B3B3B3",
         2: "#C7C7C7",
-        1: "#FFFFFF",
+        1: "#FAFCFF",
       },
       disable: {
         state: "#BDBDBD",
@@ -64,9 +106,16 @@ module.exports = {
       red: {
         1: "#ffbaba",
         2: "#ff7b7b",
-        3: "#ff5252",
-        4: "#ff0000",
-        5: "#a70000",
+        3: "#EAC0C4",
+        4: "#ff5252",
+        5: "#ff0000",
+        6: "#a70000",
+        7: "#BB2D3B",
+      },
+      blue: {
+        1: "#0CA3D2",
+        4: "#60FFAB",
+        5: "#EDFFF5",
       },
     },
   },
