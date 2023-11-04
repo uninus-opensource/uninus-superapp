@@ -1,4 +1,4 @@
-import { ReactElement, forwardRef, Ref, useState } from "react";
+import { ReactElement, forwardRef, Ref, useState, useEffect } from "react";
 import { FieldValues, useController } from "react-hook-form";
 import { TSelectFieldProps, TSelectOption } from "./types";
 import Select, { GroupBase, MultiValue, SelectInstance, SingleValue } from "react-select";
@@ -47,9 +47,14 @@ export const SelectOption = forwardRef(
       ...props,
     });
 
+    const [color, setColor] = useState<string | null>(null);
+    // const [value, setValue] = useState<string | null>(null);
+
     const handleChange = (payload: MultiValue<TSelectOption> | SingleValue<TSelectOption>) => {
       const pay = payload as TSelectOption;
+      setColor(pay?.color as string);
       field.onChange(pay?.value);
+
       // console.log(pay?.value);
     };
 
@@ -61,6 +66,14 @@ export const SelectOption = forwardRef(
         />
       );
     };
+
+    useEffect(() => {
+      if (props.renderSelectColor) {
+        props.options.find((option) => option.value === field.value)
+          ? setColor(props.options.find((option) => option.value === field.value)?.color as string)
+          : setColor(null);
+      }
+    }, [field.value, props.options, props.renderSelectColor]);
 
     return (
       <div className="flex flex-col">
@@ -80,7 +93,11 @@ export const SelectOption = forwardRef(
           styles={{
             control: (provided, state) => ({
               ...provided,
-              backgroundColor: state.isFocused ? "#DEDEDE" : "#F2F2F2",
+              backgroundColor: props.options?.map((option) => option.color)
+                ? color || "#DEDEDE"
+                : state.isFocused
+                ? "#DEDEDE"
+                : "#F2F2F2",
               color: "black",
               border: "0px",
               outline: "none",
@@ -90,6 +107,11 @@ export const SelectOption = forwardRef(
               ...provided,
               backgroundColor: state.isSelected ? "#DEDEDE" : "#F2F2F2",
               color: "black",
+              boxShadow: "none",
+            }),
+            singleValue: (provided) => ({
+              ...provided,
+              color: props.textColor || "black",
               boxShadow: "none",
             }),
           }}

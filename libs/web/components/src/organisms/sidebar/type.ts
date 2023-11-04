@@ -22,6 +22,6 @@ export type TSideBarList = {
 export type TSideBarDropdown = {
   label: string;
   link: string;
-  icon: ReactNode;
+  icon?: ReactNode;
   disabledStatus?: boolean;
 };

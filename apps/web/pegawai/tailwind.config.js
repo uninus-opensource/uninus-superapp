@@ -67,6 +67,7 @@ module.exports = {
       },
       secondary: {
         green: {
+          0.5: "#E6F5ED",
           1: "#3EA136",
           2: "#7CAB25",
           3: "#BAB514",
