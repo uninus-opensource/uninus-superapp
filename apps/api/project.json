@@ -59,12 +59,5 @@
       }
     }
   },
-  "tags": [],
-  "pm2": {
-    "executor": "nx-pm2-plugin:pm2-executor",
-    "options": {
-      "command": "api:serve",
-      "name": "api"
-    }
-  }
+  "tags": []
 }
