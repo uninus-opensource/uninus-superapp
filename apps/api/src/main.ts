@@ -5,7 +5,7 @@
 import "reflect-metadata";
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import { MasterApi } from "@uninus/api/master";
+import { MasterApi } from "@uninus/api/modules";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 import * as bodyParser from "body-parser";
 

@@ -1,11 +1,9 @@
 import { Module } from "@nestjs/common";
 import { UserController } from "@uninus/api/controllers";
-import { PrismaModule } from "../prisma";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 
 @Module({
   imports: [
-    PrismaModule,
     ClientsModule.register([
       {
         name: "USER_SERVICE",

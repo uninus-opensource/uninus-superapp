@@ -19,7 +19,6 @@
       "@uninus/api/controllers": ["libs/api/controllers/src/index.ts"],
       "@uninus/api/dto": ["libs/api/dto/src/index.ts"],
       "@uninus/api/guard": ["libs/api/guard/src/index.ts"],
-      "@uninus/api/master": ["libs/api/master/src/index.ts"],
       "@uninus/api/models": ["libs/api/models/src/index.ts"],
       "@uninus/api/modules": ["libs/api/modules/src/index.ts"],
       "@uninus/api/pipes": ["libs/api/pipes/src/index.ts"],

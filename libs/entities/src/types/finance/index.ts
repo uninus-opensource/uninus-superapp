@@ -20,11 +20,8 @@ export type TFinanceSummaryResponse = {
   };
 };
 export type TCreatePaymentRequest = {
-  email: string;
-  fullname: string;
-  phone_number: string;
-  amount: number;
-  orderId: string;
+  userId: string;
+  payment_obligation_id: number;
 };
 
 export type TCreatePaymentResponse = {
@@ -40,7 +37,7 @@ export type TCreatePaymentResponse = {
 };
 
 export type TStatusPaymentRequest = {
-  orderId: string;
+  order_id: string;
 };
 
 export type TStatusPaymentResponse = {
