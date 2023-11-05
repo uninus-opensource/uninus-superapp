@@ -58,6 +58,19 @@
           "codeCoverage": true
         }
       }
+    },
+    "pm2": {
+      "executor": "nx-pm2-plugin:pm2-executor",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "api-email:serve:production",
+        "log_file": "./_logs_/pm2/api/api-email/out.log",
+        "error_file": "./_logs_/pm2/api/api-email/error.log",
+        "mergeLogs": false,
+        "name": "api-email",
+        "watch": true,
+        "autorestart": true
+      }
     }
   },
   "tags": []

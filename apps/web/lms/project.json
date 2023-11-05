@@ -32,7 +32,8 @@
         },
         "production": {
           "buildTarget": "web-lms:build:production",
-          "dev": false
+          "dev": false,
+          "port": 4300
         }
       }
     },
@@ -61,6 +62,19 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/web/lms/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "pm2": {
+      "executor": "nx-pm2-plugin:pm2-executor",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "web-lms:serve:production",
+        "log_file": "./_logs_/pm2/web/web-lms/out.log",
+        "error_file": "./_logs_/pm2/web/web-lms/error.log",
+        "mergeLogs": false,
+        "name": "web-lms",
+        "watch": true,
+        "autorestart": true
       }
     }
   },
