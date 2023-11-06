@@ -11,6 +11,7 @@ module.exports = {
       boxShadow: {
         inset: "0px 2px 6px 0px rgba(0, 0, 0, 0.25) inset",
         full: "0px 3px 10px rgb(0,0,0,0.2)",
+        card: "0px 4px 6px -1px #cbd5e0",
       },
       width: {
         18: "72px",
@@ -110,6 +111,9 @@ module.exports = {
         6: "#a70000",
         7: "#BB2D3B",
       },
+      yellow: {
+        500: "#F8BF02",
+      },
       conditional: {
         disable: "#B3B3B3",
         success: "#198754",
@@ -121,6 +125,16 @@ module.exports = {
       },
       body: {
         light: "#425466",
+      },
+      error: {
+        600: "#D34B21",
+      },
+      green: {
+        50: "#E6F5ED",
+        200: "#8ACFAA",
+      },
+      warning: {
+        100: "#F6FCC5",
       },
     },
   },
