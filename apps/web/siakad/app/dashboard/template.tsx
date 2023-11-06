@@ -34,7 +34,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     },
     {
       name: "KRS",
-      link: "/krs",
+      link: "/dashboard/krs",
       icon: <AiOutlineFileText />,
     },
     {
