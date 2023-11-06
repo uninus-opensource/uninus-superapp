@@ -65,6 +65,12 @@ module.exports = {
         black: "#000000",
       },
       secondary: {
+        orange: {
+          1: "#FDF6EF",
+        },
+        yellow: {
+          1: "#FEF9E6",
+        },
         green: {
           0.5: "#E6F5ED",
           1: "#3EA136",
@@ -85,6 +91,7 @@ module.exports = {
         8: "#3D3D3D",
         7: "#525252",
         6: "#666666",
+        5.5: "#7C7C7C",
         5: "#7A7A7A",
         4: "#9E9E9E",
         3: "#B3B3B3",

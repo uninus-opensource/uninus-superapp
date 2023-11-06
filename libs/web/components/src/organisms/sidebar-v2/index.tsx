@@ -42,7 +42,7 @@ export const SidebarV2: FC<TSidebarV2> = ({
         </header>
 
         {/* Sidebar list */}
-        <section className="w-full flex flex-col gap-2 items-center ease-in mb-4">
+        <section className="w-full flex flex-col xl:gap-2 gap-0.5 items-center ease-in mb-4">
           {sideList.map((item, index) => (
             <Link
               key={index}
@@ -78,7 +78,7 @@ export const SidebarV2: FC<TSidebarV2> = ({
         </section>
 
         {/* Footer section */}
-        <section className="w-full flex flex-col gap-2 items-center ease-in xl:mt-[3rem] lg:mt-[2rem] mb-8">
+        <section className="w-full flex flex-col xl:gap-2 gap-1 items-center ease-in xl:mt-[3rem] lg:mt-[2rem] mb-8">
           <Link
             href={`#`}
             className={`${
