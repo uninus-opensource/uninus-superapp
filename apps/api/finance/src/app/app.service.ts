@@ -29,7 +29,7 @@ export class AppService {
   private merchantId = this.configService.getOrThrow("PAYMENT_MERCHANT_ID");
   private config: AxiosRequestConfig = {
     headers: {
-      Authorization: `Basic  ${this.merchantId}`,
+      Authorization: `Basic  ${btoa(this.merchantId)}`,
     },
   };
   async getFinanceSummary({
@@ -642,12 +642,79 @@ export class AppService {
   }
 
   async requestPayment(payload: TCreatePaymentRequest): Promise<TCreatePaymentResponse> {
-    const { email, fullname, phone_number, amount, orderId } = payload;
-    const { firstName, lastName } = splitFullname(fullname);
+    const { userId, payment_obligation_id } = payload;
+    const student = await this.prisma.users.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        fullname: true,
+        email: true,
+        students: {
+          select: {
+            phone_number: true,
+          },
+        },
+      },
+    });
+    if (!student) {
+      throw new RpcException(new BadRequestException("User tidak ditemukan"));
+    }
+    const { firstName, lastName } = splitFullname(student?.fullname);
     const timeStamp = new Date().getTime();
+    const getPaymentObligations = await this.prisma.paymentObligations.findUnique({
+      where: {
+        id: payment_obligation_id,
+      },
+      select: {
+        name: true,
+        amount: true,
+      },
+    });
+    if (!getPaymentObligations) {
+      throw new RpcException(new BadRequestException("Pembayaran tidak ditemukan"));
+    }
+
+    const updateStudent = await this.prisma.users.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        students: {
+          update: {
+            payment_history: {
+              create: {
+                order_id: String(`${getPaymentObligations?.name}-${timeStamp}`),
+                payment_obligation_id: Number(payment_obligation_id),
+              },
+            },
+          },
+        },
+      },
+      select: {
+        students: {
+          select: {
+            payment_history: true,
+          },
+        },
+      },
+    });
+    if (!updateStudent) {
+      throw new RpcException(new BadRequestException("Gagal membuat transaksi"));
+    }
     const data = {
-      customerDetails: { email, firstName, lastName, phone: phone_number },
-      transactionDetails: { amount, currency: "IDR", orderId, expiryDuration: "2m" },
+      customerDetails: {
+        email: student?.email,
+        firstName,
+        lastName,
+        phone: student?.students?.phone_number,
+      },
+      transactionDetails: {
+        amount: getPaymentObligations?.amount,
+        currency: "IDR",
+        orderId: String(`${getPaymentObligations?.name}-${timeStamp}`),
+        expiryDuration: "2m",
+      },
     };
     this.config.baseURL = this.apiRequest;
     this.config.headers.Timestamp = timeStamp;
@@ -658,16 +725,16 @@ export class AppService {
         .post("/payment-services/v2.1.0/api/token", data, this.config)
         .pipe(map((resp) => resp.data)),
     ).catch((error) => {
-      throw new RpcException(new BadRequestException(error.response.statusText));
+      throw new RpcException(new BadRequestException(error?.response?.statusText));
     });
-
+    console.log(response);
     return response;
   }
 
   async statusPayment(payload: TStatusPaymentRequest): Promise<TStatusPaymentResponse> {
-    const { orderId } = payload;
+    const { order_id } = payload;
     const timeStamp = new Date().getTime();
-    const data = { trxRef: orderId };
+    const data = { trxRef: order_id };
     this.config.baseURL = this.apiStatus;
     this.config.headers.Timestamp = timeStamp;
     this.config.headers.Signature = createSignature(JSON.stringify(data), timeStamp, this.apiKey);

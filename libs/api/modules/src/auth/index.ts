@@ -3,12 +3,10 @@ import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { AuthController } from "@uninus/api/controllers";
 import { JwtStrategy, RtStrategy } from "@uninus/api/strategies";
-import { PrismaModule } from "../prisma";
 import { AuthService } from "@uninus/api/services";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 @Module({
   imports: [
-    PrismaModule,
     JwtModule.register({
       secret: process.env.ACCESS_SECRET,
       signOptions: { expiresIn: "1h" },
