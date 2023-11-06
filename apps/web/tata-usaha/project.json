@@ -32,7 +32,8 @@
         },
         "production": {
           "buildTarget": "web-tata-usaha:build:production",
-          "dev": false
+          "dev": false,
+          "port": 5400
         }
       }
     },
@@ -61,6 +62,19 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/web/tata-usaha/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "pm2": {
+      "executor": "nx-pm2-plugin:pm2-executor",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "web-tata-usaha:serve:production",
+        "log_file": "./_logs_/pm2/web/web-tata-usaha/out.log",
+        "error_file": "./_logs_/pm2/web/web-tata-usaha/error.log",
+        "mergeLogs": false,
+        "name": "web-tata-usaha",
+        "watch": true,
+        "autorestart": true
       }
     }
   },

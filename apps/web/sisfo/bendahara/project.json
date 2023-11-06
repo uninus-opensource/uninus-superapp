@@ -6,9 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nx/next:build",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/apps/web/sisfo/bendahara"
@@ -34,7 +32,8 @@
         },
         "production": {
           "buildTarget": "web-sisfo-bendahara:build:production",
-          "dev": false
+          "dev": false,
+          "port": 5100
         }
       }
     },
@@ -46,9 +45,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "apps/web/sisfo/bendahara/jest.config.ts",
         "passWithNoTests": true
@@ -62,13 +59,22 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/web/sisfo/bendahara/**/*.{ts,tsx,js,jsx}"
-        ]
+        "lintFilePatterns": ["apps/web/sisfo/bendahara/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "pm2": {
+      "executor": "nx-pm2-plugin:pm2-executor",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "web-sisfo-bendahara:serve:production",
+        "log_file": "./_logs_/pm2/web/web-sisfo-bendahara/out.log",
+        "error_file": "./_logs_/pm2/web/web-sisfo-bendahara/error.log",
+        "mergeLogs": false,
+        "name": "web-sisfo-bendahara",
+        "watch": true,
+        "autorestart": true
       }
     }
   },

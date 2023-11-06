@@ -32,7 +32,8 @@
         },
         "production": {
           "buildTarget": "web-smart-dashboard:build:production",
-          "dev": false
+          "dev": false,
+          "port": 5300
         }
       }
     },
@@ -61,6 +62,19 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/web/smart-dashboard/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "pm2": {
+      "executor": "nx-pm2-plugin:pm2-executor",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "web-smart-dashboard:serve:production",
+        "log_file": "./_logs_/pm2/web/web-smart-dashboard/out.log",
+        "error_file": "./_logs_/pm2/web/web-smart-dashboard/error.log",
+        "mergeLogs": false,
+        "name": "web-smart-dashboard",
+        "watch": true,
+        "autorestart": true
       }
     }
   },

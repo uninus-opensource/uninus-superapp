@@ -32,7 +32,8 @@
         },
         "production": {
           "buildTarget": "web-psu:build:production",
-          "dev": false
+          "dev": false,
+          "port": 7000
         }
       }
     },
@@ -61,6 +62,19 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/web/psu/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "pm2": {
+      "executor": "nx-pm2-plugin:pm2-executor",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "web-psu:serve:production",
+        "log_file": "./_logs_/pm2/web/web-psu/out.log",
+        "error_file": "./_logs_/pm2/web/web-psu/error.log",
+        "mergeLogs": false,
+        "name": "web-psu",
+        "watch": true,
+        "autorestart": true
       }
     }
   },

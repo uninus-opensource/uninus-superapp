@@ -58,6 +58,19 @@
           "codeCoverage": true
         }
       }
+    },
+    "pm2": {
+      "executor": "nx-pm2-plugin:pm2-executor",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "api-finance:serve:production",
+        "log_file": "./_logs_/pm2/api/api-finance/out.log",
+        "error_file": "./_logs_/pm2/api/api-finance/error.log",
+        "mergeLogs": false,
+        "name": "api-finance",
+        "watch": true,
+        "autorestart": true
+      }
     }
   },
   "tags": []
