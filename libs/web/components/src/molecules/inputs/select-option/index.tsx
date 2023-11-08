@@ -94,18 +94,19 @@ export const SelectOption = forwardRef(
             control: (provided, state) => ({
               ...provided,
               backgroundColor: props.options?.map((option) => option.color)
-                ? color || "#DEDEDE"
+                ? color || props.selectColor || "#F2F2F2"
                 : state.isFocused
                 ? "#DEDEDE"
                 : "#F2F2F2",
               color: "black",
-              border: "0px",
+              border: props.isBordered ? "2px 2px 2px 2px" : "none",
+              borderColor: "#989898",
               outline: "none",
               boxShadow: "none",
             }),
             option: (provided, state) => ({
               ...provided,
-              backgroundColor: state.isSelected ? "#DEDEDE" : "#F2F2F2",
+              backgroundColor: state.isSelected ? "#DEDEDE" : props.optionColor || "#F2F2F2",
               color: "black",
               boxShadow: "none",
             }),

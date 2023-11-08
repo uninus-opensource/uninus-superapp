@@ -27,4 +27,7 @@ export type TSelectFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   selectedColor?: string;
   textColor?: string;
   renderSelectColor?: boolean;
+  selectColor?: string;
+  optionColor?: string;
+  isBordered?: boolean;
 };

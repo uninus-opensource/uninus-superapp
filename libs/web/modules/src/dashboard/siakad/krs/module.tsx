@@ -123,6 +123,9 @@ export const MenuKrsSiakad: FC = (): ReactElement => {
                 control={control}
                 className="w-full"
                 isClearable={true}
+                selectColor="white"
+                optionColor="white"
+                isBordered={true}
               />
             </div>
             <div className="w-[47%] lg:w-[100px]">
