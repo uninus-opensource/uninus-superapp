@@ -24,6 +24,7 @@ module.exports = {
         yellow: "#F8BF02",
         white: "#FFFFFF",
         black: "#000000",
+        blue: "#1D4CF2",
       },
       secondary: {
         green: {
@@ -33,6 +34,7 @@ module.exports = {
           4: "#175349",
           5: "#113C35",
           6: "#162000",
+          7: "#EDFFF5",
         },
         sky: {
           1: "#1678682E",
@@ -67,6 +69,7 @@ module.exports = {
         3: "#ff5252",
         4: "#ff0000",
         5: "#a70000",
+        6: "#D34B21",
       },
     },
   },
