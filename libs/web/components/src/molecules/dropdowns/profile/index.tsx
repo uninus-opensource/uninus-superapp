@@ -49,7 +49,7 @@ export const ProfileDropdown: FC<TProfileDropdown> = ({ showProfile }): ReactEle
   };
   return (
     showProfile && (
-      <section className="flex flex-col w-[20vw] p-2 gap-2 absolute shadow-md z-20 bg-primary-white right-0 rounded-b-md xl:top-[4rem] lg:top-[3.5rem]">
+      <section className="flex flex-col w-[20vw] p-2 gap-2 absolute shadow-md z-20 bg-primary-white right-0 rounded-b-md xl:top-[4.3rem] lg:top-[3.5rem]">
         <div className="flex items-center gap-4 xl:ml-2">
           <figure>
             <Image

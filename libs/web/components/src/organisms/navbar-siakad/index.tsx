@@ -2,10 +2,11 @@ import { useSidebarSiakadToogle } from "@uninus/web/services";
 import Image from "next/image";
 import { FC, Fragment, ReactElement, useState } from "react";
 import { AiFillBell, AiFillCaretDown } from "react-icons/ai";
-import { ProfileDropdown } from "../../molecules";
+import { NotificationDropdown, ProfileDropdown } from "../../molecules";
 
 export const NavbarSiakad: FC = (): ReactElement => {
   const [isProfile, setIsProfile] = useState<boolean>(false);
+  const [isNotif, setIsNotif] = useState<boolean>(false);
   const { setSiakadToogle } = useSidebarSiakadToogle();
 
   const userData: { name: string; nim: string } = {
@@ -37,10 +38,22 @@ export const NavbarSiakad: FC = (): ReactElement => {
           />
         </button>
         <nav className="flex gap-5 justify-between items-center">
-          <button className="bg-primary-yellow p-2.5 rounded-xl">
+          <button
+            className="bg-primary-yellow p-2.5 rounded-xl"
+            onClick={() => {
+              setIsNotif(!isNotif);
+              setIsProfile(false);
+            }}
+          >
             <AiFillBell className="sm:text-[1.3rem] text-[1rem]" />
           </button>
-          <div className="flex items-center gap-4 cursor-pointer">
+          <button
+            className="flex items-center gap-4 cursor-pointer"
+            onClick={() => {
+              setIsProfile(!isProfile);
+              setIsNotif(false);
+            }}
+          >
             <figure>
               <Image
                 src="/illustrations/dummy-avatar.webp"
@@ -52,10 +65,7 @@ export const NavbarSiakad: FC = (): ReactElement => {
               />
             </figure>
 
-            <div
-              className="flex flex-col gap-1 justify-center text-left py-2 mt-1"
-              onClick={() => setIsProfile(!isProfile)}
-            >
+            <div className="flex flex-col gap-1 justify-center text-left py-2 mt-1">
               <h4 className="flex gap-1 items-center text-sm font-semibold">
                 {userData.name}{" "}
                 <AiFillCaretDown
@@ -64,10 +74,14 @@ export const NavbarSiakad: FC = (): ReactElement => {
               </h4>
               <h5 className="text-xs font-extramedium text-slate-5">{userData.nim}</h5>
             </div>
-          </div>
+          </button>
         </nav>
       </header>
       <ProfileDropdown showProfile={isProfile} />
+      <NotificationDropdown
+        showNotification={isNotif}
+        closeNotification={() => setIsNotif(false)}
+      />
     </Fragment>
   );
 };
