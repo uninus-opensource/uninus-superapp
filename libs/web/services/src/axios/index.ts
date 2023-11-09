@@ -2,11 +2,14 @@ import axios from "axios";
 import type { AxiosRequestConfig } from "axios";
 import { getSession } from "next-auth/react";
 
-const config: AxiosRequestConfig = {
+const configApi: AxiosRequestConfig = {
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 };
-
-export const api = axios.create(config);
+const configMock: AxiosRequestConfig = {
+  baseURL: process.env.NEXT_PUBLIC_MOCK_URL,
+};
+export const api = axios.create(configApi);
+export const mock = axios.create(configMock);
 
 api.interceptors.request.use(
   async (config) => {
