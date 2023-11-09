@@ -7,5 +7,5 @@ export class CreatePaymentDto {
 
 export class StatusPaymentDto {
   @ApiProperty()
-  public orderId!: string;
+  public order_id!: string;
 }
