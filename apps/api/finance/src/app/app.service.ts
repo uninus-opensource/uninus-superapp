@@ -29,7 +29,7 @@ export class AppService {
   private merchantId = this.configService.getOrThrow("PAYMENT_MERCHANT_ID");
   private config: AxiosRequestConfig = {
     headers: {
-      Authorization: `Basic  ${btoa(this.merchantId)}`,
+      Authorization: `Basic ${btoa(this.merchantId)}`,
     },
   };
   async getFinanceSummary({
@@ -661,7 +661,7 @@ export class AppService {
       throw new RpcException(new BadRequestException("User tidak ditemukan"));
     }
     const { firstName, lastName } = splitFullname(student?.fullname);
-    const timeStamp = new Date().getTime();
+    const timeStamp = Math.floor(Date.now() / 1000);
     const getPaymentObligations = await this.prisma.paymentObligations.findUnique({
       where: {
         id: payment_obligation_id,
@@ -718,7 +718,11 @@ export class AppService {
     };
     this.config.baseURL = this.apiRequest;
     this.config.headers.Timestamp = timeStamp;
-    this.config.headers.Signature = createSignature(JSON.stringify(data), timeStamp, this.apiKey);
+    this.config.headers.Signature = await createSignature(
+      JSON.stringify(data),
+      timeStamp,
+      this.apiKey,
+    );
 
     const response = await firstValueFrom(
       this.httpService
@@ -727,7 +731,6 @@ export class AppService {
     ).catch((error) => {
       throw new RpcException(new BadRequestException(error?.response?.statusText));
     });
-    console.log(response);
     return response;
   }
 
@@ -737,9 +740,15 @@ export class AppService {
     const data = { trxRef: order_id };
     this.config.baseURL = this.apiStatus;
     this.config.headers.Timestamp = timeStamp;
-    this.config.headers.Signature = createSignature(JSON.stringify(data), timeStamp, this.apiKey);
+    this.config.headers.Signature = await createSignature(
+      JSON.stringify(data),
+      timeStamp,
+      this.apiKey,
+    );
     const response = await firstValueFrom(
-      this.httpService.post("/api/checkstatus", data, this.config).pipe(map((resp) => resp.data)),
+      this.httpService
+        .post("/sp/service/v3.0.0/api/checkstatus", data, this.config)
+        .pipe(map((resp) => resp.data)),
     ).catch((error) => {
       throw new RpcException(new BadRequestException(error.response.statusText));
     });
