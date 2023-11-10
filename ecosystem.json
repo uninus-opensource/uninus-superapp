@@ -2,157 +2,346 @@
   "apps": [
     {
       "name": "api-master",
-      "script": "yarn",
-      "args": "api:serve:prod",
+      "script": "dist/apps/api/main.js",
+      "out_file": "./.logs/api/api-master/out.log",
       "error_file": "./.logs/api/api-master/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "ACCESS_SECRET": "test",
+        "REFRESH_SECRET": "test",
+        "CORS_ORIGIN": "http://localhost:4200,https://pmb.uninus",
+        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
+        "REDIS_HOST": "viaduct.proxy.rlwy.net",
+        "REDIS_PORT": "17208",
+        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
+        "REDIS_USERNAME": "default"
+      }
     },
     {
       "name": "api-auth",
       "script": "yarn",
       "args": "api:auth:prod",
+      "out_file": "./.logs/api/api-auth/out.log",
       "error_file": "./.logs/api/api-auth/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "ACCESS_SECRET": "test",
+        "REFRESH_SECRET": "test",
+        "CORS_ORIGIN": "http://localhost:4200,https://pmb.uninus",
+        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
+        "REDIS_HOST": "viaduct.proxy.rlwy.net",
+        "REDIS_PORT": "17208",
+        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
+        "REDIS_USERNAME": "default"
+      }
     },
     {
       "name": "api-email",
       "script": "yarn",
       "args": "api:email:prod",
+      "out_file": "./.logs/api/api-email/out.log",
       "error_file": "./.logs/api/api-email/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "ACCESS_SECRET": "test",
+        "REFRESH_SECRET": "test",
+        "CORS_ORIGIN": "http://localhost:4200,https://pmb.uninus",
+        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
+        "REDIS_HOST": "viaduct.proxy.rlwy.net",
+        "REDIS_PORT": "17208",
+        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
+        "REDIS_USERNAME": "default"
+      }
     },
     {
       "name": "api-employee",
       "script": "yarn",
       "args": "api:employee:prod",
+      "out_file": "./.logs/api/api-employee/out.log",
       "error_file": "./.logs/api/api-employee/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "ACCESS_SECRET": "test",
+        "REFRESH_SECRET": "test",
+        "CORS_ORIGIN": "http://localhost:4200,https://pmb.uninus",
+        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
+        "REDIS_HOST": "viaduct.proxy.rlwy.net",
+        "REDIS_PORT": "17208",
+        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
+        "REDIS_USERNAME": "default"
+      }
     },
     {
       "name": "api-finance",
       "script": "yarn",
       "args": "api:finance:prod",
+      "out_file": "./.logs/api/api-finance/out.log",
       "error_file": "./.logs/api/api-finance/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "ACCESS_SECRET": "test",
+        "REFRESH_SECRET": "test",
+        "CORS_ORIGIN": "http://localhost:4200,https://pmb.uninus",
+        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
+        "REDIS_HOST": "viaduct.proxy.rlwy.net",
+        "REDIS_PORT": "17208",
+        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
+        "REDIS_USERNAME": "default"
+      }
     },
     {
       "name": "api-general",
       "script": "yarn",
       "args": "api:general:prod",
+      "out_file": "./.logs/api/api-general/out.log",
       "error_file": "./.logs/api/api-general/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "ACCESS_SECRET": "test",
+        "REFRESH_SECRET": "test",
+        "CORS_ORIGIN": "http://localhost:4200,https://pmb.uninus",
+        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
+        "REDIS_HOST": "viaduct.proxy.rlwy.net",
+        "REDIS_PORT": "17208",
+        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
+        "REDIS_USERNAME": "default"
+      }
     },
     {
       "name": "api-student",
       "script": "yarn",
       "args": "api:student:prod",
+      "out_file": "./.logs/api/api-student/out.log",
       "error_file": "./.logs/api/api-student/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "ACCESS_SECRET": "test",
+        "REFRESH_SECRET": "test",
+        "CORS_ORIGIN": "http://localhost:4200,https://pmb.uninus",
+        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
+        "REDIS_HOST": "viaduct.proxy.rlwy.net",
+        "REDIS_PORT": "17208",
+        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
+        "REDIS_USERNAME": "default"
+      }
     },
     {
       "name": "api-user",
       "script": "yarn",
       "args": "api:user:prod",
+      "out_file": "./.logs/api/api-user/out.log",
       "error_file": "./.logs/api/api-user/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-akreditasi",
-      "script": "yarn",
-      "args": "web:akreditasi:serve --prod",
+      "script": "./node_modules/.bin/next",
+      "args": "start -p 4200",
+      "cwd": "dist/apps/web/akreditasi",
+      "out_file": "./.logs/web/web-akreditasi/out.log",
       "error_file": "./.logs/web/web-akreditasi/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-evaluasi",
-      "script": "yarn",
-      "args": "web:evaluasi:serve --prod",
+      "script": "./node_modules/.bin/next",
+      "args": "start -p 4201",
+      "cwd": "dist/apps/web/evaluasi",
+      "out_file": "./.logs/web/web-evaluasi/out.log",
       "error_file": "./.logs/web/web-evaluasi/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true, "PORT": 3000 }
     },
     {
       "name": "web-lms",
-      "script": "yarn",
-      "args": "web:lms:serve --prod",
+      "script": "./node_modules/.bin/next",
+      "args": "start -p 4202",
+      "cwd": "dist/apps/web/lms",
+      "out_file": "./.logs/web/web-lms/out.log",
       "error_file": "./.logs/web/web-lms/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-neo-feeder",
-      "script": "yarn",
-      "args": "web:feeder:serve --prod",
+      "script": "./node_modules/.bin/next",
+      "args": "start -p 4203",
+      "cwd": "dist/apps/web/lms",
+      "out_file": "./.logs/web/web-neo-feeder/out.log",
       "error_file": "./.logs/web/web-neo-feeder/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-pegawai",
       "script": "yarn",
       "args": "web:pegawai:serve --prod",
+      "out_file": "./.logs/web/web-pegawai/out.log",
       "error_file": "./.logs/web/web-pegawai/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-pmb-user",
       "script": "yarn",
       "args": "web:pmb:user:serve --prod",
+      "out_file": "./.logs/web/web-pmb-user/out.log",
       "error_file": "./.logs/web/web-pmb-user/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-pmb-admin",
       "script": "yarn",
       "args": "web:pmb:admin:serve --prod",
+      "out_file": "./.logs/web/web-pmb-admin/out.log",
       "error_file": "./.logs/web/web-pmb-admin/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-siakad",
       "script": "yarn",
       "args": "web:siakad:serve --prod",
+      "out_file": "./.logs/web/web-siakad/out.log",
       "error_file": "./.logs/web/web-siakad/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-tata-usaha",
       "script": "yarn",
       "args": "web:tu:serve --prod",
+      "out_file": "./.logs/web/web-tu/out.log",
       "error_file": "./.logs/web/web-tu/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-tracer-alumni",
       "script": "yarn",
       "args": "web:tracer:serve --prod",
+      "out_file": "./.logs/web/web-tracer/out.log",
       "error_file": "./.logs/web/web-tracer/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-sisfo-akuntansi",
       "script": "yarn",
       "args": "web:akuntansi:serve --prod",
+      "out_file": "./.logs/web/web-akuntansi/out.log",
       "error_file": "./.logs/web/web-akuntansi/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-sisfo-aset",
       "script": "yarn",
       "args": "web:aset:serve --prod",
+      "out_file": "./.logs/web/web-aset/out.log",
       "error_file": "./.logs/web/web-aset/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-sisfo-bendahara",
       "script": "yarn",
       "args": "web:bendahara:serve --prod",
+      "out_file": "./.logs/web/web-bendahara/out.log",
       "error_file": "./.logs/web/web-bendahara/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     },
     {
       "name": "web-sisfo-keuangan",
       "script": "yarn",
       "args": "web:keuangan:serve --prod",
+      "out_file": "./.logs/web/web-keuangan/out.log",
       "error_file": "./.logs/web/web-keuangan/error.log",
-      "merge_logs": true
+      "merge_logs": true,
+      "exec_mode": "cluster",
+      "instances": 1,
+      "autorestart": true,
+      "env": { "NODE_ENV": "production", "production": true }
     }
   ]
 }
