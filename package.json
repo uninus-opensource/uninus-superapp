@@ -182,7 +182,7 @@
     "@nx/next": "17.0.2",
     "@nx/node": "17.0.2",
     "@nx/react": "17.0.2",
-    "@nx/react-native": "17.0.2",
+    "@nx/react-native": "17.1.1",
     "@nx/webpack": "17.0.2",
     "@nx/workspace": "17.0.2",
     "@react-native-community/cli": "11.3.9",
