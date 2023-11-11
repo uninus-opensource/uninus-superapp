@@ -85,6 +85,7 @@ export class StudentController {
 
     return response;
   }
+
   @ApiBearerAuth()
   @ApiOperation({ summary: "Get Data Student" })
   @ApiResponse({
