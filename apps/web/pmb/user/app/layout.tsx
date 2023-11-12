@@ -15,7 +15,6 @@ export default function Layout(props: { children: React.ReactNode }) {
           <QueryProvider>
             <RecoilProvider>
               <main key="landing-layout">{props.children}</main>
-              <div key="modal-logout" id="modal-logout" />
               <div key="modal-landing" id="modal-landing" />
             </RecoilProvider>
           </QueryProvider>
