@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { ReactElement } from "react";
 import { Metadata } from "next";
+import { ModuleHomepageSiakad } from "@uninus/web/modules";
 
 export const metadata: Metadata = {
   title: "Dashboard Siakad | Beranda",
@@ -8,10 +9,6 @@ export const metadata: Metadata = {
 };
 
 const DashboardHome: NextPage = (): ReactElement => {
-  return (
-    <section className="flex justify-center items-center h-full w-full">
-      <h1>Ini Dashboard Siakad</h1>
-    </section>
-  );
+  return <ModuleHomepageSiakad />;
 };
 export default DashboardHome;
