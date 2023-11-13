@@ -354,10 +354,20 @@ export const LoginAdminKeuanganModule: FC = (): ReactElement => {
   });
   return (
     <section
-      key="auth-admin-keuangan"
-      className="w-full min-h-screen bg-[url(/illustrations/bg-auth.webp)] bg-center bg-no-repeat bg-primary-green bg-blend-overlay"
+      key="auth-admin-evaluasi"
+      className={`w-full min-h-screen bg-[#E6F5ED] bg-cover bg-center object-cover bg-no-repeat -z-10`}
     >
-      <div className="w-full h-screen flex justify-center items-center backdrop-blur-sm">
+      <div className="relative w-72 h-72 md:w-[36rem] md:h-[36rem] 2xl:w-[45rem] 2xl:h-[45rem] float-right bg-cover z-50">
+        <Image
+          width={100}
+          height={100}
+          src={"/illustrations/shapeBG.svg"}
+          alt="decoration"
+          className="object-right-top object-scale-down bg-contain w-full absolute h-full"
+        />
+      </div>
+
+      <div className="w-full h-screen flex justify-center items-center z-10 absolute">
         <form
           onSubmit={onSubmit}
           className="w-5/6 md:w-1/2 lg:w-1/3 bg-primary-white rounded-md py-6 px-8 lg:px-14 flex flex-col items-center justify-center gap-y-6"
@@ -410,9 +420,9 @@ export const LoginAdminKeuanganModule: FC = (): ReactElement => {
             <div className="flex justify-center">
               <Button
                 loading={isLoading}
-                variant="custom"
+                variant="elevated"
                 disabled={!isValid}
-                styling="text-xs lg:text-base w-full h-5 xl:h-10 bg-primary-green text-primary-white"
+                styling="text-xs lg:text-base w-full h-5 xl:h-10"
               >
                 Masuk
               </Button>
@@ -422,6 +432,15 @@ export const LoginAdminKeuanganModule: FC = (): ReactElement => {
             </h2>
           </div>
         </form>
+      </div>
+      <div className="absolute w-72 h-72 md:w-[36rem] md:h-[36rem] 2xl:w-[45rem] 2xl:h-[45rem] bottom-0 left-0 rotate-180 bg-cover z-50">
+        <Image
+          width={100}
+          height={100}
+          src={"/illustrations/shapeBG.svg"}
+          alt="decoration"
+          className="object-right-top object-scale-down bg-contain w-full absolute h-full"
+        />
       </div>
     </section>
   );

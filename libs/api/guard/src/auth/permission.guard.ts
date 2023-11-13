@@ -26,9 +26,11 @@ export const PermissionGuard = (appsWhiteList: Array<EAppsOrigin>): Type<CanActi
       const permissions: {
         [key: string]: string[];
       } = {};
+
       data.forEach((el) => {
-        permissions[el.name] = el.roles.map((el) => el.name);
+        permissions[el?.name] = el?.roles?.length ? el?.roles.map((el) => el?.name) : [];
       });
+
       return appsWhiteList.includes(origin) && permissions[origin].includes(roleUser);
     }
   }

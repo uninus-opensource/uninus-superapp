@@ -11,6 +11,7 @@ module.exports = {
       boxShadow: {
         inset: "0px 2px 6px 0px rgba(0, 0, 0, 0.25) inset",
         full: "0px 3px 10px rgb(0,0,0,0.2)",
+        card: "0px 4px 6px -1px #cbd5e0",
       },
       width: {
         18: "72px",
@@ -65,6 +66,12 @@ module.exports = {
         black: "#000000",
       },
       secondary: {
+        orange: {
+          1: "#FDF6EF",
+        },
+        yellow: {
+          1: "#FEF9E6",
+        },
         green: {
           0.5: "#E6F5ED",
           1: "#3EA136",
@@ -84,7 +91,9 @@ module.exports = {
         9: "#292929",
         8: "#3D3D3D",
         7: "#525252",
+        6.5: "#656565",
         6: "#666666",
+        5.5: "#7C7C7C",
         5: "#7A7A7A",
         4: "#9E9E9E",
         3: "#B3B3B3",
@@ -111,6 +120,9 @@ module.exports = {
         7: "#BB2D3B",
         8: "#D34B21",
       },
+      yellow: {
+        500: "#F8BF02",
+      },
       conditional: {
         disable: "#B3B3B3",
         success: "#198754",
@@ -122,6 +134,16 @@ module.exports = {
       },
       body: {
         light: "#425466",
+      },
+      error: {
+        600: "#D34B21",
+      },
+      green: {
+        50: "#E6F5ED",
+        200: "#8ACFAA",
+      },
+      warning: {
+        100: "#F6FCC5",
       },
     },
   },

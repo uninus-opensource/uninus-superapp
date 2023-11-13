@@ -1,5 +1,5 @@
 "use client";
-import { FC, PropsWithChildren, ReactElement, useState } from "react";
+import { FC, PropsWithChildren, ReactElement } from "react";
 import { NavbarSiakad, SidebarV2 } from "@uninus/web/components";
 import {
   AiOutlineAppstore,
@@ -17,7 +17,6 @@ import { useSession } from "next-auth/react";
 import { useSidebarSiakadToogle } from "@uninus/web/services";
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
-  const [isOpen, setIsOpen] = useState(false);
   const { mutate } = useLogoutToRoot();
   const { data: session } = useSession();
 
@@ -35,7 +34,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     },
     {
       name: "KRS",
-      link: "/krs",
+      link: "/dashboard/krs",
       icon: <AiOutlineFileText />,
     },
     {
@@ -81,15 +80,15 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
         title="NusaVerse"
         sideList={sideList}
         onLogout={handleLogout}
-        showSideBar={isOpen}
-        onHoverOn={() => setIsOpen(true)}
-        onHoverOff={() => setIsOpen(false)}
+        showSideBar={getSiakadToogle as boolean}
+        onHoverOn={() => setSiakadToogle(true)}
+        onHoverOff={() => setSiakadToogle(false)}
       />
 
       <div className={`w-full flex flex-col h-full lg:overflow-y-hidden`}>
         {getSiakadToogle && (
           <div
-            className="h-screen w-full absolute bg-opacity-30 bg-primary-black"
+            className="h-screen w-full absolute bg-opacity-30 bg-primary-black lg:hidden"
             onClick={() => setSiakadToogle(false)}
           />
         )}

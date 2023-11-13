@@ -1,54 +1,87 @@
 import { useSidebarSiakadToogle } from "@uninus/web/services";
 import Image from "next/image";
-import { FC, ReactElement } from "react";
+import { FC, Fragment, ReactElement, useState } from "react";
 import { AiFillBell, AiFillCaretDown } from "react-icons/ai";
+import { NotificationDropdown, ProfileDropdown } from "../../molecules";
 
 export const NavbarSiakad: FC = (): ReactElement => {
+  const [isProfile, setIsProfile] = useState<boolean>(false);
+  const [isNotif, setIsNotif] = useState<boolean>(false);
   const { setSiakadToogle } = useSidebarSiakadToogle();
 
+  const userData: { name: string; nim: string } = {
+    name: "M Nurfahmi Sugiarto",
+    nim: "41037006200011",
+  };
+
   return (
-    <header className="w-full h-[9vh] flex items-center justify-between border-b border-slate-3 px-6">
-      <h1 className="text-lg font-bold ml-4 lg:block hidden">NEO Universitas Islam Nusantara</h1>
-
-      <button
-        className="bg-primary-green py-1 px-1.5 rounded-xl lg:hidden"
-        onClick={() => {
-          setSiakadToogle(true);
-        }}
+    <Fragment>
+      <header
+        data-testid="navbar-siakad"
+        className="w-full xl:h-[9vh] flex items-center justify-between border-b border-slate-3 px-6 z-20 "
       >
-        <Image
-          src="/illustrations/NusaVerse-White.svg"
-          alt="profile-picture"
-          width={45}
-          height={45}
-          quality={100}
-          className="sm:w-[2em] sm:h-[2em] w-[1.6em] h-[1.6em]"
-        />
-      </button>
-      <nav className="flex gap-5 justify-between items-center">
-        <button className="bg-primary-yellow p-2.5 rounded-xl">
-          <AiFillBell className="sm:text-[1.3rem] text-[1rem]" />
-        </button>
-        <div className="flex items-center gap-4 cursor-pointer">
-          <figure>
-            <Image
-              src="/illustrations/dummy-avatar.webp"
-              alt="profile-picture"
-              width={45}
-              height={45}
-              quality={100}
-              className="rounded-full"
-            />
-          </figure>
+        <h1 className="text-lg font-bold ml-4 lg:block hidden">NEO Universitas Islam Nusantara</h1>
 
-          <div className="flex flex-col gap-1 justify-center text-left py-2 mt-1">
-            <h4 className="flex gap-1 items-center text-sm font-semibold">
-              M Nurfahmi Sugiarto <AiFillCaretDown className="text-base" />
-            </h4>
-            <h5 className="text-xs font-extramedium text-slate-5">41037006200011</h5>
-          </div>
-        </div>
-      </nav>
-    </header>
+        <button
+          className="bg-primary-green py-1 px-1.5 rounded-xl lg:hidden"
+          onClick={() => {
+            setSiakadToogle(true);
+          }}
+        >
+          <Image
+            src="/illustrations/NusaVerse-White.svg"
+            alt="profile-picture"
+            width={45}
+            height={45}
+            quality={100}
+            className="sm:w-[2em] sm:h-[2em] w-[1.6em] h-[1.6em]"
+          />
+        </button>
+        <nav className="flex gap-5 justify-between items-center">
+          <button
+            className="bg-primary-yellow p-2.5 rounded-xl"
+            onClick={() => {
+              setIsNotif(!isNotif);
+              setIsProfile(false);
+            }}
+          >
+            <AiFillBell className="sm:text-[1.3rem] text-[1rem]" />
+          </button>
+          <button
+            className="flex items-center gap-4 cursor-pointer"
+            onClick={() => {
+              setIsProfile(!isProfile);
+              setIsNotif(false);
+            }}
+          >
+            <figure>
+              <Image
+                src="/illustrations/dummy-avatar.webp"
+                alt="profile-picture"
+                width={45}
+                height={45}
+                quality={100}
+                className="rounded-full "
+              />
+            </figure>
+
+            <div className="flex flex-col gap-1 justify-center text-left py-2 mt-1">
+              <h4 className="flex gap-1 items-center text-sm font-semibold">
+                {userData.name}{" "}
+                <AiFillCaretDown
+                  className={`text-base duration-150 ${isProfile ? "rotate-180" : ""}`}
+                />
+              </h4>
+              <h5 className="text-xs font-extramedium text-slate-5">{userData.nim}</h5>
+            </div>
+          </button>
+        </nav>
+      </header>
+      <ProfileDropdown showProfile={isProfile} />
+      <NotificationDropdown
+        showNotification={isNotif}
+        closeNotification={() => setIsNotif(false)}
+      />
+    </Fragment>
   );
 };
