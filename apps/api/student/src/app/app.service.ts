@@ -409,6 +409,7 @@ export class AppService {
           }),
         },
         select: {
+          id: true,
           name: true,
           amount: true,
         },
@@ -440,6 +441,7 @@ export class AppService {
       ? paymentObligations.map((el) =>
           el?.name?.includes("UKT")
             ? {
+                id: el?.id,
                 name: el?.name,
                 amount: el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100,
                 spelled_out: convertNumberToWords(
