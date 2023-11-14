@@ -31,8 +31,24 @@ export class AppService {
         students: {
           include: {
             payment_history: {
-              include: {
-                payment_obligation: true,
+              select: {
+                id: true,
+                order_id: true,
+                payment_method: true,
+                payment_code: true,
+                payment_bank: true,
+                isPaid: true,
+                payment_obligation: {
+                  select: {
+                    name: true,
+                    amount: true,
+                  },
+                },
+                payment_type: {
+                  select: {
+                    name: true,
+                  },
+                },
               },
             },
             pmb: {
@@ -403,9 +419,6 @@ export class AppService {
               contains: payload?.search || "",
               mode: "insensitive",
             },
-          }),
-          ...(payload?.id && {
-            id: Number(payload?.id),
           }),
         },
         select: {
