@@ -3166,12 +3166,12 @@
   dependencies:
     "@nx/web" "17.1.2"
 
-"@nrwl/webpack@17.0.2":
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/@nrwl/webpack/-/webpack-17.0.2.tgz#4fc28a0308b36f89c011f7dff096a58bb237c1e5"
-  integrity sha512-5Kx9drlEGchWDlE8x7uxRIqZEzm8TZll07NUTm++wKWukHhCZZksqojRQkRLq28iO2BFQm12boa78Ku0u3Ob4g==
+"@nrwl/webpack@17.1.2":
+  version "17.1.2"
+  resolved "https://registry.yarnpkg.com/@nrwl/webpack/-/webpack-17.1.2.tgz#ca3947ce08db5c569435cf0fc4bc8af83ec9a09d"
+  integrity sha512-D8+tuyb5v56mTiX6absMoxSkSbNgjp593P4GHHu5bCaCYGMI1Rj8CYwakFIXaxaLzguBtoqC+6L2OxAQ1OwB1g==
   dependencies:
-    "@nx/webpack" "17.0.2"
+    "@nx/webpack" "17.1.2"
 
 "@nrwl/workspace@17.0.2":
   version "17.0.2"
@@ -3811,15 +3811,15 @@
     http-server "^14.1.0"
     tslib "^2.3.0"
 
-"@nx/webpack@17.0.2":
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/@nx/webpack/-/webpack-17.0.2.tgz#677ee3fccc35bc1e4a1ba3b15e99586a531ad281"
-  integrity sha512-TnC+Cpg7MPc6vl1Vu2sVzav/F+6mhmev3tH3nCUFywTwHXrK+i/NQhuvXWEixVt+l77V4Di6VhMKfHaGryfU6Q==
+"@nx/webpack@17.1.2":
+  version "17.1.2"
+  resolved "https://registry.yarnpkg.com/@nx/webpack/-/webpack-17.1.2.tgz#d4e9f06b8d5731a915f4fe19c027795a2f6ba80c"
+  integrity sha512-i6TAKrM1TakHyqEHbtsyfyqh5nrk4xgK/aiJZT8mojOSK5ifSrcZSdlPHHbIzuLsCJt1Wo94LA//C26oBg5PTw==
   dependencies:
     "@babel/core" "^7.22.9"
-    "@nrwl/webpack" "17.0.2"
-    "@nx/devkit" "17.0.2"
-    "@nx/js" "17.0.2"
+    "@nrwl/webpack" "17.1.2"
+    "@nx/devkit" "17.1.2"
+    "@nx/js" "17.1.2"
     autoprefixer "^10.4.9"
     babel-loader "^9.1.2"
     browserslist "^4.21.4"
