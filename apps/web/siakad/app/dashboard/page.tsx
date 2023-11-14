@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { ReactElement } from "react";
 import { Metadata } from "next";
-import { DashboardModuleSiakad } from "@uninus/web/modules";
+import { ModuleHomepageSiakad } from "@uninus/web/modules";
 
 export const metadata: Metadata = {
   title: "Dashboard Siakad | Beranda",
@@ -9,6 +9,6 @@ export const metadata: Metadata = {
 };
 
 const DashboardHome: NextPage = (): ReactElement => {
-  return <DashboardModuleSiakad />;
+  return <ModuleHomepageSiakad />;
 };
 export default DashboardHome;
