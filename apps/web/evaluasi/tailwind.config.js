@@ -25,6 +25,26 @@ module.exports = {
         white: "#FFFFFF",
         black: "#000000",
       },
+      warning: {
+        50: "#fef9e6",
+        100: "#fdebb1",
+        200: "#fce28b",
+        300: "#fad455",
+        400: "#f9cc35",
+        500: "#f8bf02",
+      },
+      success: {
+        50: "#effeff6",
+        100: "#d9ffec",
+        200: "#b6fcd9",
+        300: "#7df8be",
+        400: "#3eea99",
+        500: "#14d379",
+        600: "#0bbc69",
+        700: "#0c894f",
+        800: "#0f6c41",
+        900: "#0f5838",
+      },
       secondary: {
         green: {
           1: "#3EA136",
