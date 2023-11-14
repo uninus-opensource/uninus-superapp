@@ -2,7 +2,7 @@ import { Button } from "../../atoms";
 import { ModalProps } from "./type";
 import { IoCloseSharp } from "react-icons/io5";
 import { createPortal } from "react-dom";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useEffect } from "react";
 import clsx from "clsx";
 export const Modal: FC<ModalProps> = ({
   showModal,
@@ -20,6 +20,14 @@ export const Modal: FC<ModalProps> = ({
   titleColor = "black",
   modalFooter = false,
 }): ReactElement | null => {
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [showModal]);
+
   if (!showModal) {
     return null;
   }
@@ -57,6 +65,7 @@ export const Modal: FC<ModalProps> = ({
     "text-primary-black": titleColor === "black",
     "text-primary-white": titleColor === "white",
   });
+
   return (
     showModal &&
     createPortal(
