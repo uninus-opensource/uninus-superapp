@@ -58,6 +58,7 @@ module.exports = {
       },
       secondary: {
         green: {
+          0.5: "#CCEADA",
           1: "#3EA136",
           2: "#7CAB25",
           3: "#BAB514",
@@ -71,6 +72,7 @@ module.exports = {
         },
         yellow: {
           1: "#FBFDE9",
+          2: "#FFECB4",
         },
       },
       grayscale: {

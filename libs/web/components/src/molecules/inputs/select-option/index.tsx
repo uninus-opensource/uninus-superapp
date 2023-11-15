@@ -103,17 +103,20 @@ export const SelectOption = forwardRef(
               borderColor: "#989898",
               outline: "none",
               boxShadow: "none",
+              fontSize: "14px",
             }),
             option: (provided, state) => ({
               ...provided,
               backgroundColor: state.isSelected ? "#DEDEDE" : props.optionColor || "#F2F2F2",
               color: "black",
               boxShadow: "none",
+              fontSize: "14px",
             }),
             singleValue: (provided) => ({
               ...provided,
               color: props.textColor || "black",
               boxShadow: "none",
+              fontSize: "14px",
             }),
           }}
           components={{
