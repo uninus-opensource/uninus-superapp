@@ -233,7 +233,7 @@
     "metro": "0.80.1",
     "metro-babel-register": "0.80.1",
     "metro-config": "0.80.1",
-    "metro-react-native-babel-preset": "0.76.7",
+    "metro-react-native-babel-preset": "0.77.0",
     "metro-react-native-babel-transformer": "0.77.0",
     "metro-resolver": "0.80.0",
     "nx": "17.0.2",
