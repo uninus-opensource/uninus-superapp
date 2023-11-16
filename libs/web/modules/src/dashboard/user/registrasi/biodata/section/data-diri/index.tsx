@@ -472,7 +472,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           labelClassName="iconUpload"
           inputLabel={<EditOutlined className="text-3xl rounded-full" />}
           defaultImage={student?.avatar || "/illustrations/dummy-avatar.webp"}
-          previewImage="w-[200px] h-[200px] bg-cover object-cover rounded-full -z-10"
+          previewImage="w-[165px] h-[165px] bg-cover object-cover rounded-full -z-10"
           layoutInputClassName="flex flex-col justify-center items-center"
           preview={true}
           message={imageErrors?.file?.message}
@@ -483,13 +483,15 @@ export const DataDiriSection: FC = (): ReactElement => {
             variant="green-outline"
             size="sm"
             title="change-image"
-            width="w-[50%] md:w-[70%] xl:w-[50%]"
+            width="w-[30%] md:w-[35%] xl:w-[30%]"
             loading={isLoading}
             disabled={isLoading}
           >
             Simpan Gambar
           </Button>
-          <p className="text-red-4">*Masukan foto formal berlatar belakang biru/merah</p>
+          <p className="text-red-4 text-xs lg:text-sm">
+            *Masukan foto formal berlatar belakang biru/merah
+          </p>
         </div>
       </form>
 
