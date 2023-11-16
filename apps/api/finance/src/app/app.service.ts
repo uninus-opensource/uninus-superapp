@@ -14,6 +14,9 @@ import {
   TStatusPaymentRequest,
   TStatusPaymentResponse,
   EFilterGraph,
+  TPaymentCallbackRequest,
+  TPaymentCallbackHeaders,
+  TPaymentCallbackResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -735,7 +738,7 @@ export class AppService {
   }
 
   async statusPayment(payload: TStatusPaymentRequest): Promise<TStatusPaymentResponse> {
-    const { order_id } = payload;
+    const { order_id, userId } = payload;
     const timeStamp = new Date().getTime();
     const data = { trxRef: order_id };
     this.config.baseURL = this.apiStatus;
@@ -752,6 +755,106 @@ export class AppService {
     ).catch((error) => {
       throw new RpcException(new BadRequestException(error.response.statusText));
     });
-    return response;
+
+    const { transactionStatusCode, vaBank, vaNumber, paymentMethod } = response;
+    const status = transactionStatusCode;
+
+    if (status == "S") {
+      const getDataStudent = await this.prisma.users.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          students: {
+            select: {
+              pmb: {
+                select: {
+                  selection_path: {
+                    select: {
+                      name: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (!getDataStudent) {
+        throw new RpcException(new BadRequestException("Gagal update status pembayaran"));
+      }
+
+      const {
+        students: {
+          pmb: { selection_path },
+        },
+      } = getDataStudent;
+
+      const updatePayment = await this.prisma.users.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          students: {
+            update: {
+              pmb: {
+                update: {
+                  ...(selection_path?.name.toLowerCase() == "seleksi test"
+                    ? {
+                        registration_status_id: 7,
+                      }
+                    : {
+                        registration_status_id: 4,
+                      }),
+                },
+              },
+              payment_history: {
+                update: {
+                  where: {
+                    order_id,
+                  },
+                  data: {
+                    payment_bank: vaBank,
+                    payment_code: vaNumber,
+                    payment_method: paymentMethod,
+                    payment_type_id: 1,
+                    isPaid: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+      if (!updatePayment) {
+        throw new RpcException(new BadRequestException("Gagal update status pembayaran"));
+      }
+      return {
+        message: "Pembayaran Berhasil",
+      };
+    }
+    return {
+      message:
+        status == "EX"
+          ? "Pembayaran telah expired"
+          : status == "CL"
+            ? "Pembayaran dibatalkan"
+            : status == "FL"
+              ? "Pembayaran ditolak"
+              : status == "N" && "Pembayaran sedang diproses",
+    };
+  }
+
+  async financeCallback(
+    payload: TPaymentCallbackRequest & TPaymentCallbackHeaders,
+  ): Promise<TPaymentCallbackResponse> {
+    const { timeStamp, signature, authorization, ...data } = payload;
+
+    console.log(timeStamp, signature, authorization, data);
+    return {
+      responseCode: 0,
+      responseDescription: "Success",
+    };
   }
 }
