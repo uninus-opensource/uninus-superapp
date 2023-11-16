@@ -3093,13 +3093,6 @@
   dependencies:
     "@nx/next" "17.0.2"
 
-"@nrwl/node@17.0.2":
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/@nrwl/node/-/node-17.0.2.tgz#e1ef75e3c8cc9ecb59e30e6aa5e3084f45040e43"
-  integrity sha512-G7nOcwnSV+fP/WahBo6Rl9q6uelFeCSHP5sm9UcPhMFb0TC8UeFMK4XkrqW4HA+tyHMeHzNZ92De31wHMfVfgg==
-  dependencies:
-    "@nx/node" "17.0.2"
-
 "@nrwl/node@17.1.2":
   version "17.1.2"
   resolved "https://registry.yarnpkg.com/@nrwl/node/-/node-17.1.2.tgz#6caebc336e34c7c2ec016a6c99e5472db59d3905"
@@ -3566,18 +3559,6 @@
     tslib "^2.3.0"
     url-loader "^4.1.1"
     webpack-merge "^5.8.0"
-
-"@nx/node@17.0.2":
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/@nx/node/-/node-17.0.2.tgz#0545941a3a1aa09cb153b1a267bab1350e875201"
-  integrity sha512-//FC3FuSFcMg9j6r3EucCLxJCoLUK56xfLGy6iDilW7LsEX54SB8lau0kq2ymDbBRRT/piI1s7RH+Lk777yBIw==
-  dependencies:
-    "@nrwl/node" "17.0.2"
-    "@nx/devkit" "17.0.2"
-    "@nx/eslint" "17.0.2"
-    "@nx/jest" "17.0.2"
-    "@nx/js" "17.0.2"
-    tslib "^2.3.0"
 
 "@nx/node@17.1.2":
   version "17.1.2"
@@ -15035,11 +15016,6 @@ metro-resolver@0.79.1:
   version "0.79.1"
   resolved "https://registry.yarnpkg.com/metro-resolver/-/metro-resolver-0.79.1.tgz#80e6e27305eb446188009f54374b642f28f49b65"
   integrity sha512-hiea5co7c5rhrdD5xYohBq2Sw20Ytzie71raIW9SsXKBKzsS0zAbrwNFW5z71lDUnp719vhobnDXJ+yE7Kq9Gg==
-
-metro-resolver@0.80.0:
-  version "0.80.0"
-  resolved "https://registry.yarnpkg.com/metro-resolver/-/metro-resolver-0.80.0.tgz#5d9db1f58b54d9d66af2c98ddd1e6ba4bca5dbf0"
-  integrity sha512-w+8Npbc1G33jwtAg0vAtelhIAYr6nTh/podz2JDURgvyNzc2On8B0Oaav2kKWn4X9cTozZbY1vxMIWY7uXeYew==
 
 metro-resolver@0.80.1:
   version "0.80.1"
