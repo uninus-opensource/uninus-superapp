@@ -14,8 +14,9 @@ import {
   Query,
   UseFilters,
   Request,
+  Headers,
 } from "@nestjs/common";
-import { TReqToken } from "@uninus/entities";
+import { TPaymentCallbackRequest, TReqToken } from "@uninus/entities";
 
 @Controller("finance")
 @ApiTags("Finance")
@@ -59,10 +60,27 @@ export class FinanceController {
   @Post("status-payment")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard)
-  async statusPayment(@Body() payload: StatusPaymentDto) {
+  async statusPayment(@Body() payload: StatusPaymentDto, @Request() reqToken: TReqToken) {
+    const { sub: userId } = reqToken.user;
     const response = await firstValueFrom(
       this.client
-        .send("status_payment", payload)
+        .send("status_payment", { userId, ...payload })
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  @Post("callback")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  async callback(
+    @Headers("Timestamp") timestamp: string,
+    @Headers("Authorization") authorization: string,
+    @Headers("Signature") signature: string,
+    @Body() payload: TPaymentCallbackRequest,
+  ) {
+    const response = await firstValueFrom(
+      this.client
+        .send("finance_callback", { timestamp, authorization, signature, ...payload })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

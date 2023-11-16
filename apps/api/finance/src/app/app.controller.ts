@@ -5,6 +5,8 @@ import {
   TCreatePaymentRequest,
   TStatusPaymentRequest,
   TFinanceSummaryRequest,
+  TPaymentCallbackHeaders,
+  TPaymentCallbackRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -24,5 +26,10 @@ export class AppController {
   @MessagePattern("status_payment")
   statusPayment(payload: TStatusPaymentRequest) {
     return this.appService.statusPayment(payload);
+  }
+
+  @MessagePattern("finance_callback")
+  financeCallback(payload: TPaymentCallbackRequest & TPaymentCallbackHeaders) {
+    return this.appService.financeCallback(payload);
   }
 }
