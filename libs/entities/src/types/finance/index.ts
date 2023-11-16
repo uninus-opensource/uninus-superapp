@@ -20,7 +20,7 @@ export type TFinanceSummaryResponse = {
   };
 };
 export type TCreatePaymentRequest = {
-  userId: string;
+  userId?: string;
   payment_obligation_id: number;
 };
 

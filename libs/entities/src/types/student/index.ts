@@ -27,6 +27,7 @@ export interface IGetPaymentObligationsRequest {
 }
 
 export type TPaymentObligationsResponse = Array<{
+  id?: number;
   name?: string;
   amount?: number;
   spelled_out?: string;
@@ -105,10 +106,14 @@ export interface IStudentData {
   test_score?: number | null;
   registration_number?: string | null;
   payment?: Array<{
-    name: string;
-    amount: number;
-    payment_method: string;
-    payment_code: string;
+    id?: string;
+    order_id?: string;
+    payment_method?: string;
+    payment_code?: string;
+    payment_bank?: string;
+    isPaid?: boolean;
+    amount?: number;
+    name?: string;
   }>;
 }
 
