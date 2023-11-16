@@ -3079,12 +3079,12 @@
   dependencies:
     "@nx/js" "17.1.2"
 
-"@nrwl/nest@17.0.2":
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/@nrwl/nest/-/nest-17.0.2.tgz#5f819c1060340eb343307dfc3c09f441dd4011b1"
-  integrity sha512-uwvIY23mxfNqLW7r5nJATzofRJR23hajdqbQ3J9a0J9ssJ1kIjrLPU+IEUkyldRQ+tbJTEB7vzvrZ6XW2vPjuw==
+"@nrwl/nest@17.1.2":
+  version "17.1.2"
+  resolved "https://registry.yarnpkg.com/@nrwl/nest/-/nest-17.1.2.tgz#ef6ce1d7001010bfd61b1f0d5af0f069f408b974"
+  integrity sha512-s9/mvLyw0DSzefr6F+/w2tCGhVPR14IDiUac/q9r/MraUo2fkq0SmCbz5wl5L9fGHkpGGcCdruprijh6i7844w==
   dependencies:
-    "@nx/nest" "17.0.2"
+    "@nx/nest" "17.1.2"
 
 "@nrwl/next@17.0.2":
   version "17.0.2"
@@ -3530,17 +3530,17 @@
   dependencies:
     "@nx/eslint" "17.1.2"
 
-"@nx/nest@17.0.2":
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/@nx/nest/-/nest-17.0.2.tgz#3acad658c7ce99582793b724ed6b78331d91b0f8"
-  integrity sha512-dlvUaC1roqUWs8h0PJOIfbG0MZNwLDudZTsG/YiW94zvVm5NleQ6kwsvAvzSxiPHg6kIo61T6yIUp9OIjFru3g==
+"@nx/nest@17.1.2":
+  version "17.1.2"
+  resolved "https://registry.yarnpkg.com/@nx/nest/-/nest-17.1.2.tgz#bb031a8ef64298a4a48f1f995f8e22ec1487f5ec"
+  integrity sha512-IsIk+O7C0cxHDB9mCXtY3X5PQBirq/KI/bj770OSZAPzxuZ+0MwD82nRGRFRcPzYKSXpbiQSxesoJMfIgThXiQ==
   dependencies:
     "@nestjs/schematics" "^9.1.0"
-    "@nrwl/nest" "17.0.2"
-    "@nx/devkit" "17.0.2"
-    "@nx/eslint" "17.0.2"
-    "@nx/js" "17.0.2"
-    "@nx/node" "17.0.2"
+    "@nrwl/nest" "17.1.2"
+    "@nx/devkit" "17.1.2"
+    "@nx/eslint" "17.1.2"
+    "@nx/js" "17.1.2"
+    "@nx/node" "17.1.2"
     "@phenomnomnominal/tsquery" "~5.0.1"
     tslib "^2.3.0"
 
