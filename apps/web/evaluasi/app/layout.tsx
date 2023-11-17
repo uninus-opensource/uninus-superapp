@@ -11,14 +11,15 @@ export const metadata = {
   title: "Evaluasi",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function Layout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${monserrat.className}`}>
-      <body>
+      <body className={`${monserrat.className}`}>
         <AuthProvider>
           <QueryProvider>
             <RecoilProvider>
-              <main>{children}</main>
+              <main key="landing-layout">{props.children}</main>
+              <div key="modal-landing" id="modal-landing" />
             </RecoilProvider>
           </QueryProvider>
         </AuthProvider>
