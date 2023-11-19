@@ -6,3 +6,4 @@ export * from "./req-user";
 export * from "./resend-otp";
 export * from "./reset-password";
 export * from "./verify";
+export * from "./header";
