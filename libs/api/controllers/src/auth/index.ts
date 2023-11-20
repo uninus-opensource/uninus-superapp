@@ -92,7 +92,7 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: "Refresh Token" })
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiBody({ type: RefreshTokenDto })
   @Post("refresh")
   @UseGuards(RtGuard)

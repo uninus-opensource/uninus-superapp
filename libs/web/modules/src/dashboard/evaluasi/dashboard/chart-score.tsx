@@ -45,47 +45,46 @@ export const ChartSkor: FC = (): ReactElement => {
   };
 
   let labels: string[] = [];
-  let totalRegistrations: number[] = [];
-  let unpaids: number[] = [];
-  let paids: number[] = [];
-  let receiveds: number[] = [];
+  let Reability: number[] = [];
+  let Responsive: number[] = [];
+  let Assurance: number[] = [];
+  let Empathy: number[] = [];
+  let Tangible: number[] = [];
 
   switch (chartType) {
     case "ganjil":
       labels = ["September", "Oktober", "November", "Desemmber", "Januari", "Februari"];
-      totalRegistrations = [9, 4, 4, 6, 14, 7];
-      unpaids = [15, 2, 2, 11, 21, 19];
-      paids = [9, 3, 6, 8, 8, 7];
-      receiveds = [7, 5, 6, 2, 10, 11];
+      Reability = [9, 4, 4, 6, 14, 7];
+      Responsive = [15, 2, 2, 11, 21, 19];
+      Assurance = [9, 3, 6, 8, 8, 7];
+      Empathy = [7, 5, 6, 2, 10, 11];
+      Tangible = [2, 13, 8, 11, 10, 18];
       break;
     case "genap":
       labels = ["Maret", "April", "Mei", "Juni", "Juli", "Agustus"];
-      totalRegistrations = [19, 24, 14, 26, 4, 17];
-      unpaids = [9, 3, 6, 8, 8, 7];
-      paids = [7, 5, 6, 2, 10, 11];
-      receiveds = [15, 2, 2, 11, 21, 19];
+      Reability = [19, 24, 14, 26, 4, 17];
+      Responsive = [9, 3, 6, 8, 8, 7];
+      Assurance = [7, 5, 6, 2, 10, 11];
+      Empathy = [15, 2, 2, 11, 21, 19];
+      Tangible = [12, 8, 6, 5, 11, 14];
 
       break;
 
-      labels = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-      totalRegistrations = [14, 10, 32, 11, 20, 19, 16];
-      unpaids = [1, 9, 21, 19, 1, 13, 4];
-      paids = [19, 13, 15, 9, 6, 3, 4];
-      receiveds = [11, 6, 4, 5, 20, 11, 1];
-      break;
     default:
       labels = [];
-      totalRegistrations = [];
-      unpaids = [];
-      paids = [];
-      receiveds = [];
+      Reability = [];
+      Responsive = [];
+      Assurance = [];
+      Empathy = [];
+      Tangible = [];
       break;
   }
 
-  const isTotalRegistrations = rekap === "2" || rekap === "3" || rekap === "4";
-  const isUnpaids = rekap === "1" || rekap === "3" || rekap === "4";
-  const isPaids = rekap === "1" || rekap === "2" || rekap === "4";
-  const isReceiveds = rekap === "1" || rekap === "2" || rekap === "3";
+  const isReability = rekap === "2" || rekap === "3" || rekap === "4" || rekap === "5";
+  const isResponsive = rekap === "1" || rekap === "3" || rekap === "4" || rekap === "5";
+  const isAssurance = rekap === "1" || rekap === "2" || rekap === "4" || rekap === "5";
+  const isEmpathy = rekap === "1" || rekap === "2" || rekap === "3" || rekap === "5";
+  const isTangible = rekap === "1" || rekap === "2" || rekap === "3" || rekap === "4";
 
   const data = {
     labels,
@@ -94,36 +93,36 @@ export const ChartSkor: FC = (): ReactElement => {
         label: "Reability",
         borderColor: "#00BF56",
         backgroundColor: "#00BF56",
-        data: totalRegistrations,
-        hidden: isTotalRegistrations,
+        data: Reability,
+        hidden: isReability,
       },
       {
         label: "Responsive",
         borderColor: "#B0DEC6",
         backgroundColor: "#B0DEC6",
-        data: unpaids,
-        hidden: isUnpaids,
+        data: Responsive,
+        hidden: isResponsive,
       },
       {
         label: "Assurance",
         borderColor: "#BB2D3B",
         backgroundColor: "#BB2D3B",
-        data: paids,
-        hidden: isPaids,
+        data: Assurance,
+        hidden: isAssurance,
       },
       {
         label: "Empathy",
         borderColor: "#F8BF02",
         backgroundColor: "#F8BF02",
-        data: receiveds,
-        hidden: isReceiveds,
+        data: Empathy,
+        hidden: isEmpathy,
       },
       {
         label: "Tangible",
         borderColor: "#009647",
         backgroundColor: "#009647",
-        data: receiveds,
-        hidden: isReceiveds,
+        data: Tangible,
+        hidden: isTangible,
       },
     ],
   };

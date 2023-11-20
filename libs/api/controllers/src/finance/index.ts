@@ -43,7 +43,7 @@ export class FinanceController {
     return response;
   }
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @Post("request-payment")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard)
@@ -57,7 +57,7 @@ export class FinanceController {
     return response;
   }
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @Post("status-payment")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard)

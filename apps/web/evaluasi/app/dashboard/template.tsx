@@ -33,12 +33,12 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     },
     {
       label: "Data Dosen",
-      link: "/dashboard/data-akun",
+      link: "/dashboard/data-dosen",
       icon: <FileTextOutlined />,
     },
 
-    { label: "Kelola Pertanyaan", link: "/dashboard/data-pendaftar", icon: <FormOutlined /> },
-    { label: "Hasil Evaluasi", link: "/dashboard/data-pendaftar", icon: <FileDoneOutlined /> },
+    { label: "Kelola Pertanyaan", link: "/dashboard/kelola-pertanyaan", icon: <FormOutlined /> },
+    { label: "Hasil Evaluasi", link: "/dashboard/hasil-evaluasi", icon: <FileDoneOutlined /> },
   ];
 
   return (

@@ -3,6 +3,7 @@ import { ReactElement, FC } from "react";
 import { CardSection } from "./card-data";
 import { ChartSkor } from "./chart-score";
 import { ChartPercent } from "./chart-percen";
+import ChartBar from "./chart-bar";
 
 export const DashboardModuleEdom: FC = (): ReactElement => {
   return (
@@ -15,14 +16,15 @@ export const DashboardModuleEdom: FC = (): ReactElement => {
       </div>
       <h1 className="text-lg lg:text-xl font-bold text-secondary-green-4">Rekapitulasi Data</h1>
       <CardSection />
-      <section className="flex">
-        <div className="w-[70%]">
+      <section className="flex gap-2">
+        <div className="w-[67%]">
           <ChartSkor />
         </div>
         <div className="w-[25%]">
           <ChartPercent />
         </div>
       </section>
+      <ChartBar />
     </section>
   );
 };
