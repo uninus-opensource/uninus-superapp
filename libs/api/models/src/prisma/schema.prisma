@@ -84,8 +84,9 @@ model Students {
   mother_position         String?
   occupation_position     String?
   guardian_lecturer_id    String?
-  guardian_lecturer       Lecturers?       @relation(fields: [guardian_lecturer_id], references: [id])
+  test_score              Int?
   pmb                     PMB?
+  payment_history         PaymentHistory[]
   citizenship             Citizenship?     @relation(fields: [citizenship_id], references: [id])
   city                    City?            @relation("student", fields: [city_id], references: [id])
   country                 Country?         @relation(fields: [country_id], references: [id])
@@ -102,6 +103,7 @@ model Students {
   gender                  Gender?          @relation(fields: [gender_id], references: [id])
   guardian_city           City?            @relation("guardian", fields: [guardian_city_id], references: [id])
   guardian_education      ParentEducation? @relation("guardian", fields: [guardian_education_id], references: [id])
+  guardian_lecturer       Lecturers?       @relation(fields: [guardian_lecturer_id], references: [id])
   guardian_occupation     Occupation?      @relation("guardian", fields: [guardian_occupation_id], references: [id])
   guardian_province       Province?        @relation("guardian", fields: [guardian_province_id], references: [id])
   guardian_salary         Salary?          @relation("guardian", fields: [guardian_salary_id], references: [id])
@@ -122,8 +124,6 @@ model Students {
   scholarship             Scholarship?     @relation(fields: [scholarship_id], references: [id])
   subdistrict             SubDistrict?     @relation("student", fields: [subdistrict_id], references: [id])
   user                    Users            @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  test_score              Int?
-  payment_history         PaymentHistory[]
 }
 
 model PaymentHistory {
@@ -136,10 +136,10 @@ model PaymentHistory {
   isPaid                Boolean?
   payment_obligation    PaymentObligations? @relation(fields: [payment_obligation_id], references: [id])
   createdAt             DateTime            @default(now())
-  student               Students?           @relation(fields: [student_id], references: [id])
   student_id            String?
   payment_type_id       Int?
   payment_type          PaymentType?        @relation(fields: [payment_type_id], references: [id])
+  student               Students?           @relation(fields: [student_id], references: [id])
 }
 
 model PaymentType {
@@ -448,42 +448,43 @@ model Questions {
 }
 
 model Employees {
+  id                       Int                       @unique @default(autoincrement())
+  nik                      String?
+  address                  String?
+  nip                      String?
+  nidn                     String?
+  gender_id                Int?
+  phone_number             String?
+  birth_date               String?
+  birth_place              String?
+  religion_id              Int?
+  sub_district_id          Int?
+  city_id                  Int?
+  province_id              Int?
+  country_id               Int?
+  citizenship_id           Int?
+  certification_profession CertificationProfession[]
+  employee_status_id       Int?
+  employee_type_id         Int?
   user_id                  String                    @unique
   createdAt                DateTime                  @default(now())
   addition_task            String?
-  birth_date               String?
-  employee_status_id       Int?
-  nidn                     String?
-  nip                      String?
-  id                       Int                       @unique @default(autoincrement())
-  employee_type_id         Int?
-  nik                      String?
-  gender_id                Int?
-  address                  String?
-  birth_place              String?
-  citizenship_id           Int?
-  city_id                  Int?
-  country_id               Int?
-  province_id              Int?
-  religion_id              Int?
-  sub_district_id          Int?
-  academic_staff           AcademicStaff?
-  certification_profession CertificationProfession[]
   employee_document        EmployeeDocuments[]
   employee_has_category    EmployeeHasCategory[]
   employee_has_education   EmployeeHasEducation[]
   employee_has_workunit    EmployeeHasWorkUnit[]
-  Citizenship              Citizenship?              @relation(fields: [citizenship_id], references: [id])
-  City                     City?                     @relation(fields: [city_id], references: [id])
-  Country                  Country?                  @relation(fields: [country_id], references: [id])
+  citizenship              Citizenship?              @relation(fields: [citizenship_id], references: [id])
+  city                     City?                     @relation(fields: [city_id], references: [id])
+  country                  Country?                  @relation(fields: [country_id], references: [id])
   employee_status          EmployeeStatus?           @relation(fields: [employee_status_id], references: [id])
-  Employee_type            EmployeeType?             @relation(fields: [employee_type_id], references: [id])
+  employee_type            EmployeeType?             @relation(fields: [employee_type_id], references: [id])
   gender                   Gender?                   @relation(fields: [gender_id], references: [id])
-  Province                 Province?                 @relation(fields: [province_id], references: [id])
-  Religion                 Religion?                 @relation(fields: [religion_id], references: [id])
-  SubDistrict              SubDistrict?              @relation(fields: [sub_district_id], references: [id])
+  province                 Province?                 @relation(fields: [province_id], references: [id])
+  religion                 Religion?                 @relation(fields: [religion_id], references: [id])
+  subdistrict              SubDistrict?              @relation(fields: [sub_district_id], references: [id])
   user                     Users                     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   lecturers                Lecturers?
+  academic_staff           AcademicStaff?
 }
 
 model EmployeeHasEducation {
@@ -517,12 +518,12 @@ model Lecturers {
   employee_id                 Int?                        @unique
   lecturer_certification      Boolean?
   lecturer_position_id        Int?
-  lecturer_status_id          Int?
+  lecturer_category_id        Int?
   lecturer_faculty_department LecturerFacultyDepartment[]
   employee                    Employees?                  @relation(fields: [employee_id], references: [id])
   lecturer_position           LecturerPosition?           @relation(fields: [lecturer_position_id], references: [id])
-  lecturer_status             LecturerStatus?             @relation(fields: [lecturer_status_id], references: [id])
   students                    Students[]
+  lecturer_category           LecturerCategory?           @relation(fields: [lecturer_category_id], references: [id])
 }
 
 model AcademicStaff {
@@ -576,6 +577,13 @@ model LecturerPosition {
   lecturers              Lecturers[]
 }
 
+model LecturerCategory {
+  id        Int         @id @default(autoincrement())
+  name      String
+  createdAt DateTime
+  Lecturers Lecturers[]
+}
+
 model AcademicPosition {
   id                     Int                @unique @default(autoincrement())
   name                   String
@@ -619,13 +627,6 @@ model EmployeeType {
   name      String
   createdAt DateTime
   Employees Employees[]
-}
-
-model LecturerStatus {
-  id        Int         @id @default(autoincrement())
-  name      String
-  createdAt DateTime
-  Lecturers Lecturers[]
 }
 
 model AlumniProfile {

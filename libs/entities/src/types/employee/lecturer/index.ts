@@ -5,7 +5,7 @@ export type TLecturerResponse = {
   nidn: string;
   nik: string;
   addition_task: string;
-  lecturer_status: string;
+  lecturer_category: string;
   lecturer_position: string;
   civil_service_level: string;
   gender: string;
