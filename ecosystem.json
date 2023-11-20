@@ -12,14 +12,14 @@
       "env": {
         "NODE_ENV": "production",
         "production": true,
-        "ACCESS_SECRET": "test",
-        "REFRESH_SECRET": "test",
-        "CORS_ORIGIN": "http://localhost:4200,https://pmb.uninus",
-        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
-        "REDIS_HOST": "viaduct.proxy.rlwy.net",
-        "REDIS_PORT": "17208",
-        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
-        "REDIS_USERNAME": "default"
+        "ACCESS_SECRET": "",
+        "REFRESH_SECRET": "",
+        "CORS_ORIGIN": "",
+        "DATABASE_URL": "",
+        "REDIS_HOST": "",
+        "REDIS_PORT": "",
+        "REDIS_PASSWORD": "",
+        "REDIS_USERNAME": ""
       }
     },
     {
@@ -34,13 +34,13 @@
       "env": {
         "NODE_ENV": "production",
         "production": true,
-        "ACCESS_SECRET": "test",
-        "REFRESH_SECRET": "test",
-        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
-        "REDIS_HOST": "viaduct.proxy.rlwy.net",
-        "REDIS_PORT": "17208",
-        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
-        "REDIS_USERNAME": "default"
+        "ACCESS_SECRET": "",
+        "REFRESH_SECRET": "",
+        "DATABASE_URL": "",
+        "REDIS_HOST": "",
+        "REDIS_PORT": "",
+        "REDIS_PASSWORD": "",
+        "REDIS_USERNAME": ""
       }
     },
     {
@@ -55,13 +55,13 @@
       "env": {
         "NODE_ENV": "production",
         "production": true,
-        "REDIS_HOST": "viaduct.proxy.rlwy.net",
-        "REDIS_PORT": "17208",
-        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
-        "REDIS_USERNAME": "default",
-        "SMTP_USER": "teknikinformatikauninus@gmail.com",
-        "SMTP_PASS": "fmwumbgeursldvtd",
-        "SMTP_PORT": "463"
+        "REDIS_HOST": "",
+        "REDIS_PORT": "",
+        "REDIS_PASSWORD": "",
+        "REDIS_USERNAME": "",
+        "SMTP_USER": "",
+        "SMTP_PASS": "",
+        "SMTP_PORT": ""
       }
     },
     {
@@ -76,11 +76,10 @@
       "env": {
         "NODE_ENV": "production",
         "production": true,
-        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
-        "REDIS_HOST": "viaduct.proxy.rlwy.net",
-        "REDIS_PORT": "17208",
-        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
-        "REDIS_USERNAME": "default"
+        "REDIS_HOST": "",
+        "REDIS_PORT": "",
+        "REDIS_PASSWORD": "",
+        "REDIS_USERNAME": ""
       }
     },
     {
@@ -99,11 +98,10 @@
         "PAYMENT_API_STATUS": "",
         "PAYMENT_API_KEY": "",
         "PAYMENT_MERCHANT_ID": "",
-        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
-        "REDIS_HOST": "viaduct.proxy.rlwy.net",
-        "REDIS_PORT": "17208",
-        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
-        "REDIS_USERNAME": "default"
+        "REDIS_HOST": "",
+        "REDIS_PORT": "",
+        "REDIS_PASSWORD": "",
+        "REDIS_USERNAME": ""
       }
     },
     {
@@ -118,11 +116,10 @@
       "env": {
         "NODE_ENV": "production",
         "production": true,
-        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
-        "REDIS_HOST": "viaduct.proxy.rlwy.net",
-        "REDIS_PORT": "17208",
-        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
-        "REDIS_USERNAME": "default"
+        "REDIS_HOST": "",
+        "REDIS_PORT": "",
+        "REDIS_PASSWORD": "",
+        "REDIS_USERNAME": ""
       }
     },
     {
@@ -137,11 +134,10 @@
       "env": {
         "NODE_ENV": "production",
         "production": true,
-        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
-        "REDIS_HOST": "viaduct.proxy.rlwy.net",
-        "REDIS_PORT": "17208",
-        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
-        "REDIS_USERNAME": "default"
+        "REDIS_HOST": "",
+        "REDIS_PORT": "",
+        "REDIS_PASSWORD": "",
+        "REDIS_USERNAME": ""
       }
     },
     {
@@ -156,11 +152,10 @@
       "env": {
         "NODE_ENV": "production",
         "production": true,
-        "DATABASE_URL": "postgres://postgres:a3DE*133bCcbE2E-1bGC5F61G*FD*2Db@monorail.proxy.rlwy.net:43350/railway",
-        "REDIS_HOST": "viaduct.proxy.rlwy.net",
-        "REDIS_PORT": "17208",
-        "REDIS_PASSWORD": "Ha1e4Dc2kfK1k5PFiKDdIbPbNJbLp1oo",
-        "REDIS_USERNAME": "default"
+        "REDIS_HOST": "",
+        "REDIS_PORT": "",
+        "REDIS_PASSWORD": "",
+        "REDIS_USERNAME": ""
       }
     },
     {
@@ -173,7 +168,16 @@
       "merge_logs": true,
       "exec_mode": "cluster",
       "instances": 1,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-evaluasi",
@@ -186,7 +190,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true, "PORT": 3000 }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-lms",
@@ -199,7 +212,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-neo-feeder",
@@ -212,7 +234,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-pegawai",
@@ -225,7 +256,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-pmb-user",
@@ -238,7 +278,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-pmb-admin",
@@ -251,7 +300,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-siakad",
@@ -264,7 +322,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-tata-usaha",
@@ -277,7 +344,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-tracer-alumni",
@@ -290,7 +366,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-smart-dashboard",
@@ -303,7 +388,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-sisfo-akuntansi",
@@ -316,7 +410,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-sisfo-aset",
@@ -329,7 +432,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-sisfo-bendahara",
@@ -342,7 +454,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     },
     {
       "name": "web-sisfo-keuangan",
@@ -355,7 +476,16 @@
       "exec_mode": "cluster",
       "instances": 1,
       "autorestart": true,
-      "env": { "NODE_ENV": "production", "production": true }
+      "env": {
+        "NODE_ENV": "production",
+        "production": true,
+        "NEXT_PUBLIC_API_URL": "",
+        "NEXTAUTH_URL": "",
+        "NEXTAUTH_SECRET": "",
+        "__NEXT_REACT_ROOT": "",
+        "NEXT_PUBLIC_WORKSPACE": "",
+        "NEXT_PUBLIC_APP_ORIGIN": ""
+      }
     }
   ]
 }
