@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const VSHeaderFinance = z.object({
-  timestamp: z.number(),
+  timestamp: z.string(),
   signature: z.string(),
   authorization: z.string(),
 });

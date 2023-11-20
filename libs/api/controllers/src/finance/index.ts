@@ -71,17 +71,14 @@ export class FinanceController {
     return response;
   }
 
+  @ApiBearerAuth("basic")
   @ApiHeaders([
     {
-      name: "Timestamp",
+      name: "timestamp",
       required: true,
     },
     {
-      name: "Authorization",
-      required: true,
-    },
-    {
-      name: "Signature",
+      name: "signature",
       required: true,
     },
   ])
@@ -94,7 +91,12 @@ export class FinanceController {
     const { timestamp, authorization, signature } = headers;
     const response = await firstValueFrom(
       this.client
-        .send("finance_callback", { timestamp, authorization, signature, ...payload })
+        .send("finance_callback", {
+          timestamp: Number(timestamp),
+          authorization,
+          signature,
+          ...payload,
+        })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

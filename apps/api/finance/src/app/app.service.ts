@@ -851,11 +851,20 @@ export class AppService {
   ): Promise<TPaymentCallbackResponse> {
     const { timeStamp, signature, authorization, ...data } = payload;
     const { bankName, trxRef, userId } = data;
+    const auth = authorization.split(" ")[1];
     const localSiganture = await createSignature(
       JSON.stringify(data),
       Number(timeStamp),
       this.apiKey,
     );
+
+    if (!auth && btoa(this.merchantId) !== atob(auth).replace(":", "")) {
+      return {
+        responseCode: 25,
+        responseDescription: "Request MerchantId and Authentication Invalid",
+      };
+    }
+
     if (signature !== localSiganture) {
       return {
         responseCode: 27,
