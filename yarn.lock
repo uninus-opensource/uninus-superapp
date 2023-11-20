@@ -4123,6 +4123,18 @@
     glob "^7.1.3"
     logkitty "^0.7.1"
 
+"@react-native-community/cli-platform-android@12.1.0":
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/cli-platform-android/-/cli-platform-android-12.1.0.tgz#3c9881142c972271c405cad951fc7239a5821e53"
+  integrity sha512-7rrYOsuFBRYSFZThmvi08DWQydqchJAzX+B4fxmr5r2rJDhjr6JFG36FgdltkqWx9g7TXWw0R0Cs0CaGdzkRqg==
+  dependencies:
+    "@react-native-community/cli-tools" "12.1.0"
+    chalk "^4.1.2"
+    execa "^5.0.0"
+    fast-xml-parser "^4.2.4"
+    glob "^7.1.3"
+    logkitty "^0.7.1"
+
 "@react-native-community/cli-platform-ios@11.3.10":
   version "11.3.10"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-platform-ios/-/cli-platform-ios-11.3.10.tgz#f8a9bca1181802f12ed15714d5a496e60096cbed"
@@ -4245,6 +4257,22 @@
   version "12.0.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-tools/-/cli-tools-12.0.0.tgz#2ff8bff8d6bb0f1162c574fdcf47aa273a48b7ad"
   integrity sha512-p5QN3UMoAKUTpVblKAf+tW3I+nX6wyPgaXYZ+K3H0vZNmbVim+eODFi32NH1XnvuvblVpakovmMrhnBpRnSAgg==
+  dependencies:
+    appdirsjs "^1.2.4"
+    chalk "^4.1.2"
+    find-up "^5.0.0"
+    mime "^2.4.1"
+    node-fetch "^2.6.0"
+    open "^6.2.0"
+    ora "^5.4.1"
+    semver "^7.5.2"
+    shell-quote "^1.7.3"
+    sudo-prompt "^9.0.0"
+
+"@react-native-community/cli-tools@12.1.0":
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/cli-tools/-/cli-tools-12.1.0.tgz#c241ffdf6da3228f04ab6016b41d0c29c7f4829d"
+  integrity sha512-SNflRJSPXB8r4EMUNvCRyIXIPH13Bb3KOdkWtP6csu1P/81UQgPRfyAIOXTjwYjbvgeDgVBU6D17+aZjVJWx0g==
   dependencies:
     appdirsjs "^1.2.4"
     chalk "^4.1.2"
@@ -5272,6 +5300,31 @@
     "@svgr/core" "8.1.0"
     "@svgr/plugin-jsx" "8.1.0"
     "@svgr/plugin-svgo" "8.1.0"
+
+"@swc-node/core@^1.10.6":
+  version "1.10.6"
+  resolved "https://registry.yarnpkg.com/@swc-node/core/-/core-1.10.6.tgz#5c2af68bd4c9c8f5d91178a724af341a4402f5b6"
+  integrity sha512-lDIi/rPosmKIknWzvs2/Fi9zWRtbkx8OJ9pQaevhsoGzJSal8Pd315k1W5AIrnknfdAB4HqRN12fk6AhqnrEEw==
+
+"@swc-node/register@~1.6.7":
+  version "1.6.8"
+  resolved "https://registry.yarnpkg.com/@swc-node/register/-/register-1.6.8.tgz#4e2402b42ae5b538d5041e0c4d86d9c3c8d5b323"
+  integrity sha512-74ijy7J9CWr1Z88yO+ykXphV29giCrSpANQPQRooE0bObpkTO1g4RzQovIfbIaniBiGDDVsYwDoQ3FIrCE8HcQ==
+  dependencies:
+    "@swc-node/core" "^1.10.6"
+    "@swc-node/sourcemap-support" "^0.3.0"
+    colorette "^2.0.19"
+    debug "^4.3.4"
+    pirates "^4.0.5"
+    tslib "^2.5.0"
+
+"@swc-node/sourcemap-support@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@swc-node/sourcemap-support/-/sourcemap-support-0.3.0.tgz#e8a0d139bd3e8db39635f63fde43dbe6c39237cc"
+  integrity sha512-gqBJSmJMWomZFxlppaKea7NeAqFrDrrS0RMt24No92M3nJWcyI9YKGEQKl+EyJqZ5gh6w1s0cTklMHMzRwA1NA==
+  dependencies:
+    source-map-support "^0.5.21"
+    tslib "^2.5.0"
 
 "@swc/cli@~0.1.62":
   version "0.1.62"
@@ -8251,7 +8304,7 @@ colorette@^1.0.7:
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-1.4.0.tgz#5190fbb87276259a86ad700bff2c6d6faa3fca40"
   integrity sha512-Y2oEozpomLn7Q3HFP7dpww7AtMJplbM9lGZP6RDfHqmbeRjiwRg4n6VM6j4KLmRke85uWEI7JqF17f3pqdRA0g==
 
-colorette@^2.0.10, colorette@^2.0.16:
+colorette@^2.0.10, colorette@^2.0.16, colorette@^2.0.19:
   version "2.0.20"
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.20.tgz#9eb793e6833067f7235902fcd3b09917a000a95a"
   integrity sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==
@@ -19761,7 +19814,7 @@ source-map-support@0.5.19:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
 
-source-map-support@^0.5.16, source-map-support@~0.5.20:
+source-map-support@^0.5.16, source-map-support@^0.5.21, source-map-support@~0.5.20:
   version "0.5.21"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.21.tgz#04fe7c7f9e1ed2d662233c28cb2b35b9f63f6e4f"
   integrity sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==
