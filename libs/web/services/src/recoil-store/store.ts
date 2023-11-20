@@ -73,3 +73,8 @@ export const sidebarSiakad = atom<boolean | undefined>({
   key: "showSiakadSidebar",
   default: false,
 });
+
+export const notificationSiakad = atom<boolean | undefined>({
+  key: "notificationSiakad",
+  default: false,
+});

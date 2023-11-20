@@ -1,5 +1,6 @@
 export type TProfileDropdown = {
   showProfile: boolean;
+  notification_counts: number;
 };
 
 export type TUserData = {

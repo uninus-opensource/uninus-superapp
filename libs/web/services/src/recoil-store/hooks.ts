@@ -14,6 +14,7 @@ import {
   popularDepartment,
   popularProgram,
   sidebarSiakad,
+  notificationSiakad,
 } from "./store";
 import {
   IGetStudentResponse,
@@ -28,6 +29,7 @@ import {
   ReturnTypeUpdate,
   ReturnTypeUserEmail,
   ReturnTypesDashboardState,
+  ReturnTypesNotificationSiakad,
   ReturnTypesPopularDepartment,
   ReturnTypesPopularProgram,
   ReturnTypesRegistransData,
@@ -138,5 +140,13 @@ export const useSidebarSiakadToogle = (): ReturnTypesSidebarSiakad => {
   return {
     setSiakadToogle: (val) => set(val),
     getSiakadToogle: get,
+  };
+};
+
+export const useNotificationSiakadToogle = (): ReturnTypesNotificationSiakad => {
+  const [get, set] = useRecoilState<boolean | undefined>(notificationSiakad);
+  return {
+    setNotifToogle: (val) => set(val),
+    getNotifToogle: get,
   };
 };
