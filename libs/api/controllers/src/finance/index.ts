@@ -1,8 +1,8 @@
 import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiHeaders, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { CreatePaymentDto, StatusPaymentDto } from "@uninus/api/dto";
 import { JwtAuthGuard } from "@uninus/api/guard";
-import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
+import { RpcExceptionToHttpExceptionFilter, ZodValidationPipe } from "@uninus/api/pipes";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 import {
   Controller,
@@ -14,9 +14,10 @@ import {
   Query,
   UseFilters,
   Request,
-  Headers,
 } from "@nestjs/common";
-import { TPaymentCallbackRequest, TReqToken } from "@uninus/entities";
+import { TPaymentCallbackRequest, TReqToken, TVSHeaderFinance } from "@uninus/entities";
+import { RequestHeaders } from "@uninus/api/decorators";
+import { VSHeaderFinance } from "@uninus/entities";
 
 @Controller("finance")
 @ApiTags("Finance")
@@ -42,7 +43,7 @@ export class FinanceController {
     return response;
   }
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @Post("request-payment")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard)
@@ -56,7 +57,7 @@ export class FinanceController {
     return response;
   }
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @Post("status-payment")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard)
@@ -70,17 +71,32 @@ export class FinanceController {
     return response;
   }
 
+  @ApiBearerAuth("basic")
+  @ApiHeaders([
+    {
+      name: "timestamp",
+      required: true,
+    },
+    {
+      name: "signature",
+      required: true,
+    },
+  ])
   @Post("callback")
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   async callback(
-    @Headers("Timestamp") timestamp: string,
-    @Headers("Authorization") authorization: string,
-    @Headers("Signature") signature: string,
+    @RequestHeaders(new ZodValidationPipe(VSHeaderFinance)) headers: TVSHeaderFinance,
     @Body() payload: TPaymentCallbackRequest,
   ) {
+    const { timestamp, authorization, signature } = headers;
     const response = await firstValueFrom(
       this.client
-        .send("finance_callback", { timestamp, authorization, signature, ...payload })
+        .send("finance_callback", {
+          timestamp: Number(timestamp),
+          authorization,
+          signature,
+          ...payload,
+        })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

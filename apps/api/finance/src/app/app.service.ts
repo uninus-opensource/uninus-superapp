@@ -850,10 +850,86 @@ export class AppService {
     payload: TPaymentCallbackRequest & TPaymentCallbackHeaders,
   ): Promise<TPaymentCallbackResponse> {
     const { timeStamp, signature, authorization, ...data } = payload;
+    const { bankName, trxRef, userId } = data;
+    const auth = authorization.split(" ")[1];
+    const localSiganture = await createSignature(
+      JSON.stringify(data),
+      Number(timeStamp),
+      this.apiKey,
+    );
+
+    if (!auth && btoa(this.merchantId) !== atob(auth).replace(":", "")) {
+      return {
+        responseCode: 25,
+        responseDescription: "Request MerchantId and Authentication Invalid",
+      };
+    }
+
+    if (signature !== localSiganture) {
+      return {
+        responseCode: 27,
+        responseDescription: "Invalid Signature",
+      };
+    }
+    const getDataStudent = await this.prisma.students.findUnique({
+      where: {
+        phone_number: userId,
+      },
+      select: {
+        pmb: {
+          select: {
+            selection_path: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const {
+      pmb: { selection_path },
+    } = getDataStudent;
+
+    const updatePayment = await this.prisma.students.update({
+      where: {
+        phone_number: userId,
+      },
+      data: {
+        pmb: {
+          update: {
+            ...(selection_path?.name.toLowerCase() == "seleksi test"
+              ? {
+                  registration_status_id: 7,
+                }
+              : {
+                  registration_status_id: 4,
+                }),
+          },
+        },
+        payment_history: {
+          update: {
+            where: {
+              order_id: trxRef,
+            },
+            data: {
+              payment_bank: bankName,
+              payment_type_id: 1,
+              isPaid: true,
+            },
+          },
+        },
+      },
+    });
+
+    if (!updatePayment) {
+      throw new RpcException(new BadRequestException("Failed to send request"));
+    }
 
     console.log(timeStamp, signature, authorization, data);
     return {
-      responseCode: 0,
+      responseCode: Number("00"),
       responseDescription: "Success",
     };
   }
