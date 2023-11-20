@@ -69,6 +69,24 @@ export class AppService {
                 },
               }
             : {}),
+          ...(type == 2
+            ? {
+                employee_has_workunit: {
+                  select: {
+                    work_unit: {
+                      select: {
+                        name: true,
+                        work_unit_category: {
+                          select: {
+                            name: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              }
+            : {}),
           employee_status: {
             select: {
               id: true,
@@ -86,9 +104,13 @@ export class AppService {
       fullname: el.user.fullname,
       nip: el.nip,
       nidn: el.nidn,
-      faculty: el.lecturers.lecturer_faculty_department?.map((el) => el.faculty.name),
-      department: el.lecturers.lecturer_faculty_department?.map((el) => el.department.name),
+      faculty: el.lecturers?.lecturer_faculty_department?.map((el) => el.faculty.name),
+      department: el.lecturers?.lecturer_faculty_department?.map((el) => el.department.name),
       employee_status: el.employee_status.name,
+      work_unit: el.employee_has_workunit?.map((el) => ({
+        category: el.work_unit.work_unit_category.name,
+        unit: el.work_unit.name,
+      })),
     }));
 
     return {
