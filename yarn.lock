@@ -2635,10 +2635,10 @@
   resolved "https://registry.yarnpkg.com/@nestjs/axios/-/axios-3.0.1.tgz#b006f81dd54a49def92cfaf9a8970434567e75ce"
   integrity sha512-VlOZhAGDmOoFdsmewn8AyClAdGpKXQQaY1+3PGB+g6ceurGIdTxZgRX3VXc1T6Zs60PedWjg3A82TDOB05mrzQ==
 
-"@nestjs/common@^10.2.7":
-  version "10.2.8"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-10.2.8.tgz#f8934e6353440d6e51c89c0cf1b0f9aef54e8729"
-  integrity sha512-rmpwcdvq2IWMmsUVP8rsdKub6uDWk7dwCYo0aif50JTwcvcxzaP3iKVFKoSgvp0RKYu8h15+/AEOfaInmPpl0Q==
+"@nestjs/common@^10.2.10":
+  version "10.2.10"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-10.2.10.tgz#22ba5c17962b54ffdf70a7bad690f1647995fe55"
+  integrity sha512-fwAk931rjW8CNH2Mgwawq/7HWHH1dxkOLdcgs7U52ddLk8CtHXjejm1cbNahewlSbNhvlOl7y1STLHutE6sUqw==
   dependencies:
     uid "2.0.2"
     iterare "1.2.1"
