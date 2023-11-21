@@ -57,7 +57,7 @@ export const VSDataDiri = z.object({
 
   disabilities_id: z.string().optional(),
   occupation_id: z.string().optional(),
-  occupation_position_id: z.string().optional(),
+  occupation_position: z.string().optional(),
   company_name: z.string().optional(),
   company_address: z.string().optional(),
   salary_id: z.string().optional(),

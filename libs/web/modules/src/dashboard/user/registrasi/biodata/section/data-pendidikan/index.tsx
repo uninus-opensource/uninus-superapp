@@ -190,7 +190,9 @@ export const DataPendidikanSection: FC = (): ReactElement => {
 
   const onSubmit = handleSubmit((data) => {
     dataPendidikan.education_type_id = Number(data?.education_type_id);
-    dataPendidikan.education_major_id = Number(data?.education_major_id);
+    majorOptions?.find((item) => Number(item.value) === 1)
+      ? (dataPendidikan.education_major_id = Number(data?.education_major_id))
+      : (dataPendidikan.education_major_id = undefined as unknown as number);
     dataPendidikan.education_npsn = data?.education_npsn;
     dataPendidikan.graduation_year = data?.graduation_year;
 

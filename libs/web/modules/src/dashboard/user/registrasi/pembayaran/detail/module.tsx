@@ -31,6 +31,10 @@ export const DetailPembayaran: FC = (): ReactElement => {
 
   const router = useRouter();
 
+  const student = useMemo(() => {
+    return getStudent;
+  }, [getStudent]);
+
   const paymentPMB = useMemo(() => {
     return data?.[0];
   }, [data]);
@@ -145,7 +149,7 @@ export const DetailPembayaran: FC = (): ReactElement => {
           <div className="px-2 md:px-4 py-2 text-sm md:text-base">
             <div className="flex justify-between p-4 text-left">
               <h1 className="font-extramedium flex flex-col md:flex-row">
-                <p>Biaya Formulir - {""}</p>
+                <p>Biaya Formulir - </p>
                 <p>
                   {degreeProgram
                     ? DegreeProgramOptions?.find((x) => x.value === degreeProgram)?.label
@@ -155,23 +159,36 @@ export const DetailPembayaran: FC = (): ReactElement => {
               <p className="font-bold">Rp. {paymentPMB?.amount || "loading nominal..."}</p>
             </div>
             <div className="flex flex-col gap-y-2 pl-4 py-1 text-left">
-              <h1 className="flex flex-col md:flex-row">
-                <p>Prodi pilihan 1 - {""}</p>
-                <p>
-                  {firstDepartement
-                    ? DepartmentOptions?.find((x) => x.value === firstDepartement)?.label
-                    : "loading prodi pilihan 1..."}
-                </p>
-              </h1>
+              {student?.degree_program_id === 1 ? (
+                <Fragment>
+                  <h1 className="flex flex-col md:flex-row">
+                    <p>Prodi pilihan 1 - </p>
+                    <p>
+                      {firstDepartement
+                        ? DepartmentOptions?.find((x) => x.value === firstDepartement)?.label
+                        : "loading prodi pilihan 1..."}
+                    </p>
+                  </h1>
 
-              <h1 className="flex flex-col md:flex-row">
-                <p>Prodi pilihan 2 - {""}</p>
-                <p>
-                  {secondDepartement
-                    ? DepartmentOptions?.find((x) => x.value === secondDepartement)?.label
-                    : "loading prodi pilihan 2..."}
-                </p>
-              </h1>
+                  <h1 className="flex flex-col md:flex-row">
+                    <p>Prodi pilihan 2 - </p>
+                    <p>
+                      {secondDepartement
+                        ? DepartmentOptions?.find((x) => x.value === secondDepartement)?.label
+                        : "loading prodi pilihan 2..."}
+                    </p>
+                  </h1>
+                </Fragment>
+              ) : (
+                <h1 className="flex flex-col md:flex-row">
+                  <p>Prodi pilihan - </p>
+                  <p>
+                    {firstDepartement
+                      ? DepartmentOptions?.find((x) => x.value === firstDepartement)?.label
+                      : "loading prodi pilihan 1..."}
+                  </p>
+                </h1>
+              )}
             </div>
             <div className="bg-slate-5 w-full h-[2px] mt-4"></div>
             <div className="flex justify-between p-4 text-left">

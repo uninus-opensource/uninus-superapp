@@ -5,11 +5,14 @@ export const VSPendaftaran = z.object({
     message: "Program pendidikan harus diisi",
   }),
   first_department_id: z.any().refine((value) => value, {
-    message: "Program studi 1 harus diisi",
+    message: "Program studi harus diisi",
   }),
-  second_department_id: z.any().refine((value) => value, {
-    message: "Program studi 2 harus diisi",
-  }),
+  second_department_id: z
+    .any()
+    .refine((value) => value, {
+      message: "Program studi 2 harus diisi",
+    })
+    .optional(),
   selection_path_id: z.any().refine((value) => value, {
     message: "Jalur seleksi harus diisi",
   }),

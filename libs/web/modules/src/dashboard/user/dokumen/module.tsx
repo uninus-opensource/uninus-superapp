@@ -67,8 +67,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
           const { file_url: surat_pindahan } = await uploadFile({
             file: data.surat_pindahan,
           });
-          const { file_url: transkip_nilai_pindahan } = await uploadFile({
-            file: data.transkip_nilai_pindahan,
+          const { file_url: transkrip_nilai_pindahan } = await uploadFile({
+            file: data.transkrip_nilai_pindahan,
           });
 
           mutate(
@@ -79,7 +79,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                 { name: "Akta Kelahiran", path: akta_kelahiran_S1 },
                 { name: "Ijazah/SKL", path: ijazah_SKL_S1 },
                 { name: "Surat Pindahan", path: surat_pindahan },
-                { name: "Transkip Nilai Pindahan", path: transkip_nilai_pindahan },
+                { name: "Transkrip Nilai Pindahan", path: transkrip_nilai_pindahan },
               ],
             },
             {
@@ -364,8 +364,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("kartu_keluarga_S1")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Kartu Keluarga")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "Kartu Keluarga")}
@@ -383,8 +383,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("KTP_S1")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "KTP")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "KTP")}
@@ -401,8 +401,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("akta_kelahiran_S1")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Akta Kelahiran")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "Akta Kelahiran")}
@@ -419,8 +419,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("ijazah_SKL_S1")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Ijazah/SKL")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "Ijazah/SKL")}
@@ -443,8 +443,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("ijazahS1_S2")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Ijazah S1")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "Ijazah S1")}
@@ -462,8 +462,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("kartu_keluarga_S2")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Kartu Keluarga")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "Kartu Keluarga")}
@@ -481,8 +481,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("KTP_S2")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "KTP")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "KTP")}
@@ -499,8 +499,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("transkrip_nilai_S2")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Transkrip Nilai")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         required
@@ -518,8 +518,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("porlap_dikti_S2")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Porlap Dikti")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "Porlap Dikti")}
@@ -542,8 +542,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("ijazahS1_S3")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Ijazah S1")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "Ijazah S1")}
@@ -561,8 +561,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("ijazahS2_S3")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Ijazah S2")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "Ijazah S2")}
@@ -580,8 +580,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("kartu_keluarga_S3")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Kartu Keluarga")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "Kartu Keluarga")}
@@ -599,8 +599,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("KTP_S3")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "KTP")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "KTP")}
@@ -608,7 +608,7 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     </div>
                     <div className="flex flex-col gap-2">
                       <UploadField
-                        label="Transkip Nilai"
+                        label="Transkrip Nilai"
                         control={control}
                         name="transkrip_nilai_S3"
                         variant="custom"
@@ -617,12 +617,12 @@ export const ModuleDokumen: FC = (): ReactElement => {
                         labelClassName={
                           watch("transkrip_nilai_S3")
                             ? "labelTextUploadedLarge"
-                            : documents?.find((doc) => doc.name === "Transkip Nilai")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                            : documents?.find((doc) => doc.name === "Transkrip Nilai")
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
-                        isDisabled={!!documents?.find((doc) => doc.name === "Transkip Nilai")}
+                        isDisabled={!!documents?.find((doc) => doc.name === "Transkrip Nilai")}
                       />
                     </div>
                     <div className="flex flex-col gap-2">
@@ -637,8 +637,8 @@ export const ModuleDokumen: FC = (): ReactElement => {
                           watch("porlap_dikti_S3")
                             ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Porlap Dikti")
-                            ? "labelTextDisabledLarge"
-                            : "labelTextLarge"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         isDisabled={!!documents?.find((doc) => doc.name === "Porlap Dikti")}
@@ -664,34 +664,33 @@ export const ModuleDokumen: FC = (): ReactElement => {
                     ? false
                     : true
                   : degreeProgram === 2
-                  ? watch("ijazahS1_S2") &&
-                    watch("kartu_keluarga_S2") &&
-                    watch("KTP_S2") &&
-                    watch("transkrip_nilai_S2")
-                    ? false
-                    : true
-                  : degreeProgram === 3
-                  ? watch("ijazahS1_S3") &&
-                    watch("ijazahS2_S3") &&
-                    watch("kartu_keluarga_S3") &&
-                    watch("KTP_S3") &&
-                    watch("transkrip_nilai_S3")
-                    ? false
-                    : true
-                  : false || isDisabled
+                    ? watch("ijazahS1_S2") &&
+                      watch("kartu_keluarga_S2") &&
+                      watch("KTP_S2") &&
+                      watch("transkrip_nilai_S2")
+                      ? false
+                      : true
+                    : degreeProgram === 3
+                      ? watch("ijazahS1_S3") &&
+                        watch("ijazahS2_S3") &&
+                        watch("kartu_keluarga_S3") &&
+                        watch("KTP_S3") &&
+                        watch("transkrip_nilai_S3")
+                        ? false
+                        : true
+                      : false || isDisabled
               }
             >
               Submit Berkas
             </Button>
           </section>
         </section>
-        {}
-        {(selectionType === 1 || selectionType === 2) &&
-          (isDisabled || documents?.find((doc) => doc.name === "KTP")) && (
-            <RedirectLink link="/dashboard/registrasi/pembayaran/detail">
-              Lakukan Pembayaran
-            </RedirectLink>
-          )}
+
+        {selectionType !== 3 && (isDisabled || documents?.find((doc) => doc.name === "KTP")) && (
+          <RedirectLink link="/dashboard/registrasi/pembayaran/detail">
+            Lakukan Pembayaran
+          </RedirectLink>
+        )}
 
         {selectionType === 3 && (isDisabled || documents?.find((doc) => doc.name === "KTP")) && (
           <RedirectLink link="/dashboard/selection">Tes seleksi</RedirectLink>
