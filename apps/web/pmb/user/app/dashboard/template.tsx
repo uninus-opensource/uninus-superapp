@@ -1,7 +1,7 @@
 "use client";
 import { FC, PropsWithChildren, ReactElement, useEffect, useMemo, useState } from "react";
 import { SideBar } from "@uninus/web/components";
-import { useLogout } from "@uninus/web/modules";
+import { useLogout, useStatusPayment } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
 import {
   CreditCardOutlined,
@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 import { Montserrat } from "next/font/google";
 import { useGetBiodata } from "@uninus/web/modules";
-import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
+import { useDashboardStateControl, useStudentData, useUserData } from "@uninus/web/services";
 import Loading from "./loading";
 
 const monserrat = Montserrat({
@@ -36,11 +36,24 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { getStudent, setStudent } = useStudentData();
   setStudent(student);
 
+  const { getUser } = useUserData();
+
   const { getDashboardControlState } = useDashboardStateControl();
+
+  const { mutate: statusPayment } = useStatusPayment();
 
   const documentsStatus = useMemo(() => {
     return getStudent?.documents?.find((doc) => doc.name === "KTP");
   }, [getStudent?.documents]);
+
+  useEffect(() => {
+    const pmbPayment = getStudent?.payment?.find((payment) => payment.name === "PMB");
+    if (getUser?.registration_status === "Belum Membayar" && pmbPayment?.order_id) {
+      statusPayment({
+        order_id: pmbPayment?.order_id as string,
+      });
+    }
+  });
 
   useEffect(() => {
     if (

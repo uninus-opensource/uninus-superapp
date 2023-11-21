@@ -6,6 +6,8 @@ import {
   IUpdateStudentGradeRequest,
   IUpdateStudentGradeResponse,
   IUpdateStudentRequest,
+  TStatusPaymentRequest,
+  TStatusPaymentResponse,
 } from "@uninus/entities";
 import { TUploadFileRequest, TUploadFileResponse } from "./type";
 import axios from "axios";
@@ -42,5 +44,12 @@ export const uploadFile = async (payload: TUploadFileRequest): Promise<TUploadFi
   const formData = new FormData();
   formData.append("file", payload.file);
   const { data } = await axios.post("https://storage.uninus.ac.id/api/file", formData);
+  return data;
+};
+
+export const checkPayment = async (
+  payload: TStatusPaymentRequest,
+): Promise<TStatusPaymentResponse> => {
+  const { data } = await api.post("/finance/status-payment", payload);
   return data;
 };

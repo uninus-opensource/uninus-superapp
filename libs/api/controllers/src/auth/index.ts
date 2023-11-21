@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Request,
-  UseFilters,
-  UseGuards,
-  UsePipes,
-  Headers,
-} from "@nestjs/common";
+import { Body, Controller, Post, Request, UseFilters, UseGuards, UsePipes } from "@nestjs/common";
 import {
   TReqToken,
   VSRegister,
@@ -17,6 +8,8 @@ import {
   VSForgotPassword,
   VSNewPassword,
   VSLogout,
+  TVSHeaderLogin,
+  VSHeaderLogin,
 } from "@uninus/entities";
 import { RtGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/pipes";
@@ -40,6 +33,7 @@ import {
   ApiBearerAuth,
   ApiHeader,
 } from "@nestjs/swagger";
+import { RequestHeaders } from "@uninus/api/decorators";
 
 @Controller("auth")
 @ApiTags("Auth")
@@ -74,9 +68,12 @@ export class AuthController {
     description: "Application Origin",
   })
   @Post("login")
-  @UsePipes(new ZodValidationPipe(VSLogin))
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  async login(@Headers("app-origin") app_origin: string, @Body() payload: LoginDto) {
+  async login(
+    @RequestHeaders(new ZodValidationPipe(VSHeaderLogin)) headers: TVSHeaderLogin,
+    @Body(new ZodValidationPipe(VSLogin)) payload: LoginDto,
+  ) {
+    const app_origin = headers["app-origin"];
     return await this.appService.login({ app_origin, ...payload });
   }
 
@@ -95,7 +92,7 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: "Refresh Token" })
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiBody({ type: RefreshTokenDto })
   @Post("refresh")
   @UseGuards(RtGuard)

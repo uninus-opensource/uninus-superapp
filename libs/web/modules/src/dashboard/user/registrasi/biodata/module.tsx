@@ -7,9 +7,6 @@ import { DataOrtuSection } from "./section/data-ortu";
 import { DataNilaiSection } from "./section/data-nilai";
 import { Button } from "@uninus/web/components";
 import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
-// import { useStudentData, useUpdate } from "@uninus/web/services";
-
-// import { useGetBiodata } from "./hooks";
 
 export const ModuleBiodata: FC = (): ReactElement => {
   const [degreeProgram, setDegreeProgram] = useState<number | null | undefined>(null);
@@ -33,30 +30,6 @@ export const ModuleBiodata: FC = (): ReactElement => {
     setDegreeProgram(getStudent?.degree_program_id);
   }, [getStudent]);
 
-  // useEffect(() => {
-  //   setDegreeProgram(student?.degree_program_id);
-
-  //   if (getUpdate === true) {
-  //     refetch()
-  //       .then((newData) => {
-  //         setStudent(newData?.data);
-  //         if (
-  //           Number(newData?.data?.average_grade) >= 80 ||
-  //           Number(newData?.data?.average_utbk) >= 500 ||
-  //           Number(newData?.data?.disabilities_id) >= 1
-  //         ) {
-  //           setRoute(true);
-  //         }
-
-  //         setUpdate(false);
-  //       })
-
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   }
-  // }, [student, route, getUpdate, refetch, getStudent, setStudent, setUpdate]);
-
   return (
     <section
       key="dashboard-biodata"
@@ -68,6 +41,12 @@ export const ModuleBiodata: FC = (): ReactElement => {
         </h1>
         <p className=" text-lg 2xl:text-2xl font-extrabold pt-2 text-secondary-green-4">
           Pengisian Data Registrasi
+        </p>
+        <p className="text-conditional-error font-bold text-base mt-4">
+          Perhatian :{" "}
+          <span className="text-primary-black font-normal">
+            Data yang telah disubmit tidak dapat di edit
+          </span>
         </p>
       </div>
 

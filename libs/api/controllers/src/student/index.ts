@@ -37,7 +37,7 @@ import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
 export class StudentController {
   constructor(@Inject("STUDENT_SERVICE") private readonly client: ClientProxy) {}
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiOperation({ summary: "Get Payment Obligations Student" })
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
@@ -86,7 +86,7 @@ export class StudentController {
     return response;
   }
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiOperation({ summary: "Get Data Student" })
   @ApiResponse({
     status: 400,
@@ -112,7 +112,7 @@ export class StudentController {
     return response;
   }
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiOperation({ summary: "Update Data Student" })
   @ApiResponse({
     status: 400,
@@ -146,7 +146,7 @@ export class StudentController {
     return response;
   }
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({
     status: 400,
@@ -168,7 +168,7 @@ export class StudentController {
     return response;
   }
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiOperation({ summary: "Update By Id" })
   @ApiResponse({
     status: 400,
@@ -216,7 +216,7 @@ export class StudentController {
       : updateStudent;
   }
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiOperation({ summary: "Get Data By Id" })
   @ApiResponse({
     status: 400,

@@ -41,7 +41,7 @@ import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
 export class UserController {
   constructor(@Inject("USER_SERVICE") private readonly client: ClientProxy) {}
 
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiOperation({ summary: "Get Data" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
   @ApiHeader({
@@ -67,7 +67,7 @@ export class UserController {
   @ApiQuery({ name: "order_by", required: false })
   @ApiQuery({ name: "filter_by", required: false })
   @ApiQuery({ name: "search", required: false })
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
@@ -102,7 +102,7 @@ export class UserController {
 
   @ApiOperation({ summary: "Get Data User By Id" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
@@ -122,7 +122,7 @@ export class UserController {
   @ApiOperation({ summary: "Delete By Id" })
   @ApiResponse({ status: 201, description: "Berhasil delete user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
@@ -142,7 +142,7 @@ export class UserController {
   @ApiOperation({ summary: "Edit User By Id" })
   @ApiResponse({ status: 201, description: "Berhasil update user" })
   @ApiResponse({ status: 400, description: "User tidak ditemukan" })
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
@@ -165,7 +165,7 @@ export class UserController {
 
   @ApiOperation({ summary: "Create user" })
   @ApiResponse({ status: 201, description: "Berhasil membuat user" })
-  @ApiBearerAuth()
+  @ApiBearerAuth("bearer")
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",

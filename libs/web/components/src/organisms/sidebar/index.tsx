@@ -53,6 +53,24 @@ export const SideBar: FC<TSideBarProps> = ({
     return userStatus;
   }, [getUser]);
 
+  const conditionalStatus = (status?: string | null): ReactElement => {
+    return (
+      <div
+        className={`w-3/5 font-bold p-2 rounded-md text-center text-xs ${
+          status === "Belum Mendaftar" ||
+          status === "Belum Membayar" ||
+          status === "Anda Tidak Lolos"
+            ? "bg-red-3 text-red-4 "
+            : status === "Sudah Membayar" || status === "Anda Lolos Seleksi"
+            ? "bg-secondary-green-0.5 text-grayscale-9"
+            : "bg-secondary-yellow-2 text-grayscale-9"
+        }`}
+      >
+        {status}
+      </div>
+    );
+  };
+
   useEffect(() => {
     setUser(data);
   }, [data]);
@@ -129,19 +147,7 @@ export const SideBar: FC<TSideBarProps> = ({
             (isLoading ? (
               <div className="w-3/5 mt-2 font-bold p-2 rounded-md bg-grayscale-2 animate-pulse h-10"></div>
             ) : (
-              <div
-                className={`w-3/5 font-bold ${
-                  userStatus === "Belum Membayar" ||
-                  userStatus === "Tidak Lulus" ||
-                  userStatus === "Belum Mendaftar"
-                    ? "bg-red-3 text-red-4"
-                    : userStatus === "Sudah Membayar" || userStatus === "Lulus"
-                    ? "bg-[#CCEADA] text-grayscale-9"
-                    : "bg-[#FFECB4] text-grayscale-9"
-                }  p-2 rounded-md text-center text-xs`}
-              >
-                {userStatus}
-              </div>
+              conditionalStatus(userStatus)
             ))}
 
           {/* End Status pendaftaran */}
@@ -353,19 +359,7 @@ export const SideBar: FC<TSideBarProps> = ({
                 (isLoading ? (
                   <div className="w-3/5 font-bold p-2 rounded-md bg-grayscale-2 animate-pulse h-10"></div>
                 ) : (
-                  <div
-                    className={`w-3/5 font-bold ${
-                      userStatus === "Belum Membayar" ||
-                      userStatus === "Tidak Lulus" ||
-                      userStatus === "Belum Mendaftar"
-                        ? "bg-red-3 text-red-4"
-                        : userStatus === "Sudah Membayar" || userStatus === "Lulus"
-                        ? "bg-[#CCEADA] text-grayscale-9"
-                        : "bg-[#FFECB4] text-grayscale-9"
-                    }  p-2 rounded-md text-center text-xs`}
-                  >
-                    {userStatus}
-                  </div>
+                  conditionalStatus(userStatus)
                 ))}
               {/* End Status pendaftaran */}
               <div className="w-[60%] px-3 h-[1px] bg-slate-4"></div>

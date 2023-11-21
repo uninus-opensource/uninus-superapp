@@ -5,6 +5,7 @@ import {
   StudentGet,
   StudentGradeGet,
   UpdateAverage,
+  checkPayment,
   uploadFile,
 } from "./api";
 import {
@@ -15,6 +16,8 @@ import {
   IUpdateStudentRequest,
   IUpdateStudentResponse,
   TMetaErrorResponse,
+  TStatusPaymentRequest,
+  TStatusPaymentResponse,
 } from "@uninus/entities";
 import { TUploadFileRequest, TUploadFileResponse } from "./type";
 
@@ -76,6 +79,19 @@ export const useUploadFile = (): UseMutationResult<
     mutationKey: ["uploadFile"],
     mutationFn: async (file: TUploadFileRequest) => {
       return await uploadFile(file);
+    },
+  });
+};
+
+export const useStatusPayment = (): UseMutationResult<
+  TStatusPaymentResponse,
+  TMetaErrorResponse,
+  TStatusPaymentRequest
+> => {
+  return useMutation({
+    mutationKey: ["statusPayment"],
+    mutationFn: async (payload: TStatusPaymentRequest) => {
+      return await checkPayment(payload);
     },
   });
 };

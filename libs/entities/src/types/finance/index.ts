@@ -20,7 +20,7 @@ export type TFinanceSummaryResponse = {
   };
 };
 export type TCreatePaymentRequest = {
-  userId: string;
+  userId?: string;
   payment_obligation_id: number;
 };
 
@@ -37,23 +37,51 @@ export type TCreatePaymentResponse = {
 };
 
 export type TStatusPaymentRequest = {
+  userId?: string;
   order_id: string;
 };
 
-export type TStatusPaymentResponse = {
-  responseCode: string;
-  responseDesc: string;
-  trxRef: string;
+export type TStatusPaymentResponse =
+  | {
+      responseCode: string;
+      responseDesc: string;
+      trxRef: string;
+      issuer: string;
+      issuerRefNo: string;
+      ottoRefNo: string;
+      transactionStatusCode: string;
+      transactionStatusDesc: string;
+      amount: number;
+      transactionTime: string;
+      customerId: string;
+      refundHistory: Array<string>;
+      vaBank: string;
+      vaNumber: string;
+      paymentMethod: string;
+    }
+  | {
+      message: string;
+    };
+
+export type TPaymentCallbackRequest = {
+  amount: number;
+  bankName: string;
   issuer: string;
   issuerRefNo: string;
-  ottoRefNo: string;
-  transactionStatusCode: string;
-  transactionStatusDesc: string;
-  amount: number;
-  transactionTime: string;
-  customerId: string;
-  refundHistory: Array<string>;
-  vaBank: string;
-  vaNumber: string;
-  paymentMethod: string;
+  responseCode: string;
+  responseDescription: string;
+  transactionType: number;
+  trxRef: string;
+  userId: string;
+};
+
+export type TPaymentCallbackResponse = {
+  responseCode: number;
+  responseDescription: string;
+};
+
+export type TPaymentCallbackHeaders = {
+  timeStamp: string;
+  signature: string;
+  authorization: string;
 };

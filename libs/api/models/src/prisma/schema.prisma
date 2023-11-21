@@ -131,7 +131,9 @@ model PaymentHistory {
   order_id              String              @unique
   payment_method        String?
   payment_code          String?
+  payment_bank          String?
   payment_obligation_id Int?
+  isPaid                Boolean?
   payment_obligation    PaymentObligations? @relation(fields: [payment_obligation_id], references: [id])
   createdAt             DateTime            @default(now())
   student               Students?           @relation(fields: [student_id], references: [id])

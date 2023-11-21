@@ -31,8 +31,24 @@ export class AppService {
         students: {
           include: {
             payment_history: {
-              include: {
-                payment_obligation: true,
+              select: {
+                id: true,
+                order_id: true,
+                payment_method: true,
+                payment_code: true,
+                payment_bank: true,
+                isPaid: true,
+                payment_obligation: {
+                  select: {
+                    name: true,
+                    amount: true,
+                  },
+                },
+                payment_type: {
+                  select: {
+                    name: true,
+                  },
+                },
               },
             },
             pmb: {
@@ -78,10 +94,15 @@ export class AppService {
           utbk_kmbm: pmb.utbk_kmbm,
           documents: pmb.documents,
           payment: payment_history?.map((el) => ({
-            name: el.payment_obligation.name,
-            amount: el.payment_obligation.amount,
-            payment_method: el.payment_method,
-            payment_code: el.payment_code,
+            id: el?.id,
+            order_id: el?.order_id,
+            payment_method: el?.payment_method,
+            payment_code: el?.payment_code,
+            payment_bank: el?.payment_bank,
+            isPaid: el?.isPaid,
+            amount: el?.payment_obligation?.amount,
+            name: el?.payment_obligation?.name,
+            payment_type: el?.payment_type?.name,
           })),
           ...studentData,
         },
@@ -404,11 +425,9 @@ export class AppService {
               mode: "insensitive",
             },
           }),
-          ...(payload?.id && {
-            id: Number(payload?.id),
-          }),
         },
         select: {
+          id: true,
           name: true,
           amount: true,
         },
@@ -440,6 +459,7 @@ export class AppService {
       ? paymentObligations.map((el) =>
           el?.name?.includes("UKT")
             ? {
+                id: el?.id,
                 name: el?.name,
                 amount: el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100,
                 spelled_out: convertNumberToWords(
