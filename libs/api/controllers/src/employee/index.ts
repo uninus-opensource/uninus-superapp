@@ -60,6 +60,7 @@ export class EmployeeController {
         })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
+
     return response;
   }
 

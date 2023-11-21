@@ -22,7 +22,7 @@ export class AppService {
     const skip = Number(page > 0 ? perPage * (page - 1) : 0);
     const take = Number(perPage ?? 10);
 
-    const [data, total] = await Promise.all([
+    const [data] = await Promise.all([
       this.prisma.employees.findMany({
         take,
         skip,
@@ -65,42 +65,28 @@ export class AppService {
                         },
                       },
                     },
-                    lecturer_position: {
+                  },
+                },
+              }
+            : {}),
+          ...(type == 2
+            ? {
+                employee_has_workunit: {
+                  select: {
+                    work_unit: {
                       select: {
-                        id: true,
                         name: true,
+                        work_unit_category: {
+                          select: {
+                            name: true,
+                          },
+                        },
                       },
                     },
                   },
                 },
               }
             : {}),
-          employee_has_education: {
-            select: {
-              education: {
-                select: {
-                  id: true,
-                  name: true,
-                },
-              },
-            },
-          },
-          employee_has_workunit: {
-            select: {
-              work_unit: {
-                select: {
-                  id: true,
-                  name: true,
-                  work_unit_category: {
-                    select: {
-                      id: true,
-                      name: true,
-                    },
-                  },
-                },
-              },
-            },
-          },
           employee_status: {
             select: {
               id: true,
@@ -110,46 +96,27 @@ export class AppService {
         },
         orderBy,
       }),
-      this.prisma.employees.count({
-        where,
-      }),
     ]);
 
-    const lastPage = Math.ceil(total / perPage);
+    const lastPage = Math.ceil(data.length / perPage);
 
     const mappedData = data?.map((el) => ({
       fullname: el.user.fullname,
       nip: el.nip,
       nidn: el.nidn,
-      faculty: el.lecturers.lecturer_faculty_department?.map((el) => ({
-        id: el.faculty.id,
-        name: el.faculty.name,
-      })),
-      department: el.lecturers.lecturer_faculty_department?.map((el) => ({
-        id: el.department.id,
-        name: el.department.name,
-      })),
-      employee_category: el.employee_has_category?.map((el) => ({
-        id: el.employee_category.id,
-        name: el.employee_category.name,
-      })),
-      employee_education: el.employee_has_education?.map((el) => ({
-        id: el.education.id,
-        name: el.education.name,
-      })),
-      employee_workunit: el.employee_has_workunit?.map((el) => ({
-        id: el.work_unit.id,
-        name: el.work_unit.name,
-        category_id: el.work_unit.work_unit_category.id,
-        category: el.work_unit.work_unit_category.name,
-      })),
+      faculty: el.lecturers?.lecturer_faculty_department?.map((el) => el.faculty.name),
+      department: el.lecturers?.lecturer_faculty_department?.map((el) => el.department.name),
       employee_status: el.employee_status.name,
+      work_unit: el.employee_has_workunit?.map((el) => ({
+        category: el.work_unit.work_unit_category.name,
+        unit: el.work_unit.name,
+      })),
     }));
 
     return {
       data: mappedData,
       meta: {
-        total,
+        total: data.length,
         lastPage,
         currentPage: Number(page),
         perPage: Number(perPage),
@@ -202,17 +169,17 @@ export class AppService {
         }),
         this.prisma.lecturers.count({
           where: {
-            lecturer_status_id: 1,
+            lecturer_category_id: 1,
           },
         }),
         this.prisma.lecturers.count({
           where: {
-            lecturer_status_id: 2,
+            lecturer_category_id: 2,
           },
         }),
         this.prisma.lecturers.count({
           where: {
-            lecturer_status_id: 3,
+            lecturer_category_id: 3,
           },
         }),
         this.prisma.academicStaff.count({
@@ -318,7 +285,7 @@ export class AppService {
             },
           },
         },
-        lecturer_status: {
+        lecturer_category: {
           select: {
             name: true,
           },
@@ -338,7 +305,7 @@ export class AppService {
       nik: lecturer.employee.nik,
       gender: lecturer.employee.gender.name,
       addition_task: lecturer.employee.addition_task,
-      lecturer_status: lecturer.lecturer_status.name,
+      lecturer_category: lecturer.lecturer_category.name,
       lecturer_position: lecturer.lecturer_position.name,
       civil_service_level: lecturer.lecturer_position.civil_service?.name,
       employee_work_unit: lecturer.employee.employee_has_workunit?.map((el) => ({
