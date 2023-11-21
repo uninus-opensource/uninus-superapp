@@ -39,7 +39,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     },
     {
       name: "Biaya Kuliah",
-      link: "/biaya-kuliah",
+      link: "/dashboard/biaya-kuliah",
       icon: <AiOutlineCreditCard />,
     },
     {
