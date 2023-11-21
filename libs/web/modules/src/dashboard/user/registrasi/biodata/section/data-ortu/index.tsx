@@ -581,13 +581,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
               label="Jabatan"
               inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
               control={control}
-              disabled={
-                isSubmitted || !watch("father_occupation_id")
-                  ? true
-                  : false || student?.occupation_position
-                  ? true
-                  : false || positionState?.father
-              }
+              disabled={isSubmitted || !!student?.father_occupation_id || !!positionState?.father}
               status={errors?.father_position?.message ? "error" : "none"}
               message={errors?.father_position?.message as string}
             />
@@ -731,8 +725,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
                 isSubmitted || !watch("mother_occupation_id")
                   ? true
                   : false || student?.occupation_position
-                  ? true
-                  : false || positionState?.mother
+                    ? true
+                    : false || positionState?.mother
               }
               status={errors?.mother_position ? "error" : "none"}
               message={errors?.mother_position?.message as string}
@@ -981,8 +975,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
                       isSubmitted || !watch("guardian_occupation_id")
                         ? true
                         : false || student?.occupation_position
-                        ? true
-                        : false || !!student?.guardian_name || positionState?.guardian
+                          ? true
+                          : false || !!student?.guardian_name || positionState?.guardian
                     }
                   />
 
@@ -996,8 +990,8 @@ export const DataOrtuSection: FC = (): ReactElement => {
                             (salary) => Number(salary.value) === student?.guardian_salary_id,
                           )?.label
                         : isUnemployedGuardian
-                        ? "0"
-                        : "Pilih pendapatan"
+                          ? "0"
+                          : "Pilih pendapatan"
                     }
                     options={salaryOptions || []}
                     className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"

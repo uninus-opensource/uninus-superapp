@@ -89,7 +89,7 @@ export const disabilitiesDataDiri = {
 
 export const occupationS2S3 = {
   occupation_id: 0,
-  occupation_position_id: null as unknown as number,
+  occupation_position: "",
   company_name: "",
   salary_id: 0,
   company_address: "",

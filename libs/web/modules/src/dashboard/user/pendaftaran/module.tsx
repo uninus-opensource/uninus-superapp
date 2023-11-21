@@ -35,7 +35,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     handleSubmit,
     watch,
     setValue,
-    formState: { isValid, errors },
+    formState: { errors },
     reset,
   } = useForm<FieldValues | TVSPendaftaran>({
     mode: "all",
@@ -155,12 +155,20 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     reset(student);
   }, [student, reset]);
 
+  useEffect(() => {
+    if (student?.degree_program_id === 3) {
+      setIs3Selected(true);
+    }
+  }, [student?.degree_program_id]);
+
   const router = useRouter();
 
   const onSubmit = handleSubmit((data) => {
     studentPendaftaran.degree_program_id = Number(data.degree_program_id);
     studentPendaftaran.first_department_id = Number(data.first_department_id);
-    studentPendaftaran.second_department_id = Number(data.second_department_id);
+    isS3Selected
+      ? (studentPendaftaran.second_department_id = undefined)
+      : (studentPendaftaran.second_department_id = Number(data.second_department_id));
     studentPendaftaran.registration_path_id = Number(data.registration_path_id);
     studentPendaftaran.selection_path_id = Number(data.selection_path_id);
 
@@ -284,7 +292,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
                 className="text-left"
                 labelClassName="text-left py-2"
                 control={control}
-                name="second_department_id"
+                name={"second_department_id"}
                 options={DepartmentOptions || []}
                 isSearchable={true}
                 isMulti={false}
@@ -348,14 +356,26 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               width="w-48"
               height="h-12"
               disabled={
-                !isValid ||
-                watch("first_department_id") === watch("second_department_id") ||
-                !!student?.degree_program_id ||
-                !!student?.selection_path_id
+                !isS3Selected
+                  ? !(
+                      watch("degree_program_id") &&
+                      watch("first_department_id") &&
+                      watch("second_department_id") &&
+                      watch("registration_path_id") &&
+                      watch("selection_path_id")
+                    ) ||
+                    watch("first_department_id") === watch("second_department_id") ||
+                    !!student?.degree_program_id ||
+                    !!student?.selection_path_id
+                  : !!student?.degree_program_id ||
+                    !!student?.selection_path_id ||
+                    !(
+                      watch("degree_program_id") &&
+                      watch("first_department_id") &&
+                      watch("registration_path_id") &&
+                      watch("selection_path_id")
+                    )
               }
-              className={`${
-                isValid ? "bg-primary-green" : "bg-slate-2 cursor-not-allowed"
-              } text-white rounded-md`}
             >
               Daftar Sekarang
             </Button>

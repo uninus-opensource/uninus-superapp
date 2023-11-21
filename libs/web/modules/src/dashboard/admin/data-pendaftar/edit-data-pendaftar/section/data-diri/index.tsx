@@ -13,7 +13,6 @@ import {
   useDisabilitiesGet,
   useGenderGet,
   useOccupationGet,
-  useOccupationPositionGet,
   useProvinceGet,
   useReligionGet,
   useSalaryGet,
@@ -213,20 +212,6 @@ export const EditDataDiri: FC = (): ReactElement => {
     setValue("occupation_id", undefined);
   }, [setValue, occValue]);
 
-  const { data: getOccupationPosition } = useOccupationPositionGet({
-    search: "",
-    occupation_id: watch("occupation_id"),
-  });
-
-  const occupationPositionOptions = useMemo(
-    () =>
-      getOccupationPosition?.occupation_position?.map((occupationPosition) => ({
-        label: occupationPosition?.name,
-        value: occupationPosition?.id.toString(),
-      })),
-    [getOccupationPosition?.occupation_position],
-  );
-
   const [salary] = useState({
     search: "",
   });
@@ -323,10 +308,10 @@ export const EditDataDiri: FC = (): ReactElement => {
 
     if (occValue === "Sudah" && student?.degree_program_id !== 1) {
       occupationS2S3.occupation_id = Number(data?.occupation_id);
-      if (data?.occupation_position_id) {
-        occupationS2S3.occupation_position_id = Number(data?.occupation_position_id);
+      if (data?.occupation_position) {
+        occupationS2S3.occupation_position = data?.occupation_position;
       } else {
-        occupationS2S3.occupation_position_id = undefined as unknown as number;
+        occupationS2S3.occupation_position = undefined || "";
       }
       occupationS2S3.company_name = data?.company_name;
       occupationS2S3.company_address = data?.company_address;
@@ -338,10 +323,10 @@ export const EditDataDiri: FC = (): ReactElement => {
         occValue === "Sudah" && student?.degree_program_id !== 1
           ? { ...dataDiri, ...occupationS2S3 }
           : occValue === "Sudah" && disValue === "Ya" && student?.degree_program_id !== 1
-          ? { ...dataDiri, ...occupationS2S3, ...disabilitiesDataDiri }
-          : occValue === null && student?.degree_program_id === 1 && disValue === "Ya"
-          ? { ...dataDiri, ...disabilitiesDataDiri }
-          : { ...dataDiri },
+            ? { ...dataDiri, ...occupationS2S3, ...disabilitiesDataDiri }
+            : occValue === null && student?.degree_program_id === 1 && disValue === "Ya"
+              ? { ...dataDiri, ...disabilitiesDataDiri }
+              : { ...dataDiri },
         {
           onSuccess: () => {
             setTimeout(() => {
@@ -811,28 +796,23 @@ export const EditDataDiri: FC = (): ReactElement => {
                 />
               </div>
               <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
-                <SelectOption
-                  name="occupation_position_id"
-                  labels="Jabatan"
-                  placeholder={student?.occupation_position || "Pilih Jabatan"}
-                  labelClassName="text-left font-bold text-xs py-2"
-                  options={occupationPositionOptions || []}
-                  isClearable={true}
-                  isSearchable={true}
-                  required={false}
+                <TextField
+                  inputHeight="h-10"
+                  name="occupation_position"
+                  variant="sm"
+                  type="text"
+                  placeholder={student?.occupation_position || "Jabatan"}
+                  labelclassname="text-sm font-semibold"
+                  label="Jabatan"
+                  inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
                   control={control}
                   disabled={
                     occValue === "Belum" || !watch("occupation_id")
                       ? true
-                      : false ||
-                        occupationPositionOptions?.length === 0 ||
-                        student?.occupation_position
-                      ? true
-                      : false
+                      : false || student?.occupation_position
+                        ? true
+                        : false
                   }
-                  isMulti={false}
-                  status={"error"}
-                  className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
                 />
                 <TextField
                   inputHeight="h-10"

@@ -22,5 +22,5 @@ export type TDokumenPendaftaran = {
 
   // jalur pindahan
   surat_pindahan: File;
-  transkip_nilai_pindahan: File;
+  transkrip_nilai_pindahan: File;
 };

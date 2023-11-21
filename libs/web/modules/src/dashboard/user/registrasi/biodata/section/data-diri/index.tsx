@@ -15,7 +15,6 @@ import {
   useStudentData,
   useSubdistrictGet,
   useOccupationGet,
-  useOccupationPositionGet,
   useSalaryGet,
   useGenderGet,
   useReligionGet,
@@ -226,20 +225,6 @@ export const DataDiriSection: FC = (): ReactElement => {
     setValue("occupation_id", undefined);
   }, [setValue, occValue]);
 
-  const { data: getOccupationPosition } = useOccupationPositionGet({
-    search: "",
-    occupation_id: watch("occupation_id"),
-  });
-
-  const occupationPositionOptions = useMemo(
-    () =>
-      getOccupationPosition?.occupation_position?.map((occupationPosition) => ({
-        label: occupationPosition?.name,
-        value: occupationPosition?.id.toString(),
-      })),
-    [getOccupationPosition?.occupation_position],
-  );
-
   const [salary] = useState({
     search: "",
   });
@@ -373,9 +358,22 @@ export const DataDiriSection: FC = (): ReactElement => {
     dataDiri.marital_status_id = Number(data?.marital_status_id);
     dataDiri.citizenship_id = Number(data?.citizenship_id);
     dataDiri.country_id = Number(data?.country_id);
-    dataDiri.province_id = Number(data?.province_id);
-    dataDiri.city_id = Number(data?.city_id);
-    dataDiri.subdistrict_id = Number(data?.subdistrict_id);
+
+    watch("citizenship_id") === "1"
+      ? (dataDiri.province_id = undefined as unknown as number)
+      : (dataDiri.province_id = Number(data?.province_id));
+
+    watch("citizenship_id") === "1"
+      ? (dataDiri.city_id = undefined as unknown as number)
+      : (dataDiri.city_id = Number(data?.city_id));
+
+    watch("citizenship_id") === "1"
+      ? (dataDiri.subdistrict_id = undefined as unknown as number)
+      : (dataDiri.subdistrict_id = Number(data?.subdistrict_id));
+
+    // dataDiri.province_id = Number(data?.province_id);
+    // dataDiri.city_id = Number(data?.city_id);
+    // dataDiri.subdistrict_id = Number(data?.subdistrict_id);
     dataDiri.address = data?.address;
 
     if (disValue === "Ya") {
@@ -386,11 +384,7 @@ export const DataDiriSection: FC = (): ReactElement => {
 
     if (occValue === "Sudah" && student?.degree_program_id !== 1) {
       occupationS2S3.occupation_id = Number(data?.occupation_id);
-      if (data?.occupation_position_id) {
-        occupationS2S3.occupation_position_id = Number(data?.occupation_position_id);
-      } else {
-        occupationS2S3.occupation_position_id = undefined as unknown as number;
-      }
+      occupationS2S3.occupation_position = data?.occupation_position;
       occupationS2S3.company_name = data?.company_name;
       occupationS2S3.company_address = data?.company_address;
       occupationS2S3.salary_id = Number(data?.salary_id);
@@ -401,10 +395,10 @@ export const DataDiriSection: FC = (): ReactElement => {
         occValue === "Sudah" && student?.degree_program_id !== 1
           ? { ...dataDiri, ...occupationS2S3 }
           : occValue === "Sudah" && disValue === "Ya" && student?.degree_program_id !== 1
-          ? { ...dataDiri, ...occupationS2S3, ...disabilitiesDataDiri }
-          : occValue === null && student?.degree_program_id === 1 && disValue === "Ya"
-          ? { ...dataDiri, ...disabilitiesDataDiri }
-          : { ...dataDiri },
+            ? { ...dataDiri, ...occupationS2S3, ...disabilitiesDataDiri }
+            : occValue === null && student?.degree_program_id === 1 && disValue === "Ya"
+              ? { ...dataDiri, ...disabilitiesDataDiri }
+              : { ...dataDiri },
         {
           onSuccess: () => {
             setIsdisabled(true);
@@ -747,7 +741,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               isSearchable={true}
               isClearable={true}
               control={control}
-              required={countryOptions?.length !== 1}
+              required={countryOptions?.length === 1}
               ref={citizenref}
               isMulti={false}
               disabled={isDisabled || !!student?.province_id || countryOptions?.length !== 1}
@@ -770,7 +764,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               isSearchable={true}
               isClearable={true}
               ref={provinceref}
-              required={countryOptions?.length !== 1}
+              required={countryOptions?.length === 1}
               control={control}
               isMulti={false}
               disabled={
@@ -800,7 +794,7 @@ export const DataDiriSection: FC = (): ReactElement => {
               control={control}
               isMulti={false}
               isClearable={true}
-              required={countryOptions?.length !== 1}
+              required={countryOptions?.length === 1}
               disabled={
                 isDisabled ||
                 !!student?.subdistrict_id ||
@@ -888,43 +882,38 @@ export const DataDiriSection: FC = (): ReactElement => {
                     occValue === "Sudah" && student?.occupation_id
                       ? true
                       : occValue === "Belum" && student?.occupation_id
-                      ? true
-                      : occValue === "Sudah"
-                      ? false
-                      : occValue === "Belum"
-                      ? true
-                      : false
+                        ? true
+                        : occValue === "Sudah"
+                          ? false
+                          : occValue === "Belum"
+                            ? true
+                            : false
                   }
                   status={"error"}
                   className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
                   message={errors?.occupation_id?.message as string}
                 />
               </div>
-              <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between">
-                <SelectOption
-                  name="occupation_position_id"
-                  labels="Jabatan"
-                  placeholder={student?.occupation_position || "Pilih Jabatan"}
-                  labelClassName="text-left font-bold text-xs py-2"
-                  options={occupationPositionOptions || []}
-                  isClearable={true}
-                  isSearchable={true}
-                  required={false}
+              <div className="w-80% px-5 flex flex-col gap-y-4 md:flex-row md:w-full md:px-0 md:justify-between mt-4">
+                <TextField
+                  inputHeight="h-10"
+                  name="occupation_position"
+                  variant="sm"
+                  type="text"
+                  placeholder={student?.occupation_position || "Jabatan"}
+                  labelclassname="text-sm font-semibold"
+                  label="Jabatan"
+                  inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
                   control={control}
-                  isMulti={false}
                   disabled={
                     occValue === "Belum" || isDisabled || !watch("occupation_id")
                       ? true
-                      : false ||
-                        occupationPositionOptions?.length === 0 ||
-                        student?.occupation_position
-                      ? true
-                      : false
+                      : false || student?.occupation_position
+                        ? true
+                        : false
                   }
-                  status={"error"}
-                  className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-                  message={errors?.occupation_position_id?.message as string}
                 />
+
                 <TextField
                   inputHeight="h-10"
                   name="company_name"
@@ -1029,12 +1018,12 @@ export const DataDiriSection: FC = (): ReactElement => {
                 disValue === "Ya" && student?.disabilities_id
                   ? true
                   : disValue === "Tidak" && student?.disabilities_id
-                  ? true
-                  : disValue === "Ya"
-                  ? false
-                  : disValue === "Tidak"
-                  ? true
-                  : false
+                    ? true
+                    : disValue === "Ya"
+                      ? false
+                      : disValue === "Tidak"
+                        ? true
+                        : false
               }
               status={"error"}
             />
