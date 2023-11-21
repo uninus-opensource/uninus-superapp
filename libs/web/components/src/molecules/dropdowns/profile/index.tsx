@@ -2,8 +2,15 @@ import Image from "next/image";
 import { FC, ReactElement } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { TProfileDropdown, TUserData, TInfoProfile, TKeteranganLulus } from "./types";
+import { useNotificationSiakadToogle } from "@uninus/web/services";
+import { NotificationButton } from "../../../atoms";
 
-export const ProfileDropdown: FC<TProfileDropdown> = ({ showProfile }): ReactElement | false => {
+export const ProfileDropdown: FC<TProfileDropdown> = ({
+  showProfile,
+  notification_counts,
+}): ReactElement | false => {
+  const { getNotifToogle, setNotifToogle } = useNotificationSiakadToogle();
+
   const userData: TUserData = {
     name: "M Nurfahmi Sugiarto",
     nim: "41037006200011",
@@ -35,12 +42,12 @@ export const ProfileDropdown: FC<TProfileDropdown> = ({ showProfile }): ReactEle
           ket === "Aktif"
             ? "text-primary-green bg-secondary-green-0.5"
             : ket === "Cuti"
-            ? "text-primary-yellow bg-secondary-yellow-1"
-            : ket === "Tidak Aktif"
-            ? "text-error-600 bg-secondary-orange-1"
-            : ket === "Lulus"
-            ? "text-primary-green bg-secondary-green-0.5"
-            : "hidden"
+              ? "text-primary-yellow bg-secondary-yellow-1"
+              : ket === "Tidak Aktif"
+                ? "text-error-600 bg-secondary-orange-1"
+                : ket === "Lulus"
+                  ? "text-primary-green bg-secondary-green-0.5"
+                  : "hidden"
         }`}
       >
         {ket}
@@ -49,34 +56,44 @@ export const ProfileDropdown: FC<TProfileDropdown> = ({ showProfile }): ReactEle
   };
   return (
     showProfile && (
-      <section className="flex flex-col w-[20vw] p-2 gap-2 absolute shadow-md z-20 bg-primary-white right-0 rounded-b-md xl:top-[4.3rem] lg:top-[3.5rem]">
-        <div className="flex items-center gap-4 xl:ml-2">
-          <figure>
-            <Image
-              src="/illustrations/dummy-avatar.webp"
-              alt="profile-picture"
-              width={100}
-              height={100}
-              quality={100}
-              className="rounded-full xl:w-[45px] xl:h-[45px] w-[40px] h-[40px]"
-            />
-          </figure>
-          <div className="flex flex-col gap-1 justify-center text-left py-2 mt-1">
-            <h4 className="flex gap-1 items-center xl:text-sm text-xs font-semibold">
-              {userData.name}
-            </h4>
-            <h5 className="xl:text-sm text-[10px] font-extramedium text-grayscale-5.5">
-              {userData.nim}
-            </h5>
-            {keterangan("Cuti")}
+      <section className="flex flex-col w-[19rem] md:w-[19.4rem] p-2 gap-2 absolute shadow-md z-20 bg-primary-white right-0 rounded-b-md xl:top-[4.1rem] md:top-[3.6rem] top-[3.8rem]">
+        <div className={`flex items-center ${notification_counts ? "" : "pr-4"}`}>
+          <div className="flex w-full items-center gap-4 ml-3 xl:ml-2">
+            <figure>
+              <Image
+                src="/illustrations/dummy-avatar.webp"
+                alt="profile-picture"
+                width={100}
+                height={100}
+                quality={100}
+                className="rounded-full xl:w-[45px] xl:h-[45px] w-[40px] h-[40px]"
+              />
+            </figure>
+            <div className="flex flex-col gap-1 justify-center text-left py-2 mt-1">
+              <h4 className="flex gap-1 items-center xl:text-sm text-xs font-semibold">
+                {userData.name}
+              </h4>
+              <h5 className="xl:text-sm text-[10px] font-extramedium text-grayscale-5.5">
+                {userData.nim}
+              </h5>
+              {keterangan("Cuti")}
+            </div>
           </div>
+
+          <NotificationButton
+            position="relative"
+            notification_count={notification_counts}
+            onClick={() => setNotifToogle(!getNotifToogle)}
+            mobile
+          />
         </div>
+
         <hr className="w-full border-slate-4" />
         <div className="grid grid-cols-2 gap-2 p-0.5 xl:ml-2">
           {infoProfile.map((item, index) => (
             <div key={index} className="flex flex-col gap-0.5">
-              <h3 className="xl:text-sm text-xs font-semibold">{item.name}</h3>
-              <h5 className="xl:text-[10px] text-[8px]">{item.description}</h5>
+              <h3 className="text-sm font-semibold">{item.name}</h3>
+              <h5 className="text-[10px]">{item.description}</h5>
             </div>
           ))}
         </div>

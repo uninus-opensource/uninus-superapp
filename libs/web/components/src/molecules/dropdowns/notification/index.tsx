@@ -30,7 +30,7 @@ export const NotificationDropdown: FC<TNotificationDropdownProps> = ({
 
   return (
     showNotification && (
-      <section className="flex flex-col w-[22vw] pt-4 gap-4 absolute shadow-md z-20 bg-primary-white right-5 rounded-b-md lg:top-[5rem]">
+      <section className="flex flex-col w-[20rem] pt-4 gap-4 absolute shadow-md z-20 bg-primary-white right-4 rounded-b-md top-[4rem] xl:top-[4.5rem]">
         {/* header */}
         <div className="flex w-full justify-between items-center px-4">
           <h3 className="text-base font-semibold">Notifikasi</h3>
@@ -45,7 +45,7 @@ export const NotificationDropdown: FC<TNotificationDropdownProps> = ({
             control={control}
             options={[{ label: "Semua", value: "all" }]}
             placeholder="Pilih Opsi"
-            className="w-[10vw]"
+            className="w-[9rem]"
             isClearable={true}
             isSearchable={false}
             isBordered

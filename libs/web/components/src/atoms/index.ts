@@ -5,4 +5,5 @@ export * from "./reveal";
 export * from "./illustrations";
 export * from "./bread-crumb";
 export * from "./notif";
+export * from "./notif-button";
 export * from "./redirect-link";

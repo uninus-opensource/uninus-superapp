@@ -72,3 +72,8 @@ export type ReturnTypesSidebarSiakad = {
   setSiakadToogle: (val: boolean | undefined) => void;
   getSiakadToogle: boolean | undefined;
 };
+
+export type ReturnTypesNotificationSiakad = {
+  setNotifToogle: (val: boolean | undefined) => void;
+  getNotifToogle: boolean | undefined;
+};

@@ -75,7 +75,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   ];
 
   return (
-    <main key="main" className={`flex w-full min-h-full `}>
+    <main key="main" className={`flex w-full h-screen min-h-full overflow-hidden`}>
       <SidebarV2
         title="NusaVerse"
         sideList={sideList}
@@ -88,7 +88,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       <div className={`w-full flex flex-col h-full lg:overflow-y-hidden`}>
         {getSiakadToogle && (
           <div
-            className="h-screen w-full absolute bg-opacity-30 bg-primary-black lg:hidden"
+            className="h-screen w-full absolute bg-opacity-30 bg-primary-black lg:hidden z-30"
             onClick={() => setSiakadToogle(false)}
           />
         )}
@@ -96,7 +96,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
         <NavbarSiakad />
         <section
           key="dashboard"
-          className={`w-full bg-grayscale-1 h-[91vh]`}
+          className={`w-full bg-grayscale-1 overflow-auto`}
           onClick={() => setSiakadToogle(false)}
         >
           {children}

@@ -1,25 +1,24 @@
-import { useSidebarSiakadToogle } from "@uninus/web/services";
 import Image from "next/image";
+import { useNotificationSiakadToogle, useSidebarSiakadToogle } from "@uninus/web/services";
 import { FC, Fragment, ReactElement, useState } from "react";
-import { AiFillBell, AiFillCaretDown } from "react-icons/ai";
+import { AiFillCaretDown } from "react-icons/ai";
 import { NotificationDropdown, ProfileDropdown } from "../../molecules";
+import { NotificationButton } from "../../atoms";
 
 export const NavbarSiakad: FC = (): ReactElement => {
   const [isProfile, setIsProfile] = useState<boolean>(false);
-  const [isNotif, setIsNotif] = useState<boolean>(false);
   const { setSiakadToogle } = useSidebarSiakadToogle();
+  const { getNotifToogle, setNotifToogle } = useNotificationSiakadToogle();
 
-  const userData: { name: string; nim: string } = {
+  const userData: { name: string; nim: string; notification_count: number } = {
     name: "M Nurfahmi Sugiarto",
     nim: "41037006200011",
+    notification_count: 10,
   };
 
   return (
     <Fragment>
-      <header
-        data-testid="navbar-siakad"
-        className="w-full xl:h-[9vh] flex items-center justify-between border-b border-slate-3 px-6 z-20 "
-      >
+      <header className="w-full xl:h-[9vh] flex items-center justify-between border-b border-slate-3 px-6 z-20 ">
         <h1 className="text-lg font-bold ml-4 lg:block hidden">NEO Universitas Islam Nusantara</h1>
 
         <button
@@ -37,21 +36,19 @@ export const NavbarSiakad: FC = (): ReactElement => {
             className="sm:w-[2em] sm:h-[2em] w-[1.6em] h-[1.6em]"
           />
         </button>
-        <nav className="flex gap-5 justify-between items-center">
-          <button
-            className="bg-primary-yellow p-2.5 rounded-xl"
+        <nav className="flex gap-5 md:justify-between items-center">
+          <NotificationButton
+            notification_count={userData.notification_count}
             onClick={() => {
-              setIsNotif(!isNotif);
+              setNotifToogle(!getNotifToogle);
               setIsProfile(false);
             }}
-          >
-            <AiFillBell className="sm:text-[1.3rem] text-[1rem]" />
-          </button>
+          />
           <button
             className="flex items-center gap-4 cursor-pointer"
             onClick={() => {
               setIsProfile(!isProfile);
-              setIsNotif(false);
+              setNotifToogle(false);
             }}
           >
             <figure>
@@ -77,10 +74,10 @@ export const NavbarSiakad: FC = (): ReactElement => {
           </button>
         </nav>
       </header>
-      <ProfileDropdown showProfile={isProfile} />
+      <ProfileDropdown notification_counts={userData.notification_count} showProfile={isProfile} />
       <NotificationDropdown
-        showNotification={isNotif}
-        closeNotification={() => setIsNotif(false)}
+        showNotification={getNotifToogle as boolean}
+        closeNotification={() => setNotifToogle(false)}
       />
     </Fragment>
   );
