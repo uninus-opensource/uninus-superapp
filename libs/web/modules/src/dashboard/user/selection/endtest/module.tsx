@@ -15,7 +15,10 @@ export const EndTestModule: FC = (): ReactElement => {
   const router = useRouter();
 
   useEffect(() => {
-    if (getStudent?.selection_path_id !== 3) {
+    if (
+      getStudent?.selection_path_id !== 3 ||
+      !getStudent?.payment?.find((payment) => payment.name === "PMB")?.isPaid
+    ) {
       redirect("/dashboard", RedirectType.replace);
     }
   });

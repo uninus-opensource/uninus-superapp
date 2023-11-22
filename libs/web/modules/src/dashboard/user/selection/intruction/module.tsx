@@ -11,7 +11,10 @@ export const IntructionTestModule: FC = (): ReactElement => {
   const { getStudent } = useStudentData();
 
   useEffect(() => {
-    if (getStudent?.selection_path_id !== 3) {
+    if (
+      getStudent?.selection_path_id !== 3 ||
+      !getStudent?.payment?.find((payment) => payment.name === "PMB")?.isPaid
+    ) {
       redirect("/dashboard", RedirectType.replace);
     } else if (getStudent?.test_score) {
       redirect("/dashboard/selection/endtest", RedirectType.replace);

@@ -1,5 +1,5 @@
 "use client";
-import { BreadCrumb, Button } from "@uninus/web/components";
+import { BreadCrumb, Button, RedirectLink } from "@uninus/web/components";
 import { FC, Fragment, ReactElement, useMemo, useState } from "react";
 import { useStudentData, useUserData } from "@uninus/web/services";
 import { useDegreeProgramGet, useDepartmentGet } from "../../../pendaftaran";
@@ -50,6 +50,14 @@ export const DetailPembayaran: FC = (): ReactElement => {
   const secondDepartement = useMemo(() => {
     return getStudent?.second_department_id;
   }, [getStudent?.second_department_id]);
+
+  const documents = useMemo(() => {
+    return getStudent?.documents;
+  }, [getStudent?.documents]);
+
+  const paymentsIsPaid = getStudent?.payment?.find((payment) => {
+    return payment?.name === "PMB";
+  })?.isPaid;
 
   const [programMeta] = useState({
     search: "",
@@ -214,6 +222,10 @@ export const DetailPembayaran: FC = (): ReactElement => {
             </Button>
           </div>
         </section>
+
+        {getStudent?.selection_path_id === 3 &&
+          documents?.find((doc) => doc.name === "KTP") &&
+          paymentsIsPaid && <RedirectLink link="/dashboard/selection">Tes Seleksi</RedirectLink>}
       </section>
     </Fragment>
   );

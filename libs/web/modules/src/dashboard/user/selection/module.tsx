@@ -16,7 +16,11 @@ export const ModuleSelectionTest: FC = (): ReactElement => {
   }, [getStudent?.documents]);
 
   useEffect(() => {
-    if (selectionType !== 3 || !documents?.find((doc) => doc.name === "Kartu Keluarga")) {
+    if (
+      selectionType !== 3 ||
+      !documents?.find((doc) => doc.name === "Kartu Keluarga") ||
+      !getStudent?.payment?.find((payment) => payment.name === "PMB")?.isPaid
+    ) {
       redirect("/dashboard", RedirectType.replace);
     } else if (getStudent?.test_score) {
       redirect("/dashboard/selection/endtest", RedirectType.replace);

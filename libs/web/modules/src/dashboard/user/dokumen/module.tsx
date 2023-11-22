@@ -45,6 +45,10 @@ export const ModuleDokumen: FC = (): ReactElement => {
     return getStudent?.selection_path_id;
   }, [getStudent?.selection_path_id]);
 
+  const paymentIsPaid = getStudent?.payment?.find((payment) => {
+    return payment?.name === "PMB";
+  })?.isPaid;
+
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsLoading(true);
@@ -686,15 +690,21 @@ export const ModuleDokumen: FC = (): ReactElement => {
           </section>
         </section>
 
-        {selectionType !== 3 && (isDisabled || documents?.find((doc) => doc.name === "KTP")) && (
+        {selectionType !== 3 && documents?.find((doc) => doc.name === "KTP") && paymentIsPaid && (
+          <RedirectLink link="/dashboard/registrasi/pembayaran/detail">
+            Detail Pembayaran
+          </RedirectLink>
+        )}
+
+        {(isDisabled || documents?.find((doc) => doc.name === "KTP")) && !paymentIsPaid && (
           <RedirectLink link="/dashboard/registrasi/pembayaran/detail">
             Lakukan Pembayaran
           </RedirectLink>
         )}
 
-        {selectionType === 3 && (isDisabled || documents?.find((doc) => doc.name === "KTP")) && (
-          <RedirectLink link="/dashboard/selection">Tes seleksi</RedirectLink>
-        )}
+        {(isDisabled || documents?.find((doc) => doc.name === "KTP")) &&
+          selectionType === 3 &&
+          paymentIsPaid && <RedirectLink link="/dashboard/selection">Tes Seleksi</RedirectLink>}
       </form>
     </Fragment>
   );
