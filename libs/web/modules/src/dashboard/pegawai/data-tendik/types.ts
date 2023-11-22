@@ -27,7 +27,7 @@ export type TDataPegawai = {
     link: string;
   }>;
   sertifikat_profesi?: string;
-  status?: "Aktif" | "Tidak Aktif" | "Sakit" | "Cuti";
+  status?: "aktif" | "tidak_aktif" | "sakit" | "cuti";
   tindakan?: string;
 };
 

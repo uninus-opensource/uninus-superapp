@@ -263,12 +263,7 @@ const Table: FC = (): ReactElement => {
             <AiOutlineFileSearch className="text-lg text-primary-white cursor-pointer" />
             <span className="pl-2 text-[10px]">Detail</span>
           </Button>
-          <Button
-            variant="filled"
-            height="h-6"
-            width="w-32"
-            styling="bg-secondary-orange-1 hover:bg-secondary-orange-2"
-          >
+          <Button variant="filled" height="h-6" width="w-32" styling="bg-red-7 hover:bg-red-6">
             <AiOutlineDelete className="text-lg text-primary-white cursor-pointer" />
             <span className="pl-2 text-[10px]">Hapus Data</span>
           </Button>

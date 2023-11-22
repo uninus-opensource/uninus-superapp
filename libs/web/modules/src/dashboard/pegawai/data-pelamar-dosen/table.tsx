@@ -45,7 +45,7 @@ const Table: FC = (): ReactElement => {
 
   const statusOptions: TSelectOption[] = useMemo(
     () => [
-      { label: "Lamaran Diterima", value: "lamaran_dterima" },
+      { label: "Lamaran Diterima", value: "lamaran_diterima" },
       { label: "Proses Seleksi", value: "proses_seleksi" },
       { label: "Proses Wawancara", value: "proses_wawancara" },
       { label: "Sudah Diterima", value: "diterima" },
@@ -256,7 +256,7 @@ const Table: FC = (): ReactElement => {
           control={control}
           isMulti={false}
           size="sm"
-          className="w-full md:w-[14vw] mb-3 duration-300"
+          className="w-full md:w-[14vw] mb-3 duration-300 font-semibold"
         />
       ),
 
@@ -417,7 +417,7 @@ const Table: FC = (): ReactElement => {
             value={searchQuery}
             onChange={handleSearch}
             placeholder="Cari Nama"
-            width="w-[100%]"
+            width="w-[100%] md:w-[350px]"
           />
           <Button variant="filled" height="h-9">
             <AiOutlinePlus className="text-lg" />

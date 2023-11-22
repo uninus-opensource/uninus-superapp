@@ -39,7 +39,7 @@ export type TDataPegawai = {
   }>;
   sertifikat_pendidik?: string;
   sertifikat_profesi?: string;
-  status?: "Aktif" | "Tidak Aktif" | "Sakit" | "Cuti";
+  status?: "aktif" | "tidak_aktif" | "sakit" | "cuti";
   tindakan?: string;
 };
 
@@ -48,23 +48,6 @@ export type TColumnPegawai = {
   item: ReactNode;
 };
 
-// {
-//   name: "Action",
-//   width: "200px",
-//   cell: (row) => (
-//     <div className="flex gap-2 w-full">
-//       <button className="flex w-full gap-2 bg-primary-green text-primary-white rounded-md p-1 px-3 items-center">
-//         <div>
-//           <FormOutlined />
-//         </div>
-//         Edit
-//       </button>
-//       <button className="flex w-full gap-2 bg-primary-yellow  rounded-md p-1 px-1 items-center">
-//         <div>
-//           <FileTextOutlined />
-//         </div>
-//         Validasi
-//       </button>
-//     </div>
-//   ),
-// },
+export type TDetailModalPegawai = {
+  page: number | null;
+};

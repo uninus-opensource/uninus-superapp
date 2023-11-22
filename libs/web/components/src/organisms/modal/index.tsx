@@ -1,9 +1,9 @@
 import { Button } from "../../atoms";
 import { ModalProps } from "./type";
-import { IoCloseSharp } from "react-icons/io5";
 import { createPortal } from "react-dom";
 import { FC, ReactElement, useEffect } from "react";
 import clsx from "clsx";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 export const Modal: FC<ModalProps> = ({
   showModal,
   onClose,
@@ -12,7 +12,7 @@ export const Modal: FC<ModalProps> = ({
   position = "center",
   children,
   size = "full",
-  className = "max-w-2xl max-h-full rounded-lg bg-primary-white",
+  className = "max-w-4xl max-h-full rounded-lg bg-primary-white",
   closeClassName = "text-primary-black",
   headerColor = "white",
   footerColor = "white",
@@ -75,13 +75,8 @@ export const Modal: FC<ModalProps> = ({
             <div className={modalHeaderColors}>
               <div className={titleColors}>{modalTitle}</div>
               {iconClose ? (
-                <Button
-                  onClick={onClose}
-                  variant="text-icon"
-                  size="sm"
-                  styling="absolute top-0 right-0"
-                >
-                  <IoCloseSharp size={25} className={closeClassName} />
+                <Button onClick={onClose} variant="text-icon" size="sm">
+                  <AiOutlineCloseCircle size={25} className={closeClassName} />
                 </Button>
               ) : (
                 ""

@@ -48,6 +48,7 @@ export const SelectOption = forwardRef(
     });
 
     const [color, setColor] = useState<string | null>(null);
+    const [textColor, setTextColor] = useState<string | null>(null);
     // const [value, setValue] = useState<string | null>(null);
 
     const handleChange = (payload: MultiValue<TSelectOption> | SingleValue<TSelectOption>) => {
@@ -72,6 +73,12 @@ export const SelectOption = forwardRef(
         props.options.find((option) => option.value === field.value)
           ? setColor(props.options.find((option) => option.value === field.value)?.color as string)
           : setColor(null);
+
+        props.options.find((option) => option.value === field.value)
+          ? setTextColor(
+              props.options.find((option) => option.value === field.value)?.textColor as string,
+            )
+          : setTextColor(null);
       }
     }, [field.value, props.options, props.renderSelectColor]);
 
@@ -96,8 +103,8 @@ export const SelectOption = forwardRef(
               backgroundColor: props.options?.map((option) => option.color)
                 ? color || props.selectColor || "#F2F2F2"
                 : state.isFocused
-                ? "#DEDEDE"
-                : "#F2F2F2",
+                  ? "#DEDEDE"
+                  : "#F2F2F2",
               color: "black",
               border: props.isBordered ? "2px 2px 2px 2px" : "none",
               borderColor: "#989898",
@@ -114,7 +121,7 @@ export const SelectOption = forwardRef(
             }),
             singleValue: (provided) => ({
               ...provided,
-              color: props.textColor || "black",
+              color: textColor || props.textColor || "black",
               boxShadow: "none",
               fontSize: "14px",
             }),

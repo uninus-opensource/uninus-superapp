@@ -6,6 +6,7 @@ export type TSelectOption = {
   label: string;
   value: string;
   color?: string;
+  textColor?: string;
 };
 
 export type TSelectFieldProps<T extends FieldValues> = UseControllerProps<T> & {

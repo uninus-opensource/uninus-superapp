@@ -1,6 +1,6 @@
 "use client";
 import { FC, ReactElement, useMemo } from "react";
-import { DataMahasiswa, DataTransaksi } from "./store";
+import { DataMahasiswa } from "./store";
 import { TDataTransaksi } from "./type";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { match } from "ts-pattern";
@@ -15,7 +15,21 @@ export const ModulePembayaran: FC = (): ReactElement => {
     return getStudent;
   }, [getStudent]);
 
-  const columnsAkun: TableColumn<TDataTransaksi>[] = [
+  const checkPayment = (isPaid?: boolean): string => {
+    if (isPaid) {
+      return "Sudah Bayar";
+    } else {
+      return "Belum Bayar";
+    }
+  };
+
+  const payment = student?.payment?.map((item) => ({
+    jenis_pembayaran: item.name,
+    total: item.amount,
+    status: checkPayment(item.isPaid),
+  })) as TDataTransaksi[];
+
+  const columnsAkun: TableColumn<TDataTransaksi | undefined>[] = [
     {
       name: <div className="px-3">No</div>,
       cell: (row, rowIndex) => <div className="px-5">{rowIndex + 1}</div>,
@@ -23,12 +37,12 @@ export const ModulePembayaran: FC = (): ReactElement => {
     },
     {
       name: "Jenis Pembayaran",
-      cell: (row) => row.jenis_pembayaran,
+      cell: (row) => row?.jenis_pembayaran,
       width: "240px",
     },
     {
       name: "Total Tagihan",
-      cell: (row) => row.total,
+      cell: (row) => row?.total,
       width: "180px",
     },
 
@@ -36,13 +50,13 @@ export const ModulePembayaran: FC = (): ReactElement => {
       name: "Status",
       cell: (row) => (
         <button
-          className={`${match(row.status)
+          className={`${match(row?.status)
             .with("Sudah Bayar", () => "bg-[#CCEADA] text-grayscale-9")
             .otherwise(
               () => "bg-red-3 text-red-5",
             )} text-white w-[100px] py-1 text-sm text-center rounded-md cursor-default`}
         >
-          {row.status}
+          {row?.status}
         </button>
       ),
       width: "180px",
@@ -52,15 +66,19 @@ export const ModulePembayaran: FC = (): ReactElement => {
 
       cell: (row) => (
         <div className="flex gap-2 w-20 ">
-          <button
-            // onClick={handleShowModal}
-            className="flex w-full gap-2 bg-primary-yellow  rounded-md p-1 px-1 items-center justify-center"
-          >
-            <div>
-              <PrinterOutlined />
-            </div>
-            Cetak
-          </button>
+          {row?.status === "Belum Bayar" ? (
+            ""
+          ) : (
+            <button
+              // onClick={handleShowModal}
+              className="flex w-full gap-2 bg-primary-yellow  rounded-md p-1 px-1 items-center justify-center"
+            >
+              <div>
+                <PrinterOutlined />
+              </div>
+              Cetak
+            </button>
+          )}
         </div>
       ),
     },
@@ -146,7 +164,7 @@ export const ModulePembayaran: FC = (): ReactElement => {
         <h1 className="text-lg font-bold text-grayscale-9 text-left mt-6">Riwayat Transaksi</h1>
         <DataTable
           columns={columnsAkun}
-          data={DataTransaksi}
+          data={payment}
           customStyles={customStyles}
           fixedHeader={true}
           striped
