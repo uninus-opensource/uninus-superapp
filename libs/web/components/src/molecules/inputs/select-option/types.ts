@@ -4,7 +4,7 @@ import { GroupBase, SelectInstance } from "react-select";
 
 export type TSelectOption = {
   label: string;
-  value: string;
+  value: string | number;
   color?: string;
 };
 
