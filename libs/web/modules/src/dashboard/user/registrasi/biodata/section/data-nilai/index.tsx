@@ -17,7 +17,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
   const { control, handleSubmit, reset, setValue, watch, getValues } = useForm<NilaiValues>({
     mode: "all",
   });
-
+  const { data, refetch } = useGetStudentGrade();
   const { mutate: upload } = useUploadFile();
   const { mutate } = useBiodataUpdate();
   const uploadFile = async (payload: TUploadFileRequest): Promise<TUploadFileResponse> => {
@@ -55,19 +55,19 @@ export const DataNilaiSection: FC = (): ReactElement => {
             subject: data?.[0]?.includes("mtk")
               ? "matematika"
               : data?.[0]?.includes("bind")
-              ? "indonesia"
-              : data?.[0]?.includes("bing")
-              ? "inggris"
-              : "",
+                ? "indonesia"
+                : data?.[0]?.includes("bing")
+                  ? "inggris"
+                  : "",
             semester: data?.[0]?.includes("1")
               ? "1"
               : data?.[0]?.includes("2")
-              ? "2"
-              : data?.[0]?.includes("3")
-              ? "3"
-              : data?.[0]?.includes("4")
-              ? "4"
-              : "0",
+                ? "2"
+                : data?.[0]?.includes("3")
+                  ? "3"
+                  : data?.[0]?.includes("4")
+                    ? "4"
+                    : "0",
             grade: Number(data?.[1]?.replace(/"|'/gi, "")),
           };
         });
@@ -110,9 +110,19 @@ export const DataNilaiSection: FC = (): ReactElement => {
           onSuccess: () => {
             setIsdisabled(true);
             setIsLoading(false);
+            refetch().then((newData) => {
+              reset({
+                average_grade: newData.data?.average_grade as number,
+                average_utbk: newData.data?.average_utbk,
+                utbk_pu: newData.data?.utbk_pu,
+                utbk_kk: newData.data?.utbk_kk,
+                utbk_ppu: newData.data?.utbk_ppu,
+                utbk_kmbm: newData.data?.utbk_kmbm,
+              });
+            });
             setDashboardControlState(!getDashboardControlState);
             setTimeout(() => {
-              toast.success("Berhasil mengisi formulir", {
+              toast.success("Berhasil mengisi Data nilai", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -127,7 +137,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
           onError: () => {
             setIsLoading(false);
             setTimeout(() => {
-              toast.error("Gagal mengisi formulir", {
+              toast.error("Gagal mengisi Data nilai", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -146,8 +156,6 @@ export const DataNilaiSection: FC = (): ReactElement => {
     }
   });
 
-  const { data } = useGetStudentGrade();
-
   const student = useMemo(() => {
     return data;
   }, [data]);
@@ -161,8 +169,8 @@ export const DataNilaiSection: FC = (): ReactElement => {
               item?.subject?.includes("indonesia")
                 ? `bind${item.semester}`
                 : item?.subject?.includes("matematika")
-                ? `mtk${item?.semester}`
-                : item?.subject?.includes("inggris") && `bing${item?.semester}`
+                  ? `mtk${item?.semester}`
+                  : item?.subject?.includes("inggris") && `bing${item?.semester}`
             }`
           ] = item.grade),
           obj
@@ -460,6 +468,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
                 labelclassname="text-sm "
                 inputWidth="text-base text-center md:w-[50%]"
                 control={control}
+                placeholder={(student?.average_grade as unknown as string) || ""}
                 disabled
               />
             </div>
@@ -476,8 +485,8 @@ export const DataNilaiSection: FC = (): ReactElement => {
                   watch("dokumen1")
                     ? "labelTextUploaded"
                     : isDisabled
-                    ? "labelTextDisabled"
-                    : "labelText"
+                      ? "labelTextDisabled"
+                      : "labelText"
                 }
                 preview={false}
                 isDisabled={isDisabled}
@@ -491,8 +500,8 @@ export const DataNilaiSection: FC = (): ReactElement => {
                   watch("dokumen2")
                     ? "labelTextUploaded"
                     : isDisabled
-                    ? "labelTextDisabled"
-                    : "labelText"
+                      ? "labelTextDisabled"
+                      : "labelText"
                 }
                 preview={false}
                 isDisabled={isDisabled}
@@ -506,8 +515,8 @@ export const DataNilaiSection: FC = (): ReactElement => {
                   watch("dokumen3")
                     ? "labelTextUploaded"
                     : isDisabled
-                    ? "labelTextDisabled"
-                    : "labelText"
+                      ? "labelTextDisabled"
+                      : "labelText"
                 }
                 preview={false}
                 isDisabled={isDisabled}
@@ -521,8 +530,8 @@ export const DataNilaiSection: FC = (): ReactElement => {
                   watch("dokumen4")
                     ? "labelTextUploaded"
                     : isDisabled
-                    ? "labelTextDisabled"
-                    : "labelText"
+                      ? "labelTextDisabled"
+                      : "labelText"
                 }
                 preview={false}
                 isDisabled={isDisabled}
@@ -602,6 +611,7 @@ export const DataNilaiSection: FC = (): ReactElement => {
               labelclassname="text-sm "
               inputWidth="w-26 text-base text-center"
               control={control}
+              placeholder={(student?.average_utbk as unknown as string) || ""}
               disabled
             />
           </div>

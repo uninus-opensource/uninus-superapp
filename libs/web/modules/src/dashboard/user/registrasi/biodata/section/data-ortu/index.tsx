@@ -416,7 +416,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
             setIsSubmitted(true);
             setDashboardControlState(!getDashboardControlState);
             setTimeout(() => {
-              toast.success("Berhasil mengisi formulir", {
+              toast.success("Berhasil mengisi Data orang tua", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -430,7 +430,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
           },
           onError: () => {
             setTimeout(() => {
-              toast.error("Gagal mengisi formulir", {
+              toast.error("Gagal mengisi Data orang tua", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,

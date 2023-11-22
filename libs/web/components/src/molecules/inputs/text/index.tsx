@@ -126,7 +126,7 @@ export const TextField = <T extends FieldValues>({
           <textarea
             rows={textAreaRow}
             {...{ ...props, ...field }}
-            className={`bg-opacity-30 w-full ${inputStatus} ${props.className}`}
+            className={`bg-opacity-30 w-full text-xs ${inputStatus} ${props.className}`}
             cols={textAreaCols}
           />
         )}

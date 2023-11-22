@@ -15,6 +15,7 @@ import {
   popularProgram,
   sidebarSiakad,
   notificationSiakad,
+  updateFullname,
 } from "./store";
 import {
   IGetStudentResponse,
@@ -37,6 +38,7 @@ import {
   ReturnTypesStudentData,
   ReturnTypesStudentDataId,
   ReturnTypesUpdateAvatar,
+  ReturnTypesUpdateFullname,
   ReturnTypesUserData,
 } from "./type";
 
@@ -148,5 +150,13 @@ export const useNotificationSiakadToogle = (): ReturnTypesNotificationSiakad => 
   return {
     setNotifToogle: (val) => set(val),
     getNotifToogle: get,
+  };
+};
+
+export const useUpdateFullname = (): ReturnTypesUpdateFullname => {
+  const [get, set] = useRecoilState<string | null>(updateFullname);
+  return {
+    setFullname: (val) => set(val),
+    getFullname: get,
   };
 };

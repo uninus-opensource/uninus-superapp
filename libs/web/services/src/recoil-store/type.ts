@@ -77,3 +77,8 @@ export type ReturnTypesNotificationSiakad = {
   setNotifToogle: (val: boolean | undefined) => void;
   getNotifToogle: boolean | undefined;
 };
+
+export type ReturnTypesUpdateFullname = {
+  setFullname: (val: string | null) => void;
+  getFullname: string | null;
+};

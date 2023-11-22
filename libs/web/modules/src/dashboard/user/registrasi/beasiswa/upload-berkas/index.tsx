@@ -109,7 +109,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
               setIsdisabledFile(true);
               setIsLoadingFile(false);
               setTimeout(() => {
-                toast.success("Berhasil Upload File", {
+                toast.success("Berhasil Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -124,7 +124,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
             onError: () => {
               setIsLoadingFile(false);
               setTimeout(() => {
-                toast.error("Gagal Upload File", {
+                toast.error("Gagal Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -158,7 +158,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
               setIsdisabledFile(true);
               setIsLoadingFile(false);
               setTimeout(() => {
-                toast.success("Berhasil Upload File", {
+                toast.success("Berhasil Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -173,7 +173,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
             onError: () => {
               setIsLoadingFile(false);
               setTimeout(() => {
-                toast.error("Gagal Upload File", {
+                toast.error("Gagal Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -201,7 +201,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
               setIsdisabledFile(true);
               setIsLoadingFile(false);
               setTimeout(() => {
-                toast.success("Berhasil Upload File", {
+                toast.success("Berhasil Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -216,7 +216,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
             onError: () => {
               setIsLoadingFile(false);
               setTimeout(() => {
-                toast.error("Gagal Upload File", {
+                toast.error("Gagal Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -250,7 +250,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
               setIsdisabledFile(true);
               setIsLoadingFile(false);
               setTimeout(() => {
-                toast.success("Berhasil Upload File", {
+                toast.success("Berhasil Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -265,7 +265,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
             onError: () => {
               setIsLoadingFile(false);
               setTimeout(() => {
-                toast.error("Gagal Upload File", {
+                toast.error("Gagal Mengirim Berkas", {
                   position: "top-center",
                   autoClose: 5000,
                   hideProgressBar: false,
@@ -312,17 +312,17 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
             {scholarship === 1
               ? "Beasiswa Nusantara Unggul"
               : scholarship === 2
-              ? "Beasiswa Nusantara Berprestasi"
-              : scholarship === 3
-              ? "Beasiswa Nusantara Peduli Difabel"
-              : scholarship === 4
-              ? "Beasiswa Mitra Nusantara"
-              : ""}
+                ? "Beasiswa Nusantara Berprestasi"
+                : scholarship === 3
+                  ? "Beasiswa Nusantara Peduli Difabel"
+                  : scholarship === 4
+                    ? "Beasiswa Mitra Nusantara"
+                    : ""}
           </h1>
           <h1 className="text-md lg:text-xl py-3">
             Upload Berkas Khusus <span className="text-primary-green">*</span> (Wajib Diisi)
           </h1>
-          <p className="text-md sm:text-xs">Upload File Dengan Format .jpg/.png/.pdf</p>
+          <p className="text-md sm:text-xs">Mengirim Berkas Dengan Format .jpg/.png/.pdf</p>
           <form>
             <section className="flex flex-col h-auto mt-5">
               <div className="md:w-full lg:w-[66vw] xl:w-[66vw] md:h-auto flex">
@@ -341,8 +341,8 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                             watch("sertifikat_aktif")
                               ? "labelTextUploaded"
                               : documents?.find((doc) => doc.name === "Sertifikat Aktif Organisasi")
-                              ? "labelTextDisabled"
-                              : "labelText"
+                                ? "labelTextDisabled"
+                                : "labelText"
                           }
                           variant="custom"
                           preview={false}
@@ -364,8 +364,8 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                             watch("sertifikat_lainnya")
                               ? "labelTextUploaded"
                               : documents?.find((doc) => doc.name === "Sertifikat Lainnya")
-                              ? "labelTextDisabled"
-                              : "labelText"
+                                ? "labelTextDisabled"
+                                : "labelText"
                           }
                           variant="custom"
                           preview={false}
@@ -388,8 +388,8 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                             watch("sertifikat_kejuaraan")
                               ? "labelTextUploaded"
                               : documents?.find((doc) => doc.name === "Sertifikat Kejuaraan")
-                              ? "labelTextDisabled"
-                              : "labelText"
+                                ? "labelTextDisabled"
+                                : "labelText"
                           }
                           variant="custom"
                           preview={false}
@@ -413,8 +413,8 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                             watch("tahfidzh")
                               ? "labelTextUploaded"
                               : documents?.find((doc) => doc.name === "Tahfidzh")
-                              ? "labelTextDisabled"
-                              : "labelText"
+                                ? "labelTextDisabled"
+                                : "labelText"
                           }
                           variant="custom"
                           preview={false}
@@ -437,8 +437,8 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                           watch("surat_dokter")
                             ? "labelTextUploaded"
                             : documents?.find((doc) => doc.name === "Surat Dokter")
-                            ? "labelTextDisabled"
-                            : "labelText"
+                              ? "labelTextDisabled"
+                              : "labelText"
                         }
                         preview={false}
                         variant="custom"
@@ -461,8 +461,8 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                             watch("surat_anggota_nu")
                               ? "labelTextUploaded"
                               : documents?.find((doc) => doc.name === "Surat Anggota NU")
-                              ? "labelTextDisabled"
-                              : "labelText"
+                                ? "labelTextDisabled"
+                                : "labelText"
                           }
                           variant="custom"
                           preview={false}
@@ -482,8 +482,8 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                             watch("surat_tugas")
                               ? "labelTextUploaded"
                               : documents?.find((doc) => doc.name === "Surat Tugas")
-                              ? "labelTextDisabled"
-                              : "labelText"
+                                ? "labelTextDisabled"
+                                : "labelText"
                           }
                           variant="custom"
                           preview={false}
@@ -508,18 +508,18 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                       ? false
                       : true
                     : scholarship === 2
-                    ? watch("sertifikat_kejuaraan") && watch("tahfidzh")
-                      ? false
-                      : true
-                    : scholarship === 3
-                    ? watch("surat_dokter")
-                      ? false
-                      : true
-                    : scholarship === 4
-                    ? watch("surat_anggota_nu") && watch("surat_tugas")
-                      ? false
-                      : true
-                    : false || isDisabledFile
+                      ? watch("sertifikat_kejuaraan") && watch("tahfidzh")
+                        ? false
+                        : true
+                      : scholarship === 3
+                        ? watch("surat_dokter")
+                          ? false
+                          : true
+                        : scholarship === 4
+                          ? watch("surat_anggota_nu") && watch("surat_tugas")
+                            ? false
+                            : true
+                          : false || isDisabledFile
                 }
               >
                 Submit

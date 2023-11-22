@@ -3,6 +3,8 @@ export type TTextFieldOne = {
   item: string;
   placeholder: string;
   type: "text";
+  required: boolean;
+  disabled: boolean;
 };
 
 export type TTextFieldTwo = {

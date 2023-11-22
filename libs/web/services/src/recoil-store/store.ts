@@ -78,3 +78,8 @@ export const notificationSiakad = atom<boolean | undefined>({
   key: "notificationSiakad",
   default: false,
 });
+
+export const updateFullname = atom<string | null>({
+  key: "updateFullname",
+  default: null,
+});

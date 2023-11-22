@@ -24,6 +24,7 @@ import {
   useStatusGet,
   useUpdateAvatar,
   useDashboardStateControl,
+  useUpdateFullname,
 } from "@uninus/web/services";
 import { GroupBase, SelectInstance } from "react-select";
 import { TSelectOption } from "@uninus/web/components";
@@ -41,6 +42,7 @@ export const DataDiriSection: FC = (): ReactElement => {
   const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
   const { getStudent } = useStudentData();
   const { setUpdateAvatar } = useUpdateAvatar();
+  const { setFullname } = useUpdateFullname();
   const student = useMemo(() => {
     return getStudent;
   }, [getStudent]);
@@ -371,9 +373,6 @@ export const DataDiriSection: FC = (): ReactElement => {
       ? (dataDiri.subdistrict_id = undefined as unknown as number)
       : (dataDiri.subdistrict_id = Number(data?.subdistrict_id));
 
-    // dataDiri.province_id = Number(data?.province_id);
-    // dataDiri.city_id = Number(data?.city_id);
-    // dataDiri.subdistrict_id = Number(data?.subdistrict_id);
     dataDiri.address = data?.address;
 
     if (disValue === "Ya") {
@@ -402,9 +401,10 @@ export const DataDiriSection: FC = (): ReactElement => {
         {
           onSuccess: () => {
             setIsdisabled(true);
+            setFullname(dataDiri.fullname);
             setDashboardControlState(!getDashboardControlState);
             setTimeout(() => {
-              toast.success("Berhasil mengisi formulir", {
+              toast.success("Berhasil mengisi Data diri", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -418,7 +418,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           },
           onError: () => {
             setTimeout(() => {
-              toast.error("Gagal mengisi formulir", {
+              toast.error("Gagal mengisi Data diri", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -515,8 +515,8 @@ export const DataDiriSection: FC = (): ReactElement => {
               label={biodata.item}
               labelclassname="text-xl font-semibold"
               variant="sm"
-              required
-              disabled
+              required={biodata.required}
+              disabled={biodata.disabled}
               inputWidth="w-70% lg:w-[17vw] xl:w-[15vw] md:w-[21vw]"
               inputHeight="h-10"
               type={biodata.type}
