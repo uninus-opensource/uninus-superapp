@@ -159,7 +159,7 @@ export const DataDiriSection: FC = (): ReactElement => {
     () =>
       getDisabilities?.disabilities?.map((disabilities) => ({
         label: disabilities?.name,
-        value: disabilities?.id.toString(),
+        value: disabilities?.id,
       })),
     [getDisabilities?.disabilities],
   );
@@ -347,7 +347,6 @@ export const DataDiriSection: FC = (): ReactElement => {
       console.log(error);
     }
   });
-
   const onSubmit = handleSubmit((data) => {
     dataDiri.fullname = data?.fullname;
     dataDiri.nik = data?.nik;
@@ -388,14 +387,13 @@ export const DataDiriSection: FC = (): ReactElement => {
       occupationS2S3.company_address = data?.company_address;
       occupationS2S3.salary_id = Number(data?.salary_id);
     }
-
     try {
       mutate(
-        occValue === "Sudah" && student?.degree_program_id !== 1
+        occValue === "Sudah" && student?.degree_program_id !== 1 && disValue === "Tidak"
           ? { ...dataDiri, ...occupationS2S3 }
           : occValue === "Sudah" && disValue === "Ya" && student?.degree_program_id !== 1
             ? { ...dataDiri, ...occupationS2S3, ...disabilitiesDataDiri }
-            : occValue === null && student?.degree_program_id === 1 && disValue === "Ya"
+            : occValue === "Belum" && student?.degree_program_id === 1 && disValue === "Ya"
               ? { ...dataDiri, ...disabilitiesDataDiri }
               : { ...dataDiri },
         {
@@ -469,6 +467,7 @@ export const DataDiriSection: FC = (): ReactElement => {
           previewImage="w-[165px] h-[165px] bg-cover object-cover rounded-full -z-10"
           layoutInputClassName="flex flex-col justify-center items-center"
           preview={true}
+
           message={imageErrors?.file?.message}
         />
         <div className="flex flex-col w-full md:w-[80%] items-center md:items-start gap-y-3 ">

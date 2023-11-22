@@ -67,7 +67,7 @@ export const VSDataDiri = z.object({
 
   address: z.nullable(z.string().nonempty({ message: "Alamat harus diisi" })),
 
-  disabilities_id: z.string().nullable().optional(),
+  disabilities_id: z.number().nullable().optional(),
   occupation_id: z.string().nullable().optional(),
   occupation_position: z.string().optional(),
   company_name: z.string().optional(),
