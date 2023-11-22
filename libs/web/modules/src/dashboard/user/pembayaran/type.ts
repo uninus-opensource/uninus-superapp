@@ -7,6 +7,6 @@ export type TDataMahasiswa = {
 };
 export type TDataTransaksi = {
   jenis_pembayaran?: string;
-  total: string;
-  status: string;
+  total?: string;
+  status?: string;
 };

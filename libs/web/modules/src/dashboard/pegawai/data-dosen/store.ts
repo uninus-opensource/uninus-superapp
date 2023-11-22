@@ -37,7 +37,7 @@ export const dataPegawai: TDataPegawai[] = [
     ],
     sertifikat_pendidik: "https://google.com",
     sertifikat_profesi: "https://google.com",
-    status: "Aktif",
+    status: "aktif",
     tindakan: "",
   },
 
@@ -71,7 +71,7 @@ export const dataPegawai: TDataPegawai[] = [
     ],
     sertifikat_pendidik: "https://google.com",
     sertifikat_profesi: "https://google.com",
-    status: "Cuti",
+    status: "cuti",
     tindakan: "",
   },
 
@@ -105,7 +105,7 @@ export const dataPegawai: TDataPegawai[] = [
     ],
     sertifikat_pendidik: "https://google.com",
     sertifikat_profesi: "https://google.com",
-    status: "Sakit",
+    status: "sakit",
     tindakan: "",
   },
   {
@@ -138,7 +138,7 @@ export const dataPegawai: TDataPegawai[] = [
     ],
     sertifikat_pendidik: "https://google.com",
     sertifikat_profesi: "https://google.com",
-    status: "Sakit",
+    status: "sakit",
     tindakan: "",
   },
   {
@@ -171,7 +171,7 @@ export const dataPegawai: TDataPegawai[] = [
     ],
     sertifikat_pendidik: "https://google.com",
     sertifikat_profesi: "https://google.com",
-    status: "Sakit",
+    status: "sakit",
     tindakan: "",
   },
   {
@@ -204,7 +204,7 @@ export const dataPegawai: TDataPegawai[] = [
     ],
     sertifikat_pendidik: "https://google.com",
     sertifikat_profesi: "https://google.com",
-    status: "Sakit",
+    status: "sakit",
     tindakan: "",
   },
   {
@@ -237,7 +237,7 @@ export const dataPegawai: TDataPegawai[] = [
     ],
     sertifikat_pendidik: "https://google.com",
     sertifikat_profesi: "https://google.com",
-    status: "Sakit",
+    status: "sakit",
     tindakan: "",
   },
   {
@@ -270,7 +270,7 @@ export const dataPegawai: TDataPegawai[] = [
     ],
     sertifikat_pendidik: "https://google.com",
     sertifikat_profesi: "https://google.com",
-    status: "Tidak Aktif",
+    status: "tidak_aktif",
     tindakan: "",
   },
 ];

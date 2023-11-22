@@ -1,9 +1,16 @@
 "use client";
-import { FC, ReactElement, useEffect, useState, SetStateAction, Fragment } from "react";
+import { FC, ReactElement, useEffect, useState, SetStateAction, Fragment, useMemo } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TColumnPegawai, TDataPegawai } from "./types";
 import { dataPegawai } from "./store";
-import { TableLoadingData, SearchInput, Button, Modal } from "@uninus/web/components";
+import {
+  TableLoadingData,
+  SearchInput,
+  Button,
+  Modal,
+  TSelectOption,
+  SelectOption,
+} from "@uninus/web/components";
 import {
   AiFillCaretLeft,
   AiFillCaretRight,
@@ -19,19 +26,52 @@ import {
 } from "react-icons/ai";
 import Image from "next/image";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 
 const Table: FC = (): ReactElement => {
   const [tablePegawai, setTablePegawai] = useState([{}]);
   const [conditionModal, setConditionModal] = useState<string | null | undefined>(null);
   const [showModal, setShowModal] = useState(false);
+  const [page, setPage] = useState<number | null>(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [pending, setPending] = useState(true);
+
+  const { control, setValue } = useForm({
+    mode: "all",
+  });
 
   const onCloseModal = () => {
     setShowModal(false);
   };
 
+  const statusOptions: TSelectOption[] = useMemo(
+    () => [
+      { label: "Cuti", value: "cuti" },
+      { label: "Aktif", value: "aktif" },
+      { label: "Sakit", value: "sakit" },
+      { label: "Tidak Aktif", value: "tidak_aktif" },
+    ],
+    [],
+  );
+
+  const statusSelect = useMemo(() => {
+    const colorsStatus = ["#FFE9C8", "#E6F5ED", "#D34B21", "#FBE8D9"];
+    const textColorsStatus = ["#FFA41B", "#009647", "#FDF6EF", "#D34B21"];
+    return statusOptions?.map((option, idx) => ({
+      label: option?.label,
+      value: option?.value,
+      color: colorsStatus[idx],
+      textColor: textColorsStatus[idx],
+    }));
+  }, [statusOptions]);
+
   const dataTableModal = dataPegawai?.find((item) => item.name === conditionModal);
+
+  useEffect(() => {
+    dataPegawai.map((item, i) => {
+      return setValue(`status_${item.name}`, item.status);
+    });
+  }, [page]);
 
   const dataPegawaiModal: TColumnPegawai[] = [
     {
@@ -143,26 +183,25 @@ const Table: FC = (): ReactElement => {
       cell: (row) => (
         <div className="flex flex-col gap-1 text-left">{row.unit_kerja?.[0]?.nama}</div>
       ),
-      width: "220px",
+      width: "240px",
     },
     {
       name: <div className="pl-2">Keterangan</div>,
       cell: (row) => (
-        <div
-          className={`text-primary-black ${
-            row.status === "Aktif"
-              ? "bg-secondary-green-7"
-              : row.status === "Cuti"
-              ? "bg-primary-yellow"
-              : row.status === "Sakit"
-              ? "bg-red-3"
-              : "bg-red-8"
-          } w-[100px] py-1 text-sm text-center rounded-md cursor-default`}
-        >
-          {row.status}
-        </div>
+        <SelectOption
+          name={`status_${row.name}`}
+          placeholder={"Status pelamar"}
+          renderSelectColor
+          options={statusSelect || []}
+          isClearable={false}
+          isSearchable={false}
+          control={control}
+          isMulti={false}
+          size="sm"
+          className="w-full md:w-[150px] mb-3 duration-300 font-semibold"
+        />
       ),
-      width: "180px",
+      width: "200px",
     },
     {
       name: "Tindakan",
@@ -185,12 +224,7 @@ const Table: FC = (): ReactElement => {
             <AiOutlineFileSearch className="text-lg text-primary-white cursor-pointer" />
             <span className="pl-2 text-[10px]">Detail</span>
           </Button>
-          <Button
-            variant="filled"
-            height="h-6"
-            width="w-32"
-            styling="bg-secondary-orange-1 hover:bg-secondary-orange-2"
-          >
+          <Button variant="filled" height="h-6" width="w-32" styling="bg-red-7 hover:bg-red-6">
             <AiOutlineDelete className="text-lg text-primary-white cursor-pointer" />
             <span className="pl-2 text-[10px]">Hapus Data</span>
           </Button>
@@ -330,7 +364,7 @@ const Table: FC = (): ReactElement => {
             value={searchQuery}
             onChange={handleSearch}
             placeholder="Cari Nama, NIP/NIDN, dan Status"
-            width="w-[100%]"
+            width="w-[100%] md:w-[350px]"
           />
           <Button variant="filled" height="h-9">
             <AiOutlinePlus className="text-lg" />
@@ -362,6 +396,7 @@ const Table: FC = (): ReactElement => {
           }}
           paginationPerPage={5}
           paginationRowsPerPageOptions={[5, 10, 15, 20]}
+          onChangePage={(page) => setPage(page)}
           paginationIconPrevious={<AiFillCaretLeft className="text-xl" />}
           paginationIconNext={<AiFillCaretRight className="text-xl ml-0.5" />}
           paginationIconFirstPage={<AiFillFastBackward className="text-xl" />}
