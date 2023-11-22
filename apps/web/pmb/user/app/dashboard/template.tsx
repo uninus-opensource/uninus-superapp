@@ -53,7 +53,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
         order_id: pmbPayment?.order_id as string,
       });
     }
-  });
+  }, [getStudent?.payment]);
 
   useEffect(() => {
     if (

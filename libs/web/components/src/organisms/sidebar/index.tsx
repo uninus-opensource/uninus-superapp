@@ -9,8 +9,8 @@ import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Modal } from "../modal";
 import { MenuOutlined, AppstoreFilled } from "@ant-design/icons";
-import { useStudentGet } from "./hooks";
-import { useUpdateAvatar, useUserData } from "@uninus/web/services";
+import { useUserGet } from "./hooks";
+import { useUpdateAvatar, useUpdateFullname, useUserData } from "@uninus/web/services";
 import { Loading } from "./loading";
 
 export const SideBar: FC<TSideBarProps> = ({
@@ -32,11 +32,12 @@ export const SideBar: FC<TSideBarProps> = ({
     setOnToogle(!onToogle);
   };
 
-  const { data, isLoading } = useStudentGet();
+  const { data, isLoading } = useUserGet();
 
   const { getUser, setUser } = useUserData();
 
   const { getUpdateAvatar } = useUpdateAvatar();
+  const { getFullname } = useUpdateFullname();
 
   const userName = useMemo(() => {
     const userName = getUser?.fullname;
@@ -62,8 +63,8 @@ export const SideBar: FC<TSideBarProps> = ({
           status === "Anda Tidak Lolos"
             ? "bg-red-3 text-red-4 "
             : status === "Sudah Membayar" || status === "Anda Lolos Seleksi"
-            ? "bg-secondary-green-0.5 text-grayscale-9"
-            : "bg-secondary-yellow-2 text-grayscale-9"
+              ? "bg-secondary-green-0.5 text-grayscale-9"
+              : "bg-secondary-yellow-2 text-grayscale-9"
         }`}
       >
         {status}
@@ -138,7 +139,7 @@ export const SideBar: FC<TSideBarProps> = ({
             />
             <figcaption className="text-center flex flex-col  ">
               <div className=" text-sm text-secondary-green-4 p-2 font-bold rounded-md leading-[14px] capitalize">
-                <h3>{userName}</h3>
+                <h3>{getFullname || userName}</h3>
               </div>
             </figcaption>
           </figure>

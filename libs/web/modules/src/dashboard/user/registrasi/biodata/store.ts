@@ -12,12 +12,16 @@ export const formBiodataOne: TTextFieldOne[] = [
     item: "Nama Lengkap",
     type: "text",
     placeholder: "Nama Lengkap",
+    required: true,
+    disabled: false,
   },
   {
     name: "phone_number",
     item: "Nomor Handphone/WA",
     type: "text",
     placeholder: "08123456789",
+    required: true,
+    disabled: true,
   },
 ];
 

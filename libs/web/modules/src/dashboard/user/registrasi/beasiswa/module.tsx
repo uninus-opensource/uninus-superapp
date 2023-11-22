@@ -236,40 +236,43 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
               />
             </div>
           </div>
-          <div className="flex bg-primary-white p-5 shadow-lg rounded-md w-full h-auto justify-between">
-            <div className="flex flex-col items-center gap-3 w-[80%]">
-              <div className="w-full flex items-center gap-2">
-                <h1 className="text-[13px] md:text-[1rem] xl:text-[1.3rem] text-primary-green font-extrabold text-left">
-                  Beasiswa Nusantara Peduli Difabel
-                </h1>
-                <h2 className="text-[11px] md:text-[0.9rem] xl:text-[1rem] text-secondary-green-4 font-extrabold text-left">
-                  (20% Potongan UKT Semester 1)
-                </h2>
+
+          {getStudent?.disabilities_id && (
+            <div className="flex bg-primary-white p-5 shadow-lg rounded-md w-full h-auto justify-between">
+              <div className="flex flex-col items-center gap-3 w-[80%]">
+                <div className="w-full flex items-center gap-2">
+                  <h1 className="text-[13px] md:text-[1rem] xl:text-[1.3rem] text-primary-green font-extrabold text-left">
+                    Beasiswa Nusantara Peduli Difabel
+                  </h1>
+                  <h2 className="text-[11px] md:text-[0.9rem] xl:text-[1rem] text-secondary-green-4 font-extrabold text-left">
+                    (20% Potongan UKT Semester 1)
+                  </h2>
+                </div>
+                <div className="w-full flex flex-col justify-center gap-1 xl:gap-3">
+                  <p className="text-grayscale-6 text-[11px] md:text-[0.9rem] xl:text-[1rem] text-left">
+                    Persyaratan Dokumen :{" "}
+                  </p>
+                  <ol className="text-grayscale-6 list-decimal pl-5 text-[11px] md:text-[0.9rem] xl:text-[1rem] text-left">
+                    <li>Surat Keterangan difabel dari dokter/rumah sakit</li>
+                  </ol>
+                </div>
               </div>
-              <div className="w-full flex flex-col justify-center gap-1 xl:gap-3">
-                <p className="text-grayscale-6 text-[11px] md:text-[0.9rem] xl:text-[1rem] text-left">
-                  Persyaratan Dokumen :{" "}
-                </p>
-                <ol className="text-grayscale-6 list-decimal pl-5 text-[11px] md:text-[0.9rem] xl:text-[1rem] text-left">
-                  <li>Surat Keterangan difabel dari dokter/rumah sakit</li>
-                </ol>
+              <div className="w-[20%] xl:w-[25%] flex justify-end items-center pb-2">
+                <RadioButton
+                  id="beasiswa_nusantara_peduli_difabel"
+                  name="beasiswa"
+                  value="4"
+                  control={control}
+                  size="md"
+                  variant="primary"
+                  defaultChecked={scholarship === 4}
+                  onChange={(e) => {
+                    setValue("beasiswa", Number(e.target.value));
+                  }}
+                />
               </div>
             </div>
-            <div className="w-[20%] xl:w-[25%] flex justify-end items-center pb-2">
-              <RadioButton
-                id="beasiswa_nusantara_peduli_difabel"
-                name="beasiswa"
-                value="4"
-                control={control}
-                size="md"
-                variant="primary"
-                defaultChecked={scholarship === 4}
-                onChange={(e) => {
-                  setValue("beasiswa", Number(e.target.value));
-                }}
-              />
-            </div>
-          </div>
+          )}
 
           <div className="flex w-full justify-between py-8 items-center">
             <Button

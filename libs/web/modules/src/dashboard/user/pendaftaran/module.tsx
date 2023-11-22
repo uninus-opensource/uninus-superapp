@@ -159,7 +159,7 @@ export const ModulePendaftaran: FC = (): ReactElement => {
     if (student?.degree_program_id === 3) {
       setIs3Selected(true);
     }
-  }, [student?.degree_program_id]);
+  }, [student?.degree_program_id, isS3Selected]);
 
   const router = useRouter();
 

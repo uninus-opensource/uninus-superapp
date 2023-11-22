@@ -204,7 +204,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
             setIsdisabled(true);
             setDashboardControlState(!getDashboardControlState);
             setTimeout(() => {
-              toast.success("Berhasil mengisi formulir", {
+              toast.success("Berhasil mengisi Data pendidikan", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -218,7 +218,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
           },
           onError: () => {
             setTimeout(() => {
-              toast.error("Gagal mengisi formulir", {
+              toast.error("Gagal mengisi Data pendidikan", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
