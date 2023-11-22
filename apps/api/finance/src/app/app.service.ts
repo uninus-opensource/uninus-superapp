@@ -849,26 +849,44 @@ export class AppService {
   async financeCallback(
     payload: TPaymentCallbackRequest & TPaymentCallbackHeaders,
   ): Promise<TPaymentCallbackResponse> {
-    const { timeStamp, signature, authorization, ...data } = payload;
-    const { bankName, trxRef, userId } = data;
+    const { timestamp, signature, authorization, ...data } = payload;
+    const { bankName, trxRef, userId, responseCode, responseDescription, transactionType } = data;
     const auth = authorization.split(" ")[1];
     const localSiganture = await createSignature(
       JSON.stringify(data),
-      Number(timeStamp),
+      Number(timestamp),
       this.apiKey,
     );
 
     if (!auth && btoa(this.merchantId) !== atob(auth).replace(":", "")) {
       return {
-        responseCode: 25,
+        responseCode: "25",
         responseDescription: "Request MerchantId and Authentication Invalid",
       };
     }
 
     if (signature !== localSiganture) {
       return {
-        responseCode: 27,
+        responseCode: "27",
         responseDescription: "Invalid Signature",
+      };
+    }
+    if (responseCode == "41" || responseDescription == "Transaction Expired") {
+      const deletePayment = await this.prisma.paymentHistory.delete({
+        where: {
+          order_id: trxRef,
+        },
+      });
+
+      if (!deletePayment) {
+        return {
+          responseCode: "40",
+          responseDescription: "Data Cannot Be Updated",
+        };
+      }
+      return {
+        responseCode: "00",
+        responseDescription: "Success",
       };
     }
     const getDataStudent = await this.prisma.students.findUnique({
@@ -917,6 +935,14 @@ export class AppService {
               payment_bank: bankName,
               payment_type_id: 1,
               isPaid: true,
+              payment_method:
+                transactionType == 1
+                  ? "Debit/Credit"
+                  : transactionType == 2
+                    ? "QRIS"
+                    : transactionType == 3
+                      ? "EMoney"
+                      : transactionType == 4 && "VA",
             },
           },
         },
@@ -924,12 +950,14 @@ export class AppService {
     });
 
     if (!updatePayment) {
-      throw new RpcException(new BadRequestException("Failed to send request"));
+      return {
+        responseCode: "40",
+        responseDescription: "Data Cannot Be Updated",
+      };
     }
 
-    console.log(timeStamp, signature, authorization, data);
     return {
-      responseCode: Number("00"),
+      responseCode: "00",
       responseDescription: "Success",
     };
   }

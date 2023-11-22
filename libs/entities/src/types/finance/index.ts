@@ -76,12 +76,12 @@ export type TPaymentCallbackRequest = {
 };
 
 export type TPaymentCallbackResponse = {
-  responseCode: number;
+  responseCode: string;
   responseDescription: string;
 };
 
 export type TPaymentCallbackHeaders = {
-  timeStamp: string;
+  timestamp: string;
   signature: string;
   authorization: string;
 };
