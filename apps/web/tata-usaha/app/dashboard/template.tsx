@@ -3,7 +3,7 @@ import { FC, PropsWithChildren, ReactElement } from "react";
 import { SideBar } from "@uninus/web/components";
 import { useLogoutToRoot } from "@uninus/web/modules";
 import { useSession } from "next-auth/react";
-import { FileDoneOutlined, HomeOutlined, TeamOutlined } from "@ant-design/icons";
+import { FileDoneOutlined, HomeOutlined, TeamOutlined, AuditOutlined } from "@ant-design/icons";
 
 const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { mutate } = useLogoutToRoot();
@@ -16,27 +16,33 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const sideLists = [
     { label: "Beranda", link: "/dashboard", icon: <HomeOutlined />, disabledStatus: false },
     {
-      label: "Data Dosen",
-      link: "/dashboard/data-dosen",
-      icon: <TeamOutlined />,
-      disabledStatus: false,
-    },
-    {
       label: "Data Mahasiswa",
       link: "/dashboard/data-mahasiswa",
       icon: <TeamOutlined />,
       disabledStatus: false,
     },
     {
-      label: "Data Nilai",
-      link: "/dashboard/data-nilai",
+      label: "Data Dosen",
+      link: "/dashboard/data-dosen",
+      icon: <TeamOutlined />,
+      disabledStatus: false,
+    },
+    {
+      label: "Perkuliahan",
+      link: "/dashboard/perkuliahan",
       icon: <FileDoneOutlined />,
+      disabledStatus: false,
+    },
+    {
+      label: "Laporan",
+      link: "/dashboard/laporan",
+      icon: <AuditOutlined />,
       disabledStatus: false,
     },
   ];
 
   return (
-    <main key="main" className="flex w-full min-h-full overflow-x-hidden font-montserrat">
+    <main key="main" className="flex w-full min-h-full overflow-x-hidden">
       <SideBar
         moduleName="TATA USAHA"
         profileName="mawar saidah"

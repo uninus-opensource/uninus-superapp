@@ -1,5 +1,11 @@
+import { Montserrat } from "next/font/google";
 import "./global.css";
 import { AuthProvider, QueryProvider, RecoilProvider } from "@uninus/web/providers";
+
+const monserrat = Montserrat({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export const metadata = {
   title: "Welcome to web/tata-usaha",
@@ -8,7 +14,7 @@ export const metadata = {
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="font-montserrat">
+      <body className={`${monserrat.className}`}>
         <AuthProvider>
           <QueryProvider>
             <RecoilProvider>
