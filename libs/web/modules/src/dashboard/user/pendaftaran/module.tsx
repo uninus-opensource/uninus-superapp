@@ -187,8 +187,8 @@ export const ModulePendaftaran: FC = (): ReactElement => {
               progress: undefined,
               theme: "light",
             });
+            router.push("/dashboard/registrasi/biodata");
           }, 500);
-          router.push("/dashboard/registrasi/biodata");
         },
         onError: () => {
           setTimeout(() => {

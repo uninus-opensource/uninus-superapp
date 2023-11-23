@@ -467,7 +467,6 @@ export const DataDiriSection: FC = (): ReactElement => {
           previewImage="w-[165px] h-[165px] bg-cover object-cover rounded-full -z-10"
           layoutInputClassName="flex flex-col justify-center items-center"
           preview={true}
-
           message={imageErrors?.file?.message}
         />
         <div className="flex flex-col w-full md:w-[80%] items-center md:items-start gap-y-3 ">
