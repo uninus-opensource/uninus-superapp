@@ -47,8 +47,11 @@ module.exports = {
           1: "#1678682E",
           2: "#B9DEDA",
         },
+        500: "#175349",
       },
       grayscale: {
+        900: "#3D3D3D",
+        50: "#FAFAFA",
         10: "#141414",
         9: "#292929",
         8: "#3D3D3D",
@@ -79,7 +82,27 @@ module.exports = {
       },
       error: {
         600: "#D34B21",
+        100: "#FBE8D9",
       },
+      green: {
+        50: "#E6F5ED",
+      },
+      yellow: {
+        200: "#FCE28B",
+        300: "#FAD455",
+      },
+      success: {
+        950: "#02311D",
+        900: "#0F5838",
+        400: "#3EEA99",
+        200: "#B6FCD9",
+        50: "#EFFEF6",
+      },
+      orange: {
+        1: "#FFE9C8",
+        2: "#FFA41B",
+      },
+      blue: "#78BDFD",
     },
   },
   plugins: [require("@tailwindcss/forms")],
