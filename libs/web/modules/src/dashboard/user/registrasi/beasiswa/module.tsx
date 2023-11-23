@@ -6,7 +6,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
-import { useStudentData } from "@uninus/web/services";
+import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
 import { useBiodataUpdate } from "../biodata";
 import { beasiswa } from "./store";
 import { RedirectType, redirect } from "next/navigation";
@@ -31,6 +31,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
   const [scholarshipId, setScholarshipId] = useState<number | null | undefined>(undefined);
 
   const { getStudent } = useStudentData();
+  const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
 
   const scholarship = useMemo(() => {
     return getStudent?.scholarship_id;
@@ -74,7 +75,7 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
         onSuccess: () => {
           setIsLoading(false);
           setScholarshipId(beasiswa.scholarship_id);
-          redirect("/dashboard/registrasi/beasiswa/upload-berkas");
+          setDashboardControlState(!getDashboardControlState);
         },
         onError: () => {
           setIsLoading(false);

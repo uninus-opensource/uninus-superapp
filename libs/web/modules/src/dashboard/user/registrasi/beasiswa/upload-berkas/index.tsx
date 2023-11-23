@@ -150,7 +150,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
           {
             documents: [
               { name: "Sertifikat Kejuaraan", path: sertifikat_kejuaraan },
-              { name: "Tahfizh", path: tahfidzh },
+              { name: "Tahfidzh", path: tahfidzh },
             ],
           },
           {
@@ -308,7 +308,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
           Upload Berkas Beasiswa
         </h1>
         <div className="flex flex-col p-8 bg-primary-white shadow-lg rounded-md w-full h-auto">
-          <h1 className="text-md lg:text-xl pb-2 font-bold">
+          <h1 className="text-base lg:text-xl pb-2 font-bold">
             {scholarship === 1
               ? "Beasiswa Nusantara Unggul"
               : scholarship === 2
@@ -319,17 +319,17 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                     ? "Beasiswa Mitra Nusantara"
                     : ""}
           </h1>
-          <h1 className="text-md lg:text-xl py-3">
+          <h1 className="text-sm md:text-base lg:text-xl py-3">
             Upload Berkas Khusus <span className="text-primary-green">*</span> (Wajib Diisi)
           </h1>
-          <p className="text-md sm:text-xs">Mengirim Berkas Dengan Format .jpg/.png/.pdf</p>
+          <p className="text-xs sm:text-base">Mengirim Berkas Dengan Format .jpg/.png/.pdf</p>
           <form>
             <section className="flex flex-col h-auto mt-5">
-              <div className="md:w-full lg:w-[66vw] xl:w-[66vw] md:h-auto flex">
-                <section className="flex gap-10 w-50% ">
+              <div className="w-full lg:w-[66vw] xl:w-[66vw] md:h-auto flex justify-center lg:justify-start">
+                <section className="flex flex-col md:flex-row gap-10 w-50% ">
                   {scholarship === 1 && (
                     <Fragment>
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 items-center lg:items-start">
                         <h3 className="font-semibold text-xs md:text-base py-3">
                           Sertifikat Aktif Organisasi
                         </h3>
@@ -339,10 +339,10 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                           inputLabel="Pilih File"
                           labelClassName={
                             watch("sertifikat_aktif")
-                              ? "labelTextUploaded"
+                              ? "labelTextUploadedLarge"
                               : documents?.find((doc) => doc.name === "Sertifikat Aktif Organisasi")
-                                ? "labelTextDisabled"
-                                : "labelText"
+                                ? "labelTextDisabledLarge"
+                                : "labelTextLarge"
                           }
                           variant="custom"
                           preview={false}
@@ -352,7 +352,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                         />
                       </div>
 
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 items-center lg:items-start">
                         <h3 className="font-semibold text-xs md:text-base py-3">
                           Sertifikat Lainnya
                         </h3>
@@ -362,10 +362,10 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                           inputLabel="Pilih File"
                           labelClassName={
                             watch("sertifikat_lainnya")
-                              ? "labelTextUploaded"
+                              ? "labelTextUploadedLarge"
                               : documents?.find((doc) => doc.name === "Sertifikat Lainnya")
-                                ? "labelTextDisabled"
-                                : "labelText"
+                                ? "labelTextDisabledLarge"
+                                : "labelTextLarge"
                           }
                           variant="custom"
                           preview={false}
@@ -376,7 +376,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                   )}
                   {scholarship === 2 && (
                     <Fragment>
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 items-center lg:items-start">
                         <h3 className="font-semibold text-xs md:text-base">Sertifikat Kejuaraan</h3>
                         <h4 className="pb-3 text-sm">Minimal juara 3 tingkat Kabupaten/Kota</h4>
                         <UploadField
@@ -386,10 +386,10 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                           inputLabel="Pilih File"
                           labelClassName={
                             watch("sertifikat_kejuaraan")
-                              ? "labelTextUploaded"
+                              ? "labelTextUploadedLarge"
                               : documents?.find((doc) => doc.name === "Sertifikat Kejuaraan")
-                                ? "labelTextDisabled"
-                                : "labelText"
+                                ? "labelTextDisabledLarge"
+                                : "labelTextLarge"
                           }
                           variant="custom"
                           preview={false}
@@ -399,7 +399,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                         />
                       </div>
 
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 items-center lg:items-start">
                         <h3 className="font-semibold text-xs md:text-base">
                           Sertifikat Tahfidzh Qur'an
                         </h3>
@@ -411,10 +411,10 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                           name="tahfidzh"
                           labelClassName={
                             watch("tahfidzh")
-                              ? "labelTextUploaded"
+                              ? "labelTextUploadedLarge"
                               : documents?.find((doc) => doc.name === "Tahfidzh")
-                                ? "labelTextDisabled"
-                                : "labelText"
+                                ? "labelTextDisabledLarge"
+                                : "labelTextLarge"
                           }
                           variant="custom"
                           preview={false}
@@ -425,7 +425,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                   )}
 
                   {scholarship === 3 && (
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 items-center lg:items-start">
                       <h3 className="font-semibold text-xs md:text-base py-3">
                         Surat Keterangan Dokter
                       </h3>
@@ -435,10 +435,10 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                         name="surat_dokter"
                         labelClassName={
                           watch("surat_dokter")
-                            ? "labelTextUploaded"
+                            ? "labelTextUploadedLarge"
                             : documents?.find((doc) => doc.name === "Surat Dokter")
-                              ? "labelTextDisabled"
-                              : "labelText"
+                              ? "labelTextDisabledLarge"
+                              : "labelTextLarge"
                         }
                         preview={false}
                         variant="custom"
@@ -449,7 +449,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
 
                   {scholarship === 4 && (
                     <Fragment>
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 items-center lg:items-start">
                         <h3 className="font-semibold text-xs md:text-base py-3">
                           Bukti Anggota NU
                         </h3>
@@ -459,10 +459,10 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                           inputLabel="Pilih File"
                           labelClassName={
                             watch("surat_anggota_nu")
-                              ? "labelTextUploaded"
+                              ? "labelTextUploadedLarge"
                               : documents?.find((doc) => doc.name === "Surat Anggota NU")
-                                ? "labelTextDisabled"
-                                : "labelText"
+                                ? "labelTextDisabledLarge"
+                                : "labelTextLarge"
                           }
                           variant="custom"
                           preview={false}
@@ -470,7 +470,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                         />
                       </div>
 
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 items-center lg:items-start">
                         <h3 className="font-semibold text-xs md:text-base py-3">
                           Surat Tugas Dari Sekolah
                         </h3>
@@ -480,10 +480,10 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                           inputLabel="Pilih File"
                           labelClassName={
                             watch("surat_tugas")
-                              ? "labelTextUploaded"
+                              ? "labelTextUploadedLarge"
                               : documents?.find((doc) => doc.name === "Surat Tugas")
-                                ? "labelTextDisabled"
-                                : "labelText"
+                                ? "labelTextDisabledLarge"
+                                : "labelTextLarge"
                           }
                           variant="custom"
                           preview={false}
@@ -495,7 +495,7 @@ export const BeasiswaUploadBerkasDashboardModule: FC = (): ReactElement => {
                 </section>
               </div>
             </section>
-            <div className="flex w-full justify-end items-end py-4">
+            <div className="flex w-full justify-center lg:justify-end items-end pt-20">
               <Button
                 onClick={onSubmitBeasiswa}
                 variant="filled"

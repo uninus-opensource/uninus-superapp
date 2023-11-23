@@ -1,10 +1,9 @@
 "use client";
 import { BreadCrumb, Button, RedirectLink } from "@uninus/web/components";
 import { FC, Fragment, ReactElement, useMemo, useState } from "react";
-import { useStudentData, useUserData } from "@uninus/web/services";
+import { useStudentData } from "@uninus/web/services";
 import { useDegreeProgramGet, useDepartmentGet } from "../../../pendaftaran";
 import { useCreatePaymentPMB, useObligationPaymentPMB } from "./hooks";
-import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 
 export const detailBreadcrumb = [
@@ -25,11 +24,8 @@ export const detailBreadcrumb = [
 export const DetailPembayaran: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { getStudent } = useStudentData();
-  const { getUser } = useUserData();
 
   const { data } = useObligationPaymentPMB();
-
-  const router = useRouter();
 
   const student = useMemo(() => {
     return getStudent;
@@ -101,7 +97,7 @@ export const DetailPembayaran: FC = (): ReactElement => {
       {
         onSuccess: (data) => {
           setIsLoading(false);
-          router.push(data.responseData.endpointUrl);
+          window.open(data.responseData.endpointUrl, "_blank");
         },
         onError: (error) => {
           setIsLoading(false);
@@ -214,11 +210,9 @@ export const DetailPembayaran: FC = (): ReactElement => {
               onClick={() => {
                 createPaymentPMB();
               }}
-              disabled={getUser?.registration_status === "Sudah Membayar"}
+              disabled={paymentsIsPaid}
             >
-              {getUser?.registration_status === "Sudah Membayar"
-                ? "Sudah Melakukan Pembayaran"
-                : "Lakukan Pembayaran"}
+              {paymentsIsPaid ? "Sudah Melakukan Pembayaran" : "Lakukan Pembayaran"}
             </Button>
           </div>
         </section>
