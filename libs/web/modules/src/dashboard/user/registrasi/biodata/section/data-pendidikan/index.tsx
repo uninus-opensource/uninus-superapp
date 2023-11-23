@@ -399,50 +399,32 @@ export const DataPendidikanSection: FC = (): ReactElement => {
               control={control}
               disabled
             />
-            {majorOptions?.find((item) => Number(item.value) === 1) ? (
-              <SelectOption
-                name="education_major_id"
-                labels="Jurusan Pendidikan Asal"
-                required={true}
-                labelClassName="font-bold text-xs py-2"
-                placeholder={
-                  student?.education_major_id
-                    ? majorOptions?.find(
-                        (item) => Number(item.value) === student?.education_major_id,
-                      )?.label
-                    : "Jurusan Pendidikan"
-                }
-                options={majorOptions || []}
-                isSearchable={false}
-                control={control}
-                isMulti={false}
-                disabled={
-                  isDisabled ||
-                  !watch("education_type_id") ||
-                  !!student?.education_major_id ||
-                  majorOptions?.length === 1
-                }
-                status="error"
-                message={errors?.education_major_id?.message as string}
-                className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
-              />
-            ) : (
-              <TextField
-                inputHeight="h-10"
-                name="vocational_high_school"
-                variant="sm"
-                type="text"
-                labelclassname="text-sm font-semibold"
-                label="Jurusan Pendidikan Asal"
-                placeholder="Masukan jurusan sekolah anda"
-                inputWidth="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw] "
-                control={control}
-                required
-                disabled={
-                  isDisabled || !watch("education_type_id") || !!student?.education_major_id
-                }
-              />
-            )}
+
+            <SelectOption
+              name="education_major_id"
+              labels="Jurusan Pendidikan Asal"
+              required={true}
+              labelClassName="font-bold text-xs py-2"
+              placeholder={
+                student?.education_major_id
+                  ? majorOptions?.find((item) => Number(item.value) === student?.education_major_id)
+                      ?.label
+                  : "Jurusan Pendidikan"
+              }
+              options={majorOptions || []}
+              isSearchable={false}
+              control={control}
+              isMulti={false}
+              disabled={
+                isDisabled ||
+                !watch("education_type_id") ||
+                !!student?.education_major_id ||
+                majorOptions?.length === 1
+              }
+              status="error"
+              message={errors?.education_major_id?.message as string}
+              className="w-full md:w-[33vw] lg:w-[27vw] xl:w-[25vw]"
+            />
           </div>
 
           <div className="px-6 md:px-0 lg:px-0 w-full md:w-fit">
