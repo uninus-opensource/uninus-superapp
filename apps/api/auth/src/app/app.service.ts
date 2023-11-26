@@ -33,6 +33,7 @@ import {
   generateAccessToken,
   generateToken,
   generateOtp,
+  errorMappings,
 } from "@uninus/api/utilities";
 import { RpcException } from "@nestjs/microservices";
 
@@ -178,71 +179,75 @@ export class AppService {
   }
 
   async login(payload: TLoginRequest): Promise<TLoginResponse> {
-    const user = await this.prisma.users.findUnique({
-      where: {
-        email: payload.email,
-      },
-      select: {
-        id: true,
-        email: true,
-        fullname: true,
-        password: true,
-        refresh_token: true,
-        role_id: true,
-        createdAt: true,
-        avatar: true,
-        isVerified: true,
-        role: {
-          include: {
-            appsOrigin: true,
+    try {
+      const user = await this.prisma.users.findUnique({
+        where: {
+          email: payload.email,
+        },
+        select: {
+          id: true,
+          email: true,
+          fullname: true,
+          password: true,
+          refresh_token: true,
+          role_id: true,
+          createdAt: true,
+          avatar: true,
+          isVerified: true,
+          role: {
+            include: {
+              appsOrigin: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    const isMatch = user && (await comparePassword(payload.password as string, user.password));
+      const isMatch = user && (await comparePassword(payload.password as string, user.password));
 
-    if (!user || !isMatch) {
-      throw new RpcException(new UnauthorizedException("Email atau password tidak valid"));
-    }
-    const userPermission = user?.role?.appsOrigin.map((el) => el.name);
-    const isHashPermission = userPermission.includes(payload.app_origin);
+      if (!user || !isMatch) {
+        throw new UnauthorizedException("Email atau password tidak valid");
+      }
+      const userPermission = user?.role?.appsOrigin.map((el) => el.name);
+      const isHashPermission = userPermission.includes(payload.app_origin);
 
-    if (!isHashPermission) {
-      throw new RpcException(new ForbiddenException("Anda tidak memiliki akses ke aplikasi ini"));
-    }
+      if (!isHashPermission) {
+        throw new ForbiddenException("Anda tidak memiliki akses ke aplikasi ini");
+      }
 
-    if (!user.isVerified) {
-      throw new RpcException(new UnauthorizedException("Email belum terverifikasi"));
-    }
+      if (!user.isVerified) {
+        throw new UnauthorizedException("Email belum terverifikasi");
+      }
 
-    const { access_token, refresh_token } = await generateToken({
-      sub: user.id,
-      email: user.email,
-      role: user?.role?.name,
-    });
-    const expiresIn = 15 * 60 * 1000;
-    const now = Date.now();
-    const expirationTime = now + expiresIn;
-
-    return {
-      message: "Berhasil Login",
-      token: {
-        access_token,
-        exp: expirationTime,
-        refresh_token,
-      },
-      id: user.id,
-      user: {
-        id: user.id,
+      const { access_token, refresh_token } = await generateToken({
+        sub: user.id,
         email: user.email,
-        fullname: user.fullname,
         role: user?.role?.name,
-        createdAt: user.createdAt,
-        avatar: user.avatar,
-        isVerified: user.isVerified,
-      },
-    };
+      });
+      const expiresIn = 15 * 60 * 1000;
+      const now = Date.now();
+      const expirationTime = now + expiresIn;
+
+      return {
+        message: "Berhasil Login",
+        token: {
+          access_token,
+          exp: expirationTime,
+          refresh_token,
+        },
+        id: user.id,
+        user: {
+          id: user.id,
+          email: user.email,
+          fullname: user.fullname,
+          role: user?.role?.name,
+          createdAt: user.createdAt,
+          avatar: user.avatar,
+          isVerified: user.isVerified,
+        },
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
   }
 
   async logout(payload: TLogoutRequest): Promise<TLogoutResponse> {

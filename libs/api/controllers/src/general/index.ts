@@ -14,7 +14,7 @@ import { ApiOperation, ApiResponse, ApiTags, ApiQuery, ApiParam } from "@nestjs/
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 import { EOrderByPagination, TProfileResponse } from "@uninus/entities";
-import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filters";
 import {
   CreateDepartment,
   CreateEducation,
