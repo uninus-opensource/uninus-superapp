@@ -2,14 +2,12 @@ import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
 import {
-  TForgotPasswordRequest,
   THeaderRequest,
   TLoginRequest,
   TLogoutRequest,
   TRegisterRequest,
   TReqToken,
   TResetPasswordRequest,
-  TVerifyOtpPasswordRequest,
   TVerifyOtpRequest,
 } from "@uninus/entities";
 
@@ -41,19 +39,9 @@ export class AppController {
     return await this.appService.verifyOtp(payload);
   }
 
-  @MessagePattern("create_otp")
+  @MessagePattern("resend_otp")
   async createOtpUser(payload) {
     return await this.appService.createOtpUser(payload);
-  }
-
-  @MessagePattern("forget_password")
-  async forgetPassword(payload: TForgotPasswordRequest) {
-    return await this.appService.forgotPassword(payload);
-  }
-
-  @MessagePattern("verify_otp_password")
-  async verifyOtpPassword(payload: TVerifyOtpPasswordRequest) {
-    return await this.appService.verifyOtpPassword(payload);
   }
 
   @MessagePattern("reset_password")

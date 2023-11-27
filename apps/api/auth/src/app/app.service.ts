@@ -12,13 +12,10 @@ import {
   TRegisterRequest,
   TReqToken,
   TResRefreshToken,
-  TForgotPasswordRequest,
   TResetPasswordResponse,
   TResetPasswordRequest,
   TVerifyOtpRequest,
   TVerifyOtpResponse,
-  TVerifyOtpPasswordRequest,
-  TVerifyOtpPasswordResponse,
   TLogoutRequest,
   TLogoutResponse,
   TLoginRequest,
@@ -278,33 +275,6 @@ export class AppService {
     }
   }
 
-  async getUserByEmail(payload: TUserEmail): Promise<TUserEmailResponse> {
-    try {
-      const user = await this.prisma.users.findUnique({
-        where: {
-          email: payload.email,
-        },
-        select: {
-          id: true,
-          email: true,
-          fullname: true,
-          otp: {
-            select: {
-              token: true,
-            },
-          },
-        },
-      });
-      if (!user) {
-        throw new NotFoundException("Email tidak ditemukan");
-      }
-
-      return { id: user.id, email: user.email, otp: user.otp?.token };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
   async refreshToken({ user }: TReqToken): Promise<TResRefreshToken> {
     try {
       const expiresIn = 15 * 60 * 1000;
@@ -412,49 +382,11 @@ export class AppService {
     }
   }
 
-  async forgotPassword(payload: TForgotPasswordRequest) {
-    try {
-      await this.clearOtp();
-      const user = await this.getUserByEmail({ email: payload?.email });
-      if (!user) {
-        throw new NotFoundException("Email tidak ditemukan");
-      }
-      return user;
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async verifyOtpPassword(payload: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
-    try {
-      await this.clearOtp();
-      const user = await this.getUserByEmail({ email: payload?.email });
-      const isVerified = user.email === payload.email && user.otp === payload.otp;
-      if (!isVerified) {
-        throw new UnauthorizedException("Email atau OTP tidak valid");
-      }
-
-      return {
-        message: "Berhasil verifikasi OTP",
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
   async resetPassword(payload: TResetPasswordRequest): Promise<TResetPasswordResponse> {
     try {
       const newPassword = await encryptPassword(payload.password);
 
-      const isEmailExist = await this.prisma.users.findUnique({
-        where: {
-          email: payload.email,
-        },
-      });
-
-      if (!isEmailExist) {
-        throw new NotFoundException("Email tidak ditemukan");
-      }
+      await this.getUserByEmail({ email: payload?.email });
 
       const user = await this.prisma.users.update({
         where: {
@@ -474,5 +406,27 @@ export class AppService {
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
+  }
+  async getUserByEmail(payload: TUserEmail): Promise<TUserEmailResponse> {
+    const user = await this.prisma.users.findUnique({
+      where: {
+        email: payload.email,
+      },
+      select: {
+        id: true,
+        email: true,
+        fullname: true,
+        otp: {
+          select: {
+            token: true,
+          },
+        },
+      },
+    });
+    if (!user) {
+      throw new NotFoundException("Email tidak ditemukan");
+    }
+
+    return { id: user.id, email: user.email, otp: user.otp?.token };
   }
 }

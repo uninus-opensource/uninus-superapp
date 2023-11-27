@@ -82,14 +82,14 @@ export class AuthController {
 
   @ApiOperation({ summary: "Verify OTP" })
   @ApiBody({ type: VerifyOtpDto })
-  @Post("verify")
+  @Post("/otp/verify")
   async verifyOtp(@Body(new ZodValidationPipe(VSVerifyOtp)) payload: TVerifyOtpRequest) {
     return this.appService.verifyOtp(payload);
   }
 
   @ApiOperation({ summary: "Resend OTP" })
   @ApiBody({ type: ResendOtpDto })
-  @Post("resend-otp")
+  @Post("/otp/resend")
   async resendOtp(
     @Body(new ZodValidationPipe(VSResendOtp))
     payload: TResendOtpRequest,
@@ -99,7 +99,7 @@ export class AuthController {
 
   @ApiOperation({ summary: "Forgot Password" })
   @ApiBody({ type: ForgotPasswordDto })
-  @Post("forgot-password")
+  @Post("/password/forgot")
   async forgotPassword(
     @Body(new ZodValidationPipe(VSForgotPassword))
     payload: TForgotPasswordRequest,
@@ -107,16 +107,9 @@ export class AuthController {
     return this.appService.forgotPassword(payload);
   }
 
-  @ApiOperation({ summary: "Verify OTP Reset Password" })
-  @ApiBody({ type: VerifyOtpDto })
-  @Post("verify-otp-password")
-  async verifyOtpPassword(@Body(new ZodValidationPipe(VSVerifyOtp)) payload: TVerifyOtpRequest) {
-    return this.appService.verifyOtpPassword(payload);
-  }
-
   @ApiOperation({ summary: "Reset Password" })
   @ApiBody({ type: NewPasswordDto })
-  @Post("reset-password")
+  @Post("/password/reset")
   async resetPassword(
     @Body(new ZodValidationPipe(VSNewPassword))
     payload: TResetPasswordRequest,

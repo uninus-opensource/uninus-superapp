@@ -12,8 +12,6 @@ import {
   TResetPasswordRequest,
   TVerifyOtpRequest,
   TVerifyOtpResponse,
-  TVerifyOtpPasswordRequest,
-  TVerifyOtpPasswordResponse,
   TResendOtpRequest,
   TResendOtpResponse,
   TLogoutRequest,
@@ -97,7 +95,7 @@ export class AuthService {
   async resendOtp(payload: TResendOtpRequest): Promise<TResendOtpResponse> {
     const user = await firstValueFrom(
       this.client
-        .send("create_otp", payload)
+        .send("resend_otp", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
@@ -127,7 +125,7 @@ export class AuthService {
   async forgotPassword(payload: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
     const user = await firstValueFrom(
       this.client
-        .send("create_otp", payload)
+        .send("resend_otp", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
@@ -152,15 +150,6 @@ export class AuthService {
     return {
       message: "Berhasil kirim OTP",
     };
-  }
-
-  async verifyOtpPassword(payload: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
-    const response = await firstValueFrom(
-      this.client
-        .send("verify_otp_password", payload)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
   }
 
   async resetPassword(payload: TResetPasswordRequest): Promise<TResetPasswordResponse> {
