@@ -1,4 +1,4 @@
-import { TToken } from "./token.types";
+import { TToken } from "./token.type";
 import { TUser } from "../user";
 import { TVSLogin } from "../../schemas";
 

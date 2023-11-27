@@ -9,7 +9,6 @@ import {
   TRegisterRequest,
   TReqToken,
   TResetPasswordRequest,
-  TUserEmail,
   TVerifyOtpPasswordRequest,
   TVerifyOtpRequest,
 } from "@uninus/entities";
@@ -30,11 +29,6 @@ export class AppController {
   @MessagePattern("logout")
   async logout(payload: TLogoutRequest) {
     return await this.appService.logout(payload);
-  }
-
-  @MessagePattern("get_user_email")
-  async getUserEmail(payload: TUserEmail) {
-    return await this.appService.getUserByEmail(payload);
   }
 
   @MessagePattern("refresh_token")

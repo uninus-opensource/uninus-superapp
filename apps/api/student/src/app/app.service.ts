@@ -10,7 +10,7 @@ import {
   TGraduationStatusRequest,
   TGraduationStatusReponse,
   TPaymentObligationsResponse,
-  IGetPaymentObligationsRequest,
+  TPaymentObligationsRequest,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
 import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
@@ -19,7 +19,7 @@ import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
 export class AppService {
   constructor(private prisma: PrismaService) {}
 
-  async getStudent(payload: IGetStudentRequest): Promise<IGetStudentResponse> {
+  async getDataStudent(payload: IGetStudentRequest): Promise<IGetStudentResponse> {
     try {
       const student = await this.prisma.users.findUnique({
         where: {
@@ -117,7 +117,7 @@ export class AppService {
     }
   }
 
-  async updateStudent(payload: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
+  async updateDataStudent(payload: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
     try {
       const {
         id,
@@ -361,7 +361,7 @@ export class AppService {
     }
   }
 
-  async deleteStudent(payload: IDeleteStudentRequest): Promise<TDeleteStudentResponse> {
+  async deleteDataStudent(payload: IDeleteStudentRequest): Promise<TDeleteStudentResponse> {
     try {
       const student = await this.prisma.users.delete({
         where: {
@@ -430,7 +430,7 @@ export class AppService {
     }
   }
   async getPaymentObligations(
-    payload: IGetPaymentObligationsRequest,
+    payload: TPaymentObligationsRequest,
   ): Promise<TPaymentObligationsResponse> {
     try {
       const [paymentObligations, user] = await Promise.all([

@@ -7,156 +7,93 @@ import {
   Post,
   Request,
   UseGuards,
-  Inject,
   Patch,
   Query,
-  BadRequestException,
 } from "@nestjs/common";
-import { EAppsOrigin, VSRegistrationNumber, emailTemplateSelection } from "@uninus/entities";
+import {
+  EAppsOrigin,
+  IUpdateStudentRequest,
+  TGraduationStatusRequest,
+  VSRegistrationNumber,
+} from "@uninus/entities";
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/pipes";
-import { GraduationStatusDto, UpdateStudentDto } from "@uninus/api/dto";
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery, ApiHeader } from "@nestjs/swagger";
-import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { catchError, firstValueFrom, throwError } from "rxjs";
+import { StudentService } from "@uninus/api/services";
 
 @ApiTags("Student")
+@ApiBearerAuth("bearer")
 @ApiHeader({
   name: "app-origin",
   description: "Application Origin",
   required: true,
 })
-@ApiBearerAuth("bearer")
 @Controller("student")
 export class StudentController {
-  constructor(@Inject("STUDENT_SERVICE") private readonly client: ClientProxy) {}
+  constructor(private readonly appService: StudentService) {}
+
   @ApiOperation({ summary: "Get Payment Obligations Student" })
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @Get("payment-obligations")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBUSER]))
-  async getPaymentObligations(
-    @Query("id") id: number,
-    @Query("search") search: string,
-    @Request() reqToken: TReqToken,
-  ) {
+  async getPaymentObligations(@Query("search") search: string, @Request() reqToken: TReqToken) {
     const { sub: userId } = reqToken.user;
-    const response = await firstValueFrom(
-      this.client
-        .send("get_payment_obligations", { userId, id, search })
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+    return await this.appService.getPaymentObligations({ userId, search });
   }
 
   @ApiOperation({ summary: "Get Graduation Status" })
   @Post("/graduation-status")
   @UseGuards(PermissionGuard([EAppsOrigin.PMBUSER]))
   async graduationStatus(
-    @Body(new ZodValidationPipe(VSRegistrationNumber)) payload: GraduationStatusDto,
+    @Body(new ZodValidationPipe(VSRegistrationNumber)) payload: TGraduationStatusRequest,
   ) {
-    const response = await firstValueFrom(
-      this.client
-        .send("get_graduation_status", payload)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-
-    return response;
+    return await this.appService.graduationStatus(payload);
   }
 
   @ApiOperation({ summary: "Get Data Student" })
-  @Get()
+  @Get("/me")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBUSER]))
-  async getData(@Request() reqToken: TReqToken) {
+  async getDataStudent(@Request() reqToken: TReqToken) {
     const { sub: id } = reqToken.user;
-    const response = await firstValueFrom(
-      this.client
-        .send("get_student", { id })
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+    return await this.appService.getDataStudent({ id });
   }
 
   @ApiOperation({ summary: "Update Data Student" })
   @Patch()
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBUSER]))
-  async updateData(
+  async updateDataStudent(
     @Request() reqToken: TReqToken,
     @Body(new ZodValidationPipe(VSUpdateStudent))
-    studentData: UpdateStudentDto,
+    studentData: IUpdateStudentRequest,
   ) {
     const { sub: id } = reqToken.user;
-    const response = await firstValueFrom(
-      this.client
-        .send("update_student", {
-          id,
-          ...studentData,
-        })
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+    return await this.appService.updateDataStudent({ id, ...studentData });
   }
 
   @ApiOperation({ summary: "Delete By Id" })
   @Delete("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
-  async deleteDataById(@Param("id") id: string) {
-    const response = await firstValueFrom(
-      this.client
-        .send("delete_student", { id })
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+  async deleteDataStudent(@Param("id") id: string) {
+    return await this.appService.deleteDataStudent({ id });
   }
 
   @ApiOperation({ summary: "Update By Id" })
   @Patch("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
-  async updateDataById(
+  async updateDataStudentById(
     @Param("id") id: string,
     @Body()
-    studentData: UpdateStudentDto,
+    studentData: IUpdateStudentRequest,
   ) {
-    const updateStudent = await firstValueFrom(
-      this.client
-        .send("update_student", { id, ...studentData })
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-
-    const html =
-      studentData?.registration_status_id &&
-      emailTemplateSelection(updateStudent.fullname, updateStudent?.registration_status);
-
-    const sendEmail =
-      studentData?.registration_status_id &&
-      (await firstValueFrom(
-        this.client
-          .send("send_email", {
-            email: updateStudent.email,
-            subject: "Hasil Seleksi Penerimaan Mahasiswa Baru",
-            html,
-          })
-          .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-      ));
-
-    if (studentData?.registration_status_id && !sendEmail) {
-      throw new BadRequestException("Gagal mengirimkan email");
-    }
-    return studentData?.registration_status_id
-      ? { message: "Berhasil mengirimkan email" }
-      : updateStudent;
+    return await this.appService.updateDataStudentById({ id, ...studentData });
   }
 
   @ApiOperation({ summary: "Get Data By Id" })
   @Get("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
-  async getDataById(@Param("id") id: string) {
-    const response = await firstValueFrom(
-      this.client
-        .send("get_student", { id })
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+  async getDataStudentByid(@Param("id") id: string) {
+    return await this.appService.getDataStudentByid({ id });
   }
 }
