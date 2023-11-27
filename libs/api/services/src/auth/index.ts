@@ -26,7 +26,7 @@ import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject("REDIS_SERVICE") private readonly client: ClientProxy) {}
+  constructor(@Inject("AUTH_SERVICE") private readonly client: ClientProxy) {}
 
   async register(payload: TRegisterRequest): Promise<TRegisterResponse> {
     const createdUser = await firstValueFrom(

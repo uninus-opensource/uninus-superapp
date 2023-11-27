@@ -1,22 +1,12 @@
 import { Module } from "@nestjs/common";
-import { JwtModule } from "@nestjs/jwt";
-import { PassportModule } from "@nestjs/passport";
 import { AuthController } from "@uninus/api/controllers";
-import { JwtStrategy, RtStrategy } from "@uninus/api/strategies";
 import { AuthService } from "@uninus/api/services";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 @Module({
   imports: [
-    JwtModule.register({
-      secret: process.env.ACCESS_SECRET,
-      signOptions: { expiresIn: "1h" },
-    }),
-    PassportModule.register({
-      defaultStrategy: "jwt",
-    }),
     ClientsModule.register([
       {
-        name: "REDIS_SERVICE",
+        name: "AUTH_SERVICE",
         transport: Transport.REDIS,
         options: {
           host: process.env.REDIS_HOST,
@@ -30,6 +20,6 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
     ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, RtStrategy],
+  providers: [AuthService],
 })
 export class AuthModule {}
