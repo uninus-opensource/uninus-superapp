@@ -1,4 +1,4 @@
-export * from "./auth-dto";
+export * from "./auth";
 export * from "./student-dto";
 export * from "./user-dto";
 export * from "./payment-dto";

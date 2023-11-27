@@ -26,3 +26,9 @@ export type TResRefreshToken = {
   access_token: string;
   exp: number;
 };
+
+export type TJwtPayload = {
+  sub: string;
+  email: string;
+  role: string;
+};

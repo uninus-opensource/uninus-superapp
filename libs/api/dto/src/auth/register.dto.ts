@@ -28,10 +28,4 @@ export class RegisterDto {
     type: "string",
   })
   public phone_number!: string;
-
-  @ApiProperty({
-    example: "1",
-    type: "number",
-  })
-  public role_id!: number;
 }

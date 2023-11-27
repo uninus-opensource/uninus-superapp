@@ -1,17 +1,12 @@
+import { TVSRegister } from "../../schemas";
+
 export type TRegisterResponse = {
   fullname?: string | null;
   message?: string | null;
   otp?: string | null;
 };
 
-export type TRegisterRequest = {
-  fullname: string;
-  email: string;
-  password: string;
-  phone_number: string;
-  role_id?: number;
-  registration_number?: string;
-};
+export type TRegisterRequest = TVSRegister;
 
 export type TLResponse = {
   message: string;

@@ -14,3 +14,10 @@ export class NewPasswordDto {
   })
   public password!: string;
 }
+
+export class ForgotPasswordDto {
+  @ApiProperty({
+    example: "test@gmail.com",
+  })
+  public email!: string;
+}

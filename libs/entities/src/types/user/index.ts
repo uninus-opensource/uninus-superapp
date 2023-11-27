@@ -77,3 +77,5 @@ export type TUsersPaginatonResponse = {
     next?: null | number;
   };
 };
+
+export * from "./email-user";

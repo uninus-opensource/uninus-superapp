@@ -3,6 +3,7 @@ import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
 import {
   TForgotPasswordRequest,
+  THeaderRequest,
   TLoginRequest,
   TLogoutRequest,
   TRegisterRequest,
@@ -17,7 +18,7 @@ import {
 export class AppController {
   constructor(private readonly appService: AppService) {}
   @MessagePattern("login")
-  async login(payload: TLoginRequest) {
+  async login(payload: TLoginRequest & THeaderRequest) {
     return await this.appService.login(payload);
   }
 

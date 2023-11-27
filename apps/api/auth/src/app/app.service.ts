@@ -25,6 +25,7 @@ import {
   TUserEmail,
   TUserEmailResponse,
   TRegisterResponse,
+  THeaderRequest,
 } from "@uninus/entities";
 import { PrismaService } from "@uninus/api/services";
 import {
@@ -182,7 +183,7 @@ export class AppService {
     }
   }
 
-  async login(payload: TLoginRequest): Promise<TLoginResponse> {
+  async login(payload: TLoginRequest & THeaderRequest): Promise<TLoginResponse> {
     try {
       const user = await this.prisma.users.findUnique({
         where: {
@@ -385,7 +386,7 @@ export class AppService {
   async verifyOtp(payload: TVerifyOtpRequest): Promise<TVerifyOtpResponse> {
     try {
       await this.clearOtp();
-      const user = await this.getUserByEmail(payload);
+      const user = await this.getUserByEmail({ email: payload?.email });
       const isVerified = user.email === payload.email && user.otp === payload.otp;
       if (!isVerified) {
         throw new UnauthorizedException("Email atau OTP tidak valid");
@@ -414,7 +415,7 @@ export class AppService {
   async forgotPassword(payload: TForgotPasswordRequest) {
     try {
       await this.clearOtp();
-      const user = await this.getUserByEmail(payload);
+      const user = await this.getUserByEmail({ email: payload?.email });
       if (!user) {
         throw new NotFoundException("Email tidak ditemukan");
       }
@@ -427,7 +428,7 @@ export class AppService {
   async verifyOtpPassword(payload: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
     try {
       await this.clearOtp();
-      const user = await this.getUserByEmail(payload);
+      const user = await this.getUserByEmail({ email: payload?.email });
       const isVerified = user.email === payload.email && user.otp === payload.otp;
       if (!isVerified) {
         throw new UnauthorizedException("Email atau OTP tidak valid");
