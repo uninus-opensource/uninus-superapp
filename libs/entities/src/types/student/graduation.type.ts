@@ -1,6 +1,6 @@
-export type TGraduationStatusRequest = {
-  registration_number: string;
-};
+import { TVSGraduationStatus } from "../../schemas";
+
+export type TGraduationStatusRequest = TVSGraduationStatus;
 export type TGraduationStatusReponse = {
   registration_number?: string | null;
   fullname?: string | null;

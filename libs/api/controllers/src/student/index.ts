@@ -14,7 +14,7 @@ import {
   EAppsOrigin,
   IUpdateStudentRequest,
   TGraduationStatusRequest,
-  VSRegistrationNumber,
+  VSGraduationStatus,
 } from "@uninus/entities";
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
@@ -28,7 +28,7 @@ import {
   ApiBody,
 } from "@nestjs/swagger";
 import { StudentService } from "@uninus/api/services";
-import { GraduationStatusDto } from "@uninus/api/dto";
+import { GraduationStatusDto, UpdateStudentDto } from "@uninus/api/dto";
 
 @ApiTags("Student")
 @ApiBearerAuth("bearer")
@@ -55,7 +55,7 @@ export class StudentController {
   @ApiBody({ type: GraduationStatusDto })
   @Post("/graduation-status")
   async graduationStatus(
-    @Body(new ZodValidationPipe(VSRegistrationNumber)) payload: TGraduationStatusRequest,
+    @Body(new ZodValidationPipe(VSGraduationStatus)) payload: TGraduationStatusRequest,
   ) {
     return await this.appService.graduationStatus(payload);
   }
@@ -69,6 +69,7 @@ export class StudentController {
   }
 
   @ApiOperation({ summary: "Update Data Student" })
+  @ApiBody({ type: UpdateStudentDto })
   @Patch()
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBUSER]))
   async updateDataStudent(
@@ -88,11 +89,12 @@ export class StudentController {
   }
 
   @ApiOperation({ summary: "Update By Id" })
+  @ApiBody({ type: UpdateStudentDto })
   @Patch("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async updateDataStudentById(
     @Param("id") id: string,
-    @Body()
+    @Body(new ZodValidationPipe(VSUpdateStudent))
     studentData: IUpdateStudentRequest,
   ) {
     return await this.appService.updateDataStudentById({ id, ...studentData });
