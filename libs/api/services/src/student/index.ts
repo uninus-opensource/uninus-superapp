@@ -11,6 +11,8 @@ import {
   TGraduationStatusRequest,
   TPaymentObligationsRequest,
   TPaymentObligationsResponse,
+  TStudentsPaginationArgs,
+  TStudentsPaginatonResponse,
   emailTemplateSelection,
 } from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
@@ -44,6 +46,15 @@ export class StudentService {
     const response = await firstValueFrom(
       this.client
         .send("get_student", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getDataStudents(payload: TStudentsPaginationArgs): Promise<TStudentsPaginatonResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_students", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -95,9 +106,5 @@ export class StudentService {
     return payload?.registration_status_id
       ? { message: "Berhasil mengirimkan email" }
       : updateStudent;
-  }
-
-  async getDataStudentByid(payload: IGetStudentRequest): Promise<IGetStudentResponse> {
-    return await this.getDataStudent(payload);
   }
 }

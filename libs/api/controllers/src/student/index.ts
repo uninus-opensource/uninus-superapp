@@ -12,6 +12,7 @@ import {
 } from "@nestjs/common";
 import {
   EAppsOrigin,
+  EOrderByPagination,
   IUpdateStudentRequest,
   TGraduationStatusRequest,
   VSGraduationStatus,
@@ -68,6 +69,31 @@ export class StudentController {
     return await this.appService.getDataStudent({ id });
   }
 
+  @ApiOperation({ summary: "Get Data Student Pagination" })
+  @ApiQuery({ name: "page", required: false })
+  @ApiQuery({ name: "per_page", required: false })
+  @ApiQuery({ name: "order_by", required: false })
+  @ApiQuery({ name: "filter_by", required: false })
+  @ApiQuery({ name: "search", required: false })
+  @Get()
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
+  async getDataStudents(
+    @Query("page") page: number,
+    @Query("per_page") perPage: number,
+    @Query("order_by") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
+    @Query("filter_by") filterBy: string,
+    @Query("search") search: string,
+  ) {
+    return await this.appService.getDataStudents({
+      search,
+      orderBy: {
+        [filterBy]: orderBy,
+      },
+      page,
+      perPage,
+    });
+  }
+
   @ApiOperation({ summary: "Update Data Student" })
   @ApiBody({ type: UpdateStudentDto })
   @Patch()
@@ -104,6 +130,6 @@ export class StudentController {
   @Get("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async getDataStudentByid(@Param("id") id: string) {
-    return await this.appService.getDataStudentByid({ id });
+    return await this.appService.getDataStudent({ id });
   }
 }

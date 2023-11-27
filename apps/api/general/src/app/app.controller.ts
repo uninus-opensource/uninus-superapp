@@ -16,7 +16,6 @@ import {
   IRegistransRequest,
   IInterestEducationPrograms,
   IInterestDepartment,
-  TStudentsPaginationArgs,
   TCreateFacultyRequest,
   TCreateDepartmentRequest,
   TCreateSelectionPathRequest,
@@ -192,11 +191,6 @@ export class AppController {
   @MessagePattern("get_province")
   async getProvince(payload: { search: string; id: number }) {
     return await this.appService.getProvince(payload);
-  }
-
-  @MessagePattern("get_registrans_pagination")
-  async getPaginationPMB({ search, orderBy, page, perPage }: TStudentsPaginationArgs) {
-    return await this.appService.getStudentsPagination({ search, orderBy, page, perPage });
   }
 
   @MessagePattern("create_faculty")

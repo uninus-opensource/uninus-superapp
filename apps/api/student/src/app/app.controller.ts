@@ -8,6 +8,7 @@ import {
   IUpdateStudentRequest,
   TGraduationStatusRequest,
   TPaymentObligationsRequest,
+  TStudentsPaginationArgs,
 } from "@uninus/entities";
 @Controller()
 export class AppController {
@@ -15,6 +16,11 @@ export class AppController {
   @MessagePattern("get_student")
   async getDataStudent(payload: IGetStudentRequest) {
     return await this.studentService.getDataStudent(payload);
+  }
+
+  @MessagePattern("get_students")
+  async getDataStudents(payload: TStudentsPaginationArgs) {
+    return await this.studentService.getDataStudents(payload);
   }
 
   @MessagePattern("update_student")

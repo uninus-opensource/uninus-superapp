@@ -11,6 +11,8 @@ import {
   TGraduationStatusReponse,
   TPaymentObligationsResponse,
   TPaymentObligationsRequest,
+  TStudentsPaginationArgs,
+  TStudentsPaginatonResponse,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
 import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
@@ -115,6 +117,124 @@ export class AppService {
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
+  }
+
+  async getDataStudents({
+    search,
+    orderBy,
+    page = 1,
+    perPage = 10,
+  }: TStudentsPaginationArgs): Promise<TStudentsPaginatonResponse> {
+    const [data, total] = await Promise.all([
+      this.prisma.pMB.findMany({
+        ...(perPage && { take: Number(perPage ?? 10) }),
+        ...(page && { skip: Number(page > 0 ? perPage * (page - 1) : 0) }),
+        where: {
+          OR: [
+            {
+              registration_number: {
+                contains: search || "",
+                mode: "insensitive",
+              },
+            },
+            {
+              student: {
+                user: {
+                  fullname: {
+                    contains: search || "",
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          ],
+        },
+        select: {
+          id: true,
+          registration_number: true,
+          average_grade: true,
+          average_utbk: true,
+          createdAt: true,
+          selection_path: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          first_department: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          second_department: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          registration_status: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          registration_path: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          student: {
+            select: {
+              user: {
+                select: {
+                  id: true,
+                  fullname: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy,
+      }),
+      this.prisma.pMB.count({
+        where: {
+          OR: [
+            {
+              registration_number: {
+                contains: search || "",
+                mode: "insensitive",
+              },
+            },
+            {
+              student: {
+                user: {
+                  fullname: {
+                    contains: search || "",
+                    mode: "insensitive",
+                  },
+                },
+              },
+            },
+          ],
+        },
+      }),
+    ]);
+
+    const lastPage = Math.ceil(total / perPage);
+
+    return {
+      data,
+      meta: {
+        total,
+        lastPage,
+        currentPage: Number(page),
+        perPage: Number(perPage),
+        prev: page > 1 ? Number(page) - 1 : null,
+        next: page < lastPage ? Number(page) + 1 : null,
+      },
+    };
   }
 
   async updateDataStudent(payload: IUpdateStudentRequest): Promise<IUpdateStudentResponse> {
