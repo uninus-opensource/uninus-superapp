@@ -15,3 +15,16 @@ export const VSNewPassword = z.object({
 });
 
 export type TVSNewPassword = z.infer<typeof VSNewPassword>;
+
+export const VSForgotPassword = z.object({
+  email: z
+    .string()
+    .email({
+      message: "Email tidak valid",
+    })
+    .nonempty({
+      message: "Email tidak boleh kosong",
+    }),
+});
+
+export type TVSForgotPassword = z.infer<typeof VSForgotPassword>;
