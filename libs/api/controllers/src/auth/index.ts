@@ -8,8 +8,7 @@ import {
   VSForgotPassword,
   VSNewPassword,
   VSLogout,
-  TVSHeaderLogin,
-  VSHeaderLogin,
+  TVSHeaders,
   TRegisterRequest,
   TLoginRequest,
   TLogoutRequest,
@@ -17,6 +16,7 @@ import {
   TResendOtpRequest,
   TForgotPasswordRequest,
   TResetPasswordRequest,
+  VSHeaders,
 } from "@uninus/entities";
 import { RtGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/pipes";
@@ -58,7 +58,7 @@ export class AuthController {
   })
   @Post("login")
   async login(
-    @RequestHeaders(new ZodValidationPipe(VSHeaderLogin)) headers: TVSHeaderLogin,
+    @RequestHeaders(new ZodValidationPipe(VSHeaders)) headers: TVSHeaders,
     @Body(new ZodValidationPipe(VSLogin)) payload: TLoginRequest,
   ) {
     const app_origin = headers["app-origin"];
