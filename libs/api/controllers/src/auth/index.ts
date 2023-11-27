@@ -31,7 +31,7 @@ import {
   VerifyOtpDto,
   RefreshTokenDto,
 } from "@uninus/api/dto";
-import { ApiTags, ApiBody, ApiOperation } from "@nestjs/swagger";
+import { ApiTags, ApiBody, ApiOperation, ApiHeader } from "@nestjs/swagger";
 import { RequestHeaders } from "@uninus/api/decorators";
 
 @ApiTags("Auth")
@@ -51,6 +51,11 @@ export class AuthController {
 
   @ApiOperation({ summary: "Login" })
   @ApiBody({ type: LoginDto })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
   @Post("login")
   async login(
     @RequestHeaders(new ZodValidationPipe(VSHeaderLogin)) headers: TVSHeaderLogin,

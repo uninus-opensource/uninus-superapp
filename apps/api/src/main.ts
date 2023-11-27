@@ -59,11 +59,7 @@ async function bootstrap() {
       },
       "bearer",
     )
-    .addGlobalParameters({
-      in: "header",
-      required: false,
-      name: "app-origin",
-    })
+
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);

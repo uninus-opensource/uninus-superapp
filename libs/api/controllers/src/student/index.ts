@@ -17,17 +17,21 @@ import { TReqToken, VSUpdateStudent } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/pipes";
 import { GraduationStatusDto, UpdateStudentDto } from "@uninus/api/dto";
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from "@nestjs/swagger";
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery, ApiHeader } from "@nestjs/swagger";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
-@Controller("student")
 @ApiTags("Student")
+@ApiHeader({
+  name: "app-origin",
+  description: "Application Origin",
+  required: true,
+})
+@ApiBearerAuth("bearer")
+@Controller("student")
 export class StudentController {
   constructor(@Inject("STUDENT_SERVICE") private readonly client: ClientProxy) {}
-
   @ApiOperation({ summary: "Get Payment Obligations Student" })
-  @ApiBearerAuth("bearer")
   @ApiQuery({ name: "id", required: false })
   @ApiQuery({ name: "search", required: false })
   @Get("payment-obligations")
@@ -62,7 +66,6 @@ export class StudentController {
   }
 
   @ApiOperation({ summary: "Get Data Student" })
-  @ApiBearerAuth("bearer")
   @Get()
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBUSER]))
   async getData(@Request() reqToken: TReqToken) {
@@ -76,7 +79,6 @@ export class StudentController {
   }
 
   @ApiOperation({ summary: "Update Data Student" })
-  @ApiBearerAuth("bearer")
   @Patch()
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBUSER]))
   async updateData(
@@ -97,7 +99,6 @@ export class StudentController {
   }
 
   @ApiOperation({ summary: "Delete By Id" })
-  @ApiBearerAuth("bearer")
   @Delete("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async deleteDataById(@Param("id") id: string) {
@@ -110,7 +111,6 @@ export class StudentController {
   }
 
   @ApiOperation({ summary: "Update By Id" })
-  @ApiBearerAuth("bearer")
   @Patch("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async updateDataById(
@@ -149,7 +149,6 @@ export class StudentController {
   }
 
   @ApiOperation({ summary: "Get Data By Id" })
-  @ApiBearerAuth("bearer")
   @Get("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async getDataById(@Param("id") id: string) {
