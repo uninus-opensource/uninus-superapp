@@ -19,8 +19,16 @@ import {
 import { TReqToken, VSUpdateStudent } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/pipes";
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery, ApiHeader } from "@nestjs/swagger";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiQuery,
+  ApiHeader,
+  ApiBody,
+} from "@nestjs/swagger";
 import { StudentService } from "@uninus/api/services";
+import { GraduationStatusDto } from "@uninus/api/dto";
 
 @ApiTags("Student")
 @ApiBearerAuth("bearer")
@@ -44,8 +52,8 @@ export class StudentController {
   }
 
   @ApiOperation({ summary: "Get Graduation Status" })
+  @ApiBody({ type: GraduationStatusDto })
   @Post("/graduation-status")
-  @UseGuards(PermissionGuard([EAppsOrigin.PMBUSER]))
   async graduationStatus(
     @Body(new ZodValidationPipe(VSRegistrationNumber)) payload: TGraduationStatusRequest,
   ) {
