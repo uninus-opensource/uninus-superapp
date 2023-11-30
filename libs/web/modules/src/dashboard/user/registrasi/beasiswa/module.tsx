@@ -103,7 +103,9 @@ export const BeasiswaDashboardModule: FC = (): ReactElement => {
   }, [student, reset]);
 
   useEffect(() => {
-    setScholarshipId(student?.scholarship_id);
+    if (student?.scholarship_id) {
+      setScholarshipId(student?.scholarship_id);
+    }
   }, [student?.scholarship_id]);
 
   return (
