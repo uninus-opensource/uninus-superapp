@@ -52,13 +52,17 @@ export class UserService {
     return response;
   }
 
-  async updateUserById(payload: TUpdateUserRequest & TIdUser): Promise<TUpdateUserResponse> {
+  async updateUser(payload: TUpdateUserRequest & TIdUser): Promise<TUpdateUserResponse> {
     const response = await firstValueFrom(
       this.client
         .send("update_user", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
+  }
+
+  async updateUserById(payload: TUpdateUserRequest & TIdUser): Promise<TUpdateUserResponse> {
+    return this.updateUser(payload);
   }
 
   async createUser(payload: TCreateUserRequest): Promise<TCreateUserResponse> {

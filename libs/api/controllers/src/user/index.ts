@@ -39,6 +39,7 @@ import { ZodValidationPipe } from "@uninus/api/pipes";
 @ApiHeader({
   name: "app-origin",
   description: "Application Origin",
+  required: true,
 })
 @Controller("user")
 export class UserController {
@@ -91,8 +92,20 @@ export class UserController {
   async deleteDataUser(@Param("id") id: string) {
     return await this.appService.deleteDataUser({ id });
   }
+  @ApiOperation({ summary: "Update user" })
+  @ApiBody({ type: UpdateUserDto })
+  @Patch()
+  @UseGuards(JwtAuthGuard)
+  async updateUser(
+    @Request() reqToken: TReqToken,
+    @Body(new ZodValidationPipe(VSUpdateUser))
+    payload: TUpdateUserRequest,
+  ) {
+    const { sub: id } = reqToken.user;
+    return await this.appService.updateUser({ id, ...payload });
+  }
 
-  @ApiOperation({ summary: "Edit User By Id" })
+  @ApiOperation({ summary: "Update User By Id" })
   @ApiBody({ type: UpdateUserDto })
   @Patch("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
