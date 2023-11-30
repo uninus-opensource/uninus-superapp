@@ -28,7 +28,7 @@ export class FinanceService {
   async createPayment(payload: TCreatePaymentRequest): Promise<TCreatePaymentResponse> {
     const response = await firstValueFrom(
       this.client
-        .send("request_payment", payload)
+        .send("create_payment", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

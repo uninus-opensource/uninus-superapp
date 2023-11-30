@@ -763,8 +763,11 @@ export class AppService {
         throw new BadRequestException(error.response.statusText);
       });
 
-      const { transactionStatusCode, vaBank, vaNumber, paymentMethod } = response;
-      const status = transactionStatusCode;
+      const { transactionStatusCode: status, vaBank, vaNumber, paymentMethod } = response;
+
+      if (!response?.status) {
+        throw new BadRequestException(response?.responseDesc);
+      }
 
       if (status == "S") {
         const getDataStudent = await this.prisma.users.findUnique({

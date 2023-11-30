@@ -1,6 +1,7 @@
 import {
   ApiBearerAuth,
   ApiBody,
+  ApiHeader,
   ApiHeaders,
   ApiOperation,
   ApiQuery,
@@ -11,6 +12,7 @@ import { JwtAuthGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/pipes";
 import { Controller, Get, Post, Body, UseGuards, Query, Request } from "@nestjs/common";
 import {
+  EFilterGraph,
   TCreatePaymentRequest,
   TPaymentCallbackRequest,
   TReqToken,
@@ -30,12 +32,17 @@ export class FinanceController {
   constructor(private readonly appService: FinanceService) {}
 
   @ApiOperation({ summary: "Get Data Finance Summary" })
-  @ApiQuery({ name: "filter", required: false })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
+  @ApiQuery({ name: "filter", enum: EFilterGraph, required: false })
   @ApiQuery({ name: "start_date", required: false })
   @ApiQuery({ name: "end_date", required: false })
   @Get("/payment/sumary")
   async financeSummary(
-    @Query("filter") filter: string,
+    @Query("filter") filter: EFilterGraph,
     @Query("start_date") start_date: string,
     @Query("end_date") end_date: string,
   ) {
@@ -43,6 +50,11 @@ export class FinanceController {
   }
 
   @ApiOperation({ summary: "Create Payment" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
   @ApiBody({ type: CreatePaymentDto })
   @Post("/payment/create")
   @UseGuards(JwtAuthGuard)
@@ -55,6 +67,11 @@ export class FinanceController {
   }
 
   @ApiOperation({ summary: "Check Status Payment" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
   @ApiBody({ type: StatusPaymentDto })
   @Post("/payment/status")
   @UseGuards(JwtAuthGuard)

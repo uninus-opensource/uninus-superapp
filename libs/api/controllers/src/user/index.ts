@@ -36,16 +36,16 @@ import { ZodValidationPipe } from "@uninus/api/pipes";
 
 @ApiTags("User")
 @ApiBearerAuth("bearer")
-@ApiHeader({
-  name: "app-origin",
-  description: "Application Origin",
-  required: true,
-})
 @Controller("user")
 export class UserController {
   constructor(private readonly appService: UserService) {}
 
   @ApiOperation({ summary: "Get Data User" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
   @Get("/me")
   @UseGuards(JwtAuthGuard)
   async getDatauser(@Request() reqToken: TReqToken) {
@@ -59,8 +59,13 @@ export class UserController {
   @ApiQuery({ name: "order_by", required: false })
   @ApiQuery({ name: "filter_by", required: false })
   @ApiQuery({ name: "search", required: false })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
   @Get()
-  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
+  @UseGuards(JwtAuthGuard)
   async getDataUsers(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
@@ -80,6 +85,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: "Get Data User By Id" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
   @Get("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async getDataUserById(@Param("id") id: string) {
@@ -87,12 +97,22 @@ export class UserController {
   }
 
   @ApiOperation({ summary: "Delete By Id" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
   @Delete("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async deleteDataUser(@Param("id") id: string) {
     return await this.appService.deleteDataUser({ id });
   }
   @ApiOperation({ summary: "Update user" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
   @ApiBody({ type: UpdateUserDto })
   @Patch()
   @UseGuards(JwtAuthGuard)
@@ -106,6 +126,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: "Update User By Id" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
   @ApiBody({ type: UpdateUserDto })
   @Patch("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
@@ -118,6 +143,11 @@ export class UserController {
   }
 
   @ApiOperation({ summary: "Create user" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
   @ApiBody({ type: CreateUserDto })
   @Post()
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
