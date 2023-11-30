@@ -1,7 +1,11 @@
-import { Prisma } from "@prisma/client";
+import { TVSCreateUser, TVSUpdateUser } from "../../schemas";
 
 export type TProfileRequest = {
   email: string;
+};
+
+export type TIdUser = {
+  id: string;
 };
 
 export type TProfileResponse = {
@@ -42,13 +46,15 @@ export interface IUserRequest extends IUser {
   role_id?: number | null;
 }
 
-export type TCreateUserRequest = {
-  email: string;
-  fullname: string;
-  password: string;
-  phone_number: string;
-  role_id: number;
+export type TCreateUserRequest = TVSCreateUser;
+
+export type TCreateUserResponse = {
+  message: string;
 };
+
+export type TUpdateUserRequest = TVSUpdateUser;
+
+export type TUpdateUserResponse = TCreateUserRequest;
 
 export interface IUserResponse extends IUser {
   id: string;
@@ -60,10 +66,11 @@ export interface IUserResponse extends IUser {
 
 export type TUsersPaginationArgs = {
   search?: string;
-  orderBy?: Prisma.UsersOrderByWithRelationInput;
+  orderBy?: string;
   page?: number;
   perPage?: number;
   app_origin?: string;
+  filterBy?: string;
 };
 
 export type TUsersPaginatonResponse = {
@@ -78,4 +85,12 @@ export type TUsersPaginatonResponse = {
   };
 };
 
-export * from "./email-user";
+export interface TUserEmail {
+  email: string;
+}
+
+export interface TUserEmailResponse extends TUserEmail {
+  otp?: string;
+  id?: string;
+  email: string;
+}

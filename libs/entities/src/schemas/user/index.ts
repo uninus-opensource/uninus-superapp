@@ -1,5 +1,36 @@
 import { z } from "zod";
 
+export const VSUpdateUser = z
+  .object({
+    email: z
+      .string()
+      .email({
+        message: "Email tidak valid",
+      })
+      .optional(),
+    fullname: z.string().optional(),
+    password: z
+      .string()
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/, {
+        message:
+          "Password harus memiliki setidaknya 6 karakter dan mengandung setidaknya 1 huruf kecil, 1 huruf besar, dan 1 angka. Tidak boleh mengandung simbol ",
+      })
+      .optional(),
+  })
+  .optional();
+
+export type TVSUpdateUser = z.infer<typeof VSUpdateUser>;
+
+export const VSNoPesertaUser = z.object({
+  registration_number: z
+    .string()
+    .nonempty({ message: "No Peserta tidak boleh kosong" })
+    .min(10, { message: "No Peserta harus 10 nomor" })
+    .max(10, { message: "No Peserta tidak boleh lebih dari 10 nomor" }),
+});
+
+export type TVSNoPesertaUser = z.infer<typeof VSNoPesertaUser>;
+
 export const VSCreateUser = z.object({
   email: z
     .string()
@@ -32,6 +63,7 @@ export const VSCreateUser = z.object({
       message:
         "Password harus memiliki setidaknya 6 karakter dan mengandung setidaknya 1 huruf kecil, 1 huruf besar, dan 1 angka. Tidak boleh mengandung simbol ",
     }),
+  role_id: z.number().min(1),
 });
 
 export type TVSCreateUser = z.infer<typeof VSCreateUser>;

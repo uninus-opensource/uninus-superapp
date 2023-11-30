@@ -9,6 +9,7 @@ import {
   IUserRequest,
   IUserResponse,
   TCreateUserRequest,
+  TIdUser,
   TUsersPaginationArgs,
   TUsersPaginatonResponse,
 } from "@uninus/entities";
@@ -19,7 +20,8 @@ import { RpcException } from "@nestjs/microservices";
 @Injectable()
 export class AppService {
   constructor(private prisma: PrismaService) {}
-  async getUsers({
+  async getDataUsers({
+    filterBy,
     search,
     orderBy,
     app_origin,
@@ -89,7 +91,9 @@ export class AppService {
             },
           },
         },
-        orderBy,
+        orderBy: {
+          [filterBy]: orderBy,
+        },
       }),
       this.prisma.users.count({
         where: {
@@ -261,7 +265,8 @@ export class AppService {
     };
   }
 
-  async getUser(id: string) {
+  async getDatauser(payload: TIdUser) {
+    const { id } = payload;
     const user = await this.prisma.users.findUnique({
       where: {
         id,
@@ -292,7 +297,7 @@ export class AppService {
     };
   }
 
-  async updateUser(payload: IUserRequest): Promise<IUserResponse> {
+  async updateDataUser(payload: IUserRequest): Promise<IUserResponse> {
     const user = await this.prisma.users.update({
       where: {
         id: payload.id,
@@ -315,7 +320,8 @@ export class AppService {
     };
   }
 
-  async deleteUser(id: string) {
+  async deleteDataUser(payload: TIdUser) {
+    const { id } = payload;
     const user = await this.prisma.users.delete({
       where: {
         id,

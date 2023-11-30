@@ -4,7 +4,7 @@ import { RpcException } from "@nestjs/microservices";
 import { PrismaService } from "@uninus/api/services";
 import { ConfigService } from "@nestjs/config";
 import { AxiosRequestConfig } from "axios";
-import { createSignature, splitFullname } from "@uninus/api/utilities";
+import { createSignature, errorMappings, splitFullname } from "@uninus/api/utilities";
 import { firstValueFrom, map } from "rxjs";
 import {
   TFinanceSummaryRequest,
@@ -493,143 +493,10 @@ export class AppService {
           throw new BadRequestException("Filter Tidak Valid");
       }
     } catch (error) {
-      throw new RpcException(new BadRequestException("Filter Tidak Valid"));
+      throw new RpcException(errorMappings(error));
     }
-
-    // Summary
-    const [
-      total_student,
-      additions_total_student,
-      student_with_scholarship,
-      additions_student_scholarship,
-      paids,
-      additions_paids,
-      installment_payment,
-      additions_installment_payment,
-      unpaids,
-      additions_unpaids,
-    ] = await Promise.all([
-      this.prisma.students.count({
-        where: {
-          user: {
-            role_id: 2,
-          },
-        },
-      }),
-      this.prisma.students.count({
-        where: {
-          user: {
-            role_id: 2,
-          },
-          createdAt: {
-            gte: currentDate,
-            lt: nextDate,
-          },
-        },
-      }),
-      this.prisma.students.count({
-        where: {
-          NOT: {
-            scholarship_id: null,
-          },
-        },
-      }),
-      this.prisma.students.count({
-        where: {
-          NOT: {
-            scholarship_id: null,
-          },
-          createdAt: {
-            gte: currentDate,
-            lt: nextDate,
-          },
-        },
-      }),
-      this.prisma.students.count({
-        where: {
-          NOT: {
-            payment_history: {
-              some: {
-                payment_obligation: {
-                  name: "Ukt",
-                },
-              },
-            },
-          },
-        },
-      }),
-      this.prisma.students.count({
-        where: {
-          NOT: {
-            payment_history: {
-              some: {
-                payment_obligation: {
-                  name: "Ukt",
-                },
-              },
-            },
-          },
-          createdAt: {
-            gte: currentDate,
-            lt: nextDate,
-          },
-        },
-      }),
-      this.prisma.students.count({
-        where: {
-          payment_history: {
-            some: {
-              payment_type: {
-                name: "Cicil",
-              },
-              payment_obligation: {
-                name: "Ukt",
-              },
-            },
-          },
-        },
-      }),
-      this.prisma.students.count({
-        where: {
-          payment_history: {
-            some: {
-              payment_type: {
-                name: "Cicil",
-              },
-              payment_obligation: {
-                name: "Ukt",
-              },
-            },
-          },
-          createdAt: {
-            gte: currentDate,
-            lt: nextDate,
-          },
-        },
-      }),
-      this.prisma.students.count({
-        where: {
-          payment_history: {
-            none: {},
-          },
-        },
-      }),
-      this.prisma.students.count({
-        where: {
-          payment_history: {
-            none: {},
-          },
-          createdAt: {
-            gte: currentDate,
-            lt: nextDate,
-          },
-        },
-      }),
-    ]);
-
-    return {
-      data,
-      summary: {
+    try {
+      const [
         total_student,
         additions_total_student,
         student_with_scholarship,
@@ -640,325 +507,472 @@ export class AppService {
         additions_installment_payment,
         unpaids,
         additions_unpaids,
-      },
-    };
-  }
-
-  async requestPayment(payload: TCreatePaymentRequest): Promise<TCreatePaymentResponse> {
-    const { userId, payment_obligation_id } = payload;
-    const student = await this.prisma.users.findUnique({
-      where: {
-        id: userId,
-      },
-      select: {
-        fullname: true,
-        email: true,
-        students: {
-          select: {
-            phone_number: true,
-          },
-        },
-      },
-    });
-    if (!student) {
-      throw new RpcException(new BadRequestException("User tidak ditemukan"));
-    }
-    const { firstName, lastName } = splitFullname(student?.fullname);
-    const timeStamp = Math.floor(Date.now() / 1000);
-    const getPaymentObligations = await this.prisma.paymentObligations.findUnique({
-      where: {
-        id: payment_obligation_id,
-      },
-      select: {
-        name: true,
-        amount: true,
-      },
-    });
-    if (!getPaymentObligations) {
-      throw new RpcException(new BadRequestException("Pembayaran tidak ditemukan"));
-    }
-
-    const updateStudent = await this.prisma.users.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        students: {
-          update: {
-            payment_history: {
-              create: {
-                order_id: String(`${getPaymentObligations?.name}-${timeStamp}`),
-                payment_obligation_id: Number(payment_obligation_id),
-              },
+      ] = await Promise.all([
+        this.prisma.students.count({
+          where: {
+            user: {
+              role_id: 2,
             },
           },
-        },
-      },
-      select: {
-        students: {
-          select: {
-            payment_history: true,
+        }),
+        this.prisma.students.count({
+          where: {
+            user: {
+              role_id: 2,
+            },
+            createdAt: {
+              gte: currentDate,
+              lt: nextDate,
+            },
           },
-        },
-      },
-    });
-    if (!updateStudent) {
-      throw new RpcException(new BadRequestException("Gagal membuat transaksi"));
-    }
-    const data = {
-      customerDetails: {
-        email: student?.email,
-        firstName,
-        lastName,
-        phone: student?.students?.phone_number,
-      },
-      transactionDetails: {
-        amount: getPaymentObligations?.amount,
-        currency: "IDR",
-        orderId: String(`${getPaymentObligations?.name}-${timeStamp}`),
-        expiryDuration: "2m",
-      },
-    };
-    this.config.baseURL = this.apiRequest;
-    this.config.headers.Timestamp = timeStamp;
-    this.config.headers.Signature = await createSignature(
-      JSON.stringify(data),
-      timeStamp,
-      this.apiKey,
-    );
-
-    const response = await firstValueFrom(
-      this.httpService
-        .post("/payment-services/v2.1.0/api/token", data, this.config)
-        .pipe(map((resp) => resp.data)),
-    ).catch((error) => {
-      throw new RpcException(new BadRequestException(error?.response?.statusText));
-    });
-    return response;
-  }
-
-  async statusPayment(payload: TStatusPaymentRequest): Promise<TStatusPaymentResponse> {
-    const { order_id, userId } = payload;
-    const timeStamp = new Date().getTime();
-    const data = { trxRef: order_id };
-    this.config.baseURL = this.apiStatus;
-    this.config.headers.Timestamp = timeStamp;
-    this.config.headers.Signature = await createSignature(
-      JSON.stringify(data),
-      timeStamp,
-      this.apiKey,
-    );
-    const response = await firstValueFrom(
-      this.httpService
-        .post("/sp/service/v3.0.0/api/checkstatus", data, this.config)
-        .pipe(map((resp) => resp.data)),
-    ).catch((error) => {
-      throw new RpcException(new BadRequestException(error.response.statusText));
-    });
-
-    const { transactionStatusCode, vaBank, vaNumber, paymentMethod } = response;
-    const status = transactionStatusCode;
-
-    if (status == "S") {
-      const getDataStudent = await this.prisma.users.findUnique({
-        where: {
-          id: userId,
-        },
-        select: {
-          students: {
-            select: {
-              pmb: {
-                select: {
-                  selection_path: {
-                    select: {
-                      name: true,
-                    },
+        }),
+        this.prisma.students.count({
+          where: {
+            NOT: {
+              scholarship_id: null,
+            },
+          },
+        }),
+        this.prisma.students.count({
+          where: {
+            NOT: {
+              scholarship_id: null,
+            },
+            createdAt: {
+              gte: currentDate,
+              lt: nextDate,
+            },
+          },
+        }),
+        this.prisma.students.count({
+          where: {
+            NOT: {
+              payment_history: {
+                some: {
+                  payment_obligation: {
+                    name: "Ukt",
                   },
                 },
               },
             },
           },
+        }),
+        this.prisma.students.count({
+          where: {
+            NOT: {
+              payment_history: {
+                some: {
+                  payment_obligation: {
+                    name: "Ukt",
+                  },
+                },
+              },
+            },
+            createdAt: {
+              gte: currentDate,
+              lt: nextDate,
+            },
+          },
+        }),
+        this.prisma.students.count({
+          where: {
+            payment_history: {
+              some: {
+                payment_type: {
+                  name: "Cicil",
+                },
+                payment_obligation: {
+                  name: "Ukt",
+                },
+              },
+            },
+          },
+        }),
+        this.prisma.students.count({
+          where: {
+            payment_history: {
+              some: {
+                payment_type: {
+                  name: "Cicil",
+                },
+                payment_obligation: {
+                  name: "Ukt",
+                },
+              },
+            },
+            createdAt: {
+              gte: currentDate,
+              lt: nextDate,
+            },
+          },
+        }),
+        this.prisma.students.count({
+          where: {
+            payment_history: {
+              none: {},
+            },
+          },
+        }),
+        this.prisma.students.count({
+          where: {
+            payment_history: {
+              none: {},
+            },
+            createdAt: {
+              gte: currentDate,
+              lt: nextDate,
+            },
+          },
+        }),
+      ]);
+
+      return {
+        data,
+        summary: {
+          total_student,
+          additions_total_student,
+          student_with_scholarship,
+          additions_student_scholarship,
+          paids,
+          additions_paids,
+          installment_payment,
+          additions_installment_payment,
+          unpaids,
+          additions_unpaids,
+        },
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async createPayment(payload: TCreatePaymentRequest): Promise<TCreatePaymentResponse> {
+    try {
+      const { userId, payment_obligation_id } = payload;
+      const student = await this.prisma.users.findUnique({
+        where: {
+          id: userId,
+        },
+        select: {
+          fullname: true,
+          email: true,
+          students: {
+            select: {
+              phone_number: true,
+            },
+          },
         },
       });
-
-      if (!getDataStudent) {
-        throw new RpcException(new BadRequestException("Gagal update status pembayaran"));
+      if (!student) {
+        throw new BadRequestException("User tidak ditemukan");
+      }
+      const { firstName, lastName } = splitFullname(student?.fullname);
+      const timeStamp = Math.floor(Date.now() / 1000);
+      const getPaymentObligations = await this.prisma.paymentObligations.findUnique({
+        where: {
+          id: payment_obligation_id,
+        },
+        select: {
+          name: true,
+          amount: true,
+        },
+      });
+      if (!getPaymentObligations) {
+        throw new BadRequestException("Pembayaran tidak ditemukan");
       }
 
-      const {
-        students: {
-          pmb: { selection_path },
-        },
-      } = getDataStudent;
-
-      const updatePayment = await this.prisma.users.update({
+      const updateStudent = await this.prisma.users.update({
         where: {
           id: userId,
         },
         data: {
           students: {
             update: {
-              pmb: {
-                update: {
-                  ...(selection_path?.name.toLowerCase() == "seleksi test"
-                    ? {
-                        registration_status_id: 7,
-                      }
-                    : {
-                        registration_status_id: 4,
-                      }),
-                },
-              },
               payment_history: {
-                update: {
-                  where: {
-                    order_id,
-                  },
-                  data: {
-                    payment_bank: vaBank,
-                    payment_code: vaNumber,
-                    payment_method: paymentMethod,
-                    payment_type_id: 1,
-                    isPaid: true,
-                  },
+                create: {
+                  order_id: String(`${getPaymentObligations?.name}-${timeStamp}`),
+                  payment_obligation_id: Number(payment_obligation_id),
                 },
               },
             },
           },
         },
+        select: {
+          students: {
+            select: {
+              payment_history: true,
+            },
+          },
+        },
       });
-      if (!updatePayment) {
-        throw new RpcException(new BadRequestException("Gagal update status pembayaran"));
+      if (!updateStudent) {
+        throw new BadRequestException("Gagal membuat transaksi");
+      }
+      const data = {
+        customerDetails: {
+          email: student?.email,
+          firstName,
+          lastName,
+          phone: student?.students?.phone_number,
+        },
+        transactionDetails: {
+          amount: getPaymentObligations?.amount,
+          currency: "IDR",
+          orderId: String(`${getPaymentObligations?.name}-${timeStamp}`),
+          expiryDuration: "2m",
+        },
+      };
+      this.config.baseURL = this.apiRequest;
+      this.config.headers.Timestamp = timeStamp;
+      this.config.headers.Signature = await createSignature(
+        JSON.stringify(data),
+        timeStamp,
+        this.apiKey,
+      );
+
+      const response = await firstValueFrom(
+        this.httpService
+          .post("/payment-services/v2.1.0/api/token", data, this.config)
+          .pipe(map((resp) => resp.data)),
+      ).catch((error) => {
+        throw new BadRequestException(error?.response?.statusText);
+      });
+      return response;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async statusPayment(payload: TStatusPaymentRequest): Promise<TStatusPaymentResponse> {
+    try {
+      const { order_id, userId } = payload;
+      const timeStamp = new Date().getTime();
+      const data = { trxRef: order_id };
+      this.config.baseURL = this.apiStatus;
+      this.config.headers.Timestamp = timeStamp;
+      this.config.headers.Signature = await createSignature(
+        JSON.stringify(data),
+        timeStamp,
+        this.apiKey,
+      );
+      const response = await firstValueFrom(
+        this.httpService
+          .post("/sp/service/v3.0.0/api/checkstatus", data, this.config)
+          .pipe(map((resp) => resp.data)),
+      ).catch((error) => {
+        throw new BadRequestException(error.response.statusText);
+      });
+
+      const { transactionStatusCode, vaBank, vaNumber, paymentMethod } = response;
+      const status = transactionStatusCode;
+
+      if (status == "S") {
+        const getDataStudent = await this.prisma.users.findUnique({
+          where: {
+            id: userId,
+          },
+          select: {
+            students: {
+              select: {
+                pmb: {
+                  select: {
+                    selection_path: {
+                      select: {
+                        name: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+
+        if (!getDataStudent) {
+          throw new BadRequestException("Gagal update status pembayaran");
+        }
+
+        const {
+          students: {
+            pmb: { selection_path },
+          },
+        } = getDataStudent;
+
+        const updatePayment = await this.prisma.users.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            students: {
+              update: {
+                pmb: {
+                  update: {
+                    ...(selection_path?.name.toLowerCase() == "seleksi test"
+                      ? {
+                          registration_status_id: 7,
+                        }
+                      : {
+                          registration_status_id: 4,
+                        }),
+                  },
+                },
+                payment_history: {
+                  update: {
+                    where: {
+                      order_id,
+                    },
+                    data: {
+                      payment_bank: vaBank,
+                      payment_code: vaNumber,
+                      payment_method: paymentMethod,
+                      payment_type_id: 1,
+                      isPaid: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+        if (!updatePayment) {
+          throw new BadRequestException("Gagal update status pembayaran");
+        }
+        return {
+          message: "Pembayaran Berhasil",
+        };
       }
       return {
-        message: "Pembayaran Berhasil",
+        message:
+          status == "EX"
+            ? "Pembayaran telah expired"
+            : status == "CL"
+              ? "Pembayaran dibatalkan"
+              : status == "FL"
+                ? "Pembayaran ditolak"
+                : status == "N" && "Pembayaran sedang diproses",
       };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
     }
-    return {
-      message:
-        status == "EX"
-          ? "Pembayaran telah expired"
-          : status == "CL"
-            ? "Pembayaran dibatalkan"
-            : status == "FL"
-              ? "Pembayaran ditolak"
-              : status == "N" && "Pembayaran sedang diproses",
-    };
   }
 
   async financeCallback(
     payload: TPaymentCallbackRequest & TPaymentCallbackHeaders,
   ): Promise<TPaymentCallbackResponse> {
-    const { timestamp, signature, authorization, ...data } = payload;
-    const { bankName, trxRef, userId, responseCode, responseDescription, transactionType } = data;
-    const auth = authorization.split(" ")[1];
-    const localSiganture = await createSignature(
-      JSON.stringify(data),
-      Number(timestamp),
-      this.apiKey,
-    );
+    try {
+      const { timestamp, signature, authorization, ...data } = payload;
+      const { bankName, trxRef, userId, responseCode, responseDescription, transactionType } = data;
+      const auth = authorization.split(" ")[1];
+      const localSiganture = await createSignature(
+        JSON.stringify(data),
+        Number(timestamp),
+        this.apiKey,
+      );
 
-    if (!auth && btoa(this.merchantId) !== atob(auth).replace(":", "")) {
-      return {
-        responseCode: "25",
-        responseDescription: "Request MerchantId and Authentication Invalid",
-      };
-    }
+      if (!auth && btoa(this.merchantId) !== atob(auth).replace(":", "")) {
+        return {
+          responseCode: "25",
+          responseDescription: "Request MerchantId and Authentication Invalid",
+        };
+      }
 
-    if (signature !== localSiganture) {
-      return {
-        responseCode: "27",
-        responseDescription: "Invalid Signature",
-      };
-    }
-    if (responseCode == "41" || responseDescription == "Transaction Expired") {
-      const deletePayment = await this.prisma.paymentHistory.delete({
+      if (signature !== localSiganture) {
+        return {
+          responseCode: "27",
+          responseDescription: "Invalid Signature",
+        };
+      }
+      if (responseCode == "41" || responseDescription == "Transaction Expired") {
+        const deletePayment = await this.prisma.paymentHistory.delete({
+          where: {
+            order_id: trxRef,
+          },
+        });
+
+        if (!deletePayment) {
+          return {
+            responseCode: "40",
+            responseDescription: "Data Cannot Be Updated",
+          };
+        }
+        return {
+          responseCode: "00",
+          responseDescription: "Success",
+        };
+      }
+      const getDataStudent = await this.prisma.students.findUnique({
         where: {
-          order_id: trxRef,
+          phone_number: userId,
+        },
+        select: {
+          pmb: {
+            select: {
+              selection_path: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
 
-      if (!deletePayment) {
+      const {
+        pmb: { selection_path },
+      } = getDataStudent;
+
+      const updatePayment = await this.prisma.students.update({
+        where: {
+          phone_number: userId,
+        },
+        data: {
+          pmb: {
+            update: {
+              ...(selection_path?.name.toLowerCase() == "seleksi test"
+                ? {
+                    registration_status_id: 7,
+                  }
+                : {
+                    registration_status_id: 4,
+                  }),
+            },
+          },
+          payment_history: {
+            update: {
+              where: {
+                order_id: trxRef,
+              },
+              data: {
+                payment_bank: bankName,
+                payment_type_id: 1,
+                isPaid: true,
+                payment_method:
+                  transactionType == 1
+                    ? "Debit/Credit"
+                    : transactionType == 2
+                      ? "QRIS"
+                      : transactionType == 3
+                        ? "EMoney"
+                        : transactionType == 4 && "VA",
+              },
+            },
+          },
+        },
+      });
+
+      if (!updatePayment) {
         return {
           responseCode: "40",
           responseDescription: "Data Cannot Be Updated",
         };
       }
+
       return {
         responseCode: "00",
         responseDescription: "Success",
       };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
     }
-    const getDataStudent = await this.prisma.students.findUnique({
-      where: {
-        phone_number: userId,
-      },
-      select: {
-        pmb: {
-          select: {
-            selection_path: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    const {
-      pmb: { selection_path },
-    } = getDataStudent;
-
-    const updatePayment = await this.prisma.students.update({
-      where: {
-        phone_number: userId,
-      },
-      data: {
-        pmb: {
-          update: {
-            ...(selection_path?.name.toLowerCase() == "seleksi test"
-              ? {
-                  registration_status_id: 7,
-                }
-              : {
-                  registration_status_id: 4,
-                }),
-          },
-        },
-        payment_history: {
-          update: {
-            where: {
-              order_id: trxRef,
-            },
-            data: {
-              payment_bank: bankName,
-              payment_type_id: 1,
-              isPaid: true,
-              payment_method:
-                transactionType == 1
-                  ? "Debit/Credit"
-                  : transactionType == 2
-                    ? "QRIS"
-                    : transactionType == 3
-                      ? "EMoney"
-                      : transactionType == 4 && "VA",
-            },
-          },
-        },
-      },
-    });
-
-    if (!updatePayment) {
-      return {
-        responseCode: "40",
-        responseDescription: "Data Cannot Be Updated",
-      };
-    }
-
-    return {
-      responseCode: "00",
-      responseDescription: "Success",
-    };
   }
 }

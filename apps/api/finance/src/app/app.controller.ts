@@ -18,9 +18,9 @@ export class AppController {
     return await this.appService.getFinanceSummary(payload);
   }
 
-  @MessagePattern("request_payment")
-  requestPayment(payload: TCreatePaymentRequest) {
-    return this.appService.requestPayment(payload);
+  @MessagePattern("create_payment")
+  createPayment(payload: TCreatePaymentRequest) {
+    return this.appService.createPayment(payload);
   }
 
   @MessagePattern("status_payment")

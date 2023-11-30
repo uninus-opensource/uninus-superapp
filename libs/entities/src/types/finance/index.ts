@@ -1,3 +1,5 @@
+import { TVSCreatePayment, TVSStatusPayment } from "../../schemas";
+
 export type TFinanceSummaryRequest = {
   filter?: string;
   start_date?: string;
@@ -21,8 +23,7 @@ export type TFinanceSummaryResponse = {
 };
 export type TCreatePaymentRequest = {
   userId?: string;
-  payment_obligation_id: number;
-};
+} & TVSCreatePayment;
 
 export type TCreatePaymentResponse = {
   responseAuth: {
@@ -38,8 +39,7 @@ export type TCreatePaymentResponse = {
 
 export type TStatusPaymentRequest = {
   userId?: string;
-  order_id: string;
-};
+} & TVSStatusPayment;
 
 export type TStatusPaymentResponse =
   | {
