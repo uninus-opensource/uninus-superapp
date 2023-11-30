@@ -161,7 +161,7 @@
     "recoil": "^0.7.7",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
-    "sharp": "^0.32.6",
+    "sharp": "^0.33.0",
     "styled-components": "^6.1.0",
     "swagger": "^0.7.5",
     "tozod": "^3.0.0",
