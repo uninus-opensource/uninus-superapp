@@ -12,20 +12,19 @@ import {
   TResetPasswordRequest,
   TVerifyOtpRequest,
   TVerifyOtpResponse,
-  TVerifyOtpPasswordRequest,
-  TVerifyOtpPasswordResponse,
   TResendOtpRequest,
   TResendOtpResponse,
   TLogoutRequest,
   TLogoutResponse,
   TLoginRequest,
+  THeaderRequest,
 } from "@uninus/entities";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Injectable()
 export class AuthService {
-  constructor(@Inject("REDIS_SERVICE") private readonly client: ClientProxy) {}
+  constructor(@Inject("AUTH_SERVICE") private readonly client: ClientProxy) {}
 
   async register(payload: TRegisterRequest): Promise<TRegisterResponse> {
     const createdUser = await firstValueFrom(
@@ -57,7 +56,7 @@ export class AuthService {
     };
   }
 
-  async login({ app_origin, ...payload }: TLoginRequest): Promise<TLoginResponse> {
+  async login({ app_origin, ...payload }: TLoginRequest & THeaderRequest): Promise<TLoginResponse> {
     const response = await firstValueFrom(
       this.client
         .send("login", { app_origin, ...payload })
@@ -96,7 +95,7 @@ export class AuthService {
   async resendOtp(payload: TResendOtpRequest): Promise<TResendOtpResponse> {
     const user = await firstValueFrom(
       this.client
-        .send("create_otp", payload)
+        .send("resend_otp", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
@@ -126,7 +125,7 @@ export class AuthService {
   async forgotPassword(payload: TForgotPasswordRequest): Promise<TForgotPasswordResponse> {
     const user = await firstValueFrom(
       this.client
-        .send("create_otp", payload)
+        .send("resend_otp", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
@@ -151,15 +150,6 @@ export class AuthService {
     return {
       message: "Berhasil kirim OTP",
     };
-  }
-
-  async verifyOtpPassword(payload: TVerifyOtpPasswordRequest): Promise<TVerifyOtpPasswordResponse> {
-    const response = await firstValueFrom(
-      this.client
-        .send("verify_otp_password", payload)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
   }
 
   async resetPassword(payload: TResetPasswordRequest): Promise<TResetPasswordResponse> {

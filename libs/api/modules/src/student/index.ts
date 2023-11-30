@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { StudentController } from "@uninus/api/controllers";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { StudentService } from "@uninus/api/services";
 @Module({
   imports: [
     ClientsModule.register([
@@ -19,6 +20,6 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
     ]),
   ],
   controllers: [StudentController],
-  providers: [],
+  providers: [StudentService],
 })
 export class StudentModule {}

@@ -8,6 +8,7 @@ import { NestFactory } from "@nestjs/core";
 import { MasterApi } from "@uninus/api/modules";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 import * as bodyParser from "body-parser";
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filters";
 
 async function bootstrap() {
   const app = await NestFactory.create(MasterApi);
@@ -31,7 +32,7 @@ async function bootstrap() {
       extended: true,
     }),
   );
-
+  app.useGlobalFilters(new RpcExceptionToHttpExceptionFilter());
   // Swagger config
   const config = new DocumentBuilder()
     .setTitle("UNINUS API")
@@ -58,6 +59,7 @@ async function bootstrap() {
       },
       "bearer",
     )
+
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document);

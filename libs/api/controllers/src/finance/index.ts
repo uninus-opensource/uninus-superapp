@@ -2,7 +2,8 @@ import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { ApiBearerAuth, ApiHeaders, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { CreatePaymentDto, StatusPaymentDto } from "@uninus/api/dto";
 import { JwtAuthGuard } from "@uninus/api/guard";
-import { RpcExceptionToHttpExceptionFilter, ZodValidationPipe } from "@uninus/api/pipes";
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filters";
+import { ZodValidationPipe } from "@uninus/api/pipes";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 import {
   Controller,

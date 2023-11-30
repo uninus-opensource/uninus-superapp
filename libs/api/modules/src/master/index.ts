@@ -6,9 +6,19 @@ import { GeneralModule } from "../general";
 import { FileModule } from "../file";
 import { EmployeeModule } from "../employee";
 import { FinanceModule } from "../finance";
+import { JwtStrategy, RtStrategy } from "@uninus/api/strategies";
+import { JwtModule } from "@nestjs/jwt";
+import { PassportModule } from "@nestjs/passport";
 
 @Module({
   imports: [
+    JwtModule.register({
+      secret: process.env.ACCESS_SECRET,
+      signOptions: { expiresIn: "1h" },
+    }),
+    PassportModule.register({
+      defaultStrategy: "jwt",
+    }),
     AuthModule,
     StudentModule,
     UserModule,
@@ -18,6 +28,6 @@ import { FinanceModule } from "../finance";
     FinanceModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [JwtStrategy, RtStrategy],
 })
 export class MasterApi {}

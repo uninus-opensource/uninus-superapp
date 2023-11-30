@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, Param, Query, UseFilters } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { ApiHeader, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/pipes";
+import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filters";
 import { EOrderByPagination, TProfileResponse } from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
