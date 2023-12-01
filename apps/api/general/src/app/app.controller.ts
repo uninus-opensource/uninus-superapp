@@ -277,9 +277,4 @@ export class AppController {
   async deleteScholarship(id: number) {
     return await this.appService.deleteScholarship(id);
   }
-
-  @MessagePattern("get_employee_categories")
-  async getCategories(payload: ISelectRequest) {
-    return await this.appService.getCategories(payload);
-  }
 }

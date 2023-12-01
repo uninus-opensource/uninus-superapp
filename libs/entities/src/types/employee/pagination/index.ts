@@ -1,5 +1,3 @@
-import { Prisma } from "@prisma/client";
-
 export type TEmployeesResponse = {
   data: Array<object>;
   meta: {
@@ -14,8 +12,9 @@ export type TEmployeesResponse = {
 
 export type TEmployeePaginationArgs = {
   type?: number;
-  where?: Prisma.EmployeesWhereInput;
-  orderBy?: Prisma.EmployeesOrderByWithRelationInput;
+  orderBy?: string;
   page?: number;
   perPage?: number;
+  filterBy?: string;
+  search?: string;
 };
