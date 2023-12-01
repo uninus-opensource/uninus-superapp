@@ -73,4 +73,13 @@ export class UserService {
     );
     return response;
   }
+
+  async getRoles(payload: { search: string; id: string }) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_roles", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
 }

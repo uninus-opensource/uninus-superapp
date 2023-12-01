@@ -1,7 +1,8 @@
 import { Module } from "@nestjs/common";
 import { PrismaModule } from "../prisma";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { GeneralController } from "@uninus/api/controllers";
+import { PMBController, PersonalController } from "@uninus/api/controllers";
+import { PMBService, PersonalService } from "@uninus/api/services";
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { GeneralController } from "@uninus/api/controllers";
       },
     ]),
   ],
-  controllers: [GeneralController],
-  providers: [],
+  controllers: [PersonalController, PMBController],
+  providers: [PersonalService, PMBService],
 })
 export class GeneralModule {}

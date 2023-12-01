@@ -157,4 +157,12 @@ export class UserController {
   ) {
     return await this.appService.createUser(payload);
   }
+
+  @ApiOperation({ summary: "Get Roles" })
+  @Get("roles")
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "search", required: false })
+  async getRoles(@Query("id") id: string, @Query("search") search: string) {
+    return await this.appService.getRoles({ id, search });
+  }
 }
