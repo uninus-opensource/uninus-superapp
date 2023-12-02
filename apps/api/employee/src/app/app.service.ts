@@ -2,7 +2,9 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
 import { PrismaService } from "@uninus/api/services";
 import {
+  ISelectRequest,
   TAcademicStaffResponse,
+  TEmployeeCategoriesResponse,
   TEmployeePaginationArgs,
   TEmployeesResponse,
   TLecturerResponse,
@@ -13,8 +15,9 @@ import {
 export class AppService {
   constructor(private prisma: PrismaService) {}
   async getEmployees({
+    search,
+    filterBy,
     type,
-    where,
     orderBy,
     page = 1,
     perPage = 10,
@@ -26,7 +29,23 @@ export class AppService {
       this.prisma.employees.findMany({
         take,
         skip,
-        where,
+        where: {
+          OR: [
+            {
+              user: {
+                fullname: {
+                  contains: search || "",
+                  mode: "insensitive",
+                },
+              },
+              employee_has_category: {
+                some: {
+                  employee_category_id: Number(type),
+                },
+              },
+            },
+          ],
+        },
         select: {
           user: {
             select: {
@@ -94,7 +113,9 @@ export class AppService {
             },
           },
         },
-        orderBy,
+        orderBy: {
+          [orderBy]: filterBy,
+        },
       }),
     ]);
 
@@ -212,7 +233,8 @@ export class AppService {
     }
   }
 
-  async getLecturer(id: string): Promise<TLecturerResponse> {
+  async getLecturer(payload: { id: string }): Promise<TLecturerResponse> {
+    const { id } = payload;
     const lecturer = await this.prisma.lecturers.findUnique({
       where: {
         id,
@@ -324,7 +346,8 @@ export class AppService {
     };
   }
 
-  async getAcademicStaff(id: string): Promise<TAcademicStaffResponse> {
+  async getAcademicStaff(payload: { id: string }): Promise<TAcademicStaffResponse> {
+    const { id } = payload;
     const academicStaff = await this.prisma.academicStaff.findUnique({
       where: {
         id,
@@ -393,5 +416,25 @@ export class AppService {
         name: el.name,
       })),
     };
+  }
+
+  async getCategories({ search, id }: ISelectRequest): Promise<TEmployeeCategoriesResponse> {
+    const employeeCategories = await this.prisma.employeeCategories.findMany({
+      where: {
+        id: id && Number(id),
+        name: {
+          ...(search && { contains: search }),
+          mode: "insensitive",
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    if (!employeeCategories) {
+      throw new RpcException(new NotFoundException("Data tidak ditemukan"));
+    }
+    return employeeCategories;
   }
 }

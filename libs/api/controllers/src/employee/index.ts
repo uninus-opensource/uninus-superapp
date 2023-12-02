@@ -1,17 +1,13 @@
-import { Controller, Get, Inject, Param, Query, UseFilters } from "@nestjs/common";
-import { ClientProxy, RpcException } from "@nestjs/microservices";
+import { Controller, Get, Param, Query, UseFilters } from "@nestjs/common";
 import { ApiHeader, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filters";
-import { EOrderByPagination, TProfileResponse } from "@uninus/entities";
-import { catchError, firstValueFrom, throwError } from "rxjs";
-
+import { EmployeeService } from "@uninus/api/services";
+import { EOrderByPagination } from "@uninus/entities";
+@ApiTags("Employee")
 @Controller("employee")
-@ApiTags("employee")
 export class EmployeeController {
-  constructor(@Inject("EMPLOYEE_SERVICE") private readonly client: ClientProxy) {}
+  constructor(private readonly appService: EmployeeService) {}
 
-  @Get()
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Pagination List Employees" })
   @ApiQuery({ name: "page", required: false })
   @ApiQuery({ name: "per_page", required: false })
@@ -23,6 +19,7 @@ export class EmployeeController {
     name: "app-origin",
     description: "Application Origin",
   })
+  @Get()
   async getEmployees(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
@@ -31,80 +28,38 @@ export class EmployeeController {
     @Query("search") search: string,
     @Query("type") type: number,
   ) {
-    const response = await firstValueFrom(
-      this.client
-        .send<Array<TProfileResponse>>("get_employees", {
-          type,
-          where: {
-            OR: [
-              {
-                user: {
-                  fullname: {
-                    contains: search || "",
-                    mode: "insensitive",
-                  },
-                },
-                employee_has_category: {
-                  some: {
-                    employee_category_id: Number(type),
-                  },
-                },
-              },
-            ],
-          },
-          orderBy: {
-            [filterBy]: orderBy,
-          },
-          page,
-          perPage,
-        })
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-
-    return response;
+    return await this.appService.getEmployees({ page, perPage, orderBy, filterBy, search, type });
   }
 
+  @ApiOperation({ summary: "Total Employees" })
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
   })
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @ApiOperation({ summary: "Total Employees" })
   @Get("/total-employees")
   async getTotalEmployees() {
-    const response = await firstValueFrom(
-      this.client
-        .send("get_total_employees", {})
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+    return await this.appService.getTotalEmployees();
   }
 
-  // @ApiHeader({
-  //   name: "app-origin",
-  //   description: "Application Origin",
-  // })
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Employees" })
   @Get("/lecturer/:id")
   async getEmployee(@Param("id") id: string) {
-    const response = await firstValueFrom(
-      this.client
-        .send("get_lecturer", id)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+    return await this.appService.getEmployee({ id });
   }
 
   @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @ApiOperation({ summary: "Get Academic Staff" })
   @Get("/academic-staff/:id")
   async getAcademicStaff(@Param("id") id: string) {
-    const response = await firstValueFrom(
-      this.client
-        .send("get_academic_staff", id)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+    return await this.appService.getAcademicStaff({ id });
+  }
+
+  @Get("employee-categories")
+  @UseFilters(new RpcExceptionToHttpExceptionFilter())
+  @ApiOperation({ summary: "Get Employee Categories" })
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "search", required: false })
+  async getCategories(@Query("id") id: number, @Query("search") search: string) {
+    return await this.appService.getCategories({ id, search });
   }
 }
