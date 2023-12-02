@@ -3,7 +3,7 @@ import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { CreateEducation } from "@uninus/api/dto";
 import { PersonalService } from "@uninus/api/services";
 
-@ApiTags("Personal")
+@ApiTags("General:Personal")
 @Controller()
 export class PersonalController {
   constructor(private readonly appService: PersonalService) {}

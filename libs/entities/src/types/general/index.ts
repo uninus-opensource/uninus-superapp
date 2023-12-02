@@ -432,6 +432,7 @@ export type TCreateSelectionPathRequest = {
 };
 
 export type TCreateEducationRequest = {
+  id: number;
   npsn: string;
   name: string;
   province: string;

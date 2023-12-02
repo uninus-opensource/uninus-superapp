@@ -5,48 +5,24 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
+import { CreateScholarship } from "@uninus/api/dto";
 import { PrismaService } from "@uninus/api/services";
 import { errorMappings } from "@uninus/api/utilities";
 import {
-  TCitizenshipResponse,
   TDepartmentResponse,
   TFacultyResponse,
-  TGenderResponse,
-  TMaritalStatusResponse,
-  TReligionResponse,
-  TSalaryResponse,
   TSelectionResponse,
   ISelectRequest,
-  TEducationHistoryResponse,
   TDegreeProgramResponse,
   ISelectFacultyRequest,
   ISelectDepartmentRequest,
-  TOccupationResponse,
-  TDisabilitiesResponse,
-  TYearGraduationResponse,
-  ISelectEducationHistoryRequest,
   TScholarshipResponse,
-  TOccupationPositionResponse,
-  IOccupationPositionRequest,
-  TSchoolTypeResponse,
   TCreateQuestionRequest,
   TUpdateQuestionRequest,
   TDeleteQuestionResponse,
-  TParentStatusResponse,
-  TParentEducationResponse,
-  IEducationMajorRequest,
-  TEducationMajorResponse,
-  IEducationTypeRequest,
   ISelectionRequest,
-  TCountryResponse,
-  ICountryRequest,
   IRegistransRequest,
   IInterestEducationPrograms,
-  TProvinceResponse,
-  ICityRequest,
-  TCityResponse,
-  ISubDistrictRequest,
-  TSubDistrictResponse,
   EFilterTypeTotalRegistrans,
   TInterestEducationPrograms,
   EFilterTypeInterestProgram,
@@ -54,11 +30,9 @@ import {
   TRegistrationStatusResponse,
   IInterestDepartment,
   TInterestDepartmentResponse,
-  TRolesResponse,
   TCreateFacultyRequest,
   TCreateDepartmentRequest,
   TCreateSelectionPathRequest,
-  TCreateEducationRequest,
   TGeneralResponse,
   TCreateScholarshipRequest,
   TRegistrationPathResponse,
@@ -67,9 +41,207 @@ import {
 } from "@uninus/entities";
 
 @Injectable()
-export class AppService {
+export class PMBService {
   constructor(private prisma: PrismaService) {}
+  async getScholarship({ search, id }: ISelectRequest): Promise<TScholarshipResponse> {
+    try {
+      const scholarship = await this.prisma.scholarship.findMany({
+        where: {
+          ...(id && { id: Number(id) }),
+          name: { ...(search && { contains: search }), mode: "insensitive" },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
 
+      if (!scholarship) {
+        throw new NotFoundException("Data Beasiswa Tidak Ditemukan!");
+      }
+
+      return { scholarship };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async createScholarship(payload: TCreateScholarshipRequest): Promise<TGeneralResponse> {
+    try {
+      const newScholarship = await this.prisma.scholarship.create({
+        data: {
+          name: payload.name,
+        },
+      });
+
+      if (!newScholarship) {
+        throw new BadRequestException("Gagal menambahkan gagal beasiswa baru");
+      }
+
+      return {
+        message: "Berhasil menambahkan beasiswa baru",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async updateScholarship(payload: CreateScholarship & { id: number }): Promise<TGeneralResponse> {
+    try {
+      const updateScholarship = await this.prisma.scholarship.update({
+        where: {
+          id: Number(payload.id),
+        },
+        data: {
+          name: payload.name,
+        },
+      });
+
+      if (!updateScholarship) {
+        throw new BadRequestException("Gagal memperbarui Beasiswa");
+      }
+
+      return {
+        message: "Berhasil memperbarui data beasiswa",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async deleteScholarship(payload: { id: number }): Promise<TGeneralResponse> {
+    try {
+      const deleteScholarship = await this.prisma.scholarship.delete({
+        where: {
+          id: Number(payload.id),
+        },
+      });
+
+      if (!deleteScholarship) {
+        throw new BadRequestException(`Gagal menghapus beasiswa`);
+      }
+
+      return {
+        message: `Berhasil menghapus beasiswa `,
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async getSelectionPath({
+    search,
+    id,
+    degree_program_id,
+  }: ISelectionRequest): Promise<TSelectionResponse> {
+    try {
+      const selection = await this.prisma.selectionPath.findMany({
+        where: {
+          ...(id && { id: Number(id) }),
+          name: { ...(search && { contains: search }), mode: "insensitive" },
+          degree_program_id: degree_program_id && Number(degree_program_id),
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+
+      if (!selection) {
+        throw new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!");
+      }
+
+      return { selection };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async getRegistrationPath({ search, id }: ISelectionRequest): Promise<TRegistrationPathResponse> {
+    try {
+      const registration_path = await this.prisma.registrationPath.findMany({
+        where: {
+          ...(id && { id: Number(id) }),
+          name: { ...(search && { contains: search }), mode: "insensitive" },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+
+      if (!registration_path) {
+        throw new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!");
+      }
+
+      return { registration_path };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async createSelectionPath(payload: TCreateSelectionPathRequest): Promise<TGeneralResponse> {
+    try {
+      const newSelectionPath = await this.prisma.selectionPath.create({
+        data: {
+          name: payload.name,
+          degree_program: {
+            connect: {
+              id: payload.degree_program_id,
+            },
+          },
+        },
+      });
+
+      if (!newSelectionPath) {
+        throw new BadRequestException("Gagal menambahkan Jalur Seleksi baru");
+      }
+
+      return {
+        message: "Berhasil menambahkan jalur seleksi baru",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async updateSelectionPath(
+    payload: TCreateSelectionPathRequest & { id: number },
+  ): Promise<TGeneralResponse> {
+    try {
+      const updatedSelectionPath = await this.prisma.selectionPath.update({
+        where: {
+          id: Number(payload.id),
+        },
+        data: {
+          name: payload.name,
+          degree_program_id: payload.degree_program_id,
+        },
+      });
+
+      if (!updatedSelectionPath) {
+        throw new BadRequestException("Gagal memperbarui jalur seleksi");
+      }
+
+      return {
+        message: "Berhasil memperbarui jalur seleksi",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async deleteSelectionPath(payload: { id: number }): Promise<TGeneralResponse> {
+    try {
+      const selctionPath = await this.prisma.selectionPath.delete({
+        where: {
+          id: Number(payload.id),
+        },
+      });
+
+      if (!selctionPath) {
+        throw new BadRequestException(`Gagal menghapus Jalur seleksi`);
+      }
+
+      return {
+        message: `Berhasil menghapus Jalur seleksi `,
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
   async getDegreeProgram({ search, id }: ISelectRequest): Promise<TDegreeProgramResponse> {
     try {
       const degreeProgram = await this.prisma.degreeProgram.findMany({
@@ -95,7 +267,6 @@ export class AppService {
       throw new RpcException(errorMappings(error));
     }
   }
-
   async getFaculty({
     search,
     degree_program_id,
@@ -122,6 +293,73 @@ export class AppService {
       }
 
       return { faculty };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async createFaculty(payload: TCreateFacultyRequest): Promise<TGeneralResponse> {
+    try {
+      const newFaculty = await this.prisma.faculty.create({
+        data: {
+          name: payload.name,
+          degreeProgram: {
+            connect: {
+              id: payload.degree_program_id,
+            },
+          },
+        },
+      });
+
+      if (!newFaculty) {
+        throw new BadRequestException("Gagal menambahkan fakultas baru");
+      }
+
+      return {
+        message: "Berhasil menambahkan fakultas baru",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async updateFaculty(payload: TCreateFacultyRequest & { id: number }): Promise<TGeneralResponse> {
+    try {
+      const updatedFaculty = await this.prisma.faculty.update({
+        where: {
+          id: Number(payload.id),
+        },
+        data: {
+          name: payload.name,
+          degree_program_id: payload.degree_program_id,
+        },
+      });
+
+      if (!updatedFaculty) {
+        throw new BadRequestException(`Gagal memperbarui fakultas dengan ID ${payload.id}`);
+      }
+
+      return {
+        message: `Berhasil memperbarui fakultas dengan ID ${payload.id}`,
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async deleteFaculty(payload: { id: number }): Promise<TGeneralResponse> {
+    try {
+      const deletedFaculty = await this.prisma.faculty.delete({
+        where: {
+          id: Number(payload.id),
+        },
+      });
+
+      if (!deletedFaculty) {
+        throw new BadRequestException(`Gagal menghapus fakultas`);
+      }
+
+      return {
+        message: `Berhasil menghapus fakultas `,
+      };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -156,528 +394,79 @@ export class AppService {
       throw new RpcException(errorMappings(error));
     }
   }
-
-  async getReligion({ search, id }: ISelectRequest): Promise<TReligionResponse> {
+  async createDepartment(payload: TCreateDepartmentRequest): Promise<TGeneralResponse> {
     try {
-      const religion = await this.prisma.religion.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!religion) {
-        throw new NotFoundException("Data Agama Tidak Ditemukan!");
-      }
-
-      return { religion };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getMaritalStatus({ search, id }: ISelectRequest): Promise<TMaritalStatusResponse> {
-    try {
-      const maritalStatus = await this.prisma.maritalStatus.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!maritalStatus) {
-        throw new NotFoundException("Data Status Pernikahan Tidak Ditemukan!");
-      }
-
-      return { maritalStatus };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getGender({ search, id }: ISelectRequest): Promise<TGenderResponse> {
-    try {
-      const gender = await this.prisma.gender.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!gender) {
-        throw new NotFoundException("Data Jenis Kelamin Tidak Ditemukan!");
-      }
-
-      return { gender };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getCitizenship({ search, id }: ISelectRequest): Promise<TCitizenshipResponse> {
-    try {
-      const citizenship = await this.prisma.citizenship.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!citizenship) {
-        throw new NotFoundException("Data Kewarganegaraan Tidak Ditemukan!");
-      }
-
-      return { citizenship };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getSelectionPath({
-    search,
-    id,
-    degree_program_id,
-  }: ISelectionRequest): Promise<TSelectionResponse> {
-    try {
-      const selection = await this.prisma.selectionPath.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          degree_program_id: degree_program_id && Number(degree_program_id),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!selection) {
-        throw new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!");
-      }
-
-      return { selection };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getRegistrationPath({ search, id }: ISelectionRequest): Promise<TRegistrationPathResponse> {
-    try {
-      const registration_path = await this.prisma.registrationPath.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!registration_path) {
-        throw new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!");
-      }
-
-      return { registration_path };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-  async getSalary({ search, id }: ISelectRequest): Promise<TSalaryResponse> {
-    try {
-      const salary = await this.prisma.salary.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!salary) {
-        throw new NotFoundException("Data Gaji Tidak Ditemukan!");
-      }
-
-      return { salary };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getEducation({
-    search,
-    npsn,
-    id,
-  }: ISelectEducationHistoryRequest): Promise<TEducationHistoryResponse> {
-    try {
-      const education = await this.prisma.education.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          npsn: { ...(npsn && { contains: npsn }) },
-        },
-        select: {
-          id: true,
-          npsn: true,
-          name: true,
-          province: true,
-          sub_district: true,
-          district_city: true,
-          street_address: true,
-        },
-      });
-
-      if (!education || education.length === 0) {
-        throw new NotFoundException("Data Pendidikan Tidak Ditemukan!");
-      }
-
-      return { education: education };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getOccupation({ search, id }: ISelectRequest): Promise<TOccupationResponse> {
-    try {
-      const occupation = await this.prisma.occupation.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-      if (!occupation) {
-        throw new NotFoundException("Data Pekerjaan Tidak Ditemukan!");
-      }
-
-      return { occupation };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getOccupationPosition({
-    search,
-    occupation_id,
-    id,
-  }: IOccupationPositionRequest): Promise<TOccupationPositionResponse> {
-    try {
-      const occupationPosition = await this.prisma.occupationPosition.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          ...(occupation_id && { occupation_id: Number(occupation_id) }),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-      if (!occupationPosition) {
-        throw new NotFoundException("Data Jabatan Tidak Ditemukan!");
-      }
-
-      return { occupation_position: occupationPosition };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getDisabilites({ search, id }: ISelectRequest): Promise<TDisabilitiesResponse> {
-    try {
-      const disabilities = await this.prisma.disabilities.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-      if (!disabilities) {
-        throw new NotFoundException("Data Disabilitas Tidak Ditemukan!");
-      }
-
-      return { disabilities };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getYearGraduate(): Promise<TYearGraduationResponse> {
-    try {
-      const currentYear = new Date().getFullYear();
-      const startYear = currentYear - 40;
-
-      const year = Array.from({ length: currentYear - startYear + 1 }, (_, index) => {
-        const year = startYear + index;
-        const id = index + 1;
-        return { id: +id, name: year };
-      });
-
-      return { year };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getScholarship({ search, id }: ISelectRequest): Promise<TScholarshipResponse> {
-    try {
-      const scholarship = await this.prisma.scholarship.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!scholarship) {
-        throw new NotFoundException("Data Beasiswa Tidak Ditemukan!");
-      }
-
-      return { scholarship };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getEducationType({
-    search,
-    id,
-    degree_program_id,
-  }: IEducationTypeRequest): Promise<TSchoolTypeResponse> {
-    try {
-      const educationTypes = await this.prisma.educationTypes.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!educationTypes) {
-        throw new NotFoundException("Data Jenis Sekola Tidak Ditemukan!");
-      }
-
-      return { school_type: educationTypes };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getAllQuestion(): Promise<TQuestionResponse[]> {
-    try {
-      const questions = await this.prisma.questions.findMany();
-      if (questions.length === 0) {
-        throw new NotFoundException("Soal tidak tersedia");
-      }
-
-      const formattedQuestions: TQuestionResponse[] = questions.map((question) => ({
-        id: question.id,
-        question: question.question,
-        correct_answer: question.correct_answer,
-        answers: question.answers.reduce((accumulator, value, index) => {
-          return {
-            ...accumulator,
-            [String.fromCharCode("a".charCodeAt(0) + index).toUpperCase()]: value,
-          };
-        }, {}),
-      }));
-
-      return formattedQuestions;
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async createQuestion(data: TCreateQuestionRequest) {
-    try {
-      const { question } = data;
-
-      const existingQuestion = await this.prisma.questions.findFirst({
-        where: { question },
-      });
-
-      if (existingQuestion) {
-        throw new ConflictException("Soal sudah tersedia");
-      }
-
-      const newQuestion = await this.prisma.questions.create({
+      const newDepartment = await this.prisma.department.create({
         data: {
-          question: data.question,
-          correct_answer: data.correct_answer,
-          answers: Object.values(data.answers),
+          name: payload.name,
+          Faculty: {
+            connect: {
+              id: payload.faculty_id,
+            },
+          },
+          degreeProgram: {
+            connect: {
+              id: payload.degree_program_id,
+            },
+          },
         },
       });
-      if (!newQuestion) {
-        throw new BadRequestException("Gagal mengubah soal");
+
+      if (!newDepartment) {
+        throw new BadRequestException("Gagal menambahkan program studi baru");
       }
       return {
-        message: "Berhasil membuat soal",
+        message: "Berhasil menambahkan program studi baru",
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-
-  async updateQuestion(id: number, data: TUpdateQuestionRequest): Promise<TGeneralResponse> {
+  async updateDepartment(
+    payload: TCreateDepartmentRequest & { id: number },
+  ): Promise<TGeneralResponse> {
     try {
-      const existingQuestion = await this.prisma.questions.findFirst({
+      const updatedDepartment = await this.prisma.department.update({
         where: {
-          id: Number(id),
-        },
-      });
-
-      if (!existingQuestion) {
-        throw new NotFoundException("Soal tidak ditemukan");
-      }
-
-      const updateQuestion = await this.prisma.questions.update({
-        where: {
-          id: Number(id),
+          id: Number(payload.id),
         },
         data: {
-          question: data.question,
-          correct_answer: data.correct_answer,
-          ...(data.answers && { answers: Object.values(data.answers) }),
+          name: payload.name,
+          faculty_id: payload.faculty_id,
+          degree_program_id: payload.degree_program_id,
         },
       });
 
-      if (!updateQuestion) {
-        throw new BadRequestException("Gagal mengubah soal");
+      if (!updatedDepartment) {
+        throw new BadRequestException("Gagal memperbarui program studi");
       }
 
       return {
-        message: "Berhasil mengubah soal",
+        message: "Berhasil memperbarui program studi",
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-
-  async deleteQuestion(id: number): Promise<TDeleteQuestionResponse> {
+  async deleteDepartment(payload: { id: number }): Promise<TGeneralResponse> {
     try {
-      const deletedQuestion = await this.prisma.questions.delete({
+      const deleteDepartment = await this.prisma.department.delete({
         where: {
-          id: Number(id),
+          id: Number(payload.id),
         },
       });
 
-      if (!deletedQuestion) {
-        throw new BadRequestException("Soal tidak tersedia");
+      if (!deleteDepartment) {
+        throw new BadRequestException(`Gagal menghapus program studi`);
       }
 
       return {
-        message: "Soal berhasil dihapus",
+        message: `Berhasil menghapus program studi `,
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-
-  async getParentStatus({ search, id }: ISelectRequest): Promise<TParentStatusResponse> {
-    try {
-      const parentStatus = await this.prisma.parentStatus.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!parentStatus) {
-        throw new NotFoundException("Data Status Orang Tua Tidak Ditemukan!");
-      }
-
-      return { parent_status: parentStatus };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getParentEducation({ search, id }: ISelectRequest): Promise<TParentEducationResponse> {
-    try {
-      const parentEducation = await this.prisma.parentEducation.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!parentEducation) {
-        throw new NotFoundException("Data Pendidikan Orang Tua Tidak Ditemukan!");
-      }
-
-      return { parent_education: parentEducation };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getEducationMajor({
-    search,
-    education_type_id,
-    id,
-  }: IEducationMajorRequest): Promise<TEducationMajorResponse> {
-    try {
-      const schoolMajorTypes = await this.prisma.educationMajor.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          ...(education_type_id && { education_type_id: Number(education_type_id) }),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
-      if (!schoolMajorTypes) {
-        throw new NotFoundException("Data Jurusan Sekolah Tidak Ditemukan!");
-      }
-
-      return { education_major: schoolMajorTypes };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
   async getTotalRegistrans({
     filter_type,
     start_date,
@@ -1166,7 +955,6 @@ export class AppService {
       throw new RpcException(errorMappings(error));
     }
   }
-
   async getInterestEducationPrograms({
     filter_type,
   }: IInterestEducationPrograms): Promise<TInterestEducationPrograms> {
@@ -1284,7 +1072,6 @@ export class AppService {
       throw new RpcException(errorMappings(error));
     }
   }
-
   async getInterestDepartment({
     filter_type,
     degree_program_id,
@@ -1623,7 +1410,6 @@ export class AppService {
       throw new RpcException(errorMappings(error));
     }
   }
-
   async getRegistrationStatus({
     search,
     id,
@@ -1651,481 +1437,109 @@ export class AppService {
       throw new RpcException(errorMappings(error));
     }
   }
-
-  async getProvince({ search, id }: ISelectRequest): Promise<TProvinceResponse> {
+  async getAllQuestion(): Promise<TQuestionResponse[]> {
     try {
-      const province = await this.prisma.province.findMany({
-        where: {
-          id: id && Number(id),
-          name: {
-            ...(search && { contains: search.toUpperCase() }),
-          },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-      if (!province) {
-        throw new NotFoundException("Data tidak ditemukan");
+      const questions = await this.prisma.questions.findMany();
+      if (questions.length === 0) {
+        throw new NotFoundException("Soal tidak tersedia");
       }
-      return {
-        province,
-      };
+
+      const formattedQuestions: TQuestionResponse[] = questions.map((question) => ({
+        id: question.id,
+        question: question.question,
+        correct_answer: question.correct_answer,
+        answers: question.answers.reduce((accumulator, value, index) => {
+          return {
+            ...accumulator,
+            [String.fromCharCode("a".charCodeAt(0) + index).toUpperCase()]: value,
+          };
+        }, {}),
+      }));
+
+      return formattedQuestions;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-
-  async getCity({ id, province_id, search }: ICityRequest): Promise<TCityResponse> {
+  async createQuestion(data: TCreateQuestionRequest) {
     try {
-      const city = await this.prisma.city.findMany({
-        where: {
-          id: id && Number(id),
-          name: {
-            ...(search && { contains: search.toUpperCase() }),
-          },
-          ...(province_id && { province_id: Number(province_id) }),
-        },
-      });
-      if (!city) {
-        throw new NotFoundException("Data tidak ditemukan");
-      }
-      return {
-        city,
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
+      const { question } = data;
 
-  async getSubDistrict({
-    id,
-    city_id,
-    search,
-  }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
-    try {
-      const subDistrict = await this.prisma.subDistrict.findMany({
-        where: {
-          id: id && Number(id),
-          name: {
-            ...(search && { contains: search.toUpperCase() }),
-          },
-          ...(city_id && { city_id: Number(city_id) }),
-        },
-      });
-      if (!subDistrict) {
-        throw new NotFoundException("Data tidak ditemukan");
-      }
-      return {
-        subdistrict: subDistrict,
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getCountry({ search, citizenship_id, id }: ICountryRequest): Promise<TCountryResponse> {
-    try {
-      const country = await this.prisma.country.findMany({
-        where: {
-          id: id && Number(id),
-          name: { ...(search && { contains: search.toUpperCase() }) },
-          ...(citizenship_id && { citizenship_id: Number(citizenship_id) }),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
+      const existingQuestion = await this.prisma.questions.findFirst({
+        where: { question },
       });
 
-      if (!country) {
-        throw new NotFoundException("Data tidak ditemukan");
+      if (existingQuestion) {
+        throw new ConflictException("Soal sudah tersedia");
       }
 
-      return { country };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getRoles({ search, id }: ISelectRequest): Promise<TRolesResponse> {
-    try {
-      const roles = await this.prisma.roles.findMany({
-        where: {
-          id: id && Number(id),
-          name: {
-            ...(search && { contains: search }),
-            mode: "insensitive",
-          },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-      if (!roles) {
-        throw new NotFoundException("Data tidak ditemukan");
-      }
-      return roles;
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async createFaculty(payload: TCreateFacultyRequest): Promise<TGeneralResponse> {
-    try {
-      const newFaculty = await this.prisma.faculty.create({
+      const newQuestion = await this.prisma.questions.create({
         data: {
-          name: payload.name,
-          degreeProgram: {
-            connect: {
-              id: payload.degree_program_id,
-            },
-          },
+          question: data.question,
+          correct_answer: data.correct_answer,
+          answers: Object.values(data.answers),
         },
       });
-
-      if (!newFaculty) {
-        throw new BadRequestException("Gagal menambahkan fakultas baru");
+      if (!newQuestion) {
+        throw new BadRequestException("Gagal mengubah soal");
       }
-
       return {
-        message: "Berhasil menambahkan fakultas baru",
+        message: "Berhasil membuat soal",
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-
-  async createDepartment(payload: TCreateDepartmentRequest): Promise<TGeneralResponse> {
-    try {
-      const newDepartment = await this.prisma.department.create({
-        data: {
-          name: payload.name,
-          Faculty: {
-            connect: {
-              id: payload.faculty_id,
-            },
-          },
-          degreeProgram: {
-            connect: {
-              id: payload.degree_program_id,
-            },
-          },
-        },
-      });
-
-      if (!newDepartment) {
-        throw new BadRequestException("Gagal menambahkan program studi baru");
-      }
-      return {
-        message: "Berhasil menambahkan program studi baru",
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async createSelectionPath(payload: TCreateSelectionPathRequest): Promise<TGeneralResponse> {
-    try {
-      const newSelectionPath = await this.prisma.selectionPath.create({
-        data: {
-          name: payload.name,
-          degree_program: {
-            connect: {
-              id: payload.degree_program_id,
-            },
-          },
-        },
-      });
-
-      if (!newSelectionPath) {
-        throw new BadRequestException("Gagal menambahkan Jalur Seleksi baru");
-      }
-
-      return {
-        message: "Berhasil menambahkan jalur seleksi baru",
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async createEducation(payload: TCreateEducationRequest): Promise<TGeneralResponse> {
-    try {
-      const newEducation = await this.prisma.education.create({
-        data: {
-          name: payload.name,
-          npsn: payload.npsn,
-          district_city: payload.district_city,
-          sub_district: payload.sub_district,
-          province: payload.province,
-          street_address: payload.street_address,
-          education_type: {
-            connect: {
-              id: payload.education_type_id,
-            },
-          },
-        },
-      });
-
-      if (!newEducation) {
-        throw new BadRequestException("Gagal membuat data sekolah baru");
-      }
-
-      return {
-        message: "Berhasil menambahkan data sekolah baru",
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async createScholarship(payload: TCreateScholarshipRequest): Promise<TGeneralResponse> {
-    try {
-      const newScholarship = await this.prisma.scholarship.create({
-        data: {
-          name: payload.name,
-        },
-      });
-
-      if (!newScholarship) {
-        throw new BadRequestException("Gagal menambahkan gagal beasiswa baru");
-      }
-
-      return {
-        message: "Berhasil menambahkan beasiswa baru",
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async updateFaculty(id: number, payload: TCreateFacultyRequest): Promise<TGeneralResponse> {
-    try {
-      const updatedFaculty = await this.prisma.faculty.update({
-        where: {
-          id: Number(id),
-        },
-        data: {
-          name: payload.name,
-          degree_program_id: payload.degree_program_id,
-        },
-      });
-
-      if (!updatedFaculty) {
-        throw new BadRequestException(`Gagal memperbarui fakultas dengan ID ${id}`);
-      }
-
-      return {
-        message: `Berhasil memperbarui fakultas dengan ID ${id}`,
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-  async updateDepartment(id: number, payload: TCreateDepartmentRequest): Promise<TGeneralResponse> {
-    try {
-      const updatedDepartment = await this.prisma.department.update({
-        where: {
-          id: Number(id),
-        },
-        data: {
-          name: payload.name,
-          faculty_id: payload.faculty_id,
-          degree_program_id: payload.degree_program_id,
-        },
-      });
-
-      if (!updatedDepartment) {
-        throw new BadRequestException("Gagal memperbarui program studi");
-      }
-
-      return {
-        message: "Berhasil memperbarui program studi",
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async updateSelectionPath(
-    id: number,
-    payload: TCreateSelectionPathRequest,
+  async updateQuestion(
+    payload: TUpdateQuestionRequest & { id: number },
   ): Promise<TGeneralResponse> {
     try {
-      const updatedSelectionPath = await this.prisma.selectionPath.update({
+      const existingQuestion = await this.prisma.questions.findFirst({
         where: {
-          id: Number(id),
+          id: Number(payload.id),
+        },
+      });
+
+      if (!existingQuestion) {
+        throw new NotFoundException("Soal tidak ditemukan");
+      }
+
+      const updateQuestion = await this.prisma.questions.update({
+        where: {
+          id: Number(payload.id),
         },
         data: {
-          name: payload.name,
-          degree_program_id: payload.degree_program_id,
+          question: payload.question,
+          correct_answer: payload.correct_answer,
+          ...(payload.answers && { answers: Object.values(payload.answers) }),
         },
       });
 
-      if (!updatedSelectionPath) {
-        throw new BadRequestException("Gagal memperbarui jalur seleksi");
+      if (!updateQuestion) {
+        throw new BadRequestException("Gagal mengubah soal");
       }
 
       return {
-        message: "Berhasil memperbarui jalur seleksi",
+        message: "Berhasil mengubah soal",
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-
-  async updateEducation(id: number, payload: TCreateEducationRequest): Promise<TGeneralResponse> {
+  async deleteQuestion(payload: { id: number }): Promise<TDeleteQuestionResponse> {
     try {
-      const updatedEducation = await this.prisma.education.update({
+      const deletedQuestion = await this.prisma.questions.delete({
         where: {
-          id: Number(id),
-        },
-        data: {
-          name: payload.name,
-          npsn: payload.npsn,
-          district_city: payload.district_city,
-          sub_district: payload.sub_district,
-          province: payload.province,
-          street_address: payload.street_address,
-          education_type_id: payload.education_type_id,
+          id: Number(payload.id),
         },
       });
 
-      if (!updatedEducation) {
-        throw new BadRequestException("Gagal memperbarui data sekolah");
+      if (!deletedQuestion) {
+        throw new BadRequestException("Soal tidak tersedia");
       }
 
       return {
-        message: "Berhasil memperbarui data sekolah",
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async updateScholarship(
-    id: number,
-    payload: TCreateScholarshipRequest,
-  ): Promise<TGeneralResponse> {
-    try {
-      const updateScholarship = await this.prisma.scholarship.update({
-        where: {
-          id: Number(id),
-        },
-        data: {
-          name: payload.name,
-        },
-      });
-
-      if (!updateScholarship) {
-        throw new BadRequestException("Gagal memperbarui Beasiswa");
-      }
-
-      return {
-        message: "Berhasil memperbarui data beasiswa",
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async deleteFaculty(id: number): Promise<TGeneralResponse> {
-    try {
-      const deletedFaculty = await this.prisma.faculty.delete({
-        where: {
-          id: Number(id),
-        },
-      });
-
-      if (!deletedFaculty) {
-        throw new BadRequestException(`Gagal menghapus fakultas`);
-      }
-
-      return {
-        message: `Berhasil menghapus fakultas `,
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async deleteDepartment(id: number): Promise<TGeneralResponse> {
-    try {
-      const deleteDepartment = await this.prisma.department.delete({
-        where: {
-          id: Number(id),
-        },
-      });
-
-      if (!deleteDepartment) {
-        throw new BadRequestException(`Gagal menghapus program studi`);
-      }
-
-      return {
-        message: `Berhasil menghapus program studi `,
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async deleteSelectionPath(id: number): Promise<TGeneralResponse> {
-    try {
-      const selctionPath = await this.prisma.selectionPath.delete({
-        where: {
-          id: Number(id),
-        },
-      });
-
-      if (!selctionPath) {
-        throw new BadRequestException(`Gagal menghapus Jalur seleksi`);
-      }
-
-      return {
-        message: `Berhasil menghapus Jalur seleksi `,
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async deleteEducation(id: number): Promise<TGeneralResponse> {
-    try {
-      const deleteEducation = await this.prisma.education.delete({
-        where: {
-          id: Number(id),
-        },
-      });
-
-      if (!deleteEducation) {
-        throw new BadRequestException(`Gagal menghapus data sekolah`);
-      }
-
-      return {
-        message: `Berhasil menghapus data sekolah `,
-      };
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async deleteScholarship(id: number): Promise<TGeneralResponse> {
-    try {
-      const deleteScholarship = await this.prisma.scholarship.delete({
-        where: {
-          id: Number(id),
-        },
-      });
-
-      if (!deleteScholarship) {
-        throw new BadRequestException(`Gagal menghapus beasiswa`);
-      }
-
-      return {
-        message: `Berhasil menghapus beasiswa `,
+        message: "Soal berhasil dihapus",
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));

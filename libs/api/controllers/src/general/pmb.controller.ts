@@ -9,7 +9,7 @@ import {
 } from "@uninus/api/dto";
 import { PMBService } from "@uninus/api/services";
 
-@ApiTags("PMB")
+@ApiTags("General:PMB")
 @Controller()
 export class PMBController {
   constructor(private readonly appService: PMBService) {}
@@ -151,25 +151,25 @@ export class PMBController {
   }
 
   @ApiOperation({ summary: "Get Admission Questions" })
-  @Get("admission-questions")
+  @Get("admission-test")
   async getAdmissionQuestions() {
     return await this.appService.getAdmissionQuestions();
   }
 
   @ApiOperation({ summary: "Create Admission Questions" })
-  @Post("admission-questions")
+  @Post("admission-test")
   async createAdmissionQuestions(@Body() payload: createQuestion) {
     return await this.appService.createAdmissionQuestions(payload);
   }
 
   @ApiOperation({ summary: "Update Admission Questions" })
-  @Patch("admission-questions/:id")
+  @Patch("admission-test/:id")
   async updateAdmissionQuestions(@Param("id") id: number, @Body() payload: createQuestion) {
     return await this.appService.updateAdmissionQuestions({ id, ...payload });
   }
 
   @ApiOperation({ summary: "Delete Admission Questions" })
-  @Delete("admission-questions/:id")
+  @Delete("admission-test/:id")
   async deleteAdmissionQuestions(@Param("id") id: number) {
     return await this.appService.deleteAdmissionQuestions({ id });
   }

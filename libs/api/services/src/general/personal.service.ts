@@ -25,7 +25,7 @@ export class PersonalService {
     return response;
   }
 
-  async getSubdistrict(payload: { search: string; city_id: string; id: string }) {
+  async getSubdistrict(payload: { search: string; city_id: string }) {
     const response = await firstValueFrom(
       this.client
         .send("get_subdistrict", payload)
@@ -79,7 +79,7 @@ export class PersonalService {
     return response;
   }
 
-  async getCountry(payload: { search: string }) {
+  async getCountry(payload: { search: string; citizenship_id: string }) {
     const response = await firstValueFrom(
       this.client
         .send("get_country", payload)
@@ -106,12 +106,16 @@ export class PersonalService {
     return response;
   }
   async getYearGraduate() {
-    const response = await firstValueFrom(
-      this.client
-        .send("get_year_graduate", {})
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+    const currentYear = new Date().getFullYear();
+    const startYear = currentYear - 40;
+
+    const year = Array.from({ length: currentYear - startYear + 1 }, (_, index) => {
+      const year = startYear + index;
+      const id = index + 1;
+      return { id: +id, name: year };
+    });
+
+    return { year };
   }
 
   async getParentStatus(payload: { search: string }) {
@@ -135,7 +139,7 @@ export class PersonalService {
   async getLastEducation(payload: { search: string; npsn: string }) {
     const response = await firstValueFrom(
       this.client
-        .send("get_education_history", payload)
+        .send("get_last_education", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -144,7 +148,7 @@ export class PersonalService {
   async getLastEducationType(payload: { degree_program_id: number; search: string }) {
     const response = await firstValueFrom(
       this.client
-        .send("get_education_type", payload)
+        .send("get_last_education_type", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -153,7 +157,7 @@ export class PersonalService {
   async getLastEducationMajor(payload: { education_type_id: number; search: string }) {
     const response = await firstValueFrom(
       this.client
-        .send("get_education_major", payload)
+        .send("get_last_education_major", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -162,7 +166,7 @@ export class PersonalService {
   async createLastEducation(payload: CreateEducation) {
     const response = await firstValueFrom(
       this.client
-        .send("create_education", payload)
+        .send("create_last_education", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -171,7 +175,7 @@ export class PersonalService {
   async updateLastEducation(payload: CreateEducation & { id: string }) {
     const response = await firstValueFrom(
       this.client
-        .send("update_education", payload)
+        .send("update_last_education", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -180,7 +184,7 @@ export class PersonalService {
   async deleteLastEducation(payload: { id: string; npsn: string }) {
     const response = await firstValueFrom(
       this.client
-        .send("delete_education", payload)
+        .send("delete_last_education", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
