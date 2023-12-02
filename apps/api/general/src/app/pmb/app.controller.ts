@@ -3,8 +3,6 @@ import { Controller } from "@nestjs/common";
 import { PMBService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
 import {
-  ISelectDepartmentRequest,
-  ISelectFacultyRequest,
   ISelectRequest,
   TCreateQuestionRequest,
   TUpdateQuestionRequest,
@@ -12,8 +10,6 @@ import {
   IRegistransRequest,
   IInterestEducationPrograms,
   IInterestDepartment,
-  TCreateFacultyRequest,
-  TCreateDepartmentRequest,
   TCreateSelectionPathRequest,
   TCreateScholarshipRequest,
 } from "@uninus/entities";
@@ -58,46 +54,6 @@ export class PMBController {
   async deleteSelectionpath(payload: { id: number }) {
     return await this.appService.deleteSelectionPath(payload);
   }
-  @MessagePattern("get_degree")
-  async getDegreeProgram(payload: ISelectRequest) {
-    return await this.appService.getDegreeProgram(payload);
-  }
-
-  @MessagePattern("get_faculty")
-  async getFaculty(payload: ISelectFacultyRequest) {
-    return await this.appService.getFaculty(payload);
-  }
-  @MessagePattern("create_faculty")
-  async createFaculty(payload: TCreateFacultyRequest) {
-    return await this.appService.createFaculty(payload);
-  }
-  @MessagePattern("update_faculty")
-  async updateFaculty(payload: TCreateFacultyRequest & { id: number }) {
-    return await this.appService.updateFaculty(payload);
-  }
-  @MessagePattern("delete_faculty")
-  async deleteFaculty(payload: { id: number }) {
-    return await this.appService.deleteFaculty(payload);
-  }
-  @MessagePattern("get_department")
-  async getDepartment(payload: ISelectDepartmentRequest) {
-    return await this.appService.getDepartment(payload);
-  }
-
-  @MessagePattern("create_department")
-  async createDepartment(payload: TCreateDepartmentRequest) {
-    return await this.appService.createDepartment(payload);
-  }
-
-  @MessagePattern("update_department")
-  async updateDepartment(payload: TCreateDepartmentRequest & { id: number }) {
-    return await this.appService.updateDepartment(payload);
-  }
-  @MessagePattern("delete_department")
-  async deleteDepartment(payload: { id: number }) {
-    return await this.appService.deleteDepartment(payload);
-  }
-
   @MessagePattern("get_registrans")
   async getRegistrans(payload: IRegistransRequest) {
     return await this.appService.getTotalRegistrans(payload);

@@ -9,9 +9,7 @@ export interface ISelectEducationHistoryRequest extends ISelectRequest {
   npsn: string;
 }
 
-export interface IProvinceRequest {
-  search: string;
-}
+export interface IProvinceRequest {}
 
 export interface ISelectFacultyRequest extends ISelectRequest {
   degree_program_id: string;
