@@ -130,7 +130,7 @@ export class PMBService {
   async getAdmissionTest() {
     const response = await firstValueFrom(
       this.client
-        .send("get_question", {})
+        .send("get_admission_test", {})
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -139,7 +139,7 @@ export class PMBService {
   async createAdmissionTest(payload: createQuestion) {
     const response = await firstValueFrom(
       this.client
-        .send("create_question", payload)
+        .send("create_admission_test", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -148,7 +148,7 @@ export class PMBService {
   async updateAdmissionTest(payload: createQuestion & { id: number }) {
     const response = await firstValueFrom(
       this.client
-        .send("update_question", payload)
+        .send("update_admission_test", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
@@ -157,7 +157,7 @@ export class PMBService {
   async deleteAdmissionTest(payload: { id: number }) {
     const response = await firstValueFrom(
       this.client
-        .send("delete_question", payload)
+        .send("delete_admission_test", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

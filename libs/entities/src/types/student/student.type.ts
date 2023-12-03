@@ -1,4 +1,6 @@
 import { TFIle } from "../file";
+import { Prisma } from "@prisma/client";
+
 export type TCreateQuestionRequest = {
   question: string;
   correct_answer: string;
@@ -206,4 +208,23 @@ export type TGetUserDataResponse = {
     password?: string | null;
     phone_number?: string | null;
   }>;
+};
+
+export type TStudentsPaginatonResponse = {
+  data: Array<object>;
+  meta: {
+    total: number;
+    lastPage: number;
+    currentPage: number;
+    perPage: number;
+    prev?: null | number;
+    next?: null | number;
+  };
+};
+
+export type TStudentsPaginationArgs = {
+  search?: string;
+  orderBy?: Prisma.PMBOrderByWithRelationInput;
+  page?: number;
+  perPage?: number;
 };

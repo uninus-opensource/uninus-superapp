@@ -94,3 +94,8 @@ export interface TUserEmailResponse extends TUserEmail {
   id?: string;
   email: string;
 }
+
+export type TRolesResponse = Array<{
+  id: number;
+  name: string;
+}>;

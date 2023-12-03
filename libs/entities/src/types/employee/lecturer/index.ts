@@ -13,3 +13,8 @@ export type TLecturerResponse = {
   lecturer_faculty_department: Array<object>;
   employee_document: Array<object>;
 };
+
+export type TEmployeeCategoriesResponse = Array<{
+  id: number;
+  name: string;
+}>;

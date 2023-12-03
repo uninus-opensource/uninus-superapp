@@ -146,6 +146,9 @@ const main = async () => {
   await prisma.occupation.createMany({
     data: [
       {
+        name: "Tidak Bekerja",
+      },
+      {
         name: "TNI",
       },
       {
@@ -304,6 +307,9 @@ const main = async () => {
 
   await prisma.salary.createMany({
     data: [
+      {
+        name: "Tidak Berpenghasilan",
+      },
       {
         name: "<Rp.700.000",
       },

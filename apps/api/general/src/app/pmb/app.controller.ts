@@ -72,22 +72,22 @@ export class PMBController {
   async getRegistrationStatus(payload: ISelectRequest) {
     return await this.appService.getRegistrationStatus(payload);
   }
-  @MessagePattern("get_question")
+  @MessagePattern("get_admission_test")
   async getAdmissionTest() {
     return await this.appService.getAdmissionTest();
   }
 
-  @MessagePattern("create_question")
+  @MessagePattern("create_admission_test")
   async createAdmissionTest(payload: TCreateQuestionRequest) {
     return await this.appService.createAdmissionTest(payload);
   }
 
-  @MessagePattern("update_question")
+  @MessagePattern("update_admission_test")
   async updateAdmissionTest(payload: TUpdateQuestionRequest & { id: number }) {
     return await this.appService.updateAdmissionTest(payload);
   }
 
-  @MessagePattern("delete_question")
+  @MessagePattern("delete_admission_test")
   async deleteAdmissionTest(payload: { id: number }) {
     return await this.appService.deleteAdmissionTest(payload);
   }
