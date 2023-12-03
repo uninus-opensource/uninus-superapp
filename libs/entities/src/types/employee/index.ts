@@ -1,4 +1,3 @@
-export * from "./pagination";
-export * from "./dashboard";
-export * from "./tendik";
-export * from "./lecturer";
+export * from "./employee.type";
+export * from "./lecturer.type";
+export * from "./tendik.type";
