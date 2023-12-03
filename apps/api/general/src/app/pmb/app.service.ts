@@ -1206,7 +1206,7 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getAllQuestion(): Promise<TQuestionResponse[]> {
+  async getAdmissionTest(): Promise<TQuestionResponse[]> {
     try {
       const questions = await this.prisma.questions.findMany();
       if (questions.length === 0) {
@@ -1230,7 +1230,7 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async createQuestion(data: TCreateQuestionRequest) {
+  async createAdmissionTest(data: TCreateQuestionRequest) {
     try {
       const { question } = data;
 
@@ -1259,7 +1259,7 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async updateQuestion(
+  async updateAdmissionTest(
     payload: TUpdateQuestionRequest & { id: number },
   ): Promise<TGeneralResponse> {
     try {
@@ -1295,7 +1295,7 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteQuestion(payload: { id: number }): Promise<TDeleteQuestionResponse> {
+  async deleteAdmissionTest(payload: { id: number }): Promise<TDeleteQuestionResponse> {
     try {
       const deletedQuestion = await this.prisma.questions.delete({
         where: {

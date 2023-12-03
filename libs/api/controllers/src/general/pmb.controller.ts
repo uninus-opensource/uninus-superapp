@@ -1,10 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import {
-  CreateScholarship,
-  CreateSelectionPath,
-  createQuestion,
-} from "@uninus/api/dto";
+import { CreateScholarship, CreateSelectionPath, createQuestion } from "@uninus/api/dto";
 import { PMBService } from "@uninus/api/services";
 
 @ApiTags("General:PMB")
@@ -92,25 +88,25 @@ export class PMBController {
 
   @ApiOperation({ summary: "Get Admission Questions" })
   @Get("admission-test")
-  async getAdmissionQuestions() {
-    return await this.appService.getAdmissionQuestions();
+  async getAdmissionTest() {
+    return await this.appService.getAdmissionTest();
   }
 
   @ApiOperation({ summary: "Create Admission Questions" })
   @Post("admission-test")
-  async createAdmissionQuestions(@Body() payload: createQuestion) {
-    return await this.appService.createAdmissionQuestions(payload);
+  async createAdmissionTest(@Body() payload: createQuestion) {
+    return await this.appService.createAdmissionTest(payload);
   }
 
   @ApiOperation({ summary: "Update Admission Questions" })
   @Patch("admission-test/:id")
-  async updateAdmissionQuestions(@Param("id") id: number, @Body() payload: createQuestion) {
-    return await this.appService.updateAdmissionQuestions({ id, ...payload });
+  async updateAdmissionTest(@Param("id") id: number, @Body() payload: createQuestion) {
+    return await this.appService.updateAdmissionTest({ id, ...payload });
   }
 
   @ApiOperation({ summary: "Delete Admission Questions" })
   @Delete("admission-test/:id")
-  async deleteAdmissionQuestions(@Param("id") id: number) {
-    return await this.appService.deleteAdmissionQuestions({ id });
+  async deleteAdmissionTest(@Param("id") id: number) {
+    return await this.appService.deleteAdmissionTest({ id });
   }
 }

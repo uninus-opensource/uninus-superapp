@@ -127,7 +127,7 @@ export class PMBService {
     return response;
   }
 
-  async getAdmissionQuestions() {
+  async getAdmissionTest() {
     const response = await firstValueFrom(
       this.client
         .send("get_question", {})
@@ -136,7 +136,7 @@ export class PMBService {
     return response;
   }
 
-  async createAdmissionQuestions(payload: createQuestion) {
+  async createAdmissionTest(payload: createQuestion) {
     const response = await firstValueFrom(
       this.client
         .send("create_question", payload)
@@ -145,7 +145,7 @@ export class PMBService {
     return response;
   }
 
-  async updateAdmissionQuestions(payload: createQuestion & { id: number }) {
+  async updateAdmissionTest(payload: createQuestion & { id: number }) {
     const response = await firstValueFrom(
       this.client
         .send("update_question", payload)
@@ -154,7 +154,7 @@ export class PMBService {
     return response;
   }
 
-  async deleteAdmissionQuestions(payload: { id: number }) {
+  async deleteAdmissionTest(payload: { id: number }) {
     const response = await firstValueFrom(
       this.client
         .send("delete_question", payload)
