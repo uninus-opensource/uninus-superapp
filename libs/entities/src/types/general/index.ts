@@ -4,15 +4,18 @@ export interface ISelectRequest {
   search?: string;
   id?: number;
 }
+export interface ISelectItem {
+  id?: number;
+  name?: string;
+}
+export interface ISelectResponse extends Array<ISelectItem> {}
 
 export interface ISelectEducationHistoryRequest extends ISelectRequest {
   npsn: string;
 }
 
-export interface IProvinceRequest {}
-
-export interface ISelectFacultyRequest extends ISelectRequest {
-  degree_program_id: string;
+export interface IProvinceRequest {
+  search: string;
 }
 
 export type TProvinceResponse = {
@@ -47,35 +50,6 @@ export type TRolesResponse = Array<{
   id: number;
   name: string;
 }>;
-export interface IDegreeProgramRequest {
-  search: string;
-}
-
-export type TDegreeProgramResponse = {
-  degree_program: Array<{
-    id: number;
-    name: string;
-  }>;
-};
-
-export type TFacultyResponse = {
-  faculty: Array<{
-    id: number;
-    name: string;
-  }>;
-};
-
-export interface ISelectDepartmentRequest extends ISelectRequest {
-  degree_program_id: string;
-  faculty_id: string;
-}
-
-export type TDepartmentResponse = {
-  department: Array<{
-    id: number;
-    name: string;
-  }>;
-};
 
 export interface IReligionRequest {
   search: string;
@@ -389,39 +363,19 @@ export type TStudentsPaginatonResponse = {
   };
 };
 
-export type TCreateFacultyRequest = {
-  name: string;
-  degree_program_id: number;
-};
-
 export type TCreateScholarshipRequest = {
   name: string;
 };
 
-export type TUpdateFacultyRequest = {
-  id?: number;
-  name: string;
-  degree_program_id?: number;
-};
 export type TUpdateScholarshipRequest = {
   id?: number;
   name: string;
 };
-export type TUpdateDepartmentRequest = {
-  id?: number;
-  name: string;
-  faculty_id?: number;
-  degree_program_id?: number;
-};
+
 export type TUpdateSelectionPathRequest = {
   id?: number;
   name: string;
   degree_program_id?: number;
-};
-export type TCreateDepartmentRequest = {
-  name: string;
-  faculty_id: number;
-  degree_program_id: number;
 };
 
 export type TCreateSelectionPathRequest = {
@@ -440,11 +394,66 @@ export type TCreateEducationRequest = {
   education_type_id: number;
 };
 
-export type TGeneralResponse = {
-  message: string;
-};
-
 export type TEmployeeCategoriesResponse = Array<{
   id: number;
   name: string;
 }>;
+
+export * from "./college";
+
+//
+export type TUpdateFacultyRequest = {
+  id?: number;
+  name: string;
+  degree_program_id?: number;
+};
+
+export type TGeneralResponse = {
+  message: string;
+};
+export type TDegreeProgramResponse = {
+  degree_program: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface ISelectFacultyRequest extends ISelectRequest {
+  degree_program_id: string;
+}
+
+export type TCreateFacultyRequest = {
+  name: string;
+  degree_program_id: number;
+};
+
+export type TFacultyResponse = {
+  faculty: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export interface ISelectDepartmentRequest extends ISelectRequest {
+  degree_program_id: string;
+  faculty_id: string;
+}
+
+export type TDepartmentResponse = {
+  department: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+export type TCreateDepartmentRequest = {
+  name: string;
+  faculty_id: number;
+  degree_program_id: number;
+};
+
+export type TUpdateDepartmentRequest = {
+  id?: number;
+  name: string;
+  faculty_id?: number;
+  degree_program_id?: number;
+};
