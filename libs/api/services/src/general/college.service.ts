@@ -1,13 +1,21 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { CreateDepartment, CreateFaculty } from "@uninus/api/dto";
+import {
+  ISelectDepartmentRequest,
+  ISelectFacultyRequest,
+  ISelectRequest,
+  TCreateDepartmentRequest,
+  TCreateFacultyRequest,
+  TUpdateDepartmentRequest,
+  TUpdateFacultyRequest,
+} from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Injectable()
 export class CollegeService {
   constructor(@Inject("GENERAL_SERVICE") private readonly client: ClientProxy) {}
 
-  async getDegreeProgram(payload: { search: string }) {
+  async getDegreeProgram(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_degree", payload)
@@ -16,7 +24,7 @@ export class CollegeService {
     return response;
   }
 
-  async getFaculty(payload: { search: string; degree_program_id: string }) {
+  async getFaculty(payload: ISelectFacultyRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_faculty", payload)
@@ -25,7 +33,7 @@ export class CollegeService {
     return response;
   }
 
-  async createFaculty(payload: CreateFaculty) {
+  async createFaculty(payload: TCreateFacultyRequest) {
     const response = await firstValueFrom(
       this.client
         .send("create_faculty", payload)
@@ -34,7 +42,7 @@ export class CollegeService {
     return response;
   }
 
-  async updateFaculty(payload: CreateFaculty & { id: number }) {
+  async updateFaculty(payload: TUpdateFacultyRequest) {
     const response = await firstValueFrom(
       this.client
         .send("update_faculty", payload)
@@ -52,7 +60,7 @@ export class CollegeService {
     return response;
   }
 
-  async getDepartment(payload: { search: string; degree_program_id: string; faculty_id: string }) {
+  async getDepartment(payload: ISelectDepartmentRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_department", payload)
@@ -61,7 +69,7 @@ export class CollegeService {
     return response;
   }
 
-  async createDepartment(payload: CreateDepartment) {
+  async createDepartment(payload: TCreateDepartmentRequest) {
     const response = await firstValueFrom(
       this.client
         .send("create_department", payload)
@@ -70,7 +78,7 @@ export class CollegeService {
     return response;
   }
 
-  async updateDepartment(payload: CreateDepartment & { id: number }) {
+  async updateDepartment(payload: TUpdateDepartmentRequest) {
     const response = await firstValueFrom(
       this.client
         .send("update_department", payload)

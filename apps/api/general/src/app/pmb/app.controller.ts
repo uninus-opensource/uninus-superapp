@@ -12,8 +12,9 @@ import {
   IInterestDepartment,
   TCreateSelectionPathRequest,
   TCreateScholarshipRequest,
+  TUpdateScholarshipRequest,
+  TUpdateSelectionPathRequest,
 } from "@uninus/entities";
-import { CreateScholarship } from "@uninus/api/dto";
 
 @Controller()
 export class PMBController {
@@ -27,7 +28,7 @@ export class PMBController {
     return await this.appService.createScholarship(payload);
   }
   @MessagePattern("update_scholarship")
-  async updateScholarship(payload: CreateScholarship & { id: number }) {
+  async updateScholarship(payload: TUpdateScholarshipRequest) {
     return await this.appService.updateScholarship(payload);
   }
   @MessagePattern("delete_scholarship")
@@ -47,7 +48,7 @@ export class PMBController {
     return await this.appService.createSelectionPath(payload);
   }
   @MessagePattern("update_selection_path")
-  async updateSelectionPath(payload: TCreateSelectionPathRequest & { id: number }) {
+  async updateSelectionPath(payload: TUpdateSelectionPathRequest) {
     return await this.appService.updateSelectionPath(payload);
   }
   @MessagePattern("delete_selection_path")
@@ -83,7 +84,7 @@ export class PMBController {
   }
 
   @MessagePattern("update_admission_test")
-  async updateAdmissionTest(payload: TUpdateQuestionRequest & { id: number }) {
+  async updateAdmissionTest(payload: TUpdateQuestionRequest) {
     return await this.appService.updateAdmissionTest(payload);
   }
 

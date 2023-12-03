@@ -1,13 +1,26 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { CreateScholarship, CreateSelectionPath, createQuestion } from "@uninus/api/dto";
+
+import {
+  IInterestDepartment,
+  IInterestEducationPrograms,
+  IRegistransRequest,
+  ISelectRequest,
+  ISelectionRequest,
+  TCreateQuestionRequest,
+  TCreateScholarshipRequest,
+  TCreateSelectionPathRequest,
+  TUpdateQuestionRequest,
+  TUpdateScholarshipRequest,
+  TUpdateSelectionPathRequest,
+} from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Injectable()
 export class PMBService {
   constructor(@Inject("GENERAL_SERVICE") private readonly client: ClientProxy) {}
 
-  async getScholarship(payload: { search: string }) {
+  async getScholarship(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_scholarship", payload)
@@ -16,7 +29,7 @@ export class PMBService {
     return response;
   }
 
-  async createScholarship(payload: CreateScholarship) {
+  async createScholarship(payload: TCreateScholarshipRequest) {
     const response = await firstValueFrom(
       this.client
         .send("create_scholarship", payload)
@@ -25,7 +38,7 @@ export class PMBService {
     return response;
   }
 
-  async updateScholarship(payload: CreateScholarship & { id: number }) {
+  async updateScholarship(payload: TUpdateScholarshipRequest) {
     const response = await firstValueFrom(
       this.client
         .send("update_scholarship", payload)
@@ -43,7 +56,7 @@ export class PMBService {
     return response;
   }
 
-  async getSelectionPath(payload: { search: string; degree_program_id: string }) {
+  async getSelectionPath(payload: ISelectionRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_selection_path", payload)
@@ -52,7 +65,7 @@ export class PMBService {
     return response;
   }
 
-  async createSelectionPath(payload: CreateSelectionPath) {
+  async createSelectionPath(payload: TCreateSelectionPathRequest) {
     const response = await firstValueFrom(
       this.client
         .send("create_selection_path", payload)
@@ -61,7 +74,7 @@ export class PMBService {
     return response;
   }
 
-  async updateSelectionPath(payload: CreateSelectionPath & { id: number }) {
+  async updateSelectionPath(payload: TUpdateSelectionPathRequest) {
     const response = await firstValueFrom(
       this.client
         .send("update_selection_path", payload)
@@ -79,7 +92,7 @@ export class PMBService {
     return response;
   }
 
-  async getRegistrationPath(payload: { search: string; id: string }) {
+  async getRegistrationPath(payload: ISelectionRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_registration_path", payload)
@@ -88,7 +101,7 @@ export class PMBService {
     return response;
   }
 
-  async getRegistrans(payload: { end_date: string; start_date: string; filter_type: string }) {
+  async getRegistrans(payload: IRegistransRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_registrans", payload)
@@ -97,7 +110,7 @@ export class PMBService {
     return response;
   }
 
-  async getInterestPrograms(payload: { filter_type: string }) {
+  async getInterestPrograms(payload: IInterestEducationPrograms) {
     const response = await firstValueFrom(
       this.client
         .send("get_interest_education_program", payload)
@@ -107,7 +120,7 @@ export class PMBService {
     return response;
   }
 
-  async getInterestDepartment(payload: { filter_type: string; degree_program_id: string }) {
+  async getInterestDepartment(payload: IInterestDepartment) {
     const response = await firstValueFrom(
       this.client
         .send("get_interest_department", payload)
@@ -117,7 +130,7 @@ export class PMBService {
     return response;
   }
 
-  async getRegistrationStatus(payload: { search: string; id: string }) {
+  async getRegistrationStatus(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_registration_status", payload)
@@ -136,7 +149,7 @@ export class PMBService {
     return response;
   }
 
-  async createAdmissionTest(payload: createQuestion) {
+  async createAdmissionTest(payload: TCreateQuestionRequest) {
     const response = await firstValueFrom(
       this.client
         .send("create_admission_test", payload)
@@ -145,7 +158,7 @@ export class PMBService {
     return response;
   }
 
-  async updateAdmissionTest(payload: createQuestion & { id: number }) {
+  async updateAdmissionTest(payload: TUpdateQuestionRequest) {
     const response = await firstValueFrom(
       this.client
         .send("update_admission_test", payload)

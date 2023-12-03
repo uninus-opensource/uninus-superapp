@@ -1,13 +1,24 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { CreateEducation } from "@uninus/api/dto";
+import {
+  ICityRequest,
+  ICountryRequest,
+  IEducationMajorRequest,
+  IEducationTypeRequest,
+  ISelectEducationHistoryRequest,
+  ISelectRequest,
+  ISubDistrictRequest,
+  TCreateEducationRequest,
+  TDeleteEducationRequest,
+  TUpdateEducationRequest,
+} from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Injectable()
 export class PersonalService {
   constructor(@Inject("GENERAL_SERVICE") private readonly client: ClientProxy) {}
 
-  async getProvince(payload: { search: string }) {
+  async getProvince(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_province", payload)
@@ -16,7 +27,7 @@ export class PersonalService {
     return response;
   }
 
-  async getCity(payload: { search: string; province_id: string; id: string }) {
+  async getCity(payload: ICityRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_city", payload)
@@ -25,7 +36,7 @@ export class PersonalService {
     return response;
   }
 
-  async getSubdistrict(payload: { search: string; city_id: string }) {
+  async getSubdistrict(payload: ISubDistrictRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_subdistrict", payload)
@@ -34,7 +45,7 @@ export class PersonalService {
     return response;
   }
 
-  async getReligion(payload: { search: string }) {
+  async getReligion(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_religion", payload)
@@ -43,7 +54,7 @@ export class PersonalService {
     return response;
   }
 
-  async getMaritalStatus(payload: { search: string }) {
+  async getMaritalStatus(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_marital_status", payload)
@@ -52,7 +63,7 @@ export class PersonalService {
     return response;
   }
 
-  async getGender(payload: { search: string }) {
+  async getGender(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_gender", payload)
@@ -61,7 +72,7 @@ export class PersonalService {
     return response;
   }
 
-  async getCitizenship(payload: { search: string }) {
+  async getCitizenship(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_citizenship", payload)
@@ -70,7 +81,7 @@ export class PersonalService {
     return response;
   }
 
-  async getSalary(payload: { search: string }) {
+  async getSalary(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_salary", payload)
@@ -79,7 +90,7 @@ export class PersonalService {
     return response;
   }
 
-  async getCountry(payload: { search: string; citizenship_id: string }) {
+  async getCountry(payload: ICountryRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_country", payload)
@@ -88,7 +99,7 @@ export class PersonalService {
     return response;
   }
 
-  async getOccupation(payload: { search: string }) {
+  async getOccupation(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_occupation", payload)
@@ -97,7 +108,7 @@ export class PersonalService {
     return response;
   }
 
-  async getDisablities(payload: { search: string }) {
+  async getDisablities(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_dissabilities", payload)
@@ -118,7 +129,7 @@ export class PersonalService {
     return { year };
   }
 
-  async getParentStatus(payload: { search: string }) {
+  async getParentStatus(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_parent_status", payload)
@@ -127,7 +138,7 @@ export class PersonalService {
     return response;
   }
 
-  async getParentEducation(payload: { search: string }) {
+  async getParentEducation(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_parent_education", payload)
@@ -136,7 +147,7 @@ export class PersonalService {
     return response;
   }
 
-  async getLastEducation(payload: { search: string; npsn: string }) {
+  async getLastEducation(payload: ISelectEducationHistoryRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_last_education", payload)
@@ -145,7 +156,7 @@ export class PersonalService {
     return response;
   }
 
-  async getLastEducationType(payload: { degree_program_id: number; search: string }) {
+  async getLastEducationType(payload: IEducationTypeRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_last_education_type", payload)
@@ -154,7 +165,7 @@ export class PersonalService {
     return response;
   }
 
-  async getLastEducationMajor(payload: { education_type_id: number; search: string }) {
+  async getLastEducationMajor(payload: IEducationMajorRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_last_education_major", payload)
@@ -163,7 +174,7 @@ export class PersonalService {
     return response;
   }
 
-  async createLastEducation(payload: CreateEducation) {
+  async createLastEducation(payload: TCreateEducationRequest) {
     const response = await firstValueFrom(
       this.client
         .send("create_last_education", payload)
@@ -172,7 +183,7 @@ export class PersonalService {
     return response;
   }
 
-  async updateLastEducation(payload: CreateEducation & { id: string }) {
+  async updateLastEducation(payload: TUpdateEducationRequest) {
     const response = await firstValueFrom(
       this.client
         .send("update_last_education", payload)
@@ -181,7 +192,7 @@ export class PersonalService {
     return response;
   }
 
-  async deleteLastEducation(payload: { id: string; npsn: string }) {
+  async deleteLastEducation(payload: TDeleteEducationRequest) {
     const response = await firstValueFrom(
       this.client
         .send("delete_last_education", payload)

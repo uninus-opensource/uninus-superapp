@@ -8,6 +8,11 @@ import {
   IEducationMajorRequest,
   IEducationTypeRequest,
   TCreateEducationRequest,
+  ICityRequest,
+  ISubDistrictRequest,
+  ICountryRequest,
+  TUpdateEducationRequest,
+  TDeleteEducationRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -15,20 +20,20 @@ export class PersonalController {
   constructor(private readonly appService: PersonalService) {}
 
   @MessagePattern("get_country")
-  async getCountry(payload: { search: string; citizenship_id: string }) {
+  async getCountry(payload: ICountryRequest) {
     return await this.appService.getCountry(payload);
   }
 
   @MessagePattern("get_province")
-  async getProvince(payload: { search: string }) {
+  async getProvince(payload: ISelectRequest) {
     return await this.appService.getProvince(payload);
   }
   @MessagePattern("get_city")
-  async getCity(payload: { search: string; province_id: string }) {
+  async getCity(payload: ICityRequest) {
     return await this.appService.getCity(payload);
   }
   @MessagePattern("get_subdistrict")
-  async getSubdistrict(payload: { search: string; city_id: string }) {
+  async getSubdistrict(payload: ISubDistrictRequest) {
     return await this.appService.getSubDistrict(payload);
   }
   @MessagePattern("get_religion")
@@ -87,11 +92,11 @@ export class PersonalController {
     return await this.appService.createLastEducation(payload);
   }
   @MessagePattern("update_last_education")
-  async updateLastEducation(payload: TCreateEducationRequest) {
+  async updateLastEducation(payload: TUpdateEducationRequest) {
     return await this.appService.updateLastEducation(payload);
   }
   @MessagePattern("delete_last_education")
-  async deleteLastEducation(payload: { id: number; npsn?: string }) {
+  async deleteLastEducation(payload: TDeleteEducationRequest) {
     return await this.appService.deleteLastEducation(payload);
   }
 }

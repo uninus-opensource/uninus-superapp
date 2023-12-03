@@ -25,18 +25,17 @@ import {
   TSubDistrictResponse,
   TCreateEducationRequest,
   TGeneralResponse,
+  ICityRequest,
+  ISubDistrictRequest,
+  ICountryRequest,
+  TUpdateEducationRequest,
+  TDeleteEducationRequest,
 } from "@uninus/entities";
 
 @Injectable()
 export class PersonalService {
   constructor(private prisma: PrismaService) {}
-  async getCountry({
-    search,
-    citizenship_id,
-  }: {
-    search: string;
-    citizenship_id: string;
-  }): Promise<TCountryResponse> {
+  async getCountry({ search, citizenship_id }: ICountryRequest): Promise<TCountryResponse> {
     try {
       const country = await this.prisma.country.findMany({
         where: {
@@ -82,13 +81,7 @@ export class PersonalService {
     }
   }
 
-  async getCity({
-    province_id,
-    search,
-  }: {
-    search: string;
-    province_id: string;
-  }): Promise<TCityResponse> {
+  async getCity({ province_id, search }: ICityRequest): Promise<TCityResponse> {
     try {
       const city = await this.prisma.city.findMany({
         where: {
@@ -108,13 +101,7 @@ export class PersonalService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getSubDistrict({
-    city_id,
-    search,
-  }: {
-    search: string;
-    city_id: string;
-  }): Promise<TSubDistrictResponse> {
+  async getSubDistrict({ city_id, search }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
     try {
       const subDistrict = await this.prisma.subDistrict.findMany({
         where: {
@@ -433,7 +420,7 @@ export class PersonalService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async updateLastEducation(payload: TCreateEducationRequest): Promise<TGeneralResponse> {
+  async updateLastEducation(payload: TUpdateEducationRequest): Promise<TGeneralResponse> {
     try {
       const updatedEducation = await this.prisma.education.update({
         where: {
@@ -461,7 +448,7 @@ export class PersonalService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteLastEducation(payload: { id: number; npsn?: string }): Promise<TGeneralResponse> {
+  async deleteLastEducation(payload: TDeleteEducationRequest): Promise<TGeneralResponse> {
     try {
       const deleteEducation = await this.prisma.education.delete({
         where: {

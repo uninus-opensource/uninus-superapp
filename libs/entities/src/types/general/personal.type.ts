@@ -11,6 +11,22 @@ export type TCreateEducationRequest = {
   education_type_id: number;
 };
 
+export type TUpdateEducationRequest = {
+  id?: number;
+  npsn: string;
+  name: string;
+  province: string;
+  district_city: string;
+  sub_district: string;
+  street_address: string;
+  education_type_id: number;
+};
+
+export type TDeleteEducationRequest = {
+  id?: number;
+  npsn: string;
+};
+
 export interface IYearGraduationRequest {
   search: string;
 }
@@ -19,17 +35,6 @@ export type TYearGraduationResponse = {
   year: Array<{
     id: number;
     name: number;
-  }>;
-};
-
-export interface IScholarshipRequest {
-  search: string;
-}
-
-export type TScholarshipResponse = {
-  scholarship: Array<{
-    id: number;
-    name: string;
   }>;
 };
 

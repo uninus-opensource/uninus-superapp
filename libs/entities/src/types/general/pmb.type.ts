@@ -112,6 +112,35 @@ export type TRegistrationPathResponse = {
 };
 
 export type TGeneralResponse = {
-    message: string;
-  };
-  
+  message: string;
+};
+
+export interface IScholarshipRequest {
+  search: string;
+}
+
+export type TScholarshipResponse = {
+  scholarship: Array<{
+    id: number;
+    name: string;
+  }>;
+};
+
+export type TCreateScholarshipRequest = {
+  name: string;
+};
+
+export type TUpdateScholarshipRequest = {
+  id?: number;
+  name: string;
+};
+export type TUpdateSelectionPathRequest = {
+  id?: number;
+  name: string;
+  degree_program_id?: number;
+};
+
+export type TCreateSelectionPathRequest = {
+  name: string;
+  degree_program_id: number;
+};

@@ -8,6 +8,8 @@ import {
   ISelectRequest,
   TCreateFacultyRequest,
   TCreateDepartmentRequest,
+  TUpdateFacultyRequest,
+  TUpdateDepartmentRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -28,7 +30,7 @@ export class CollegeController {
     return await this.appService.createFaculty(payload);
   }
   @MessagePattern("update_faculty")
-  async updateFaculty(payload: TCreateFacultyRequest & { id: number }) {
+  async updateFaculty(payload: TUpdateFacultyRequest) {
     return await this.appService.updateFaculty(payload);
   }
   @MessagePattern("delete_faculty")
@@ -46,7 +48,7 @@ export class CollegeController {
   }
 
   @MessagePattern("update_department")
-  async updateDepartment(payload: TCreateDepartmentRequest & { id: number }) {
+  async updateDepartment(payload: TUpdateDepartmentRequest) {
     return await this.appService.updateDepartment(payload);
   }
   @MessagePattern("delete_department")

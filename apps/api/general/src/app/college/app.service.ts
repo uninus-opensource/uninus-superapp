@@ -13,17 +13,19 @@ import {
   TCreateFacultyRequest,
   TCreateDepartmentRequest,
   TGeneralResponse,
+  TUpdateFacultyRequest,
+  TUpdateDepartmentRequest,
 } from "@uninus/entities";
 
 @Injectable()
 export class CollegeService {
   constructor(private prisma: PrismaService) {}
 
-  async getDegreeProgram({ search, id }: ISelectRequest): Promise<TDegreeProgramResponse> {
+  async getDegreeProgram(payload: ISelectRequest): Promise<TDegreeProgramResponse> {
     try {
+      const { search } = payload;
       const degreeProgram = await this.prisma.degreeProgram.findMany({
         where: {
-          ...(id && { id: Number(id) }),
           name: {
             ...(search && { contains: search }),
             mode: "insensitive",
@@ -44,15 +46,11 @@ export class CollegeService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getFaculty({
-    search,
-    degree_program_id,
-    id,
-  }: ISelectFacultyRequest): Promise<TFacultyResponse> {
+  async getFaculty(payload: ISelectFacultyRequest): Promise<TFacultyResponse> {
     try {
+      const { search, degree_program_id } = payload;
       const faculty = await this.prisma.faculty.findMany({
         where: {
-          ...(id && { id: Number(id) }),
           name: { ...(search && { contains: search }), mode: "insensitive" },
 
           ...(degree_program_id && {
@@ -99,7 +97,7 @@ export class CollegeService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async updateFaculty(payload: TCreateFacultyRequest & { id: number }): Promise<TGeneralResponse> {
+  async updateFaculty(payload: TUpdateFacultyRequest): Promise<TGeneralResponse> {
     try {
       const updatedFaculty = await this.prisma.faculty.update({
         where: {
@@ -142,16 +140,11 @@ export class CollegeService {
     }
   }
 
-  async getDepartment({
-    search,
-    faculty_id,
-    degree_program_id,
-    id,
-  }: ISelectDepartmentRequest): Promise<TDepartmentResponse> {
+  async getDepartment(payload: ISelectDepartmentRequest): Promise<TDepartmentResponse> {
     try {
+      const { search, faculty_id, degree_program_id } = payload;
       const department = await this.prisma.department.findMany({
         where: {
-          ...(id && { id: Number(id) }),
           name: { ...(search && { contains: search }), mode: "insensitive" },
           ...(faculty_id && { faculty_id: Number(faculty_id) }),
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
@@ -199,9 +192,7 @@ export class CollegeService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async updateDepartment(
-    payload: TCreateDepartmentRequest & { id: number },
-  ): Promise<TGeneralResponse> {
+  async updateDepartment(payload: TUpdateDepartmentRequest): Promise<TGeneralResponse> {
     try {
       const updatedDepartment = await this.prisma.department.update({
         where: {

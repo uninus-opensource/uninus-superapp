@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-import { CreateScholarship } from "@uninus/api/dto";
+
 import { PrismaService } from "@uninus/api/services";
 import { errorMappings } from "@uninus/api/utilities";
 import {
@@ -31,17 +31,19 @@ import {
   TRegistrationPathResponse,
   TQuestionResponse,
   TTotalRegistransRes,
+  TUpdateScholarshipRequest,
+  TUpdateSelectionPathRequest,
 } from "@uninus/entities";
 
 @Injectable()
 export class PMBService {
   constructor(private prisma: PrismaService) {}
 
-  async getScholarship({ search, id }: ISelectRequest): Promise<TScholarshipResponse> {
+  async getScholarship(payload: ISelectRequest): Promise<TScholarshipResponse> {
     try {
+      const { search } = payload;
       const scholarship = await this.prisma.scholarship.findMany({
         where: {
-          ...(id && { id: Number(id) }),
           name: { ...(search && { contains: search }), mode: "insensitive" },
         },
         select: {
@@ -78,7 +80,7 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async updateScholarship(payload: CreateScholarship & { id: number }): Promise<TGeneralResponse> {
+  async updateScholarship(payload: TUpdateScholarshipRequest): Promise<TGeneralResponse> {
     try {
       const updateScholarship = await this.prisma.scholarship.update({
         where: {
@@ -119,15 +121,15 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getSelectionPath({
-    search,
-    id,
-    degree_program_id,
-  }: ISelectionRequest): Promise<TSelectionResponse> {
+  async getSelectionPath(payload: ISelectionRequest): Promise<TSelectionResponse> {
     try {
+      const {
+        search,
+
+        degree_program_id,
+      } = payload;
       const selection = await this.prisma.selectionPath.findMany({
         where: {
-          ...(id && { id: Number(id) }),
           name: { ...(search && { contains: search }), mode: "insensitive" },
           degree_program_id: degree_program_id && Number(degree_program_id),
         },
@@ -146,11 +148,11 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getRegistrationPath({ search, id }: ISelectionRequest): Promise<TRegistrationPathResponse> {
+  async getRegistrationPath(payload: ISelectionRequest): Promise<TRegistrationPathResponse> {
     try {
+      const { search } = payload;
       const registration_path = await this.prisma.registrationPath.findMany({
         where: {
-          ...(id && { id: Number(id) }),
           name: { ...(search && { contains: search }), mode: "insensitive" },
         },
         select: {
@@ -192,9 +194,7 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async updateSelectionPath(
-    payload: TCreateSelectionPathRequest & { id: number },
-  ): Promise<TGeneralResponse> {
+  async updateSelectionPath(payload: TUpdateSelectionPathRequest): Promise<TGeneralResponse> {
     try {
       const updatedSelectionPath = await this.prisma.selectionPath.update({
         where: {
@@ -236,12 +236,9 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getTotalRegistrans({
-    filter_type,
-    start_date,
-    end_date,
-  }: IRegistransRequest): Promise<TTotalRegistransRes> {
+  async getTotalRegistrans(payload: IRegistransRequest): Promise<TTotalRegistransRes> {
     try {
+      const { filter_type, start_date, end_date } = payload;
       const whereClause: {
         createdAt?: {
           gte?: Date;
@@ -724,10 +721,11 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getInterestEducationPrograms({
-    filter_type,
-  }: IInterestEducationPrograms): Promise<TInterestEducationPrograms> {
+  async getInterestEducationPrograms(
+    payload: IInterestEducationPrograms,
+  ): Promise<TInterestEducationPrograms> {
     try {
+      const { filter_type } = payload;
       let whereClause: {
         createdAt?: {
           gte?: Date;
@@ -841,11 +839,9 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getInterestDepartment({
-    filter_type,
-    degree_program_id,
-  }: IInterestDepartment): Promise<TInterestDepartmentResponse> {
+  async getInterestDepartment(payload: IInterestDepartment): Promise<TInterestDepartmentResponse> {
     try {
+      const { filter_type, degree_program_id } = payload;
       let whereClause: {
         createdAt?: {
           gte?: Date;
@@ -1179,14 +1175,11 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getRegistrationStatus({
-    search,
-    id,
-  }: ISelectRequest): Promise<TRegistrationStatusResponse> {
+  async getRegistrationStatus(payload: ISelectRequest): Promise<TRegistrationStatusResponse> {
     try {
+      const { search } = payload;
       const registration_status = await this.prisma.registrationStatus.findMany({
         where: {
-          ...(id && { id: Number(id) }),
           name: {
             ...(search && { contains: search }),
             mode: "insensitive",
@@ -1259,9 +1252,7 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async updateAdmissionTest(
-    payload: TUpdateQuestionRequest & { id: number },
-  ): Promise<TGeneralResponse> {
+  async updateAdmissionTest(payload: TUpdateQuestionRequest): Promise<TGeneralResponse> {
     try {
       const existingQuestion = await this.prisma.questions.findFirst({
         where: {
