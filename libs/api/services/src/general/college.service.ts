@@ -1,30 +1,13 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
-import {
-  ICreateDepartmentRequest,
-  ICreateDepartmentResponse,
-  ICreateFacultyRequest,
-  ICreateFacultyResponse,
-  IDegreeProgramRequest,
-  IDegreeProgramResponse,
-  IDeleteDepartmentRequest,
-  IDeleteFacultyRequest,
-  IDeleteFacultyResponse,
-  IGetDepartmentRequest,
-  IGetDepartmentResponse,
-  IGetFacultyRequest,
-  IGetFacultyResponse,
-  IUpdateDepartmentRequest,
-  IUpdateFacultyRequest,
-  IUpdateFacultyResponse,
-} from "@uninus/entities";
+import { CreateDepartment, CreateFaculty } from "@uninus/api/dto";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Injectable()
 export class CollegeService {
   constructor(@Inject("GENERAL_SERVICE") private readonly client: ClientProxy) {}
 
-  async getDegreeProgram(payload: IDegreeProgramRequest): Promise<IDegreeProgramResponse> {
+  async getDegreeProgram(payload: { search: string }) {
     const response = await firstValueFrom(
       this.client
         .send("get_degree", payload)
@@ -33,7 +16,7 @@ export class CollegeService {
     return response;
   }
 
-  async getFaculty(payload: IGetFacultyRequest): Promise<IGetFacultyResponse> {
+  async getFaculty(payload: { search: string; degree_program_id: string }) {
     const response = await firstValueFrom(
       this.client
         .send("get_faculty", payload)
@@ -42,7 +25,7 @@ export class CollegeService {
     return response;
   }
 
-  async createFaculty(payload: ICreateFacultyRequest): Promise<ICreateFacultyResponse> {
+  async createFaculty(payload: CreateFaculty) {
     const response = await firstValueFrom(
       this.client
         .send("create_faculty", payload)
@@ -51,7 +34,7 @@ export class CollegeService {
     return response;
   }
 
-  async updateFaculty(payload: IUpdateFacultyRequest): Promise<IUpdateFacultyResponse> {
+  async updateFaculty(payload: CreateFaculty & { id: number }) {
     const response = await firstValueFrom(
       this.client
         .send("update_faculty", payload)
@@ -60,7 +43,7 @@ export class CollegeService {
     return response;
   }
 
-  async deleteFaculty(payload: IDeleteFacultyRequest): Promise<IDeleteFacultyResponse> {
+  async deleteFaculty(payload: { id: number }) {
     const response = await firstValueFrom(
       this.client
         .send("delete_faculty", payload)
@@ -69,7 +52,7 @@ export class CollegeService {
     return response;
   }
 
-  async getDepartment(payload: IGetDepartmentRequest): Promise<IGetDepartmentResponse> {
+  async getDepartment(payload: { search: string; degree_program_id: string; faculty_id: string }) {
     const response = await firstValueFrom(
       this.client
         .send("get_department", payload)
@@ -78,7 +61,7 @@ export class CollegeService {
     return response;
   }
 
-  async createDepartment(payload: ICreateDepartmentRequest): Promise<ICreateDepartmentResponse> {
+  async createDepartment(payload: CreateDepartment) {
     const response = await firstValueFrom(
       this.client
         .send("create_department", payload)
@@ -87,7 +70,7 @@ export class CollegeService {
     return response;
   }
 
-  async updateDepartment(payload: IUpdateDepartmentRequest) {
+  async updateDepartment(payload: CreateDepartment & { id: number }) {
     const response = await firstValueFrom(
       this.client
         .send("update_department", payload)
@@ -96,7 +79,7 @@ export class CollegeService {
     return response;
   }
 
-  async deleteDepartment(payload: IDeleteDepartmentRequest) {
+  async deleteDepartment(payload: { id: number }) {
     const response = await firstValueFrom(
       this.client
         .send("delete_department", payload)

@@ -4,36 +4,28 @@ import { RpcException } from "@nestjs/microservices";
 import { PrismaService } from "@uninus/api/services";
 import { errorMappings } from "@uninus/api/utilities";
 import {
-  IDegreeProgramRequest,
-  IDegreeProgramResponse,
-  IGetFacultyRequest,
-  ICreateFacultyRequest,
-  IGetFacultyResponse,
-  ICreateFacultyResponse,
-  IUpdateFacultyRequest,
-  IUpdateFacultyResponse,
-  IDeleteFacultyRequest,
-  IDeleteFacultyResponse,
-  IGetDepartmentResponse,
-  IGetDepartmentRequest,
-  ICreateDepartmentRequest,
-  ICreateDepartmentResponse,
-  IUpdateDepartmentRequest,
-  IUpdateDepartmentResponse,
-  IDeleteDepartmentRequest,
-  IDeleteDepartmentResponse,
+  TDepartmentResponse,
+  TFacultyResponse,
+  ISelectRequest,
+  TDegreeProgramResponse,
+  ISelectFacultyRequest,
+  ISelectDepartmentRequest,
+  TCreateFacultyRequest,
+  TCreateDepartmentRequest,
+  TGeneralResponse,
 } from "@uninus/entities";
 
 @Injectable()
 export class CollegeService {
   constructor(private prisma: PrismaService) {}
 
-  async getDegreeProgram(payload: IDegreeProgramRequest): Promise<IDegreeProgramResponse> {
+  async getDegreeProgram({ search, id }: ISelectRequest): Promise<TDegreeProgramResponse> {
     try {
       const degreeProgram = await this.prisma.degreeProgram.findMany({
         where: {
+          ...(id && { id: Number(id) }),
           name: {
-            ...(payload.search && { contains: payload.search }),
+            ...(search && { contains: search }),
             mode: "insensitive",
           },
         },
@@ -47,16 +39,20 @@ export class CollegeService {
         throw new NotFoundException("Data Program Pendidikan Tidak Ditemukan!");
       }
 
-      return degreeProgram;
+      return { degree_program: degreeProgram };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getFaculty(payload: IGetFacultyRequest): Promise<IGetFacultyResponse> {
-    const { search, degree_program_id } = payload;
+  async getFaculty({
+    search,
+    degree_program_id,
+    id,
+  }: ISelectFacultyRequest): Promise<TFacultyResponse> {
     try {
       const faculty = await this.prisma.faculty.findMany({
         where: {
+          ...(id && { id: Number(id) }),
           name: { ...(search && { contains: search }), mode: "insensitive" },
 
           ...(degree_program_id && {
@@ -73,13 +69,13 @@ export class CollegeService {
         throw new NotFoundException("Data Fakultas Tidak Ditemukan!");
       }
 
-      return faculty;
+      return { faculty };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
 
-  async createFaculty(payload: ICreateFacultyRequest): Promise<ICreateFacultyResponse> {
+  async createFaculty(payload: TCreateFacultyRequest): Promise<TGeneralResponse> {
     try {
       const newFaculty = await this.prisma.faculty.create({
         data: {
@@ -103,7 +99,7 @@ export class CollegeService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async updateFaculty(payload: IUpdateFacultyRequest): Promise<IUpdateFacultyResponse> {
+  async updateFaculty(payload: TCreateFacultyRequest & { id: number }): Promise<TGeneralResponse> {
     try {
       const updatedFaculty = await this.prisma.faculty.update({
         where: {
@@ -126,7 +122,7 @@ export class CollegeService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteFaculty(payload: IDeleteFacultyRequest): Promise<IDeleteFacultyResponse> {
+  async deleteFaculty(payload: { id: number }): Promise<TGeneralResponse> {
     try {
       const deletedFaculty = await this.prisma.faculty.delete({
         where: {
@@ -146,11 +142,16 @@ export class CollegeService {
     }
   }
 
-  async getDepartment(payload: IGetDepartmentRequest): Promise<IGetDepartmentResponse> {
+  async getDepartment({
+    search,
+    faculty_id,
+    degree_program_id,
+    id,
+  }: ISelectDepartmentRequest): Promise<TDepartmentResponse> {
     try {
-      const { search, faculty_id, degree_program_id } = payload;
       const department = await this.prisma.department.findMany({
         where: {
+          ...(id && { id: Number(id) }),
           name: { ...(search && { contains: search }), mode: "insensitive" },
           ...(faculty_id && { faculty_id: Number(faculty_id) }),
           ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
@@ -165,12 +166,12 @@ export class CollegeService {
         throw new NotFoundException("Data Program Studi Tidak Ditemukan!");
       }
 
-      return department;
+      return { department };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-  async createDepartment(payload: ICreateDepartmentRequest): Promise<ICreateDepartmentResponse> {
+  async createDepartment(payload: TCreateDepartmentRequest): Promise<TGeneralResponse> {
     try {
       const newDepartment = await this.prisma.department.create({
         data: {
@@ -198,7 +199,9 @@ export class CollegeService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async updateDepartment(payload: IUpdateDepartmentRequest): Promise<IUpdateDepartmentResponse> {
+  async updateDepartment(
+    payload: TCreateDepartmentRequest & { id: number },
+  ): Promise<TGeneralResponse> {
     try {
       const updatedDepartment = await this.prisma.department.update({
         where: {
@@ -222,7 +225,7 @@ export class CollegeService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteDepartment(payload: IDeleteDepartmentRequest): Promise<IDeleteDepartmentResponse> {
+  async deleteDepartment(payload: { id: number }): Promise<TGeneralResponse> {
     try {
       const deleteDepartment = await this.prisma.department.delete({
         where: {
