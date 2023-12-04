@@ -1,6 +1,11 @@
 import { FC, ReactElement } from "react";
 import { TDetailModalPegawai } from "./types";
-import { DataDiriDosen, DataPendidikaniDosen, SuratKeteranganiDosen } from "./detail-dosen-content";
+import {
+  DataDiriDosen,
+  DataKeluargaDosen,
+  DataPendidikaniDosen,
+  SuratKeteranganiDosen,
+} from "./detail-dosen-content";
 
 export const DetailDosen: FC<TDetailModalPegawai> = ({ page }): ReactElement => {
   return (
@@ -11,7 +16,7 @@ export const DetailDosen: FC<TDetailModalPegawai> = ({ page }): ReactElement => 
 
       {page === 3 && <SuratKeteranganiDosen />}
 
-      {page === 4 && <DataPendidikaniDosen />}
+      {page === 4 && <DataKeluargaDosen />}
     </section>
   );
 };

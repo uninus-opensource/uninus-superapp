@@ -68,7 +68,7 @@ export const DataDiriDosen: FC = (): ReactElement => {
             type="text"
             label={data.label}
             labelclassname="font-semibold"
-            inputWidth="w-70% lg:w-[27vw] text-base md:w-[33vw] "
+            inputWidth="lg:w-[23rem] text-base md:w-[33vw] "
             control={control}
           />
         ))}
@@ -82,7 +82,7 @@ export const DataDiriDosen: FC = (): ReactElement => {
           type="text"
           label="Tempat Lahir"
           labelclassname="font-semibold"
-          inputWidth="w-70% lg:w-[27vw] text-base md:w-[33vw] "
+          inputWidth="lg:w-[23rem] text-base md:w-[33vw] "
           control={control}
         />
         <TextField
@@ -92,7 +92,7 @@ export const DataDiriDosen: FC = (): ReactElement => {
           type="date"
           label="Tanggal Lahir"
           labelclassname="font-semibold"
-          inputWidth="w-70% lg:w-[27vw] text-base md:w-[33vw]"
+          inputWidth="lg:w-[23rem] text-base md:w-[33vw]"
           control={control}
         />
       </div>
@@ -109,12 +109,12 @@ export const DataDiriDosen: FC = (): ReactElement => {
             isSearchable={false}
             control={control}
             status={"error"}
-            className="w-full md:w-[33vw] lg:w-[27vw]"
+            className="w-full md:w-[33vw] lg:w-[23rem]"
           />
         ))}
       </div>
 
-      <div className="w-full h-full flex justify-center items-center mt-5">
+      <div className="w-full h-full flex justify-center items-center xl:mt-5 mt-14">
         <TextField
           name="address"
           variant="sm"
@@ -127,7 +127,7 @@ export const DataDiriDosen: FC = (): ReactElement => {
           isTextArea
           textAreaCols={30}
           inputHeight="h-20"
-          inputWidth="md:w-[80vw] lg:w-[55vw] w-[70vw]"
+          inputWidth="md:w-[80vw] lg:w-[40rem] w-[70vw]"
           className="resize-none bg-grayscale-2  "
         />
       </div>
