@@ -233,7 +233,7 @@ export class AppService {
     }
   }
 
-  async getLecturer(payload: { id: string }): Promise<TLecturerResponse> {
+  async getLecturer(payload: { id: number }): Promise<TLecturerResponse> {
     const { id } = payload;
     const lecturer = await this.prisma.lecturers.findUnique({
       where: {
@@ -346,7 +346,7 @@ export class AppService {
     };
   }
 
-  async getAcademicStaff(payload: { id: string }): Promise<TAcademicStaffResponse> {
+  async getAcademicStaff(payload: { id: number }): Promise<TAcademicStaffResponse> {
     const { id } = payload;
     const academicStaff = await this.prisma.academicStaff.findUnique({
       where: {

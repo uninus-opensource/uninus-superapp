@@ -1,5 +1,5 @@
 export type TAcademicStaffResponse = {
-  id: string;
+  id: number;
   fullname: string;
   nip: string;
   nik: string;

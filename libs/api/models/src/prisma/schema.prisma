@@ -83,7 +83,7 @@ model Students {
   guardian_position       String?
   mother_position         String?
   occupation_position     String?
-  guardian_lecturer_id    String?
+  guardian_lecturer_id    Int?
   test_score              Int?
   pmb                     PMB?
   payment_history         PaymentHistory[]
@@ -512,14 +512,13 @@ model EmployeeHasWorkUnit {
 }
 
 model Lecturers {
-  id                          String                      @unique @default(uuid())
-  user_id                     String                      @unique
-  createdAt                   DateTime                    @default(now())
+  id                          Int                         @id @default(autoincrement())
   employee_id                 Int?                        @unique
   lecturer_certification      Boolean?
   lecturer_position_id        Int?
   lecturer_category_id        Int?
   lecturer_faculty_department LecturerFacultyDepartment[]
+  createdAt                   DateTime                    @default(now())
   employee                    Employees?                  @relation(fields: [employee_id], references: [id])
   lecturer_position           LecturerPosition?           @relation(fields: [lecturer_position_id], references: [id])
   students                    Students[]
@@ -527,7 +526,7 @@ model Lecturers {
 }
 
 model AcademicStaff {
-  id                   String            @unique @default(uuid())
+  id                   Int               @id @default(autoincrement())
   employee_id          Int?              @unique
   academic_position_id Int?
   createdAt            DateTime          @default(now())
@@ -664,10 +663,10 @@ model WorkingStatus {
 
 model LecturerFacultyDepartment {
   id            Int        @id @default(autoincrement())
-  lecturer_id   String
+  lecturer_id   Int?
   faculty_id    Int?
   department_id Int
   department    Department @relation(fields: [department_id], references: [id])
   faculty       Faculty?   @relation(fields: [faculty_id], references: [id])
-  lecturer      Lecturers  @relation(fields: [lecturer_id], references: [id])
+  lecturer      Lecturers? @relation(fields: [lecturer_id], references: [id])
 }

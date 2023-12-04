@@ -19,12 +19,12 @@ export class AppController {
   }
 
   @MessagePattern("get_lecturer")
-  getLecturer(payload: { id: string }) {
+  getLecturer(payload: { id: number }) {
     return this.appService.getLecturer(payload);
   }
 
   @MessagePattern("get_academic_staff")
-  getAcademicStaff(payload: { id: string }) {
+  getAcademicStaff(payload: { id: number }) {
     return this.appService.getAcademicStaff(payload);
   }
 

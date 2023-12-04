@@ -1,5 +1,5 @@
 export type TLecturerResponse = {
-  id: string;
+  id: number;
   fullname: string;
   nip: string;
   nidn: string;
