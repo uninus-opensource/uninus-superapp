@@ -6,4 +6,5 @@ export * from "./select";
 export * from "./radio";
 export * from "./dragable";
 export * from "./upload-field";
+export * from "./upload-field-V2";
 export * from "./select-option";

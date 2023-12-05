@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { FinanceController } from "@uninus/api/controllers";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { FinanceService } from "@uninus/api/services";
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
     ]),
   ],
   controllers: [FinanceController],
-  providers: [],
+  providers: [FinanceService],
 })
 export class FinanceModule {}

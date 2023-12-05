@@ -86,14 +86,14 @@ export const CardSection: FC = (): ReactElement => {
       <section className="relative grid grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8 px-5 lg:px-0 mt-6">
         {sectionTwo.map((x, i) => (
           <div
-            className="relative flex flex-col justify-center bg-primary-white xl:w-[14em] max-w-[16em] lg:h-[7em] max-h-[8em] p-4 shadow-md rounded-lg text-lg"
+            className="relative flex flex-col justify-center bg-primary-white xl:w-[16em] max-w-[16em] lg:h-[7em] max-h-[8em] p-4 shadow-md rounded-lg text-lg"
             key={i}
           >
             <div className="absolute bg-primary-green w-2 h-full max-h-[8em] -left-1 rounded-tl-lg rounded-bl-lg" />
             <div className="absolute bg-primary-white w-2 h-full max-h-[8em] left-0.5 rounded-tl-sm rounded-bl-sm" />
 
             <figure
-              className={`flex justify-center items-center w-[2em] h-auto p-2 rounded-md text-primary-green bg-secondary-green-8`}
+              className={`flex justify-center items-center text-xl w-[2em] h-auto p-2 rounded-md text-primary-green bg-secondary-green-8`}
             >
               {x.icon}
             </figure>

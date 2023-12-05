@@ -1,18 +1,24 @@
 import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
-import { IUserRequest, TCreateUserRequest, TUsersPaginationArgs } from "@uninus/entities";
+import {
+  ISelectRequest,
+  IUserRequest,
+  TCreateUserRequest,
+  TIdUser,
+  TUsersPaginationArgs,
+} from "@uninus/entities";
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
   @MessagePattern("get_user")
-  async getUser(id: string) {
-    return await this.appService.getUser(id);
+  async getDatauser(payload: TIdUser) {
+    return await this.appService.getDatauser(payload);
   }
   @MessagePattern("get_users")
-  async getUsers({ search, orderBy, page, perPage, app_origin }: TUsersPaginationArgs) {
-    return await this.appService.getUsers({ search, orderBy, page, perPage, app_origin });
+  async getDataUsers(payload: TUsersPaginationArgs) {
+    return await this.appService.getDataUsers(payload);
   }
 
   @MessagePattern("create_user")
@@ -21,12 +27,17 @@ export class AppController {
   }
 
   @MessagePattern("update_user")
-  async updateUser(payload: IUserRequest) {
-    return await this.appService.updateUser(payload);
+  async updateDataUser(payload: IUserRequest) {
+    return await this.appService.updateDataUser(payload);
   }
 
   @MessagePattern("delete_user")
-  async deleteUser(id: string) {
-    return await this.appService.deleteUser(id);
+  async deleteDataUser(payload: TIdUser) {
+    return await this.appService.deleteDataUser(payload);
+  }
+
+  @MessagePattern("get_roles")
+  async getRoles(payload: ISelectRequest) {
+    return await this.appService.getRoles(payload);
   }
 }

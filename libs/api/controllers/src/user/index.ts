@@ -1,6 +1,5 @@
 import {
   Body,
-  Inject,
   Controller,
   Delete,
   Get,
@@ -8,57 +7,50 @@ import {
   Query,
   Request,
   UseGuards,
-  UseFilters,
   Patch,
   Post,
   Headers,
 } from "@nestjs/common";
 import {
   TReqToken,
-  TProfileResponse,
   EAppsOrigin,
   EOrderByPagination,
-  IUserRequest,
   TCreateUserRequest,
+  TUpdateUserRequest,
+  VSUpdateUser,
+  VSCreateUser,
 } from "@uninus/entities";
 import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
 import { CreateUserDto, UpdateUserDto } from "@uninus/api/dto";
 import {
-  ApiResponse,
   ApiTags,
   ApiOperation,
   ApiBearerAuth,
   ApiQuery,
   ApiHeader,
+  ApiBody,
 } from "@nestjs/swagger";
-import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { catchError, firstValueFrom, throwError } from "rxjs";
 
-import { RpcExceptionToHttpExceptionFilter } from "@uninus/api/filters";
+import { UserService } from "@uninus/api/services";
+import { ZodValidationPipe } from "@uninus/api/pipes";
 
-@Controller("user")
 @ApiTags("User")
+@ApiBearerAuth("bearer")
+@Controller("user")
 export class UserController {
-  constructor(@Inject("USER_SERVICE") private readonly client: ClientProxy) {}
+  constructor(private readonly appService: UserService) {}
 
-  @ApiBearerAuth("bearer")
-  @ApiOperation({ summary: "Get Data" })
-  @ApiResponse({ status: 400, description: "User tidak ditemukan" })
+  @ApiOperation({ summary: "Get Data User" })
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
+    required: true,
   })
   @Get("/me")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard)
-  async getUser(@Request() reqToken: TReqToken) {
-    const { sub } = reqToken.user;
-    const response = await firstValueFrom(
-      this.client
-        .send<TProfileResponse>("get_user", sub)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+  async getDatauser(@Request() reqToken: TReqToken) {
+    const { sub: id } = reqToken.user;
+    return await this.appService.getDataUser({ id });
   }
 
   @ApiOperation({ summary: "Pagination List User" })
@@ -67,16 +59,14 @@ export class UserController {
   @ApiQuery({ name: "order_by", required: false })
   @ApiQuery({ name: "filter_by", required: false })
   @ApiQuery({ name: "search", required: false })
-  @ApiBearerAuth("bearer")
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
     required: true,
   })
   @Get()
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
-  async getAllData(
+  @UseGuards(JwtAuthGuard)
+  async getDataUsers(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
     @Query("order_by") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
@@ -84,104 +74,95 @@ export class UserController {
     @Query("search") search: string,
     @Headers("app-origin") app_origin: string,
   ) {
-    const response = await firstValueFrom(
-      this.client
-        .send<Array<TProfileResponse>>("get_users", {
-          app_origin,
-          search,
-          orderBy: {
-            [filterBy]: orderBy,
-          },
-          page,
-          perPage,
-        })
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+    return await this.appService.getDataUsers({
+      page,
+      perPage,
+      orderBy,
+      filterBy,
+      search,
+      app_origin,
+    });
   }
 
   @ApiOperation({ summary: "Get Data User By Id" })
-  @ApiResponse({ status: 400, description: "User tidak ditemukan" })
-  @ApiBearerAuth("bearer")
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
+    required: true,
   })
   @Get("/:id")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
-  async getDataById(@Param("id") id: string) {
-    const response = await firstValueFrom(
-      this.client
-        .send<TProfileResponse>("get_user", id)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+  async getDataUserById(@Param("id") id: string) {
+    return await this.appService.getDataUserById({ id });
   }
 
   @ApiOperation({ summary: "Delete By Id" })
-  @ApiResponse({ status: 201, description: "Berhasil delete user" })
-  @ApiResponse({ status: 400, description: "User tidak ditemukan" })
-  @ApiBearerAuth("bearer")
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
+    required: true,
   })
   @Delete("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  async deleteData(@Param("id") id: string) {
-    const response = await firstValueFrom(
-      this.client
-        .send("delete_user", id)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+  async deleteDataUser(@Param("id") id: string) {
+    return await this.appService.deleteDataUser({ id });
   }
-
-  @ApiOperation({ summary: "Edit User By Id" })
-  @ApiResponse({ status: 201, description: "Berhasil update user" })
-  @ApiResponse({ status: 400, description: "User tidak ditemukan" })
-  @ApiBearerAuth("bearer")
+  @ApiOperation({ summary: "Update user" })
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
+    required: true,
   })
-  @Patch("/:id")
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
-  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
-  async updateData(
-    @Param("id") id: string,
-    @Body()
-    payload: UpdateUserDto,
+  @ApiBody({ type: UpdateUserDto })
+  @Patch()
+  @UseGuards(JwtAuthGuard)
+  async updateUser(
+    @Request() reqToken: TReqToken,
+    @Body(new ZodValidationPipe(VSUpdateUser))
+    payload: TUpdateUserRequest,
   ) {
-    const response = await firstValueFrom(
-      this.client
-        .send<IUserRequest>("update_user", { id, ...payload })
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+    const { sub: id } = reqToken.user;
+    return await this.appService.updateUser({ id, ...payload });
+  }
+
+  @ApiOperation({ summary: "Update User By Id" })
+  @ApiHeader({
+    name: "app-origin",
+    description: "Application Origin",
+    required: true,
+  })
+  @ApiBody({ type: UpdateUserDto })
+  @Patch("/:id")
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
+  async updateUserById(
+    @Param("id") id: string,
+    @Body(new ZodValidationPipe(VSUpdateUser))
+    payload: TUpdateUserRequest,
+  ) {
+    return await this.appService.updateUserById({ id, ...payload });
   }
 
   @ApiOperation({ summary: "Create user" })
-  @ApiResponse({ status: 201, description: "Berhasil membuat user" })
-  @ApiBearerAuth("bearer")
   @ApiHeader({
     name: "app-origin",
     description: "Application Origin",
+    required: true,
   })
+  @ApiBody({ type: CreateUserDto })
   @Post()
-  @UseFilters(new RpcExceptionToHttpExceptionFilter())
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async createUser(
-    @Body()
-    payload: CreateUserDto,
+    @Body(new ZodValidationPipe(VSCreateUser))
+    payload: TCreateUserRequest,
   ) {
-    const response = await firstValueFrom(
-      this.client
-        .send<TCreateUserRequest>("create_user", payload)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
+    return await this.appService.createUser(payload);
+  }
+
+  @ApiOperation({ summary: "Get Roles" })
+  @Get("roles")
+  @ApiQuery({ name: "id", required: false })
+  @ApiQuery({ name: "search", required: false })
+  async getRoles(@Query("id") id: string, @Query("search") search: string) {
+    return await this.appService.getRoles({ id, search });
   }
 }
