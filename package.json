@@ -92,7 +92,7 @@
     "@nestjs/jwt": "^10.1.0",
     "@nestjs/microservices": "^10.2.8",
     "@nestjs/passport": "^10.0.2",
-    "@nestjs/platform-express": "^10.2.7",
+    "@nestjs/platform-express": "^10.2.10",
     "@nestjs/swagger": "^7.1.16",
     "@prisma/client": "^5.6.0",
     "@react-pdf/renderer": "^3.1.13",
