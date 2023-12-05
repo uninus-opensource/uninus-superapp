@@ -415,10 +415,10 @@
     "@smithy/types" "^2.5.0"
     tslib "^2.5.0"
 
-"@aws-sdk/lib-storage@^3.456.0":
-  version "3.456.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/lib-storage/-/lib-storage-3.456.0.tgz#9ea4b6aebe5b7b3ed1413d4d0d3d98ac447c49f9"
-  integrity sha512-S1h7DcH8u+CL6kobVgorgm0X0u+gQwjefbDuRrPF0qtpzvPprabRe4t3yt4VKuhjvegxKMVL/sdw817gLGoPdA==
+"@aws-sdk/lib-storage@^3.465.0":
+  version "3.465.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/lib-storage/-/lib-storage-3.465.0.tgz#ad9d1d3bcdd8dd5c234a38a805780adfe6e07860"
+  integrity sha512-nsh8FgVw31N0GO6yiThg2I8yG0rRlpvnEm/MYQ8ETpmm2uq4inbup7eS8FxtfxhU6cGcJZu+YLeBwEdKrTSmvA==
   dependencies:
     "@smithy/abort-controller" "^2.0.1"
     "@smithy/middleware-endpoint" "^2.2.0"
