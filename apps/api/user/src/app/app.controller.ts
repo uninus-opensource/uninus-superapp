@@ -1,7 +1,13 @@
 import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
-import { IUserRequest, TCreateUserRequest, TIdUser, TUsersPaginationArgs } from "@uninus/entities";
+import {
+  ISelectRequest,
+  IUserRequest,
+  TCreateUserRequest,
+  TIdUser,
+  TUsersPaginationArgs,
+} from "@uninus/entities";
 
 @Controller()
 export class AppController {
@@ -28,5 +34,10 @@ export class AppController {
   @MessagePattern("delete_user")
   async deleteDataUser(payload: TIdUser) {
     return await this.appService.deleteDataUser(payload);
+  }
+
+  @MessagePattern("get_roles")
+  async getRoles(payload: ISelectRequest) {
+    return await this.appService.getRoles(payload);
   }
 }
