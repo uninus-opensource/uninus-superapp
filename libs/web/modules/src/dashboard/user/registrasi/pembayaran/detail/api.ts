@@ -13,6 +13,6 @@ export const getPaymentObligationPMB = async (): Promise<TPaymentObligationsResp
 export const createPaymentPMB = async (
   payload: TCreatePaymentRequest,
 ): Promise<TCreatePaymentResponse> => {
-  const { data } = await api.post("/finance/request-payment", payload);
+  const { data } = await api.post("/finance/payment/create", payload);
   return data;
 };

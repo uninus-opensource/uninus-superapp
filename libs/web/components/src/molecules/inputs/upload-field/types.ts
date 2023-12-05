@@ -9,10 +9,18 @@ export type TUploadFile<T extends FieldValues> = UseControllerProps<T> & {
   classNameField?: string;
   preview?: boolean;
   inputLabel?: string | ReactNode;
-  labelClassName?: string;
+  labelClassName?:
+    | "labelText"
+    | "labelTextUploaded"
+    | "labelTextDisabled"
+    | "iconUpload"
+    | "labelTextDisabledLarge"
+    | "labelTextUploadedLarge"
+    | "labelTextLarge"
+    | "labelUploadFieldV2";
   layoutInputClassName?: string;
   required?: boolean;
-  variant: string;
+  variant: "default" | "custom";
   message?: string;
   isDisabled?: boolean;
   label?: string;

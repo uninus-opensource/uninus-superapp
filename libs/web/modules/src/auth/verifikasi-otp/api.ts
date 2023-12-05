@@ -7,6 +7,6 @@ export const verifyRequest = async (payload: TPayloadVerify): Promise<TVerifyRes
 };
 
 export const requestNewOtp = async (payload: TNewOtpRequest): Promise<TVerifyResponse> => {
-  const { data } = await api.post("/auth/resend-otp", payload);
+  const { data } = await api.post("/auth/otp/resend", payload);
   return data;
 };

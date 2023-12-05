@@ -227,20 +227,10 @@ const Table: FC = (): ReactElement => {
         iconClose
         showModal={showModal}
         onClose={onCloseModal}
-        bodyClassName="flex w-full h-[85vh] flex-col px-10 py-5 justify-center items-center"
-        className="max-w-5xl max-h-full rounded-lg bg-grayscale-1"
+        bodyClassName="flex w-full h-[85vh] flex-col px-10 py-5 lg:pb-8 pb-14 justify-center items-center overflow-auto"
+        className="max-w-5xl max-h-full rounded-lg bg-grayscale-1 overflow-hidden"
       >
-        {/* <figure className="flex justify-center items-center mt-4">
-          <Image
-            src={"/illustrations/dummy-avatar.webp"}
-            alt="foto"
-            width={500}
-            height={500}
-            quality={100}
-            className="w-[40%] h-[40%] rounded-full"
-          />
-        </figure> */}
-        <section className="flex flex-col gap-6 w-full h-[100%] shadow-md bg-primary-white p-5">
+        <section className="flex flex-col gap-6 w-full h-full shadow-md bg-primary-white p-5">
           <div className="flex items-center gap-12 w-full h-auto border-grayscale-2 border-b-[1px] ">
             {modalCondition.map((item) => (
               <button
