@@ -8,6 +8,9 @@ import {
   TUsersPaginationArgs,
   TUsersPaginatonResponse,
   TIdUser,
+  TGetNotificationResponse,
+  TCreateNotificationResponse,
+  TCreateNotificationRequest,
 } from "@uninus/entities";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
@@ -78,6 +81,34 @@ export class UserService {
     const response = await firstValueFrom(
       this.client
         .send("get_roles", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getNotification(payload: { id: string }): Promise<TGetNotificationResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_notification", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async createNotification(
+    payload: TCreateNotificationRequest,
+  ): Promise<TCreateNotificationResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("create_notification", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+  async deleteNotification(payload: { id: string }) {
+    const response = await firstValueFrom(
+      this.client
+        .send("delete_notification", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

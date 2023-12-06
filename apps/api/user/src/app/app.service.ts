@@ -9,7 +9,10 @@ import {
   ISelectRequest,
   IUserRequest,
   IUserResponse,
+  TCreateNotificationRequest,
+  TCreateNotificationResponse,
   TCreateUserRequest,
+  TGetNotificationResponse,
   TIdUser,
   TRolesResponse,
   TUsersPaginationArgs,
@@ -287,6 +290,7 @@ export class AppService {
           fullname: true,
           email: true,
           avatar: true,
+          notification_status: true,
           students: {
             select: {
               pmb: {
@@ -383,6 +387,88 @@ export class AppService {
         throw new NotFoundException("Data tidak ditemukan");
       }
       return roles;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getNotification(payload: { id: string }): Promise<TGetNotificationResponse> {
+    try {
+      const notificationList = await this.prisma.notifications.findMany({
+        where: {
+          OR: [
+            {
+              user_id: payload.id,
+            },
+            {
+              user_id: null,
+            },
+          ],
+        },
+        select: {
+          title: true,
+          detail: true,
+          created_at: true,
+        },
+      });
+      return notificationList;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async createNotification(
+    payload: TCreateNotificationRequest,
+  ): Promise<TCreateNotificationResponse> {
+    try {
+      const { user_id, title, detail } = payload;
+
+      const createNotification = await Promise.all([
+        this.prisma.notifications.create({
+          data: {
+            title,
+            detail,
+            ...(user_id && {
+              user_id,
+              update: {
+                user: { notification_status: true },
+              },
+            }),
+          },
+        }),
+        !user_id &&
+          this.prisma.users.updateMany({
+            data: {
+              notification_status: false,
+            },
+          }),
+      ]);
+
+      if (!createNotification) {
+        throw new NotFoundException("Gagal membuat pesan");
+      }
+
+      return {
+        message: "Berhasil menambahkan pesan",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async deleteNotification(payload: { id: string }) {
+    try {
+      const deleteNotification = await this.prisma.notifications.delete({
+        where: {
+          id: payload.id,
+        },
+      });
+      if (!deleteNotification) {
+        throw new NotFoundException("Gagal menghapus pesan");
+      }
+
+      return {
+        message: "Berhasil menghapus pesan",
+      };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
