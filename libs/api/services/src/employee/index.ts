@@ -52,4 +52,40 @@ export class EmployeeService {
     );
     return response;
   }
+
+  async getEmployeeTypes(payload: ISelectRequest) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_employee_types", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getLecturerTypes(payload: ISelectRequest) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_lecturer_types", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getAcademicStaffTypes(payload: ISelectRequest) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_academic_staff_types", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async createEmployee() {
+    const response = await firstValueFrom(
+      this.client
+        .send("create_employee", {})
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
 }

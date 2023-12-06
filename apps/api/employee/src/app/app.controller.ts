@@ -32,4 +32,24 @@ export class AppController {
   async getCategories(payload: ISelectRequest) {
     return await this.appService.getCategories(payload);
   }
+
+  @MessagePattern("get_employee_types")
+  async getEmployeeTypes(payload: ISelectRequest) {
+    return await this.appService.getEmployeeTypes(payload);
+  }
+
+  @MessagePattern("get_lecturer_types")
+  async getLecturerTypes(payload: ISelectRequest) {
+    return await this.appService.getLecturerTypes(payload);
+  }
+
+  @MessagePattern("get_academic_staff_types")
+  async getAcademicStaffTypes(payload: ISelectRequest) {
+    return await this.appService.getAcademicStaffTypes(payload);
+  }
+
+  @MessagePattern("create_employee")
+  async create() {
+    return await this.appService.createEmployee();
+  }
 }

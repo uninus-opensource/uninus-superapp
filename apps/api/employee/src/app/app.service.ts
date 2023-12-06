@@ -5,7 +5,7 @@ import { errorMappings } from "@uninus/api/utilities";
 import {
   ISelectRequest,
   TAcademicStaffResponse,
-  TEmployeeCategoriesResponse,
+  TEmployeeParamsResponse,
   TEmployeePaginationArgs,
   TEmployeesResponse,
   TLecturerResponse,
@@ -195,27 +195,27 @@ export class AppService {
         }),
         this.prisma.lecturers.count({
           where: {
-            lecturer_category_id: 1,
+            lecturer_type_id: 1,
           },
         }),
         this.prisma.lecturers.count({
           where: {
-            lecturer_category_id: 2,
+            lecturer_type_id: 2,
           },
         }),
         this.prisma.lecturers.count({
           where: {
-            lecturer_category_id: 3,
+            lecturer_type_id: 3,
           },
         }),
         this.prisma.academicStaff.count({
           where: {
-            academic_status_id: 1,
+            academic_staff_type_id: 1,
           },
         }),
         this.prisma.academicStaff.count({
           where: {
-            academic_status_id: 2,
+            academic_staff_type_id: 2,
           },
         }),
       ]);
@@ -313,7 +313,7 @@ export class AppService {
               },
             },
           },
-          lecturer_category: {
+          lecturer_type: {
             select: {
               name: true,
             },
@@ -333,7 +333,7 @@ export class AppService {
         nik: lecturer.employee.nik,
         gender: lecturer.employee.gender.name,
         addition_task: lecturer.employee.addition_task,
-        lecturer_category: lecturer.lecturer_category.name,
+        lecturer_type: lecturer.lecturer_type.name,
         lecturer_position: lecturer.lecturer_position.name,
         civil_service_level: lecturer.lecturer_position.civil_service?.name,
         employee_work_unit: lecturer.employee.employee_has_workunit?.map((el) => ({
@@ -399,7 +399,7 @@ export class AppService {
               },
             },
           },
-          academic_status: {
+          academic_staff_type: {
             select: {
               name: true,
             },
@@ -417,7 +417,7 @@ export class AppService {
         nip: academicStaff.employee.nip,
         nik: academicStaff.employee.nik,
         gender: academicStaff.employee.gender.name,
-        academic_status: academicStaff.academic_status.name,
+        academic_staff_type: academicStaff.academic_staff_type.name,
         employee_work_unit: academicStaff.employee.employee_has_workunit.map((el) => ({
           name: el.work_unit.name,
           work_unit_category: el.work_unit.work_unit_category.name,
@@ -431,7 +431,7 @@ export class AppService {
     }
   }
 
-  async getCategories({ search, id }: ISelectRequest): Promise<TEmployeeCategoriesResponse> {
+  async getCategories({ search, id }: ISelectRequest): Promise<TEmployeeParamsResponse> {
     try {
       const employeeCategories = await this.prisma.employeeCategories.findMany({
         where: {
@@ -453,5 +453,81 @@ export class AppService {
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
+  }
+
+  async getEmployeeTypes({ search, id }: ISelectRequest): Promise<TEmployeeParamsResponse> {
+    try {
+      const employeeTypes = await this.prisma.employeeType.findMany({
+        where: {
+          id: id && Number(id),
+          name: {
+            ...(search && { contains: search }),
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+      if (!employeeTypes) {
+        throw new NotFoundException("Data tidak ditemukan");
+      }
+      return employeeTypes;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getLecturerTypes({ search, id }: ISelectRequest): Promise<TEmployeeParamsResponse> {
+    try {
+      const lecturerTypes = await this.prisma.lecturerType.findMany({
+        where: {
+          id: id && Number(id),
+          name: {
+            ...(search && { contains: search }),
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+      if (!lecturerTypes) {
+        throw new NotFoundException("Data tidak ditemukan");
+      }
+      return lecturerTypes;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getAcademicStaffTypes({ search, id }: ISelectRequest): Promise<TEmployeeParamsResponse> {
+    try {
+      const academicStaffTypes = await this.prisma.academicStaffType.findMany({
+        where: {
+          id: id && Number(id),
+          name: {
+            ...(search && { contains: search }),
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+      if (!academicStaffTypes) {
+        throw new NotFoundException("Data tidak ditemukan");
+      }
+      return academicStaffTypes;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async createEmployee() {
+    return "Success";
   }
 }

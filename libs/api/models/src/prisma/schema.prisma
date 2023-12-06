@@ -448,7 +448,7 @@ model Questions {
 }
 
 model Employees {
-  id                       Int                       @unique @default(autoincrement())
+  id                       String                    @unique @default(uuid())
   nik                      String?
   address                  String?
   nip                      String?
@@ -489,7 +489,7 @@ model Employees {
 
 model EmployeeHasEducation {
   id           Int        @id @default(autoincrement())
-  employee_id  Int
+  employee_id  String
   education_id Int?
   education    Education? @relation(fields: [education_id], references: [id])
   employee     Employees  @relation(fields: [employee_id], references: [id])
@@ -497,7 +497,7 @@ model EmployeeHasEducation {
 
 model EmployeeHasCategory {
   id                   Int                @id @default(autoincrement())
-  employee_id          Int
+  employee_id          String
   employee_category_id Int
   employee_category    EmployeeCategories @relation(fields: [employee_category_id], references: [id])
   employee             Employees          @relation(fields: [employee_id], references: [id])
@@ -505,43 +505,42 @@ model EmployeeHasCategory {
 
 model EmployeeHasWorkUnit {
   id           Int       @id @default(autoincrement())
-  employee_id  Int
+  employee_id  String
   work_unit_id Int
   employee     Employees @relation(fields: [employee_id], references: [id])
   work_unit    WorkUnit  @relation(fields: [work_unit_id], references: [id])
 }
 
 model Lecturers {
-  id                          String                      @unique @default(uuid())
-  user_id                     String                      @unique
+  id                          String                      @id @default(uuid())
   createdAt                   DateTime                    @default(now())
-  employee_id                 Int?                        @unique
-  lecturer_certification      Boolean?
+  employee_id                 String?                     @unique
+  lecturer_certification      Boolean?                    @default(false)
   lecturer_position_id        Int?
-  lecturer_category_id        Int?
+  lecturer_type_id            Int?
   lecturer_faculty_department LecturerFacultyDepartment[]
   employee                    Employees?                  @relation(fields: [employee_id], references: [id])
   lecturer_position           LecturerPosition?           @relation(fields: [lecturer_position_id], references: [id])
   students                    Students[]
-  lecturer_category           LecturerCategory?           @relation(fields: [lecturer_category_id], references: [id])
+  lecturer_type               LecturerType?               @relation(fields: [lecturer_type_id], references: [id])
 }
 
 model AcademicStaff {
-  id                   String            @unique @default(uuid())
-  employee_id          Int?              @unique
-  academic_position_id Int?
-  createdAt            DateTime          @default(now())
-  academic_status_id   Int?
-  academin_position    AcademicPosition? @relation(fields: [academic_position_id], references: [id])
-  academic_status      AcademicStatus?   @relation(fields: [academic_status_id], references: [id])
-  employee             Employees?        @relation(fields: [employee_id], references: [id])
+  id                     String             @id @default(uuid())
+  employee_id            String?            @unique
+  academic_position_id   Int?
+  createdAt              DateTime           @default(now())
+  academic_staff_type_id Int?
+  academin_position      AcademicPosition?  @relation(fields: [academic_position_id], references: [id])
+  academic_staff_type    AcademicStaffType? @relation(fields: [academic_staff_type_id], references: [id])
+  employee               Employees?         @relation(fields: [employee_id], references: [id])
 }
 
 model CertificationProfession {
   id          Int       @id @default(autoincrement())
   name        String
   path        String
-  employee_id Int
+  employee_id String
   employee    Employees @relation(fields: [employee_id], references: [id])
 }
 
@@ -568,20 +567,25 @@ model WorkUnit {
   work_unit_category    WorkUnitCategory?     @relation(fields: [work_unit_category_id], references: [id])
 }
 
-model LecturerPosition {
-  id                     Int                @unique @default(autoincrement())
-  name                   String
-  civil_service_level_id Int?
-  createdAt              DateTime           @default(now())
-  civil_service          CivilServiceLevel? @relation(fields: [civil_service_level_id], references: [id], onDelete: Cascade)
-  lecturers              Lecturers[]
-}
-
-model LecturerCategory {
+model LecturerType {
   id        Int         @id @default(autoincrement())
   name      String
-  createdAt DateTime
-  Lecturers Lecturers[]
+  createdAt DateTime    @default(now())
+  lecturers Lecturers[]
+}
+
+model EmployeeType {
+  id        Int         @id @default(autoincrement())
+  name      String
+  createdAt DateTime    @default(now())
+  employees Employees[]
+}
+
+model AcademicStaffType {
+  id             Int             @id @default(autoincrement())
+  name           String
+  createdAt      DateTime        @default(now())
+  academic_staff AcademicStaff[]
 }
 
 model AcademicPosition {
@@ -591,6 +595,15 @@ model AcademicPosition {
   createdAt              DateTime           @default(now())
   civil_service          CivilServiceLevel? @relation(fields: [civil_service_level_id], references: [id], onDelete: Cascade)
   academic_staff         AcademicStaff[]
+}
+
+model LecturerPosition {
+  id                     Int                @unique @default(autoincrement())
+  name                   String
+  civil_service_level_id Int?
+  createdAt              DateTime           @default(now())
+  civil_service          CivilServiceLevel? @relation(fields: [civil_service_level_id], references: [id], onDelete: Cascade)
+  lecturers              Lecturers[]
 }
 
 model CivilServiceLevel {
@@ -611,22 +624,18 @@ model EmployeeCategories {
 model EmployeeDocuments {
   id          Int       @id @default(autoincrement())
   name        String
-  employee_id Int
+  employee_id String
   employee    Employees @relation(fields: [employee_id], references: [id], onDelete: Cascade)
 }
 
-model AcademicStatus {
-  id            Int             @id @default(autoincrement())
-  name          String
-  createdAt     DateTime
-  AcademicStaff AcademicStaff[]
-}
-
-model EmployeeType {
-  id        Int         @id @default(autoincrement())
-  name      String
-  createdAt DateTime
-  Employees Employees[]
+model LecturerFacultyDepartment {
+  id            Int        @id @default(autoincrement())
+  lecturer_id   String?
+  faculty_id    Int?
+  department_id Int
+  department    Department @relation(fields: [department_id], references: [id])
+  faculty       Faculty?   @relation(fields: [faculty_id], references: [id])
+  lecturer      Lecturers? @relation(fields: [lecturer_id], references: [id])
 }
 
 model AlumniProfile {
@@ -660,14 +669,4 @@ model WorkingStatus {
   id     Int             @id @default(autoincrement())
   nmae   String
   alumni AlumniProfile[]
-}
-
-model LecturerFacultyDepartment {
-  id            Int        @id @default(autoincrement())
-  lecturer_id   String
-  faculty_id    Int?
-  department_id Int
-  department    Department @relation(fields: [department_id], references: [id])
-  faculty       Faculty?   @relation(fields: [faculty_id], references: [id])
-  lecturer      Lecturers  @relation(fields: [lecturer_id], references: [id])
 }
