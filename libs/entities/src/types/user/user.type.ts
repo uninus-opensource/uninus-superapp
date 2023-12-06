@@ -17,7 +17,7 @@ export type TProfileResponse = {
   role_id?: number | null;
   createdAt?: Date;
   avatar: string | null;
-  notification_status?: boolean;
+  notification_read?: boolean;
 };
 
 export type TUser = {

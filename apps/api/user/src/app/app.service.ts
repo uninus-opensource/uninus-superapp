@@ -290,7 +290,7 @@ export class AppService {
           fullname: true,
           email: true,
           avatar: true,
-          notification_status: true,
+          notification_read: true,
           students: {
             select: {
               pmb: {
@@ -418,7 +418,7 @@ export class AppService {
             id: payload.id,
           },
           data: {
-            notification_status: true,
+            notification_read: true,
           },
         }),
       ]);
@@ -455,7 +455,7 @@ export class AppService {
         !user_id
           ? this.prisma.users.updateMany({
               data: {
-                notification_status: false,
+                notification_read: false,
               },
             })
           : this.prisma.users.update({
@@ -463,7 +463,7 @@ export class AppService {
                 id: user_id,
               },
               data: {
-                notification_status: false,
+                notification_read: false,
               },
             }),
       ]);

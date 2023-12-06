@@ -9,21 +9,21 @@ datasource db {
 }
 
 model Users {
-  id                  String          @unique @default(uuid())
-  email               String          @unique
-  fullname            String
-  password            String
-  refresh_token       String?
-  role_id             Int?            @default(1)
-  createdAt           DateTime        @default(now())
-  avatar              String?
-  isVerified          Boolean?        @default(false)
-  employees           Employees?
-  otp                 OTP?
-  students            Students?
-  role                Roles?          @relation(fields: [role_id], references: [id])
-  notification_status Boolean         @default(true)
-  notification        Notifications[]
+  id                String          @unique @default(uuid())
+  email             String          @unique
+  fullname          String
+  password          String
+  refresh_token     String?
+  role_id           Int?            @default(1)
+  createdAt         DateTime        @default(now())
+  avatar            String?
+  isVerified        Boolean?        @default(false)
+  employees         Employees?
+  otp               OTP?
+  students          Students?
+  role              Roles?          @relation(fields: [role_id], references: [id])
+  notification_read Boolean         @default(true)
+  notification      Notifications[]
 }
 
 model Notifications {
