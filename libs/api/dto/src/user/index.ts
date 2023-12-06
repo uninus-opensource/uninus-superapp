@@ -40,8 +40,5 @@ export class CreateNotificationDto {
   public detail!: string;
 
   @ApiProperty({ required: false })
-  public user_id!: number;
-
-  @ApiProperty()
-  public fullname!: string;
+  public user_id!: string;
 }

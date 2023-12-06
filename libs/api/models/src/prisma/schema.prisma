@@ -28,7 +28,7 @@ model Users {
 
 model Notifications {
   id         String    @unique @default(uuid())
-  user_id    String?   @unique
+  user_id    String?
   user       Users?    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   title      String
   detail     String

@@ -394,24 +394,39 @@ export class AppService {
 
   async getNotification(payload: { id: string }): Promise<TGetNotificationResponse> {
     try {
-      const notificationList = await this.prisma.notifications.findMany({
-        where: {
-          OR: [
-            {
-              user_id: payload.id,
-            },
-            {
-              user_id: null,
-            },
-          ],
-        },
-        select: {
-          title: true,
-          detail: true,
-          created_at: true,
-        },
-      });
-      return notificationList;
+      const notificationList = await Promise.all([
+        this.prisma.notifications.findMany({
+          where: {
+            OR: [
+              {
+                user_id: payload.id,
+              },
+              {
+                user_id: null,
+              },
+            ],
+          },
+          select: {
+            title: true,
+            detail: true,
+            created_at: true,
+          },
+        }),
+
+        this.prisma.users.update({
+          where: {
+            id: payload.id,
+          },
+          data: {
+            notification_status: true,
+          },
+        }),
+      ]);
+
+      if (!notificationList) {
+        throw new BadRequestException("Gagal mendapatkan pesan");
+      }
+      return notificationList[0];
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -429,23 +444,32 @@ export class AppService {
             title,
             detail,
             ...(user_id && {
-              user_id,
-              update: {
-                user: { notification_status: true },
+              user: {
+                connect: {
+                  id: user_id,
+                },
               },
             }),
           },
         }),
-        !user_id &&
-          this.prisma.users.updateMany({
-            data: {
-              notification_status: false,
-            },
-          }),
+        !user_id
+          ? this.prisma.users.updateMany({
+              data: {
+                notification_status: false,
+              },
+            })
+          : this.prisma.users.update({
+              where: {
+                id: user_id,
+              },
+              data: {
+                notification_status: false,
+              },
+            }),
       ]);
 
       if (!createNotification) {
-        throw new NotFoundException("Gagal membuat pesan");
+        throw new BadRequestException("Gagal membuat pesan");
       }
 
       return {
