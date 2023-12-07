@@ -13,7 +13,7 @@ import {
   TPaymentObligationsRequest,
   TStudentsPaginationArgs,
   TStudentsPaginatonResponse,
-  TStudentsByStatusResponse,
+  TTotalStudentsResponse,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
 import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
@@ -619,37 +619,33 @@ export class AppService {
     }
   }
 
-  async getStudentByStatus(): Promise<TStudentsByStatusResponse> {
+  async getTotalStudent(): Promise<TTotalStudentsResponse> {
     try {
-      const activeCount = await this.prisma.students.count({
-        where: {
-          student_status_id: 1,
+      const getTotalStudent = await this.prisma.studentStatus.findMany({
+        select: {
+          name: true,
+          _count: {
+            select: {
+              Students: true,
+            },
+          },
         },
       });
 
-      const nonActiveCount = await this.prisma.students.count({
-        where: {
-          student_status_id: 2,
-        },
-      });
-      const leaveCount = await this.prisma.students.count({
-        where: {
-          student_status_id: 3,
-        },
-      });
-      const graduatedCount = await this.prisma.students.count({
-        where: {
-          student_status_id: 4,
-        },
-      });
+      if (!getTotalStudent) {
+        throw new BadRequestException("Gagal dalam mengambil data");
+      }
+      const obj = {};
 
-      const totalCount = await this.prisma.students.count();
+      const mapData = await Promise.all([
+        getTotalStudent.forEach((el) => {
+          obj[el.name.toLocaleLowerCase().replace(" ", "_")] = el._count.Students;
+        }),
+        getTotalStudent.reduce((acc, curr) => acc + curr._count.Students, 0),
+      ]);
       return {
-        mahasiswa_aktif: activeCount,
-        mahasiswa_nonaktif: nonActiveCount,
-        mahasiswa_cuti: leaveCount,
-        mahasiswa_lulus: graduatedCount,
-        total_mahasiswa: totalCount,
+        total: mapData[1],
+        ...obj,
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));

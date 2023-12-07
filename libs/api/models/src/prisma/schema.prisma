@@ -126,7 +126,7 @@ model Students {
   scholarship             Scholarship?     @relation(fields: [scholarship_id], references: [id])
   subdistrict             SubDistrict?     @relation("student", fields: [subdistrict_id], references: [id])
   user                    Users            @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  student_status          StudentStatus? @relation(fields: [student_status_id], references: [id])
+  student_status          StudentStatus?   @relation(fields: [student_status_id], references: [id])
   student_status_id       Int?
 }
 
@@ -686,8 +686,7 @@ model Notifications {
 }
 
 model StudentStatus {
-  id            Int        @id @default(autoincrement())
-  name          String
-  student       Students[]
-  created_at    DateTime? @default(now())
+  id      Int        @id @default(autoincrement())
+  name    String
+  student Students[]
 }

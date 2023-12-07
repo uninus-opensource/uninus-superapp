@@ -11,9 +11,9 @@ import {
   TGraduationStatusRequest,
   TPaymentObligationsRequest,
   TPaymentObligationsResponse,
-  TStudentsByStatusResponse,
   TStudentsPaginationArgs,
   TStudentsPaginatonResponse,
+  TTotalStudentsResponse,
   emailTemplateSelection,
 } from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
@@ -109,10 +109,10 @@ export class StudentService {
       : updateStudent;
   }
 
-  async getStudentByStatus(): Promise<TStudentsByStatusResponse> {
+  async getTotalStudent(): Promise<TTotalStudentsResponse> {
     const response = await firstValueFrom(
       this.client
-        .send("get_students_bystatus", {})
+        .send("get_total_student", {})
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

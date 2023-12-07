@@ -126,17 +126,17 @@ export class StudentController {
     return await this.appService.updateDataStudentById({ id, ...studentData });
   }
 
+  @ApiOperation({ summary: "Get Total Student" })
+  @Get("total")
+  @UseGuards(JwtAuthGuard)
+  async getTotalStudent() {
+    return await this.appService.getTotalStudent();
+  }
+
   @ApiOperation({ summary: "Get Data By Id" })
   @Get("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async getDataStudentByid(@Param("id") id: string) {
     return await this.appService.getDataStudent({ id });
-  }
-
-  @ApiOperation({ summary: "Get daya by status id" })
-  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
-  @Get("count")
-  async getStudentByStatus() {
-    return await this.appService.getStudentByStatus();
   }
 }
