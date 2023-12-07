@@ -9,19 +9,21 @@ datasource db {
 }
 
 model Users {
-  id            String     @unique @default(uuid())
-  email         String     @unique
-  fullname      String
-  password      String
-  refresh_token String?
-  role_id       Int?       @default(1)
-  createdAt     DateTime   @default(now())
-  avatar        String?
-  isVerified    Boolean?   @default(false)
-  employees     Employees?
-  otp           OTP?
-  students      Students?
-  role          Roles?     @relation(fields: [role_id], references: [id])
+  id                String          @unique @default(uuid())
+  email             String          @unique
+  fullname          String
+  password          String
+  refresh_token     String?
+  role_id           Int?            @default(1)
+  createdAt         DateTime        @default(now())
+  avatar            String?
+  isVerified        Boolean?        @default(false)
+  notification_read Boolean         @default(true)
+  employees         Employees?
+  Notifications     Notifications[]
+  otp               OTP?
+  students          Students?
+  role              Roles?          @relation(fields: [role_id], references: [id])
 }
 
 model Students {
@@ -124,6 +126,8 @@ model Students {
   scholarship             Scholarship?     @relation(fields: [scholarship_id], references: [id])
   subdistrict             SubDistrict?     @relation("student", fields: [subdistrict_id], references: [id])
   user                    Users            @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  student_status          StudentStatus? @relation(fields: [student_status_id], references: [id])
+  student_status_id       Int?
 }
 
 model PaymentHistory {
@@ -134,10 +138,10 @@ model PaymentHistory {
   payment_bank          String?
   payment_obligation_id Int?
   isPaid                Boolean?
-  payment_obligation    PaymentObligations? @relation(fields: [payment_obligation_id], references: [id])
   createdAt             DateTime            @default(now())
   student_id            String?
   payment_type_id       Int?
+  payment_obligation    PaymentObligations? @relation(fields: [payment_obligation_id], references: [id])
   payment_type          PaymentType?        @relation(fields: [payment_type_id], references: [id])
   student               Students?           @relation(fields: [student_id], references: [id])
 }
@@ -463,12 +467,13 @@ model Employees {
   province_id              Int?
   country_id               Int?
   citizenship_id           Int?
-  certification_profession CertificationProfession[]
   employee_status_id       Int?
   employee_type_id         Int?
   user_id                  String                    @unique
   createdAt                DateTime                  @default(now())
   addition_task            String?
+  academic_staff           AcademicStaff?
+  certification_profession CertificationProfession[]
   employee_document        EmployeeDocuments[]
   employee_has_category    EmployeeHasCategory[]
   employee_has_education   EmployeeHasEducation[]
@@ -484,7 +489,6 @@ model Employees {
   subdistrict              SubDistrict?              @relation(fields: [sub_district_id], references: [id])
   user                     Users                     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   lecturers                Lecturers?
-  academic_staff           AcademicStaff?
 }
 
 model EmployeeHasEducation {
@@ -521,9 +525,9 @@ model Lecturers {
   lecturer_category_id        Int?
   lecturer_faculty_department LecturerFacultyDepartment[]
   employee                    Employees?                  @relation(fields: [employee_id], references: [id])
+  lecturer_category           LecturerCategory?           @relation(fields: [lecturer_category_id], references: [id])
   lecturer_position           LecturerPosition?           @relation(fields: [lecturer_position_id], references: [id])
   students                    Students[]
-  lecturer_category           LecturerCategory?           @relation(fields: [lecturer_category_id], references: [id])
 }
 
 model AcademicStaff {
@@ -670,4 +674,20 @@ model LecturerFacultyDepartment {
   department    Department @relation(fields: [department_id], references: [id])
   faculty       Faculty?   @relation(fields: [faculty_id], references: [id])
   lecturer      Lecturers  @relation(fields: [lecturer_id], references: [id])
+}
+
+model Notifications {
+  id         String    @unique
+  user_id    String?
+  title      String
+  detail     String
+  created_at DateTime? @default(now())
+  Users      Users?    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model StudentStatus {
+  id            Int        @id @default(autoincrement())
+  name          String
+  student       Students[]
+  created_at    DateTime? @default(now())
 }

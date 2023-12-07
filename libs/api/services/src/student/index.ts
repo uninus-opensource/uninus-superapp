@@ -11,6 +11,7 @@ import {
   TGraduationStatusRequest,
   TPaymentObligationsRequest,
   TPaymentObligationsResponse,
+  TStudentsByStatusResponse,
   TStudentsPaginationArgs,
   TStudentsPaginatonResponse,
   emailTemplateSelection,
@@ -106,5 +107,14 @@ export class StudentService {
     return payload?.registration_status_id
       ? { message: "Berhasil mengirimkan email" }
       : updateStudent;
+  }
+
+  async getStudentByStatus(): Promise<TStudentsByStatusResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_students_bystatus", {})
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
   }
 }

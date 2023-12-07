@@ -40,4 +40,8 @@ export class AppController {
   async getPaymentObligations(payload: TPaymentObligationsRequest) {
     return await this.studentService.getPaymentObligations(payload);
   }
+  @MessagePattern("get_students_bystatus")
+  async getStudentByStatus() {
+    return await this.studentService.getStudentByStatus();
+  }
 }

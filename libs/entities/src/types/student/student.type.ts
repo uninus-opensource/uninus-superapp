@@ -228,3 +228,15 @@ export type TStudentsPaginationArgs = {
   page?: number;
   perPage?: number;
 };
+
+export type TStudentsByStatusResponse = {
+  mahasiswa_aktif?: number;
+  mahasiswa_nonaktif?: number;
+  mahasiswa_cuti?: number;
+  mahasiswa_lulus?: number;
+  total_mahasiswa?: number;
+};
+
+export type TStudentsByStatusRequest = {
+  student_status_id?: string;
+};

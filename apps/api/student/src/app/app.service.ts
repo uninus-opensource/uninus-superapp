@@ -13,6 +13,7 @@ import {
   TPaymentObligationsRequest,
   TStudentsPaginationArgs,
   TStudentsPaginatonResponse,
+  TStudentsByStatusResponse,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
 import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
@@ -613,6 +614,43 @@ export class AppService {
             ...el,
             spelled_out: convertNumberToWords(String(el?.amount)),
           }));
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getStudentByStatus(): Promise<TStudentsByStatusResponse> {
+    try {
+      const activeCount = await this.prisma.students.count({
+        where: {
+          student_status_id: 1,
+        },
+      });
+
+      const nonActiveCount = await this.prisma.students.count({
+        where: {
+          student_status_id: 2,
+        },
+      });
+      const leaveCount = await this.prisma.students.count({
+        where: {
+          student_status_id: 3,
+        },
+      });
+      const graduatedCount = await this.prisma.students.count({
+        where: {
+          student_status_id: 4,
+        },
+      });
+
+      const totalCount = await this.prisma.students.count();
+      return {
+        mahasiswa_aktif: activeCount,
+        mahasiswa_nonaktif: nonActiveCount,
+        mahasiswa_cuti: leaveCount,
+        mahasiswa_lulus: graduatedCount,
+        total_mahasiswa: totalCount,
+      };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }

@@ -132,4 +132,11 @@ export class StudentController {
   async getDataStudentByid(@Param("id") id: string) {
     return await this.appService.getDataStudent({ id });
   }
+
+  @ApiOperation({ summary: "Get daya by status id" })
+  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
+  @Get("count")
+  async getStudentByStatus() {
+    return await this.appService.getStudentByStatus();
+  }
 }
