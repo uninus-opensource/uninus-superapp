@@ -626,7 +626,7 @@ export class AppService {
           name: true,
           _count: {
             select: {
-              Students: true,
+              student: true,
             },
           },
         },
@@ -639,9 +639,9 @@ export class AppService {
 
       const mapData = await Promise.all([
         getTotalStudent.forEach((el) => {
-          obj[el.name.toLocaleLowerCase().replace(" ", "_")] = el._count.Students;
+          obj[el.name.toLocaleLowerCase().replace(" ", "_")] = el._count.student;
         }),
-        getTotalStudent.reduce((acc, curr) => acc + curr._count.Students, 0),
+        getTotalStudent.reduce((acc, curr) => acc + curr._count.student, 0),
       ]);
       return {
         total: mapData[1],
