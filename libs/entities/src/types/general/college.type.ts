@@ -57,23 +57,23 @@ export interface ISelectFacultyRequest extends ISelectRequest {
   degree_program_id: string;
 }
 
-export interface IGetCurriculumResponse
-  extends Array<
-    Omit<ICreateCurriculumRequest, "degree_program_id" | "faculty_id" | "department_id"> & {
-      degree_program: {
-        id: number;
-        name: string;
-      };
-      faculty: {
-        id: number;
-        name: string;
-      };
-      department: {
-        id: number;
-        name: string;
-      };
-    }
-  > {}
+export interface IGetCurriculumByIdResponse
+  extends Omit<ICreateCurriculumRequest, "degree_program_id" | "faculty_id" | "department_id"> {
+  degree_program: {
+    id: number;
+    name: string;
+  };
+  faculty: {
+    id: number;
+    name: string;
+  };
+  department: {
+    id: number;
+    name: string;
+  };
+}
+
+export interface IGetCurriculumResponse extends Array<IGetCurriculumByIdResponse> {}
 
 export interface ICreateCurriculumRequest {
   name: string;
@@ -97,3 +97,57 @@ export interface IUpdateCurriculumRequest extends ICreateCurriculumRequest {
 export interface IUpdateCurriculumResponse extends ICreateCurriculumResponse {}
 
 export interface IDeleteCurriculumResponse extends ICreateCurriculumResponse {}
+
+export interface IGetCoursesResponse extends Array<IGetCourseByIdResponse> {}
+
+export interface IGetCourseByIdResponse
+  extends Omit<ICreateCourseRequest, "curriculum_id" | "category_id" | "course_type_id"> {
+  curriculum: {
+    name: string;
+    batch: string;
+    release_year: string;
+    in_effect: string;
+    degree_program: {
+      id: number;
+      name: string;
+    };
+    faculty: {
+      id: number;
+      name: string;
+    };
+    department: {
+      id: number;
+      name: string;
+    };
+  };
+  category: {
+    id: number;
+    name: string;
+  };
+  course_type: {
+    id: number;
+    name: string;
+  };
+}
+
+export interface ICreateCourseRequest {
+  name: string;
+  course_code: string;
+  curriculum_id: string;
+  category_id: number;
+  course_type_id: number;
+  credit: number;
+  semester: number;
+}
+
+export interface ICreateCourseResponse extends ICreateCurriculumResponse {}
+
+export interface IUpdateCourseRequest extends ICreateCourseRequest {
+  id?: string;
+
+  status?: string;
+}
+
+export interface IUpdateCourseResponse extends ICreateCurriculumResponse {}
+
+export interface IDeleteCourseResponse extends ICreateCurriculumResponse {}

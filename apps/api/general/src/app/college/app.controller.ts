@@ -12,6 +12,8 @@ import {
   TUpdateDepartmentRequest,
   ICreateCurriculumRequest,
   IUpdateCurriculumRequest,
+  ICreateCourseRequest,
+  IUpdateCourseRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -61,6 +63,12 @@ export class CollegeController {
   async getCurriculum(payload: ISelectRequest) {
     return await this.appService.getCurriculum(payload);
   }
+
+  @MessagePattern("get_curriculum_by_id")
+  async getCurriculumById(payload: { id: string }) {
+    return await this.appService.getCurriculumById(payload);
+  }
+
   @MessagePattern("create_curriculum")
   async createCurriculum(payload: ICreateCurriculumRequest) {
     return await this.appService.createCurriculum(payload);
@@ -72,5 +80,30 @@ export class CollegeController {
   @MessagePattern("delete_curriculum")
   async deleteCurriculum(payload: { id: string }) {
     return await this.appService.deleteCurriculum(payload);
+  }
+
+  @MessagePattern("get_course")
+  async getCourses(payload: ISelectRequest) {
+    return await this.appService.getCourses(payload);
+  }
+
+  @MessagePattern("get_course_by_id")
+  async getCourseById(payload: { id: string }) {
+    return await this.appService.getCourseById(payload);
+  }
+
+  @MessagePattern("ceate_course")
+  async createCourse(payload: ICreateCourseRequest) {
+    return await this.appService.createCourse(payload);
+  }
+
+  @MessagePattern("update_course")
+  async updateCourse(payload: IUpdateCourseRequest) {
+    return await this.appService.updateCourse(payload);
+  }
+
+  @MessagePattern("delete_course")
+  async deleteCourse(payload: { id: string }) {
+    return await this.appService.deleteCourse(payload);
   }
 }

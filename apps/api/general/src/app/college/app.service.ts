@@ -21,6 +21,14 @@ import {
   IUpdateCurriculumRequest,
   IUpdateCurriculumResponse,
   IDeleteCurriculumResponse,
+  IGetCurriculumByIdResponse,
+  IGetCoursesResponse,
+  IDeleteCourseResponse,
+  IUpdateCourseResponse,
+  ICreateCourseResponse,
+  IGetCourseByIdResponse,
+  ICreateCourseRequest,
+  IUpdateCourseRequest,
 } from "@uninus/entities";
 
 @Injectable()
@@ -285,6 +293,49 @@ export class CollegeService {
     }
   }
 
+  async getCurriculumById(payload: { id: string }): Promise<IGetCurriculumByIdResponse> {
+    try {
+      const { id } = payload;
+      const getCurriculum = await this.prisma.curriculum.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+          name: true,
+          batch: true,
+          release_year: true,
+          in_effect: true,
+          status: true,
+          degree_program: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          department: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          faculty: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      });
+      if (!getCurriculum) {
+        throw new BadRequestException("Gagal mengambil data Kurikulum");
+      }
+      return getCurriculum;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
   async createCurriculum(payload: ICreateCurriculumRequest): Promise<ICreateCurriculumResponse> {
     try {
       const {
@@ -399,6 +450,197 @@ export class CollegeService {
       }
       return {
         message: "Berhasil menghapus kurikulum",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getCourses(payload: ISelectRequest): Promise<IGetCoursesResponse> {
+    try {
+      const { search } = payload;
+      const getCourses = await this.prisma.courses.findMany({
+        where: {
+          name: { ...(search && { contains: search }), mode: "insensitive" },
+        },
+        include: {
+          curriculum: {
+            include: {
+              degree_program: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+              department: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+              faculty: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          course_type: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      });
+      if (!getCourses) {
+        throw new BadRequestException("Gagal data mengambil mata kuliah");
+      }
+      return getCourses;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getCourseById(payload: { id: string }): Promise<IGetCourseByIdResponse> {
+    try {
+      const { id } = payload;
+      const getCourse = await this.prisma.courses.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          curriculum: {
+            include: {
+              degree_program: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+              department: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+              faculty: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          course_type: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      });
+      if (!getCourse) {
+        throw new BadRequestException("Gagal mengambil data mata kuliah");
+      }
+      return getCourse;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async createCourse(payload: ICreateCourseRequest): Promise<ICreateCourseResponse> {
+    try {
+      const { name, course_code, curriculum_id, category_id, course_type_id, credit, semester } =
+        payload;
+      const createCourse = await this.prisma.courses.create({
+        data: {
+          name,
+          course_code,
+          curriculum_id,
+          category_id,
+          course_type_id,
+          credit,
+          semester,
+          status: "Aktif",
+        },
+      });
+      if (!createCourse) {
+        throw new BadRequestException("Gagal menambahkan mata kuliah");
+      }
+      return {
+        message: "Berhasil menambahkan mata kuliah",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async updateCourse(payload: IUpdateCourseRequest): Promise<IUpdateCourseResponse> {
+    try {
+      const {
+        id,
+        status,
+        name,
+        course_code,
+        curriculum_id,
+        category_id,
+        course_type_id,
+        credit,
+        semester,
+      } = payload;
+      const createCourse = await this.prisma.courses.update({
+        where: {
+          id,
+        },
+        data: {
+          name,
+          course_code,
+          curriculum_id,
+          category_id,
+          course_type_id,
+          credit,
+          semester,
+          status,
+        },
+      });
+      if (!createCourse) {
+        throw new BadRequestException("Gagal menambahkan mata kuliah");
+      }
+      return {
+        message: "Berhasil update mata kuliah",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async deleteCourse(payload: { id: string }): Promise<IDeleteCourseResponse> {
+    try {
+      const { id } = payload;
+      const deleteCourse = await this.prisma.courses.delete({
+        where: {
+          id,
+        },
+      });
+      if (!deleteCourse) {
+        throw new BadRequestException("Gagal menambahkan mata kuliah");
+      }
+      return {
+        message: "Berhasil menghapus mata kuliah",
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));

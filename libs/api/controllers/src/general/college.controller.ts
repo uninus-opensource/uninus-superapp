@@ -1,22 +1,26 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 import {
+  CreateCourseDto,
   CreateCurriculumDto,
   CreateDepartmentDto,
   CreateFacultyDto,
   GetDepartmentDto,
   GetFacultyDto,
   SelectOptionDto,
+  UpdateCourseDto,
   UpdateCurriculumDto,
   UpdateDepartmentDto,
   UpdateFacultyDto,
 } from "@uninus/api/dto";
 import { CollegeService } from "@uninus/api/services";
 import {
+  ICreateCourseRequest,
   ICreateCurriculumRequest,
   ISelectDepartmentRequest,
   ISelectFacultyRequest,
   ISelectRequest,
+  IUpdateCourseRequest,
   IUpdateCurriculumRequest,
   TCreateDepartmentRequest,
   TCreateFacultyRequest,
@@ -101,6 +105,13 @@ export class CollegeController {
     return await this.appService.getCurriculum(query);
   }
 
+  @ApiOperation({ summary: "Get Curriculum By Id" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("curriculum/:id")
+  async getCurriculumById(@Param("id") id: string) {
+    return await this.appService.getCurriculumById({ id });
+  }
+
   @ApiOperation({ summary: "Create Curriculum" })
   @ApiBody({ type: CreateCurriculumDto })
   @Post("curriculum")
@@ -121,5 +132,41 @@ export class CollegeController {
   @Delete("curriculum/:id")
   async deleteCurriculum(@Param("id") id: string) {
     return await this.appService.deleteCurriculum({ id });
+  }
+
+  @ApiOperation({ summary: "Get Courses" })
+  @ApiQuery({ type: SelectOptionDto })
+  @Get("course")
+  async getCourses(@Query() query: ISelectRequest) {
+    return await this.appService.getCourses(query);
+  }
+
+  @ApiOperation({ summary: "Get Course By Id" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("course/:id")
+  async getCourseById(@Param("id") id: string) {
+    return await this.appService.getCourseById({ id });
+  }
+
+  @ApiOperation({ summary: "Create Course" })
+  @ApiBody({ type: CreateCourseDto })
+  @Post("course")
+  async createCourse(@Body() payload: ICreateCourseRequest) {
+    return await this.appService.createCourse(payload);
+  }
+
+  @ApiOperation({ summary: "Update Course" })
+  @ApiBody({ type: UpdateCourseDto })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Patch("course/:id")
+  async updateCourse(@Param("id") id: string, @Body() payload: IUpdateCourseRequest) {
+    return await this.appService.updateCourse({ id, ...payload });
+  }
+
+  @ApiOperation({ summary: "Delete Course" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Delete("course/:id")
+  async deleteCourse(@Param("id") id: string) {
+    return await this.appService.deleteCourse({ id });
   }
 }

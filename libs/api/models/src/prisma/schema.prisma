@@ -712,7 +712,7 @@ model Curriculum {
 }
 
 model Courses {
-  id             Int             @id @default(autoincrement())
+  id             String          @unique @default(uuid())
   name           String
   course_code    String
   curriculum     Curriculum?     @relation(fields: [curriculum_id], references: [id])
@@ -722,7 +722,7 @@ model Courses {
   course_type    CourseType?     @relation(fields: [course_type_id], references: [id])
   course_type_id Int?
   credit         Int
-  status         String
+  status         String?
   semester       Int
 }
 

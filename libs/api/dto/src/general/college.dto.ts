@@ -65,17 +65,6 @@ export class GetDepartmentDto extends SelectOptionDto {
 
 export class UpdateDepartmentDto extends CreateDepartmentDto {}
 
-// export type TCreateCurriculumRequest = {
-//   name: string;
-//   degree_program_id: number;
-//   faculty_id: number;
-//   department_id: number;
-//   batch: string;
-//   release_year: string;
-//   in_effect: string;
-//   status: string;
-// };
-
 export class CreateCurriculumDto {
   @ApiProperty({
     type: "string",
@@ -120,4 +109,56 @@ export class UpdateCurriculumDto extends CreateCurriculumDto {
     required: true,
   })
   public status!: string;
+}
+
+export class CreateCourseDto {
+  @ApiProperty({
+    type: "string",
+    required: true,
+  })
+  public name!: string;
+
+  @ApiProperty({
+    type: "string",
+    required: true,
+  })
+  public course_code!: string;
+
+  @ApiProperty({
+    type: "string",
+    required: true,
+  })
+  public curriculum_id!: string;
+  @ApiProperty({
+    type: "string",
+    required: true,
+  })
+  public category_id!: number;
+  @ApiProperty({
+    type: "string",
+    required: true,
+  })
+  public course_type_id!: number;
+  @ApiProperty({
+    type: "string",
+    required: true,
+  })
+  @ApiProperty({
+    type: "string",
+    required: true,
+  })
+  public credit!: number;
+  @ApiProperty({
+    type: "string",
+    required: true,
+  })
+  public semester!: number;
+}
+
+export class UpdateCourseDto extends CreateCourseDto {
+  @ApiProperty({
+    type: "string",
+    required: true,
+  })
+  public status!: number;
 }
