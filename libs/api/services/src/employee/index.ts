@@ -62,6 +62,15 @@ export class EmployeeService {
     return response;
   }
 
+  async getEmployeeStatus(payload: ISelectRequest) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_employee_status", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
   async getLecturerTypes(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
@@ -71,10 +80,46 @@ export class EmployeeService {
     return response;
   }
 
+  async getLecturerPositions(payload: ISelectRequest) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_lecturer_positions", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
   async getAcademicStaffTypes(payload: ISelectRequest) {
     const response = await firstValueFrom(
       this.client
         .send("get_academic_staff_types", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getAcademicStaffPositions(payload: ISelectRequest) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_academic_staff_positions", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getWorkUnitCategories(payload: ISelectRequest) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_work_unit_categories", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getWorkUnit(payload: ISelectRequest) {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_work_unit", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

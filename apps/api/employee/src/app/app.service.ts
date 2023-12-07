@@ -5,8 +5,8 @@ import { errorMappings } from "@uninus/api/utilities";
 import {
   ISelectRequest,
   TAcademicStaffResponse,
-  TEmployeeParamsResponse,
   TEmployeePaginationArgs,
+  TEmployeeParamsResponse,
   TEmployeesResponse,
   TLecturerResponse,
   TTotalEmployeesResponse,
@@ -479,6 +479,30 @@ export class AppService {
     }
   }
 
+  async getEmployeeStatus({ id, search }: ISelectRequest): Promise<TEmployeeParamsResponse> {
+    try {
+      const employeeStatus = await this.prisma.employeeStatus.findMany({
+        where: {
+          id: id && Number(id),
+          name: {
+            ...(search && { contains: search }),
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+      if (!employeeStatus) {
+        throw new NotFoundException("Data tidak ditemukan");
+      }
+      return employeeStatus;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
   async getLecturerTypes({ search, id }: ISelectRequest): Promise<TEmployeeParamsResponse> {
     try {
       const lecturerTypes = await this.prisma.lecturerType.findMany({
@@ -503,6 +527,30 @@ export class AppService {
     }
   }
 
+  async getLecturerPositions({ search, id }: ISelectRequest): Promise<TEmployeeParamsResponse> {
+    try {
+      const lecturerPositions = await this.prisma.lecturerPosition.findMany({
+        where: {
+          id: id && Number(id),
+          name: {
+            ...(search && { contains: search }),
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+      if (!lecturerPositions) {
+        throw new NotFoundException("Data tidak ditemukan");
+      }
+      return lecturerPositions;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
   async getAcademicStaffTypes({ search, id }: ISelectRequest): Promise<TEmployeeParamsResponse> {
     try {
       const academicStaffTypes = await this.prisma.academicStaffType.findMany({
@@ -522,6 +570,81 @@ export class AppService {
         throw new NotFoundException("Data tidak ditemukan");
       }
       return academicStaffTypes;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getAcademicStaffPositions({
+    search,
+    id,
+  }: ISelectRequest): Promise<TEmployeeParamsResponse> {
+    try {
+      const academicStaffPositions = await this.prisma.academicStaffPosition.findMany({
+        where: {
+          id: id && Number(id),
+          name: {
+            ...(search && { contains: search }),
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+      if (!academicStaffPositions) {
+        throw new NotFoundException("Data tidak ditemukan");
+      }
+      return academicStaffPositions;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getWorkUnitCategories({ search, id }: ISelectRequest): Promise<TEmployeeParamsResponse> {
+    try {
+      const workUnitCategories = await this.prisma.workUnitCategory.findMany({
+        where: {
+          id: id && Number(id),
+          name: {
+            ...(search && { contains: search }),
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+      if (!workUnitCategories) {
+        throw new NotFoundException("Data tidak ditemukan");
+      }
+      return workUnitCategories;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getWorkUnit({ search, id }: ISelectRequest): Promise<TEmployeeParamsResponse> {
+    try {
+      const workUnit = await this.prisma.workUnit.findMany({
+        where: {
+          id: id && Number(id),
+          name: {
+            ...(search && { contains: search }),
+            mode: "insensitive",
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+      if (!workUnit) {
+        throw new NotFoundException("Data tidak ditemukan");
+      }
+      return workUnit;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
