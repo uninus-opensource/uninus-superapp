@@ -56,3 +56,44 @@ export type TFacultyResponse = {
 export interface ISelectFacultyRequest extends ISelectRequest {
   degree_program_id: string;
 }
+
+export interface IGetCurriculumResponse
+  extends Array<
+    Omit<ICreateCurriculumRequest, "degree_program_id" | "faculty_id" | "department_id"> & {
+      degree_program: {
+        id: number;
+        name: string;
+      };
+      faculty: {
+        id: number;
+        name: string;
+      };
+      department: {
+        id: number;
+        name: string;
+      };
+    }
+  > {}
+
+export interface ICreateCurriculumRequest {
+  name: string;
+  degree_program_id: number;
+  faculty_id: number;
+  department_id: number;
+  batch: string;
+  release_year: string;
+  in_effect: string;
+}
+
+export interface ICreateCurriculumResponse {
+  message: string;
+}
+
+export interface IUpdateCurriculumRequest extends ICreateCurriculumRequest {
+  id?: string;
+  status?: string;
+}
+
+export interface IUpdateCurriculumResponse extends ICreateCurriculumResponse {}
+
+export interface IDeleteCurriculumResponse extends ICreateCurriculumResponse {}

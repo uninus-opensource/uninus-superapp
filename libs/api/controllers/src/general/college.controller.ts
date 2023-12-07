@@ -1,19 +1,23 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 import {
+  CreateCurriculumDto,
   CreateDepartmentDto,
   CreateFacultyDto,
   GetDepartmentDto,
   GetFacultyDto,
   SelectOptionDto,
+  UpdateCurriculumDto,
   UpdateDepartmentDto,
   UpdateFacultyDto,
 } from "@uninus/api/dto";
 import { CollegeService } from "@uninus/api/services";
 import {
+  ICreateCurriculumRequest,
   ISelectDepartmentRequest,
   ISelectFacultyRequest,
   ISelectRequest,
+  IUpdateCurriculumRequest,
   TCreateDepartmentRequest,
   TCreateFacultyRequest,
   TUpdateDepartmentRequest,
@@ -88,5 +92,34 @@ export class CollegeController {
   @Delete("department/:id")
   async deleteDepartment(@Param("id") id: number) {
     return await this.appService.deleteDepartment({ id });
+  }
+
+  @ApiOperation({ summary: "Get Curriculum" })
+  @ApiQuery({ type: SelectOptionDto })
+  @Get("curriculum")
+  async getCurriculum(@Query() query: ISelectRequest) {
+    return await this.appService.getCurriculum(query);
+  }
+
+  @ApiOperation({ summary: "Create Curriculum" })
+  @ApiBody({ type: CreateCurriculumDto })
+  @Post("curriculum")
+  async createCurriculum(@Body() payload: ICreateCurriculumRequest) {
+    return await this.appService.createCurriculum(payload);
+  }
+
+  @ApiOperation({ summary: "Update Curriculum" })
+  @ApiBody({ type: UpdateCurriculumDto })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Patch("curriculum/:id")
+  async updateCurriculum(@Param("id") id: string, @Body() payload: IUpdateCurriculumRequest) {
+    return await this.appService.updateCurriculum({ id, ...payload });
+  }
+
+  @ApiOperation({ summary: "Delete Curriculum" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Delete("curriculum/:id")
+  async deleteCurriculum(@Param("id") id: string) {
+    return await this.appService.deleteCurriculum({ id });
   }
 }

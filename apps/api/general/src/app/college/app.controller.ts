@@ -10,6 +10,8 @@ import {
   TCreateDepartmentRequest,
   TUpdateFacultyRequest,
   TUpdateDepartmentRequest,
+  ICreateCurriculumRequest,
+  IUpdateCurriculumRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -54,5 +56,21 @@ export class CollegeController {
   @MessagePattern("delete_department")
   async deleteDepartment(payload: { id: number }) {
     return await this.appService.deleteDepartment(payload);
+  }
+  @MessagePattern("get_curriculum")
+  async getCurriculum(payload: ISelectRequest) {
+    return await this.appService.getCurriculum(payload);
+  }
+  @MessagePattern("create_curriculum")
+  async createCurriculum(payload: ICreateCurriculumRequest) {
+    return await this.appService.createCurriculum(payload);
+  }
+  @MessagePattern("update_curriculum")
+  async updateCurriculum(payload: IUpdateCurriculumRequest) {
+    return await this.appService.updateCurriculum(payload);
+  }
+  @MessagePattern("delete_curriculum")
+  async deleteCurriculum(payload: { id: string }) {
+    return await this.appService.deleteCurriculum(payload);
   }
 }

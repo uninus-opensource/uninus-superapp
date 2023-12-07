@@ -15,6 +15,12 @@ import {
   TGeneralResponse,
   TUpdateFacultyRequest,
   TUpdateDepartmentRequest,
+  IGetCurriculumResponse,
+  ICreateCurriculumRequest,
+  ICreateCurriculumResponse,
+  IUpdateCurriculumRequest,
+  IUpdateCurriculumResponse,
+  IDeleteCurriculumResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -230,6 +236,169 @@ export class CollegeService {
 
       return {
         message: `Berhasil menghapus program studi `,
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getCurriculum(payload: ISelectRequest): Promise<IGetCurriculumResponse> {
+    try {
+      const { search } = payload;
+      const getCurriculum = await this.prisma.curriculum.findMany({
+        where: {
+          name: { ...(search && { contains: search }), mode: "insensitive" },
+        },
+        select: {
+          id: true,
+          name: true,
+          batch: true,
+          release_year: true,
+          in_effect: true,
+          status: true,
+          degree_program: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          department: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          faculty: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      });
+      if (!getCurriculum) {
+        throw new BadRequestException("Gagal mengambil data Kurikulum");
+      }
+      return getCurriculum as IGetCurriculumResponse;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async createCurriculum(payload: ICreateCurriculumRequest): Promise<ICreateCurriculumResponse> {
+    try {
+      const {
+        name,
+        degree_program_id,
+        department_id,
+        faculty_id,
+        batch,
+        release_year = new Date().getFullYear(),
+        in_effect,
+      } = payload;
+      const createCurriculum = await this.prisma.curriculum.create({
+        data: {
+          name,
+          batch,
+          status: "Aktif",
+          release_year: String(release_year),
+          in_effect,
+          degree_program: {
+            connect: {
+              id: Number(degree_program_id),
+            },
+          },
+          department: {
+            connect: {
+              id: Number(department_id),
+            },
+          },
+          faculty: {
+            connect: {
+              id: Number(faculty_id),
+            },
+          },
+        },
+      });
+      if (!createCurriculum) {
+        throw new BadRequestException("Gagal menambahkan Kurikulum");
+      }
+      return {
+        message: "Berhasil menambahkan Kurikulum",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async updateCurriculum(payload: IUpdateCurriculumRequest): Promise<IUpdateCurriculumResponse> {
+    try {
+      const {
+        id,
+        status,
+        name,
+        degree_program_id,
+        department_id,
+        faculty_id,
+        batch,
+        release_year = new Date().getFullYear(),
+        in_effect,
+      } = payload;
+      const updateCurriculum = await this.prisma.curriculum.update({
+        where: {
+          id,
+        },
+        data: {
+          name,
+          status,
+          batch,
+          release_year: String(release_year),
+          in_effect,
+          ...(degree_program_id && {
+            degree_program: {
+              connect: {
+                id: Number(degree_program_id),
+              },
+            },
+          }),
+          ...(faculty_id && {
+            faculty: {
+              connect: {
+                id: Number(faculty_id),
+              },
+            },
+          }),
+          ...(department_id && {
+            department: {
+              connect: {
+                id: Number(department_id),
+              },
+            },
+          }),
+        },
+      });
+      if (!updateCurriculum) {
+        throw new BadRequestException("Gagal update Kurikulum");
+      }
+      return {
+        message: "Berhasil update Kurikulum",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+  async deleteCurriculum(payload: { id: string }): Promise<IDeleteCurriculumResponse> {
+    try {
+      const { id } = payload;
+      const deleteCurriculum = await this.prisma.curriculum.deleteMany({
+        where: {
+          id,
+        },
+      });
+      if (!deleteCurriculum) {
+        throw new BadRequestException("Gagal menghapus Kurikulum");
+      }
+      return {
+        message: "Berhasil menghapus kurikulum",
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));

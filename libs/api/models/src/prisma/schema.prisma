@@ -18,21 +18,21 @@ model Users {
   createdAt         DateTime        @default(now())
   avatar            String?
   isVerified        Boolean?        @default(false)
+  notification_read Boolean         @default(true)
   employees         Employees?
+  notification      Notifications[]
   otp               OTP?
   students          Students?
   role              Roles?          @relation(fields: [role_id], references: [id])
-  notification_read Boolean         @default(true)
-  notification      Notifications[]
 }
 
 model Notifications {
   id         String    @unique @default(uuid())
   user_id    String?
-  user       Users?    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   title      String
   detail     String
   created_at DateTime? @default(now())
+  user       Users?    @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Students {
@@ -96,6 +96,7 @@ model Students {
   occupation_position     String?
   guardian_lecturer_id    String?
   test_score              Int?
+  student_status_id       Int?
   pmb                     PMB?
   payment_history         PaymentHistory[]
   citizenship             Citizenship?     @relation(fields: [citizenship_id], references: [id])
@@ -133,6 +134,7 @@ model Students {
   religion                Religion?        @relation(fields: [religion_id], references: [id])
   salary                  Salary?          @relation("student", fields: [salary_id], references: [id])
   scholarship             Scholarship?     @relation(fields: [scholarship_id], references: [id])
+  StudentStatus           StudentStatus?   @relation(fields: [student_status_id], references: [id])
   subdistrict             SubDistrict?     @relation("student", fields: [subdistrict_id], references: [id])
   user                    Users            @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
@@ -145,10 +147,10 @@ model PaymentHistory {
   payment_bank          String?
   payment_obligation_id Int?
   isPaid                Boolean?
-  payment_obligation    PaymentObligations? @relation(fields: [payment_obligation_id], references: [id])
   createdAt             DateTime            @default(now())
   student_id            String?
   payment_type_id       Int?
+  payment_obligation    PaymentObligations? @relation(fields: [payment_obligation_id], references: [id])
   payment_type          PaymentType?        @relation(fields: [payment_type_id], references: [id])
   student               Students?           @relation(fields: [student_id], references: [id])
 }
@@ -320,6 +322,7 @@ model DegreeProgram {
   faculty        Faculty[]
   pmb            PMB[]
   selection_path SelectionPath[]
+  curriculum     Curriculum[]
 }
 
 model SelectionPath {
@@ -345,6 +348,7 @@ model Faculty {
   degreeProgram             DegreeProgram?              @relation(fields: [degree_program_id], references: [id], onDelete: Cascade)
   LecturerFacultyDepartment LecturerFacultyDepartment[]
   student                   Students[]
+  curriculum                Curriculum[]
 }
 
 model Department {
@@ -359,6 +363,7 @@ model Department {
   first_deparment           PMB[]                       @relation("first_deparment")
   second_deparment          PMB[]                       @relation("second_deparment")
   student                   Students[]                  @relation("student")
+  curriculum                Curriculum[]
 }
 
 model MaritalStatus {
@@ -474,12 +479,13 @@ model Employees {
   province_id              Int?
   country_id               Int?
   citizenship_id           Int?
-  certification_profession CertificationProfession[]
   employee_status_id       Int?
   employee_type_id         Int?
   user_id                  String                    @unique
   createdAt                DateTime                  @default(now())
   addition_task            String?
+  academic_staff           AcademicStaff?
+  certification_profession CertificationProfession[]
   employee_document        EmployeeDocuments[]
   employee_has_category    EmployeeHasCategory[]
   employee_has_education   EmployeeHasEducation[]
@@ -495,7 +501,6 @@ model Employees {
   subdistrict              SubDistrict?              @relation(fields: [sub_district_id], references: [id])
   user                     Users                     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   lecturers                Lecturers?
-  academic_staff           AcademicStaff?
 }
 
 model EmployeeHasEducation {
@@ -532,9 +537,9 @@ model Lecturers {
   lecturer_category_id        Int?
   lecturer_faculty_department LecturerFacultyDepartment[]
   employee                    Employees?                  @relation(fields: [employee_id], references: [id])
+  lecturer_category           LecturerCategory?           @relation(fields: [lecturer_category_id], references: [id])
   lecturer_position           LecturerPosition?           @relation(fields: [lecturer_position_id], references: [id])
   students                    Students[]
-  lecturer_category           LecturerCategory?           @relation(fields: [lecturer_category_id], references: [id])
 }
 
 model AcademicStaff {
@@ -681,4 +686,54 @@ model LecturerFacultyDepartment {
   department    Department @relation(fields: [department_id], references: [id])
   faculty       Faculty?   @relation(fields: [faculty_id], references: [id])
   lecturer      Lecturers  @relation(fields: [lecturer_id], references: [id])
+}
+
+model StudentStatus {
+  id         Int        @id @default(autoincrement())
+  name       String
+  created_at DateTime?  @default(now())
+  Students   Students[]
+}
+
+model Curriculum {
+  id                String         @unique @default(uuid())
+  name              String
+  degree_program_id Int?
+  degree_program    DegreeProgram? @relation(fields: [degree_program_id], references: [id])
+  faculty_id        Int?
+  faculty           Faculty?       @relation(fields: [faculty_id], references: [id])
+  department_id     Int
+  department        Department     @relation(fields: [department_id], references: [id])
+  batch             String
+  release_year      String
+  in_effect         String
+  status            String?
+  courses           Courses[]
+}
+
+model Courses {
+  id             Int             @id @default(autoincrement())
+  name           String
+  course_code    String
+  curriculum     Curriculum?     @relation(fields: [curriculum_id], references: [id])
+  curriculum_id  String?
+  category       CourseCategory? @relation(fields: [category_id], references: [id])
+  category_id    Int?
+  course_type    CourseType?     @relation(fields: [course_type_id], references: [id])
+  course_type_id Int?
+  credit         Int
+  status         String
+  semester       Int
+}
+
+model CourseType {
+  id     Int       @id @default(autoincrement())
+  name   String
+  corses Courses[]
+}
+
+model CourseCategory {
+  id     Int       @id @default(autoincrement())
+  name   String
+  corses Courses[]
 }
