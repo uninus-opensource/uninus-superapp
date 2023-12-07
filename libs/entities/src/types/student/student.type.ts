@@ -229,6 +229,6 @@ export type TStudentsPaginationArgs = {
   perPage?: number;
 };
 
-export type TTotalStudentsResponse = {
+export type TStudentCountResponse = {
   [key: string]: number;
 };

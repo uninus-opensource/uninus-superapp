@@ -126,11 +126,11 @@ export class StudentController {
     return await this.appService.updateDataStudentById({ id, ...studentData });
   }
 
-  @ApiOperation({ summary: "Get Total Student" })
-  @Get("total")
+  @ApiOperation({ summary: "Get Student Count " })
+  @Get("count")
   @UseGuards(JwtAuthGuard)
-  async getTotalStudent() {
-    return await this.appService.getTotalStudent();
+  async getStudentCount() {
+    return await this.appService.getStudentCount();
   }
 
   @ApiOperation({ summary: "Get Data By Id" })

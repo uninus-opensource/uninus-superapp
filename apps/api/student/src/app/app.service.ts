@@ -13,7 +13,7 @@ import {
   TPaymentObligationsRequest,
   TStudentsPaginationArgs,
   TStudentsPaginatonResponse,
-  TTotalStudentsResponse,
+  TStudentCountResponse,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
 import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
@@ -619,7 +619,7 @@ export class AppService {
     }
   }
 
-  async getTotalStudent(): Promise<TTotalStudentsResponse> {
+  async getStudentCount(): Promise<TStudentCountResponse> {
     try {
       const getTotalStudent = await this.prisma.studentStatus.findMany({
         select: {
