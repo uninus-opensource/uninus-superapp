@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { EOrderByPagination } from "@uninus/entities";
+import { ECategoriesTotalEmployee, EOrderByPagination } from "@uninus/entities";
 
 export class GetEmployeesDto {
   @ApiProperty({ required: false })
@@ -19,6 +19,11 @@ export class GetEmployeesDto {
 
   @ApiProperty({ required: true })
   public type!: number;
+}
+
+export class GetTotalEmployeeDto {
+  @ApiProperty({ required: false, enum: ECategoriesTotalEmployee })
+  public category?: [];
 }
 
 export class GetEmployeeParamsDto {

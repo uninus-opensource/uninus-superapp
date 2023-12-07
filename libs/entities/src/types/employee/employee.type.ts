@@ -9,6 +9,9 @@ export type TTotalEmployeesResponse = {
   total_temporary_lecturer?: number;
   total_reguler_academic_staff?: number;
   total_temporary_academic_staff?: number;
+  total_active_lecturer?: number;
+  total_inactive_lecturer?: number;
+  total_guardian_lecturer?: number;
   message?: string;
 };
 
@@ -31,4 +34,8 @@ export type TEmployeePaginationArgs = {
   perPage?: number;
   filterBy?: string;
   search?: string;
+};
+
+export type TCategoriesTotalEmployee = {
+  category?: string;
 };

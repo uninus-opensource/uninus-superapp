@@ -1,8 +1,17 @@
 import { Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { ApiHeader, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { CreateEmployeeDto, GetEmployeeParamsDto, GetEmployeesDto } from "@uninus/api/dto";
+import {
+  CreateEmployeeDto,
+  GetEmployeeParamsDto,
+  GetEmployeesDto,
+  GetTotalEmployeeDto,
+} from "@uninus/api/dto";
 import { EmployeeService } from "@uninus/api/services";
-import { ISelectRequest, TEmployeePaginationArgs } from "@uninus/entities";
+import {
+  ISelectRequest,
+  TCategoriesTotalEmployee,
+  TEmployeePaginationArgs,
+} from "@uninus/entities";
 @ApiTags("Employee")
 @ApiHeader({
   name: "app-origin",
@@ -20,9 +29,10 @@ export class EmployeeController {
   }
 
   @ApiOperation({ summary: "Total Employees" })
+  @ApiQuery({ type: GetTotalEmployeeDto })
   @Get("/total")
-  async getTotalEmployees() {
-    return await this.appService.getTotalEmployees();
+  async getTotalEmployees(@Query() query: TCategoriesTotalEmployee) {
+    return await this.appService.getTotalEmployees(query);
   }
 
   @ApiOperation({ summary: "Get Employees" })
