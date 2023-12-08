@@ -35,20 +35,6 @@ export class EmployeeController {
     return await this.appService.getTotalEmployees(query);
   }
 
-  @ApiOperation({ summary: "Get Employees" })
-  @ApiParam({ name: "id", type: "string", required: true })
-  @Get("/lecturer/:id")
-  async getEmployee(@Param("id") id: string) {
-    return await this.appService.getEmployee({ id });
-  }
-
-  @ApiOperation({ summary: "Get Academic Staff" })
-  @ApiParam({ name: "id", type: "string", required: true })
-  @Get("/academic-staff/:id")
-  async getAcademicStaff(@Param("id") id: string) {
-    return await this.appService.getAcademicStaff({ id });
-  }
-
   @ApiOperation({ summary: "Get Employee Categories" })
   @ApiQuery({ type: GetEmployeeParamsDto })
   @Get("/categories")
@@ -96,6 +82,20 @@ export class EmployeeController {
   @Get("/academic-staff/positions")
   async getAcademicStaffPositions(@Query() query: ISelectRequest) {
     return await this.appService.getAcademicStaffPositions(query);
+  }
+
+  @ApiOperation({ summary: "Get Employees" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("/lecturer/:id")
+  async getEmployee(@Param("id") id: string) {
+    return await this.appService.getEmployee({ id });
+  }
+
+  @ApiOperation({ summary: "Get Academic Staff" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("/academic-staff/:id")
+  async getAcademicStaff(@Param("id") id: string) {
+    return await this.appService.getAcademicStaff({ id });
   }
 
   @ApiOperation({ summary: "Get Work Unit Categorys" })
