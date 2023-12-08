@@ -3,7 +3,6 @@ import { RpcException } from "@nestjs/microservices";
 import { PrismaService } from "@uninus/api/services";
 import { errorMappings } from "@uninus/api/utilities";
 import {
-  ECategoriesTotalEmployee,
   ISelectRequest,
   TAcademicStaffResponse,
   TCategoriesTotalEmployee,
@@ -252,52 +251,38 @@ export class AppService {
         }),
       ]);
 
-      switch (category) {
-        case ECategoriesTotalEmployee.EMPLOYEE: {
-          return {
-            total_employees,
-            total_reguler_employee,
-            total_temporary_employee,
-          };
-          break;
-        }
-        case ECategoriesTotalEmployee.LECTURER: {
-          return {
-            total_lecturer,
-            total_fondation_lecturer,
-            total_dpk_lecturer,
-            total_temporary_lecturer,
-            total_active_lecturer,
-            total_inactive_lecturer,
-            total_guardian_lecturer,
-          };
-          break;
-        }
-        case ECategoriesTotalEmployee.ACADEMIC_STAFF: {
-          return {
-            total_academic_staff,
-            total_reguler_academic_staff,
-            total_temporary_academic_staff,
-          };
-          break;
-        }
-        default: {
-          return {
-            total_employees,
-            total_lecturer,
-            total_academic_staff,
-            total_reguler_employee,
-            total_temporary_employee,
-            total_fondation_lecturer,
-            total_dpk_lecturer,
-            total_temporary_lecturer,
-            total_reguler_academic_staff,
-            total_temporary_academic_staff,
-            total_active_lecturer,
-            total_inactive_lecturer,
-            total_guardian_lecturer,
-          };
-        }
+      if (category == 1) {
+        return {
+          total_lecturer,
+          total_fondation_lecturer,
+          total_dpk_lecturer,
+          total_temporary_lecturer,
+          total_active_lecturer,
+          total_inactive_lecturer,
+          total_guardian_lecturer,
+        };
+      } else if (category == 2) {
+        return {
+          total_employees,
+          total_reguler_employee,
+          total_temporary_employee,
+        };
+      } else {
+        return {
+          total_employees,
+          total_lecturer,
+          total_academic_staff,
+          total_reguler_employee,
+          total_temporary_employee,
+          total_fondation_lecturer,
+          total_dpk_lecturer,
+          total_temporary_lecturer,
+          total_reguler_academic_staff,
+          total_temporary_academic_staff,
+          total_active_lecturer,
+          total_inactive_lecturer,
+          total_guardian_lecturer,
+        };
       }
     } catch (error) {
       return {

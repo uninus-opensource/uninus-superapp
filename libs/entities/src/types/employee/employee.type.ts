@@ -37,5 +37,5 @@ export type TEmployeePaginationArgs = {
 };
 
 export type TCategoriesTotalEmployee = {
-  category?: string;
+  category?: number;
 };
