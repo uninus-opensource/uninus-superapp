@@ -29,6 +29,12 @@ import {
   IGetCourseByIdResponse,
   ICreateCourseRequest,
   IUpdateCourseRequest,
+  ICreateCourseScheduleRequest,
+  ICreateCourseScheduleResponse,
+  IUpdateCourseScheduleRequest,
+  IUpdateCourseScheduleResponse,
+  IGetCourseScheduleResponse,
+  IGetCourseScheduleIdResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -641,6 +647,135 @@ export class CollegeService {
       }
       return {
         message: "Berhasil menghapus mata kuliah",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getCourseSchedule(payload: ISelectRequest): Promise<IGetCourseScheduleResponse> {
+    try {
+      const { search } = payload;
+      const getCourseSchedule = await this.prisma.courseSchedule.findMany({
+        where: {
+          course: {
+            name: { ...(search && { contains: search }), mode: "insensitive" },
+          },
+        },
+        include: {
+          course: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          schedule: {
+            select: {
+              id: true,
+              day: true,
+              start_time: true,
+              end_time: true,
+            },
+          },
+        },
+      });
+      if (!getCourseSchedule) {
+        throw new BadRequestException("Gagal mengambil jadwal kuliah");
+      }
+      return getCourseSchedule;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getCourseScheduleById(payload: { id: string }): Promise<IGetCourseScheduleIdResponse> {
+    try {
+      const { id } = payload;
+      const getCourseSchedule = await this.prisma.courseSchedule.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          course: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          schedule: {
+            select: {
+              id: true,
+              day: true,
+              start_time: true,
+              end_time: true,
+            },
+          },
+        },
+      });
+      if (!getCourseSchedule) {
+        throw new BadRequestException("Gagal mengambil jadwal kuliah");
+      }
+      return getCourseSchedule;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async createCourseSchedule(
+    payload: ICreateCourseScheduleRequest,
+  ): Promise<ICreateCourseScheduleResponse> {
+    try {
+      const creacreateCourseSchedule = await this.prisma.courseSchedule.create({
+        data: {
+          ...payload,
+        },
+      });
+      if (!creacreateCourseSchedule) {
+        throw new BadRequestException("Gagal menambahkan jadwal kuliah");
+      }
+      return {
+        message: "Berhasil menambahkan jadwal kuliah",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async updateCourseSchedule(
+    payload: IUpdateCourseScheduleRequest,
+  ): Promise<IUpdateCourseScheduleResponse> {
+    try {
+      const { id, ...data } = payload;
+      const updateCourseSchedule = await this.prisma.courseSchedule.update({
+        where: {
+          id,
+        },
+        data,
+      });
+      if (!updateCourseSchedule) {
+        throw new BadRequestException("Gagal update jadwal kuliah");
+      }
+      return {
+        message: "Berhasil update jadwal kuliah",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async deleteCourseSchedule(payload: { id: string }): Promise<IDeleteCourseResponse> {
+    try {
+      const { id } = payload;
+      const deleteCourseSchedule = await this.prisma.courseSchedule.delete({
+        where: {
+          id,
+        },
+      });
+      if (!deleteCourseSchedule) {
+        throw new BadRequestException("Gagal menghapus jadwal kuliah");
+      }
+      return {
+        message: "Berhasil menghapus jadwal kuliah",
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));

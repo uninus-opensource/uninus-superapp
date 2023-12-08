@@ -3,11 +3,15 @@ import { ClientProxy, RpcException } from "@nestjs/microservices";
 import {
   ICreateCourseRequest,
   ICreateCourseResponse,
+  ICreateCourseScheduleRequest,
+  ICreateCourseScheduleResponse,
   ICreateCurriculumRequest,
   ICreateCurriculumResponse,
   IDeleteCourseResponse,
   IDeleteCurriculumResponse,
   IGetCourseByIdResponse,
+  IGetCourseScheduleIdResponse,
+  IGetCourseScheduleResponse,
   IGetCoursesResponse,
   IGetCurriculumByIdResponse,
   IGetCurriculumResponse,
@@ -16,6 +20,7 @@ import {
   ISelectRequest,
   IUpdateCourseRequest,
   IUpdateCourseResponse,
+  IUpdateCourseScheduleRequest,
   IUpdateCurriculumRequest,
   IUpdateCurriculumResponse,
   TCreateDepartmentRequest,
@@ -193,6 +198,55 @@ export class CollegeService {
     const response = await firstValueFrom(
       this.client
         .send("delete_course", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getCourseSchedule(payload: ISelectRequest): Promise<IGetCourseScheduleResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_course_schedule", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getCourseScheduleById(payload: { id: string }): Promise<IGetCourseScheduleIdResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_course_schedule_by_id", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async createCourseSchedule(
+    payload: ICreateCourseScheduleRequest,
+  ): Promise<ICreateCourseScheduleResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("create_course_schedule", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async updateCourseSchedule(
+    payload: IUpdateCourseScheduleRequest,
+  ): Promise<IUpdateCourseResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("update_course_schedule", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async deleteCourseSchedule(payload: { id: string }): Promise<IDeleteCourseResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("delete_course_schedule", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

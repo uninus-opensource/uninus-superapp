@@ -157,8 +157,36 @@ export class CreateCourseDto {
 
 export class UpdateCourseDto extends CreateCourseDto {
   @ApiProperty({
-    type: "string",
     required: true,
   })
   public status!: number;
 }
+
+export class CreateCourseScheduleDto {
+  @ApiProperty({
+    required: true,
+  })
+  public semester!: number;
+  @ApiProperty({
+    required: true,
+  })
+  public class!: string;
+  @ApiProperty({
+    required: true,
+  })
+  public course_id!: string;
+  @ApiProperty({
+    required: true,
+  })
+  public schedule_id!: string;
+  @ApiProperty({
+    required: true,
+  })
+  public capacity!: number;
+  @ApiProperty({
+    required: true,
+  })
+  public total_students!: number;
+}
+
+export class UpdateCourseScheduleDto extends CreateCourseScheduleDto {}

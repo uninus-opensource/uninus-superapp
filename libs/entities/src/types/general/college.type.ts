@@ -151,3 +151,38 @@ export interface IUpdateCourseRequest extends ICreateCourseRequest {
 export interface IUpdateCourseResponse extends ICreateCurriculumResponse {}
 
 export interface IDeleteCourseResponse extends ICreateCurriculumResponse {}
+
+export interface ICreateCourseScheduleRequest {
+  semester: number;
+  class: string;
+  course_id: string;
+  schedule_id: string;
+  capacity: number;
+  total_students: number;
+}
+
+export interface ICreateCourseScheduleResponse extends ICreateCurriculumResponse {}
+
+export interface IUpdateCourseScheduleRequest extends ICreateCourseScheduleRequest {
+  id?: string;
+}
+
+export interface IUpdateCourseScheduleResponse extends ICreateCurriculumResponse {}
+
+export interface IDeleteCourseScheduleResponse extends ICreateCurriculumResponse {}
+
+export interface IGetCourseScheduleIdResponse
+  extends Omit<IUpdateCourseScheduleRequest, "course_id" | "schedule_id"> {
+  course: {
+    id: string;
+    name: string;
+  };
+  schedule: {
+    id: string;
+    day: string;
+    start_time: string;
+    end_time: string;
+  };
+}
+
+export class IGetCourseScheduleResponse extends Array<IGetCourseScheduleIdResponse> {}

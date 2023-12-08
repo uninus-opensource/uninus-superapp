@@ -712,18 +712,19 @@ model Curriculum {
 }
 
 model Courses {
-  id             String          @unique @default(uuid())
-  name           String
-  course_code    String
-  curriculum     Curriculum?     @relation(fields: [curriculum_id], references: [id])
-  curriculum_id  String?
-  category       CourseCategory? @relation(fields: [category_id], references: [id])
-  category_id    Int?
-  course_type    CourseType?     @relation(fields: [course_type_id], references: [id])
-  course_type_id Int?
-  credit         Int
-  status         String?
-  semester       Int
+  id              String           @unique @default(uuid())
+  name            String
+  course_code     String
+  curriculum      Curriculum?      @relation(fields: [curriculum_id], references: [id])
+  curriculum_id   String?
+  category        CourseCategory?  @relation(fields: [category_id], references: [id])
+  category_id     Int?
+  course_type     CourseType?      @relation(fields: [course_type_id], references: [id])
+  course_type_id  Int?
+  credit          Int
+  status          String?
+  semester        Int
+  course_schedule CourseSchedule[]
 }
 
 model CourseType {
@@ -736,4 +737,24 @@ model CourseCategory {
   id     Int       @id @default(autoincrement())
   name   String
   corses Courses[]
+}
+
+model Schedule {
+  id              String           @unique @default(uuid())
+  day             String
+  start_time      String
+  end_time        String
+  course_schedule CourseSchedule[]
+}
+
+model CourseSchedule {
+  id             String   @unique @default(uuid())
+  class          String
+  semester       Int
+  course_id      String
+  course         Courses  @relation(fields: [course_id], references: [id])
+  schedule       Schedule @relation(fields: [schedule_id], references: [id])
+  schedule_id    String
+  capacity       Int
+  total_students Int
 }
