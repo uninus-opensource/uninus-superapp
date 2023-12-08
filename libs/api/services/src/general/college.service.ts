@@ -7,14 +7,19 @@ import {
   ICreateCourseScheduleResponse,
   ICreateCurriculumRequest,
   ICreateCurriculumResponse,
+  ICreateScheduleRequest,
+  ICreateScheduleResponse,
   IDeleteCourseResponse,
   IDeleteCurriculumResponse,
+  IDeleteScheduleResponse,
   IGetCourseByIdResponse,
   IGetCourseScheduleIdResponse,
   IGetCourseScheduleResponse,
   IGetCoursesResponse,
   IGetCurriculumByIdResponse,
   IGetCurriculumResponse,
+  IGetScheduleIdResponse,
+  IGetScheduleResponse,
   ISelectDepartmentRequest,
   ISelectFacultyRequest,
   ISelectRequest,
@@ -23,6 +28,8 @@ import {
   IUpdateCourseScheduleRequest,
   IUpdateCurriculumRequest,
   IUpdateCurriculumResponse,
+  IUpdateScheduleRequest,
+  IUpdateScheduleResponse,
   TCreateDepartmentRequest,
   TCreateFacultyRequest,
   TUpdateDepartmentRequest,
@@ -247,6 +254,51 @@ export class CollegeService {
     const response = await firstValueFrom(
       this.client
         .send("delete_course_schedule", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getSchedule(): Promise<IGetScheduleResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_schedule", {})
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async getScheduleById(payload: { id: string }): Promise<IGetScheduleIdResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("get_schedule_by_id", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async createSchedule(payload: ICreateScheduleRequest): Promise<ICreateScheduleResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("create_schedule", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async updateSchedule(payload: IUpdateScheduleRequest): Promise<IUpdateScheduleResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("update_schedule", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async deleteSchedule(payload: { id: string }): Promise<IDeleteScheduleResponse> {
+    const response = await firstValueFrom(
+      this.client
+        .send("delete_schedule", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

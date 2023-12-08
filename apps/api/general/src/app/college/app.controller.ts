@@ -16,6 +16,8 @@ import {
   IUpdateCourseRequest,
   ICreateCourseScheduleRequest,
   IUpdateCourseScheduleRequest,
+  ICreateScheduleRequest,
+  IUpdateScheduleRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -132,5 +134,28 @@ export class CollegeController {
   @MessagePattern("delete_course_schedule")
   async deleteCourseSchedule(payload: { id: string }) {
     return await this.appService.deleteCourseSchedule(payload);
+  }
+
+  @MessagePattern("get_schedule")
+  async getSchedule() {
+    return await this.appService.getSchedule();
+  }
+  @MessagePattern("get_schedule_by_id")
+  async getScheduleById(payload: { id: string }) {
+    return await this.appService.getScheduleById(payload);
+  }
+  @MessagePattern("create_schedule")
+  async createSchedule(payload: ICreateScheduleRequest) {
+    return await this.appService.createSchedule(payload);
+  }
+
+  @MessagePattern("update_schedule")
+  async updateSchedule(payload: IUpdateScheduleRequest) {
+    return await this.appService.updateSchedule(payload);
+  }
+
+  @MessagePattern("delete_schedule")
+  async deleteSchedule(payload: { id: string }) {
+    return await this.appService.deleteSchedule(payload);
   }
 }

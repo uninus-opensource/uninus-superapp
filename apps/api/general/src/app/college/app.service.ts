@@ -35,6 +35,13 @@ import {
   IUpdateCourseScheduleResponse,
   IGetCourseScheduleResponse,
   IGetCourseScheduleIdResponse,
+  ICreateScheduleRequest,
+  ICreateScheduleResponse,
+  IGetScheduleResponse,
+  IUpdateScheduleRequest,
+  IUpdateScheduleResponse,
+  IDeleteScheduleResponse,
+  IGetScheduleIdResponse,
 } from "@uninus/entities";
 
 @Injectable()
@@ -776,6 +783,117 @@ export class CollegeService {
       }
       return {
         message: "Berhasil menghapus jadwal kuliah",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getSchedule(): Promise<IGetScheduleResponse> {
+    try {
+      const getSchedule = await this.prisma.schedule.findMany({
+        select: {
+          id: true,
+          day: true,
+          start_time: true,
+          end_time: true,
+        },
+      });
+
+      if (!getSchedule) {
+        throw new BadRequestException("Gagal mengambil data jadwal");
+      }
+      return getSchedule;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getScheduleById(payload: { id: string }): Promise<IGetScheduleIdResponse> {
+    try {
+      const { id } = payload;
+      const getSchedule = await this.prisma.schedule.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          id: true,
+          day: true,
+          start_time: true,
+          end_time: true,
+        },
+      });
+
+      if (!getSchedule) {
+        throw new BadRequestException("Gagal mengambil data jadwal");
+      }
+      return getSchedule;
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async createSchedule(payload: ICreateScheduleRequest): Promise<ICreateScheduleResponse> {
+    try {
+      const { day, start_time, end_time } = payload;
+      const createSchedule = await this.prisma.schedule.create({
+        data: {
+          day,
+          start_time,
+          end_time,
+        },
+      });
+
+      if (!createSchedule) {
+        throw new BadRequestException("Gagal menambahkan jadwal");
+      }
+      return {
+        message: "Berhasil menambahkan jadwal",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async updateSchedule(payload: IUpdateScheduleRequest): Promise<IUpdateScheduleResponse> {
+    try {
+      const { id, day, start_time, end_time } = payload;
+      const updateSchedule = await this.prisma.schedule.update({
+        where: {
+          id,
+        },
+        data: {
+          day,
+          start_time,
+          end_time,
+        },
+      });
+
+      if (!updateSchedule) {
+        throw new BadRequestException("Gagal update jadwal");
+      }
+      return {
+        message: "Berhasil update jadwal",
+      };
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async deleteSchedule(payload: { id: string }): Promise<IDeleteScheduleResponse> {
+    try {
+      const { id } = payload;
+      const deleteSchedule = await this.prisma.schedule.delete({
+        where: {
+          id,
+        },
+      });
+
+      if (!deleteSchedule) {
+        throw new BadRequestException("Gagal menghapus jadwal");
+      }
+      return {
+        message: "Berhasil menghapus jadwal",
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));

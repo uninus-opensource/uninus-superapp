@@ -6,6 +6,7 @@ import {
   CreateCurriculumDto,
   CreateDepartmentDto,
   CreateFacultyDto,
+  CreateScheduleDto,
   GetDepartmentDto,
   GetFacultyDto,
   SelectOptionDto,
@@ -14,18 +15,21 @@ import {
   UpdateCurriculumDto,
   UpdateDepartmentDto,
   UpdateFacultyDto,
+  UpdateScheduleDto,
 } from "@uninus/api/dto";
 import { CollegeService } from "@uninus/api/services";
 import {
   ICreateCourseRequest,
   ICreateCourseScheduleRequest,
   ICreateCurriculumRequest,
+  ICreateScheduleRequest,
   ISelectDepartmentRequest,
   ISelectFacultyRequest,
   ISelectRequest,
   IUpdateCourseRequest,
   IUpdateCourseScheduleRequest,
   IUpdateCurriculumRequest,
+  IUpdateScheduleRequest,
   TCreateDepartmentRequest,
   TCreateFacultyRequest,
   TUpdateDepartmentRequest,
@@ -211,5 +215,40 @@ export class CollegeController {
   @Delete("course/schedule/:id")
   async deleteCourseSchedule(@Param("id") id: string) {
     return await this.appService.deleteCourseSchedule({ id });
+  }
+
+  @ApiOperation({ summary: "Get Schedule" })
+  @Get("schedule")
+  async getSchedule() {
+    return await this.appService.getSchedule();
+  }
+
+  @ApiOperation({ summary: "Get Schedule By Id" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("schedule/:id")
+  async getScheduleById(@Param("id") id: string) {
+    return await this.appService.getScheduleById({ id });
+  }
+
+  @ApiOperation({ summary: "Create Schedule" })
+  @ApiBody({ type: CreateScheduleDto })
+  @Post("schedule")
+  async createSchedule(@Body() payload: ICreateScheduleRequest) {
+    return await this.appService.createSchedule(payload);
+  }
+
+  @ApiOperation({ summary: "Update Schedule" })
+  @ApiBody({ type: UpdateScheduleDto })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Patch("schedule/:id")
+  async updateSchedule(@Param("id") id: string, @Body() payload: IUpdateScheduleRequest) {
+    return await this.appService.updateSchedule({ id, ...payload });
+  }
+
+  @ApiOperation({ summary: "Delete Schedule" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Delete("schedule/:id")
+  async deleteSchedule(@Param("id") id: string) {
+    return await this.appService.deleteSchedule({ id });
   }
 }

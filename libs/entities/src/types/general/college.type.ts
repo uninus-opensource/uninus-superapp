@@ -185,4 +185,23 @@ export interface IGetCourseScheduleIdResponse
   };
 }
 
-export class IGetCourseScheduleResponse extends Array<IGetCourseScheduleIdResponse> {}
+export interface IGetCourseScheduleResponse extends Array<IGetCourseScheduleIdResponse> {}
+
+export interface ICreateScheduleRequest {
+  day: string;
+  start_time: string;
+  end_time: string;
+}
+
+export interface ICreateScheduleResponse extends ICreateCurriculumResponse {}
+
+export interface IUpdateScheduleRequest extends ICreateScheduleRequest {
+  id?: string;
+}
+
+export interface IUpdateScheduleResponse extends ICreateCurriculumResponse {}
+export interface IDeleteScheduleResponse extends ICreateCurriculumResponse {}
+
+export interface IGetScheduleResponse extends Array<ICreateScheduleRequest> {}
+
+export interface IGetScheduleIdResponse extends IUpdateScheduleRequest {}

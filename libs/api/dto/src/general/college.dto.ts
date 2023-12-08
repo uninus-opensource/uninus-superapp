@@ -190,3 +190,20 @@ export class CreateCourseScheduleDto {
 }
 
 export class UpdateCourseScheduleDto extends CreateCourseScheduleDto {}
+
+export class CreateScheduleDto {
+  @ApiProperty({
+    required: true,
+  })
+  public day!: string;
+  @ApiProperty({
+    required: true,
+  })
+  public start_time!: string;
+  @ApiProperty({
+    required: true,
+  })
+  public end_time!: string;
+}
+
+export class UpdateScheduleDto extends CreateScheduleDto {}
