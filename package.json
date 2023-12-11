@@ -214,7 +214,7 @@
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/jest-native": "~5.4.3",
     "@testing-library/react": "14.1.2",
-    "@testing-library/react-native": "~12.3.0",
+    "@testing-library/react-native": "~12.4.1",
     "@testing-library/user-event": "^14.4.3",
     "@types/crypto-js": "^4.2.1",
     "@types/jest": "^29.5.7",
