@@ -9,3 +9,8 @@ export * from "./parent-history";
 export * from "./education-history";
 export * from "./axios";
 export * from "./recoil-store";
+export * from "./registration-path";
+export * from "./selection-path";
+export * from "./scholarship";
+export * from "./department";
+export * from "./degree-program";
