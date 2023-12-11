@@ -31,3 +31,14 @@ export class UpdateUserDto {
   })
   public password!: string;
 }
+
+export class CreateNotificationDto {
+  @ApiProperty({ required: true })
+  public title!: string;
+
+  @ApiProperty({ required: true })
+  public detail!: string;
+
+  @ApiProperty({ required: false })
+  public user_id!: string;
+}

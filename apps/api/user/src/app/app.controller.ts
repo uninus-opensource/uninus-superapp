@@ -4,6 +4,7 @@ import { MessagePattern } from "@nestjs/microservices";
 import {
   ISelectRequest,
   IUserRequest,
+  TCreateNotificationRequest,
   TCreateUserRequest,
   TIdUser,
   TUsersPaginationArgs,
@@ -39,5 +40,19 @@ export class AppController {
   @MessagePattern("get_roles")
   async getRoles(payload: ISelectRequest) {
     return await this.appService.getRoles(payload);
+  }
+
+  @MessagePattern("get_notification")
+  async getNotification(payload: { id: string }) {
+    return await this.appService.getNotification(payload);
+  }
+
+  @MessagePattern("create_notification")
+  async createNotification(payload: TCreateNotificationRequest) {
+    return await this.appService.createNotification(payload);
+  }
+  @MessagePattern("delete_notification")
+  async deleteNotification(payload: { id: string }) {
+    return await this.appService.deleteNotification(payload);
   }
 }

@@ -7,3 +7,5 @@ export * from "./bread-crumb";
 export * from "./notif";
 export * from "./notif-button";
 export * from "./redirect-link";
+export * from "./forms";
+export * from "./documents";

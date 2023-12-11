@@ -3,7 +3,7 @@ import { FieldValues, UseControllerProps } from "react-hook-form";
 import { StaticImageData } from "next/image";
 
 export type TTextFieldProps<T extends FieldValues> = UseControllerProps<T> & {
-  type?: "text" | "password" | "email" | "number" | "date";
+  type?: "text" | "password" | "email" | "number" | "date" | "search";
   label?: string;
   inputWidth?: string;
   inputHeight?: string;
