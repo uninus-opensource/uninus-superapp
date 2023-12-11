@@ -5,6 +5,7 @@ import { errorMappings } from "@uninus/api/utilities";
 import {
   ISelectRequest,
   TAcademicStaffResponse,
+  TCategoriesTotalEmployee,
   TEmployeePaginationArgs,
   TEmployeeParamsResponse,
   TEmployeesResponse,
@@ -152,7 +153,9 @@ export class AppService {
     }
   }
 
-  async getTotalEmployees(): Promise<TTotalEmployeesResponse> {
+  async getTotalEmployees({
+    category,
+  }: TCategoriesTotalEmployee): Promise<TTotalEmployeesResponse> {
     try {
       const [
         total_employees,
@@ -165,6 +168,9 @@ export class AppService {
         total_temporary_lecturer,
         total_reguler_academic_staff,
         total_temporary_academic_staff,
+        total_active_lecturer,
+        total_inactive_lecturer,
+        total_guardian_lecturer,
       ] = await Promise.all([
         this.prisma.employees.count({
           where: {
@@ -218,19 +224,66 @@ export class AppService {
             academic_staff_type_id: 2,
           },
         }),
+        this.prisma.lecturers.count({
+          where: {
+            employee: {
+              employee_status_id: 1,
+            },
+          },
+        }),
+        this.prisma.lecturers.count({
+          where: {
+            employee: {
+              employee_status_id: 2,
+            },
+          },
+        }),
+        this.prisma.lecturers.count({
+          where: {
+            students: {
+              some: {
+                guardian_lecturer_id: {
+                  not: null,
+                },
+              },
+            },
+          },
+        }),
       ]);
-      return {
-        total_employees: total_employees,
-        total_lecturer: total_lecturer,
-        total_academic_staff: total_academic_staff,
-        total_reguler_employee: total_reguler_employee,
-        total_temporary_employee: total_temporary_employee,
-        total_fondation_lecturer: total_fondation_lecturer,
-        total_dpk_lecturer: total_dpk_lecturer,
-        total_temporary_lecturer: total_temporary_lecturer,
-        total_reguler_academic_staff: total_reguler_academic_staff,
-        total_temporary_academic_staff: total_temporary_academic_staff,
-      };
+
+      if (category == 1) {
+        return {
+          total_lecturer,
+          total_fondation_lecturer,
+          total_dpk_lecturer,
+          total_temporary_lecturer,
+          total_active_lecturer,
+          total_inactive_lecturer,
+          total_guardian_lecturer,
+        };
+      } else if (category == 2) {
+        return {
+          total_employees,
+          total_reguler_employee,
+          total_temporary_employee,
+        };
+      } else {
+        return {
+          total_employees,
+          total_lecturer,
+          total_academic_staff,
+          total_reguler_employee,
+          total_temporary_employee,
+          total_fondation_lecturer,
+          total_dpk_lecturer,
+          total_temporary_lecturer,
+          total_reguler_academic_staff,
+          total_temporary_academic_staff,
+          total_active_lecturer,
+          total_inactive_lecturer,
+          total_guardian_lecturer,
+        };
+      }
     } catch (error) {
       return {
         message: "Failed to get total employees!",

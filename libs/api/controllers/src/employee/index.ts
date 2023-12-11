@@ -1,8 +1,17 @@
 import { Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { ApiHeader, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { CreateEmployeeDto, GetEmployeeParamsDto, GetEmployeesDto } from "@uninus/api/dto";
+import {
+  CreateEmployeeDto,
+  GetEmployeeParamsDto,
+  GetEmployeesDto,
+  GetTotalEmployeeDto,
+} from "@uninus/api/dto";
 import { EmployeeService } from "@uninus/api/services";
-import { ISelectRequest, TEmployeePaginationArgs } from "@uninus/entities";
+import {
+  ISelectRequest,
+  TCategoriesTotalEmployee,
+  TEmployeePaginationArgs,
+} from "@uninus/entities";
 @ApiTags("Employee")
 @ApiHeader({
   name: "app-origin",
@@ -20,23 +29,10 @@ export class EmployeeController {
   }
 
   @ApiOperation({ summary: "Total Employees" })
+  @ApiQuery({ type: GetTotalEmployeeDto })
   @Get("/total")
-  async getTotalEmployees() {
-    return await this.appService.getTotalEmployees();
-  }
-
-  @ApiOperation({ summary: "Get Employees" })
-  @ApiParam({ name: "id", type: "string", required: true })
-  @Get("/lecturer/:id")
-  async getEmployee(@Param("id") id: string) {
-    return await this.appService.getEmployee({ id });
-  }
-
-  @ApiOperation({ summary: "Get Academic Staff" })
-  @ApiParam({ name: "id", type: "string", required: true })
-  @Get("/academic-staff/:id")
-  async getAcademicStaff(@Param("id") id: string) {
-    return await this.appService.getAcademicStaff({ id });
+  async getTotalEmployees(@Query() query: TCategoriesTotalEmployee) {
+    return await this.appService.getTotalEmployees(query);
   }
 
   @ApiOperation({ summary: "Get Employee Categories" })
@@ -86,6 +82,20 @@ export class EmployeeController {
   @Get("/academic-staff/positions")
   async getAcademicStaffPositions(@Query() query: ISelectRequest) {
     return await this.appService.getAcademicStaffPositions(query);
+  }
+
+  @ApiOperation({ summary: "Get Employees" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("/lecturer/:id")
+  async getEmployee(@Param("id") id: string) {
+    return await this.appService.getEmployee({ id });
+  }
+
+  @ApiOperation({ summary: "Get Academic Staff" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("/academic-staff/:id")
+  async getAcademicStaff(@Param("id") id: string) {
+    return await this.appService.getAcademicStaff({ id });
   }
 
   @ApiOperation({ summary: "Get Work Unit Categorys" })

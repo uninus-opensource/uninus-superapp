@@ -2,7 +2,11 @@ import { Controller } from "@nestjs/common";
 
 import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
-import { ISelectRequest, TEmployeePaginationArgs } from "@uninus/entities";
+import {
+  ISelectRequest,
+  TCategoriesTotalEmployee,
+  TEmployeePaginationArgs,
+} from "@uninus/entities";
 
 @Controller()
 export class AppController {
@@ -14,8 +18,8 @@ export class AppController {
   }
 
   @MessagePattern("get_total_employees")
-  getTotalEmployees() {
-    return this.appService.getTotalEmployees();
+  getTotalEmployees(payload: TCategoriesTotalEmployee) {
+    return this.appService.getTotalEmployees(payload);
   }
 
   @MessagePattern("get_lecturer")

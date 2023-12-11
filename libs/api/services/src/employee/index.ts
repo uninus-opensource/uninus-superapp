@@ -1,6 +1,10 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { ISelectRequest, TEmployeePaginationArgs } from "@uninus/entities";
+import {
+  ISelectRequest,
+  TCategoriesTotalEmployee,
+  TEmployeePaginationArgs,
+} from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Injectable()
@@ -17,10 +21,10 @@ export class EmployeeService {
     return response;
   }
 
-  async getTotalEmployees() {
+  async getTotalEmployees(payload: TCategoriesTotalEmployee) {
     const response = await firstValueFrom(
       this.client
-        .send("get_total_employees", {})
+        .send("get_total_employees", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

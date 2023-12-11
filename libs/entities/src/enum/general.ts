@@ -21,3 +21,9 @@ export enum EOrderByPagination {
   ASC = "asc",
   DESC = "desc",
 }
+
+export enum ECategoriesTotalEmployee {
+  EMPLOYEE = "employee",
+  LECTURER = "lecturer",
+  ACADEMIC_STAFF = "academic_staff",
+}

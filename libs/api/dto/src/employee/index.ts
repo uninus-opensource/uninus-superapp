@@ -21,6 +21,11 @@ export class GetEmployeesDto {
   public type!: number;
 }
 
+export class GetTotalEmployeeDto {
+  @ApiProperty({ required: false })
+  public category?: number;
+}
+
 export class GetEmployeeParamsDto {
   @ApiProperty({ required: false })
   public id?: number;
