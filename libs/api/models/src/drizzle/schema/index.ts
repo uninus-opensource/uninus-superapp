@@ -3,4 +3,7 @@ export * from "./roles";
 export * from "./notifications";
 export * from "./otp";
 export * from "./students";
-export * from "./location";
+export * from "./payment";
+export * from "./employees";
+export * from "./general";
+export * from "./documents";
