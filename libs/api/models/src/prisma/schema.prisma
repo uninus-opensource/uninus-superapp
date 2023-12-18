@@ -197,10 +197,10 @@ model PaymentHistory {
   payment_bank          String?
   payment_obligation_id Int?
   isPaid                Boolean?
-  payment_obligation    PaymentObligations? @relation(fields: [payment_obligation_id], references: [id])
   createdAt             DateTime            @default(now())
   student_id            String?
   payment_type_id       Int?
+  payment_obligation    PaymentObligations? @relation(fields: [payment_obligation_id], references: [id])
   payment_type          PaymentType?        @relation(fields: [payment_type_id], references: [id])
   student               Students?           @relation(fields: [student_id], references: [id])
 }
@@ -529,12 +529,13 @@ model Employees {
   province_id              Int?
   country_id               Int?
   citizenship_id           Int?
-  certification_profession CertificationProfession[]
   employee_status_id       Int?
   employee_type_id         Int?
   user_id                  String                    @unique
   createdAt                DateTime                  @default(now())
   addition_task            String?
+  academic_staff           AcademicStaff?
+  certification_profession CertificationProfession[]
   employee_document        EmployeeDocuments[]
   employee_has_category    EmployeeHasCategory[]
   employee_has_education   EmployeeHasEducation[]
@@ -550,7 +551,6 @@ model Employees {
   subdistrict              SubDistrict?              @relation(fields: [sub_district_id], references: [id])
   user                     Users                     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   lecturers                Lecturers?
-  academic_staff           AcademicStaff?
 }
 
 model EmployeeHasEducation {
@@ -584,8 +584,10 @@ model Lecturers {
   lecturer_certification      Boolean?                    @default(false)
   lecturer_position_id        Int?
   lecturer_type_id            Int?
+  lecturer_category_id        Int?
   lecturer_faculty_department LecturerFacultyDepartment[]
   employee                    Employees?                  @relation(fields: [employee_id], references: [id])
+  lecturer_category           LecturerCategory?           @relation(fields: [lecturer_category_id], references: [id])
   lecturer_position           LecturerPosition?           @relation(fields: [lecturer_position_id], references: [id])
   students                    Students[]
   lecturer_type               LecturerType?               @relation(fields: [lecturer_type_id], references: [id])
@@ -735,4 +737,11 @@ model WorkingStatus {
   id     Int             @id @default(autoincrement())
   nmae   String
   alumni AlumniProfile[]
+}
+
+model LecturerCategory {
+  id        Int         @id @default(autoincrement())
+  name      String
+  createdAt DateTime    @default(now())
+  lecturers Lecturers[]
 }
