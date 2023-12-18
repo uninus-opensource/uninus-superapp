@@ -126,6 +126,13 @@ export class StudentController {
     return await this.appService.updateDataStudentById({ id, ...studentData });
   }
 
+  @ApiOperation({ summary: "Get Student Count " })
+  @Get("count")
+  @UseGuards(JwtAuthGuard)
+  async getStudentCount() {
+    return await this.appService.getStudentCount();
+  }
+
   @ApiOperation({ summary: "Get Data By Id" })
   @Get("/:id")
   @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))

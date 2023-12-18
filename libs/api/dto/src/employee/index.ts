@@ -17,14 +17,40 @@ export class GetEmployeesDto {
   @ApiProperty({ required: false })
   public search?: string;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   public type!: number;
 }
 
-export class GetEmployeeCategoriesDto {
+export class GetEmployeeParamsDto {
   @ApiProperty({ required: false })
   public id?: number;
 
   @ApiProperty({ required: false })
-  public search?: number;
+  public search?: string;
+}
+
+export class CreateEmployeeDto {
+  @ApiProperty({ required: true })
+  public fullname!: string;
+
+  @ApiProperty({ required: true, minLength: 16 })
+  public nik!: string;
+
+  @ApiProperty({ required: false })
+  public nip?: string;
+
+  @ApiProperty({ required: false })
+  public phone_number!: string;
+
+  @ApiProperty({ required: true })
+  public email!: string;
+
+  @ApiProperty({ required: true })
+  public work_unit_category_id!: number;
+
+  @ApiProperty({ required: true })
+  public work_unit_id!: number;
+
+  @ApiProperty({ required: true })
+  public employee_type_id!: number;
 }
