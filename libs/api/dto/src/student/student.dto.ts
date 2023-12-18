@@ -448,3 +448,11 @@ export class CreateStudentDto {
   @ApiProperty()
   registration_status?: string;
 }
+
+export class GetStudentByStatus {
+  @ApiProperty({
+    type: "integer",
+    required: false,
+  })
+  student_status_id?: number;
+}

@@ -10,6 +10,12 @@ import {
   TCreateDepartmentRequest,
   TUpdateFacultyRequest,
   TUpdateDepartmentRequest,
+  ICreateCurriculumRequest,
+  IUpdateCurriculumRequest,
+  ICreateCourseRequest,
+  IUpdateCourseRequest,
+  ICreateCourseScheduleRequest,
+  IUpdateCourseScheduleRequest,
 } from "@uninus/entities";
 
 @Controller()
@@ -54,5 +60,77 @@ export class CollegeController {
   @MessagePattern("delete_department")
   async deleteDepartment(payload: { id: number }) {
     return await this.appService.deleteDepartment(payload);
+  }
+  @MessagePattern("get_curriculum")
+  async getCurriculum(payload: ISelectRequest) {
+    return await this.appService.getCurriculum(payload);
+  }
+
+  @MessagePattern("get_curriculum_by_id")
+  async getCurriculumById(payload: { id: string }) {
+    return await this.appService.getCurriculumById(payload);
+  }
+
+  @MessagePattern("create_curriculum")
+  async createCurriculum(payload: ICreateCurriculumRequest) {
+    return await this.appService.createCurriculum(payload);
+  }
+  @MessagePattern("update_curriculum")
+  async updateCurriculum(payload: IUpdateCurriculumRequest) {
+    return await this.appService.updateCurriculum(payload);
+  }
+  @MessagePattern("delete_curriculum")
+  async deleteCurriculum(payload: { id: string }) {
+    return await this.appService.deleteCurriculum(payload);
+  }
+
+  @MessagePattern("get_course")
+  async getCourses(payload: ISelectRequest) {
+    return await this.appService.getCourses(payload);
+  }
+
+  @MessagePattern("get_course_by_id")
+  async getCourseById(payload: { id: string }) {
+    return await this.appService.getCourseById(payload);
+  }
+
+  @MessagePattern("ceate_course")
+  async createCourse(payload: ICreateCourseRequest) {
+    return await this.appService.createCourse(payload);
+  }
+
+  @MessagePattern("update_course")
+  async updateCourse(payload: IUpdateCourseRequest) {
+    return await this.appService.updateCourse(payload);
+  }
+
+  @MessagePattern("delete_course")
+  async deleteCourse(payload: { id: string }) {
+    return await this.appService.deleteCourse(payload);
+  }
+
+  @MessagePattern("get_course_schedule")
+  async getCourseSchedule(payload: ISelectRequest) {
+    return await this.appService.getCourseSchedule(payload);
+  }
+
+  @MessagePattern("get_course_schedule_by_id")
+  async getCourseScheduleById(payload: { id: string }) {
+    return await this.appService.getCourseScheduleById(payload);
+  }
+
+  @MessagePattern("ceate_course_schedule")
+  async createCourseSchedule(payload: ICreateCourseScheduleRequest) {
+    return await this.appService.createCourseSchedule(payload);
+  }
+
+  @MessagePattern("update_course_schedule")
+  async updateCourseSchedule(payload: IUpdateCourseScheduleRequest) {
+    return await this.appService.updateCourseSchedule(payload);
+  }
+
+  @MessagePattern("delete_course_schedule")
+  async deleteCourseSchedule(payload: { id: string }) {
+    return await this.appService.deleteCourseSchedule(payload);
   }
 }
