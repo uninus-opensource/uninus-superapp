@@ -64,7 +64,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       link: "/dashboard",
       icon: <HomeOutlined />,
     },
-    { label: "Master Data", link: "#", icon: <FileTextOutlined /> },
+    { label: "Master Data", link: "/dashboard/data-master", icon: <FileTextOutlined /> },
 
     { label: "Manajemen", link: "#", icon: <FileTextOutlined /> },
     { label: "Pengumuman", link: "#", icon: <NotificationOutlined /> },
