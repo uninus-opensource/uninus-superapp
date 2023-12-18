@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
-import { students } from "..";
+import { employees, students, employeeOnLastEducation } from "..";
 
 export const citizenship = pgTable("app_citizenship", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -24,6 +24,7 @@ export const countryRelations = relations(country, ({ one, many }) => ({
     references: [citizenship.id],
   }),
   students: many(students),
+  employees: many(employees),
 }));
 
 export const province = pgTable("app_province", {
@@ -42,6 +43,7 @@ export const provinceRelations = relations(province, ({ many }) => ({
   guardians: many(students, {
     relationName: "guardians",
   }),
+  employees: many(employees),
 }));
 
 export const city = pgTable("app_city", {
@@ -65,6 +67,7 @@ export const cityRelations = relations(city, ({ one, many }) => ({
   guardians: many(students, {
     relationName: "guardians",
   }),
+  employees: many(employees),
 }));
 
 export const subdistrict = pgTable("app_subdistrict", {
@@ -87,6 +90,7 @@ export const subdistrictRelations = relations(subdistrict, ({ one, many }) => ({
   guardians: many(students, {
     relationName: "guardians",
   }),
+  employees: many(employees),
 }));
 
 export const religion = pgTable("app_religion", {
@@ -96,6 +100,7 @@ export const religion = pgTable("app_religion", {
 
 export const religionRelations = relations(religion, ({ many }) => ({
   students: many(students),
+  employees: many(employees),
 }));
 
 export const maritalStatus = pgTable("app_marital_status", {
@@ -104,7 +109,10 @@ export const maritalStatus = pgTable("app_marital_status", {
 });
 
 export const maritalStatusRelations = relations(maritalStatus, ({ many }) => ({
-  students: many(students),
+  students: many(students, {
+    relationName: "students",
+  }),
+  employees: many(employees),
 }));
 
 export const gender = pgTable("app_gender", {
@@ -114,6 +122,7 @@ export const gender = pgTable("app_gender", {
 
 export const genderRelations = relations(gender, ({ many }) => ({
   students: many(students),
+  employees: many(employees),
 }));
 
 export const salary = pgTable("app_salary", {
@@ -216,6 +225,7 @@ export const lastEducationRelations = relations(lastEducations, ({ one, many }) 
     references: [lastEducationType.id],
   }),
   students: many(students),
+  employees: many(employeeOnLastEducation),
 }));
 
 export const lastEducationType = pgTable("app_last_education_type", {

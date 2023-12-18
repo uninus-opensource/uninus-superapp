@@ -30,6 +30,7 @@ export const students = pgTable("app_students", {
   nik: text("nik").unique(),
   nisn: text("nisn"),
   kk: text("kk"),
+  nim: text("nim"),
   genderId: uuid("gender_id").references(() => gender.id),
   religionId: uuid("religion_id").references(() => religion.id),
   birthPlace: text("birth_place"),
@@ -48,9 +49,10 @@ export const students = pgTable("app_students", {
   salaryId: uuid("salary_id").references(() => salary.id),
   occupationId: uuid("occupation_id").references(() => occupation.id),
   position: text("position"),
-  graduationYear: text("graduation_year"),
+  lastEducationGraduation: text("graduation_year"),
   companyName: text("company_name"),
   companyAddress: text("company_address"),
+  workingStatusId: uuid("working_status").references(() => workingStatus.id),
   fatherName: text("father_name"),
   fatherStatusId: uuid("father_status_id").references(() => parentStatus.id),
   fatherEducationId: uuid("father_education_id").references(() => parentEducation.id),
@@ -80,6 +82,7 @@ export const students = pgTable("app_students", {
   scholarshipId: uuid("scholarship_id").references(() => scholarship.id),
   disabilitiesId: uuid("dissabilities_id").references(() => disabilities.id),
   academicYear: text("academic_year"),
+  graduationYear: text("graduation_year"),
   facultyId: uuid("faculty_id").references(() => faculty.id),
   departmentId: uuid("department_id").references(() => department.id),
   studentStatusId: uuid("student_status_id").references(() => studentStatus.id),
@@ -102,6 +105,7 @@ export const studentsRelations = relations(students, ({ one, many }) => ({
   citizenship: one(citizenship, {
     fields: [students.citizenshipId],
     references: [citizenship.id],
+    relationName: "students",
   }),
   maritalStatus: one(maritalStatus, {
     fields: [students.maritalStatusId],
@@ -274,5 +278,14 @@ export const studentStatus = pgTable("app_student_status", {
 });
 
 export const studentStatusRelations = relations(studentStatus, ({ many }) => ({
+  students: many(students),
+}));
+
+export const workingStatus = pgTable("app_working_status", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: text("name").notNull(),
+});
+
+export const workingStatusRelations = relations(workingStatus, ({ many }) => ({
   students: many(students),
 }));
