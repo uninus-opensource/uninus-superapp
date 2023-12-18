@@ -10,6 +10,7 @@ export const citizenship = pgTable("app_citizenship", {
 export const citizenshipRelations = relations(citizenship, ({ many }) => ({
   country: many(country),
   students: many(students),
+  employees: many(employees),
 }));
 
 export const country = pgTable("app_country", {
@@ -35,13 +36,13 @@ export const province = pgTable("app_province", {
 export const provinceRelations = relations(province, ({ many }) => ({
   city: many(city),
   students: many(students, {
-    relationName: "students",
+    relationName: "students_province",
   }),
   parents: many(students, {
-    relationName: "parents",
+    relationName: "parents_province",
   }),
   guardians: many(students, {
-    relationName: "guardians",
+    relationName: "guardians_province",
   }),
   employees: many(employees),
 }));
@@ -59,13 +60,13 @@ export const cityRelations = relations(city, ({ one, many }) => ({
   }),
   subdistrict: many(subdistrict),
   students: many(students, {
-    relationName: "students",
+    relationName: "students_city",
   }),
   parents: many(students, {
-    relationName: "parents",
+    relationName: "parents_city",
   }),
   guardians: many(students, {
-    relationName: "guardians",
+    relationName: "guardians_city",
   }),
   employees: many(employees),
 }));
@@ -82,13 +83,13 @@ export const subdistrictRelations = relations(subdistrict, ({ one, many }) => ({
     references: [city.id],
   }),
   students: many(students, {
-    relationName: "students",
+    relationName: "students_subdistrict",
   }),
   parents: many(students, {
-    relationName: "parents",
+    relationName: "parents_subdistrict",
   }),
   guardians: many(students, {
-    relationName: "guardians",
+    relationName: "guardians_subdistrict",
   }),
   employees: many(employees),
 }));
@@ -109,9 +110,7 @@ export const maritalStatus = pgTable("app_marital_status", {
 });
 
 export const maritalStatusRelations = relations(maritalStatus, ({ many }) => ({
-  students: many(students, {
-    relationName: "students",
-  }),
+  students: many(students),
   employees: many(employees),
 }));
 
@@ -132,16 +131,16 @@ export const salary = pgTable("app_salary", {
 
 export const salaryRelations = relations(salary, ({ many }) => ({
   students: many(students, {
-    relationName: "students",
+    relationName: "students_salary",
   }),
   fathers: many(students, {
-    relationName: "fathers",
+    relationName: "fathers_salary",
   }),
   mothers: many(students, {
-    relationName: "mothers",
+    relationName: "mothers_salary",
   }),
   guardians: many(students, {
-    relationName: "guardians",
+    relationName: "guardians_salary",
   }),
 }));
 
@@ -152,16 +151,16 @@ export const occupation = pgTable("app_occupation", {
 
 export const occupationRelations = relations(occupation, ({ many }) => ({
   students: many(students, {
-    relationName: "students",
+    relationName: "students_occupation",
   }),
   fathers: many(students, {
-    relationName: "fathers",
+    relationName: "fathers_occupation",
   }),
   mothers: many(students, {
-    relationName: "mothers",
+    relationName: "mothers_occupation",
   }),
   guardians: many(students, {
-    relationName: "guardians",
+    relationName: "guardians_occupation",
   }),
 }));
 
@@ -181,13 +180,13 @@ export const parentStatus = pgTable("app_parent_status", {
 
 export const parentStatusRelations = relations(parentStatus, ({ many }) => ({
   fathers: many(students, {
-    relationName: "fathers",
+    relationName: "fathers_status",
   }),
   mothers: many(students, {
-    relationName: "mothers",
+    relationName: "mothers_status",
   }),
   guardians: many(students, {
-    relationName: "guardians",
+    relationName: "guardians_status",
   }),
 }));
 
@@ -198,13 +197,13 @@ export const parentEducation = pgTable("app_parent_education", {
 
 export const parentEducationRelations = relations(parentEducation, ({ many }) => ({
   fathers: many(students, {
-    relationName: "fathers",
+    relationName: "fathers_education",
   }),
   mothers: many(students, {
-    relationName: "mothers",
+    relationName: "mothers_education",
   }),
   guardians: many(students, {
-    relationName: "guardians",
+    relationName: "guardians_education",
   }),
 }));
 

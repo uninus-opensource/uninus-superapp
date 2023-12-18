@@ -15,7 +15,6 @@ export const lecturers = pgTable("app_lecturers", {
 });
 
 export const lecturersRelations = relations(lecturers, ({ many, one }) => ({
-  lecturers: many(lecturers),
   students: many(students),
   lecturerType: one(lecturerType, {
     fields: [lecturers.lecturerTypeId],

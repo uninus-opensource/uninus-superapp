@@ -45,7 +45,7 @@ export const students = pgTable("app_students", {
   provinceId: uuid("province_id").references(() => province.id),
   cityId: uuid("city_id").references(() => city.id),
   subdistrictId: uuid("subdistrict_id").references(() => subdistrict.id),
-  lastEducationNpsn: uuid("last_education_npsn").references(() => lastEducations.npsn),
+  lastEducationNpsn: text("last_education_npsn").references(() => lastEducations.npsn),
   lastEducationMajorId: uuid("last_education_major_id").references(() => lastEducationMajor.id),
   lastEducationTypeId: uuid("last_education_type_id").references(() => lastEducationType.id),
   salaryId: uuid("salary_id").references(() => salary.id),
@@ -96,6 +96,10 @@ export const students = pgTable("app_students", {
 });
 
 export const studentsRelations = relations(students, ({ one, many }) => ({
+  workingStatus: one(workingStatus, {
+    fields: [students.workingStatusId],
+    references: [workingStatus.id],
+  }),
   guardianLecturer: one(lecturers, {
     fields: [students.guardianLecturerId],
     references: [lecturers.id],
@@ -111,7 +115,6 @@ export const studentsRelations = relations(students, ({ one, many }) => ({
   citizenship: one(citizenship, {
     fields: [students.citizenshipId],
     references: [citizenship.id],
-    relationName: "students",
   }),
   maritalStatus: one(maritalStatus, {
     fields: [students.maritalStatusId],
@@ -124,17 +127,17 @@ export const studentsRelations = relations(students, ({ one, many }) => ({
   province: one(province, {
     fields: [students.provinceId],
     references: [province.id],
-    relationName: "students",
+    relationName: "students_province",
   }),
   city: one(city, {
     fields: [students.cityId],
     references: [city.id],
-    relationName: "students",
+    relationName: "students_city",
   }),
   subdistrict: one(subdistrict, {
     fields: [students.subdistrictId],
     references: [subdistrict.id],
-    relationName: "students",
+    relationName: "students_subdistrict",
   }),
   lastEducation: one(lastEducations, {
     fields: [students.lastEducationNpsn],
@@ -151,104 +154,104 @@ export const studentsRelations = relations(students, ({ one, many }) => ({
   salary: one(salary, {
     fields: [students.salaryId],
     references: [salary.id],
-    relationName: "students",
+    relationName: "students_salary",
   }),
   occupation: one(occupation, {
     fields: [students.occupationId],
     references: [occupation.id],
-    relationName: "students",
+    relationName: "students_occupation",
   }),
   fatherStatus: one(parentStatus, {
     fields: [students.fatherStatusId],
     references: [parentStatus.id],
-    relationName: "fathers",
+    relationName: "fathers_status",
   }),
   fatherEducation: one(parentEducation, {
     fields: [students.fatherEducationId],
     references: [parentEducation.id],
-    relationName: "fathers",
+    relationName: "fathers_education",
   }),
   fatherOccupation: one(occupation, {
     fields: [students.fatherOccupationId],
     references: [occupation.id],
-    relationName: "fathers",
+    relationName: "fathers_occupation",
   }),
   fatherSalary: one(salary, {
     fields: [students.fatherSalaryId],
     references: [salary.id],
-    relationName: "fathers",
+    relationName: "fathers_salary",
   }),
 
   motherStatus: one(parentStatus, {
     fields: [students.motherStatusId],
     references: [parentStatus.id],
-    relationName: "mothers",
+    relationName: "mothers_status",
   }),
   motherEducation: one(parentEducation, {
     fields: [students.motherEducationId],
     references: [parentEducation.id],
-    relationName: "mothers",
+    relationName: "mothers_education",
   }),
   motherOccupation: one(occupation, {
     fields: [students.motherOccupationId],
     references: [occupation.id],
-    relationName: "mothers",
+    relationName: "mothers_occupation",
   }),
   motherSalary: one(salary, {
     fields: [students.motherSalaryId],
     references: [salary.id],
-    relationName: "mothers",
+    relationName: "mothers_salary",
   }),
   parentProvince: one(province, {
     fields: [students.parentProvinceId],
     references: [province.id],
-    relationName: "parents",
+    relationName: "parents_province",
   }),
   parentCity: one(city, {
     fields: [students.parentCityId],
     references: [city.id],
-    relationName: "parents",
+    relationName: "parents_city",
   }),
   parentSubdistrict: one(subdistrict, {
     fields: [students.parentSubdistrictId],
     references: [subdistrict.id],
-    relationName: "parents",
+    relationName: "parents_subdistrict",
   }),
 
   guardianStatus: one(parentStatus, {
     fields: [students.guardianStatusId],
     references: [parentStatus.id],
-    relationName: "guardians",
+    relationName: "guardians_status",
   }),
   guardianProvince: one(province, {
     fields: [students.guardianProvinceId],
     references: [province.id],
-    relationName: "guardians",
+    relationName: "guardians_province",
   }),
   guardianCity: one(city, {
     fields: [students.guardianCityId],
     references: [city.id],
-    relationName: "guardians",
+    relationName: "guardians_city",
   }),
   guardianSubdistrict: one(subdistrict, {
     fields: [students.guardianSubdistrictId],
     references: [subdistrict.id],
-    relationName: "guardians",
+    relationName: "guardians_subdistrict",
   }),
   guardianEducation: one(parentEducation, {
     fields: [students.guardianEducationId],
     references: [parentEducation.id],
-    relationName: "guardians",
+    relationName: "guardians_education",
   }),
   guardianOccupation: one(occupation, {
     fields: [students.guardianOccupationId],
     references: [occupation.id],
-    relationName: "guardians",
+    relationName: "guardians_occupation",
   }),
   guardianSalary: one(salary, {
     fields: [students.guardianSalaryId],
     references: [salary.id],
-    relationName: "guardians",
+    relationName: "guardians_salary",
   }),
   scholarship: one(scholarship, {
     fields: [students.scholarshipId],

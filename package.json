@@ -142,6 +142,7 @@
     "openssl": "^2.0.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
+    "pg": "^8.11.3",
     "react": "18.2.0",
     "react-alice-carousel": "^2.8.0",
     "react-chartjs-2": "^5.2.0",
