@@ -13,15 +13,15 @@ import {
 } from "@nestjs/common";
 import {
   TReqToken,
-  EAppsOrigin,
   EOrderByPagination,
   TCreateUserRequest,
   TUpdateUserRequest,
   VSUpdateUser,
   VSCreateUser,
+  TCreateNotificationRequest,
 } from "@uninus/entities";
-import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
-import { CreateUserDto, UpdateUserDto } from "@uninus/api/dto";
+import { JwtAuthGuard } from "@uninus/api/guard";
+import { CreateNotificationDto, CreateUserDto, UpdateUserDto } from "@uninus/api/dto";
 import {
   ApiTags,
   ApiOperation,
@@ -29,6 +29,7 @@ import {
   ApiQuery,
   ApiHeader,
   ApiBody,
+  ApiParam,
 } from "@nestjs/swagger";
 
 import { UserService } from "@uninus/api/services";
@@ -37,8 +38,30 @@ import { ZodValidationPipe } from "@uninus/api/pipes";
 @ApiTags("User")
 @ApiBearerAuth("bearer")
 @Controller("user")
+@UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly appService: UserService) {}
+
+  @ApiOperation({ summary: "Create Notification" })
+  @ApiBody({ type: CreateNotificationDto })
+  @Post("notification")
+  async createNotification(@Body() payload: TCreateNotificationRequest) {
+    return await this.appService.createNotification(payload);
+  }
+
+  @ApiOperation({ summary: "Delete Notification" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Delete("notification/:id")
+  async deleteNotification(@Param("id") id: string) {
+    return await this.appService.deleteNotification({ id });
+  }
+
+  @ApiOperation({ summary: "Get Notification" })
+  @Get("notification")
+  async getNotification(@Request() reqToken: TReqToken) {
+    const { sub: id } = reqToken.user;
+    return await this.appService.getNotification({ id });
+  }
 
   @ApiOperation({ summary: "Get Data User" })
   @ApiHeader({
@@ -47,7 +70,6 @@ export class UserController {
     required: true,
   })
   @Get("/me")
-  @UseGuards(JwtAuthGuard)
   async getDatauser(@Request() reqToken: TReqToken) {
     const { sub: id } = reqToken.user;
     return await this.appService.getDataUser({ id });
@@ -65,7 +87,6 @@ export class UserController {
     required: true,
   })
   @Get()
-  @UseGuards(JwtAuthGuard)
   async getDataUsers(
     @Query("page") page: number,
     @Query("per_page") perPage: number,
@@ -91,7 +112,6 @@ export class UserController {
     required: true,
   })
   @Get("/:id")
-  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async getDataUserById(@Param("id") id: string) {
     return await this.appService.getDataUserById({ id });
   }
@@ -103,7 +123,6 @@ export class UserController {
     required: true,
   })
   @Delete("/:id")
-  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async deleteDataUser(@Param("id") id: string) {
     return await this.appService.deleteDataUser({ id });
   }
@@ -115,7 +134,6 @@ export class UserController {
   })
   @ApiBody({ type: UpdateUserDto })
   @Patch()
-  @UseGuards(JwtAuthGuard)
   async updateUser(
     @Request() reqToken: TReqToken,
     @Body(new ZodValidationPipe(VSUpdateUser))
@@ -133,7 +151,6 @@ export class UserController {
   })
   @ApiBody({ type: UpdateUserDto })
   @Patch("/:id")
-  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async updateUserById(
     @Param("id") id: string,
     @Body(new ZodValidationPipe(VSUpdateUser))
@@ -150,7 +167,6 @@ export class UserController {
   })
   @ApiBody({ type: CreateUserDto })
   @Post()
-  @UseGuards(JwtAuthGuard, PermissionGuard([EAppsOrigin.PMBADMIN]))
   async createUser(
     @Body(new ZodValidationPipe(VSCreateUser))
     payload: TCreateUserRequest,
