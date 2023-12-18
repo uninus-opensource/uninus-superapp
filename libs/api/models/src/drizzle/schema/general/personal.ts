@@ -9,7 +9,7 @@ export const citizenship = pgTable("app_citizenship", {
 
 export const citizenshipRelations = relations(citizenship, ({ many }) => ({
   country: many(country),
-  student: many(students),
+  students: many(students),
 }));
 
 export const country = pgTable("app_country", {
@@ -23,7 +23,7 @@ export const countryRelations = relations(country, ({ one, many }) => ({
     fields: [country.citizenshipId],
     references: [citizenship.id],
   }),
-  student: many(students),
+  students: many(students),
 }));
 
 export const province = pgTable("app_province", {
@@ -33,7 +33,15 @@ export const province = pgTable("app_province", {
 
 export const provinceRelations = relations(province, ({ many }) => ({
   city: many(city),
-  student: many(students),
+  students: many(students, {
+    relationName: "students",
+  }),
+  parents: many(students, {
+    relationName: "parents",
+  }),
+  guardians: many(students, {
+    relationName: "guardians",
+  }),
 }));
 
 export const city = pgTable("app_city", {
@@ -48,7 +56,15 @@ export const cityRelations = relations(city, ({ one, many }) => ({
     references: [province.id],
   }),
   subdistrict: many(subdistrict),
-  student: many(students),
+  students: many(students, {
+    relationName: "students",
+  }),
+  parents: many(students, {
+    relationName: "parents",
+  }),
+  guardians: many(students, {
+    relationName: "guardians",
+  }),
 }));
 
 export const subdistrict = pgTable("app_subdistrict", {
@@ -62,7 +78,15 @@ export const subdistrictRelations = relations(subdistrict, ({ one, many }) => ({
     fields: [subdistrict.cityId],
     references: [city.id],
   }),
-  student: many(students),
+  students: many(students, {
+    relationName: "students",
+  }),
+  parents: many(students, {
+    relationName: "parents",
+  }),
+  guardians: many(students, {
+    relationName: "guardians",
+  }),
 }));
 
 export const religion = pgTable("app_religion", {
@@ -71,7 +95,7 @@ export const religion = pgTable("app_religion", {
 });
 
 export const religionRelations = relations(religion, ({ many }) => ({
-  student: many(students),
+  students: many(students),
 }));
 
 export const maritalStatus = pgTable("app_marital_status", {
@@ -80,7 +104,7 @@ export const maritalStatus = pgTable("app_marital_status", {
 });
 
 export const maritalStatusRelations = relations(maritalStatus, ({ many }) => ({
-  student: many(students),
+  students: many(students),
 }));
 
 export const gender = pgTable("app_gender", {
@@ -89,7 +113,7 @@ export const gender = pgTable("app_gender", {
 });
 
 export const genderRelations = relations(gender, ({ many }) => ({
-  student: many(students),
+  students: many(students),
 }));
 
 export const salary = pgTable("app_salary", {
@@ -98,7 +122,18 @@ export const salary = pgTable("app_salary", {
 });
 
 export const salaryRelations = relations(salary, ({ many }) => ({
-  student: many(students),
+  students: many(students, {
+    relationName: "students",
+  }),
+  fathers: many(students, {
+    relationName: "fathers",
+  }),
+  mothers: many(students, {
+    relationName: "mothers",
+  }),
+  guardians: many(students, {
+    relationName: "guardians",
+  }),
 }));
 
 export const occupation = pgTable("app_occupation", {
@@ -107,7 +142,18 @@ export const occupation = pgTable("app_occupation", {
 });
 
 export const occupationRelations = relations(occupation, ({ many }) => ({
-  student: many(students),
+  students: many(students, {
+    relationName: "students",
+  }),
+  fathers: many(students, {
+    relationName: "fathers",
+  }),
+  mothers: many(students, {
+    relationName: "mothers",
+  }),
+  guardians: many(students, {
+    relationName: "guardians",
+  }),
 }));
 
 export const disabilities = pgTable("app_dissabilities", {
@@ -116,7 +162,7 @@ export const disabilities = pgTable("app_dissabilities", {
 });
 
 export const disabilitiesRelations = relations(disabilities, ({ many }) => ({
-  student: many(students),
+  students: many(students),
 }));
 
 export const parentStatus = pgTable("app_parent_status", {
@@ -125,7 +171,15 @@ export const parentStatus = pgTable("app_parent_status", {
 });
 
 export const parentStatusRelations = relations(parentStatus, ({ many }) => ({
-  student: many(students),
+  fathers: many(students, {
+    relationName: "fathers",
+  }),
+  mothers: many(students, {
+    relationName: "mothers",
+  }),
+  guardians: many(students, {
+    relationName: "guardians",
+  }),
 }));
 
 export const parentEducation = pgTable("app_parent_education", {
@@ -134,7 +188,15 @@ export const parentEducation = pgTable("app_parent_education", {
 });
 
 export const parentEducationRelations = relations(parentEducation, ({ many }) => ({
-  student: many(students),
+  fathers: many(students, {
+    relationName: "fathers",
+  }),
+  mothers: many(students, {
+    relationName: "mothers",
+  }),
+  guardians: many(students, {
+    relationName: "guardians",
+  }),
 }));
 
 export const lastEducations = pgTable("app_last_educations", {
@@ -153,7 +215,7 @@ export const lastEducationRelations = relations(lastEducations, ({ one, many }) 
     fields: [lastEducations.lastEducationTypeId],
     references: [lastEducationType.id],
   }),
-  student: many(students),
+  students: many(students),
 }));
 
 export const lastEducationType = pgTable("app_last_education_type", {
@@ -164,7 +226,7 @@ export const lastEducationType = pgTable("app_last_education_type", {
 export const lastEducationTypeRelations = relations(lastEducationType, ({ many }) => ({
   lastEducationMajor: many(lastEducationMajor),
   lastEducations: many(lastEducations),
-  student: many(students),
+  students: many(students),
 }));
 
 export const lastEducationMajor = pgTable("app_last_education_major", {
@@ -178,5 +240,5 @@ export const lastEducationMajorRelations = relations(lastEducationMajor, ({ one,
     fields: [lastEducationMajor.lastEducationTypeId],
     references: [lastEducationType.id],
   }),
-  student: many(students),
+  students: many(students),
 }));

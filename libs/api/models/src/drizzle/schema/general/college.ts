@@ -1,4 +1,6 @@
-import { pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, integer, date } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { students, admission } from "..";
 
 export const degreeProgram = pgTable("app_degree_program", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -7,6 +9,7 @@ export const degreeProgram = pgTable("app_degree_program", {
 
 export const degreeProgramRelations = relations(degreeProgram, ({ many }) => ({
   curriculum: many(curriculum),
+  admission: many(admission),
 }));
 
 export const faculty = pgTable("app_faculty", {
@@ -16,6 +19,7 @@ export const faculty = pgTable("app_faculty", {
 
 export const facultyRelations = relations(faculty, ({ many }) => ({
   curriculum: many(curriculum),
+  students: many(students),
 }));
 
 export const department = pgTable("app_department", {
@@ -25,6 +29,13 @@ export const department = pgTable("app_department", {
 
 export const departmentRelations = relations(department, ({ many }) => ({
   curriculum: many(curriculum),
+  students: many(students),
+  firstDepartment: many(admission, {
+    relationName: "first_department",
+  }),
+  secondDepartment: many(admission, {
+    relationName: "second_department",
+  }),
 }));
 
 export const courses = pgTable("app_courses", {
@@ -41,7 +52,7 @@ export const courses = pgTable("app_courses", {
 });
 
 export const coursesRelations = relations(courses, ({ one }) => ({
-  curriculum: one(courses, {
+  curriculum: one(curriculum, {
     fields: [courses.curriculumId],
     references: [curriculum.id],
   }),
@@ -87,7 +98,7 @@ export const curriculum = pgTable("app_curriculum", {
   updatedAt: date("updated_at", { mode: "date" }),
 });
 
-export const curriculumRelations = relations(curriculum, ({ many }) => ({
+export const curriculumRelations = relations(curriculum, ({ many, one }) => ({
   courses: many(courses),
   degreeProgram: one(degreeProgram, {
     fields: [curriculum.degreeProgramId],

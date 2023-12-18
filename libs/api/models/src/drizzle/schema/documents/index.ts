@@ -1,4 +1,6 @@
 import { date, pgTable, text, uuid, boolean } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+
 import { students } from "..";
 export const documents = pgTable("app_documents", {
   id: uuid("id").defaultRandom().primaryKey(),

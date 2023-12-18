@@ -73,14 +73,15 @@ export const students = pgTable("app_students", {
   guardianCityId: uuid("guardian_city_id").references(() => city.id),
   guardianSubdistrictId: uuid("guardian_subdistrict_id").references(() => subdistrict.id),
   guardianAddress: text("guardian_address"),
+  guardianEducationId: uuid("guardian_education_id").references(() => parentEducation.id),
   guardianOccupationId: uuid("guardian_occupation_id").references(() => occupation.id),
+  guardianSalaryId: uuid("guardian_salary_id").references(() => salary.id),
   guardianPosition: text("guardian_position"),
   scholarshipId: uuid("scholarship_id").references(() => scholarship.id),
   disabilitiesId: uuid("dissabilities_id").references(() => disabilities.id),
   academicYear: text("academic_year"),
   facultyId: uuid("faculty_id").references(() => faculty.id),
   departmentId: uuid("department_id").references(() => department.id),
-
   studentStatusId: uuid("student_status_id").references(() => studentStatus.id),
   userId: uuid("user_id")
     .notNull()
@@ -90,13 +91,21 @@ export const students = pgTable("app_students", {
 });
 
 export const studentsRelations = relations(students, ({ one, many }) => ({
-  studentStatus: one(studentStatus, {
-    fields: [students.studentStatusId],
-    references: [studentStatus.id],
+  gender: one(gender, {
+    fields: [students.genderId],
+    references: [gender.id],
+  }),
+  religion: one(religion, {
+    fields: [students.religionId],
+    references: [religion.id],
   }),
   citizenship: one(citizenship, {
     fields: [students.citizenshipId],
     references: [citizenship.id],
+  }),
+  maritalStatus: one(maritalStatus, {
+    fields: [students.maritalStatusId],
+    references: [maritalStatus.id],
   }),
   country: one(country, {
     fields: [students.countryId],
@@ -105,14 +114,155 @@ export const studentsRelations = relations(students, ({ one, many }) => ({
   province: one(province, {
     fields: [students.provinceId],
     references: [province.id],
+    relationName: "students",
   }),
   city: one(city, {
     fields: [students.cityId],
     references: [city.id],
+    relationName: "students",
   }),
   subdistrict: one(subdistrict, {
     fields: [students.subdistrictId],
     references: [subdistrict.id],
+    relationName: "students",
+  }),
+  lastEducation: one(lastEducations, {
+    fields: [students.lastEducationNpsn],
+    references: [lastEducations.npsn],
+  }),
+  lastEducationMajor: one(lastEducationMajor, {
+    fields: [students.lastEducationMajorId],
+    references: [lastEducationMajor.id],
+  }),
+  lastEducationType: one(lastEducationType, {
+    fields: [students.lastEducationTypeId],
+    references: [lastEducationType.id],
+  }),
+  salary: one(salary, {
+    fields: [students.salaryId],
+    references: [salary.id],
+    relationName: "students",
+  }),
+  occupation: one(occupation, {
+    fields: [students.occupationId],
+    references: [occupation.id],
+    relationName: "students",
+  }),
+  fatherStatus: one(parentStatus, {
+    fields: [students.fatherStatusId],
+    references: [parentStatus.id],
+    relationName: "fathers",
+  }),
+  fatherEducation: one(parentEducation, {
+    fields: [students.fatherEducationId],
+    references: [parentEducation.id],
+    relationName: "fathers",
+  }),
+  fatherOccupation: one(occupation, {
+    fields: [students.fatherOccupationId],
+    references: [occupation.id],
+    relationName: "fathers",
+  }),
+  fatherSalary: one(salary, {
+    fields: [students.fatherSalaryId],
+    references: [salary.id],
+    relationName: "fathers",
+  }),
+
+  motherStatus: one(parentStatus, {
+    fields: [students.motherStatusId],
+    references: [parentStatus.id],
+    relationName: "mothers",
+  }),
+  motherEducation: one(parentEducation, {
+    fields: [students.motherEducationId],
+    references: [parentEducation.id],
+    relationName: "mothers",
+  }),
+  motherOccupation: one(occupation, {
+    fields: [students.motherOccupationId],
+    references: [occupation.id],
+    relationName: "mothers",
+  }),
+  motherSalary: one(salary, {
+    fields: [students.motherSalaryId],
+    references: [salary.id],
+    relationName: "mothers",
+  }),
+  parentProvince: one(province, {
+    fields: [students.parentProvinceId],
+    references: [province.id],
+    relationName: "parents",
+  }),
+  parentCity: one(city, {
+    fields: [students.parentCityId],
+    references: [city.id],
+    relationName: "parents",
+  }),
+  parentSubdistrict: one(subdistrict, {
+    fields: [students.parentSubdistrictId],
+    references: [subdistrict.id],
+    relationName: "parents",
+  }),
+
+  guardianStatus: one(parentStatus, {
+    fields: [students.guardianStatusId],
+    references: [parentStatus.id],
+    relationName: "guardians",
+  }),
+  guardianProvince: one(province, {
+    fields: [students.guardianProvinceId],
+    references: [province.id],
+    relationName: "guardians",
+  }),
+  guardianCity: one(city, {
+    fields: [students.guardianCityId],
+    references: [city.id],
+    relationName: "guardians",
+  }),
+  guardianSubdistrict: one(subdistrict, {
+    fields: [students.guardianSubdistrictId],
+    references: [subdistrict.id],
+    relationName: "guardians",
+  }),
+  guardianEducation: one(parentEducation, {
+    fields: [students.guardianEducationId],
+    references: [parentEducation.id],
+    relationName: "guardians",
+  }),
+  guardianOccupation: one(occupation, {
+    fields: [students.guardianOccupationId],
+    references: [occupation.id],
+    relationName: "guardians",
+  }),
+  guardianSalary: one(salary, {
+    fields: [students.guardianSalaryId],
+    references: [salary.id],
+    relationName: "guardians",
+  }),
+  scholarship: one(scholarship, {
+    fields: [students.scholarshipId],
+    references: [scholarship.id],
+  }),
+  disabilities: one(disabilities, {
+    fields: [students.disabilitiesId],
+    references: [disabilities.id],
+  }),
+  faculty: one(faculty, {
+    fields: [students.facultyId],
+    references: [faculty.id],
+  }),
+  department: one(department, {
+    fields: [students.departmentId],
+    references: [department.id],
+  }),
+  studentStatus: one(studentStatus, {
+    fields: [students.studentStatusId],
+    references: [studentStatus.id],
+  }),
+  user: one(users, {
+    fields: [students.userId],
+    references: [users.id],
   }),
   paymentHistory: many(paymentHistory),
   documents: many(documents),

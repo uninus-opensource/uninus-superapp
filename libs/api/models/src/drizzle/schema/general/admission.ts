@@ -85,6 +85,20 @@ export const admission = pgTable("app_admission", {
 
 export const admissionRelations = relations(admission, ({ many, one }) => ({
   studentGrade: many(studentGrade),
+  degreeProgram: one(degreeProgram, {
+    fields: [admission.degreeProgramId],
+    references: [degreeProgram.id],
+  }),
+  firstDepartment: one(department, {
+    fields: [admission.firstDepartmentId],
+    references: [department.id],
+    relationName: "first_department",
+  }),
+  secondDepartment: one(department, {
+    fields: [admission.secondDepartmentId],
+    references: [department.id],
+    relationName: "second_department",
+  }),
   registrationStatus: one(registrationStatus, {
     fields: [admission.registrationStatusId],
     references: [registrationStatus.id],

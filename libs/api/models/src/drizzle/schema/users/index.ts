@@ -21,10 +21,7 @@ export const usersRelations = relations(users, ({ one, many }) => ({
     fields: [users.roleId],
     references: [roles.id],
   }),
-  otp: one(otp, {
-    fields: [users.otpId],
-    references: [otp.id],
-  }),
+  otp: many(otp),
   student: one(students, {
     fields: [users.id],
     references: [students.userId],

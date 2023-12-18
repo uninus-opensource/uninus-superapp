@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
-import { date, pgTable, text, uuid, boolean, integer, students } from "drizzle-orm/pg-core";
-
+import { date, pgTable, text, uuid, boolean, integer } from "drizzle-orm/pg-core";
+import { students } from "..";
 export const paymentHistory = pgTable("app_payment_history", {
   id: uuid("id").defaultRandom().primaryKey(),
   orderId: text("order_id").notNull().unique(),
