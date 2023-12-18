@@ -12,6 +12,10 @@ import {
   citizenship,
   country,
   lastEducations,
+  lecturers,
+  lecturerPosition,
+  academicStaff,
+  academicStaffPosition,
 } from "..";
 
 export const employees = pgTable("app_employees", {
@@ -81,9 +85,13 @@ export const employeesRelations = relations(employees, ({ one, many }) => ({
     fields: [employees.employeeTypeId],
     references: [employeeType.id],
   }),
-  user: one(users, {
-    fields: [employees.userId],
-    references: [users.id],
+  lecturer: one(lecturers, {
+    fields: [employees.id],
+    references: [lecturers.employeeId],
+  }),
+  academicStaff: one(academicStaff, {
+    fields: [employees.id],
+    references: [academicStaff.employeeId],
   }),
   certificationProfession: many(documents, {
     relationName: "certification_profession",
@@ -224,4 +232,14 @@ export const workUnitCategories = pgTable("app_work_unit_categories", {
 
 export const workUnitCategoriesRelations = relations(workUnitCategories, ({ many }) => ({
   workUnits: many(workUnits),
+}));
+
+export const civilServiceLevel = pgTable("app_civil_service_level", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: text("name").notNull(),
+});
+
+export const civilServiceLevelRelations = relations(civilServiceLevel, ({ many }) => ({
+  lecturerPosition: many(lecturerPosition),
+  academicStaffPosition: many(academicStaffPosition),
 }));

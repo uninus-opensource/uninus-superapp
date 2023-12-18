@@ -1,6 +1,6 @@
 import { pgTable, text, uuid, integer, date } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { students, admission } from "..";
+import { students, admission, lecturerOnFaculty, lecturerOnDepartment } from "..";
 
 export const degreeProgram = pgTable("app_degree_program", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -20,6 +20,7 @@ export const faculty = pgTable("app_faculty", {
 export const facultyRelations = relations(faculty, ({ many }) => ({
   curriculum: many(curriculum),
   students: many(students),
+  lecturerOnFaculty: many(lecturerOnFaculty),
 }));
 
 export const department = pgTable("app_department", {
@@ -30,6 +31,7 @@ export const department = pgTable("app_department", {
 export const departmentRelations = relations(department, ({ many }) => ({
   curriculum: many(curriculum),
   students: many(students),
+  lecturerOnDepartment: many(lecturerOnDepartment),
   firstDepartment: many(admission, {
     relationName: "first_department",
   }),

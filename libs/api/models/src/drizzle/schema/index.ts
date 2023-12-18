@@ -7,3 +7,5 @@ export * from "./notifications";
 export * from "./general";
 export * from "./employees";
 export * from "./documents";
+export * from "./lecturers";
+export * from "./academic-staff";
