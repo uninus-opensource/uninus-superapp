@@ -1,19 +1,35 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 import {
+  CreateCourseDto,
+  CreateCourseScheduleDto,
+  CreateCurriculumDto,
   CreateDepartmentDto,
   CreateFacultyDto,
+  CreateScheduleDto,
   GetDepartmentDto,
   GetFacultyDto,
   SelectOptionDto,
+  UpdateCourseDto,
+  UpdateCourseScheduleDto,
+  UpdateCurriculumDto,
   UpdateDepartmentDto,
   UpdateFacultyDto,
+  UpdateScheduleDto,
 } from "@uninus/api/dto";
 import { CollegeService } from "@uninus/api/services";
 import {
+  ICreateCourseRequest,
+  ICreateCourseScheduleRequest,
+  ICreateCurriculumRequest,
+  ICreateScheduleRequest,
   ISelectDepartmentRequest,
   ISelectFacultyRequest,
   ISelectRequest,
+  IUpdateCourseRequest,
+  IUpdateCourseScheduleRequest,
+  IUpdateCurriculumRequest,
+  IUpdateScheduleRequest,
   TCreateDepartmentRequest,
   TCreateFacultyRequest,
   TUpdateDepartmentRequest,
@@ -88,5 +104,151 @@ export class CollegeController {
   @Delete("department/:id")
   async deleteDepartment(@Param("id") id: number) {
     return await this.appService.deleteDepartment({ id });
+  }
+
+  @ApiOperation({ summary: "Get Curriculum" })
+  @ApiQuery({ type: SelectOptionDto })
+  @Get("curriculum")
+  async getCurriculum(@Query() query: ISelectRequest) {
+    return await this.appService.getCurriculum(query);
+  }
+
+  @ApiOperation({ summary: "Get Curriculum By Id" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("curriculum/:id")
+  async getCurriculumById(@Param("id") id: string) {
+    return await this.appService.getCurriculumById({ id });
+  }
+
+  @ApiOperation({ summary: "Create Curriculum" })
+  @ApiBody({ type: CreateCurriculumDto })
+  @Post("curriculum")
+  async createCurriculum(@Body() payload: ICreateCurriculumRequest) {
+    return await this.appService.createCurriculum(payload);
+  }
+
+  @ApiOperation({ summary: "Update Curriculum" })
+  @ApiBody({ type: UpdateCurriculumDto })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Patch("curriculum/:id")
+  async updateCurriculum(@Param("id") id: string, @Body() payload: IUpdateCurriculumRequest) {
+    return await this.appService.updateCurriculum({ id, ...payload });
+  }
+
+  @ApiOperation({ summary: "Delete Curriculum" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Delete("curriculum/:id")
+  async deleteCurriculum(@Param("id") id: string) {
+    return await this.appService.deleteCurriculum({ id });
+  }
+
+  @ApiOperation({ summary: "Get Courses" })
+  @ApiQuery({ type: SelectOptionDto })
+  @Get("course")
+  async getCourses(@Query() query: ISelectRequest) {
+    return await this.appService.getCourses(query);
+  }
+
+  @ApiOperation({ summary: "Get Course By Id" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("course/:id")
+  async getCourseById(@Param("id") id: string) {
+    return await this.appService.getCourseById({ id });
+  }
+
+  @ApiOperation({ summary: "Create Course" })
+  @ApiBody({ type: CreateCourseDto })
+  @Post("course")
+  async createCourse(@Body() payload: ICreateCourseRequest) {
+    return await this.appService.createCourse(payload);
+  }
+
+  @ApiOperation({ summary: "Update Course" })
+  @ApiBody({ type: UpdateCourseDto })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Patch("course/:id")
+  async updateCourse(@Param("id") id: string, @Body() payload: IUpdateCourseRequest) {
+    return await this.appService.updateCourse({ id, ...payload });
+  }
+
+  @ApiOperation({ summary: "Delete Course" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Delete("course/:id")
+  async deleteCourse(@Param("id") id: string) {
+    return await this.appService.deleteCourse({ id });
+  }
+
+  @ApiOperation({ summary: "Get Course Schedule " })
+  @ApiQuery({ type: SelectOptionDto })
+  @Get("course/schedule")
+  async getCourseSchedule(@Query() query: ISelectRequest) {
+    return await this.appService.getCourseSchedule(query);
+  }
+
+  @ApiOperation({ summary: "Get Course Schedule By Id" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("course/schedule/:id")
+  async getCourseScheduleById(@Param("id") id: string) {
+    return await this.appService.getCourseScheduleById({ id });
+  }
+
+  @ApiOperation({ summary: "Create Course Schedule" })
+  @ApiBody({ type: CreateCourseScheduleDto })
+  @Post("course/schedule")
+  async createCourseSchedule(@Body() payload: ICreateCourseScheduleRequest) {
+    return await this.appService.createCourseSchedule(payload);
+  }
+
+  @ApiOperation({ summary: "Update Course Schedule" })
+  @ApiBody({ type: UpdateCourseScheduleDto })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Patch("course/schedule/:id")
+  async updateCourseSchedule(
+    @Param("id") id: string,
+    @Body() payload: IUpdateCourseScheduleRequest,
+  ) {
+    return await this.appService.updateCourseSchedule({ id, ...payload });
+  }
+
+  @ApiOperation({ summary: "Delete Course Schedule" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Delete("course/schedule/:id")
+  async deleteCourseSchedule(@Param("id") id: string) {
+    return await this.appService.deleteCourseSchedule({ id });
+  }
+
+  @ApiOperation({ summary: "Get Schedule" })
+  @Get("schedule")
+  async getSchedule() {
+    return await this.appService.getSchedule();
+  }
+
+  @ApiOperation({ summary: "Get Schedule By Id" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Get("schedule/:id")
+  async getScheduleById(@Param("id") id: string) {
+    return await this.appService.getScheduleById({ id });
+  }
+
+  @ApiOperation({ summary: "Create Schedule" })
+  @ApiBody({ type: CreateScheduleDto })
+  @Post("schedule")
+  async createSchedule(@Body() payload: ICreateScheduleRequest) {
+    return await this.appService.createSchedule(payload);
+  }
+
+  @ApiOperation({ summary: "Update Schedule" })
+  @ApiBody({ type: UpdateScheduleDto })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Patch("schedule/:id")
+  async updateSchedule(@Param("id") id: string, @Body() payload: IUpdateScheduleRequest) {
+    return await this.appService.updateSchedule({ id, ...payload });
+  }
+
+  @ApiOperation({ summary: "Delete Schedule" })
+  @ApiParam({ name: "id", type: "string", required: true })
+  @Delete("schedule/:id")
+  async deleteSchedule(@Param("id") id: string) {
+    return await this.appService.deleteSchedule({ id });
   }
 }
