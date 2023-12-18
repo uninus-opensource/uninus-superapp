@@ -1,4 +1,4 @@
-import { ReactElement, forwardRef, Ref, useState, useEffect } from "react";
+import { ReactElement, forwardRef, Ref, useState, useEffect, CSSProperties } from "react";
 import { FieldValues, useController } from "react-hook-form";
 import { TSelectFieldProps, TSelectOption } from "./types";
 import Select, { GroupBase, MultiValue, SelectInstance, SingleValue } from "react-select";
@@ -98,8 +98,8 @@ export const SelectOption = forwardRef(
           onMenuOpen={() => setDropDown(true)}
           onMenuClose={() => setDropDown(false)}
           styles={{
-            control: (provided, state) => ({
-              ...provided,
+            control: (base, state) => ({
+              ...(base as CSSProperties),
               backgroundColor: props.options?.map((option) => option.color)
                 ? color || props.selectColor || "#F2F2F2"
                 : state.isFocused
@@ -112,15 +112,15 @@ export const SelectOption = forwardRef(
               boxShadow: "none",
               fontSize: "14px",
             }),
-            option: (provided, state) => ({
-              ...provided,
+            option: (base, state) => ({
+              ...(base as CSSProperties),
               backgroundColor: state.isSelected ? "#DEDEDE" : props.optionColor || "#F2F2F2",
               color: "black",
               boxShadow: "none",
               fontSize: "14px",
             }),
-            singleValue: (provided) => ({
-              ...provided,
+            singleValue: (base) => ({
+              ...(base as CSSProperties),
               color: textColor || props.textColor || "black",
               boxShadow: "none",
               fontSize: "14px",
