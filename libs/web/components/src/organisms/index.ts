@@ -8,3 +8,5 @@ export * from "./sidebar-v2";
 export * from "./card-image";
 export * from "./card";
 export * from "./tab";
+export * from "./datatable";
+export * from "./forms";

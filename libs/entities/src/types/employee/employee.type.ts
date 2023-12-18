@@ -25,7 +25,7 @@ export type TEmployeesResponse = {
 };
 
 export type TEmployeePaginationArgs = {
-  type?: number;
+  type: number;
   orderBy?: string;
   page?: number;
   perPage?: number;

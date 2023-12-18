@@ -5,7 +5,7 @@ export type TLecturerResponse = {
   nidn: string;
   nik: string;
   addition_task: string;
-  lecturer_category: string;
+  lecturer_type: string;
   lecturer_position: string;
   civil_service_level: string;
   gender: string;
@@ -14,7 +14,7 @@ export type TLecturerResponse = {
   employee_document: Array<object>;
 };
 
-export type TEmployeeCategoriesResponse = Array<{
+export type TEmployeeParamsResponse = Array<{
   id: number;
   name: string;
 }>;

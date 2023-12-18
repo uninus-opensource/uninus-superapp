@@ -520,7 +520,7 @@ export class CollegeService {
       const { id } = payload;
       const getCourse = await this.prisma.courses.findUnique({
         where: {
-          id,
+          id: Number(id),
         },
         include: {
           curriculum: {
@@ -610,7 +610,7 @@ export class CollegeService {
       } = payload;
       const createCourse = await this.prisma.courses.update({
         where: {
-          id,
+          id: Number(id),
         },
         data: {
           name,
@@ -639,7 +639,7 @@ export class CollegeService {
       const { id } = payload;
       const deleteCourse = await this.prisma.courses.delete({
         where: {
-          id,
+          id: Number(id),
         },
       });
       if (!deleteCourse) {

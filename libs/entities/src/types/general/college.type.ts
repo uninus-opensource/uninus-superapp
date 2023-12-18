@@ -155,7 +155,7 @@ export interface IDeleteCourseResponse extends ICreateCurriculumResponse {}
 export interface ICreateCourseScheduleRequest {
   semester: number;
   class: string;
-  course_id: string;
+  course_id: number;
   schedule_id: string;
   capacity: number;
   total_students: number;
@@ -174,7 +174,7 @@ export interface IDeleteCourseScheduleResponse extends ICreateCurriculumResponse
 export interface IGetCourseScheduleIdResponse
   extends Omit<IUpdateCourseScheduleRequest, "course_id" | "schedule_id"> {
   course: {
-    id: string;
+    id: number;
     name: string;
   };
   schedule: {

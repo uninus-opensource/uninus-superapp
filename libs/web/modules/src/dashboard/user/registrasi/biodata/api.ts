@@ -20,7 +20,7 @@ export const BiodataUpdate = async (
 };
 
 export const BiodatatGet = async (): Promise<IGetStudentResponse> => {
-  const { data } = await api.get<IGetStudentResponse>("/student");
+  const { data } = await api.get<IGetStudentResponse>("/student/me");
   return data;
 };
 
