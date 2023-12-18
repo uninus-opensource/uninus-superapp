@@ -13,6 +13,7 @@ import {
   TPaymentObligationsRequest,
   TStudentsPaginationArgs,
   TStudentsPaginatonResponse,
+  TStudentCountResponse,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
 import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
@@ -613,6 +614,39 @@ export class AppService {
             ...el,
             spelled_out: convertNumberToWords(String(el?.amount)),
           }));
+    } catch (error) {
+      throw new RpcException(errorMappings(error));
+    }
+  }
+
+  async getStudentCount(): Promise<TStudentCountResponse> {
+    try {
+      const getTotalStudent = await this.prisma.studentStatus.findMany({
+        select: {
+          name: true,
+          _count: {
+            select: {
+              student: true,
+            },
+          },
+        },
+      });
+
+      if (!getTotalStudent) {
+        throw new BadRequestException("Gagal dalam mengambil data");
+      }
+      const obj = {};
+
+      const mapData = await Promise.all([
+        getTotalStudent.forEach((el) => {
+          obj[el.name.toLocaleLowerCase().replace(" ", "_")] = el._count.student;
+        }),
+        getTotalStudent.reduce((acc, curr) => acc + curr._count.student, 0),
+      ]);
+      return {
+        total: mapData[1],
+        ...obj,
+      };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }

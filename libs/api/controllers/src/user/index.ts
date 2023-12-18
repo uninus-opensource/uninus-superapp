@@ -13,7 +13,6 @@ import {
 } from "@nestjs/common";
 import {
   TReqToken,
-  EAppsOrigin,
   EOrderByPagination,
   TCreateUserRequest,
   TUpdateUserRequest,
@@ -21,7 +20,7 @@ import {
   VSCreateUser,
   TCreateNotificationRequest,
 } from "@uninus/entities";
-import { JwtAuthGuard, PermissionGuard } from "@uninus/api/guard";
+import { JwtAuthGuard } from "@uninus/api/guard";
 import { CreateNotificationDto, CreateUserDto, UpdateUserDto } from "@uninus/api/dto";
 import {
   ApiTags,
@@ -113,7 +112,6 @@ export class UserController {
     required: true,
   })
   @Get("/:id")
-  @UseGuards(PermissionGuard([EAppsOrigin.PMBADMIN]))
   async getDataUserById(@Param("id") id: string) {
     return await this.appService.getDataUserById({ id });
   }
@@ -125,7 +123,6 @@ export class UserController {
     required: true,
   })
   @Delete("/:id")
-  @UseGuards(PermissionGuard([EAppsOrigin.PMBADMIN]))
   async deleteDataUser(@Param("id") id: string) {
     return await this.appService.deleteDataUser({ id });
   }
@@ -154,7 +151,6 @@ export class UserController {
   })
   @ApiBody({ type: UpdateUserDto })
   @Patch("/:id")
-  @UseGuards(PermissionGuard([EAppsOrigin.PMBADMIN]))
   async updateUserById(
     @Param("id") id: string,
     @Body(new ZodValidationPipe(VSUpdateUser))
@@ -171,7 +167,6 @@ export class UserController {
   })
   @ApiBody({ type: CreateUserDto })
   @Post()
-  @UseGuards(PermissionGuard([EAppsOrigin.PMBADMIN]))
   async createUser(
     @Body(new ZodValidationPipe(VSCreateUser))
     payload: TCreateUserRequest,
