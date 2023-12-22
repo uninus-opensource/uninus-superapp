@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1703243618990,
+      "tag": "0000_lying_toro",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1703243852202,
+      "tag": "0001_superb_the_initiative",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1703244499676,
+      "tag": "0002_green_starhawk",
+      "breakpoints": true
+    }
+  ]
+}

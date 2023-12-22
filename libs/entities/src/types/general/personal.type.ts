@@ -163,7 +163,7 @@ export interface IReligionRequest {
 
 export type TReligionResponse = {
   religion: Array<{
-    id: number;
+    id: number | string;
     name: string;
   }>;
 };

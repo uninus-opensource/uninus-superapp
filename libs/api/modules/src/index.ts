@@ -9,3 +9,4 @@ export * from "./employee";
 export * from "./prisma";
 export * from "./finance";
 export * from "./master";
+export * from "./drizzle";

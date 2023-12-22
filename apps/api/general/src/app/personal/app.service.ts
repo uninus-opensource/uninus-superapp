@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
 import { PrismaService } from "@uninus/api/services";
 import { errorMappings } from "@uninus/api/utilities";
@@ -31,10 +31,16 @@ import {
   TUpdateEducationRequest,
   TDeleteEducationRequest,
 } from "@uninus/entities";
+import * as schema from "@uninus/api/models";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { ilike } from "drizzle-orm";
 
 @Injectable()
 export class PersonalService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>,
+  ) {}
   async getCountry({ search, citizenship_id }: ICountryRequest): Promise<TCountryResponse> {
     try {
       const country = await this.prisma.country.findMany({
@@ -123,15 +129,10 @@ export class PersonalService {
   }
   async getReligion({ search }: ISelectRequest): Promise<TReligionResponse> {
     try {
-      const religion = await this.prisma.religion.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const religion = await this.drizzle
+        .select()
+        .from(schema.religion)
+        .where(ilike(schema.religion.name, `%${search || ""}%`));
 
       if (!religion) {
         throw new NotFoundException("Data Agama Tidak Ditemukan!");

@@ -29,7 +29,7 @@ export const employees = pgTable("app_employees", {
   birthPlace: text("birth_place"),
   birthDate: text("birth_date"),
   additionTask: text("addition_task"),
-  religionId: uuid("religion_id").references(() => religion.id),
+  religionId: text("religion_id"),
   countryId: uuid("country_id").references(() => country.id),
   provinceId: uuid("province_id").references(() => province.id),
   cityId: uuid("city_id").references(() => city.id),
