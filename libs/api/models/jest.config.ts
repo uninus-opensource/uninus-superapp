@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: "api-guard",
+  displayName: "api-models",
   preset: "../../../jest.preset.js",
   testEnvironment: "node",
   transform: {

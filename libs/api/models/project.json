@@ -1,14 +1,24 @@
 {
-  "name": "models",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/models/src",
+  "name": "api-models",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/api/models/src",
   "projectType": "library",
   "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/api/models",
+        "tsConfig": "libs/api/models/tsconfig.lib.json",
+        "main": "libs/api/models/src/index.ts",
+        "updateBuildableProjectDepsInPackageJson": true
+      }
+    },
     "lint": {
-      "executor": "@nx/linter:eslint",
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/api/models/**/*.ts"]
+        "lintFilePatterns": ["libs/api/models//**/*.ts"]
       }
     },
     "test": {
@@ -17,30 +27,6 @@
       "options": {
         "jestConfig": "libs/api/models/jest.config.ts",
         "passWithNoTests": true
-      },
-      "migrate-save": {
-        "executor": "@nrwl/workspace:run-commands",
-        "outputs": [],
-        "options": {
-          "command": "yarn prisma migrate save --experimental --schema ./src/prisma/schema.prisma",
-          "cwd": "libs/models"
-        }
-      },
-      "migrate-up": {
-        "builder": "@nrwl/workspace:run-commands",
-        "outputs": [],
-        "options": {
-          "command": "yarn prisma migrate up --experimental --schema ./src/prisma/schema.prisma",
-          "cwd": "libs/models"
-        }
-      },
-      "gen-client": {
-        "builder": "@nrwl/workspace:run-commands",
-        "outputs": [],
-        "options": {
-          "command": "yarn prisma generate --schema ./src/prisma/schema.prisma",
-          "cwd": "libs/models"
-        }
       },
       "configurations": {
         "ci": {
