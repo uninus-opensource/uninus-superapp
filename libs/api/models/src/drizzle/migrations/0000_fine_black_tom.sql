@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS "app_employees" (
 	"birth_place" text,
 	"birth_date" text,
 	"addition_task" text,
-	"religion_id" uuid,
+	"religion_id" text,
 	"country_id" uuid,
 	"province_id" uuid,
 	"city_id" uuid,
@@ -330,7 +330,7 @@ CREATE TABLE IF NOT EXISTS "app_students" (
 	"nim" text,
 	"guardian_lecturer_id" uuid,
 	"gender_id" uuid,
-	"religion_id" uuid,
+	"religion_id" text,
 	"birth_place" text,
 	"birth_date" text,
 	"phone_number" text,
@@ -551,12 +551,6 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "app_employees" ADD CONSTRAINT "app_employees_religion_id_app_religion_id_fk" FOREIGN KEY ("religion_id") REFERENCES "app_religion"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
  ALTER TABLE "app_employees" ADD CONSTRAINT "app_employees_country_id_app_country_id_fk" FOREIGN KEY ("country_id") REFERENCES "app_country"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -750,12 +744,6 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "app_students" ADD CONSTRAINT "app_students_gender_id_app_gender_id_fk" FOREIGN KEY ("gender_id") REFERENCES "app_gender"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "app_students" ADD CONSTRAINT "app_students_religion_id_app_religion_id_fk" FOREIGN KEY ("religion_id") REFERENCES "app_religion"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

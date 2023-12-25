@@ -270,7 +270,7 @@ export class AppService {
         education_sub_district,
         education_street_address,
         education_type_id,
-        ...updateStudentPayload
+        // ...updateStudentPayload
       } = payload;
       if (documents && typeof documents[0]?.isVerified != "undefined") {
         for await (const data of documents) {
@@ -366,7 +366,7 @@ export class AppService {
             district_city: education_district_city,
             sub_district: education_sub_district,
             street_address: education_street_address,
-            education_type_id: education_type_id,
+            education_type_id: Number(education_type_id),
           },
         });
 
@@ -386,22 +386,22 @@ export class AppService {
             update: {
               test_score,
               education_npsn,
-              education_type_id,
-              ...updateStudentPayload,
+              education_type_id: Number(education_type_id),
+              // ...updateStudentPayload,
               pmb: {
                 update: {
-                  first_department_id,
-                  second_department_id,
-                  selection_path_id,
-                  registration_path_id,
-                  degree_program_id,
+                  first_department_id: Number(first_department_id),
+                  second_department_id: Number(second_department_id),
+                  selection_path_id: Number(selection_path_id),
+                  registration_path_id: Number(registration_path_id),
+                  degree_program_id: Number(degree_program_id),
                   utbk_pu,
                   utbk_kk,
                   utbk_ppu,
                   utbk_kmbm,
                   average_utbk,
                   registration_status_id: registration_status_id
-                    ? registration_status_id
+                    ? Number(registration_status_id)
                     : ((documents && typeof documents[0]?.isVerified == "undefined") ||
                         (document && typeof document?.name != "undefined")) &&
                       2,

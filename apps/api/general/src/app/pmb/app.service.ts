@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
 
 import { PrismaService } from "@uninus/api/services";
@@ -34,23 +29,26 @@ import {
   TUpdateScholarshipRequest,
   TUpdateSelectionPathRequest,
 } from "@uninus/entities";
-
+import * as schema from "@uninus/api/models";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { and, eq, ilike } from "drizzle-orm";
 @Injectable()
 export class PMBService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>,
+  ) {}
 
   async getScholarship(payload: ISelectRequest): Promise<TScholarshipResponse> {
     try {
       const { search } = payload;
-      const scholarship = await this.prisma.scholarship.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const scholarship = await this.drizzle
+        .select({
+          id: schema.scholarship.id,
+          name: schema.scholarship.name,
+        })
+        .from(schema.scholarship)
+        .where(ilike(schema.scholarship.name, `%${search || ""}%`));
 
       if (!scholarship) {
         throw new NotFoundException("Data Beasiswa Tidak Ditemukan!");
@@ -63,10 +61,9 @@ export class PMBService {
   }
   async createScholarship(payload: TCreateScholarshipRequest): Promise<TGeneralResponse> {
     try {
-      const newScholarship = await this.prisma.scholarship.create({
-        data: {
-          name: payload.name,
-        },
+      const newScholarship = await this.drizzle.insert(schema.scholarship).values({
+        name: payload.name,
+        discount: payload.discount,
       });
 
       if (!newScholarship) {
@@ -82,14 +79,12 @@ export class PMBService {
   }
   async updateScholarship(payload: TUpdateScholarshipRequest): Promise<TGeneralResponse> {
     try {
-      const updateScholarship = await this.prisma.scholarship.update({
-        where: {
-          id: Number(payload.id),
-        },
-        data: {
+      const updateScholarship = await this.drizzle
+        .update(schema.scholarship)
+        .set({
           name: payload.name,
-        },
-      });
+        })
+        .where(eq(schema.scholarship.id, payload.id));
 
       if (!updateScholarship) {
         throw new BadRequestException("Gagal memperbarui Beasiswa");
@@ -102,13 +97,11 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteScholarship(payload: { id: number }): Promise<TGeneralResponse> {
+  async deleteScholarship(payload: { id: string }): Promise<TGeneralResponse> {
     try {
-      const deleteScholarship = await this.prisma.scholarship.delete({
-        where: {
-          id: Number(payload.id),
-        },
-      });
+      const deleteScholarship = await this.drizzle
+        .delete(schema.scholarship)
+        .where(eq(schema.scholarship.id, payload.id));
 
       if (!deleteScholarship) {
         throw new BadRequestException(`Gagal menghapus beasiswa`);
@@ -128,17 +121,20 @@ export class PMBService {
 
         degree_program_id,
       } = payload;
-      const selection = await this.prisma.selectionPath.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          degree_program_id: degree_program_id && Number(degree_program_id),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
+      const selection = await this.drizzle
+        .select({
+          id: schema.selectionPath.id,
+          name: schema.selectionPath.name,
+        })
+        .from(schema.selectionPath)
+        .where(
+          and(
+            and(
+              ilike(schema.selectionPath.name, `%${search || ""}%`),
+              ilike(schema.selectionPath.degreeProgramId, `%${degree_program_id || ""}%`),
+            ),
+          ),
+        );
       if (!selection) {
         throw new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!");
       }
@@ -151,15 +147,13 @@ export class PMBService {
   async getRegistrationPath(payload: ISelectionRequest): Promise<TRegistrationPathResponse> {
     try {
       const { search } = payload;
-      const registration_path = await this.prisma.registrationPath.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const registration_path = await this.drizzle
+        .select({
+          id: schema.registrationPath.id,
+          name: schema.registrationPath.name,
+        })
+        .from(schema.registrationPath)
+        .where(ilike(schema.registrationPath.name, `%${search || ""}%`));
 
       if (!registration_path) {
         throw new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!");
@@ -172,17 +166,10 @@ export class PMBService {
   }
   async createSelectionPath(payload: TCreateSelectionPathRequest): Promise<TGeneralResponse> {
     try {
-      const newSelectionPath = await this.prisma.selectionPath.create({
-        data: {
-          name: payload.name,
-          degree_program: {
-            connect: {
-              id: payload.degree_program_id,
-            },
-          },
-        },
+      const newSelectionPath = await this.drizzle.insert(schema.selectionPath).values({
+        name: payload.name,
+        degreeProgramId: payload.degree_program_id,
       });
-
       if (!newSelectionPath) {
         throw new BadRequestException("Gagal menambahkan Jalur Seleksi baru");
       }
@@ -196,15 +183,13 @@ export class PMBService {
   }
   async updateSelectionPath(payload: TUpdateSelectionPathRequest): Promise<TGeneralResponse> {
     try {
-      const updatedSelectionPath = await this.prisma.selectionPath.update({
-        where: {
-          id: Number(payload.id),
-        },
-        data: {
+      const updatedSelectionPath = await this.drizzle
+        .update(schema.selectionPath)
+        .set({
           name: payload.name,
-          degree_program_id: payload.degree_program_id,
-        },
-      });
+          degreeProgramId: payload.degree_program_id,
+        })
+        .where(eq(schema.selectionPath.id, payload.id));
 
       if (!updatedSelectionPath) {
         throw new BadRequestException("Gagal memperbarui jalur seleksi");
@@ -217,14 +202,11 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteSelectionPath(payload: { id: number }): Promise<TGeneralResponse> {
+  async deleteSelectionPath(payload: { id: string }): Promise<TGeneralResponse> {
     try {
-      const selctionPath = await this.prisma.selectionPath.delete({
-        where: {
-          id: Number(payload.id),
-        },
-      });
-
+      const selctionPath = await this.drizzle
+        .delete(schema.selectionPath)
+        .where(eq(schema.selectionPath.id, payload.id));
       if (!selctionPath) {
         throw new BadRequestException(`Gagal menghapus Jalur seleksi`);
       }
@@ -1199,17 +1181,18 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getAdmissionTest(): Promise<TQuestionResponse[]> {
+  async getAdmissionTest(): Promise<TQuestionResponse> {
     try {
-      const questions = await this.prisma.questions.findMany();
-      if (questions.length === 0) {
+      const questions = await this.drizzle.select().from(schema.admissionTest);
+
+      if (!questions.length) {
         throw new NotFoundException("Soal tidak tersedia");
       }
 
-      const formattedQuestions: TQuestionResponse[] = questions.map((question) => ({
+      const formattedQuestions = questions.map((question) => ({
         id: question.id,
         question: question.question,
-        correct_answer: question.correct_answer,
+        correct_answer: question.correctAnswer,
         answers: question.answers.reduce((accumulator, value, index) => {
           return {
             ...accumulator,
@@ -1225,25 +1208,15 @@ export class PMBService {
   }
   async createAdmissionTest(data: TCreateQuestionRequest) {
     try {
-      const { question } = data;
+      const { question, correct_answer, answers } = data;
 
-      const existingQuestion = await this.prisma.questions.findFirst({
-        where: { question },
-      });
-
-      if (existingQuestion) {
-        throw new ConflictException("Soal sudah tersedia");
-      }
-
-      const newQuestion = await this.prisma.questions.create({
-        data: {
-          question: data.question,
-          correct_answer: data.correct_answer,
-          answers: Object.values(data.answers),
-        },
+      const newQuestion = await this.drizzle.insert(schema.admissionTest).values({
+        question,
+        correctAnswer: correct_answer,
+        answers: Object.values(answers),
       });
       if (!newQuestion) {
-        throw new BadRequestException("Gagal mengubah soal");
+        throw new BadRequestException("Gagal membuat soal");
       }
       return {
         message: "Berhasil membuat soal",
@@ -1254,26 +1227,23 @@ export class PMBService {
   }
   async updateAdmissionTest(payload: TUpdateQuestionRequest): Promise<TGeneralResponse> {
     try {
-      const existingQuestion = await this.prisma.questions.findFirst({
-        where: {
-          id: Number(payload.id),
-        },
-      });
+      const existingQuestion = await this.drizzle
+        .select({ id: schema.admissionTest.id })
+        .from(schema.admissionTest)
+        .where(eq(schema.admissionTest.id, payload.id));
 
       if (!existingQuestion) {
         throw new NotFoundException("Soal tidak ditemukan");
       }
 
-      const updateQuestion = await this.prisma.questions.update({
-        where: {
-          id: Number(payload.id),
-        },
-        data: {
+      const updateQuestion = await this.drizzle
+        .update(schema.admissionTest)
+        .set({
           question: payload.question,
-          correct_answer: payload.correct_answer,
-          ...(payload.answers && { answers: Object.values(payload.answers) }),
-        },
-      });
+          correctAnswer: payload.correct_answer,
+          answers: Object.values(payload.answers),
+        })
+        .where(eq(schema.admissionTest.id, payload.id));
 
       if (!updateQuestion) {
         throw new BadRequestException("Gagal mengubah soal");
@@ -1286,14 +1256,11 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteAdmissionTest(payload: { id: number }): Promise<TDeleteQuestionResponse> {
+  async deleteAdmissionTest(payload: { id: string }): Promise<TDeleteQuestionResponse> {
     try {
-      const deletedQuestion = await this.prisma.questions.delete({
-        where: {
-          id: Number(payload.id),
-        },
-      });
-
+      const deletedQuestion = await this.drizzle
+        .delete(schema.admissionTest)
+        .where(eq(schema.admissionTest.id, payload.id));
       if (!deletedQuestion) {
         throw new BadRequestException("Soal tidak tersedia");
       }

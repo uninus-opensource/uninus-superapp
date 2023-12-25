@@ -1,5 +1,5 @@
 export type TKelolaPertanyaan = {
-  id: number;
+  id: string;
   question: string;
   correct_answer: string;
   answers: {
@@ -10,5 +10,5 @@ export type TKelolaPertanyaan = {
   };
 };
 export type TDeleteQuestion = {
-  id: number;
+  id: string;
 };

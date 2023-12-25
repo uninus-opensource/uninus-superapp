@@ -1,5 +1,5 @@
 {
-  "id": "7334e771-fcb9-4ba8-a2e4-4b002d299264",
+  "id": "114e6bd8-f15d-4be5-9518-bad41e6fce92",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -551,7 +551,7 @@
         },
         "religion_id": {
           "name": "religion_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -625,19 +625,6 @@
           "tableTo": "app_gender",
           "columnsFrom": [
             "gender_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "app_employees_religion_id_app_religion_id_fk": {
-          "name": "app_employees_religion_id_app_religion_id_fk",
-          "tableFrom": "app_employees",
-          "tableTo": "app_religion",
-          "columnsFrom": [
-            "religion_id"
           ],
           "columnsTo": [
             "id"
@@ -2286,7 +2273,7 @@
         },
         "religion_id": {
           "name": "religion_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         },
@@ -2637,19 +2624,6 @@
           "tableTo": "app_gender",
           "columnsFrom": [
             "gender_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "app_students_religion_id_app_religion_id_fk": {
-          "name": "app_students_religion_id_app_religion_id_fk",
-          "tableFrom": "app_students",
-          "tableTo": "app_religion",
-          "columnsFrom": [
-            "religion_id"
           ],
           "columnsTo": [
             "id"

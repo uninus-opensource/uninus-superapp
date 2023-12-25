@@ -30,7 +30,7 @@ export const registrationPathRelations = relations(registrationStatus, ({ many }
 export const scholarship = pgTable("app_scholarship", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
-  discount: integer("discount").notNull(),
+  discount: integer("discount"),
 });
 export const scholarshipRelations = relations(scholarship, ({ many }) => ({
   admission: many(admission),
@@ -39,10 +39,15 @@ export const scholarshipRelations = relations(scholarship, ({ many }) => ({
 export const selectionPath = pgTable("app_selection_path", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
+  degreeProgramId: text("degree_program_id"),
 });
 
-export const selectionPathRelations = relations(selectionPath, ({ many }) => ({
+export const selectionPathRelations = relations(selectionPath, ({ many, one }) => ({
   admission: many(admission),
+  degreeProgram: one(degreeProgram, {
+    fields: [selectionPath.degreeProgramId],
+    references: [degreeProgram.id],
+  }),
 }));
 
 export const admission = pgTable("app_admission", {

@@ -50,7 +50,7 @@ export class CollegeController {
   @ApiBody({ type: UpdateFacultyDto })
   @ApiParam({ name: "id", type: "integer", required: true })
   @Patch("faculty/:id")
-  async updateFaculty(@Param("id") id: number, @Body() payload: TUpdateFacultyRequest) {
+  async updateFaculty(@Param("id") id: string, @Body() payload: TUpdateFacultyRequest) {
     return await this.appService.updateFaculty({ id, ...payload });
   }
 
@@ -79,14 +79,14 @@ export class CollegeController {
   @ApiBody({ type: UpdateDepartmentDto })
   @ApiParam({ name: "id", type: "integer", required: true })
   @Patch("department/:id")
-  async updateDepartment(@Param("id") id: number, @Body() payload: TUpdateDepartmentRequest) {
+  async updateDepartment(@Param("id") id: string, @Body() payload: TUpdateDepartmentRequest) {
     return await this.appService.updateDepartment({ id, ...payload });
   }
 
   @ApiOperation({ summary: "Delete Department" })
   @ApiParam({ name: "id", type: "integer", required: true })
   @Delete("department/:id")
-  async deleteDepartment(@Param("id") id: number) {
+  async deleteDepartment(@Param("id") id: string) {
     return await this.appService.deleteDepartment({ id });
   }
 }

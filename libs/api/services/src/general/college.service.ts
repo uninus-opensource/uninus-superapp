@@ -87,7 +87,7 @@ export class CollegeService {
     return response;
   }
 
-  async deleteDepartment(payload: { id: number }) {
+  async deleteDepartment(payload: { id: string }) {
     const response = await firstValueFrom(
       this.client
         .send("delete_department", payload)

@@ -51,14 +51,14 @@ export class PMBController {
   @ApiBody({ type: UpdateScholarshipDto })
   @ApiParam({ name: "id", type: "integer", required: true })
   @Patch("scholarship/:id")
-  async updateScholarship(@Param("id") id: number, @Body() payload: TUpdateScholarshipRequest) {
+  async updateScholarship(@Param("id") id: string, @Body() payload: TUpdateScholarshipRequest) {
     return await this.appService.updateScholarship({ id, ...payload });
   }
 
   @ApiOperation({ summary: "Delete Scholarship" })
   @ApiParam({ name: "id", type: "integer", required: true })
   @Delete("scholarship/:id")
-  async deleteScholarship(@Param("id") id: number) {
+  async deleteScholarship(@Param("id") id: string) {
     return await this.appService.deleteScholarship({ id });
   }
 
@@ -80,14 +80,14 @@ export class PMBController {
   @ApiBody({ type: UpdateSelectionPathDto })
   @ApiParam({ name: "id", type: "integer", required: true })
   @Patch("path/selection/:id")
-  async updateSelectionPath(@Param("id") id: number, @Body() payload: TUpdateSelectionPathRequest) {
+  async updateSelectionPath(@Param("id") id: string, @Body() payload: TUpdateSelectionPathRequest) {
     return await this.appService.updateSelectionPath({ id, ...payload });
   }
 
   @ApiOperation({ summary: "Delete Selection path" })
   @ApiParam({ name: "id", type: "integer", required: true })
   @Delete("selection/:id")
-  async deleteSelectionpath(@Param("id") id: number) {
+  async deleteSelectionpath(@Param("id") id: string) {
     return await this.appService.deleteSelectionpath({ id });
   }
 
@@ -142,14 +142,14 @@ export class PMBController {
   @ApiBody({ type: UpdateAdmissionDto })
   @ApiParam({ name: "id", type: "integer", required: true })
   @Patch("admission-test/:id")
-  async updateAdmissionTest(@Param("id") id: number, @Body() payload: TUpdateQuestionRequest) {
+  async updateAdmissionTest(@Param("id") id: string, @Body() payload: TUpdateQuestionRequest) {
     return await this.appService.updateAdmissionTest({ id, ...payload });
   }
 
   @ApiOperation({ summary: "Delete Admission Questions" })
   @ApiParam({ name: "id", type: "integer", required: true })
   @Delete("admission-test/:id")
-  async deleteAdmissionTest(@Param("id") id: number) {
+  async deleteAdmissionTest(@Param("id") id: string) {
     return await this.appService.deleteAdmissionTest({ id });
   }
 }

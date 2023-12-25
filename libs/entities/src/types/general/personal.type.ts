@@ -1,30 +1,29 @@
 import { ISelectRequest } from "./pmb.type";
+import * as schema from "@uninus/api/models";
+import { InferSelectModel, InferInsertModel } from "drizzle-orm";
 
-export type TCreateEducationRequest = {
-  id: number;
-  npsn: string;
-  name: string;
-  province: string;
+export type TCreateEducationRequest = Pick<
+  InferInsertModel<typeof schema.lastEducations>,
+  "npsn" | "name" | "province"
+> & {
   district_city: string;
   sub_district: string;
   street_address: string;
-  education_type_id: number;
+  education_type_id: string;
 };
-
-export type TUpdateEducationRequest = {
-  id?: number;
-  npsn: string;
-  name: string;
-  province: string;
+export type TUpdateEducationRequest = Pick<
+  InferInsertModel<typeof schema.lastEducations>,
+  "id" | "npsn" | "name" | "province"
+> & {
   district_city: string;
   sub_district: string;
   street_address: string;
-  education_type_id: number;
+  education_type_id: string;
+  id?: string;
 };
-
 export type TDeleteEducationRequest = {
-  id?: number;
-  npsn: string;
+  id?: number | string;
+  npsn?: string;
 };
 
 export interface IYearGraduationRequest {
@@ -39,10 +38,7 @@ export type TYearGraduationResponse = {
 };
 
 export type TSchoolTypeResponse = {
-  school_type: Array<{
-    id: number;
-    name: string;
-  }>;
+  school_type: Array<Omit<InferSelectModel<typeof schema.lastEducationType>, "degreeProgramId">>;
 };
 
 export interface IParentStatusRequest {
@@ -50,10 +46,7 @@ export interface IParentStatusRequest {
 }
 
 export type TParentStatusResponse = {
-  parent_status: Array<{
-    id: number;
-    name: string;
-  }>;
+  parent_status: Array<InferSelectModel<typeof schema.parentStatus>>;
 };
 
 export interface IParentEducationRequest {
@@ -61,10 +54,7 @@ export interface IParentEducationRequest {
 }
 
 export type TParentEducationResponse = {
-  parent_education: Array<{
-    id: number;
-    name: string;
-  }>;
+  parent_education: Array<InferSelectModel<typeof schema.parentEducation>>;
 };
 
 export interface ISalaryRequest {
@@ -72,22 +62,18 @@ export interface ISalaryRequest {
 }
 
 export type TSalaryResponse = {
-  salary: Array<{
-    id: number;
-    name: string;
-  }>;
+  salary: Array<InferSelectModel<typeof schema.salary>>;
 };
 
 export type TEducationHistoryResponse = {
-  education: Array<{
-    id: number;
-    npsn: string;
-    name: string;
-    province: string;
-    district_city: string;
-    sub_district: string;
-    street_address: string;
-  }>;
+  education: Array<
+    Pick<InferInsertModel<typeof schema.lastEducations>, "id" | "npsn" | "name" | "province"> & {
+      district_city?: string;
+      sub_district?: string;
+      street_address?: string;
+      education_type_id?: string;
+    }
+  >;
 };
 
 export interface IEducationTypeRequest extends ISelectRequest {
@@ -107,10 +93,9 @@ export interface IEducationMajorRequest extends ISelectRequest {
 }
 
 export type TEducationMajorResponse = {
-  education_major: Array<{
-    id: number;
-    name: string;
-  }>;
+  education_major: Array<
+    Omit<InferSelectModel<typeof schema.lastEducationMajor>, "lastEducationTypeId">
+  >;
 };
 
 export interface ICountryRequest extends ISelectRequest {
@@ -118,10 +103,7 @@ export interface ICountryRequest extends ISelectRequest {
 }
 
 export type TCountryResponse = {
-  country: Array<{
-    id: number;
-    name: string;
-  }>;
+  country: Array<Omit<InferSelectModel<typeof schema.country>, "citizenshipId">>;
 };
 
 export interface IOccupationRequest {
@@ -129,10 +111,7 @@ export interface IOccupationRequest {
 }
 
 export type TOccupationResponse = {
-  occupation: Array<{
-    id: number;
-    name: string;
-  }>;
+  occupation: Array<InferSelectModel<typeof schema.occupation>>;
 };
 
 export interface IOccupationPositionRequest extends ISelectRequest {
@@ -151,10 +130,7 @@ export interface IDisabilitiesRequest {
 }
 
 export type TDisabilitiesResponse = {
-  disabilities: Array<{
-    id: number;
-    name: string;
-  }>;
+  disabilities: Array<InferSelectModel<typeof schema.disabilities>>;
 };
 
 export interface IReligionRequest {
@@ -162,10 +138,7 @@ export interface IReligionRequest {
 }
 
 export type TReligionResponse = {
-  religion: Array<{
-    id: number | string;
-    name: string;
-  }>;
+  religion: Array<InferSelectModel<typeof schema.religion>>;
 };
 
 export interface IMaritalStatusRequest {
@@ -173,10 +146,7 @@ export interface IMaritalStatusRequest {
 }
 
 export type TMaritalStatusResponse = {
-  maritalStatus: Array<{
-    id: number;
-    name: string;
-  }>;
+  maritalStatus: Array<InferSelectModel<typeof schema.maritalStatus>>;
 };
 
 export interface IGenderRequest {
@@ -184,10 +154,7 @@ export interface IGenderRequest {
 }
 
 export type TGenderResponse = {
-  gender: Array<{
-    id: number;
-    name: string;
-  }>;
+  gender: Array<InferSelectModel<typeof schema.gender>>;
 };
 
 export interface ICitizenshipRequest {
@@ -195,17 +162,11 @@ export interface ICitizenshipRequest {
 }
 
 export type TCitizenshipResponse = {
-  citizenship: Array<{
-    id: number;
-    name: string;
-  }>;
+  citizenship: Array<InferSelectModel<typeof schema.citizenship>>;
 };
 
 export type TProvinceResponse = {
-  province: Array<{
-    id: number;
-    name: string;
-  }>;
+  province: Array<InferSelectModel<typeof schema.religion>>;
 };
 
 export interface ICityRequest extends ISelectRequest {
@@ -213,10 +174,7 @@ export interface ICityRequest extends ISelectRequest {
 }
 
 export type TCityResponse = {
-  city: Array<{
-    id: number;
-    name: string;
-  }>;
+  city: Array<Omit<InferSelectModel<typeof schema.city>, "provinceId">>;
 };
 
 export interface ISubDistrictRequest extends ISelectRequest {
@@ -224,10 +182,7 @@ export interface ISubDistrictRequest extends ISelectRequest {
 }
 
 export type TSubDistrictResponse = {
-  subdistrict: Array<{
-    id: number;
-    name: string;
-  }>;
+  subdistrict: Array<Omit<InferSelectModel<typeof schema.subdistrict>, "cityId">>;
 };
 
 export interface ISelectEducationHistoryRequest extends ISelectRequest {

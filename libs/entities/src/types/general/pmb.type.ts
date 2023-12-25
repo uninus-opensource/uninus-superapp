@@ -1,3 +1,6 @@
+import * as schema from "@uninus/api/models";
+import { InferSelectModel, InferInsertModel } from "drizzle-orm";
+
 export type TTotalRegistransResponse = {
   total_registrans: number;
   total_interest: number;
@@ -81,11 +84,19 @@ export type TRegistrationStatusResponse = {
   }>;
 };
 
-export type TQuestionResponse = {
-  id: number;
-  question: string;
+export type TQuestionResponse = Array<TUpdateQuestionRequest>;
+export type TCreateQuestionRequest = Omit<TUpdateQuestionRequest, "id">;
+export type TUpdateQuestionRequest = Pick<
+  InferSelectModel<typeof schema.admissionTest>,
+  "question"
+> & {
+  id?: string;
   correct_answer: string;
   answers: { [key: string]: string };
+};
+
+export type TDeleteQuestionResponse = {
+  message: string;
 };
 
 export interface ISelectRequest {
@@ -98,17 +109,11 @@ export interface ISelectionRequest extends ISelectRequest {
 }
 
 export type TSelectionResponse = {
-  selection: Array<{
-    id: number;
-    name: string;
-  }>;
+  selection: Array<Pick<InferSelectModel<typeof schema.selectionPath>, "id" | "name">>;
 };
 
 export type TRegistrationPathResponse = {
-  registration_path: Array<{
-    id: number;
-    name: string;
-  }>;
+  registration_path: Array<Pick<InferSelectModel<typeof schema.registrationPath>, "id" | "name">>;
 };
 
 export type TGeneralResponse = {
@@ -120,27 +125,27 @@ export interface IScholarshipRequest {
 }
 
 export type TScholarshipResponse = {
-  scholarship: Array<{
-    id: number;
-    name: string;
-  }>;
+  scholarship: Array<Pick<InferSelectModel<typeof schema.scholarship>, "id" | "name">>;
 };
 
-export type TCreateScholarshipRequest = {
-  name: string;
-};
+export type TCreateScholarshipRequest = Pick<
+  InferSelectModel<typeof schema.scholarship>,
+  "name" | "discount"
+>;
 
-export type TUpdateScholarshipRequest = {
-  id?: number;
-  name: string;
+export type TUpdateScholarshipRequest = Pick<
+  InferSelectModel<typeof schema.scholarship>,
+  "name"
+> & {
+  id?: string;
 };
 export type TUpdateSelectionPathRequest = {
-  id?: number;
-  name: string;
-  degree_program_id?: number;
-};
+  id?: string;
+} & TCreateSelectionPathRequest;
 
-export type TCreateSelectionPathRequest = {
-  name: string;
-  degree_program_id: number;
+export type TCreateSelectionPathRequest = Pick<
+  InferInsertModel<typeof schema.selectionPath>,
+  "name"
+> & {
+  degree_program_id: string;
 };

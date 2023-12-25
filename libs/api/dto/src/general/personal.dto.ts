@@ -76,15 +76,13 @@ export class GetSubDistrictDto {
 export class GetCountryDto {
   @ApiProperty({
     required: false,
-    type: "string",
   })
   public search!: string;
 
   @ApiProperty({
     required: false,
-    type: "integer",
   })
-  public citizenship_id!: number;
+  public citizenship_id!: string;
 }
 
 export class GetLastEducationDto {

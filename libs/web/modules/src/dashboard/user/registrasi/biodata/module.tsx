@@ -9,7 +9,7 @@ import { Button } from "@uninus/web/components";
 import { useDashboardStateControl, useStudentData } from "@uninus/web/services";
 
 export const ModuleBiodata: FC = (): ReactElement => {
-  const [degreeProgram, setDegreeProgram] = useState<number | null | undefined>(null);
+  const [degreeProgram, setDegreeProgram] = useState<number | null | string | undefined>(null);
   const [route, setRoute] = useState<boolean>(true);
   const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();
   const { getStudent } = useStudentData();

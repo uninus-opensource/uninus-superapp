@@ -52,7 +52,7 @@ export class CollegeController {
     return await this.appService.updateDepartment(payload);
   }
   @MessagePattern("delete_department")
-  async deleteDepartment(payload: { id: number }) {
+  async deleteDepartment(payload: { id: string }) {
     return await this.appService.deleteDepartment(payload);
   }
 }

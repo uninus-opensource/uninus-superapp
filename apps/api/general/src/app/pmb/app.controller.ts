@@ -32,7 +32,7 @@ export class PMBController {
     return await this.appService.updateScholarship(payload);
   }
   @MessagePattern("delete_scholarship")
-  async deleteScholarship(payload: { id: number }) {
+  async deleteScholarship(payload: { id: string }) {
     return await this.appService.deleteScholarship(payload);
   }
   @MessagePattern("get_selection_path")
@@ -52,7 +52,7 @@ export class PMBController {
     return await this.appService.updateSelectionPath(payload);
   }
   @MessagePattern("delete_selection_path")
-  async deleteSelectionpath(payload: { id: number }) {
+  async deleteSelectionpath(payload: { id: string }) {
     return await this.appService.deleteSelectionPath(payload);
   }
   @MessagePattern("get_registrans")
@@ -89,7 +89,7 @@ export class PMBController {
   }
 
   @MessagePattern("delete_admission_test")
-  async deleteAdmissionTest(payload: { id: number }) {
+  async deleteAdmissionTest(payload: { id: string }) {
     return await this.appService.deleteAdmissionTest(payload);
   }
 }

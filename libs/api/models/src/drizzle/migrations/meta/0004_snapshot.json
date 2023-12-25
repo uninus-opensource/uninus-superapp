@@ -1,6 +1,6 @@
 {
-  "id": "3090d6b7-abb4-4388-bf7f-f1cf6d6be400",
-  "prevId": "114e6bd8-f15d-4be5-9518-bad41e6fce92",
+  "id": "c1622e76-4516-41a3-843c-79ad5440f27f",
+  "prevId": "f5f8e4e7-3422-4162-aa32-81ed17019f5e",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -1625,27 +1625,13 @@
         },
         "province_id": {
           "name": "province_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "app_city_province_id_app_province_id_fk": {
-          "name": "app_city_province_id_app_province_id_fk",
-          "tableFrom": "app_city",
-          "tableTo": "app_province",
-          "columnsFrom": [
-            "province_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -1674,21 +1660,7 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "app_country_citizenship_id_app_citizenship_id_fk": {
-          "name": "app_country_citizenship_id_app_citizenship_id_fk",
-          "tableFrom": "app_country",
-          "tableTo": "app_citizenship",
-          "columnsFrom": [
-            "citizenship_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },

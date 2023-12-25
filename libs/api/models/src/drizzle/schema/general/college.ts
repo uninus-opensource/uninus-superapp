@@ -15,20 +15,27 @@ export const degreeProgramRelations = relations(degreeProgram, ({ many }) => ({
 export const faculty = pgTable("app_faculty", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
+  degreeProgramId: text("degree_program_id"),
 });
 
-export const facultyRelations = relations(faculty, ({ many }) => ({
+export const facultyRelations = relations(faculty, ({ many, one }) => ({
   curriculum: many(curriculum),
   students: many(students),
   lecturerOnFaculty: many(lecturerOnFaculty),
+  degreeProgram: one(degreeProgram, {
+    fields: [faculty.degreeProgramId],
+    references: [degreeProgram.id],
+  }),
 }));
 
 export const department = pgTable("app_department", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
+  facultyId: text("faculty_id").notNull(),
+  degreeProgramId: text("degree_program_id").notNull(),
 });
 
-export const departmentRelations = relations(department, ({ many }) => ({
+export const departmentRelations = relations(department, ({ many, one }) => ({
   curriculum: many(curriculum),
   students: many(students),
   lecturerOnDepartment: many(lecturerOnDepartment),
@@ -37,6 +44,14 @@ export const departmentRelations = relations(department, ({ many }) => ({
   }),
   secondDepartment: many(admission, {
     relationName: "second_department",
+  }),
+  degreeProgram: one(degreeProgram, {
+    fields: [department.degreeProgramId],
+    references: [degreeProgram.id],
+  }),
+  faculty: one(faculty, {
+    fields: [department.facultyId],
+    references: [faculty.id],
   }),
 }));
 

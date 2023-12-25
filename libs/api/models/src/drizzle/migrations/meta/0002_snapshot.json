@@ -1,6 +1,6 @@
 {
-  "id": "bafc9776-7bc3-45f8-84dc-f884bcacb2c1",
-  "prevId": "f1bae160-8c6f-43f0-a6a7-0b1ea097143e",
+  "id": "ac3ea0f3-0d20-462d-845f-26c5aa9842c0",
+  "prevId": "3090d6b7-abb4-4388-bf7f-f1cf6d6be400",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -1668,27 +1668,13 @@
         },
         "citizenship_id": {
           "name": "citizenship_id",
-          "type": "uuid",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "app_country_citizenship_id_app_citizenship_id_fk": {
-          "name": "app_country_citizenship_id_app_citizenship_id_fk",
-          "tableFrom": "app_country",
-          "tableTo": "app_citizenship",
-          "columnsFrom": [
-            "citizenship_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },

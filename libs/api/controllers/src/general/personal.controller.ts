@@ -81,7 +81,7 @@ export class PersonalController {
   @ApiOperation({ summary: "Get Country" })
   @ApiQuery({ type: GetCountryDto })
   @Get("country")
-  async getCountry(@Query("search") query: ICountryRequest) {
+  async getCountry(@Query() query: ICountryRequest) {
     return await this.appService.getCountry(query);
   }
 
@@ -158,7 +158,7 @@ export class PersonalController {
   @ApiParam({ name: "id", type: "integer", required: true })
   @ApiBody({ type: UpdateLastEducationDto })
   @Patch("education/:id")
-  async updateLastEducation(@Param("id") id: number, @Body() payload: TUpdateEducationRequest) {
+  async updateLastEducation(@Param("id") id: string, @Body() payload: TUpdateEducationRequest) {
     return await this.appService.updateLastEducation({ id, ...payload });
   }
 
