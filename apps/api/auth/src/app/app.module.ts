@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { AppController } from "./app.controller";
-import { PrismaModule } from "@uninus/api/modules";
+import { PrismaModule, DrizzleModule } from "@uninus/api/modules";
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, DrizzleModule],
   controllers: [AppController],
   providers: [AppService],
 })

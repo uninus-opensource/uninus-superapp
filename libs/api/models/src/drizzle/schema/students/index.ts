@@ -24,6 +24,7 @@ import {
   faculty,
   department,
   lecturers,
+  admission,
 } from "..";
 
 export const students = pgTable("app_students", {
@@ -51,7 +52,7 @@ export const students = pgTable("app_students", {
   salaryId: uuid("salary_id").references(() => salary.id),
   occupationId: uuid("occupation_id").references(() => occupation.id),
   position: text("position"),
-  lastEducationGraduation: text("graduation_year"),
+  lastEducationGraduation: text("last_education_graduation"),
   companyName: text("company_name"),
   companyAddress: text("company_address"),
   workingStatusId: uuid("working_status").references(() => workingStatus.id),
@@ -276,6 +277,14 @@ export const studentsRelations = relations(students, ({ one, many }) => ({
 
   paymentHistory: many(paymentHistory),
   documents: many(documents),
+  user: one(users, {
+    fields: [students.userId],
+    references: [users.id],
+  }),
+  admission: one(admission, {
+    fields: [students.id],
+    references: [admission.studentId],
+  }),
 }));
 
 export const studentStatus = pgTable("app_student_status", {

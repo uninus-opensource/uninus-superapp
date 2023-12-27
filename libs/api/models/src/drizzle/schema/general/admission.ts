@@ -1,4 +1,4 @@
-import { pgTable, text, uuid, date, integer, decimal } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, date, integer, doublePrecision } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { students, degreeProgram, department } from "..";
 
@@ -52,39 +52,31 @@ export const selectionPathRelations = relations(selectionPath, ({ many, one }) =
 
 export const admission = pgTable("app_admission", {
   id: uuid("id").defaultRandom().primaryKey(),
-  utbkPu: decimal("utbk_pug"),
-  utbkKk: decimal("utbk_kk"),
-  utbkPpu: decimal("utbk_ppu"),
-  utbkKmbm: decimal("utbk_kmbm"),
-  utbk_average: decimal("utbk_average"),
-  utbk: decimal("utbk"),
+  utbkPu: doublePrecision("utbk_pug"),
+  utbkKk: doublePrecision("utbk_kk"),
+  utbkPpu: doublePrecision("utbk_ppu"),
+  utbkKmbm: doublePrecision("utbk_kmbm"),
+  utbk_average: doublePrecision("utbk_average"),
+  utbk: doublePrecision("utbk"),
   registrationNumber: text("registration_number"),
-  grade_average: decimal("grade_average"),
+  grade_average: doublePrecision("grade_average"),
   testScore: integer("test_score"),
-  degreeProgramId: uuid("degree_program_id")
-    .references(() => degreeProgram.id)
-    .notNull(),
-  firstDepartmentId: uuid("first_department_id")
-    .references(() => department.id)
-    .notNull(),
-  secondDepartmentId: uuid("second_department_id")
-    .references(() => department.id)
-    .notNull(),
-  studentId: uuid("student_id")
-    .references(() => students.id)
-    .notNull(),
-  registrationStatusId: uuid("registration_status_id")
-    .references(() => registrationStatus.id)
-    .notNull(),
-  registrationPathId: uuid("registration_path_id")
-    .references(() => registrationPath.id)
-    .notNull(),
-  scholarshipId: uuid("scholarship_id")
-    .references(() => scholarship.id)
-    .notNull(),
-  selectionPathId: uuid("selection_path_id")
-    .references(() => selectionPath.id)
-    .notNull(),
+  degreeProgramId: uuid("degree_program_id").references(() => degreeProgram.id),
+
+  firstDepartmentId: uuid("first_department_id").references(() => department.id),
+
+  secondDepartmentId: uuid("second_department_id").references(() => department.id),
+
+  studentId: uuid("student_id").references(() => students.id),
+
+  registrationStatusId: uuid("registration_status_id").references(() => registrationStatus.id),
+
+  registrationPathId: uuid("registration_path_id").references(() => registrationPath.id),
+
+  scholarshipId: uuid("scholarship_id").references(() => scholarship.id),
+
+  selectionPathId: uuid("selection_path_id").references(() => selectionPath.id),
+
   createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
 });
 
@@ -130,10 +122,8 @@ export const studentGrade = pgTable("app_student_grade", {
   id: uuid("id").defaultRandom().primaryKey(),
   subject: text("subject").notNull(),
   semester: text("semester").notNull(),
-  grade: decimal("grade").notNull(),
-  admissionId: uuid("admission_id")
-    .references(() => admission.id)
-    .notNull(),
+  grade: doublePrecision("grade").default(0),
+  admissionId: uuid("admission_id").references(() => admission.id),
 });
 
 export const studentGradeRelations = relations(studentGrade, ({ one }) => ({

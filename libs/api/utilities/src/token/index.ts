@@ -1,9 +1,7 @@
 import { JwtService } from "@nestjs/jwt";
 import { TGenerateToken, TGenerateTokenResponse } from "@uninus/entities";
-import { PrismaService } from "@uninus/api/services";
 
 const jwt = new JwtService();
-const prisma = new PrismaService();
 
 export const generateAccessToken = async (payload: TGenerateToken): Promise<string> => {
   const access_token = await jwt.signAsync(payload, {
@@ -22,15 +20,6 @@ export const generateToken = async (payload: TGenerateToken): Promise<TGenerateT
       expiresIn: "7d",
     }),
   ]);
-
-  await prisma.users.update({
-    where: {
-      email: payload.email,
-    },
-    data: {
-      refresh_token: String(refresh_token),
-    },
-  });
 
   return {
     access_token: String(access_token),

@@ -13,14 +13,20 @@ export type TReqToken = {
   user: {
     sub: string;
     email: string;
-    role: string;
+    role: {
+      name: string;
+      permissions: string[];
+    };
   };
 };
 
 export type TGenerateToken = {
   sub: string;
   email: string;
-  role: string;
+  role: {
+    name: string;
+    permissions: string[];
+  };
 };
 export type TResRefreshToken = {
   access_token: string;

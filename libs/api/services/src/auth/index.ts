@@ -37,7 +37,7 @@ export class AuthService {
 
     const html = emailTemplate(createdUser.fullname, createdUser.otp, msg);
 
-    const sendEmail = await firstValueFrom(
+    await firstValueFrom(
       this.client
         .send("send_email", {
           email: payload.email,
@@ -46,10 +46,6 @@ export class AuthService {
         })
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
-
-    if (!sendEmail) {
-      throw new BadRequestException("Gagal mengirimkan kode verifikasi");
-    }
 
     return {
       message: "Akun Berhasil dibuat!, check email untuk verifikasi",

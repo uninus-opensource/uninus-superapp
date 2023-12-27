@@ -16,7 +16,7 @@ import {
 } from "@uninus/entities";
 import * as schema from "@uninus/api/models";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { and, eq, ilike, or } from "drizzle-orm";
+import { and, eq, ilike } from "drizzle-orm";
 @Injectable()
 export class CollegeService {
   constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
@@ -48,7 +48,7 @@ export class CollegeService {
         })
         .from(schema.faculty)
         .where(
-          or(
+          and(
             ilike(schema.faculty.name, `%${search || ""}%`),
             ilike(schema.faculty.degreeProgramId, `%${degree_program_id || ""}%`),
           ),

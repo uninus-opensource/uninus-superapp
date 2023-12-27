@@ -1160,18 +1160,13 @@ export class PMBService {
   async getRegistrationStatus(payload: ISelectRequest): Promise<TRegistrationStatusResponse> {
     try {
       const { search } = payload;
-      const registration_status = await this.prisma.registrationStatus.findMany({
-        where: {
-          name: {
-            ...(search && { contains: search }),
-            mode: "insensitive",
-          },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const registration_status = await this.drizzle
+        .select({
+          id: schema.registrationStatus.id,
+          name: schema.registrationStatus.name,
+        })
+        .from(schema.registrationStatus)
+        .where(ilike(schema.registrationStatus.name, `%${search}%` || ""));
 
       if (registration_status.length === 0) {
         throw new NotFoundException("Status pendaftaran tidak ditemukan");

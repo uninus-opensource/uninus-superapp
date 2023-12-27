@@ -78,10 +78,7 @@ export interface IInterestDepartment {
 }
 
 export type TRegistrationStatusResponse = {
-  registration_status: Array<{
-    id: number;
-    name: string;
-  }>;
+  registration_status: Array<InferSelectModel<typeof schema.registrationStatus>>;
 };
 
 export type TQuestionResponse = Array<TUpdateQuestionRequest>;

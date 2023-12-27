@@ -25,7 +25,6 @@ export type TUser = {
   email: string;
   fullname: string;
   role: string;
-  createdAt: Date;
   avatar: string | null;
   isVerified: boolean | null;
   access_token?: string;
@@ -94,6 +93,7 @@ export interface TUserEmailResponse extends TUserEmail {
   otp?: string;
   id?: string;
   email: string;
+  fullname?: string;
 }
 
 export type TRolesResponse = Array<{
