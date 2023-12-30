@@ -23,7 +23,6 @@ import {
   TRegisterResponse,
   THeaderRequest,
 } from "@uninus/entities";
-import { PrismaService } from "@uninus/api/services";
 import {
   comparePassword,
   encryptPassword,
@@ -38,10 +37,7 @@ import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { desc, eq, ilike, lte } from "drizzle-orm";
 @Injectable()
 export class AppService {
-  constructor(
-    private prisma: PrismaService,
-    @Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>,
-  ) {}
+  constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
 
   async register(payload: TRegisterRequest): Promise<TRegisterResponse> {
     try {
@@ -258,6 +254,11 @@ export class AppService {
         role: data?.role,
       });
 
+      await this.drizzle
+        .update(schema.users)
+        .set({ refreshToken: refresh_token })
+        .where(eq(schema.users.id, data.id));
+
       const expiresIn = 15 * 60 * 1000;
       const now = Date.now();
       const expirationTime = now + expiresIn;
@@ -286,15 +287,9 @@ export class AppService {
 
   async logout(payload: TLogoutRequest): Promise<TLogoutResponse> {
     try {
-      const result = await this.prisma.users.updateMany({
-        where: {
-          refresh_token: payload.refresh_token,
-        },
-        data: {
-          refresh_token: null,
-        },
-      });
-
+      const result = await this.drizzle
+        .delete(schema.users)
+        .where(eq(schema.users.refreshToken, payload.refresh_token));
       if (!result) {
         throw new UnauthorizedException("Gagal Logout");
       }

@@ -1,5 +1,6 @@
 import { TVSCreateUser, TVSUpdateUser } from "../../schemas";
-
+import { roles, users } from "@uninus/api/models";
+import { InferSelectModel } from "drizzle-orm";
 export type TProfileRequest = {
   email: string;
 };
@@ -8,25 +9,14 @@ export type TIdUser = {
   id: string;
 };
 
-export type TProfileResponse = {
-  id: string;
-  email: string;
-  fullname: string;
-  password?: string;
-  refresh_token?: string | null;
-  role_id?: number | null;
-  createdAt?: Date;
-  avatar: string | null;
-  notification_read?: boolean;
+export type TProfileResponse = Pick<
+  InferSelectModel<typeof users>,
+  "id" | "email" | "fullname" | "avatar" | "isVerified"
+> & {
+  role: string;
 };
 
-export type TUser = {
-  id: string;
-  email: string;
-  fullname: string;
-  role: string;
-  avatar: string | null;
-  isVerified: boolean | null;
+export type TUser = TProfileResponse & {
   access_token?: string;
   refresh_token?: string;
   exp?: string;
@@ -43,7 +33,7 @@ export interface IUser {
 
 export interface IUserRequest extends IUser {
   phone_number?: string | null;
-  role_id?: number | null;
+  role_id?: number | string;
 }
 
 export type TCreateUserRequest = TVSCreateUser;
@@ -96,7 +86,4 @@ export interface TUserEmailResponse extends TUserEmail {
   fullname?: string;
 }
 
-export type TRolesResponse = Array<{
-  id: number;
-  name: string;
-}>;
+export type TRolesResponse = Array<InferSelectModel<typeof roles>>;

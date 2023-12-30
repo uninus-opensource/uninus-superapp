@@ -98,7 +98,7 @@ export type TDeleteQuestionResponse = {
 
 export interface ISelectRequest {
   search?: string;
-  id?: number;
+  id?: number | string;
 }
 
 export interface ISelectionRequest extends ISelectRequest {

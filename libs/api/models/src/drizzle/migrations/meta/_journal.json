@@ -71,6 +71,13 @@
       "when": 1703691282933,
       "tag": "0009_narrow_moonstone",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1703738405968,
+      "tag": "0010_typical_ogun",
+      "breakpoints": true
     }
   ]
 }

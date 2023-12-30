@@ -8,6 +8,7 @@ export const users = pgTable("app_users", {
   fullname: text("fullname").notNull(),
   password: text("password").notNull(),
   avatar: text("avatar"),
+  refreshToken: text("refresh_token"),
   isVerified: boolean("is_verified").default(false).notNull(),
   isNotificationRead: boolean("is_notification_read").default(false).notNull(),
   roleId: uuid("role_id").references(() => roles.id),
