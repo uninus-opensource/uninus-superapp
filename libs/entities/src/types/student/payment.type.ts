@@ -3,8 +3,8 @@ export type TPaymentObligationsRequest = {
   userId?: string;
 };
 export type TPaymentObligationsResponse = Array<{
-  id?: number;
+  id?: string;
   name?: string;
-  amount?: number;
+  amount?: number | string;
   spelled_out?: string;
 }>;

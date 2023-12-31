@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "@uninus/api/services";
 import {
   IGetStudentRequest,
@@ -16,54 +16,56 @@ import {
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
 import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
+import * as schema from "@uninus/api/models";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { and, eq, ilike } from "drizzle-orm";
 
 @Injectable()
 export class AppService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>,
+  ) {}
 
   async getDataStudent(payload: IGetStudentRequest): Promise<IGetStudentResponse> {
     try {
-      const student = await this.prisma.users.findUnique({
-        where: {
-          id: payload.id,
-        },
-        select: {
-          avatar: true,
-          email: true,
-          fullname: true,
+      const student = await this.drizzle
+        .select({
+          avatar: schema.users.avatar,
+          email: schema.users.email,
+          fullname: schema.users.fullname,
           students: {
-            include: {
-              payment_history: {
-                select: {
-                  id: true,
-                  order_id: true,
-                  payment_method: true,
-                  payment_code: true,
-                  payment_bank: true,
-                  isPaid: true,
-                  payment_obligation: {
-                    select: {
-                      name: true,
-                      amount: true,
-                    },
-                  },
-                  payment_type: {
-                    select: {
-                      name: true,
-                    },
-                  },
-                },
+            ...schema.students,
+            documents: {
+              ...schema.documents,
+            },
+            paymentHistory: {
+              ...schema.paymentHistory,
+              paymentObligation: {
+                ...schema.paymentObligations,
               },
-              pmb: {
-                include: {
-                  student_grade: true,
-                  documents: true,
-                },
+              paymentType: {
+                ...schema.paymentType,
               },
             },
+            admission: {
+              ...schema.admission,
+              studentGrade: schema.studentGrade,
+            },
           },
-        },
-      });
+        })
+        .from(schema.users)
+        .leftJoin(schema.students, eq(schema.users.id, schema.students.userId))
+        .leftJoin(schema.documents, eq(schema.documents.studentId, schema.students.id))
+        .leftJoin(schema.paymentHistory, eq(schema.paymentHistory.studentId, schema.students.id))
+        .leftJoin(
+          schema.paymentType,
+          eq(schema.paymentHistory.paymentTypeId, schema.paymentType.id),
+        )
+        .leftJoin(schema.studentGrade, eq(schema.studentGrade.admissionId, schema.admission.id))
+        .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+        .where(eq(schema.users.id, payload.id))
+        .limit(1)[0];
 
       if (!student) {
         throw new BadRequestException("User tidak ditemukan");
@@ -72,7 +74,7 @@ export class AppService {
         avatar,
         email,
         fullname,
-        students: { pmb, test_score, payment_history, ...studentData },
+        students: { paymentHistory, admission, ...studentData },
       } = student;
 
       return JSON.parse(
@@ -81,22 +83,8 @@ export class AppService {
             avatar,
             email,
             fullname,
-            test_score,
-            first_department_id: pmb.first_department_id,
-            second_department_id: pmb.second_department_id,
-            selection_path_id: pmb.selection_path_id,
-            registration_path_id: pmb.registration_path_id,
-            registration_number: pmb.registration_number,
-            degree_program_id: pmb.degree_program_id,
-            student_grade: pmb.student_grade,
-            average_grade: pmb.average_grade,
-            average_utbk: pmb.average_utbk,
-            utbk_pu: pmb.utbk_pu,
-            utbk_kk: pmb.utbk_kk,
-            utbk_ppu: pmb.utbk_ppu,
-            utbk_kmbm: pmb.utbk_kmbm,
-            documents: pmb.documents,
-            payment: payment_history?.map((el) => ({
+            ...admission,
+            payment: paymentHistory?.map((el) => ({
               id: el?.id,
               order_id: el?.order_id,
               payment_method: el?.payment_method,
@@ -270,210 +258,162 @@ export class AppService {
         education_sub_district,
         education_street_address,
         education_type_id,
-        // ...updateStudentPayload
+        ...updateStudentPayload
       } = payload;
-      if (documents && typeof documents[0]?.isVerified != "undefined") {
-        for await (const data of documents) {
-          const documentsStudent = await this.prisma.users.update({
-            where: {
-              id,
-            },
-            data: {
-              students: {
-                update: {
-                  test_score,
-                  pmb: {
-                    update: {
-                      documents: {
-                        update: {
-                          where: {
-                            id: data.id,
-                          },
-                          data: {
-                            isVerified: data.isVerified,
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          });
-          if (!documentsStudent) {
-            throw new BadRequestException("Gagal update berkas");
-          }
-        }
+
+      const [findUser, getRegistrationStatus] = await Promise.all([
+        this.drizzle
+          .selectDistinct({
+            studentId: schema.students.id,
+            admissionId: schema.admission.id,
+          })
+          .from(schema.users)
+          .leftJoin(schema.students, eq(schema.students.userId, schema.users.id))
+          .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+          .where(eq(schema.users.id, payload.id))
+          .limit(1)[0],
+        ((documents && typeof documents[0]?.isVerified == "undefined") ||
+          (document && typeof document?.name != "undefined")) &&
+          this.drizzle
+            .select({
+              id: schema.registrationStatus.id,
+            })
+            .from(schema.registrationStatus)
+            .where(ilike(schema.registrationStatus.name, "%belum membayar%"))
+            .limit(1)[0],
+      ]);
+
+      if (!findUser) {
+        throw new NotFoundException("User tidak ditemukan");
       }
-      if (student_grade) {
-        for await (const data of student_grade) {
-          const updateStudentGrade = await this.prisma.users.update({
-            where: {
-              id,
-            },
-            data: {
-              students: {
-                update: {
-                  pmb: {
-                    update: {
-                      average_grade: Number(average_grade.toFixed(1)),
-                      student_grade: {
-                        updateMany: {
-                          where: {
-                            subject: data.subject,
-                            semester: data.semester,
-                          },
-                          data: {
-                            grade: data.grade,
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          });
-          if (!updateStudentGrade) {
-            throw new BadRequestException("Gagal update nilai");
-          }
-        }
-      }
+      const { studentId, admissionId } = findUser;
 
-      if (
-        education_npsn &&
-        education_name &&
-        education_province &&
-        education_district_city &&
-        education_sub_district &&
-        education_street_address &&
-        education_type_id
-      ) {
-        const findEducation = await this.prisma.education.findUnique({
-          where: {
-            npsn: education_npsn,
-          },
-        });
-        if (findEducation) {
-          throw new BadRequestException("Data sekolah sudah ada");
-        }
+      const [[updateStudent], [updateStudentGrade], updateDocument, createLastEducation] =
+        await Promise.all([
+          Promise.all([
+            this.drizzle
+              .update(schema.users)
+              .set({
+                fullname,
+                avatar,
+              })
+              .where(eq(schema.users.id, id))
+              .returning({
+                avatar: schema.users.avatar,
+                fullname: schema.users.fullname,
+                email: schema.users.email,
+              }),
+            this.drizzle
+              .update(schema.students)
+              .set({ ...updateStudentPayload })
+              .where(eq(schema.students.id, studentId))
+              .returning(),
+            this.drizzle
+              .update(schema.admission)
+              .set({
+                testScore: test_score,
+                firstDepartmentId: String(first_department_id),
+                secondDepartmentId: String(second_department_id),
+                selectionPathId: String(selection_path_id),
+                registrationPathId: String(registration_path_id),
+                degreeProgramId: String(degree_program_id),
+                utbkPu: utbk_pu,
+                utbkKk: utbk_kk,
+                utbkPpu: utbk_ppu,
+                utbkKmbm: utbk_kmbm,
+                utbkAverage: average_utbk,
+                gradeAverage: average_grade,
+                registrationStatusId: registration_status_id
+                  ? String(registration_status_id)
+                  : ((documents && typeof documents[0]?.isVerified == "undefined") ||
+                      (document && typeof document?.name != "undefined")) &&
+                    getRegistrationStatus.id,
+              })
+              .where(eq(schema.admission.id, admissionId))
+              .returning(),
+          ]),
+          student_grade &&
+            (await Promise.all(
+              student_grade.map((el) =>
+                this.drizzle
+                  .update(schema.studentGrade)
+                  .set({
+                    grade: el.grade,
+                  })
+                  .where(
+                    and(
+                      eq(schema.studentGrade.admissionId, admissionId),
+                      eq(schema.studentGrade.semester, el.semester),
+                      eq(schema.studentGrade.subject, el.subject),
+                    ),
+                  ),
+              ),
+            )),
+          (() => {
+            if (documents && typeof documents[0]?.isVerified != "undefined") {
+              return Promise.all(
+                documents.map((el) =>
+                  this.drizzle
+                    .update(schema.documents)
+                    .set({
+                      isVerified: el.isVerified,
+                    })
+                    .where(
+                      and(
+                        eq(schema.documents.id, el.id),
+                        eq(schema.documents.studentId, studentId),
+                      ),
+                    ),
+                ),
+              );
+            }
 
-        const createEducation = await this.prisma.education.create({
-          data: {
-            npsn: education_npsn,
-            name: education_name,
-            province: education_province,
-            district_city: education_district_city,
-            sub_district: education_sub_district,
-            street_address: education_street_address,
-            education_type_id: Number(education_type_id),
-          },
-        });
+            if (documents && typeof documents[0]?.name != "undefined") {
+              return this.drizzle.insert(schema.documents).values(
+                documents.map((el) => ({
+                  name: el.name,
+                  path: el.path,
+                  studentId,
+                })),
+              );
+            }
 
-        if (!createEducation) {
-          throw new BadRequestException("Gagal menambahkan data sekolah");
-        }
-      }
+            if (document && typeof document?.name != "undefined") {
+              return this.drizzle.insert(schema.documents).values({
+                name: document.name,
+                path: document.path,
+                studentId,
+              });
+            }
+          })(),
+          education_npsn &&
+            education_name &&
+            education_province &&
+            education_district_city &&
+            education_sub_district &&
+            education_street_address &&
+            education_type_id &&
+            this.drizzle.insert(schema.lastEducations).values({
+              npsn: education_npsn,
+              name: education_name,
+              province: education_province,
+              city: education_district_city,
+              subdistrict: education_sub_district,
+              streetAddress: education_street_address,
+              lastEducationTypeId: String(education_type_id),
+            })[0],
+        ]);
 
-      const student = await this.prisma.users.update({
-        where: {
-          id,
-        },
-        data: {
-          fullname,
-          avatar,
-          students: {
-            update: {
-              test_score,
-              education_npsn,
-              education_type_id: Number(education_type_id),
-              // ...updateStudentPayload,
-              pmb: {
-                update: {
-                  first_department_id: Number(first_department_id),
-                  second_department_id: Number(second_department_id),
-                  selection_path_id: Number(selection_path_id),
-                  registration_path_id: Number(registration_path_id),
-                  degree_program_id: Number(degree_program_id),
-                  utbk_pu,
-                  utbk_kk,
-                  utbk_ppu,
-                  utbk_kmbm,
-                  average_utbk,
-                  registration_status_id: registration_status_id
-                    ? Number(registration_status_id)
-                    : ((documents && typeof documents[0]?.isVerified == "undefined") ||
-                        (document && typeof document?.name != "undefined")) &&
-                      2,
-                  ...(documents &&
-                    typeof documents[0]?.name != "undefined" && {
-                      documents: {
-                        createMany: {
-                          data: documents,
-                        },
-                      },
-                    }),
-                  ...(document && {
-                    documents: {
-                      createMany: {
-                        data: [document],
-                      },
-                    },
-                  }),
-                },
-              },
-            },
-          },
-        },
-        select: {
-          avatar: true,
-          email: true,
-          fullname: true,
-          students: {
-            include: {
-              pmb: {
-                include: {
-                  registration_status: {
-                    select: {
-                      name: true,
-                    },
-                  },
-                  student_grade: true,
-                  documents: true,
-                },
-              },
-            },
-          },
-        },
-      });
-
-      if (!student) {
+      if (!updateStudent || !updateStudentGrade || !updateDocument || !createLastEducation) {
         throw new NotFoundException("Gagal update data");
       }
-      const {
-        students: { pmb, ...studentData },
-      } = student;
+
       return JSON.parse(
         JSON.stringify(
           {
-            avatar: student.avatar,
-            email: student.email,
-            fullname: student.fullname,
-            first_department_id: pmb?.first_department_id,
-            second_department_id: pmb?.second_department_id,
-            selection_path_id: pmb?.selection_path_id,
-            registration_path_id: pmb?.registration_path_id,
-            degree_program_id: pmb?.degree_program_id,
-            student_grade: pmb?.student_grade,
-            average_grade: average_grade,
-            documents: pmb?.documents,
-            average_utbk: pmb?.average_utbk,
-            registration_status: pmb?.registration_status.name,
-            utbk_pu: pmb?.utbk_pu,
-            utbk_kk: pmb?.utbk_kk,
-            utbk_ppu: pmb?.utbk_ppu,
-            utbk_kmbm: pmb?.utbk_kmbm,
-            ...studentData,
+            ...updateStudent[0],
+            ...updateStudent[1],
+            ...updateStudent[2],
           },
           (key, value) => {
             if (value !== null) return value;
@@ -487,17 +427,10 @@ export class AppService {
 
   async deleteDataStudent(payload: IDeleteStudentRequest): Promise<TDeleteStudentResponse> {
     try {
-      const student = await this.prisma.users.delete({
-        where: {
-          id: payload.id,
-        },
-        select: {
-          avatar: true,
-          email: true,
-          fullname: true,
-          students: true,
-        },
-      });
+      const student = await this.drizzle
+        .delete(schema.users)
+        .where(eq(schema.users.id, payload.id));
+
       if (!student) {
         throw new NotFoundException("User tidak ditemukan");
       }
@@ -515,40 +448,40 @@ export class AppService {
   ): Promise<TGraduationStatusReponse> {
     try {
       const { registration_number } = payload;
-      const graduationStatus = await this.prisma.pMB.findFirst({
-        where: {
-          registration_number,
-        },
-        include: {
-          student: {
-            include: {
-              user: true,
-              department: true,
-            },
-          },
-          selection_path: true,
-          registration_status: true,
-        },
-      });
+      const graduationStatus = await this.drizzle
+        .selectDistinct({
+          fullname: schema.users.fullname,
+          registration_number: schema.admission.registrationNumber,
+          department: schema.students.departmentId,
+          selection_path: schema.selectionPath.name,
+          registration_status: schema.registrationStatus.name,
+        })
+        .from(schema.admission)
+        .leftJoin(schema.students, eq(schema.students.id, schema.admission.studentId))
+        .leftJoin(schema.users, eq(schema.users.id, schema.students.userId))
+        .leftJoin(
+          schema.selectionPath,
+          eq(schema.selectionPath.id, schema.admission.selectionPathId),
+        )
+        .leftJoin(
+          schema.registrationStatus,
+          eq(schema.registrationStatus.id, schema.admission.registrationStatusId),
+        )
+        .where(eq(schema.admission.registrationNumber, registration_number))
+        .limit(1)[0];
 
       if (!graduationStatus) {
         throw new NotFoundException("Nomor registrasi tidak valid");
       }
 
-      const { registration_status_id } = graduationStatus;
-      if ((registration_status_id as number) < 5) {
+      const { registration_status } = graduationStatus;
+      if (!registration_status.toLowerCase().includes("lulus")) {
         return {
           message: "Sedang Dalam Proses Seleksi",
         };
       }
 
-      return {
-        registration_number: graduationStatus.registration_number,
-        fullname: graduationStatus.student?.user.fullname,
-        department: graduationStatus.student?.department?.name,
-        selection_path: graduationStatus.selection_path?.name,
-        registration_status: graduationStatus.registration_status.name,
-      };
+      return graduationStatus;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -557,54 +490,38 @@ export class AppService {
     payload: TPaymentObligationsRequest,
   ): Promise<TPaymentObligationsResponse> {
     try {
-      const [paymentObligations, user] = await Promise.all([
-        this.prisma.paymentObligations.findMany({
-          where: {
-            ...(payload?.search && {
-              name: {
-                contains: payload?.search || "",
-                mode: "insensitive",
-              },
-            }),
-          },
-          select: {
-            id: true,
-            name: true,
-            amount: true,
-          },
-        }),
-        this.prisma.users.findUnique({
-          where: {
-            id: payload?.userId,
-          },
-          select: {
-            students: {
-              select: {
-                scholarship: {
-                  select: {
-                    name: true,
-                    discount: true,
-                  },
-                },
-              },
-            },
-          },
-        }),
+      const [paymentObligations, [scholarshipStudent]] = await Promise.all([
+        this.drizzle
+          .select({
+            id: schema.paymentObligations.id,
+            name: schema.paymentObligations.name,
+            amount: schema.paymentObligations.amount,
+          })
+          .from(schema.paymentObligations)
+          .where(ilike(schema.paymentObligations.name, "%UKT%")),
+        this.drizzle
+          .select({
+            discount: schema.scholarship.discount,
+          })
+          .from(schema.users)
+          .leftJoin(schema.students, eq(schema.users.id, schema.students.userId))
+          .leftJoin(schema.scholarship, eq(schema.students.scholarshipId, schema.scholarship.id))
+          .where(eq(schema.users.id, payload.userId)),
       ]);
 
-      if (!paymentObligations || !user) {
+      if (!paymentObligations || !scholarshipStudent) {
         throw new NotFoundException("Gagal dalam mengambil data");
       }
 
-      return user?.students?.scholarship?.discount
+      return scholarshipStudent.discount
         ? paymentObligations.map((el) =>
             el?.name?.includes("UKT")
               ? {
                   id: el?.id,
                   name: el?.name,
-                  amount: el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100,
+                  amount: el?.amount - (el?.amount * scholarshipStudent.discount) / 100,
                   spelled_out: convertNumberToWords(
-                    String(el?.amount - (el?.amount * user?.students?.scholarship?.discount) / 100),
+                    String(el?.amount - (el?.amount * scholarshipStudent.discount) / 100),
                   ),
                 }
               : { ...el, spelled_out: convertNumberToWords(String(el?.amount)) },

@@ -56,10 +56,10 @@ export const admission = pgTable("app_admission", {
   utbkKk: doublePrecision("utbk_kk"),
   utbkPpu: doublePrecision("utbk_ppu"),
   utbkKmbm: doublePrecision("utbk_kmbm"),
-  utbk_average: doublePrecision("utbk_average"),
+  utbkAverage: doublePrecision("utbk_average"),
   utbk: doublePrecision("utbk"),
   registrationNumber: text("registration_number"),
-  grade_average: doublePrecision("grade_average"),
+  gradeAverage: doublePrecision("grade_average"),
   testScore: integer("test_score"),
   degreeProgramId: uuid("degree_program_id").references(() => degreeProgram.id),
 
