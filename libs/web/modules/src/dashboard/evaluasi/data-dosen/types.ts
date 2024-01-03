@@ -42,6 +42,8 @@ export type TDataDosen = {
   sertifikat_profesi?: string;
   status?: "Aktif" | "Tidak Aktif" | "Sakit" | "Cuti";
   tindakan?: string;
+  grade?: string;
+  penilaian?: number;
 };
 
 export type TColumnDosen = {

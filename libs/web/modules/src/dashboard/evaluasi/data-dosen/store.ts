@@ -40,6 +40,8 @@ export const dataDosen: TDataDosen[] = [
     sertifikat_profesi: "https://google.com",
     status: "Aktif",
     tindakan: "",
+    grade: "Baik",
+    penilaian: 85,
   },
 
   {

@@ -18,7 +18,7 @@ export const CardDosen: FC = (): ReactElement => {
   };
   const dataTableModal = dataDosen?.find((item) => item.name === conditionModal);
 
-  const dataPegawaiModal: TColumnDosen[] = [
+  const dataDosenModal: TColumnDosen[] = [
     {
       name: <span className="text-base font-medium pl-2">Nama</span>,
       item: <span className="text-base font-medium">: {dataTableModal?.name}</span>,
@@ -228,7 +228,7 @@ export const CardDosen: FC = (): ReactElement => {
         <section className="rounded-lg w-full my-5">
           <DataTable
             columns={columnsModal}
-            data={dataPegawaiModal}
+            data={dataDosenModal}
             customStyles={customStylesTableModal}
             noTableHead
             striped
@@ -244,11 +244,12 @@ export const CardDosen: FC = (): ReactElement => {
           />
         </section>
       </Modal>
-      <div className="flex py-2 justify-end ">
+      <div className="flex py-2 justify-end">
         <SearchInput
           value={searchQuery}
           onChange={handleSearch}
           placeholder="Cari Nama Dosen dan Kategori Perkuliahan"
+          width="w-[450px]"
         />
       </div>
       <div className="w-full grid grid-cols-4 gap-4">
