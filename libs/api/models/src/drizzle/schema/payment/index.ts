@@ -7,16 +7,10 @@ export const paymentHistory = pgTable("app_payment_history", {
   paymentMethod: text("payment_method"),
   paymentCode: text("payment_code"),
   paymentBank: text("payment_bank"),
-  isPaid: boolean("is_paid").default(false).notNull(),
-  paymentTypeId: uuid("payment_type_id")
-    .notNull()
-    .references(() => paymentType.id),
-  paymentObligationId: uuid("payment_obligation_id")
-    .notNull()
-    .references(() => paymentObligations.id),
-  studentId: uuid("student_id")
-    .notNull()
-    .references(() => students.id),
+  isPaid: boolean("is_paid").default(false),
+  paymentTypeId: uuid("payment_type_id").references(() => paymentType.id),
+  paymentObligationId: uuid("payment_obligation_id").references(() => paymentObligations.id),
+  studentId: uuid("student_id").references(() => students.id),
   createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
 });
 

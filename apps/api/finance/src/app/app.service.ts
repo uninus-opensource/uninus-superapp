@@ -1,5 +1,5 @@
 import { HttpService } from "@nestjs/axios";
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
 import { PrismaService } from "@uninus/api/services";
 import { ConfigService } from "@nestjs/config";
@@ -18,6 +18,9 @@ import {
   TPaymentCallbackHeaders,
   TPaymentCallbackResponse,
 } from "@uninus/entities";
+import * as schema from "@uninus/api/models";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { eq } from "drizzle-orm";
 
 @Injectable()
 export class AppService {
@@ -25,6 +28,7 @@ export class AppService {
     private prisma: PrismaService,
     private httpService: HttpService,
     private readonly configService: ConfigService,
+    @Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>,
   ) {}
   private apiRequest = this.configService.getOrThrow("PAYMENT_API_REQUEST");
   private apiStatus = this.configService.getOrThrow("PAYMENT_API_STATUS");
@@ -649,71 +653,46 @@ export class AppService {
   async createPayment(payload: TCreatePaymentRequest): Promise<TCreatePaymentResponse> {
     try {
       const { userId, payment_obligation_id } = payload;
-      const student = await this.prisma.users.findUnique({
-        where: {
-          id: userId,
-        },
-        select: {
-          fullname: true,
-          email: true,
-          students: {
-            select: {
-              phone_number: true,
-            },
-          },
-        },
-      });
+
+      const [student, getPaymentObligations] = await Promise.all([
+        this.drizzle
+          .select({
+            studentId: schema.students.id,
+            fullname: schema.users.fullname,
+            email: schema.users.email,
+            phoneNumber: schema.students.phoneNumber,
+          })
+          .from(schema.users)
+          .leftJoin(schema.students, eq(schema.users.id, schema.students.userId))
+          .where(eq(schema.users.id, userId))
+          .limit(1)
+          .then((res) => res.at(0)),
+        this.drizzle
+          .select({
+            name: schema.paymentObligations.name,
+            amount: schema.paymentObligations.amount,
+          })
+          .from(schema.paymentObligations)
+          .where(eq(schema.paymentObligations.id, String(payment_obligation_id)))
+          .limit(1)
+          .then((res) => res.at(0)),
+      ]);
+
       if (!student) {
         throw new BadRequestException("User tidak ditemukan");
       }
-      const { firstName, lastName } = splitFullname(student?.fullname);
-      const timeStamp = Math.floor(Date.now() / 1000);
-      const getPaymentObligations = await this.prisma.paymentObligations.findUnique({
-        where: {
-          id: payment_obligation_id,
-        },
-        select: {
-          name: true,
-          amount: true,
-        },
-      });
       if (!getPaymentObligations) {
         throw new BadRequestException("Pembayaran tidak ditemukan");
       }
+      const { firstName, lastName } = splitFullname(student?.fullname);
+      const timeStamp = Math.floor(Date.now() / 1000);
 
-      const updateStudent = await this.prisma.users.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          students: {
-            update: {
-              payment_history: {
-                create: {
-                  order_id: String(`${getPaymentObligations?.name}-${timeStamp}`),
-                  payment_obligation_id: Number(payment_obligation_id),
-                },
-              },
-            },
-          },
-        },
-        select: {
-          students: {
-            select: {
-              payment_history: true,
-            },
-          },
-        },
-      });
-      if (!updateStudent) {
-        throw new BadRequestException("Gagal membuat transaksi");
-      }
       const data = {
         customerDetails: {
           email: student?.email,
           firstName,
           lastName,
-          phone: student?.students?.phone_number,
+          phone: student?.phoneNumber,
         },
         transactionDetails: {
           amount: getPaymentObligations?.amount,
@@ -730,14 +709,25 @@ export class AppService {
         this.apiKey,
       );
 
-      const response = await firstValueFrom(
-        this.httpService
-          .post("/payment-services/v2.1.0/api/token", data, this.config)
-          .pipe(map((resp) => resp.data)),
-      ).catch((error) => {
-        throw new BadRequestException(error?.response?.statusText);
-      });
-      return response;
+      const [updateStudent, createPayment] = await Promise.all([
+        this.drizzle.insert(schema.paymentHistory).values({
+          orderId: String(`${getPaymentObligations?.name}-${timeStamp}`),
+          paymentObligationId: String(payment_obligation_id),
+          studentId: student?.studentId,
+        }),
+        firstValueFrom(
+          this.httpService
+            .post("/payment-services/v2.1.0/api/token", data, this.config)
+            .pipe(map((resp) => resp.data)),
+        ).catch((error) => {
+          throw new BadRequestException(error?.response?.statusText);
+        }),
+      ]);
+
+      if (!updateStudent) {
+        throw new BadRequestException("Gagal membuat transaksi");
+      }
+      return createPayment;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -755,88 +745,66 @@ export class AppService {
         timeStamp,
         this.apiKey,
       );
-      const response = await firstValueFrom(
-        this.httpService
-          .post("/sp/service/v3.0.0/api/checkstatus", data, this.config)
-          .pipe(map((resp) => resp.data)),
-      ).catch((error) => {
-        throw new BadRequestException(error.response.statusText);
-      });
+      const [statusPayment, dataStudent, registrationStatus] = await Promise.all([
+        firstValueFrom(
+          this.httpService
+            .post("/sp/service/v3.0.0/api/checkstatus", data, this.config)
+            .pipe(map((resp) => resp.data)),
+        ).catch((error) => {
+          throw new BadRequestException(error.response.statusText);
+        }),
+        this.drizzle
+          .select({
+            studentId: schema.students.id,
+            selectionPath: schema.selectionPath.name,
+          })
+          .from(schema.users)
+          .leftJoin(schema.students, eq(schema.users.id, schema.students.userId))
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(
+            schema.selectionPath,
+            eq(schema.admission.selectionPathId, schema.selectionPath.id),
+          )
+          .where(eq(schema.users.id, userId))
+          .limit(1)
+          .then((res) => res.at(0)),
+        this.drizzle
+          .select({
+            id: schema.registrationStatus.id,
+            name: schema.registrationStatus.name,
+          })
+          .from(schema.registrationStatus),
+      ]);
 
-      const { transactionStatusCode: status, vaBank, vaNumber, paymentMethod } = response;
+      const { transactionStatusCode: status, vaBank, vaNumber, paymentMethod } = statusPayment;
 
-      if (!response?.status) {
-        throw new BadRequestException(response?.responseDesc);
+      if (!statusPayment?.status) {
+        throw new BadRequestException(statusPayment?.responseDesc);
       }
 
       if (status == "S") {
-        const getDataStudent = await this.prisma.users.findUnique({
-          where: {
-            id: userId,
-          },
-          select: {
-            students: {
-              select: {
-                pmb: {
-                  select: {
-                    selection_path: {
-                      select: {
-                        name: true,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        });
+        const updatePayment = await Promise.all([
+          this.drizzle.update(schema.paymentHistory).set({
+            paymentBank: vaBank,
+            paymentCode: vaNumber,
+            paymentMethod: paymentMethod,
+            isPaid: true,
+          }),
+          this.drizzle
+            .update(schema.admission)
+            .set({
+              registrationStatusId:
+                dataStudent?.selectionPath === "seleksi test"
+                  ? registrationStatus.filter(
+                      (el) => el.name.toLocaleLowerCase() === "belum mengikuti test" && el,
+                    )[0].id
+                  : registrationStatus.filter(
+                      (el) => el.name.toLocaleLowerCase() === "proses seleksi" && el,
+                    )[0].id,
+            })
+            .where(eq(schema.students.id, dataStudent?.studentId)),
+        ]);
 
-        if (!getDataStudent) {
-          throw new BadRequestException("Gagal update status pembayaran");
-        }
-
-        const {
-          students: {
-            pmb: { selection_path },
-          },
-        } = getDataStudent;
-
-        const updatePayment = await this.prisma.users.update({
-          where: {
-            id: userId,
-          },
-          data: {
-            students: {
-              update: {
-                pmb: {
-                  update: {
-                    ...(selection_path?.name.toLowerCase() == "seleksi test"
-                      ? {
-                          registration_status_id: 7,
-                        }
-                      : {
-                          registration_status_id: 4,
-                        }),
-                  },
-                },
-                payment_history: {
-                  update: {
-                    where: {
-                      order_id,
-                    },
-                    data: {
-                      payment_bank: vaBank,
-                      payment_code: vaNumber,
-                      payment_method: paymentMethod,
-                      payment_type_id: 1,
-                      isPaid: true,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        });
         if (!updatePayment) {
           throw new BadRequestException("Gagal update status pembayaran");
         }
