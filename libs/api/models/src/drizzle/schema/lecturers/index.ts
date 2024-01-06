@@ -38,7 +38,9 @@ export const lecturerTypeRelations = relations(lecturerType, ({ many }) => ({
 export const lecturerPosition = pgTable("app_lecturer_Position", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
-  civilServiceLevelId: uuid("civil_service_level_id").references(() => civilServiceLevel.id),
+  civilServiceLevelId: uuid("civil_service_level_id")
+    .references(() => civilServiceLevel.id)
+    .notNull(),
 });
 
 export const lecturerPositionRelations = relations(lecturerPosition, ({ many, one }) => ({

@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
-import { employees, students, employeeOnLastEducation, degreeProgram } from "..";
+import { employees, students, employeeOnLastEducation, degreeProgram, academicStaff } from "..";
 
 export const citizenship = pgTable("app_citizenship", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -122,6 +122,7 @@ export const gender = pgTable("app_gender", {
 export const genderRelations = relations(gender, ({ many }) => ({
   students: many(students),
   employees: many(employees),
+  academicStaff:many(academicStaff)
 }));
 
 export const salary = pgTable("app_salary", {

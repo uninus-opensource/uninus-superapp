@@ -4,7 +4,6 @@ import { civilServiceLevel, employees } from "..";
 
 export const academicStaff = pgTable("app_academic_staff", {
   id: uuid("id").defaultRandom().primaryKey(),
-  name: text("name").notNull(),
   academicStaffTypeId: uuid("academic_staff_type_id").references(() => academicStaffType.id),
   academicStaffPositionId: uuid("academic_staff_position_id").references(
     () => academicStaffPosition.id,
@@ -24,6 +23,10 @@ export const academicStaffRelations = relations(academicStaff, ({ one }) => ({
   academicStaffPosition: one(academicStaffPosition, {
     fields: [academicStaff.academicStaffPositionId],
     references: [academicStaffPosition.id],
+  }),
+  employee: one(employees, {
+    fields: [academicStaff.employeeId],
+    references: [employees.id],
   }),
 }));
 

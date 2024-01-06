@@ -236,7 +236,7 @@ export const workUnitCategoriesRelations = relations(workUnitCategories, ({ many
 
 export const civilServiceLevel = pgTable("app_civil_service_level", {
   id: uuid("id").defaultRandom().primaryKey(),
-  name: text("name").notNull(),
+  name: text("name"),
 });
 
 export const civilServiceLevelRelations = relations(civilServiceLevel, ({ many }) => ({
