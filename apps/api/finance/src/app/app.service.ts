@@ -20,7 +20,7 @@ import {
 } from "@uninus/entities";
 import * as schema from "@uninus/api/models";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { eq } from "drizzle-orm";
+import { and, eq, gte, lt, isNotNull, isNull, like } from "drizzle-orm";
 
 @Injectable()
 export class AppService {
@@ -62,63 +62,84 @@ export class AppService {
 
             if (dayStart.getDay() >= 1 && dayStart.getDay() <= 7) {
               const [total_student, paid, unpaid, installment_payment] = await Promise.all([
-                this.prisma.students.count({
-                  where: {
-                    user: {
-                      role_id: 2,
-                    },
-                    createdAt: {
-                      gte: dayStart,
-                      lt: dayEnd,
-                    },
-                  },
-                }),
-                this.prisma.students.count({
-                  where: {
-                    NOT: {
-                      payment_history: {
-                        some: {
-                          payment_obligation: {
-                            name: "Ukt",
-                          },
-                        },
-                      },
-                    },
-                    createdAt: {
-                      gte: dayStart,
-                      lt: dayEnd,
-                    },
-                  },
-                }),
-                this.prisma.students.count({
-                  where: {
-                    payment_history: {
-                      none: {},
-                    },
-                    createdAt: {
-                      gte: dayStart,
-                      lt: dayEnd,
-                    },
-                  },
-                }),
-                this.prisma.students.count({
-                  where: {
-                    payment_history: {
-                      some: {
-                        payment_type: {
-                          name: "Cicil",
-                        },
-                        payment_obligation: {
-                          name: "Ukt",
-                        },
-                      },
-                    },
-                    createdAt: {
-                      gte: dayStart,
-                      lt: dayEnd,
-                    },
-                  },
-                }),
+                this.drizzle
+                  .select({
+                    id: schema.users.id,
+                  })
+                  .from(schema.users)
+                  .leftJoin(schema.roles, eq(schema.users.roleId, schema.roles.id))
+                  .where(
+                    and(
+                      like(schema.roles.name, "Mahasiswa"),
+                      gte(schema.users.createdAt, dayStart),
+                      lt(schema.users.createdAt, dayEnd),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(
+                    schema.paymentHistory,
+                    eq(schema.students.id, schema.paymentHistory.studentId),
+                  )
+                  .leftJoin(
+                    schema.paymentObligations,
+                    eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+                  )
+                  .where(
+                    and(
+                      like(schema.paymentObligations.name, "UKT"),
+                      gte(schema.paymentHistory.createdAt, dayStart),
+                      lt(schema.paymentHistory.createdAt, dayEnd),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(
+                    schema.paymentHistory,
+                    eq(schema.students.id, schema.paymentHistory.studentId),
+                  )
+                  .where(
+                    and(
+                      isNull(schema.paymentHistory),
+                      gte(schema.paymentHistory.createdAt, currentDate),
+                      lt(schema.paymentHistory.createdAt, nextDate),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(
+                    schema.paymentHistory,
+                    eq(schema.students.id, schema.paymentHistory.studentId),
+                  )
+                  .leftJoin(
+                    schema.paymentType,
+                    eq(schema.paymentHistory.paymentTypeId, schema.paymentType.id),
+                  )
+                  .leftJoin(
+                    schema.paymentObligations,
+                    eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+                  )
+                  .where(
+                    and(
+                      like(schema.paymentObligations.name, "UKT"),
+                      like(schema.paymentType.name, "Cicil"),
+                      gte(schema.paymentHistory.createdAt, currentDate),
+                      lt(schema.paymentHistory.createdAt, nextDate),
+                    ),
+                  )
+                  .then((res) => res.length),
               ]);
 
               const dayStartFormatted = dayStart.toISOString().split("T")[0];
@@ -151,63 +172,84 @@ export class AppService {
             weekEnd.setDate(weekStart.getDate() + 6); // Menggeser ke hari Minggu dalam minggu saat ini
 
             const [total_student, paid, unpaid, installment_payment] = await Promise.all([
-              this.prisma.students.count({
-                where: {
-                  user: {
-                    role_id: 2,
-                  },
-                  createdAt: {
-                    gte: weekStart,
-                    lt: weekEnd,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  NOT: {
-                    payment_history: {
-                      some: {
-                        payment_obligation: {
-                          name: "Ukt",
-                        },
-                      },
-                    },
-                  },
-                  createdAt: {
-                    gte: weekStart,
-                    lt: weekEnd,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  payment_history: {
-                    none: {},
-                  },
-                  createdAt: {
-                    gte: weekStart,
-                    lt: weekEnd,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  payment_history: {
-                    some: {
-                      payment_type: {
-                        name: "Cicil",
-                      },
-                      payment_obligation: {
-                        name: "Ukt",
-                      },
-                    },
-                  },
-                  createdAt: {
-                    gte: weekStart,
-                    lt: weekEnd,
-                  },
-                },
-              }),
+              this.drizzle
+                .select({
+                  id: schema.users.id,
+                })
+                .from(schema.users)
+                .leftJoin(schema.roles, eq(schema.users.roleId, schema.roles.id))
+                .where(
+                  and(
+                    like(schema.roles.name, "Mahasiswa"),
+                    gte(schema.users.createdAt, weekStart),
+                    lt(schema.users.createdAt, weekEnd),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .leftJoin(
+                  schema.paymentObligations,
+                  eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+                )
+                .where(
+                  and(
+                    like(schema.paymentObligations.name, "UKT"),
+                    gte(schema.paymentHistory.createdAt, weekStart),
+                    lt(schema.paymentHistory.createdAt, weekEnd),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .where(
+                  and(
+                    isNull(schema.paymentHistory),
+                    gte(schema.paymentHistory.createdAt, weekStart),
+                    lt(schema.paymentHistory.createdAt, weekEnd),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .leftJoin(
+                  schema.paymentType,
+                  eq(schema.paymentHistory.paymentTypeId, schema.paymentType.id),
+                )
+                .leftJoin(
+                  schema.paymentObligations,
+                  eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+                )
+                .where(
+                  and(
+                    like(schema.paymentObligations.name, "UKT"),
+                    like(schema.paymentType.name, "Cicil"),
+                    gte(schema.paymentHistory.createdAt, weekStart),
+                    lt(schema.paymentHistory.createdAt, weekEnd),
+                  ),
+                )
+                .then((res) => res.length),
             ]);
 
             const weekStartFormatted = weekStart.toISOString().split("T")[0];
@@ -250,63 +292,84 @@ export class AppService {
             const nextMonth = new Date(Date.UTC(currentYear, i + 1, 0, 23, 59, 59, 999));
 
             const [total_student, paid, unpaid, installment_payment] = await Promise.all([
-              this.prisma.students.count({
-                where: {
-                  user: {
-                    role_id: 2,
-                  },
-                  createdAt: {
-                    gte: currentMonth,
-                    lt: nextMonth,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  NOT: {
-                    payment_history: {
-                      some: {
-                        payment_obligation: {
-                          name: "Ukt",
-                        },
-                      },
-                    },
-                  },
-                  createdAt: {
-                    gte: currentMonth,
-                    lt: nextMonth,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  payment_history: {
-                    none: {},
-                  },
-                  createdAt: {
-                    gte: currentMonth,
-                    lt: nextMonth,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  payment_history: {
-                    some: {
-                      payment_type: {
-                        name: "Cicil",
-                      },
-                      payment_obligation: {
-                        name: "Ukt",
-                      },
-                    },
-                  },
-                  createdAt: {
-                    gte: currentMonth,
-                    lt: nextMonth,
-                  },
-                },
-              }),
+              this.drizzle
+                .select({
+                  id: schema.users.id,
+                })
+                .from(schema.users)
+                .leftJoin(schema.roles, eq(schema.users.roleId, schema.roles.id))
+                .where(
+                  and(
+                    like(schema.roles.name, "Mahasiswa"),
+                    gte(schema.users.createdAt, currentMonth),
+                    lt(schema.users.createdAt, nextMonth),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .leftJoin(
+                  schema.paymentObligations,
+                  eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+                )
+                .where(
+                  and(
+                    like(schema.paymentObligations.name, "UKT"),
+                    gte(schema.paymentHistory.createdAt, currentMonth),
+                    lt(schema.paymentHistory.createdAt, nextMonth),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .where(
+                  and(
+                    isNull(schema.paymentHistory),
+                    gte(schema.paymentHistory.createdAt, currentMonth),
+                    lt(schema.paymentHistory.createdAt, nextMonth),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .leftJoin(
+                  schema.paymentType,
+                  eq(schema.paymentHistory.paymentTypeId, schema.paymentType.id),
+                )
+                .leftJoin(
+                  schema.paymentObligations,
+                  eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+                )
+                .where(
+                  and(
+                    like(schema.paymentObligations.name, "UKT"),
+                    like(schema.paymentType.name, "Cicil"),
+                    gte(schema.paymentHistory.createdAt, currentMonth),
+                    lt(schema.paymentHistory.createdAt, nextMonth),
+                  ),
+                )
+                .then((res) => res.length),
             ]);
 
             const monthly = {
@@ -330,63 +393,84 @@ export class AppService {
             const yearEnd = new Date(Date.UTC(currentYear - i, 11, 31, 23, 59, 59, 999));
 
             const [total_student, paid, unpaid, installment_payment] = await Promise.all([
-              this.prisma.students.count({
-                where: {
-                  user: {
-                    role_id: 2,
-                  },
-                  createdAt: {
-                    gte: yearStart,
-                    lt: yearEnd,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  NOT: {
-                    payment_history: {
-                      some: {
-                        payment_obligation: {
-                          name: "Ukt",
-                        },
-                      },
-                    },
-                  },
-                  createdAt: {
-                    gte: yearStart,
-                    lt: yearEnd,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  payment_history: {
-                    none: {},
-                  },
-                  createdAt: {
-                    gte: yearStart,
-                    lt: yearEnd,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  payment_history: {
-                    some: {
-                      payment_type: {
-                        name: "Cicil",
-                      },
-                      payment_obligation: {
-                        name: "Ukt",
-                      },
-                    },
-                  },
-                  createdAt: {
-                    gte: yearStart,
-                    lt: yearEnd,
-                  },
-                },
-              }),
+              this.drizzle
+                .select({
+                  id: schema.users.id,
+                })
+                .from(schema.users)
+                .leftJoin(schema.roles, eq(schema.users.roleId, schema.roles.id))
+                .where(
+                  and(
+                    like(schema.roles.name, "Mahasiswa"),
+                    gte(schema.users.createdAt, yearStart),
+                    lt(schema.users.createdAt, yearEnd),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .leftJoin(
+                  schema.paymentObligations,
+                  eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+                )
+                .where(
+                  and(
+                    like(schema.paymentObligations.name, "UKT"),
+                    gte(schema.paymentHistory.createdAt, yearStart),
+                    lt(schema.paymentHistory.createdAt, yearEnd),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .where(
+                  and(
+                    isNull(schema.paymentHistory),
+                    gte(schema.paymentHistory.createdAt, yearStart),
+                    lt(schema.paymentHistory.createdAt, yearEnd),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .leftJoin(
+                  schema.paymentType,
+                  eq(schema.paymentHistory.paymentTypeId, schema.paymentType.id),
+                )
+                .leftJoin(
+                  schema.paymentObligations,
+                  eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+                )
+                .where(
+                  and(
+                    like(schema.paymentObligations.name, "UKT"),
+                    like(schema.paymentType.name, "Cicil"),
+                    gte(schema.paymentHistory.createdAt, yearStart),
+                    lt(schema.paymentHistory.createdAt, yearEnd),
+                  ),
+                )
+                .then((res) => res.length),
             ]);
 
             const yearly = {
@@ -418,63 +502,84 @@ export class AppService {
             currentDateEnd.setHours(23, 59, 59, 999);
 
             const [total_student, paid, unpaid, installment_payment] = await Promise.all([
-              this.prisma.students.count({
-                where: {
-                  user: {
-                    role_id: 2,
-                  },
-                  createdAt: {
-                    gte: currentDateStart,
-                    lt: currentDateEnd,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  NOT: {
-                    payment_history: {
-                      some: {
-                        payment_obligation: {
-                          name: "Ukt",
-                        },
-                      },
-                    },
-                  },
-                  createdAt: {
-                    gte: currentDateStart,
-                    lt: currentDateEnd,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  payment_history: {
-                    none: {},
-                  },
-                  createdAt: {
-                    gte: currentDateStart,
-                    lt: currentDateEnd,
-                  },
-                },
-              }),
-              this.prisma.students.count({
-                where: {
-                  payment_history: {
-                    some: {
-                      payment_type: {
-                        name: "Cicil",
-                      },
-                      payment_obligation: {
-                        name: "Ukt",
-                      },
-                    },
-                  },
-                  createdAt: {
-                    gte: currentDateStart,
-                    lt: currentDateEnd,
-                  },
-                },
-              }),
+              this.drizzle
+                .select({
+                  id: schema.users.id,
+                })
+                .from(schema.users)
+                .leftJoin(schema.roles, eq(schema.users.roleId, schema.roles.id))
+                .where(
+                  and(
+                    like(schema.roles.name, "Mahasiswa"),
+                    gte(schema.users.createdAt, currentDateStart),
+                    lt(schema.users.createdAt, currentDateEnd),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .leftJoin(
+                  schema.paymentObligations,
+                  eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+                )
+                .where(
+                  and(
+                    like(schema.paymentObligations.name, "UKT"),
+                    gte(schema.paymentHistory.createdAt, currentDateStart),
+                    lt(schema.paymentHistory.createdAt, currentDateEnd),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .where(
+                  and(
+                    isNull(schema.paymentHistory),
+                    gte(schema.paymentHistory.createdAt, currentDateStart),
+                    lt(schema.paymentHistory.createdAt, currentDateEnd),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.students.id, schema.paymentHistory.studentId),
+                )
+                .leftJoin(
+                  schema.paymentType,
+                  eq(schema.paymentHistory.paymentTypeId, schema.paymentType.id),
+                )
+                .leftJoin(
+                  schema.paymentObligations,
+                  eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+                )
+                .where(
+                  and(
+                    like(schema.paymentObligations.name, "UKT"),
+                    like(schema.paymentType.name, "Cicil"),
+                    gte(schema.paymentHistory.createdAt, currentDateStart),
+                    lt(schema.paymentHistory.createdAt, currentDateEnd),
+                  ),
+                )
+                .then((res) => res.length),
             ]);
 
             const rangeData = {
@@ -512,122 +617,147 @@ export class AppService {
         unpaids,
         additions_unpaids,
       ] = await Promise.all([
-        this.prisma.students.count({
-          where: {
-            user: {
-              role_id: 2,
-            },
-          },
-        }),
-        this.prisma.students.count({
-          where: {
-            user: {
-              role_id: 2,
-            },
-            createdAt: {
-              gte: currentDate,
-              lt: nextDate,
-            },
-          },
-        }),
-        this.prisma.students.count({
-          where: {
-            NOT: {
-              scholarship_id: null,
-            },
-          },
-        }),
-        this.prisma.students.count({
-          where: {
-            NOT: {
-              scholarship_id: null,
-            },
-            createdAt: {
-              gte: currentDate,
-              lt: nextDate,
-            },
-          },
-        }),
-        this.prisma.students.count({
-          where: {
-            NOT: {
-              payment_history: {
-                some: {
-                  payment_obligation: {
-                    name: "Ukt",
-                  },
-                },
-              },
-            },
-          },
-        }),
-        this.prisma.students.count({
-          where: {
-            NOT: {
-              payment_history: {
-                some: {
-                  payment_obligation: {
-                    name: "Ukt",
-                  },
-                },
-              },
-            },
-            createdAt: {
-              gte: currentDate,
-              lt: nextDate,
-            },
-          },
-        }),
-        this.prisma.students.count({
-          where: {
-            payment_history: {
-              some: {
-                payment_type: {
-                  name: "Cicil",
-                },
-                payment_obligation: {
-                  name: "Ukt",
-                },
-              },
-            },
-          },
-        }),
-        this.prisma.students.count({
-          where: {
-            payment_history: {
-              some: {
-                payment_type: {
-                  name: "Cicil",
-                },
-                payment_obligation: {
-                  name: "Ukt",
-                },
-              },
-            },
-            createdAt: {
-              gte: currentDate,
-              lt: nextDate,
-            },
-          },
-        }),
-        this.prisma.students.count({
-          where: {
-            payment_history: {
-              none: {},
-            },
-          },
-        }),
-        this.prisma.students.count({
-          where: {
-            payment_history: {
-              none: {},
-            },
-            createdAt: {
-              gte: currentDate,
-              lt: nextDate,
-            },
-          },
-        }),
+        this.drizzle
+          .select({
+            id: schema.users.id,
+          })
+          .from(schema.users)
+          .leftJoin(schema.roles, eq(schema.users.roleId, schema.roles.id))
+          .where(like(schema.roles.name, "Mahasiswa"))
+          .then((res) => res.length),
+
+        this.drizzle
+          .select({
+            id: schema.users.id,
+          })
+          .from(schema.users)
+          .leftJoin(schema.roles, eq(schema.users.roleId, schema.roles.id))
+          .where(
+            and(
+              like(schema.roles.name, "Mahasiswa"),
+              gte(schema.users.createdAt, currentDate),
+              lt(schema.users.createdAt, nextDate),
+            ),
+          )
+          .then((res) => res.length),
+
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .where(isNotNull(schema.students.scholarshipId))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .where(
+            and(
+              isNotNull(schema.students.scholarshipId),
+              gte(schema.students.createdAt, currentDate),
+              lt(schema.students.createdAt, nextDate),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.paymentHistory, eq(schema.students.id, schema.paymentHistory.studentId))
+          .leftJoin(
+            schema.paymentObligations,
+            eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+          )
+          .where(like(schema.paymentObligations.name, "UKT"))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.paymentHistory, eq(schema.students.id, schema.paymentHistory.studentId))
+          .leftJoin(
+            schema.paymentObligations,
+            eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+          )
+          .where(
+            and(
+              like(schema.paymentObligations.name, "UKT"),
+              gte(schema.paymentHistory.createdAt, currentDate),
+              lt(schema.paymentHistory.createdAt, nextDate),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.paymentHistory, eq(schema.students.id, schema.paymentHistory.studentId))
+          .leftJoin(
+            schema.paymentType,
+            eq(schema.paymentHistory.paymentTypeId, schema.paymentType.id),
+          )
+          .leftJoin(
+            schema.paymentObligations,
+            eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+          )
+          .where(
+            and(
+              like(schema.paymentObligations.name, "UKT"),
+              like(schema.paymentType.name, "Cicil"),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.paymentHistory, eq(schema.students.id, schema.paymentHistory.studentId))
+          .leftJoin(
+            schema.paymentType,
+            eq(schema.paymentHistory.paymentTypeId, schema.paymentType.id),
+          )
+          .leftJoin(
+            schema.paymentObligations,
+            eq(schema.paymentHistory.paymentObligationId, schema.paymentObligations.id),
+          )
+          .where(
+            and(
+              like(schema.paymentObligations.name, "UKT"),
+              like(schema.paymentType.name, "Cicil"),
+              gte(schema.paymentHistory.createdAt, currentDate),
+              lt(schema.paymentHistory.createdAt, nextDate),
+            ),
+          )
+          .then((res) => res.length),
+
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.paymentHistory, eq(schema.students.id, schema.paymentHistory.studentId))
+          .where(isNull(schema.paymentHistory))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.paymentHistory, eq(schema.students.id, schema.paymentHistory.studentId))
+          .where(
+            and(
+              isNull(schema.paymentHistory),
+              gte(schema.paymentHistory.createdAt, currentDate),
+              lt(schema.paymentHistory.createdAt, nextDate),
+            ),
+          )
+          .then((res) => res.length),
       ]);
 
       return {
@@ -784,12 +914,15 @@ export class AppService {
 
       if (status == "S") {
         const updatePayment = await Promise.all([
-          this.drizzle.update(schema.paymentHistory).set({
-            paymentBank: vaBank,
-            paymentCode: vaNumber,
-            paymentMethod: paymentMethod,
-            isPaid: true,
-          }),
+          this.drizzle
+            .update(schema.paymentHistory)
+            .set({
+              paymentBank: vaBank,
+              paymentCode: vaNumber,
+              paymentMethod: paymentMethod,
+              isPaid: true,
+            })
+            .where(eq(schema.paymentHistory.orderId, order_id)),
           this.drizzle
             .update(schema.admission)
             .set({
@@ -853,89 +986,89 @@ export class AppService {
           responseDescription: "Invalid Signature",
         };
       }
-      if (responseCode == "41" || responseDescription == "Transaction Expired") {
-        const deletePayment = await this.prisma.paymentHistory.delete({
-          where: {
-            order_id: trxRef,
-          },
-        });
 
-        if (!deletePayment) {
+      if (responseCode == "41" || responseDescription == "Transaction Expired") {
+        const updatePayment = await this.drizzle
+          .update(schema.paymentHistory)
+          .set({
+            isExpired: true,
+          })
+          .where(eq(schema.paymentHistory.orderId, trxRef));
+
+        if (!updatePayment) {
           return {
             responseCode: "40",
             responseDescription: "Data Cannot Be Updated",
           };
         }
-        return {
-          responseCode: "00",
-          responseDescription: "Success",
-        };
       }
-      const getDataStudent = await this.prisma.students.findUnique({
-        where: {
-          phone_number: userId,
-        },
-        select: {
-          pmb: {
-            select: {
-              selection_path: {
-                select: {
-                  name: true,
-                },
-              },
-            },
-          },
-        },
-      });
 
-      const {
-        pmb: { selection_path },
-      } = getDataStudent;
+      const [dataStudent, registrationStatus, paymentType] = await Promise.all([
+        this.drizzle
+          .select({
+            admissionId: schema.admission.id,
+            selectionPath: schema.selectionPath.name,
+            studentId: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(
+            schema.selectionPath,
+            eq(schema.admission.selectionPathId, schema.selectionPath.id),
+          )
+          .where(eq(schema.students.phoneNumber, userId))
+          .limit(1)
+          .then((res) => res.at(0)),
+        this.drizzle
+          .select({
+            id: schema.registrationStatus.id,
+            name: schema.registrationStatus.name,
+          })
+          .from(schema.registrationStatus),
+        this.drizzle
+          .select({
+            id: schema.paymentType.id,
+            name: schema.paymentType.name,
+          })
+          .from(schema.paymentType),
+      ]);
 
-      const updatePayment = await this.prisma.students.update({
-        where: {
-          phone_number: userId,
-        },
-        data: {
-          pmb: {
-            update: {
-              ...(selection_path?.name.toLowerCase() == "seleksi test"
-                ? {
-                    registration_status_id: 7,
-                  }
-                : {
-                    registration_status_id: 4,
-                  }),
-            },
-          },
-          payment_history: {
-            update: {
-              where: {
-                order_id: trxRef,
-              },
-              data: {
-                payment_bank: bankName,
-                payment_type_id: 1,
-                isPaid: true,
-                payment_method:
-                  transactionType == 1
-                    ? "Debit/Credit"
-                    : transactionType == 2
-                      ? "QRIS"
-                      : transactionType == 3
-                        ? "EMoney"
-                        : transactionType == 4 && "VA",
-              },
-            },
-          },
-        },
-      });
+      const updatePayment = await Promise.all([
+        this.drizzle
+          .update(schema.paymentHistory)
+          .set({
+            paymentBank: bankName,
+            paymentTypeId: paymentType.filter(
+              (el) => el.name.toLocaleLowerCase() === "lunas" && el,
+            )[0].id,
+            isPaid: true,
+            paymentMethod:
+              transactionType == 1
+                ? "Debit/Credit"
+                : transactionType == 2
+                  ? "QRIS"
+                  : transactionType == 3
+                    ? "EMoney"
+                    : transactionType == 4 && "VA",
+          })
+          .where(eq(schema.paymentHistory.orderId, trxRef)),
+        this.drizzle
+          .update(schema.admission)
+          .set({
+            registrationStatusId:
+              dataStudent?.selectionPath === "seleksi test"
+                ? registrationStatus.filter(
+                    (el) => el.name.toLocaleLowerCase() === "belum mengikuti test" && el,
+                  )[0].id
+                : registrationStatus.filter(
+                    (el) => el.name.toLocaleLowerCase() === "proses seleksi" && el,
+                  )[0].id,
+          })
+          .where(eq(schema.students.phoneNumber, dataStudent?.studentId)),
+      ]);
 
       if (!updatePayment) {
-        return {
-          responseCode: "40",
-          responseDescription: "Data Cannot Be Updated",
-        };
+        throw new BadRequestException("Gagal update status pembayaran");
       }
 
       return {

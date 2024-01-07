@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-import { PrismaService } from "@uninus/api/services";
+
 import { errorMappings } from "@uninus/api/utilities";
 import {
   ISelectRequest,
@@ -13,137 +13,86 @@ import {
 } from "@uninus/entities";
 import * as schema from "@uninus/api/models";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { and, eq, ilike } from "drizzle-orm";
+import { and, asc, eq, ilike, notIlike } from "drizzle-orm";
 
 @Injectable()
 export class AppService {
-  constructor(
-    private prisma: PrismaService,
-    @Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>,
-  ) {}
+  constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
   async getEmployees({
     search,
-    filterBy,
+    // filterBy,
     type,
-    orderBy,
+    // orderBy,
     page = 1,
     perPage = 10,
   }: TEmployeePaginationArgs): Promise<TEmployeesResponse> {
     try {
-      const skip = Number(page > 0 ? perPage * (page - 1) : 0);
-      const take = Number(perPage ?? 10);
+      const data = await this.drizzle
+        .select({
+          id: schema.employees.id,
+          fullname: schema.users.fullname,
+          nip: schema.employees.nip,
+          nidn: schema.employees.nidn,
+          employeeStatus: {
+            id: schema.employeeStatus.id,
+            name: schema.employeeStatus.name,
+          },
+        })
+        .from(schema.employees)
+        .leftJoin(schema.users, eq(schema.users.id, schema.employees.userId))
+        .leftJoin(
+          schema.employeeOnEmployeeCategories,
+          eq(schema.employees.id, schema.employeeOnEmployeeCategories.employeeId),
+        )
+        .leftJoin(
+          schema.employeeCategories,
+          eq(
+            schema.employeeCategories.id,
+            schema.employeeOnEmployeeCategories.employeeCategoriesId,
+          ),
+        )
+        .leftJoin(
+          schema.employeeStatus,
+          eq(schema.employeeStatus.id, schema.employees.employeeStatusId),
+        )
+        .leftJoin(
+          schema.employeeOnWorkUnit,
+          eq(schema.employees.id, schema.employeeOnWorkUnit.employeeId),
+        )
+        .leftJoin(schema.workUnits, eq(schema.workUnits.id, schema.employeeOnWorkUnit.workUnitId))
+        .leftJoin(
+          schema.workUnitCategories,
+          eq(schema.workUnitCategories.id, schema.workUnits.workUnitCategoryId),
+        )
+        .leftJoin(schema.lecturers, eq(schema.lecturers.employeeId, schema.employees.id))
+        .leftJoin(
+          schema.lecturerOnDepartment,
+          eq(schema.lecturers.id, schema.lecturerOnDepartment.lecturerId),
+        )
+        .leftJoin(
+          schema.department,
+          eq(schema.department.id, schema.lecturerOnDepartment.departmentId),
+        )
+        .leftJoin(
+          schema.lecturerOnFaculty,
+          eq(schema.lecturers.id, schema.lecturerOnFaculty.lecturerId),
+        )
+        .leftJoin(schema.faculty, eq(schema.faculty.id, schema.lecturerOnFaculty.facultyId))
 
-      const [data] = await Promise.all([
-        this.prisma.employees.findMany({
-          take,
-          skip,
-          where: {
-            OR: [
-              {
-                user: {
-                  fullname: {
-                    contains: search || "",
-                    mode: "insensitive",
-                  },
-                },
-                employee_has_category: {
-                  some: {
-                    employee_category_id: Number(type),
-                  },
-                },
-              },
-            ],
-          },
-          select: {
-            user: {
-              select: {
-                fullname: true,
-              },
-            },
-            nip: true,
-            employee_has_category: {
-              select: {
-                employee_category: {
-                  select: {
-                    id: true,
-                    name: true,
-                  },
-                },
-              },
-            },
-            ...(type == 1
-              ? {
-                  nidn: true,
-                  lecturers: {
-                    select: {
-                      lecturer_faculty_department: {
-                        select: {
-                          faculty: {
-                            select: {
-                              id: true,
-                              name: true,
-                            },
-                          },
-                          department: {
-                            select: {
-                              id: true,
-                              name: true,
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                }
-              : {}),
-            ...(type == 2
-              ? {
-                  employee_has_workunit: {
-                    select: {
-                      work_unit: {
-                        select: {
-                          name: true,
-                          work_unit_category: {
-                            select: {
-                              name: true,
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                }
-              : {}),
-            employee_status: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
-          orderBy: {
-            [orderBy]: filterBy,
-          },
-        }),
-      ]);
+        .where(
+          and(
+            ilike(schema.users.fullname, `%${search || ""}%`),
+            eq(schema.employeeCategories.id, String(type)),
+          ),
+        )
+        .limit(perPage)
+        .offset((page - 1) * perPage)
+        .orderBy(schema.employees.createdAt, asc(schema.employees.createdAt));
 
       const lastPage = Math.ceil(data.length / perPage);
 
-      const mappedData = data?.map((el) => ({
-        fullname: el.user.fullname,
-        nip: el.nip,
-        nidn: el.nidn,
-        faculty: el.lecturers?.lecturer_faculty_department?.map((el) => el.faculty.name),
-        department: el.lecturers?.lecturer_faculty_department?.map((el) => el.department.name),
-        employee_status: el.employee_status.name,
-        work_unit: el.employee_has_workunit?.map((el) => ({
-          category: el.work_unit.work_unit_category.name,
-          unit: el.work_unit.name,
-        })),
-      }));
-
       return {
-        data: mappedData,
+        data: data,
         meta: {
           total: data.length,
           lastPage,
@@ -172,58 +121,130 @@ export class AppService {
         total_reguler_academic_staff,
         total_temporary_academic_staff,
       ] = await Promise.all([
-        this.prisma.employees.count({
-          where: {
-            NOT: {
-              employee_status_id: 4,
-            },
-          },
-        }),
-        this.prisma.employeeHasCategory.count({
-          where: {
-            employee_category_id: 1,
-          },
-        }),
-        this.prisma.employeeHasCategory.count({
-          where: {
-            employee_category_id: 2,
-          },
-        }),
-        this.prisma.employees.count({
-          where: {
-            employee_type_id: 1,
-          },
-        }),
-        this.prisma.employees.count({
-          where: {
-            employee_type_id: 2,
-          },
-        }),
-        this.prisma.lecturers.count({
-          where: {
-            lecturer_type_id: 1,
-          },
-        }),
-        this.prisma.lecturers.count({
-          where: {
-            lecturer_type_id: 2,
-          },
-        }),
-        this.prisma.lecturers.count({
-          where: {
-            lecturer_type_id: 3,
-          },
-        }),
-        this.prisma.academicStaff.count({
-          where: {
-            academic_staff_type_id: 1,
-          },
-        }),
-        this.prisma.academicStaff.count({
-          where: {
-            academic_staff_type_id: 2,
-          },
-        }),
+        this.drizzle
+          .select({
+            id: schema.employees.id,
+          })
+          .from(schema.employees)
+          .leftJoin(
+            schema.employeeStatus,
+            eq(schema.employeeStatus.id, schema.employees.employeeStatusId),
+          )
+          .where(notIlike(schema.employeeStatus.name, "tidak aktif"))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.employees.id,
+          })
+          .from(schema.employees)
+          .leftJoin(
+            schema.employeeOnEmployeeCategories,
+            eq(schema.employees.id, schema.employeeOnEmployeeCategories.employeeId),
+          )
+          .leftJoin(
+            schema.employeeCategories,
+            eq(
+              schema.employeeCategories.id,
+              schema.employeeOnEmployeeCategories.employeeCategoriesId,
+            ),
+          )
+          .where(ilike(schema.employeeCategories.name, "dosen"))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.employees.id,
+          })
+          .from(schema.employees)
+          .leftJoin(
+            schema.employeeOnEmployeeCategories,
+            eq(schema.employees.id, schema.employeeOnEmployeeCategories.employeeId),
+          )
+          .leftJoin(
+            schema.employeeCategories,
+            eq(
+              schema.employeeCategories.id,
+              schema.employeeOnEmployeeCategories.employeeCategoriesId,
+            ),
+          )
+          .where(ilike(schema.employeeCategories.name, "tekndik"))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.employees.id,
+          })
+          .from(schema.employees)
+          .leftJoin(
+            schema.employeeType,
+            eq(schema.employeeType.id, schema.employees.employeeTypeId),
+          )
+          .where(ilike(schema.employeeType.name, "tetap"))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.employees.id,
+          })
+          .from(schema.employees)
+          .leftJoin(
+            schema.employeeType,
+            eq(schema.employeeType.id, schema.employees.employeeTypeId),
+          )
+          .where(ilike(schema.employeeType.name, "kontrak"))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.lecturers.id,
+          })
+          .from(schema.lecturers)
+          .leftJoin(
+            schema.lecturerType,
+            eq(schema.lecturerType.id, schema.lecturers.lecturerTypeId),
+          )
+          .where(ilike(schema.lecturerType.name, "dpk"))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.lecturers.id,
+          })
+          .from(schema.lecturers)
+          .leftJoin(
+            schema.lecturerType,
+            eq(schema.lecturerType.id, schema.lecturers.lecturerTypeId),
+          )
+          .where(ilike(schema.lecturerType.name, "yayasan"))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.lecturers.id,
+          })
+          .from(schema.lecturers)
+          .leftJoin(
+            schema.lecturerType,
+            eq(schema.lecturerType.id, schema.lecturers.lecturerTypeId),
+          )
+          .where(ilike(schema.lecturerType.name, "lb"))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.academicStaff.id,
+          })
+          .from(schema.academicStaff)
+          .leftJoin(
+            schema.academicStaffType,
+            eq(schema.academicStaffType.id, schema.academicStaff.academicStaffTypeId),
+          )
+          .where(ilike(schema.academicStaffType.name, "tetap"))
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.academicStaff.id,
+          })
+          .from(schema.academicStaff)
+          .leftJoin(
+            schema.academicStaffType,
+            eq(schema.academicStaffType.id, schema.academicStaff.academicStaffTypeId),
+          )
+          .where(ilike(schema.academicStaffType.name, "kontrak"))
+          .then((res) => res.length),
       ]);
       return {
         total_employees: total_employees,

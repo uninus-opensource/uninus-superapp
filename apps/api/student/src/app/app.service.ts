@@ -1,5 +1,4 @@
 import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "@uninus/api/services";
 import {
   IGetStudentRequest,
   IGetStudentResponse,
@@ -18,14 +17,11 @@ import { RpcException } from "@nestjs/microservices";
 import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
 import * as schema from "@uninus/api/models";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { and, eq, ilike } from "drizzle-orm";
+import { and, asc, eq, ilike } from "drizzle-orm";
 
 @Injectable()
 export class AppService {
-  constructor(
-    private prisma: PrismaService,
-    @Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>,
-  ) {}
+  constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
 
   async getDataStudent(payload: IGetStudentRequest): Promise<IGetStudentResponse> {
     try {
@@ -36,37 +32,41 @@ export class AppService {
           fullname: schema.users.fullname,
           students: {
             ...schema.students,
-            documents: {
-              ...schema.documents,
-            },
-            paymentHistory: {
-              ...schema.paymentHistory,
-              paymentObligation: {
-                ...schema.paymentObligations,
-              },
-              paymentType: {
-                ...schema.paymentType,
-              },
-            },
             admission: {
               ...schema.admission,
-              studentGrade: schema.studentGrade,
             },
           },
         })
         .from(schema.users)
         .leftJoin(schema.students, eq(schema.users.id, schema.students.userId))
-        .leftJoin(schema.documents, eq(schema.documents.studentId, schema.students.id))
-        .leftJoin(schema.paymentHistory, eq(schema.paymentHistory.studentId, schema.students.id))
-        .leftJoin(
-          schema.paymentType,
-          eq(schema.paymentHistory.paymentTypeId, schema.paymentType.id),
-        )
-        .leftJoin(schema.studentGrade, eq(schema.studentGrade.admissionId, schema.admission.id))
         .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
         .where(eq(schema.users.id, payload.id))
         .limit(1)[0];
 
+      const [paymentHistory, documents, studentGrade] = await Promise.all([
+        this.drizzle
+          .select()
+          .from(schema.paymentHistory)
+          .leftJoin(
+            schema.paymentObligations,
+            eq(schema.paymentObligations.id, schema.paymentHistory.paymentObligationId),
+          )
+          .leftJoin(
+            schema.paymentType,
+            eq(schema.paymentType.id, schema.paymentHistory.paymentTypeId),
+          )
+          .where(eq(schema.paymentHistory.studentId, student?.students?.id))
+          .orderBy(asc(schema.paymentHistory.createdAt)),
+
+        this.drizzle
+          .select()
+          .from(schema.documents)
+          .where(eq(schema.documents.studentId, student?.students?.id)),
+        this.drizzle
+          .select()
+          .from(schema.studentGrade)
+          .where(eq(schema.studentGrade.admissionId, student?.students?.admissionId)),
+      ]);
       if (!student) {
         throw new BadRequestException("User tidak ditemukan");
       }
@@ -74,7 +74,7 @@ export class AppService {
         avatar,
         email,
         fullname,
-        students: { paymentHistory, admission, ...studentData },
+        students: { admission, ...studentData },
       } = student;
 
       return JSON.parse(
@@ -84,17 +84,9 @@ export class AppService {
             email,
             fullname,
             ...admission,
-            payment: paymentHistory?.map((el) => ({
-              id: el?.id,
-              order_id: el?.order_id,
-              payment_method: el?.payment_method,
-              payment_code: el?.payment_code,
-              payment_bank: el?.payment_bank,
-              isPaid: el?.isPaid,
-              amount: el?.payment_obligation?.amount,
-              name: el?.payment_obligation?.name,
-              payment_type: el?.payment_type?.name,
-            })),
+            payment: paymentHistory,
+            documents,
+            studentGrade,
             ...studentData,
           },
           (key, value) => {
@@ -109,114 +101,90 @@ export class AppService {
 
   async getDataStudents({
     search,
-    orderBy,
+    // orderBy,
     page = 1,
     perPage = 10,
   }: TStudentsPaginationArgs): Promise<TStudentsPaginatonResponse> {
     try {
-      const [data, total] = await Promise.all([
-        this.prisma.pMB.findMany({
-          ...(perPage && { take: Number(perPage ?? 10) }),
-          ...(page && { skip: Number(page > 0 ? perPage * (page - 1) : 0) }),
-          where: {
-            OR: [
-              {
-                registration_number: {
-                  contains: search || "",
-                  mode: "insensitive",
-                },
-              },
-              {
-                student: {
-                  user: {
-                    fullname: {
-                      contains: search || "",
-                      mode: "insensitive",
-                    },
-                  },
-                },
-              },
-            ],
-          },
-          select: {
-            id: true,
-            registration_number: true,
-            average_grade: true,
-            average_utbk: true,
-            createdAt: true,
-            selection_path: {
-              select: {
-                id: true,
-                name: true,
-              },
+      const [data, count] = await Promise.all([
+        this.drizzle
+          .select({
+            id: schema.users.id,
+            fullname: schema.users.fullname,
+            registrationNumber: schema.admission.registrationNumber,
+            gradeAverage: schema.admission.gradeAverage,
+            utbkAverage: schema.admission.utbkAverage,
+            selectionPath: {
+              id: schema.selectionPath.id,
+              name: schema.selectionPath.name,
             },
-            first_department: {
-              select: {
-                id: true,
-                name: true,
-              },
+            firstDepartment: {
+              id: schema.department.id,
+              name: schema.department.name,
             },
-            second_department: {
-              select: {
-                id: true,
-                name: true,
-              },
+            secondDepartment: {
+              id: schema.department.id,
+              name: schema.department.name,
             },
-            registration_status: {
-              select: {
-                id: true,
-                name: true,
-              },
+            registrationPath: {
+              id: schema.registrationPath.id,
+              name: schema.registrationPath.name,
             },
-            registration_path: {
-              select: {
-                id: true,
-                name: true,
-              },
+            registrationStatus: {
+              id: schema.registrationStatus.id,
+              name: schema.registrationStatus.name,
             },
-            student: {
-              select: {
-                user: {
-                  select: {
-                    id: true,
-                    fullname: true,
-                  },
-                },
-              },
-            },
-          },
-          orderBy,
-        }),
-        this.prisma.pMB.count({
-          where: {
-            OR: [
-              {
-                registration_number: {
-                  contains: search || "",
-                  mode: "insensitive",
-                },
-              },
-              {
-                student: {
-                  user: {
-                    fullname: {
-                      contains: search || "",
-                      mode: "insensitive",
-                    },
-                  },
-                },
-              },
-            ],
-          },
-        }),
+            createdAt: schema.students.createdAt,
+          })
+          .from(schema.students)
+          .leftJoin(schema.users, eq(schema.users.id, schema.students.userId))
+          .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+          .leftJoin(
+            schema.selectionPath,
+            eq(schema.selectionPath.id, schema.admission.selectionPathId),
+          )
+          .leftJoin(schema.department, eq(schema.department.id, schema.admission.firstDepartmentId))
+          .leftJoin(
+            schema.department,
+            eq(schema.department.id, schema.admission.secondDepartmentId),
+          )
+          .leftJoin(
+            schema.registrationPath,
+            eq(schema.registrationPath.id, schema.admission.registrationPathId),
+          )
+          .leftJoin(
+            schema.registrationStatus,
+            eq(schema.registrationStatus.id, schema.admission.registrationStatusId),
+          )
+          .where(
+            and(
+              ilike(schema.admission.registrationNumber, `%${search || ""}%`),
+              ilike(schema.users.fullname, `%${search || ""}%`),
+            ),
+          )
+          .limit(perPage)
+          .offset((page - 1) * perPage)
+          .orderBy(schema.students.createdAt, asc(schema.students.createdAt)),
+
+        this.drizzle
+          .select({ id: schema.students.id })
+          .from(schema.students)
+          .leftJoin(schema.users, eq(schema.users.id, schema.students.userId))
+          .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+          .where(
+            and(
+              ilike(schema.admission.registrationNumber, `%${search || ""}%`),
+              ilike(schema.users.fullname, `%${search || ""}%`),
+            ),
+          )
+          .then((res) => res.length),
       ]);
 
-      const lastPage = Math.ceil(total / perPage);
-
+      const lastPage = Math.ceil(count / perPage);
       return {
         data,
         meta: {
-          total,
+          total: count,
           lastPage,
           currentPage: Number(page),
           perPage: Number(perPage),

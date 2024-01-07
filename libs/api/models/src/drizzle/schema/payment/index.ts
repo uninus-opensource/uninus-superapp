@@ -11,6 +11,7 @@ export const paymentHistory = pgTable("app_payment_history", {
   paymentTypeId: uuid("payment_type_id").references(() => paymentType.id),
   paymentObligationId: uuid("payment_obligation_id").references(() => paymentObligations.id),
   studentId: uuid("student_id").references(() => students.id),
+  isExpired: boolean("is_paid").default(false),
   createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
 });
 

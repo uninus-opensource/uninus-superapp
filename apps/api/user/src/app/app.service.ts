@@ -6,7 +6,7 @@ import {
   Inject,
 } from "@nestjs/common";
 import {
-  EAppsOrigin,
+  // EAppsOrigin,
   ISelectRequest,
   IUserRequest,
   IUserResponse,
@@ -17,150 +17,79 @@ import {
   TIdUser,
   TRolesResponse,
   TUsersPaginationArgs,
-  TUsersPaginatonResponse,
+  // TUsersPaginatonResponse,
 } from "@uninus/entities";
-import { PrismaService } from "@uninus/api/services";
 import { encryptPassword, errorMappings, generateOtp } from "@uninus/api/utilities";
 import { RpcException } from "@nestjs/microservices";
 import * as schema from "@uninus/api/models";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { desc, eq, ilike, or } from "drizzle-orm";
+import { desc, eq, ilike, not, or, and, asc } from "drizzle-orm";
 @Injectable()
 export class AppService {
-  constructor(
-    private prisma: PrismaService,
-    @Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>,
-  ) {}
+  constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
   async getDataUsers({
-    filterBy,
+    // filterBy,
     search,
-    orderBy,
-    app_origin,
+    // orderBy,
+    // app_origin,
     page = 1,
     perPage = 10,
-  }: TUsersPaginationArgs): Promise<TUsersPaginatonResponse> {
+  }: TUsersPaginationArgs) {
     try {
-      const [data, total] = await Promise.all([
-        this.prisma.users.findMany({
-          ...(perPage && { take: Number(perPage ?? 10) }),
-          ...(page && { skip: Number(page > 0 ? perPage * (page - 1) : 0) }),
-          where: {
-            OR: [
-              {
-                fullname: {
-                  contains: search || "",
-                  mode: "insensitive",
-                },
-              },
-
-              {
-                email: {
-                  contains: search || "",
-                  mode: "insensitive",
-                },
-              },
-            ],
-            ...(app_origin == EAppsOrigin.PMBADMIN && {
-              NOT: [
-                {
-                  role: {
-                    name: {
-                      contains: "Super",
-                      mode: "insensitive",
-                    },
-                  },
-                },
-                {
-                  role: {
-                    name: "Mahasiswa",
-                  },
-                },
-              ],
-            }),
-          },
-          select: {
-            id: true,
-            fullname: true,
-            email: true,
-            createdAt: true,
-            avatar: true,
-            isVerified: true,
-            students: {
-              select: {
-                phone_number: true,
-                pmb: {
-                  select: {
-                    id: true,
-                    registration_status: true,
-                  },
-                },
-              },
-            },
+      const [data, count] = await Promise.all([
+        this.drizzle
+          .select({
+            id: schema.users.id,
+            fullname: schema.users.fullname,
+            email: schema.users.email,
+            avatar: schema.users.avatar,
+            isVerified: schema.users.isVerified,
+            createdAt: schema.users.createdAt,
+            phoneNumber: schema.students.phoneNumber,
+            registrationStatus: schema.registrationStatus.name,
             role: {
-              select: {
-                id: true,
-                name: true,
-              },
+              id: schema.roles.id,
+              name: schema.roles.name,
             },
-          },
-          orderBy: {
-            [filterBy]: orderBy,
-          },
-        }),
-        this.prisma.users.count({
-          where: {
-            OR: [
-              {
-                fullname: {
-                  contains: search || "",
-                  mode: "insensitive",
-                },
-              },
+          })
+          .from(schema.users)
+          .leftJoin(schema.roles, eq(schema.roles.id, schema.users.roleId))
+          .leftJoin(schema.students, eq(schema.students.userId, schema.users.id))
+          .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+          .leftJoin(
+            schema.registrationStatus,
+            eq(schema.registrationStatus.id, schema.admission.registrationStatusId),
+          )
+          .where(
+            and(
+              ilike(schema.users.fullname, `%${search || ""}%`),
+              ilike(schema.users.email, `%${search || ""}%`),
+              not(or(ilike(schema.roles.name, "%admin%"), eq(schema.roles.name, "Mahasiswa"))),
+            ),
+          )
+          .limit(perPage)
+          .offset((page - 1) * perPage)
+          .orderBy(schema.users.createdAt, asc(schema.users.createdAt)),
 
-              {
-                email: {
-                  contains: search || "",
-                  mode: "insensitive",
-                },
-              },
-            ],
-            ...(app_origin == EAppsOrigin.PMBADMIN && {
-              NOT: [
-                {
-                  role: {
-                    name: {
-                      contains: "Super",
-                      mode: "insensitive",
-                    },
-                  },
-                },
-                {
-                  role: {
-                    name: "Mahasiswa",
-                  },
-                },
-              ],
-            }),
-          },
-        }),
+        this.drizzle
+          .select({ id: schema.users.id })
+          .from(schema.users)
+          .leftJoin(schema.roles, eq(schema.roles.id, schema.users.roleId))
+          .where(
+            and(
+              ilike(schema.users.fullname, `%${search || ""}%`),
+              ilike(schema.users.email, `%${search || ""}%`),
+              not(or(ilike(schema.roles.name, "%admin%"), eq(schema.roles.name, "Mahasiswa"))),
+            ),
+          )
+          .then((res) => res.length),
       ]);
 
-      const lastPage = Math.ceil(total / perPage);
-      const mapData = data?.map((el) => ({
-        id: el.id,
-        fullname: el.fullname,
-        email: el.email,
-        createdAt: el.createdAt,
-        avatar: el.avatar,
-        isVerified: el.isVerified,
-        role: el.role,
-        phone_number: el.students?.phone_number,
-        registration_status: el.students?.pmb?.registration_status,
-      }));
+      const lastPage = Math.ceil(count / perPage);
       return {
-        data: mapData,
+        data,
         meta: {
-          total,
+          total: count,
           lastPage,
           currentPage: Number(page),
           perPage: Number(perPage),
