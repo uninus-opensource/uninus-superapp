@@ -7,13 +7,13 @@ import { JWT } from "next-auth/jwt";
 const refreshAccessToken = async (token: JWT) => {
   try {
     const refreshedToken = await refreshRequest({
-      refresh_token: token?.refresh_token,
+      refreshToken: token?.refreshToken as string,
     });
 
     return {
       ...token,
-      access_token: refreshedToken?.access_token,
-      refresh_token: token?.refresh_token,
+      accessToken: refreshedToken?.accessToken,
+      refreshToken: token?.refreshToken,
       exp: refreshedToken?.exp.toString(),
     };
   } catch (error) {
@@ -33,8 +33,8 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials): Promise<TLoginResponse> {
         try {
           const data = await loginRequest({
-            email: credentials?.email,
-            password: credentials?.password,
+            email: credentials?.email as string,
+            password: credentials?.password as string,
           });
           return data;
         } catch (err) {
@@ -68,8 +68,8 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }) {
       const currentUser = user as unknown as TLoginResponse;
       if (account?.provider === "login" && currentUser) {
-        token.access_token = currentUser?.token?.access_token;
-        token.refresh_token = currentUser?.token?.refresh_token;
+        token.accessToken = currentUser?.token?.accessToken;
+        token.refreshToken = currentUser?.token?.refreshToken;
         token.exp = currentUser?.token?.exp.toString();
         return { ...token, ...currentUser };
       }
@@ -86,8 +86,8 @@ export const authOptions: NextAuthOptions = {
         expires: token?.exp as string,
         user: {
           ...(token.user as TUser),
-          access_token: token.access_token,
-          refresh_token: token.refresh_token,
+          accessToken: token.accessToken,
+          refreshToken: token.refreshToken,
         },
       };
       return session;

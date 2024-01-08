@@ -17,7 +17,6 @@ import {
   TLogoutRequest,
   TLogoutResponse,
   TLoginRequest,
-  THeaderRequest,
 } from "@uninus/entities";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
@@ -52,10 +51,10 @@ export class AuthService {
     };
   }
 
-  async login({ app_origin, ...payload }: TLoginRequest & THeaderRequest): Promise<TLoginResponse> {
+  async login(payload: TLoginRequest): Promise<TLoginResponse> {
     const response = await firstValueFrom(
       this.client
-        .send("login", { app_origin, ...payload })
+        .send("login", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

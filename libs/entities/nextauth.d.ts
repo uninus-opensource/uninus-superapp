@@ -3,8 +3,8 @@ import { DefaultUser } from "next-auth";
 
 interface IUser extends DefaultUser {
   token?: {
-    access_token: string;
-    refresh_token: string;
+    accessToken: string;
+    refreshToken: string;
   };
 }
 

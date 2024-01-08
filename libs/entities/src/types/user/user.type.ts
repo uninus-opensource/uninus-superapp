@@ -17,8 +17,8 @@ export type TProfileResponse = Pick<
 };
 
 export type TUser = TProfileResponse & {
-  access_token?: string;
-  refresh_token?: string;
+  accessToken?: string;
+  refreshToken?: string;
   exp?: string;
 };
 
@@ -48,7 +48,7 @@ export type TUpdateUserResponse = TCreateUserRequest;
 
 export interface IUserResponse extends IUser {
   id: string;
-  refresh_token: string | null;
+  refreshToken: string | null;
   createdAt: Date;
   avatar: string | null;
   isVerified: boolean | null;

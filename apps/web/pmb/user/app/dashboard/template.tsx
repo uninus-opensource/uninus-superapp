@@ -28,7 +28,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const [biodataStatus, setBiodataStatus] = useState<boolean | null | undefined>(null);
 
   const handleLogout = async () => {
-    mutate(session?.user?.refresh_token);
+    mutate(session?.user?.refreshToken);
   };
 
   const { data: student, isLoading, refetch } = useGetBiodata();

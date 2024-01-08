@@ -1,6 +1,8 @@
 import { z } from "zod";
+import { createInsertSchema } from "drizzle-zod";
+import * as schema from "@uninus/api/models";
 
-export const VSResendOtp = z.object({
+export const VSResendOtp = createInsertSchema(schema.users, {
   email: z
     .string()
     .email({
@@ -9,19 +11,14 @@ export const VSResendOtp = z.object({
     .nonempty({
       message: "Email tidak boleh kosong",
     }),
+}).pick({
+  email: true,
 });
 
 export type TVSResendOtp = z.infer<typeof VSResendOtp>;
 
 export const VSVerifyOtp = z.object({
-  email: z
-    .string()
-    .email({
-      message: "Email tidak valid",
-    })
-    .nonempty({
-      message: "Email tidak boleh kosong",
-    }),
+  ...VSResendOtp.shape,
   otp: z
     .string()
     .max(6, {

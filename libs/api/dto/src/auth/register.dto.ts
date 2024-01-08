@@ -27,5 +27,5 @@ export class RegisterDto {
     minLength: 11,
     type: "string",
   })
-  public phone_number!: string;
+  public phoneNumber!: string;
 }

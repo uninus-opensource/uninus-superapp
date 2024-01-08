@@ -1,12 +1,12 @@
 export type TGenerateTokenResponse = {
-  access_token: string;
-  refresh_token: string;
+  accessToken: string;
+  refreshToken: string;
 };
 
 export type TToken = {
-  access_token: string;
+  accessToken: string;
   exp: number;
-  refresh_token: string;
+  refreshToken: string;
 };
 
 export type TReqToken = {
@@ -29,7 +29,7 @@ export type TGenerateToken = {
   };
 };
 export type TResRefreshToken = {
-  access_token: string;
+  accessToken: string;
   exp: number;
 };
 

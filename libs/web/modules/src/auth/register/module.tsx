@@ -24,7 +24,7 @@ export const RegisterModule: FC = (): ReactElement => {
     defaultValues: {
       email: "",
       password: "",
-      phone_number: "",
+      phoneNumber: "",
       fullname: "",
     },
   });
@@ -38,7 +38,7 @@ export const RegisterModule: FC = (): ReactElement => {
         {
           email: data?.email,
           password: data?.password,
-          phone_number: data?.phone_number,
+          phoneNumber: data?.phoneNumber,
           fullname: data?.fullname,
         },
         {
@@ -124,14 +124,14 @@ export const RegisterModule: FC = (): ReactElement => {
 
               <div className="w-full">
                 <TextField
-                  name="phone_number"
+                  name="phoneNumber"
                   type="number"
                   variant="telp"
                   placeholder="Masukan Nomor Handphone"
                   control={control}
                   required
-                  status={errors?.phone_number ? "error" : undefined}
-                  message={errors?.phone_number?.message}
+                  status={errors?.phoneNumber ? "error" : undefined}
+                  message={errors?.phoneNumber?.message}
                   maxlenght={16}
                   inputMode="tel"
                 />

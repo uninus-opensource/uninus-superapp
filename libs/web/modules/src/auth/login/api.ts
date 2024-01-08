@@ -12,7 +12,7 @@ export const loginRequest = async (payload: TLoginRequest): Promise<TLoginRespon
 };
 
 export const refreshRequest = async (payload: {
-  refresh_token: string;
+  refreshToken: string;
 }): Promise<TResRefreshToken> => {
   const { data } = await api.post("/auth/refresh", payload);
   return data;

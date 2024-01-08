@@ -342,7 +342,7 @@ export class AppService {
         .where(eq(schema.users.id, payload.id))
         .returning({
           id: schema.users.id,
-          refresh_token: schema.users.refreshToken,
+          refreshToken: schema.users.refreshToken,
           createdAt: schema.users.createdAt,
           avatar: schema.users.avatar,
           isVerified: schema.users.isVerified,

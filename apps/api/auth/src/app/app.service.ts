@@ -21,7 +21,6 @@ import {
   TUserEmail,
   TUserEmailResponse,
   TRegisterResponse,
-  THeaderRequest,
 } from "@uninus/entities";
 import {
   comparePassword,
@@ -55,7 +54,7 @@ export class AppService {
             phoneNumber: schema.students.phoneNumber,
           })
           .from(schema.students)
-          .where(eq(schema.students.phoneNumber, `62${payload.phone_number}`))
+          .where(eq(schema.students.phoneNumber, `62${payload.phoneNumber}`))
           .limit(1)
           .then((res) => res.at(0)),
         this.drizzle
@@ -121,7 +120,7 @@ export class AppService {
         this.drizzle
           .insert(schema.students)
           .values({
-            phoneNumber: `62${payload.phone_number}`,
+            phoneNumber: `62${payload.phoneNumber}`,
             userId: insertUser.id,
           })
           .returning({ id: schema.students.id })
@@ -226,7 +225,7 @@ export class AppService {
     }
   }
 
-  async login(payload: TLoginRequest & THeaderRequest): Promise<TLoginResponse> {
+  async login(payload: TLoginRequest): Promise<TLoginResponse> {
     try {
       const [user] = await this.drizzle
         .selectDistinct({
@@ -257,7 +256,7 @@ export class AppService {
         throw new UnauthorizedException("Email belum terverifikasi");
       }
 
-      const { access_token, refresh_token } = await generateToken({
+      const { accessToken, refreshToken } = await generateToken({
         sub: data.id,
         email: data.email,
         role: data?.role,
@@ -265,7 +264,7 @@ export class AppService {
 
       await this.drizzle
         .update(schema.users)
-        .set({ refreshToken: refresh_token })
+        .set({ refreshToken: refreshToken })
         .where(eq(schema.users.id, data.id));
 
       const expiresIn = 15 * 60 * 1000;
@@ -275,9 +274,9 @@ export class AppService {
       return {
         message: "Berhasil Login",
         token: {
-          access_token,
+          accessToken,
           exp: expirationTime,
-          refresh_token,
+          refreshToken,
         },
         id: data.id,
         user: {
@@ -299,7 +298,9 @@ export class AppService {
       const result = await this.drizzle
         .update(schema.users)
         .set({ refreshToken: null })
-        .where(eq(schema.users.refreshToken, payload.refresh_token));
+        .where(eq(schema.users.refreshToken, payload.refreshToken))
+        .returning({ id: schema.users.id })
+        .then((res) => res.at(0));
       if (!result) {
         throw new UnauthorizedException("Gagal Logout");
       }
@@ -315,13 +316,13 @@ export class AppService {
   async refreshToken({ user }: TReqToken): Promise<TResRefreshToken> {
     try {
       const expiresIn = 15 * 60 * 1000;
-      const access_token = await generateAccessToken(user);
+      const accessToken = await generateAccessToken(user);
 
       const now = Date.now();
       const expirationTime = now + expiresIn;
 
       return {
-        access_token,
+        accessToken,
         exp: expirationTime,
       };
     } catch (error) {
@@ -341,13 +342,14 @@ export class AppService {
           expiredAt,
           userId: user.id,
         })
-        .returning({ token: schema.otp.token });
+        .returning({ token: schema.otp.token })
+        .then((res) => res.at(0));
       if (!createOtp) {
         throw new BadRequestException("Gagal saat generate OTP");
       }
       return {
         fullname: user.fullname,
-        otp: createOtp[0].token,
+        otp: createOtp.token,
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));

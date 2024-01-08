@@ -23,7 +23,8 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { getSiakadToogle, setSiakadToogle } = useSidebarSiakadToogle();
 
   const handleLogout = async () => {
-    mutate(session?.user?.refresh_token);
+    mutate(session?.user?.refreshToken);
+
   };
 
   const sideList = [
