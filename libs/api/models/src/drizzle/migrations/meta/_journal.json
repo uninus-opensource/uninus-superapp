@@ -85,6 +85,27 @@
       "when": 1704703006380,
       "tag": "0011_brave_wither",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1704710082342,
+      "tag": "0012_fearless_golden_guardian",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "5",
+      "when": 1704710863012,
+      "tag": "0013_elite_phantom_reporter",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "5",
+      "when": 1704711265956,
+      "tag": "0014_mean_star_brand",
+      "breakpoints": true
     }
   ]
 }

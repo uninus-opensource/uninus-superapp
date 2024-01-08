@@ -1,4 +1,4 @@
-import { pgTable, uuid, date, text, primaryKey } from "drizzle-orm/pg-core";
+import { pgTable, uuid, timestamp, text, primaryKey } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import {
   users,
@@ -41,7 +41,7 @@ export const employees = pgTable("app_employees", {
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id),
-  createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const employeesRelations = relations(employees, ({ one, many }) => ({

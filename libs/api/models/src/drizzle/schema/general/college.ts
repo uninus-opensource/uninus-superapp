@@ -1,4 +1,4 @@
-import { pgTable, text, uuid, integer, date } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, integer, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { students, admission, lecturerOnFaculty, lecturerOnDepartment } from "..";
 
@@ -65,7 +65,7 @@ export const courses = pgTable("app_courses", {
   curriculumId: uuid("curriculum_id").references(() => curriculum.id),
   courseCategoryId: uuid("course_category_id").references(() => courseCategory.id),
   courseTypeId: uuid("course_type_id").references(() => courseType.id),
-  createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const coursesRelations = relations(courses, ({ one }) => ({
@@ -111,8 +111,8 @@ export const curriculum = pgTable("app_curriculum", {
   degreeProgramId: uuid("degree_program_id").references(() => degreeProgram.id),
   facultyId: uuid("faculty_id").references(() => faculty.id),
   departmentId: uuid("department_id").references(() => department.id),
-  createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
-  updatedAt: date("updated_at", { mode: "date" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }),
 });
 
 export const curriculumRelations = relations(curriculum, ({ many, one }) => ({

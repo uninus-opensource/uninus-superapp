@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, uuid, boolean, primaryKey, date } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, boolean, primaryKey, timestamp } from "drizzle-orm/pg-core";
 import { civilServiceLevel, department, employees, faculty, students } from "..";
 
 export const lecturers = pgTable("app_lecturers", {
@@ -11,7 +11,7 @@ export const lecturers = pgTable("app_lecturers", {
   employeeId: uuid("employee_id")
     .notNull()
     .references(() => employees.id),
-  createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const lecturersRelations = relations(lecturers, ({ many, one }) => ({

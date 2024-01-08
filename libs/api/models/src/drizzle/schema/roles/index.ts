@@ -1,4 +1,4 @@
-import { date, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { timestamp, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { users } from "..";
 import { relations } from "drizzle-orm";
 
@@ -7,8 +7,8 @@ export const roles = pgTable("app_roles", {
   name: text("name").notNull(),
   description: text("description"),
   permissions: text("permissions").array(),
-  createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
-  updatedAt: date("updated_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const rolesRelations = relations(roles, ({ many }) => ({

@@ -1,4 +1,4 @@
-import { date, pgTable, text, uuid, boolean } from "drizzle-orm/pg-core";
+import { timestamp, pgTable, text, uuid, boolean } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { students, employees } from "..";
 export const documents = pgTable("app_documents", {
@@ -8,7 +8,7 @@ export const documents = pgTable("app_documents", {
   isVerified: boolean("is_verified").default(false).notNull(),
   studentId: uuid("student_id").references(() => students.id),
   employeeId: uuid("student_id").references(() => students.id),
-  createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const documentsRelations = relations(documents, ({ one }) => ({

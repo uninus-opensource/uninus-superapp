@@ -34,47 +34,43 @@ import {
 import { RpcException } from "@nestjs/microservices";
 import * as schema from "@uninus/api/models";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { desc, eq, ilike, lte } from "drizzle-orm";
+import { and, desc, eq, ilike, lte } from "drizzle-orm";
 @Injectable()
 export class AppService {
   constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
 
   async register(payload: TRegisterRequest): Promise<TRegisterResponse> {
     try {
-      const [isEmailExist, isPhoneNumberExist, [lastRegistrationNumber], [roles]] =
-        await Promise.all([
-          this.drizzle
-            .select({
-              email: schema.users.email,
-            })
-            .from(schema.users)
-            .where(eq(schema.users.email, payload.email)),
-          this.drizzle
-            .select({
-              phoneNumber: schema.students.phoneNumber,
-            })
-            .from(schema.students)
-            .where(eq(schema.students.phoneNumber, `62${payload.phone_number}`)),
-          this.drizzle
-            .select({
-              registrationNumber: schema.admission.registrationNumber,
-            })
-            .from(schema.admission)
-            .orderBy(desc(schema.admission.registrationNumber)),
-          this.drizzle
-            .select({
-              id: schema.roles.id,
-            })
-            .from(schema.roles)
-            .where(ilike(schema.roles.name, "%Mahasiswa Baru%"))
-            .limit(1),
-        ]);
-
-      if (isEmailExist.length || isPhoneNumberExist.length) {
+      const [isEmailExist, isPhoneNumberExist, lastRegistrationNumber] = await Promise.all([
+        this.drizzle
+          .select({
+            email: schema.users.email,
+          })
+          .from(schema.users)
+          .where(eq(schema.users.email, payload.email))
+          .limit(1)
+          .then((res) => res.at(0)),
+        this.drizzle
+          .select({
+            phoneNumber: schema.students.phoneNumber,
+          })
+          .from(schema.students)
+          .where(eq(schema.students.phoneNumber, `62${payload.phone_number}`))
+          .limit(1)
+          .then((res) => res.at(0)),
+        this.drizzle
+          .select({
+            registrationNumber: schema.admission.registrationNumber,
+          })
+          .from(schema.admission)
+          .orderBy(desc(schema.admission.registrationNumber))
+          .limit(1)
+          .then((res) => res.at(0)),
+      ]);
+      if (isEmailExist || isPhoneNumberExist) {
         throw new ConflictException("Email atau nomor telepon sudah terdaftar");
       }
-
-      const [password, { token, expiredAt }, registrationNumber] = await Promise.all([
+      const [password, { token, expiredAt }, registrationNumber, roles] = await Promise.all([
         encryptPassword(payload.password),
         generateOtp(),
         (() => {
@@ -89,20 +85,29 @@ export class AppService {
             .toString()
             .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}${formattedCounter}`;
         })(),
+        this.drizzle
+          .select({
+            id: schema.roles.id,
+          })
+          .from(schema.roles)
+          .where(ilike(schema.roles.name, "%Mahasiswa Baru%"))
+          .limit(1)
+          .then((res) => res.at(0)),
       ]);
 
-      const [insertUser] = await this.drizzle
+      const insertUser = await this.drizzle
         .insert(schema.users)
         .values({
           fullname: payload.fullname,
           email: payload.email,
           password,
           avatar: "https://uninus-demo.s3.ap-southeast-1.amazonaws.com/avatar-default.png",
-          roleId: roles.id,
+          roleId: roles?.id,
         })
-        .returning({ id: schema.users.id, fullname: schema.users.fullname });
+        .returning({ id: schema.users.id, fullname: schema.users.fullname })
+        .then((res) => res.at(0));
 
-      const [[insertOtp], [insertStudent], [getRegistrationStatus]] = await Promise.all([
+      const [insertOtp, insertStudent, getRegistrationStatus] = await Promise.all([
         this.drizzle
           .insert(schema.otp)
           .values({
@@ -110,19 +115,22 @@ export class AppService {
             expiredAt,
             userId: insertUser.id,
           })
-          .returning({ token: schema.otp.token, id: schema.otp.id }),
+          .returning({ token: schema.otp.token, id: schema.otp.id })
+          .then((res) => res.at(0)),
         this.drizzle
           .insert(schema.students)
           .values({
             phoneNumber: `62${payload.phone_number}`,
             userId: insertUser.id,
           })
-          .returning({ id: schema.students.id }),
+          .returning({ id: schema.students.id })
+          .then((res) => res.at(0)),
         this.drizzle
           .select({ id: schema.registrationStatus.id })
           .from(schema.registrationStatus)
           .where(ilike(schema.registrationStatus.name, "%Belum Mendaftar%"))
-          .limit(1),
+          .limit(1)
+          .then((res) => res.at(0)),
       ]);
 
       const [insertAdmission] = await this.drizzle
@@ -288,7 +296,8 @@ export class AppService {
   async logout(payload: TLogoutRequest): Promise<TLogoutResponse> {
     try {
       const result = await this.drizzle
-        .delete(schema.users)
+        .update(schema.users)
+        .set({ refreshToken: null })
         .where(eq(schema.users.refreshToken, payload.refresh_token));
       if (!result) {
         throw new UnauthorizedException("Gagal Logout");
@@ -356,15 +365,17 @@ export class AppService {
     try {
       await this.clearOtp();
       const user = await this.finduserByEmail({ email: payload?.email });
+      console.log(user);
       const otp = await this.drizzle
         .select({
           token: schema.otp.token,
-          expiredAt: schema.otp.expiredAt,
         })
         .from(schema.otp)
-        .where(eq(schema.otp.userId, user.id));
+        .where(and(eq(schema.otp.userId, user.id), eq(schema.otp.token, payload.otp)));
 
-      const isVerified = user.email === payload.email && otp[0].token === payload.otp;
+      console.log(otp);
+
+      const isVerified = user && otp.length;
       if (!isVerified) {
         throw new UnauthorizedException("Email atau OTP tidak valid");
       }
@@ -414,11 +425,13 @@ export class AppService {
         fullname: schema.users.fullname,
       })
       .from(schema.users)
-      .where(eq(schema.users.email, payload.email));
+      .where(eq(schema.users.email, payload.email))
+      .limit(1)
+      .then((res) => res.at(0));
     if (!user) {
       throw new NotFoundException("Email tidak ditemukan");
     }
 
-    return { id: user[0].id, email: user[0].email, fullname: user[0].fullname };
+    return { id: user.id, email: user.email, fullname: user.fullname };
   }
 }

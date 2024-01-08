@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { date, pgTable, text, uuid, boolean, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, boolean, integer, timestamp } from "drizzle-orm/pg-core";
 import { students } from "..";
 export const paymentHistory = pgTable("app_payment_history", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -12,7 +12,7 @@ export const paymentHistory = pgTable("app_payment_history", {
   paymentObligationId: uuid("payment_obligation_id").references(() => paymentObligations.id),
   studentId: uuid("student_id").references(() => students.id),
   isExpired: boolean("is_paid").default(false),
-  createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const paymentHistoryRelations = relations(paymentHistory, ({ one }) => ({

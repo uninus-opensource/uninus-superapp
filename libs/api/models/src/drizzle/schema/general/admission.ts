@@ -1,4 +1,4 @@
-import { pgTable, text, uuid, date, integer, doublePrecision } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, timestamp, integer, doublePrecision } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { students, degreeProgram, department } from "..";
 
@@ -77,7 +77,7 @@ export const admission = pgTable("app_admission", {
 
   selectionPathId: uuid("selection_path_id").references(() => selectionPath.id),
 
-  createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const admissionRelations = relations(admission, ({ many, one }) => ({

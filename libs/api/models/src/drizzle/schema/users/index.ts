@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { date, pgTable, text, uuid, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, boolean, timestamp } from "drizzle-orm/pg-core";
 import { roles, notifications, otp, students, employees } from "..";
 
 export const users = pgTable("app_users", {
@@ -14,8 +14,8 @@ export const users = pgTable("app_users", {
   roleId: uuid("role_id")
     .references(() => roles.id)
     .notNull(),
-  createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
-  updatedAt: date("updated_at", { mode: "date" }).defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }),
 });
 
 export const usersRelations = relations(users, ({ one, many }) => ({

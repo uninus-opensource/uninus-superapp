@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { date, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import {
   users,
   paymentHistory,
@@ -93,7 +93,7 @@ export const students = pgTable("app_students", {
     .notNull()
     .references(() => users.id),
 
-  createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const studentsRelations = relations(students, ({ one, many }) => ({
