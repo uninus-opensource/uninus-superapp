@@ -103,6 +103,7 @@ export class AppService {
           password,
           avatar: "https://uninus-demo.s3.ap-southeast-1.amazonaws.com/avatar-default.png",
           roleId: roles?.id,
+          updatedAt: new Date(),
         })
         .returning({ id: schema.users.id, fullname: schema.users.fullname })
         .then((res) => res.at(0));
@@ -365,15 +366,13 @@ export class AppService {
     try {
       await this.clearOtp();
       const user = await this.finduserByEmail({ email: payload?.email });
-      console.log(user);
       const otp = await this.drizzle
         .select({
           token: schema.otp.token,
         })
         .from(schema.otp)
-        .where(and(eq(schema.otp.userId, user.id), eq(schema.otp.token, payload.otp)));
-
-      console.log(otp);
+        .leftJoin(schema.users, eq(schema.otp.userId, schema.users.id))
+        .where(and(eq(schema.otp.token, payload?.otp), eq(schema.users.id, user.id)));
 
       const isVerified = user && otp.length;
       if (!isVerified) {
