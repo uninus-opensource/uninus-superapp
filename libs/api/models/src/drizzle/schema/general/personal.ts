@@ -16,7 +16,7 @@ export const citizenshipRelations = relations(citizenship, ({ many }) => ({
 export const country = pgTable("app_country", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
-  citizenshipId: text("citizenship_id"),
+  citizenshipId: uuid("citizenship_id").references(() => citizenship.id),
 });
 
 export const countryRelations = relations(country, ({ one, many }) => ({
@@ -50,7 +50,7 @@ export const provinceRelations = relations(province, ({ many }) => ({
 export const city = pgTable("app_city", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
-  provinceId: text("province_id"),
+  provinceId: uuid("province_id").references(() => province.id),
 });
 
 export const cityRelations = relations(city, ({ one, many }) => ({
@@ -74,7 +74,7 @@ export const cityRelations = relations(city, ({ one, many }) => ({
 export const subdistrict = pgTable("app_subdistrict", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
-  cityId: text("city_id"),
+  cityId: uuid("city_id").references(() => city.id),
 });
 
 export const subdistrictRelations = relations(subdistrict, ({ one, many }) => ({
@@ -122,7 +122,7 @@ export const gender = pgTable("app_gender", {
 export const genderRelations = relations(gender, ({ many }) => ({
   students: many(students),
   employees: many(employees),
-  academicStaff:many(academicStaff)
+  academicStaff: many(academicStaff),
 }));
 
 export const salary = pgTable("app_salary", {
@@ -216,7 +216,7 @@ export const lastEducations = pgTable("app_last_educations", {
   city: text("city"),
   subdistrict: text("subdistrict"),
   streetAddress: text("street_address"),
-  lastEducationTypeId: text("last_education_type_id"),
+  lastEducationTypeId: uuid("last_education_type_id").references(() => lastEducationType.id),
 });
 
 export const lastEducationRelations = relations(lastEducations, ({ one, many }) => ({
@@ -225,13 +225,13 @@ export const lastEducationRelations = relations(lastEducations, ({ one, many }) 
     references: [lastEducationType.id],
   }),
   students: many(students),
-  employees: many(employeeOnLastEducation),
+  employeeOnLastEducation: many(employeeOnLastEducation),
 }));
 
 export const lastEducationType = pgTable("app_last_education_type", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull().unique(),
-  degreeProgramId: text("degree_program_id"),
+  degreeProgramId: uuid("degree_program_id").references(() => degreeProgram.id),
 });
 
 export const lastEducationTypeRelations = relations(lastEducationType, ({ many, one }) => ({
@@ -247,7 +247,7 @@ export const lastEducationTypeRelations = relations(lastEducationType, ({ many, 
 export const lastEducationMajor = pgTable("app_last_education_major", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull().unique(),
-  lastEducationTypeId: text("last_education_type_id"),
+  lastEducationTypeId: uuid("last_education_type_id").references(() => lastEducationType.id),
 });
 
 export const lastEducationMajorRelations = relations(lastEducationMajor, ({ one, many }) => ({

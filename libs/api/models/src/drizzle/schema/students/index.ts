@@ -35,7 +35,7 @@ export const students = pgTable("app_students", {
   nim: text("nim"),
   guardianLecturerId: uuid("guardian_lecturer_id").references(() => lecturers.id),
   genderId: uuid("gender_id").references(() => gender.id),
-  religionId: text("religion_id"),
+  religionId: uuid("religion_id").references(() => religion.id),
   birthPlace: text("birth_place"),
   birthDate: text("birth_date"),
   phoneNumber: text("phone_number").unique(),

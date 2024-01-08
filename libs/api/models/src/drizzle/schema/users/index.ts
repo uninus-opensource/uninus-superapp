@@ -7,13 +7,15 @@ export const users = pgTable("app_users", {
   email: text("email").notNull(),
   fullname: text("fullname").notNull(),
   password: text("password").notNull(),
-  avatar: text("avatar"),
+  avatar: text("avatar").notNull(),
   refreshToken: text("refresh_token"),
-  isVerified: boolean("is_verified").default(false).notNull(),
-  isNotificationRead: boolean("is_notification_read").default(false).notNull(),
-  roleId: uuid("role_id").references(() => roles.id),
+  isVerified: boolean("is_verified").default(false),
+  isNotificationRead: boolean("is_notification_read").default(false),
+  roleId: uuid("role_id")
+    .references(() => roles.id)
+    .notNull(),
   createdAt: date("created_at", { mode: "date" }).defaultNow().notNull(),
-  updatedAt: date("updated_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: date("updated_at", { mode: "date" }).defaultNow(),
 });
 
 export const usersRelations = relations(users, ({ one, many }) => ({

@@ -39,7 +39,7 @@ export const scholarshipRelations = relations(scholarship, ({ many }) => ({
 export const selectionPath = pgTable("app_selection_path", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
-  degreeProgramId: text("degree_program_id"),
+  degreeProgramId: uuid("degree_program_id").references(() => degreeProgram.id),
 });
 
 export const selectionPathRelations = relations(selectionPath, ({ many, one }) => ({

@@ -99,9 +99,9 @@ export const employeesRelations = relations(employees, ({ one, many }) => ({
   documents: many(documents, {
     relationName: "employees",
   }),
-  categories: many(employeeOnEmployeeCategories),
-  educations: many(employeeOnLastEducation),
-  workUnits: many(employeeOnWorkUnit),
+  employeeOnEmployeeCategories: many(employeeOnEmployeeCategories),
+  employeeOnLastEducation: many(employeeOnLastEducation),
+  employeeOnWorkUnit: many(employeeOnWorkUnit),
 }));
 
 export const employeeStatus = pgTable("app_employee_status", {
@@ -128,7 +128,7 @@ export const employeeCategories = pgTable("app_employee_categories", {
 });
 
 export const employeeCategoriesRelations = relations(employeeCategories, ({ many }) => ({
-  employees: many(employeeOnEmployeeCategories),
+  employeeOnEmployeeCategories: many(employeeOnEmployeeCategories),
 }));
 
 export const employeeOnEmployeeCategories = pgTable(
@@ -192,7 +192,8 @@ export const workUnits = pgTable("app_work_units", {
   name: text("name").notNull(),
 });
 
-export const workUnitsRelations = relations(workUnits, ({ one }) => ({
+export const workUnitsRelations = relations(workUnits, ({ one, many }) => ({
+  employeeOnWorkUnit: many(employeeOnWorkUnit),
   workUnitCategories: one(workUnitCategories, {
     fields: [workUnits.workUnitCategoryId],
     references: [workUnitCategories.id],
