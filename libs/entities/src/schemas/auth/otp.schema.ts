@@ -21,7 +21,7 @@ export const VSVerifyOtp = z.object({
   ...VSResendOtp.shape,
   otp: z
     .string()
-    .max(6, {
+    .min(6, {
       message: "OTP harus 6 Digit ",
     })
     .nonempty({

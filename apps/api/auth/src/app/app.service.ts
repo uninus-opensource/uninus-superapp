@@ -227,7 +227,7 @@ export class AppService {
 
   async login(payload: TLoginRequest): Promise<TLoginResponse> {
     try {
-      const [user] = await this.drizzle
+      const user = await this.drizzle
         .selectDistinct({
           id: schema.users.id,
           email: schema.users.email,
@@ -243,29 +243,30 @@ export class AppService {
         })
         .from(schema.users)
         .leftJoin(schema.roles, eq(schema.users.roleId, schema.roles.id))
-        .where(eq(schema.users.email, payload.email));
-      const { password, ...data } = user;
+        .where(eq(schema.users.email, payload.email))
+        .limit(1)
+        .then((res) => res.at(0));
 
-      const isMatch = user && (await comparePassword(payload.password as string, password));
+      const isMatch = user && (await comparePassword(payload.password as string, user.password));
 
       if (!user || !isMatch) {
         throw new UnauthorizedException("Email atau password tidak valid");
       }
 
-      if (!data.isVerified) {
+      if (!user.isVerified) {
         throw new UnauthorizedException("Email belum terverifikasi");
       }
 
       const { accessToken, refreshToken } = await generateToken({
-        sub: data.id,
-        email: data.email,
-        role: data?.role,
+        sub: user.id,
+        email: user.email,
+        role: user?.role,
       });
 
       await this.drizzle
         .update(schema.users)
         .set({ refreshToken: refreshToken })
-        .where(eq(schema.users.id, data.id));
+        .where(eq(schema.users.id, user.id));
 
       const expiresIn = 15 * 60 * 1000;
       const now = Date.now();
@@ -278,14 +279,14 @@ export class AppService {
           exp: expirationTime,
           refreshToken,
         },
-        id: data.id,
+        id: user.id,
         user: {
-          id: data.id,
-          email: data.email,
-          fullname: data.fullname,
-          avatar: data.avatar,
-          isVerified: data.isVerified,
-          role: data.role.name,
+          id: user.id,
+          email: user.email,
+          fullname: user.fullname,
+          avatar: user.avatar,
+          isVerified: user.isVerified,
+          role: user.role.name,
         },
       };
     } catch (error) {
