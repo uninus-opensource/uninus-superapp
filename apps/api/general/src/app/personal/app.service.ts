@@ -37,7 +37,7 @@ import { and, eq, ilike, or } from "drizzle-orm";
 @Injectable()
 export class PersonalService {
   constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
-  async getCountry({ search, citizenship_id }: ICountryRequest): Promise<TCountryResponse> {
+  async getCountry({ search, citizenshipId }: ICountryRequest): Promise<TCountryResponse> {
     try {
       const country = await this.drizzle
         .select({
@@ -48,14 +48,14 @@ export class PersonalService {
         .where(
           and(
             ilike(schema.country.name, `%${search || ""}%`),
-            ilike(schema.country.citizenshipId, `%${citizenship_id || ""}%`),
+            ilike(schema.country.citizenshipId, `%${citizenshipId || ""}%`),
           ),
         );
       if (!country) {
         throw new NotFoundException("Data tidak ditemukan");
       }
 
-      return { country };
+      return country;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -72,15 +72,13 @@ export class PersonalService {
       if (!province) {
         throw new NotFoundException("Data tidak ditemukan");
       }
-      return {
-        province,
-      };
+      return province;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
 
-  async getCity({ province_id, search }: ICityRequest): Promise<TCityResponse> {
+  async getCity({ provinceId, search }: ICityRequest): Promise<TCityResponse> {
     try {
       const city = await this.drizzle
         .select({
@@ -91,20 +89,18 @@ export class PersonalService {
         .where(
           and(
             ilike(schema.city.name, `%${search || ""}%`),
-            ilike(schema.city.provinceId, `%${province_id || ""}%`),
+            ilike(schema.city.provinceId, `%${provinceId || ""}%`),
           ),
         );
       if (!city) {
         throw new NotFoundException("Data tidak ditemukan");
       }
-      return {
-        city,
-      };
+      return city;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getSubDistrict({ city_id, search }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
+  async getSubDistrict({ cityId, search }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
     try {
       const subdistrict = await this.drizzle
         .select({
@@ -115,15 +111,13 @@ export class PersonalService {
         .where(
           and(
             ilike(schema.subdistrict.name, `%${search || ""}%`),
-            ilike(schema.subdistrict.cityId, `%${city_id || ""}%`),
+            ilike(schema.subdistrict.cityId, `%${cityId || ""}%`),
           ),
         );
       if (!subdistrict) {
         throw new NotFoundException("Data tidak ditemukan");
       }
-      return {
-        subdistrict,
-      };
+      return subdistrict;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -139,7 +133,7 @@ export class PersonalService {
         throw new NotFoundException("Data Agama Tidak Ditemukan!");
       }
 
-      return { religion };
+      return religion;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -155,7 +149,7 @@ export class PersonalService {
         throw new NotFoundException("Data Status Pernikahan Tidak Ditemukan!");
       }
 
-      return { maritalStatus };
+      return maritalStatus;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -176,7 +170,7 @@ export class PersonalService {
         throw new NotFoundException("Data Jenis Kelamin Tidak Ditemukan!");
       }
 
-      return { gender };
+      return gender;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -193,7 +187,7 @@ export class PersonalService {
         throw new NotFoundException("Data Kewarganegaraan Tidak Ditemukan!");
       }
 
-      return { citizenship };
+      return citizenship;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -209,7 +203,7 @@ export class PersonalService {
         throw new NotFoundException("Data Gaji Tidak Ditemukan!");
       }
 
-      return { salary };
+      return salary;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -224,7 +218,7 @@ export class PersonalService {
         throw new NotFoundException("Data Pekerjaan Tidak Ditemukan!");
       }
 
-      return { occupation };
+      return occupation;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -239,7 +233,7 @@ export class PersonalService {
         throw new NotFoundException("Data Disabilitas Tidak Ditemukan!");
       }
 
-      return { disabilities };
+      return disabilities;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -255,7 +249,7 @@ export class PersonalService {
         throw new NotFoundException("Data Status Orang Tua Tidak Ditemukan!");
       }
 
-      return { parent_status: parentStatus };
+      return parentStatus;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -272,7 +266,7 @@ export class PersonalService {
         throw new NotFoundException("Data Pendidikan Orang Tua Tidak Ditemukan!");
       }
 
-      return { parent_education: parentEducation };
+      return parentEducation;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -284,11 +278,11 @@ export class PersonalService {
     try {
       const education = await this.drizzle
         .select()
-        .from(schema.lastEducations)
+        .from(schema.educations)
         .where(
           and(
-            ilike(schema.lastEducations.name, `%${search || ""}%`),
-            ilike(schema.lastEducations.npsn, `%${npsn || ""}%`),
+            ilike(schema.educations.name, `%${search || ""}%`),
+            ilike(schema.educations.npsn, `%${npsn || ""}%`),
           ),
         );
 
@@ -296,52 +290,52 @@ export class PersonalService {
         throw new NotFoundException("Data Pendidikan Tidak Ditemukan!");
       }
 
-      return { education };
+      return education;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getLastEducationType({
     search,
-    degree_program_id,
+    degreeProgramId,
   }: IEducationTypeRequest): Promise<TSchoolTypeResponse> {
     try {
       const educationTypes = await this.drizzle
         .select({
-          id: schema.lastEducationType.id,
-          name: schema.lastEducationType.name,
+          id: schema.educationType.id,
+          name: schema.educationType.name,
         })
-        .from(schema.lastEducationType)
+        .from(schema.educationType)
         .where(
           and(
-            ilike(schema.lastEducationType.name, `%${search || ""}%`),
-            ilike(schema.lastEducationType.degreeProgramId, `%${degree_program_id || ""}%`),
+            ilike(schema.educationType.name, `%${search || ""}%`),
+            ilike(schema.educationType.degreeProgramId, `%${degreeProgramId || ""}%`),
           ),
         );
       if (!educationTypes) {
         throw new NotFoundException("Data Jenis Sekola Tidak Ditemukan!");
       }
 
-      return { school_type: educationTypes };
+      return educationTypes;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getLastEducationMajor({
     search,
-    education_type_id,
+    educationTypeId,
   }: IEducationMajorRequest): Promise<TEducationMajorResponse> {
     try {
       const schoolMajorTypes = await this.drizzle
         .select({
-          id: schema.lastEducationMajor.id,
-          name: schema.lastEducationMajor.name,
+          id: schema.educationMajor.id,
+          name: schema.educationMajor.name,
         })
-        .from(schema.lastEducationMajor)
+        .from(schema.educationMajor)
         .where(
           and(
-            ilike(schema.lastEducationMajor.name, `%${search || ""}%`),
-            ilike(schema.lastEducationMajor.lastEducationTypeId, `%${education_type_id || ""}%`),
+            ilike(schema.educationMajor.name, `%${search || ""}%`),
+            ilike(schema.educationMajor.educationTypeId, `%${educationTypeId || ""}%`),
           ),
         );
 
@@ -349,21 +343,21 @@ export class PersonalService {
         throw new NotFoundException("Data Jurusan Sekolah Tidak Ditemukan!");
       }
 
-      return { education_major: schoolMajorTypes };
+      return schoolMajorTypes;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async createLastEducation(payload: TCreateEducationRequest): Promise<TGeneralResponse> {
     try {
-      const newEducation = await this.drizzle.insert(schema.lastEducations).values({
+      const newEducation = await this.drizzle.insert(schema.educations).values({
         npsn: payload.npsn,
         name: payload.name,
         province: payload.province,
-        city: payload.district_city,
-        subdistrict: payload.sub_district,
-        streetAddress: payload.street_address,
-        lastEducationTypeId: payload.education_type_id,
+        city: payload.city,
+        subdistrict: payload.subdistrict,
+        streetAddress: payload.streetAddress,
+        educationTypeId: payload.educationTypeId,
       });
 
       if (!newEducation) {
@@ -380,17 +374,17 @@ export class PersonalService {
   async updateLastEducation(payload: TUpdateEducationRequest): Promise<TGeneralResponse> {
     try {
       const updatedEducation = await this.drizzle
-        .update(schema.lastEducations)
+        .update(schema.educations)
         .set({
           npsn: payload.npsn,
           name: payload.name,
           province: payload.province,
-          city: payload.district_city,
-          subdistrict: payload.sub_district,
-          streetAddress: payload.street_address,
-          lastEducationTypeId: payload.education_type_id,
+          city: payload.city,
+          subdistrict: payload.subdistrict,
+          streetAddress: payload.streetAddress,
+          educationTypeId: payload.educationTypeId,
         })
-        .where(eq(schema.lastEducations.id, payload.id));
+        .where(eq(schema.educations.id, payload.id));
 
       if (!updatedEducation) {
         throw new BadRequestException("Gagal memperbarui data sekolah");
@@ -406,11 +400,11 @@ export class PersonalService {
   async deleteLastEducation(payload: TDeleteEducationRequest): Promise<TGeneralResponse> {
     try {
       const deleteEducation = await this.drizzle
-        .delete(schema.lastEducations)
+        .delete(schema.educations)
         .where(
           or(
-            ilike(schema.lastEducations.id, String(payload.id)),
-            ilike(schema.lastEducations.npsn, payload.npsn),
+            ilike(schema.educations.id, String(payload.id)),
+            ilike(schema.educations.npsn, payload.npsn),
           ),
         );
 

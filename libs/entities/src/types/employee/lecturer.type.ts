@@ -4,14 +4,15 @@ export type TLecturerResponse = {
   nip: string;
   nidn: string;
   nik: string;
-  addition_task: string;
-  lecturer_type: string;
-  lecturer_position: string;
-  civil_service_level: string;
+  additionTask: string;
+  lecturerType: string;
+  lecturerPosition: string;
+  civilServiceLevel: string;
   gender: string;
-  employee_work_unit: Array<object>;
-  lecturer_faculty_department: Array<object>;
-  employee_document: Array<object>;
+  workUnits: Array<object>;
+  department: Array<object>;
+  faculty: Array<object>;
+  documents: Array<object>;
 };
 
 export type TEmployeeParamsResponse = Array<{

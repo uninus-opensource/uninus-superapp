@@ -6,5 +6,5 @@ export type TPaymentObligationsResponse = Array<{
   id?: string;
   name?: string;
   amount?: number | string;
-  spelled_out?: string;
+  spelledOut?: string;
 }>;

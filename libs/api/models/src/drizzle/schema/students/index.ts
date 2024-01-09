@@ -15,9 +15,9 @@ import {
   occupation,
   parentStatus,
   parentEducation,
-  lastEducations,
-  lastEducationMajor,
-  lastEducationType,
+  educations,
+  educationMajor,
+  educationType,
   documents,
   scholarship,
   disabilities,
@@ -46,9 +46,9 @@ export const students = pgTable("app_students", {
   provinceId: uuid("province_id").references(() => province.id),
   cityId: uuid("city_id").references(() => city.id),
   subdistrictId: uuid("subdistrict_id").references(() => subdistrict.id),
-  lastEducationNpsn: text("last_education_npsn").references(() => lastEducations.npsn),
-  lastEducationMajorId: uuid("last_education_major_id").references(() => lastEducationMajor.id),
-  lastEducationTypeId: uuid("last_education_type_id").references(() => lastEducationType.id),
+  lastEducationNpsn: text("last_education_npsn").references(() => educations.npsn),
+  educationMajorId: uuid("last_education_major_id").references(() => educationMajor.id),
+  educationTypeId: uuid("last_education_type_id").references(() => educationType.id),
   salaryId: uuid("salary_id").references(() => salary.id),
   occupationId: uuid("occupation_id").references(() => occupation.id),
   position: text("position"),
@@ -140,17 +140,17 @@ export const studentsRelations = relations(students, ({ one, many }) => ({
     references: [subdistrict.id],
     relationName: "students_subdistrict",
   }),
-  lastEducation: one(lastEducations, {
+  lastEducation: one(educations, {
     fields: [students.lastEducationNpsn],
-    references: [lastEducations.npsn],
+    references: [educations.npsn],
   }),
-  lastEducationMajor: one(lastEducationMajor, {
-    fields: [students.lastEducationMajorId],
-    references: [lastEducationMajor.id],
+  educationMajor: one(educationMajor, {
+    fields: [students.educationMajorId],
+    references: [educationMajor.id],
   }),
-  lastEducationType: one(lastEducationType, {
-    fields: [students.lastEducationTypeId],
-    references: [lastEducationType.id],
+  educationType: one(educationType, {
+    fields: [students.educationTypeId],
+    references: [educationType.id],
   }),
   salary: one(salary, {
     fields: [students.salaryId],

@@ -18,6 +18,7 @@ import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
 import * as schema from "@uninus/api/models";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { and, asc, eq, ilike } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 
 @Injectable()
 export class AppService {
@@ -32,17 +33,22 @@ export class AppService {
           fullname: schema.users.fullname,
           students: {
             ...schema.students,
-            admission: {
-              ...schema.admission,
-            },
           },
+          admission: {
+            ...schema.admission,
+          },
+          admissionId: schema.admission.id,
+          studentId: schema.students.id,
         })
-        .from(schema.users)
-        .leftJoin(schema.students, eq(schema.users.id, schema.students.userId))
+        .from(schema.students)
+        .leftJoin(schema.users, eq(schema.users.id, schema.students.userId))
         .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
         .where(eq(schema.users.id, payload.id))
-        .limit(1)[0];
-
+        .limit(1)
+        .then((res) => res.at(0));
+      if (!student) {
+        throw new BadRequestException("User tidak ditemukan");
+      }
       const [paymentHistory, documents, studentGrade] = await Promise.all([
         this.drizzle
           .select()
@@ -55,27 +61,20 @@ export class AppService {
             schema.paymentType,
             eq(schema.paymentType.id, schema.paymentHistory.paymentTypeId),
           )
-          .where(eq(schema.paymentHistory.studentId, student?.students?.id))
+          .where(eq(schema.paymentHistory.studentId, student?.studentId))
           .orderBy(asc(schema.paymentHistory.createdAt)),
 
         this.drizzle
           .select()
           .from(schema.documents)
-          .where(eq(schema.documents.studentId, student?.students?.id)),
+          .where(eq(schema.documents.studentId, student?.studentId)),
         this.drizzle
           .select()
           .from(schema.studentGrade)
-          .where(eq(schema.studentGrade.admissionId, student?.students?.admissionId)),
+          .where(eq(schema.studentGrade.admissionId, student?.admissionId)),
       ]);
-      if (!student) {
-        throw new BadRequestException("User tidak ditemukan");
-      }
-      const {
-        avatar,
-        email,
-        fullname,
-        students: { admission, ...studentData },
-      } = student;
+
+      const { avatar, email, fullname, admission, students } = student;
 
       return JSON.parse(
         JSON.stringify(
@@ -84,10 +83,10 @@ export class AppService {
             email,
             fullname,
             ...admission,
-            payment: paymentHistory,
+            paymentHistory,
             documents,
             studentGrade,
-            ...studentData,
+            ...students,
           },
           (key, value) => {
             if (value !== null) return value;
@@ -106,6 +105,9 @@ export class AppService {
     perPage = 10,
   }: TStudentsPaginationArgs): Promise<TStudentsPaginatonResponse> {
     try {
+      const firstDepartment = alias(schema.department, "first_department");
+      const secondDepartment = alias(schema.department, "second_department");
+
       const [data, count] = await Promise.all([
         this.drizzle
           .select({
@@ -119,12 +121,12 @@ export class AppService {
               name: schema.selectionPath.name,
             },
             firstDepartment: {
-              id: schema.department.id,
-              name: schema.department.name,
+              id: firstDepartment.id,
+              name: firstDepartment.name,
             },
             secondDepartment: {
-              id: schema.department.id,
-              name: schema.department.name,
+              id: secondDepartment.id,
+              name: secondDepartment.name,
             },
             registrationPath: {
               id: schema.registrationPath.id,
@@ -143,11 +145,8 @@ export class AppService {
             schema.selectionPath,
             eq(schema.selectionPath.id, schema.admission.selectionPathId),
           )
-          .leftJoin(schema.department, eq(schema.department.id, schema.admission.firstDepartmentId))
-          .leftJoin(
-            schema.department,
-            eq(schema.department.id, schema.admission.secondDepartmentId),
-          )
+          .leftJoin(firstDepartment, eq(firstDepartment.id, schema.admission.firstDepartmentId))
+          .leftJoin(secondDepartment, eq(secondDepartment.id, schema.admission.secondDepartmentId))
           .leftJoin(
             schema.registrationPath,
             eq(schema.registrationPath.id, schema.admission.registrationPathId),
@@ -203,29 +202,29 @@ export class AppService {
         id,
         fullname,
         avatar,
-        first_department_id,
-        second_department_id,
-        selection_path_id,
-        degree_program_id,
-        registration_status_id,
-        average_utbk,
-        utbk_pu,
-        utbk_kk,
-        utbk_ppu,
-        utbk_kmbm,
-        student_grade,
-        average_grade,
+        firstDepartmentId,
+        secondDepartmentId,
+        selectionPathId,
+        degreeProgramId,
+        registrationStatusId,
+        registrationPathId,
+        utbkAverage,
+        utbkPu,
+        utbkKk,
+        utbkPpu,
+        utbkKmbm,
+        studentGrade,
+        gradeAverage,
         document,
         documents,
-        registration_path_id,
-        test_score,
-        education_npsn,
-        education_name,
-        education_province,
-        education_district_city,
-        education_sub_district,
-        education_street_address,
-        education_type_id,
+        testScore,
+        educationNpsn,
+        educationName,
+        educationProvince,
+        educationCity,
+        educationSubdistrict,
+        educationAddress,
+        educationTypeId,
         ...updateStudentPayload
       } = payload;
 
@@ -239,7 +238,8 @@ export class AppService {
           .leftJoin(schema.students, eq(schema.students.userId, schema.users.id))
           .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
           .where(eq(schema.users.id, payload.id))
-          .limit(1)[0],
+          .limit(1)
+          .then((res) => res.at(0)),
         ((documents && typeof documents[0]?.isVerified == "undefined") ||
           (document && typeof document?.name != "undefined")) &&
           this.drizzle
@@ -248,7 +248,8 @@ export class AppService {
             })
             .from(schema.registrationStatus)
             .where(ilike(schema.registrationStatus.name, "%belum membayar%"))
-            .limit(1)[0],
+            .limit(1)
+            .then((res) => res.at(0)),
       ]);
 
       if (!findUser) {
@@ -279,20 +280,20 @@ export class AppService {
             this.drizzle
               .update(schema.admission)
               .set({
-                testScore: test_score,
-                firstDepartmentId: String(first_department_id),
-                secondDepartmentId: String(second_department_id),
-                selectionPathId: String(selection_path_id),
-                registrationPathId: String(registration_path_id),
-                degreeProgramId: String(degree_program_id),
-                utbkPu: utbk_pu,
-                utbkKk: utbk_kk,
-                utbkPpu: utbk_ppu,
-                utbkKmbm: utbk_kmbm,
-                utbkAverage: average_utbk,
-                gradeAverage: average_grade,
-                registrationStatusId: registration_status_id
-                  ? String(registration_status_id)
+                testScore,
+                firstDepartmentId,
+                secondDepartmentId,
+                selectionPathId,
+                registrationPathId,
+                degreeProgramId,
+                utbkPu,
+                utbkKk,
+                utbkPpu,
+                utbkKmbm,
+                utbkAverage,
+                gradeAverage,
+                registrationStatusId: registrationStatusId
+                  ? String(registrationStatusId)
                   : ((documents && typeof documents[0]?.isVerified == "undefined") ||
                       (document && typeof document?.name != "undefined")) &&
                     getRegistrationStatus.id,
@@ -300,9 +301,9 @@ export class AppService {
               .where(eq(schema.admission.id, admissionId))
               .returning(),
           ]),
-          student_grade &&
+          studentGrade &&
             (await Promise.all(
-              student_grade.map((el) =>
+              studentGrade.map((el) =>
                 this.drizzle
                   .update(schema.studentGrade)
                   .set({
@@ -354,21 +355,21 @@ export class AppService {
               });
             }
           })(),
-          education_npsn &&
-            education_name &&
-            education_province &&
-            education_district_city &&
-            education_sub_district &&
-            education_street_address &&
-            education_type_id &&
-            this.drizzle.insert(schema.lastEducations).values({
-              npsn: education_npsn,
-              name: education_name,
-              province: education_province,
-              city: education_district_city,
-              subdistrict: education_sub_district,
-              streetAddress: education_street_address,
-              lastEducationTypeId: String(education_type_id),
+          educationNpsn &&
+            educationName &&
+            educationProvince &&
+            educationCity &&
+            educationSubdistrict &&
+            educationAddress &&
+            educationTypeId &&
+            this.drizzle.insert(schema.educations).values({
+              npsn: educationNpsn,
+              name: educationName,
+              province: educationProvince,
+              city: educationCity,
+              subdistrict: educationSubdistrict,
+              streetAddress: educationAddress,
+              educationTypeId: String(educationTypeId),
             })[0],
         ]);
 
@@ -415,14 +416,14 @@ export class AppService {
     payload: TGraduationStatusRequest,
   ): Promise<TGraduationStatusReponse> {
     try {
-      const { registration_number } = payload;
+      const { registrationNumber } = payload;
       const graduationStatus = await this.drizzle
         .selectDistinct({
           fullname: schema.users.fullname,
-          registration_number: schema.admission.registrationNumber,
+          registrationNumber: schema.admission.registrationNumber,
           department: schema.students.departmentId,
-          selection_path: schema.selectionPath.name,
-          registration_status: schema.registrationStatus.name,
+          selectionPath: schema.selectionPath.name,
+          registrationStatus: schema.registrationStatus.name,
         })
         .from(schema.admission)
         .leftJoin(schema.students, eq(schema.students.id, schema.admission.studentId))
@@ -435,15 +436,16 @@ export class AppService {
           schema.registrationStatus,
           eq(schema.registrationStatus.id, schema.admission.registrationStatusId),
         )
-        .where(eq(schema.admission.registrationNumber, registration_number))
-        .limit(1)[0];
+        .where(eq(schema.admission.registrationNumber, registrationNumber))
+        .limit(1)
+        .then((res) => res.at(0));
 
       if (!graduationStatus) {
         throw new NotFoundException("Nomor registrasi tidak valid");
       }
 
-      const { registration_status } = graduationStatus;
-      if (!registration_status.toLowerCase().includes("lulus")) {
+      const { registrationStatus } = graduationStatus;
+      if (!registrationStatus.toLowerCase().includes("lulus")) {
         return {
           message: "Sedang Dalam Proses Seleksi",
         };
@@ -488,7 +490,7 @@ export class AppService {
                   id: el?.id,
                   name: el?.name,
                   amount: el?.amount - (el?.amount * scholarshipStudent.discount) / 100,
-                  spelled_out: convertNumberToWords(
+                  spelledOut: convertNumberToWords(
                     String(el?.amount - (el?.amount * scholarshipStudent.discount) / 100),
                   ),
                 }
@@ -496,7 +498,7 @@ export class AppService {
           )
         : paymentObligations.map((el) => ({
             ...el,
-            spelled_out: convertNumberToWords(String(el?.amount)),
+            spelledOut: convertNumberToWords(String(el?.amount)),
           }));
     } catch (error) {
       throw new RpcException(errorMappings(error));

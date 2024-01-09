@@ -32,8 +32,7 @@ export interface IUser {
 }
 
 export interface IUserRequest extends IUser {
-  phone_number?: string | null;
-  role_id?: number | string;
+  roleId?: number | string;
 }
 
 export type TCreateUserRequest = TVSCreateUser;

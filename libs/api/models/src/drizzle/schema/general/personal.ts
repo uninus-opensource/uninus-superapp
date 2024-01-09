@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
-import { employees, students, employeeOnLastEducation, degreeProgram } from "..";
+import { employees, students, employeeOnEducation, degreeProgram } from "..";
 
 export const citizenship = pgTable("app_citizenship", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -207,7 +207,7 @@ export const parentEducationRelations = relations(parentEducation, ({ many }) =>
   }),
 }));
 
-export const lastEducations = pgTable("app_last_educations", {
+export const educations = pgTable("app_educations", {
   id: uuid("id").defaultRandom().primaryKey(),
   npsn: text("npsn").unique(),
   name: text("name").unique(),
@@ -215,44 +215,44 @@ export const lastEducations = pgTable("app_last_educations", {
   city: text("city"),
   subdistrict: text("subdistrict"),
   streetAddress: text("street_address"),
-  lastEducationTypeId: uuid("last_education_type_id").references(() => lastEducationType.id),
+  educationTypeId: uuid("education_type_id").references(() => educationType.id),
 });
 
-export const lastEducationRelations = relations(lastEducations, ({ one, many }) => ({
-  lastEducationType: one(lastEducationType, {
-    fields: [lastEducations.lastEducationTypeId],
-    references: [lastEducationType.id],
+export const educationRelations = relations(educations, ({ one, many }) => ({
+  educationType: one(educationType, {
+    fields: [educations.educationTypeId],
+    references: [educationType.id],
   }),
   students: many(students),
-  employeeOnLastEducation: many(employeeOnLastEducation),
+  employeeOnEducation: many(employeeOnEducation),
 }));
 
-export const lastEducationType = pgTable("app_last_education_type", {
+export const educationType = pgTable("app_education_type", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull().unique(),
   degreeProgramId: uuid("degree_program_id").references(() => degreeProgram.id),
 });
 
-export const lastEducationTypeRelations = relations(lastEducationType, ({ many, one }) => ({
-  lastEducationMajor: many(lastEducationMajor),
-  lastEducations: many(lastEducations),
+export const EducationTypeRelations = relations(educationType, ({ many, one }) => ({
+  educationMajor: many(educationMajor),
+  educations: many(educations),
   students: many(students),
   degreeProgram: one(degreeProgram, {
-    fields: [lastEducationType.degreeProgramId],
+    fields: [educationType.degreeProgramId],
     references: [degreeProgram.id],
   }),
 }));
 
-export const lastEducationMajor = pgTable("app_last_education_major", {
+export const educationMajor = pgTable("app_education_major", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull().unique(),
-  lastEducationTypeId: uuid("last_education_type_id").references(() => lastEducationType.id),
+  educationTypeId: uuid("education_type_id").references(() => educationType.id),
 });
 
-export const lastEducationMajorRelations = relations(lastEducationMajor, ({ one, many }) => ({
-  lastEducationType: one(lastEducationType, {
-    fields: [lastEducationMajor.lastEducationTypeId],
-    references: [lastEducationType.id],
+export const educationMajorRelations = relations(educationMajor, ({ one, many }) => ({
+  educationType: one(educationType, {
+    fields: [educationMajor.educationTypeId],
+    references: [educationType.id],
   }),
   students: many(students),
 }));

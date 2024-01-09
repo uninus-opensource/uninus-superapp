@@ -40,17 +40,17 @@ export class CreateEmployeeDto {
   public nip?: string;
 
   @ApiProperty({ required: false })
-  public phone_number!: string;
+  public phoneNumber!: string;
 
   @ApiProperty({ required: true })
   public email!: string;
 
   @ApiProperty({ required: true })
-  public work_unit_category_id!: number;
+  public workUnitCategoryId!: number;
 
   @ApiProperty({ required: true })
-  public work_unit_id!: number;
+  public workUnitId!: number;
 
   @ApiProperty({ required: true })
-  public employee_type_id!: number;
+  public employeeTypeId!: number;
 }

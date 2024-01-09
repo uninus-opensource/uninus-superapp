@@ -20,7 +20,7 @@ export class GetSelectionPathDto {
     type: "string",
     required: false,
   })
-  public degree_program_id!: number;
+  public degreeProgramId!: number;
 }
 
 export class CreateSelectionPathDto {
@@ -33,7 +33,7 @@ export class CreateSelectionPathDto {
     type: "string",
     required: false,
   })
-  public degree_program_id!: number;
+  public degreeProgramId!: number;
 }
 
 export class UpdateSelectionPathDto {
@@ -46,7 +46,7 @@ export class UpdateSelectionPathDto {
     type: "string",
     required: false,
   })
-  public degree_program_id!: number;
+  public degreeProgramId!: number;
 }
 
 export class GetRegistransDto {
@@ -54,17 +54,17 @@ export class GetRegistransDto {
     type: "string",
     required: false,
   })
-  public filter_type!: string;
+  public filterType!: string;
   @ApiProperty({
     type: "string",
     required: false,
   })
-  public start_date!: string;
+  public startDate!: string;
   @ApiProperty({
     type: "string",
     required: false,
   })
-  public end_date!: string;
+  public endDate!: string;
 }
 
 export class GetInterestProgramsDto {
@@ -72,7 +72,7 @@ export class GetInterestProgramsDto {
     type: "string",
     required: false,
   })
-  public filter_type!: string;
+  public filterType!: string;
 }
 
 export class GetInterestDepartmentDto extends GetInterestProgramsDto {
@@ -80,7 +80,7 @@ export class GetInterestDepartmentDto extends GetInterestProgramsDto {
     type: "string",
     required: false,
   })
-  public degree_program_id!: string;
+  public degreeProgramId!: string;
 }
 
 export class CreateAdmissionDto {
@@ -94,7 +94,7 @@ export class CreateAdmissionDto {
     example: "1945",
     type: "string",
   })
-  public correct_answer!: string;
+  public correctAnswer!: string;
 
   @ApiProperty({
     example: {

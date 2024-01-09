@@ -1,7 +1,6 @@
 import { HttpService } from "@nestjs/axios";
 import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-import { PrismaService } from "@uninus/api/services";
 import { ConfigService } from "@nestjs/config";
 import { AxiosRequestConfig } from "axios";
 import { createSignature, errorMappings, splitFullname } from "@uninus/api/utilities";
@@ -25,7 +24,6 @@ import { and, eq, gte, lt, isNotNull, isNull, like } from "drizzle-orm";
 @Injectable()
 export class AppService {
   constructor(
-    private prisma: PrismaService,
     private httpService: HttpService,
     private readonly configService: ConfigService,
     @Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>,
@@ -41,8 +39,8 @@ export class AppService {
   };
   async getFinanceSummary({
     filter,
-    start_date,
-    end_date,
+    startDate,
+    endDate,
   }: TFinanceSummaryRequest): Promise<TFinanceSummaryResponse> {
     const currentDate = new Date();
     const nextDate = new Date(currentDate);
@@ -61,7 +59,7 @@ export class AppService {
             dayEnd.setDate(dayStart.getDate() + 1);
 
             if (dayStart.getDay() >= 1 && dayStart.getDay() <= 7) {
-              const [total_student, paid, unpaid, installment_payment] = await Promise.all([
+              const [totalStudent, paid, unpaid, installmentPayment] = await Promise.all([
                 this.drizzle
                   .select({
                     id: schema.users.id,
@@ -108,7 +106,7 @@ export class AppService {
                   )
                   .where(
                     and(
-                      isNull(schema.paymentHistory),
+                      isNull(schema.paymentHistory.orderId),
                       gte(schema.paymentHistory.createdAt, currentDate),
                       lt(schema.paymentHistory.createdAt, nextDate),
                     ),
@@ -147,10 +145,10 @@ export class AppService {
 
               const daily = {
                 label: dayLabel,
-                total_student: total_student,
-                paid: paid,
-                unpaid: unpaid,
-                installment_payment: installment_payment,
+                totalStudent,
+                paid,
+                unpaid,
+                installmentPayment,
               };
 
               data.push(daily);
@@ -171,7 +169,7 @@ export class AppService {
             const weekEnd = new Date(weekStart);
             weekEnd.setDate(weekStart.getDate() + 6); // Menggeser ke hari Minggu dalam minggu saat ini
 
-            const [total_student, paid, unpaid, installment_payment] = await Promise.all([
+            const [totalStudent, paid, unpaid, installmentPayment] = await Promise.all([
               this.drizzle
                 .select({
                   id: schema.users.id,
@@ -258,10 +256,10 @@ export class AppService {
 
             const weekly = {
               label: weekLabel,
-              total_student: total_student,
-              paid: paid,
-              unpaid: unpaid,
-              installment_payment: installment_payment,
+              totalStudent,
+              paid,
+              unpaid,
+              installmentPayment,
             };
 
             data.push(weekly);
@@ -291,7 +289,7 @@ export class AppService {
             const currentMonth = new Date(Date.UTC(currentYear, i, 1, 0, 0, 0, 0));
             const nextMonth = new Date(Date.UTC(currentYear, i + 1, 0, 23, 59, 59, 999));
 
-            const [total_student, paid, unpaid, installment_payment] = await Promise.all([
+            const [totalStudent, paid, unpaid, installmentPayment] = await Promise.all([
               this.drizzle
                 .select({
                   id: schema.users.id,
@@ -374,10 +372,10 @@ export class AppService {
 
             const monthly = {
               label: monthNames[i],
-              total_student: total_student,
-              paid: paid,
-              unpaid: unpaid,
-              installment_payment: installment_payment,
+              totalStudent,
+              paid,
+              unpaid,
+              installmentPayment,
             };
 
             data.push(monthly);
@@ -392,7 +390,7 @@ export class AppService {
             const yearStart = new Date(Date.UTC(currentYear - i, 0, 1, 0, 0, 0, 0));
             const yearEnd = new Date(Date.UTC(currentYear - i, 11, 31, 23, 59, 59, 999));
 
-            const [total_student, paid, unpaid, installment_payment] = await Promise.all([
+            const [totalStudent, paid, unpaid, installmentPayment] = await Promise.all([
               this.drizzle
                 .select({
                   id: schema.users.id,
@@ -475,10 +473,10 @@ export class AppService {
 
             const yearly = {
               label: String(yearStart.getUTCFullYear()), // Konversi tahun ke string
-              total_student: total_student,
+              totalStudent: totalStudent,
               paid: paid,
               unpaid: unpaid,
-              installment_payment: installment_payment,
+              installmentPayment: installmentPayment,
             };
 
             yearlyData.push(yearly);
@@ -488,8 +486,8 @@ export class AppService {
           break;
         }
         case EFilterGraph.RANGE: {
-          const dateStart = new Date(start_date);
-          const dateEnd = new Date(end_date);
+          const dateStart = new Date(startDate);
+          const dateEnd = new Date(endDate);
           const dataRange = [];
 
           if (dateStart > dateEnd) {
@@ -501,7 +499,7 @@ export class AppService {
             const currentDateEnd = new Date(currentDateStart);
             currentDateEnd.setHours(23, 59, 59, 999);
 
-            const [total_student, paid, unpaid, installment_payment] = await Promise.all([
+            const [totalStudent, paid, unpaid, installmentPayment] = await Promise.all([
               this.drizzle
                 .select({
                   id: schema.users.id,
@@ -584,10 +582,10 @@ export class AppService {
 
             const rangeData = {
               label: currentDateStart.toISOString().split("T")[0],
-              total_student: total_student,
-              paid: paid,
-              unpaid: unpaid,
-              installment_payment: installment_payment,
+              totalStudent,
+              paid,
+              unpaid,
+              installmentPayment,
             };
 
             dataRange.push(rangeData);
@@ -606,16 +604,16 @@ export class AppService {
     }
     try {
       const [
-        total_student,
-        additions_total_student,
-        student_with_scholarship,
-        additions_student_scholarship,
+        totalStudent,
+        additionsTotalStudent,
+        studentWithScholarship,
+        additionsStudentScholarship,
         paids,
-        additions_paids,
-        installment_payment,
-        additions_installment_payment,
+        additionsPaids,
+        installmentPayment,
+        additionsInstallmentPayment,
         unpaids,
-        additions_unpaids,
+        additionsUnpaids,
       ] = await Promise.all([
         this.drizzle
           .select({
@@ -763,16 +761,16 @@ export class AppService {
       return {
         data,
         summary: {
-          total_student,
-          additions_total_student,
-          student_with_scholarship,
-          additions_student_scholarship,
+          totalStudent,
+          additionsTotalStudent,
+          studentWithScholarship,
+          additionsStudentScholarship,
           paids,
-          additions_paids,
-          installment_payment,
-          additions_installment_payment,
+          additionsPaids,
+          installmentPayment,
+          additionsInstallmentPayment,
           unpaids,
-          additions_unpaids,
+          additionsUnpaids,
         },
       };
     } catch (error) {
@@ -782,7 +780,7 @@ export class AppService {
 
   async createPayment(payload: TCreatePaymentRequest): Promise<TCreatePaymentResponse> {
     try {
-      const { userId, payment_obligation_id } = payload;
+      const { userId, paymentObligationId } = payload;
 
       const [student, getPaymentObligations] = await Promise.all([
         this.drizzle
@@ -803,7 +801,7 @@ export class AppService {
             amount: schema.paymentObligations.amount,
           })
           .from(schema.paymentObligations)
-          .where(eq(schema.paymentObligations.id, String(payment_obligation_id)))
+          .where(eq(schema.paymentObligations.id, String(paymentObligationId)))
           .limit(1)
           .then((res) => res.at(0)),
       ]);
@@ -842,7 +840,7 @@ export class AppService {
       const [updateStudent, createPayment] = await Promise.all([
         this.drizzle.insert(schema.paymentHistory).values({
           orderId: String(`${getPaymentObligations?.name}-${timeStamp}`),
-          paymentObligationId: String(payment_obligation_id),
+          paymentObligationId: String(paymentObligationId),
           studentId: student?.studentId,
         }),
         firstValueFrom(
@@ -865,9 +863,9 @@ export class AppService {
 
   async statusPayment(payload: TStatusPaymentRequest): Promise<TStatusPaymentResponse> {
     try {
-      const { order_id, userId } = payload;
+      const { orderId, userId } = payload;
       const timeStamp = new Date().getTime();
-      const data = { trxRef: order_id };
+      const data = { trxRef: orderId };
       this.config.baseURL = this.apiStatus;
       this.config.headers.Timestamp = timeStamp;
       this.config.headers.Signature = await createSignature(
@@ -922,7 +920,7 @@ export class AppService {
               paymentMethod: paymentMethod,
               isPaid: true,
             })
-            .where(eq(schema.paymentHistory.orderId, order_id)),
+            .where(eq(schema.paymentHistory.orderId, orderId)),
           this.drizzle
             .update(schema.admission)
             .set({

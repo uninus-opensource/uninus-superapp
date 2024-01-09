@@ -5,7 +5,7 @@ export class CreateUserDto {
   public email!: string;
 
   @ApiProperty()
-  public phone_number!: string;
+  public phoneNumber!: string;
 
   @ApiProperty()
   public role_id!: number;
@@ -40,5 +40,5 @@ export class CreateNotificationDto {
   public detail!: string;
 
   @ApiProperty({ required: false })
-  public user_id!: string;
+  public userId!: string;
 }

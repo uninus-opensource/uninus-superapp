@@ -33,14 +33,14 @@ export class CollegeService {
         throw new NotFoundException("Data Program Pendidikan Tidak Ditemukan!");
       }
 
-      return { degree_program: degreeProgram };
+      return degreeProgram;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getFaculty(payload: ISelectFacultyRequest): Promise<TFacultyResponse> {
     try {
-      const { search, degree_program_id } = payload;
+      const { search, degreeProgramId } = payload;
       const faculty = await this.drizzle
         .select({
           id: schema.faculty.id,
@@ -50,7 +50,7 @@ export class CollegeService {
         .where(
           and(
             ilike(schema.faculty.name, `%${search || ""}%`),
-            ilike(schema.faculty.degreeProgramId, `%${degree_program_id || ""}%`),
+            ilike(schema.faculty.degreeProgramId, `%${degreeProgramId || ""}%`),
           ),
         );
 
@@ -58,7 +58,7 @@ export class CollegeService {
         throw new NotFoundException("Data Fakultas Tidak Ditemukan!");
       }
 
-      return { faculty };
+      return faculty;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -68,7 +68,7 @@ export class CollegeService {
     try {
       const newFaculty = await this.drizzle.insert(schema.faculty).values({
         name: payload.name,
-        degreeProgramId: payload.degree_program_id,
+        degreeProgramId: payload.degreeProgramId,
       });
       if (!newFaculty) {
         throw new BadRequestException("Gagal menambahkan fakultas baru");
@@ -87,7 +87,7 @@ export class CollegeService {
         .update(schema.faculty)
         .set({
           name: payload.name,
-          degreeProgramId: payload.degree_program_id,
+          degreeProgramId: payload.degreeProgramId,
         })
         .where(eq(schema.faculty.id, payload.id));
 
@@ -106,7 +106,7 @@ export class CollegeService {
     try {
       const deletedFaculty = await this.drizzle
         .delete(schema.faculty)
-        .where(ilike(schema.lastEducations.id, String(payload.id)));
+        .where(ilike(schema.educations.id, String(payload.id)));
 
       if (!deletedFaculty) {
         throw new BadRequestException(`Gagal menghapus fakultas`);
@@ -122,7 +122,7 @@ export class CollegeService {
 
   async getDepartment(payload: ISelectDepartmentRequest): Promise<TDepartmentResponse> {
     try {
-      const { search, faculty_id, degree_program_id } = payload;
+      const { search, facultyId, degreeProgramId } = payload;
       const department = await this.drizzle
         .select({
           id: schema.department.id,
@@ -132,8 +132,8 @@ export class CollegeService {
         .where(
           and(
             ilike(schema.department.name, `%${search || ""}%`),
-            ilike(schema.department.facultyId, `%${faculty_id || ""}%`),
-            ilike(schema.department.degreeProgramId, `%${degree_program_id || ""}%`),
+            ilike(schema.department.facultyId, `%${facultyId || ""}%`),
+            ilike(schema.department.degreeProgramId, `%${degreeProgramId || ""}%`),
           ),
         );
 
@@ -141,7 +141,7 @@ export class CollegeService {
         throw new NotFoundException("Data Program Studi Tidak Ditemukan!");
       }
 
-      return { department };
+      return department;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -150,8 +150,8 @@ export class CollegeService {
     try {
       const newDepartment = await this.drizzle.insert(schema.department).values({
         name: payload.name,
-        facultyId: payload.faculty_id,
-        degreeProgramId: payload.degree_program_id,
+        facultyId: payload.facultyId,
+        degreeProgramId: payload.degreeProgramId,
       });
 
       if (!newDepartment) {
@@ -170,8 +170,8 @@ export class CollegeService {
         .update(schema.department)
         .set({
           name: payload.name,
-          facultyId: payload.faculty_id,
-          degreeProgramId: payload.degree_program_id,
+          facultyId: payload.facultyId,
+          degreeProgramId: payload.degreeProgramId,
         })
         .where(eq(schema.department.id, payload.id));
 

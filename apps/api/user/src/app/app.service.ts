@@ -117,13 +117,13 @@ export class AppService {
               phoneNumber: schema.students.phoneNumber,
             })
             .from(schema.students)
-            .where(eq(schema.students.phoneNumber, `62${payload.phone_number}`)),
+            .where(eq(schema.students.phoneNumber, `62${payload.phoneNumber}`)),
           this.drizzle
             .select({
               name: schema.roles.name,
             })
             .from(schema.roles)
-            .where(eq(schema.roles.id, String(payload.role_id)))
+            .where(eq(schema.roles.id, String(payload.roleId)))
             .limit(1),
           this.drizzle
             .select({
@@ -168,7 +168,7 @@ export class AppService {
           email: payload.email,
           password,
           avatar: "https://uninus-demo.s3.ap-southeast-1.amazonaws.com/avatar-default.png",
-          roleId: String(payload.role_id),
+          roleId: String(payload.roleId),
         })
         .returning({ id: schema.users.id, fullname: schema.users.fullname });
 
@@ -186,7 +186,7 @@ export class AppService {
           this.drizzle
             .insert(schema.students)
             .values({
-              phoneNumber: `62${payload.phone_number}`,
+              phoneNumber: `62${payload.phoneNumber}`,
               userId: insertUser.id,
             })
             .returning({ id: schema.students.id }),
@@ -336,7 +336,7 @@ export class AppService {
         .set({
           email: payload.email,
           fullname: payload.fullname,
-          roleId: payload.role_id as string,
+          roleId: payload.roleId as string,
           ...(payload.password && { password: await encryptPassword(payload.password) }),
         })
         .where(eq(schema.users.id, payload.id))
@@ -428,15 +428,15 @@ export class AppService {
     payload: TCreateNotificationRequest,
   ): Promise<TCreateNotificationResponse> {
     try {
-      const { user_id, title, detail } = payload;
+      const { userId, title, detail } = payload;
 
       const createNotification = await Promise.all([
         this.drizzle.insert(schema.notifications).values({
           title,
           detail,
-          ...(user_id && { user_id }),
+          ...(userId && { userId }),
         }),
-        !user_id
+        !userId
           ? this.drizzle.update(schema.users).set({
               isNotificationRead: false,
             })
@@ -445,7 +445,7 @@ export class AppService {
               .set({
                 isNotificationRead: false,
               })
-              .where(eq(schema.users.id, user_id)),
+              .where(eq(schema.users.id, userId)),
       ]);
 
       if (!createNotification) {

@@ -65,7 +65,6 @@ export class AuthController {
   @ApiBody({ type: LogoutDto })
   @Post("logout")
   async logout(@Body(new ZodValidationPipe(VSLogout)) payload: TLogoutRequest) {
-    console.log(payload);
     return await this.appService.logout(payload);
   }
 

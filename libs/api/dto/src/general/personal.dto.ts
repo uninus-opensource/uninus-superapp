@@ -22,25 +22,24 @@ export class CreateLastEducationDto {
     example: "Bandung",
     type: "string",
   })
-  public district_city!: string;
+  public city!: string;
 
   @ApiProperty({
     example: "Buah batu",
     type: "string",
   })
-  public sub_district!: string;
+  public subdistrict!: string;
 
   @ApiProperty({
     example: "Jl Setiabudi no 192, Rw 002 Rt 003",
     type: "string",
   })
-  public street_address!: string;
+  public streetAddress!: string;
 
   @ApiProperty({
-    example: 1,
-    type: "integer",
+    type: "string",
   })
-  public education_type_id!: number;
+  public educationTypeId!: number;
 }
 
 export class UpdateLastEducationDto extends CreateLastEducationDto {}
@@ -56,7 +55,7 @@ export class GetCityDto {
     required: false,
     type: "integer",
   })
-  public province_id!: number;
+  public provinceId!: number;
 }
 
 export class GetSubDistrictDto {
@@ -70,7 +69,7 @@ export class GetSubDistrictDto {
     required: false,
     type: "integer",
   })
-  public city_id!: number;
+  public cityId!: number;
 }
 
 export class GetCountryDto {
@@ -82,7 +81,7 @@ export class GetCountryDto {
   @ApiProperty({
     required: false,
   })
-  public citizenship_id!: string;
+  public citizenshipId!: string;
 }
 
 export class GetLastEducationDto {
@@ -110,7 +109,7 @@ export class GetLastEducationTypeDto {
     required: false,
     type: "string",
   })
-  public degree_program_id!: string;
+  public degreeProgramId!: string;
 }
 
 export class GetLastMajorTypeDto {
@@ -124,5 +123,5 @@ export class GetLastMajorTypeDto {
     required: false,
     type: "string",
   })
-  public education_type_id!: string;
+  public educationTypeId!: string;
 }

@@ -1,21 +1,21 @@
 export type TFinanceSummaryRequest = {
   filter?: string;
-  start_date?: string;
-  end_date?: string;
+  startDate?: string;
+  endDate?: string;
 };
 
 export type TFinanceSummaryResponse = {
   data: Array<object>;
   summary: {
-    total_student: number;
-    additions_total_student: number;
-    student_with_scholarship: number;
-    additions_student_scholarship: number;
+    totalStudent: number;
+    additionsTotalStudent: number;
+    studentWithScholarship: number;
+    additionsStudentScholarship: number;
     paids: number;
-    additions_paids: number;
-    installment_payment: number;
-    additions_installment_payment: number;
+    additionsPaids: number;
+    installmentPayment: number;
+    additionsInstallmentPayment: number;
     unpaids: number;
-    additions_unpaids: number;
+    additionsUnpaids: number;
   };
 };

@@ -1,14 +1,13 @@
-import { Controller, Get, Param, Post, Query } from "@nestjs/common";
-import { ApiHeader, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { Controller, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { CreateEmployeeDto, GetEmployeeParamsDto, GetEmployeesDto } from "@uninus/api/dto";
+import { JwtAuthGuard } from "@uninus/api/guard";
 import { EmployeeService } from "@uninus/api/services";
 import { ISelectRequest, TEmployeePaginationArgs } from "@uninus/entities";
 @ApiTags("Employee")
-@ApiHeader({
-  name: "app-origin",
-  description: "Application Origin",
-})
+@ApiBearerAuth("bearer")
 @Controller("employee")
+@UseGuards(JwtAuthGuard)
 export class EmployeeController {
   constructor(private readonly appService: EmployeeService) {}
 

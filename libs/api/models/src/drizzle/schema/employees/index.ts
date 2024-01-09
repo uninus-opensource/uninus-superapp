@@ -11,7 +11,7 @@ import {
   subdistrict,
   citizenship,
   country,
-  lastEducations,
+  educations,
   lecturers,
   lecturerPosition,
   academicStaff,
@@ -100,7 +100,7 @@ export const employeesRelations = relations(employees, ({ one, many }) => ({
     relationName: "employees",
   }),
   employeeOnEmployeeCategories: many(employeeOnEmployeeCategories),
-  employeeOnLastEducation: many(employeeOnLastEducation),
+  employeeOnEducation: many(employeeOnEducation),
   employeeOnWorkUnit: many(employeeOnWorkUnit),
 }));
 
@@ -160,29 +160,29 @@ export const employeeOnEmployeeCategoriesRelations = relations(
   }),
 );
 
-export const employeeOnLastEducation = pgTable(
+export const employeeOnEducation = pgTable(
   "app_employee_on_last_education",
   {
     employeeId: uuid("employee_id")
       .notNull()
       .references(() => employees.id),
-    lastEducationNpsn: uuid("lastEducation_npsn")
+    educationNpsn: uuid("education_npsn")
       .notNull()
-      .references(() => lastEducations.id),
+      .references(() => educations.id),
   },
   (t) => ({
-    pk: primaryKey(t.employeeId, t.lastEducationNpsn),
+    pk: primaryKey(t.employeeId, t.educationNpsn),
   }),
 );
 
-export const employeeOnLastEducationRelations = relations(employeeOnLastEducation, ({ one }) => ({
+export const employeeOnEducationRelations = relations(employeeOnEducation, ({ one }) => ({
   employee: one(employees, {
-    fields: [employeeOnLastEducation.employeeId],
+    fields: [employeeOnEducation.employeeId],
     references: [employees.id],
   }),
-  lastEducationNpsn: one(lastEducations, {
-    fields: [employeeOnLastEducation.lastEducationNpsn],
-    references: [lastEducations.npsn],
+  lastEducationNpsn: one(educations, {
+    fields: [employeeOnEducation.educationNpsn],
+    references: [educations.npsn],
   }),
 }));
 

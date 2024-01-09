@@ -13,7 +13,7 @@ export class GetFacultyDto extends SelectOptionDto {
     type: "integer",
     required: false,
   })
-  public degree_program_id!: number;
+  public degreeProgramId!: number;
 }
 
 export class CreateFacultyDto {
@@ -26,7 +26,7 @@ export class CreateFacultyDto {
     type: "integer",
     required: false,
   })
-  public degree_program_id!: number;
+  public degreeProgramId!: number;
 }
 
 export class UpdateFacultyDto extends CreateFacultyDto {}
@@ -42,12 +42,12 @@ export class CreateDepartmentDto {
     type: "integer",
     required: false,
   })
-  public degree_program_id!: number;
+  public degreeProgramId!: number;
   @ApiProperty({
     type: "integer",
     required: false,
   })
-  public faculty_id!: number;
+  public facultyId!: number;
 }
 
 export class GetDepartmentDto extends SelectOptionDto {
@@ -55,12 +55,12 @@ export class GetDepartmentDto extends SelectOptionDto {
     type: "integer",
     required: false,
   })
-  public degree_program_id!: number;
+  public degreeProgramId!: number;
   @ApiProperty({
     type: "integer",
     required: false,
   })
-  public faculty_id!: number;
+  public facultyId!: number;
 }
 
 export class UpdateDepartmentDto extends CreateDepartmentDto {}

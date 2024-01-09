@@ -4,11 +4,11 @@ import { RpcException } from "@nestjs/microservices";
 import { errorMappings } from "@uninus/api/utilities";
 import {
   ISelectRequest,
-  // TAcademicStaffResponse,
+  TAcademicStaffResponse,
   TEmployeePaginationArgs,
   // TEmployeeParamsResponse,
   TEmployeesResponse,
-  // TLecturerResponse,
+  TLecturerResponse,
   TTotalEmployeesResponse,
 } from "@uninus/entities";
 import * as schema from "@uninus/api/models";
@@ -110,16 +110,16 @@ export class AppService {
   async getTotalEmployees(): Promise<TTotalEmployeesResponse> {
     try {
       const [
-        total_employees,
-        total_lecturer,
-        total_academic_staff,
-        total_reguler_employee,
-        total_temporary_employee,
-        total_fondation_lecturer,
-        total_dpk_lecturer,
-        total_temporary_lecturer,
-        total_reguler_academic_staff,
-        total_temporary_academic_staff,
+        totalEmployees,
+        totalLecturer,
+        totalAcademicStaff,
+        totalRegulerEmployee,
+        totalTemporaryEmployee,
+        totalFondationLecturer,
+        totalDpkLecturer,
+        totalTemporaryLecturer,
+        totalRegulerAcademicStaff,
+        totalTemporaryAcademicStaff,
       ] = await Promise.all([
         this.drizzle
           .select({
@@ -247,16 +247,16 @@ export class AppService {
           .then((res) => res.length),
       ]);
       return {
-        total_employees: total_employees,
-        total_lecturer: total_lecturer,
-        total_academic_staff: total_academic_staff,
-        total_reguler_employee: total_reguler_employee,
-        total_temporary_employee: total_temporary_employee,
-        total_fondation_lecturer: total_fondation_lecturer,
-        total_dpk_lecturer: total_dpk_lecturer,
-        total_temporary_lecturer: total_temporary_lecturer,
-        total_reguler_academic_staff: total_reguler_academic_staff,
-        total_temporary_academic_staff: total_temporary_academic_staff,
+        totalEmployees,
+        totalLecturer,
+        totalAcademicStaff,
+        totalRegulerEmployee,
+        totalTemporaryEmployee,
+        totalFondationLecturer,
+        totalDpkLecturer,
+        totalTemporaryLecturer,
+        totalRegulerAcademicStaff: totalRegulerAcademicStaff,
+        totalTemporaryAcademicStaff: totalTemporaryAcademicStaff,
       };
     } catch (error) {
       return {
@@ -265,7 +265,7 @@ export class AppService {
     }
   }
 
-  async getLecturer(payload: { id: string }) {
+  async getLecturer(payload: { id: string }): Promise<TLecturerResponse> {
     try {
       const { id } = payload;
       const lecturer = await this.drizzle
@@ -351,21 +351,21 @@ export class AppService {
         nidn: lecturer.nidn,
         nik: lecturer.nik,
         gender: lecturer.gender,
-        addition_task: lecturer.additionTask,
-        lecturer_type: lecturer.lecturerType,
-        lecturer_position: lecturer.lecturerPosition,
-        civil_service_level: lecturer.civilServiceLevel,
-        employee_work_unit: workUnits,
+        additionTask: lecturer.additionTask,
+        lecturerType: lecturer.lecturerType,
+        lecturerPosition: lecturer.lecturerPosition,
+        civilServiceLevel: lecturer.civilServiceLevel,
+        workUnits: workUnits,
         faculty,
         department,
-        employee_document: documents,
+        documents,
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
 
-  async getAcademicStaff(payload: { id: string }) {
+  async getAcademicStaff(payload: { id: string }): Promise<TAcademicStaffResponse> {
     try {
       const { id } = payload;
       const academicStaff = await this.drizzle
@@ -421,9 +421,9 @@ export class AppService {
         nip: academicStaff.nip,
         nik: academicStaff.nik,
         gender: academicStaff.gender,
-        academic_staff_type: academicStaff.academicStaffType,
-        employee_work_unit: workUnits,
-        employee_document: documents,
+        academicStaffType: academicStaff.academicStaffType,
+        workUnits,
+        documents,
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));
