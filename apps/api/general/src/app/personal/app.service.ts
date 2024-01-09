@@ -39,7 +39,7 @@ export class PersonalService {
     try {
       const country = await this.prisma.country.findMany({
         where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
+          name: { ...(search && { contains: search }) },
           ...(citizenship_id && { citizenship_id: Number(citizenship_id) }),
         },
         select: {
