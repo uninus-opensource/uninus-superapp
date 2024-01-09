@@ -39,7 +39,7 @@ export class PersonalService {
     try {
       const country = await this.prisma.country.findMany({
         where: {
-          name: { ...(search && { contains: search.toUpperCase() }) },
+          name: { ...(search && { contains: search }), mode: "insensitive" },
           ...(citizenship_id && { citizenship_id: Number(citizenship_id) }),
         },
         select: {
@@ -61,9 +61,7 @@ export class PersonalService {
     try {
       const province = await this.prisma.province.findMany({
         where: {
-          name: {
-            ...(search && { contains: search.toUpperCase() }),
-          },
+          name: { ...(search && { contains: search }), mode: "insensitive" },
         },
         select: {
           id: true,
@@ -85,9 +83,7 @@ export class PersonalService {
     try {
       const city = await this.prisma.city.findMany({
         where: {
-          name: {
-            ...(search && { contains: search.toUpperCase() }),
-          },
+          name: { ...(search && { contains: search }), mode: "insensitive" },
           ...(province_id && { province_id: Number(province_id) }),
         },
       });
@@ -106,7 +102,7 @@ export class PersonalService {
       const subDistrict = await this.prisma.subDistrict.findMany({
         where: {
           name: {
-            ...(search && { contains: search.toUpperCase() }),
+            ...(search && { contains: search, mode: "insensitive" }),
           },
           ...(city_id && { city_id: Number(city_id) }),
         },
