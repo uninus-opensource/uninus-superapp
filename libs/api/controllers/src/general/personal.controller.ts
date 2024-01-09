@@ -81,7 +81,7 @@ export class PersonalController {
   @ApiOperation({ summary: "Get Country" })
   @ApiQuery({ type: GetCountryDto })
   @Get("country")
-  async getCountry(@Query("search") query: ICountryRequest) {
+  async getCountry(@Query() query: ICountryRequest) {
     return await this.appService.getCountry(query);
   }
 

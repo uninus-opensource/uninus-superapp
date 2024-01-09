@@ -35,12 +35,12 @@ import {
 @Injectable()
 export class PersonalService {
   constructor(private prisma: PrismaService) {}
-  async getCountry({ search, citizenship_id }: ICountryRequest): Promise<TCountryResponse> {
+  async getCountry(payload: ICountryRequest): Promise<TCountryResponse> {
     try {
       const country = await this.prisma.country.findMany({
         where: {
-          name: { ...(search && { contains: search }) },
-          ...(citizenship_id && { citizenship_id: Number(citizenship_id) }),
+          name: { ...(payload?.search && { contains: payload?.search }), mode: "insensitive" },
+          ...(payload?.citizenship_id && { citizenship_id: Number(payload?.citizenship_id) }),
         },
         select: {
           id: true,
