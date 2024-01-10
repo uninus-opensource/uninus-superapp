@@ -107,7 +107,9 @@ export type TSelectionResponse = Array<
   Omit<InferSelectModel<typeof schema.selectionPath>, "degreeProgramId">
 >;
 
-export type TRegistrationPathResponse = Array<InferSelectModel<typeof schema.registrationPath>>;
+export type TRegistrationPathResponse = Array<
+  Omit<InferSelectModel<typeof schema.registrationPath>, "degreeProgramId">
+>;
 
 export type TGeneralResponse = {
   message: string;

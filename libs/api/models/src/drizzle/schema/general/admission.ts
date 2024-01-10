@@ -21,10 +21,15 @@ export const registrationStatusRelations = relations(registrationStatus, ({ many
 export const registrationPath = pgTable("app_registration_path", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
+  degreeProgramId: uuid("degree_program_id").references(() => degreeProgram.id),
 });
 
-export const registrationPathRelations = relations(registrationStatus, ({ many }) => ({
+export const registrationPathRelations = relations(registrationPath, ({ many, one }) => ({
   admission: many(admission),
+  degreeProgram: one(degreeProgram, {
+    fields: [registrationPath.degreeProgramId],
+    references: [degreeProgram.id],
+  }),
 }));
 
 export const scholarship = pgTable("app_scholarship", {
