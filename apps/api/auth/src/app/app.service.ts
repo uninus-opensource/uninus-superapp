@@ -48,7 +48,7 @@ export class AppService {
           .from(schema.users)
           .where(eq(schema.users.email, payload.email))
           .limit(1)
-          .then((res) => res.at(0)),
+          .then((res) => res.length),
         this.drizzle
           .select({
             phoneNumber: schema.students.phoneNumber,
@@ -56,7 +56,7 @@ export class AppService {
           .from(schema.students)
           .where(eq(schema.students.phoneNumber, `62${payload.phoneNumber}`))
           .limit(1)
-          .then((res) => res.at(0)),
+          .then((res) => res.length),
         this.drizzle
           .select({
             registrationNumber: schema.admission.registrationNumber,
