@@ -1,7 +1,12 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+<<<<<<< HEAD
 bun nx affected -t lint test --run-many
+=======
+#bun nx affected -t lint test build --run-many
+
+>>>>>>> 53339f4f (chore: remove all prisma related package)
 
 
 
