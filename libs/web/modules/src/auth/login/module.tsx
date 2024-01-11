@@ -5,14 +5,14 @@ import { FC, ReactElement, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { VSLogin, TVSLogin } from "@uninus/entities";
-import Image from "next/image";
 import { useUserEmail } from "@uninus/web/services";
 import AliceCarousel from "react-alice-carousel";
+import Link from "next/link";
+import Image from "next/image";
 import "react-alice-carousel/lib/alice-carousel.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export const LoginUserModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
