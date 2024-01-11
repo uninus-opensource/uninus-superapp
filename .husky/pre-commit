@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-#bun nx affected -t lint test build --run-many
+bun nx affected -t lint test build --run-many
 
 
 
