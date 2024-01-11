@@ -124,3 +124,13 @@ apps/mobile/pmb-e2e/artifacts
 apps/mobile/smart-dashboard-e2e/artifacts
 
 .nx/cache
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
