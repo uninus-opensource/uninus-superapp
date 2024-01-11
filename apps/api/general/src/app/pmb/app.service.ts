@@ -125,10 +125,10 @@ export class PMBService {
         .from(schema.selectionPath)
         .where(
           and(
-            and(
-              ilike(schema.selectionPath.name, `%${search || ""}%`),
-              ilike(schema.selectionPath.degreeProgramId, `%${degreeProgramId || ""}%`),
-            ),
+            ...(search ? [ilike(schema.selectionPath.name, `%${search}%`)] : []),
+            ...(degreeProgramId
+              ? [eq(schema.selectionPath.degreeProgramId, `${degreeProgramId}`)]
+              : []),
           ),
         );
       if (!selection) {

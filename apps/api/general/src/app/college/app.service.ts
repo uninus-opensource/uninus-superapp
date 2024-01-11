@@ -49,8 +49,8 @@ export class CollegeService {
         .from(schema.faculty)
         .where(
           and(
-            ilike(schema.faculty.name, `%${search || ""}%`),
-            ilike(schema.faculty.degreeProgramId, `%${degreeProgramId || ""}%`),
+            ...(search ? [ilike(schema.faculty.name, `%${search}%`)] : []),
+            ...(degreeProgramId ? [eq(schema.faculty.degreeProgramId, `${degreeProgramId}`)] : []),
           ),
         );
 
@@ -131,9 +131,11 @@ export class CollegeService {
         .from(schema.department)
         .where(
           and(
-            ilike(schema.department.name, `%${search || ""}%`),
-            ilike(schema.department.facultyId, `%${facultyId || ""}%`),
-            ilike(schema.department.degreeProgramId, `%${degreeProgramId || ""}%`),
+            ...(search ? [ilike(schema.department.name, `%${search}%`)] : []),
+            ...(facultyId ? [eq(schema.department.facultyId, `${facultyId}`)] : []),
+            ...(degreeProgramId
+              ? [eq(schema.department.degreeProgramId, `${degreeProgramId}`)]
+              : []),
           ),
         );
 

@@ -2,10 +2,14 @@ import { Pool } from "pg";
 import * as schema from ".";
 import { drizzle } from "drizzle-orm/node-postgres";
 
-const client = new Pool({
-  connectionString: process.env["DATABASE_URL"],
+const dbUrl = process.env["DATABASE_URL"] as string;
+const dbQueryClient = new Pool({
+  connectionString: dbUrl,
 });
-const db = drizzle(client);
+
+const db = drizzle(dbQueryClient, {
+  schema,
+});
 
 const seedRegistrationStatus = async () => {
   const registrationStatusExist = await db

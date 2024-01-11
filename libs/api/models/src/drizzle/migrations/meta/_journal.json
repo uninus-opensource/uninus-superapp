@@ -106,6 +106,13 @@
       "when": 1704711265956,
       "tag": "0014_mean_star_brand",
       "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "5",
+      "when": 1704975799874,
+      "tag": "0015_gigantic_juggernaut",
+      "breakpoints": true
     }
   ]
 }

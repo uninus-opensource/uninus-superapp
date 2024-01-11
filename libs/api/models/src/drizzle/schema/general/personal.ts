@@ -233,7 +233,7 @@ export const educationType = pgTable("app_education_type", {
   degreeProgramId: uuid("degree_program_id").references(() => degreeProgram.id),
 });
 
-export const EducationTypeRelations = relations(educationType, ({ many, one }) => ({
+export const educationTypeRelations = relations(educationType, ({ many, one }) => ({
   educationMajor: many(educationMajor),
   educations: many(educations),
   students: many(students),

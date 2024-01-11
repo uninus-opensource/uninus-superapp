@@ -9,11 +9,8 @@ export class SelectOptionDto {
 }
 
 export class GetFacultyDto extends SelectOptionDto {
-  @ApiProperty({
-    type: "integer",
-    required: false,
-  })
-  public degreeProgramId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public degreeProgramId!: string;
 }
 
 export class CreateFacultyDto {
@@ -22,11 +19,8 @@ export class CreateFacultyDto {
     required: false,
   })
   public name!: string;
-  @ApiProperty({
-    type: "integer",
-    required: false,
-  })
-  public degreeProgramId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public degreeProgramId!: string;
 }
 
 export class UpdateFacultyDto extends CreateFacultyDto {}
@@ -43,24 +37,15 @@ export class CreateDepartmentDto {
     required: false,
   })
   public degreeProgramId!: number;
-  @ApiProperty({
-    type: "integer",
-    required: false,
-  })
-  public facultyId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public facultyId!: string;
 }
 
 export class GetDepartmentDto extends SelectOptionDto {
-  @ApiProperty({
-    type: "integer",
-    required: false,
-  })
-  public degreeProgramId!: number;
-  @ApiProperty({
-    type: "integer",
-    required: false,
-  })
-  public facultyId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public degreeProgramId!: string;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public facultyId!: string;
 }
 
 export class UpdateDepartmentDto extends CreateDepartmentDto {}

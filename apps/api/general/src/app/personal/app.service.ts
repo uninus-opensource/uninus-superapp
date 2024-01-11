@@ -47,8 +47,8 @@ export class PersonalService {
         .from(schema.country)
         .where(
           and(
-            ilike(schema.country.name, `%${search || ""}%`),
-            ilike(schema.country.citizenshipId, `%${citizenshipId || ""}%`),
+            ...(search ? [ilike(schema.country.name, `%${search}%`)] : []),
+            ...(citizenshipId ? [eq(schema.country.citizenshipId, `${citizenshipId}`)] : []),
           ),
         );
       if (!country) {
@@ -79,6 +79,7 @@ export class PersonalService {
   }
 
   async getCity({ provinceId, search }: ICityRequest): Promise<TCityResponse> {
+    console.log(search, provinceId);
     try {
       const city = await this.drizzle
         .select({
@@ -88,8 +89,8 @@ export class PersonalService {
         .from(schema.city)
         .where(
           and(
-            ilike(schema.city.name, `%${search || ""}%`),
-            ilike(schema.city.provinceId, `%${provinceId || ""}%`),
+            ...(search ? [ilike(schema.city.name, `%${search}%`)] : []),
+            ...(provinceId ? [eq(schema.city.provinceId, `${provinceId}`)] : []),
           ),
         );
       if (!city) {
@@ -110,8 +111,8 @@ export class PersonalService {
         .from(schema.subdistrict)
         .where(
           and(
-            ilike(schema.subdistrict.name, `%${search || ""}%`),
-            ilike(schema.subdistrict.cityId, `%${cityId || ""}%`),
+            ...(search ? [ilike(schema.subdistrict.name, `%${search}%`)] : []),
+            ...(cityId ? [eq(schema.subdistrict.cityId, `${cityId}`)] : []),
           ),
         );
       if (!subdistrict) {
@@ -161,8 +162,8 @@ export class PersonalService {
         .from(schema.gender)
         .where(
           and(
-            ilike(schema.gender.name, `%${search || ""}%`),
-            ilike(schema.gender.id, `%${id || ""}%`),
+            ...(search ? [ilike(schema.gender.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.gender.id, `${id}`)] : []),
           ),
         );
 
@@ -281,8 +282,8 @@ export class PersonalService {
         .from(schema.educations)
         .where(
           and(
-            ilike(schema.educations.name, `%${search || ""}%`),
-            ilike(schema.educations.npsn, `%${npsn || ""}%`),
+            ...(search ? [ilike(schema.educations.name, `%${search}%`)] : []),
+            ...(npsn ? [eq(schema.educations.npsn, `${npsn}`)] : []),
           ),
         );
 
@@ -308,8 +309,10 @@ export class PersonalService {
         .from(schema.educationType)
         .where(
           and(
-            ilike(schema.educationType.name, `%${search || ""}%`),
-            ilike(schema.educationType.degreeProgramId, `%${degreeProgramId || ""}%`),
+            ...(search ? [ilike(schema.educationType.name, `%${search}%`)] : []),
+            ...(degreeProgramId
+              ? [eq(schema.educationType.degreeProgramId, `${degreeProgramId}`)]
+              : []),
           ),
         );
       if (!educationTypes) {
@@ -334,8 +337,10 @@ export class PersonalService {
         .from(schema.educationMajor)
         .where(
           and(
-            ilike(schema.educationMajor.name, `%${search || ""}%`),
-            ilike(schema.educationMajor.educationTypeId, `%${educationTypeId || ""}%`),
+            ...(search ? [ilike(schema.educationMajor.name, `%${search}%`)] : []),
+            ...(educationTypeId
+              ? [eq(schema.educationMajor.educationTypeId, `${educationTypeId}`)]
+              : []),
           ),
         );
 
@@ -403,8 +408,8 @@ export class PersonalService {
         .delete(schema.educations)
         .where(
           or(
-            ilike(schema.educations.id, String(payload.id)),
-            ilike(schema.educations.npsn, payload.npsn),
+            ...(payload.id ? [eq(schema.educations.id, `${payload.id}`)] : []),
+            ...(payload.npsn ? [eq(schema.educations.npsn, `${payload.npsn}`)] : []),
           ),
         );
 

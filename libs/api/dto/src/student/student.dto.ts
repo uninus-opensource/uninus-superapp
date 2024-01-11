@@ -14,13 +14,13 @@ export class UpdateStudentDto {
   nisn!: string;
 
   @ApiProperty()
-  no_kk!: string;
+  kk!: string;
 
-  @ApiProperty()
-  genderId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  genderId!: string;
 
-  @ApiProperty()
-  relogionId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  logionId!: string;
 
   @ApiProperty()
   birthPlace!: string;
@@ -31,32 +31,32 @@ export class UpdateStudentDto {
   @ApiProperty()
   phoneNumber!: string;
 
-  @ApiProperty()
-  citizenshipId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  citizenshipId!: string;
 
-  @ApiProperty()
-  maritalStatusId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  maritalStatusId!: string;
 
-  @ApiProperty()
-  countryId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  countryId!: string;
 
   @ApiProperty()
   address!: string;
 
-  @ApiProperty()
-  subdistrictId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  subdistrictId!: string;
 
-  @ApiProperty()
-  provinceId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  provinceId!: string;
 
-  @ApiProperty()
-  cityId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  cityId!: string;
 
-  @ApiProperty()
-  educationTypeId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  educationTypeId!: string;
 
-  @ApiProperty()
-  educationMajorId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  educationMajorId!: string;
 
   @ApiProperty()
   graduationYear!: string;
@@ -70,116 +70,119 @@ export class UpdateStudentDto {
   @ApiProperty()
   companyAddress!: string;
 
-  @ApiProperty()
-  occupationId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  occupationId!: string;
 
   @ApiProperty()
   position!: string;
 
-  @ApiProperty()
-  salaryId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  salaryId!: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
   guardianLecturerId!: string;
 
   @ApiProperty()
   fatherName!: string;
 
-  @ApiProperty()
-  fatherStatusId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  fatherStatusId!: string;
 
-  @ApiProperty()
-  fatherEducationId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  fatherEducationId!: string;
 
-  @ApiProperty()
-  fatherOccupationId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  fatherOccupationId!: string;
 
   @ApiProperty()
   fatherPosition!: string;
 
-  @ApiProperty()
-  fatherSalaryId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  fatherSalaryId!: string;
 
   @ApiProperty()
   motherName!: string;
 
-  @ApiProperty()
-  motherStatusId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  motherStatusId!: string;
 
   @ApiProperty()
-  motherEducationId!: number;
+  motherEducationId!: string;
 
-  @ApiProperty()
-  motherOccupationId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  motherOccupationId!: string;
 
   @ApiProperty()
   motherPosition!: string;
 
-  @ApiProperty()
-  motherSalaryId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  motherSalaryId!: string;
 
   @ApiProperty()
   guardianName!: string;
 
-  @ApiProperty()
-  guardianStatusId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  guardianStatusId!: string;
 
-  @ApiProperty()
-  guardianEducationId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  guardianEducationId!: string;
 
-  @ApiProperty()
-  guardianOccupationId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  guardianOccupationId!: string;
 
   @ApiProperty()
   guardianPosition!: string;
 
-  @ApiProperty()
-  guardianSalaryId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  guardianSalaryId!: string;
 
-  @ApiProperty()
-  parentProvinceId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  parentProvinceId!: string;
 
-  @ApiProperty()
-  parentSubdistrictId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  parentSubdistrictId!: string;
 
-  @ApiProperty()
-  parentSityId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  parentSityId!: string;
 
   @ApiProperty()
   parentAddress!: string;
 
-  @ApiProperty()
-  scholarshipId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  scholarshipId!: string;
 
-  @ApiProperty()
-  disabilitiesId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  disabilitiesId!: string;
 
-  @ApiProperty()
-  facultyId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  facultyId!: string;
 
-  @ApiProperty()
-  departmentId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  departmentId!: string;
 
   @ApiProperty()
   academicYear!: string;
 
-  @ApiProperty()
-  degreeProgramId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  degreeProgramId!: string;
 
-  @ApiProperty()
-  firstDepartmentId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  firstDepartmentId!: string;
 
-  @ApiProperty()
-  secondDepartmentId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  secondDepartmentId!: string;
 
-  @ApiProperty()
-  selectionPathId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  selectionPathId!: string;
 
-  @ApiProperty()
-  registrationPathId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  registrationPathId!: string;
 
   @ApiProperty()
   utbkAverage!: number;
+
+  @ApiProperty()
+  gradeAverage!: number;
 
   @ApiProperty()
   utbkPu!: number;
@@ -229,7 +232,7 @@ export class UpdateStudentDto {
   studentGrade!: [];
 
   @ApiProperty()
-  registrationStatusId!: number;
+  registrationStatusId!: string;
 }
 
 export class CreateStudentDto extends UpdateStudentDto {

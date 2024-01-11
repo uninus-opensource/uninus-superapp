@@ -440,8 +440,8 @@ export class AppService {
         .from(schema.employeeCategories)
         .where(
           and(
-            ilike(schema.employeeCategories.name, `%${search || ""}%`),
-            ilike(schema.employeeCategories.id, `%${id || ""}%`),
+            ...(search ? [ilike(schema.employeeCategories.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.employeeCategories.id, `${id}`)] : []),
           ),
         );
       if (!employeeCategories) {
@@ -463,8 +463,8 @@ export class AppService {
         .from(schema.employeeType)
         .where(
           and(
-            ilike(schema.employeeType.name, `%${search || ""}%`),
-            ilike(schema.employeeType.id, `%${id || ""}%`),
+            ...(search ? [ilike(schema.employeeType.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.employeeType.id, `${id}`)] : []),
           ),
         );
       if (!employeeTypes) {
@@ -486,8 +486,8 @@ export class AppService {
         .from(schema.employeeStatus)
         .where(
           and(
-            ilike(schema.employeeStatus.name, `%${search || ""}%`),
-            ilike(schema.employeeStatus.id, `%${id || ""}%`),
+            ...(search ? [ilike(schema.employeeStatus.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.employeeStatus.id, `${id}`)] : []),
           ),
         );
       if (!employeeStatus) {
@@ -509,8 +509,8 @@ export class AppService {
         .from(schema.lecturerType)
         .where(
           and(
-            ilike(schema.lecturerType.name, `%${search || ""}%`),
-            ilike(schema.lecturerType.id, `%${id || ""}%`),
+            ...(search ? [ilike(schema.lecturerType.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.lecturerType.id, `${id}`)] : []),
           ),
         );
       if (!lecturerTypes) {
@@ -532,8 +532,8 @@ export class AppService {
         .from(schema.lecturerPosition)
         .where(
           and(
-            ilike(schema.lecturerPosition.name, `%${search || ""}%`),
-            ilike(schema.lecturerPosition.id, `%${id || ""}%`),
+            ...(search ? [ilike(schema.lecturerPosition.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.lecturerPosition.id, `${id}`)] : []),
           ),
         );
       if (!lecturerPositions) {
@@ -555,8 +555,8 @@ export class AppService {
         .from(schema.academicStaffType)
         .where(
           and(
-            ilike(schema.academicStaffType.name, `%${search || ""}%`),
-            ilike(schema.academicStaffType.id, `%${id || ""}%`),
+            ...(search ? [ilike(schema.academicStaffType.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.academicStaffType.id, `${id}`)] : []),
           ),
         );
       if (!academicStaffTypes) {
@@ -578,8 +578,8 @@ export class AppService {
         .from(schema.academicStaffPosition)
         .where(
           and(
-            ilike(schema.academicStaffPosition.name, `%${search || ""}%`),
-            ilike(schema.academicStaffPosition.id, `%${id || ""}%`),
+            ...(search ? [ilike(schema.academicStaffPosition.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.academicStaffPosition.id, `${id}`)] : []),
           ),
         );
       if (!academicStaffPositions) {
@@ -601,8 +601,8 @@ export class AppService {
         .from(schema.workUnitCategories)
         .where(
           and(
-            ilike(schema.workUnitCategories.name, `%${search || ""}%`),
-            ilike(schema.workUnitCategories.id, `%${id || ""}%`),
+            ...(search ? [ilike(schema.workUnitCategories.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.workUnitCategories.id, `${id}`)] : []),
           ),
         );
 
@@ -625,8 +625,8 @@ export class AppService {
         .from(schema.workUnits)
         .where(
           and(
-            ilike(schema.workUnits.name, `%${search || ""}%`),
-            ilike(schema.workUnits.id, `%${id || ""}%`),
+            ...(search ? [ilike(schema.workUnits.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.workUnits.id, `${id}`)] : []),
           ),
         );
 

@@ -16,11 +16,8 @@ export class GetSelectionPathDto {
     required: false,
   })
   public search!: string;
-  @ApiProperty({
-    type: "string",
-    required: false,
-  })
-  public degreeProgramId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public degreeProgramId!: string;
 }
 
 export class CreateSelectionPathDto {
@@ -29,11 +26,8 @@ export class CreateSelectionPathDto {
     required: false,
   })
   public name!: string;
-  @ApiProperty({
-    type: "string",
-    required: false,
-  })
-  public degreeProgramId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public degreeProgramId!: string;
 }
 
 export class UpdateSelectionPathDto {
@@ -42,11 +36,8 @@ export class UpdateSelectionPathDto {
     required: false,
   })
   public name!: string;
-  @ApiProperty({
-    type: "string",
-    required: false,
-  })
-  public degreeProgramId!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public degreeProgramId!: string;
 }
 
 export class GetRegistransDto {
@@ -76,10 +67,7 @@ export class GetInterestProgramsDto {
 }
 
 export class GetInterestDepartmentDto extends GetInterestProgramsDto {
-  @ApiProperty({
-    type: "string",
-    required: false,
-  })
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
   public degreeProgramId!: string;
 }
 

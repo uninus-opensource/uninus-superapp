@@ -38,6 +38,7 @@ export class CreateLastEducationDto {
 
   @ApiProperty({
     type: "string",
+    format: "uuid",
   })
   public educationTypeId!: number;
 }
@@ -53,7 +54,8 @@ export class GetCityDto {
 
   @ApiProperty({
     required: false,
-    type: "integer",
+    type: "string",
+    format: "uuid",
   })
   public provinceId!: number;
 }
@@ -67,7 +69,8 @@ export class GetSubDistrictDto {
 
   @ApiProperty({
     required: false,
-    type: "integer",
+    type: "string",
+    format: "uuid",
   })
   public cityId!: number;
 }
@@ -80,6 +83,8 @@ export class GetCountryDto {
 
   @ApiProperty({
     required: false,
+    type: "string",
+    format: "uuid",
   })
   public citizenshipId!: string;
 }
@@ -108,6 +113,7 @@ export class GetLastEducationTypeDto {
   @ApiProperty({
     required: false,
     type: "string",
+    format: "uuid",
   })
   public degreeProgramId!: string;
 }
@@ -122,6 +128,7 @@ export class GetLastMajorTypeDto {
   @ApiProperty({
     required: false,
     type: "string",
+    format: "uuid",
   })
   public educationTypeId!: string;
 }
