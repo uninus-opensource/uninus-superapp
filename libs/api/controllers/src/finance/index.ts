@@ -1,7 +1,6 @@
 import {
   ApiBearerAuth,
   ApiBody,
-  ApiHeader,
   ApiHeaders,
   ApiOperation,
   ApiQuery,
@@ -28,36 +27,26 @@ import { FinanceService } from "@uninus/api/services";
 @ApiTags("Finance")
 @ApiBearerAuth("bearer")
 @Controller("finance")
+@UseGuards(JwtAuthGuard)
 export class FinanceController {
   constructor(private readonly appService: FinanceService) {}
 
   @ApiOperation({ summary: "Get Data Finance Summary" })
-  @ApiHeader({
-    name: "app-origin",
-    description: "Application Origin",
-    required: true,
-  })
   @ApiQuery({ name: "filter", enum: EFilterGraph, required: false })
-  @ApiQuery({ name: "start_date", required: false })
-  @ApiQuery({ name: "end_date", required: false })
+  @ApiQuery({ name: "startDate", required: false })
+  @ApiQuery({ name: "endDate", required: false })
   @Get("/payment/sumary")
   async financeSummary(
     @Query("filter") filter: EFilterGraph,
-    @Query("start_date") start_date: string,
-    @Query("end_date") end_date: string,
+    @Query("start_date") startDate: string,
+    @Query("end_date") endDate: string,
   ) {
-    return await this.appService.financeSummary({ filter, start_date, end_date });
+    return await this.appService.financeSummary({ filter, startDate, endDate });
   }
 
   @ApiOperation({ summary: "Create Payment" })
-  @ApiHeader({
-    name: "app-origin",
-    description: "Application Origin",
-    required: true,
-  })
   @ApiBody({ type: CreatePaymentDto })
   @Post("/payment/create")
-  @UseGuards(JwtAuthGuard)
   async createPayment(
     @Body(new ZodValidationPipe(VSCreatePayment)) payload: TCreatePaymentRequest,
     @Request() reqToken: TReqToken,
@@ -67,11 +56,6 @@ export class FinanceController {
   }
 
   @ApiOperation({ summary: "Check Status Payment" })
-  @ApiHeader({
-    name: "app-origin",
-    description: "Application Origin",
-    required: true,
-  })
   @ApiBody({ type: StatusPaymentDto })
   @Post("/payment/status")
   @UseGuards(JwtAuthGuard)

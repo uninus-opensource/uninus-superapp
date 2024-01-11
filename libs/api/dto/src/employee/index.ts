@@ -22,8 +22,8 @@ export class GetEmployeesDto {
 }
 
 export class GetEmployeeParamsDto {
-  @ApiProperty({ required: false })
-  public id?: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public id?: string;
 
   @ApiProperty({ required: false })
   public search?: string;
@@ -40,17 +40,17 @@ export class CreateEmployeeDto {
   public nip?: string;
 
   @ApiProperty({ required: false })
-  public phone_number!: string;
+  public phoneNumber!: string;
 
   @ApiProperty({ required: true })
   public email!: string;
 
-  @ApiProperty({ required: true })
-  public work_unit_category_id!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public workUnitCategoryId!: string;
 
-  @ApiProperty({ required: true })
-  public work_unit_id!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public workUnitId!: string;
 
-  @ApiProperty({ required: true })
-  public employee_type_id!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public employeeTypeId!: string;
 }

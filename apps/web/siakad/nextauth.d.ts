@@ -11,8 +11,8 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
   interface JWT extends TUser {
-    access_token: string;
-    refresh_token: string;
+    accessToken: string;
+    refreshToken: string;
   }
 }
 

@@ -158,7 +158,7 @@ export class PersonalController {
   @ApiParam({ name: "id", type: "integer", required: true })
   @ApiBody({ type: UpdateLastEducationDto })
   @Patch("education/:id")
-  async updateLastEducation(@Param("id") id: number, @Body() payload: TUpdateEducationRequest) {
+  async updateLastEducation(@Param("id") id: string, @Body() payload: TUpdateEducationRequest) {
     return await this.appService.updateLastEducation({ id, ...payload });
   }
 

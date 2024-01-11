@@ -76,7 +76,7 @@ export const DataPendidikanSection: FC = (): ReactElement => {
 
   const educationHistoryOptions = useMemo(() => {
     return getEducationHistory?.education?.map((educationHistory) => ({
-      value: educationHistory?.id.toString(),
+      value: educationHistory?.id as string,
       npsn: educationHistory?.npsn,
       school_name: educationHistory.name,
       province: educationHistory.province,

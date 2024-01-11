@@ -1,3 +1,3 @@
 export type TLogoutPayload = {
-  refresh_token?: string;
+  refreshToken?: string;
 };

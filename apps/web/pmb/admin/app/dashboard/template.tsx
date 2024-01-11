@@ -35,7 +35,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { data: session } = useSession();
 
   const handleLogout = async () => {
-    mutate(session?.user?.refresh_token);
+    mutate(session?.user?.refreshToken);
   };
 
   const sideListsSuperAdmin: TSideList = [
@@ -117,8 +117,8 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
           session?.user?.role === roles?.admin_Selek_PMB
             ? sideListsAdminSeleksi
             : session?.user?.role === roles?.super_Admin_PMB
-            ? sideListsSuperAdmin
-            : sideListsAdminKeuangan
+              ? sideListsSuperAdmin
+              : sideListsAdminKeuangan
         }
       />
 

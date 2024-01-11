@@ -14,7 +14,7 @@ export const mock = axios.create(configMock);
 api.interceptors.request.use(
   async (config) => {
     const session = await getSession();
-    const token = session?.user?.access_token;
+    const token = session?.user?.accessToken;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
       config.headers["app-origin"] = process.env.NEXT_PUBLIC_APP_ORIGIN;

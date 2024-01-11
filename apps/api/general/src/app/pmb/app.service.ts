@@ -1,12 +1,5 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-
-import { PrismaService } from "@uninus/api/services";
 import { errorMappings } from "@uninus/api/utilities";
 import {
   TSelectionResponse,
@@ -34,39 +27,39 @@ import {
   TUpdateScholarshipRequest,
   TUpdateSelectionPathRequest,
 } from "@uninus/entities";
-
+import * as schema from "@uninus/api/models";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { and, eq, gte, ilike, lte, isNull, isNotNull } from "drizzle-orm";
 @Injectable()
 export class PMBService {
-  constructor(private prisma: PrismaService) {}
+  constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
 
   async getScholarship(payload: ISelectRequest): Promise<TScholarshipResponse> {
     try {
       const { search } = payload;
-      const scholarship = await this.prisma.scholarship.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const scholarship = await this.drizzle
+        .select({
+          id: schema.scholarship.id,
+          name: schema.scholarship.name,
+          discount: schema.scholarship.discount,
+        })
+        .from(schema.scholarship)
+        .where(ilike(schema.scholarship.name, `%${search || ""}%`));
 
       if (!scholarship) {
         throw new NotFoundException("Data Beasiswa Tidak Ditemukan!");
       }
 
-      return { scholarship };
+      return scholarship;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async createScholarship(payload: TCreateScholarshipRequest): Promise<TGeneralResponse> {
     try {
-      const newScholarship = await this.prisma.scholarship.create({
-        data: {
-          name: payload.name,
-        },
+      const newScholarship = await this.drizzle.insert(schema.scholarship).values({
+        name: payload.name,
+        discount: payload.discount,
       });
 
       if (!newScholarship) {
@@ -82,14 +75,12 @@ export class PMBService {
   }
   async updateScholarship(payload: TUpdateScholarshipRequest): Promise<TGeneralResponse> {
     try {
-      const updateScholarship = await this.prisma.scholarship.update({
-        where: {
-          id: Number(payload.id),
-        },
-        data: {
+      const updateScholarship = await this.drizzle
+        .update(schema.scholarship)
+        .set({
           name: payload.name,
-        },
-      });
+        })
+        .where(eq(schema.scholarship.id, payload.id));
 
       if (!updateScholarship) {
         throw new BadRequestException("Gagal memperbarui Beasiswa");
@@ -102,13 +93,11 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteScholarship(payload: { id: number }): Promise<TGeneralResponse> {
+  async deleteScholarship(payload: { id: string }): Promise<TGeneralResponse> {
     try {
-      const deleteScholarship = await this.prisma.scholarship.delete({
-        where: {
-          id: Number(payload.id),
-        },
-      });
+      const deleteScholarship = await this.drizzle
+        .delete(schema.scholarship)
+        .where(eq(schema.scholarship.id, payload.id));
 
       if (!deleteScholarship) {
         throw new BadRequestException(`Gagal menghapus beasiswa`);
@@ -126,24 +115,27 @@ export class PMBService {
       const {
         search,
 
-        degree_program_id,
+        degreeProgramId,
       } = payload;
-      const selection = await this.prisma.selectionPath.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          degree_program_id: degree_program_id && Number(degree_program_id),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
+      const selection = await this.drizzle
+        .select({
+          id: schema.selectionPath.id,
+          name: schema.selectionPath.name,
+        })
+        .from(schema.selectionPath)
+        .where(
+          and(
+            ...(search ? [ilike(schema.selectionPath.name, `%${search}%`)] : []),
+            ...(degreeProgramId
+              ? [eq(schema.selectionPath.degreeProgramId, `${degreeProgramId}`)]
+              : []),
+          ),
+        );
       if (!selection) {
         throw new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!");
       }
 
-      return { selection };
+      return selection;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -151,38 +143,29 @@ export class PMBService {
   async getRegistrationPath(payload: ISelectionRequest): Promise<TRegistrationPathResponse> {
     try {
       const { search } = payload;
-      const registration_path = await this.prisma.registrationPath.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const registrationPath = await this.drizzle
+        .select({
+          id: schema.registrationPath.id,
+          name: schema.registrationPath.name,
+        })
+        .from(schema.registrationPath)
+        .where(ilike(schema.registrationPath.name, `%${search || ""}%`));
 
-      if (!registration_path) {
+      if (!registrationPath) {
         throw new NotFoundException("Data Jalur Seleksi Tidak Ditemukan!");
       }
 
-      return { registration_path };
+      return registrationPath;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async createSelectionPath(payload: TCreateSelectionPathRequest): Promise<TGeneralResponse> {
     try {
-      const newSelectionPath = await this.prisma.selectionPath.create({
-        data: {
-          name: payload.name,
-          degree_program: {
-            connect: {
-              id: payload.degree_program_id,
-            },
-          },
-        },
+      const newSelectionPath = await this.drizzle.insert(schema.selectionPath).values({
+        name: payload.name,
+        degreeProgramId: payload.degreeProgramId,
       });
-
       if (!newSelectionPath) {
         throw new BadRequestException("Gagal menambahkan Jalur Seleksi baru");
       }
@@ -196,15 +179,13 @@ export class PMBService {
   }
   async updateSelectionPath(payload: TUpdateSelectionPathRequest): Promise<TGeneralResponse> {
     try {
-      const updatedSelectionPath = await this.prisma.selectionPath.update({
-        where: {
-          id: Number(payload.id),
-        },
-        data: {
+      const updatedSelectionPath = await this.drizzle
+        .update(schema.selectionPath)
+        .set({
           name: payload.name,
-          degree_program_id: payload.degree_program_id,
-        },
-      });
+          degreeProgramId: payload.degreeProgramId,
+        })
+        .where(eq(schema.selectionPath.id, payload.id));
 
       if (!updatedSelectionPath) {
         throw new BadRequestException("Gagal memperbarui jalur seleksi");
@@ -217,14 +198,11 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteSelectionPath(payload: { id: number }): Promise<TGeneralResponse> {
+  async deleteSelectionPath(payload: { id: string }): Promise<TGeneralResponse> {
     try {
-      const selctionPath = await this.prisma.selectionPath.delete({
-        where: {
-          id: Number(payload.id),
-        },
-      });
-
+      const selctionPath = await this.drizzle
+        .delete(schema.selectionPath)
+        .where(eq(schema.selectionPath.id, payload.id));
       if (!selctionPath) {
         throw new BadRequestException(`Gagal menghapus Jalur seleksi`);
       }
@@ -238,27 +216,27 @@ export class PMBService {
   }
   async getTotalRegistrans(payload: IRegistransRequest): Promise<TTotalRegistransRes> {
     try {
-      const { filter_type, start_date, end_date } = payload;
-      const whereClause: {
-        createdAt?: {
-          gte?: Date;
-          lte?: Date;
-        };
-      } = {};
+      const { filterType, startDate, endDate } = payload;
+      // const whereClause: {
+      //   createdAt?: {
+      //     gte?: Date;
+      //     lte?: Date;
+      //   };
+      // } = {};
 
       const responseData: TTotalRegistransRes = {
         data: [],
         summary: {
-          total_registrans: 0,
-          total_interest: 0,
-          paids_form: 0,
-          paids_ukt: 0,
-          accepted_registrans: 0,
+          totalRegistrans: 0,
+          totalInterest: 0,
+          paidsForm: 0,
+          paidsUkt: 0,
+          acceptedRegistrans: 0,
         },
       };
 
-      if (filter_type) {
-        switch (filter_type) {
+      if (filterType) {
+        switch (filterType) {
           case EFilterTypeTotalRegistrans.WEEKLY: {
             const weekData: TTotalRegistransRes["data"] = [];
 
@@ -267,86 +245,126 @@ export class PMBService {
               currentDate.setDate(currentDate.getDate() - i);
               currentDate.setUTCHours(0, 0, 0, 0);
 
-              const total_registrans = await this.prisma.students.count({
-                select: {
-                  _all: true,
-                },
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: currentDate,
-                    lte: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
-                  },
-                  pmb: {
-                    documents: {
-                      some: {
-                        pmb_id: {
-                          not: null,
-                        },
-                      },
-                    },
-                  },
-                },
-              });
-
-              const total_interest = await this.prisma.students.findMany({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: currentDate,
-                    lte: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
-                  },
-                  pmb: {
-                    documents: {
-                      none: {},
-                    },
-                  },
-                },
-              });
-
-              const accepted_registrans = await this.prisma.pMB.count({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: currentDate,
-                    lte: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
-                  },
-                  registration_status_id: 6,
-                },
-              });
-
-              const paidsUKTCount = await this.prisma.pMB.count({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: currentDate,
-                    lte: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
-                  },
-                  registration_status_id: 4,
-                },
-              });
-
-              const paidsFormCount = await this.prisma.pMB.count({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: currentDate,
-                    lte: new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
-                  },
-                  registration_status_id: 3,
-                },
-              });
+              const [
+                totalRegistrans,
+                totalInterest,
+                acceptedRegistrans,
+                paidsFormCount,
+                paidsUKTCount,
+              ] = await Promise.all([
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.documents, eq(schema.students.id, schema.documents.studentId))
+                  .where(
+                    and(
+                      isNotNull(schema.documents.id),
+                      gte(schema.students.createdAt, currentDate),
+                      lte(
+                        schema.students.createdAt,
+                        new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
+                      ),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.documents, eq(schema.students.id, schema.documents.studentId))
+                  .where(
+                    and(
+                      isNull(schema.documents.id),
+                      gte(schema.students.createdAt, currentDate),
+                      lte(
+                        schema.students.createdAt,
+                        new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
+                      ),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+                  .leftJoin(
+                    schema.registrationStatus,
+                    eq(schema.admission.registrationStatusId, schema.registrationStatus.id),
+                  )
+                  .where(
+                    and(
+                      gte(schema.students.createdAt, currentDate),
+                      lte(
+                        schema.students.createdAt,
+                        new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
+                      ),
+                      ilike(schema.registrationStatus.name, "%Lulus Seleksi%"),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+                  .leftJoin(
+                    schema.registrationStatus,
+                    eq(schema.admission.registrationStatusId, schema.registrationStatus.id),
+                  )
+                  .where(
+                    and(
+                      gte(schema.students.createdAt, currentDate),
+                      lte(
+                        schema.students.createdAt,
+                        new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
+                      ),
+                      ilike(schema.registrationStatus.name, "%Proses Seleksi%"),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(
+                    schema.paymentHistory,
+                    eq(schema.paymentHistory.studentId, schema.students.id),
+                  )
+                  .leftJoin(
+                    schema.paymentObligations,
+                    eq(schema.paymentObligations.id, schema.paymentHistory.paymentObligationId),
+                  )
+                  .where(
+                    and(
+                      gte(schema.students.createdAt, currentDate),
+                      lte(
+                        schema.students.createdAt,
+                        new Date(currentDate.getTime() + 24 * 60 * 60 * 1000 - 1),
+                      ),
+                      eq(schema.paymentHistory.isPaid, true),
+                      ilike(schema.paymentObligations.name, "UKT"),
+                    ),
+                  )
+                  .then((res) => res.length),
+              ]);
 
               const label = new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(
                 currentDate,
               );
               const dailyStats = {
                 label,
-                total_registrans: total_registrans._all,
-                total_interest: total_interest.length,
-                paids_form: paidsFormCount,
-                accepted_registrans: accepted_registrans,
-                paids_ukt: paidsUKTCount,
+                totalRegistrans,
+                totalInterest: totalInterest,
+                paidsForm: paidsFormCount,
+                acceptedRegistrans: acceptedRegistrans,
+                paidsUkt: paidsUKTCount,
               };
 
               weekData.push(dailyStats);
@@ -370,76 +388,100 @@ export class PMBService {
               const end = new Date(endOfMonth);
               end.setMonth(end.getMonth() - i);
               end.setHours(23, 59, 59, 999);
-
-              const total_registrans = await this.prisma.students.count({
-                select: {
-                  _all: true,
-                },
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: start,
-                    lte: end,
-                  },
-                  pmb: {
-                    documents: {
-                      some: {
-                        pmb_id: {
-                          not: null,
-                        },
-                      },
-                    },
-                  },
-                },
-              });
-
-              const total_interest = await this.prisma.students.findMany({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: start,
-                    lte: end,
-                  },
-                  pmb: {
-                    documents: {
-                      none: {},
-                    },
-                  },
-                },
-              });
-
-              const accepted_registrans = await this.prisma.pMB.count({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: start,
-                    lte: end,
-                  },
-                  registration_status_id: 6,
-                },
-              });
-
-              const paidsUKTCount = await this.prisma.pMB.count({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: start,
-                    lte: end,
-                  },
-                  registration_status_id: 4,
-                },
-              });
-
-              const paidsFormCount = await this.prisma.pMB.count({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: start,
-                    lte: end,
-                  },
-                  registration_status_id: 3,
-                },
-              });
+              const [
+                totalRegistrans,
+                totalInterest,
+                acceptedRegistrans,
+                paidsFormCount,
+                paidsUKTCount,
+              ] = await Promise.all([
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.documents, eq(schema.students.id, schema.documents.studentId))
+                  .where(
+                    and(
+                      isNotNull(schema.documents.id),
+                      gte(schema.students.createdAt, start),
+                      lte(schema.students.createdAt, end),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.documents, eq(schema.students.id, schema.documents.studentId))
+                  .where(
+                    and(
+                      isNull(schema.documents.id),
+                      gte(schema.students.createdAt, start),
+                      lte(schema.students.createdAt, end),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+                  .leftJoin(
+                    schema.registrationStatus,
+                    eq(schema.admission.registrationStatusId, schema.registrationStatus.id),
+                  )
+                  .where(
+                    and(
+                      gte(schema.students.createdAt, start),
+                      lte(schema.students.createdAt, end),
+                      ilike(schema.registrationStatus.name, "%Lulus Seleksi%"),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+                  .leftJoin(
+                    schema.registrationStatus,
+                    eq(schema.admission.registrationStatusId, schema.registrationStatus.id),
+                  )
+                  .where(
+                    and(
+                      gte(schema.students.createdAt, start),
+                      lte(schema.students.createdAt, end),
+                      ilike(schema.registrationStatus.name, "%Proses Seleksi%"),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(
+                    schema.paymentHistory,
+                    eq(schema.paymentHistory.studentId, schema.students.id),
+                  )
+                  .leftJoin(
+                    schema.paymentObligations,
+                    eq(schema.paymentObligations.id, schema.paymentHistory.paymentObligationId),
+                  )
+                  .where(
+                    and(
+                      gte(schema.students.createdAt, start),
+                      lte(schema.students.createdAt, end),
+                      eq(schema.paymentHistory.isPaid, true),
+                      ilike(schema.paymentObligations.name, "UKT"),
+                    ),
+                  )
+                  .then((res) => res.length),
+              ]);
 
               const label = `${start.toLocaleString("default", {
                 month: "long",
@@ -447,11 +489,11 @@ export class PMBService {
 
               const monthlyStast = {
                 label,
-                total_registrans: total_registrans._all,
-                total_interest: total_interest.length,
-                paids_form: paidsFormCount,
-                accepted_registrans: accepted_registrans,
-                paids_ukt: paidsUKTCount,
+                totalRegistrans: totalRegistrans,
+                totalInterest: totalInterest,
+                paidsForm: paidsFormCount,
+                acceptedRegistrans: acceptedRegistrans,
+                paidsUkt: paidsUKTCount,
               };
 
               monthData.push(monthlyStast);
@@ -470,85 +512,110 @@ export class PMBService {
               const currentYearStart = new Date(currentYear, 0, 1);
               const currentYearEnd = new Date(currentYear, 11, 31, 23, 59, 59, 999);
 
-              const total_registrans = await this.prisma.students.count({
-                select: {
-                  _all: true,
-                },
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: currentYearStart,
-                    lte: currentYearEnd,
-                  },
-                  pmb: {
-                    documents: {
-                      some: {
-                        pmb_id: {
-                          not: null,
-                        },
-                      },
-                    },
-                  },
-                },
-              });
-
-              const total_interest = await this.prisma.students.findMany({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: currentYearStart,
-                    lte: currentYearEnd,
-                  },
-                  pmb: {
-                    documents: {
-                      none: {},
-                    },
-                  },
-                },
-              });
-
-              const accepted_registrans = await this.prisma.pMB.count({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: currentYearStart,
-                    lte: currentYearEnd,
-                  },
-                  registration_status_id: 6,
-                },
-              });
-
-              const paidsUKTCount = await this.prisma.pMB.count({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: currentYearStart,
-                    lte: currentYearEnd,
-                  },
-                  registration_status_id: 4,
-                },
-              });
-
-              const paidsFormCount = await this.prisma.pMB.count({
-                where: {
-                  ...whereClause,
-                  createdAt: {
-                    gte: currentYearStart,
-                    lte: currentYearEnd,
-                  },
-                  registration_status_id: 3,
-                },
-              });
+              const [
+                totalRegistrans,
+                totalInterest,
+                acceptedRegistrans,
+                paidsFormCount,
+                paidsUKTCount,
+              ] = await Promise.all([
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.documents, eq(schema.students.id, schema.documents.studentId))
+                  .where(
+                    and(
+                      isNotNull(schema.documents.id),
+                      gte(schema.students.createdAt, currentYearStart),
+                      lte(schema.students.createdAt, currentYearEnd),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.documents, eq(schema.students.id, schema.documents.studentId))
+                  .where(
+                    and(
+                      isNull(schema.documents.id),
+                      gte(schema.students.createdAt, currentYearStart),
+                      lte(schema.students.createdAt, currentYearEnd),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+                  .leftJoin(
+                    schema.registrationStatus,
+                    eq(schema.admission.registrationStatusId, schema.registrationStatus.id),
+                  )
+                  .where(
+                    and(
+                      gte(schema.students.createdAt, currentYearStart),
+                      lte(schema.students.createdAt, currentYearEnd),
+                      ilike(schema.registrationStatus.name, "%Lulus Seleksi%"),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+                  .leftJoin(
+                    schema.registrationStatus,
+                    eq(schema.admission.registrationStatusId, schema.registrationStatus.id),
+                  )
+                  .where(
+                    and(
+                      gte(schema.students.createdAt, currentYearStart),
+                      lte(schema.students.createdAt, currentYearEnd),
+                      ilike(schema.registrationStatus.name, "%Proses Seleksi%"),
+                    ),
+                  )
+                  .then((res) => res.length),
+                this.drizzle
+                  .select({
+                    id: schema.students.id,
+                  })
+                  .from(schema.students)
+                  .leftJoin(
+                    schema.paymentHistory,
+                    eq(schema.paymentHistory.studentId, schema.students.id),
+                  )
+                  .leftJoin(
+                    schema.paymentObligations,
+                    eq(schema.paymentObligations.id, schema.paymentHistory.paymentObligationId),
+                  )
+                  .where(
+                    and(
+                      gte(schema.students.createdAt, currentYearStart),
+                      lte(schema.students.createdAt, currentYearEnd),
+                      eq(schema.paymentHistory.isPaid, true),
+                      ilike(schema.paymentObligations.name, "UKT"),
+                    ),
+                  )
+                  .then((res) => res.length),
+              ]);
 
               const label = currentYear.toString();
 
               const yearlyStats = {
                 label,
-                total_registrans: total_registrans._all,
-                total_interest: total_interest.length,
-                paids_form: paidsFormCount,
-                accepted_registrans: accepted_registrans,
-                paids_ukt: paidsUKTCount,
+                totalRegistrans: totalRegistrans,
+                totalInterest: totalInterest,
+                paidsForm: paidsFormCount,
+                acceptedRegistrans: acceptedRegistrans,
+                paidsUkt: paidsUKTCount,
               };
 
               yearData.push(yearlyStats);
@@ -560,93 +627,119 @@ export class PMBService {
           }
 
           case EFilterTypeTotalRegistrans.RANGE: {
-            if (!start_date || !end_date) {
+            if (!startDate || !endDate) {
               throw new BadRequestException(
                 "start date dan end date wajib diisi ketika memilih filter range",
               );
             }
 
-            const startOfRange = new Date(start_date);
-            const endOfRange = new Date(end_date);
-            const total_registrans = await this.prisma.students.count({
-              select: {
-                _all: true,
-              },
-              where: {
-                ...whereClause,
-                createdAt: {
-                  gte: startOfRange,
-                  lte: endOfRange,
-                },
-                pmb: {
-                  documents: {
-                    some: {
-                      pmb_id: {
-                        not: null,
-                      },
-                    },
-                  },
-                },
-              },
-            });
+            const startOfRange = new Date(startDate);
+            const endOfRange = new Date(endDate);
 
-            const total_interest = await this.prisma.students.findMany({
-              where: {
-                ...whereClause,
-                createdAt: {
-                  gte: startOfRange,
-                  lte: endOfRange,
-                },
-                pmb: {
-                  documents: {
-                    none: {},
-                  },
-                },
-              },
-            });
+            const [
+              totalRegistrans,
+              totalInterest,
+              acceptedRegistrans,
+              paidsFormCount,
+              paidsUKTCount,
+            ] = await Promise.all([
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(schema.documents, eq(schema.students.id, schema.documents.studentId))
+                .where(
+                  and(
+                    isNotNull(schema.documents.id),
+                    gte(schema.students.createdAt, startOfRange),
+                    lte(schema.students.createdAt, endOfRange),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(schema.documents, eq(schema.students.id, schema.documents.studentId))
+                .where(
+                  and(
+                    isNull(schema.documents.id),
+                    gte(schema.students.createdAt, startOfRange),
+                    lte(schema.students.createdAt, endOfRange),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+                .leftJoin(
+                  schema.registrationStatus,
+                  eq(schema.admission.registrationStatusId, schema.registrationStatus.id),
+                )
+                .where(
+                  and(
+                    gte(schema.students.createdAt, startOfRange),
+                    lte(schema.students.createdAt, endOfRange),
+                    ilike(schema.registrationStatus.name, "%Lulus Seleksi%"),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+                .leftJoin(
+                  schema.registrationStatus,
+                  eq(schema.admission.registrationStatusId, schema.registrationStatus.id),
+                )
+                .where(
+                  and(
+                    gte(schema.students.createdAt, startOfRange),
+                    lte(schema.students.createdAt, endOfRange),
+                    ilike(schema.registrationStatus.name, "%Proses Seleksi%"),
+                  ),
+                )
+                .then((res) => res.length),
+              this.drizzle
+                .select({
+                  id: schema.students.id,
+                })
+                .from(schema.students)
+                .leftJoin(
+                  schema.paymentHistory,
+                  eq(schema.paymentHistory.studentId, schema.students.id),
+                )
+                .leftJoin(
+                  schema.paymentObligations,
+                  eq(schema.paymentObligations.id, schema.paymentHistory.paymentObligationId),
+                )
+                .where(
+                  and(
+                    gte(schema.students.createdAt, startOfRange),
+                    lte(schema.students.createdAt, endOfRange),
+                    eq(schema.paymentHistory.isPaid, true),
+                    ilike(schema.paymentObligations.name, "UKT"),
+                  ),
+                )
+                .then((res) => res.length),
+            ]);
 
-            const accepted_registrans = await this.prisma.pMB.count({
-              where: {
-                ...whereClause,
-                createdAt: {
-                  gte: startOfRange,
-                  lte: endOfRange,
-                },
-                registration_status_id: 6,
-              },
-            });
-
-            const paidsUKTCount = await this.prisma.pMB.count({
-              where: {
-                ...whereClause,
-                createdAt: {
-                  gte: startOfRange,
-                  lte: endOfRange,
-                },
-                registration_status_id: 4,
-              },
-            });
-
-            const paidsFormCount = await this.prisma.pMB.count({
-              where: {
-                ...whereClause,
-                createdAt: {
-                  gte: startOfRange,
-                  lte: endOfRange,
-                },
-                registration_status_id: 3,
-              },
-            });
-
-            const label = `Data dari ${start_date} hingga ${end_date}`;
+            const label = `Data dari ${startDate} hingga ${endDate}`;
 
             const rangeStats = {
               label,
-              total_registrans: total_registrans._all,
-              total_interest: total_interest.length,
-              paids_form: paidsFormCount,
-              accepted_registrans: accepted_registrans,
-              paids_ukt: paidsUKTCount,
+              totalRegistrans: totalRegistrans,
+              totalInterest: totalInterest,
+              paidsForm: paidsFormCount,
+              acceptedRegistrans: acceptedRegistrans,
+              paidsUkt: paidsUKTCount,
             };
 
             responseData.data = [rangeStats];
@@ -659,62 +752,75 @@ export class PMBService {
           }
         }
       }
+      const [totalRegistrans, totalInterest, acceptedRegistrans, paidsFormCount, paidsUKTCount] =
+        await Promise.all([
+          this.drizzle
+            .select({
+              id: schema.students.id,
+            })
+            .from(schema.students)
+            .leftJoin(schema.documents, eq(schema.students.id, schema.documents.studentId))
+            .where(and(isNotNull(schema.documents.id)))
+            .then((res) => res.length),
+          this.drizzle
+            .select({
+              id: schema.students.id,
+            })
+            .from(schema.students)
+            .leftJoin(schema.documents, eq(schema.students.id, schema.documents.studentId))
+            .where(isNull(schema.documents.id))
+            .then((res) => res.length),
+          this.drizzle
+            .select({
+              id: schema.students.id,
+            })
+            .from(schema.students)
+            .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+            .leftJoin(
+              schema.registrationStatus,
+              eq(schema.admission.registrationStatusId, schema.registrationStatus.id),
+            )
+            .where(ilike(schema.registrationStatus.name, "%Lulus Seleksi%"))
+            .then((res) => res.length),
+          this.drizzle
+            .select({
+              id: schema.students.id,
+            })
+            .from(schema.students)
+            .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
+            .leftJoin(
+              schema.registrationStatus,
+              eq(schema.admission.registrationStatusId, schema.registrationStatus.id),
+            )
+            .where(ilike(schema.registrationStatus.name, "%Proses Seleksi%"))
+            .then((res) => res.length),
+          this.drizzle
+            .select({
+              id: schema.students.id,
+            })
+            .from(schema.students)
+            .leftJoin(
+              schema.paymentHistory,
+              eq(schema.paymentHistory.studentId, schema.students.id),
+            )
+            .leftJoin(
+              schema.paymentObligations,
+              eq(schema.paymentObligations.id, schema.paymentHistory.paymentObligationId),
+            )
+            .where(
+              and(
+                eq(schema.paymentHistory.isPaid, true),
+                ilike(schema.paymentObligations.name, "UKT"),
+              ),
+            )
+            .then((res) => res.length),
+        ]);
 
-      const total_registrans = await this.prisma.students.count({
-        select: {
-          _all: true,
-        },
-        where: {
-          ...whereClause,
-          pmb: {
-            documents: {
-              some: {
-                pmb_id: {
-                  not: null,
-                },
-              },
-            },
-          },
-        },
-      });
-
-      const total_interest = await this.prisma.students.findMany({
-        where: {
-          ...whereClause,
-          pmb: {
-            documents: {
-              none: {},
-            },
-          },
-        },
-      });
-
-      const accepted_registrans = await this.prisma.pMB.count({
-        where: {
-          ...whereClause,
-          registration_status_id: 6,
-        },
-      });
-
-      const paidsUKTCount = await this.prisma.pMB.count({
-        where: {
-          ...whereClause,
-          registration_status_id: 4,
-        },
-      });
-
-      const paidsFormCount = await this.prisma.pMB.count({
-        where: {
-          ...whereClause,
-          registration_status_id: 3,
-        },
-      });
-
-      (responseData.summary.total_registrans = total_registrans._all),
-        (responseData.summary.total_interest = total_interest.length),
-        (responseData.summary.accepted_registrans = accepted_registrans),
-        (responseData.summary.paids_form = paidsFormCount),
-        (responseData.summary.paids_ukt = paidsUKTCount);
+      (responseData.summary.totalRegistrans = totalRegistrans),
+        (responseData.summary.totalInterest = totalInterest),
+        (responseData.summary.acceptedRegistrans = acceptedRegistrans),
+        (responseData.summary.paidsForm = paidsFormCount),
+        (responseData.summary.paidsUkt = paidsUKTCount);
 
       return responseData;
     } catch (error) {
@@ -725,7 +831,7 @@ export class PMBService {
     payload: IInterestEducationPrograms,
   ): Promise<TInterestEducationPrograms> {
     try {
-      const { filter_type } = payload;
+      const { filterType } = payload;
       let whereClause: {
         createdAt?: {
           gte?: Date;
@@ -733,8 +839,8 @@ export class PMBService {
         };
       } = {};
 
-      if (filter_type) {
-        switch (filter_type) {
+      if (filterType) {
+        switch (filterType) {
           case EFilterTypeInterestProgram.WEEKLY: {
             const now = new Date();
             const today = now.getUTCDate();
@@ -797,24 +903,63 @@ export class PMBService {
         }
       }
       const [bachelorCount, magisterCount, doctorCount] = await Promise.all([
-        this.prisma.pMB.count({
-          where: {
-            ...whereClause,
-            degree_program_id: 1,
-          },
-        }),
-        this.prisma.pMB.count({
-          where: {
-            ...whereClause,
-            degree_program_id: 2,
-          },
-        }),
-        this.prisma.pMB.count({
-          where: {
-            ...whereClause,
-            degree_program_id: 3,
-          },
-        }),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.admission.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.degreeProgram.name, "%S1%"),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.admission.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.degreeProgram.name, "%S2%"),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.admission.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.degreeProgram.name, "%S2%"),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
       ]);
 
       const result = {
@@ -841,7 +986,7 @@ export class PMBService {
   }
   async getInterestDepartment(payload: IInterestDepartment): Promise<TInterestDepartmentResponse> {
     try {
-      const { filter_type, degree_program_id } = payload;
+      const { filterType, degreeProgramId } = payload;
       let whereClause: {
         createdAt?: {
           gte?: Date;
@@ -849,8 +994,8 @@ export class PMBService {
         };
       } = {};
 
-      if (filter_type) {
-        switch (filter_type) {
+      if (filterType) {
+        switch (filterType) {
           case EFilterTypeStudyProgramInterest.WEEKLY: {
             const now = new Date();
             const today = now.getUTCDate();
@@ -914,263 +1059,563 @@ export class PMBService {
         }
       }
 
-      const response: TInterestDepartmentResponse = {
-        kpi: 0,
-        pai: 0,
-        pgmi: 0,
-        pbs: 0,
-        akuntansi: 0,
-        manajemen: 0,
-        iHukum: 0,
-        iKomunikasi: 0,
-        iPerpustakaan: 0,
-        pba: 0,
-        pbsi: 0,
-        pbing: 0,
-        pgpaud: 0,
-        plb: 0,
-        pls: 0,
-        pmath: 0,
-        ppkn: 0,
-        agrotek: 0,
-        te: 0,
-        tif: 0,
-        ti: 0,
-        mAdmPendidikan: 0,
-        mPai: 0,
-        mIHukum: 0,
-        dIPendidikan: 0,
+      const [
+        mAdmPendidikan,
+        mPai,
+        mIHukum,
+        pai,
+        pbs,
+        pgmi,
+        kpi,
+        pls,
+        plb,
+        pgpaud,
+        pbsi,
+        pbing,
+        pba,
+        pmath,
+        ppkn,
+        te,
+        tif,
+        ti,
+        iKomunikasi,
+        iPerpustakaan,
+        akuntansi,
+        manajemen,
+        iHukum,
+        agrotek,
+        dIPendidikan,
+      ] = await Promise.all([
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S2 - Administrasi Pendidikan%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S2 - Pendidikan Agama Islam%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S2 - Ilmu Hukum%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Pendidikan Agama Islam%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Perbankan Syariah%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Pendidikan Guru Madrasah Ibtidaiyah%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Komunikasi dan Penyiaran Islam%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Pendidikan Luar Sekolah%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Pendidikan Luar Biasah%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Pendidikan Guru Pendidikan Anak Usia Dini%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Pendidikan Bahasa dan Sastra Indonesia%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Pendidikan Bahasa Ingris%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Pendidikan Bahasa Arab%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Pendidikan Matematika%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Pendidikan Pancasila dan Kewarganegaraan%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Teknik Elektro%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Teknik Informatika%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Teknik Industri%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Ilmu Komunikasi%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Ilmu Perpustakaan%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Akuntansi%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Manajemen%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Ilmu Hukum%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S1 - Agroteknologi%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            id: schema.students.id,
+          })
+          .from(schema.students)
+          .leftJoin(schema.admission, eq(schema.students.id, schema.admission.studentId))
+          .leftJoin(schema.department, eq(schema.admission.firstDepartmentId, schema.department.id))
+          .leftJoin(
+            schema.degreeProgram,
+            eq(schema.department.degreeProgramId, schema.degreeProgram.id),
+          )
+          .where(
+            and(
+              ilike(schema.department.name, "%S3 - Ilmu Pendidikan%"),
+              eq(schema.degreeProgram.id, degreeProgramId),
+              gte(schema.students.createdAt, whereClause.createdAt.gte),
+              lte(schema.students.createdAt, whereClause.createdAt.lte),
+            ),
+          )
+          .then((res) => res.length),
+      ]);
+
+      return {
+        mAdmPendidikan,
+        mPai,
+        mIHukum,
+        pai,
+        pbs,
+        pgmi,
+        kpi,
+        pls,
+        plb,
+        pgpaud,
+        pbsi,
+        pbing,
+        pba,
+        pmath,
+        ppkn,
+        te,
+        tif,
+        ti,
+        iKomunikasi,
+        iPerpustakaan,
+        akuntansi,
+        manajemen,
+        iHukum,
+        agrotek,
+        dIPendidikan,
       };
-
-      response.mAdmPendidikan = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            first_department_id: 22,
-            ...whereClause,
-          },
-        },
-      });
-      response.mPai = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 23,
-          },
-        },
-      });
-      response.mIHukum = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 24,
-          },
-        },
-      });
-      response.pai = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 2,
-          },
-        },
-      });
-      response.pbs = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 4,
-          },
-        },
-      });
-      response.pgmi = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 3,
-          },
-        },
-      });
-      response.kpi = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 1,
-          },
-        },
-      });
-
-      response.pls = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 15,
-          },
-        },
-      });
-
-      response.plb = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 14,
-          },
-        },
-      });
-      response.pgpaud = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 13,
-          },
-        },
-      });
-      response.pbsi = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 11,
-          },
-        },
-      });
-      response.pbing = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 12,
-          },
-        },
-      });
-      response.pba = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 10,
-          },
-        },
-      });
-      response.pmath = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 16,
-          },
-        },
-      });
-      response.ppkn = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 17,
-          },
-        },
-      });
-      response.te = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 19,
-          },
-        },
-      });
-      response.tif = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 20,
-          },
-        },
-      });
-      response.ti = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 21,
-          },
-        },
-      });
-      response.iKomunikasi = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 8,
-          },
-        },
-      });
-      response.iPerpustakaan = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 9,
-          },
-        },
-      });
-      response.akuntansi = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 5,
-          },
-        },
-      });
-      response.manajemen = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 6,
-          },
-        },
-      });
-      response.iHukum = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 7,
-          },
-        },
-      });
-      response.agrotek = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 18,
-          },
-        },
-      });
-      response.dIPendidikan = await this.prisma.students.count({
-        where: {
-          pmb: {
-            ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-            ...whereClause,
-            first_department_id: 25,
-          },
-        },
-      });
-
-      return response;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -1178,38 +1623,34 @@ export class PMBService {
   async getRegistrationStatus(payload: ISelectRequest): Promise<TRegistrationStatusResponse> {
     try {
       const { search } = payload;
-      const registration_status = await this.prisma.registrationStatus.findMany({
-        where: {
-          name: {
-            ...(search && { contains: search }),
-            mode: "insensitive",
-          },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const registrationStatus = await this.drizzle
+        .select({
+          id: schema.registrationStatus.id,
+          name: schema.registrationStatus.name,
+        })
+        .from(schema.registrationStatus)
+        .where(ilike(schema.registrationStatus.name, `%${search}%` || ""));
 
-      if (registration_status.length === 0) {
+      if (!registrationStatus.length) {
         throw new NotFoundException("Status pendaftaran tidak ditemukan");
       }
-      return { registration_status: registration_status };
+      return registrationStatus;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getAdmissionTest(): Promise<TQuestionResponse[]> {
+  async getAdmissionTest(): Promise<TQuestionResponse> {
     try {
-      const questions = await this.prisma.questions.findMany();
-      if (questions.length === 0) {
+      const questions = await this.drizzle.select().from(schema.admissionTest);
+
+      if (!questions.length) {
         throw new NotFoundException("Soal tidak tersedia");
       }
 
-      const formattedQuestions: TQuestionResponse[] = questions.map((question) => ({
+      const formattedQuestions = questions.map((question) => ({
         id: question.id,
         question: question.question,
-        correct_answer: question.correct_answer,
+        correctAnswer: question.correctAnswer,
         answers: question.answers.reduce((accumulator, value, index) => {
           return {
             ...accumulator,
@@ -1225,25 +1666,15 @@ export class PMBService {
   }
   async createAdmissionTest(data: TCreateQuestionRequest) {
     try {
-      const { question } = data;
+      const { question, correctAnswer, answers } = data;
 
-      const existingQuestion = await this.prisma.questions.findFirst({
-        where: { question },
-      });
-
-      if (existingQuestion) {
-        throw new ConflictException("Soal sudah tersedia");
-      }
-
-      const newQuestion = await this.prisma.questions.create({
-        data: {
-          question: data.question,
-          correct_answer: data.correct_answer,
-          answers: Object.values(data.answers),
-        },
+      const newQuestion = await this.drizzle.insert(schema.admissionTest).values({
+        question,
+        correctAnswer: correctAnswer,
+        answers: Object.values(answers),
       });
       if (!newQuestion) {
-        throw new BadRequestException("Gagal mengubah soal");
+        throw new BadRequestException("Gagal membuat soal");
       }
       return {
         message: "Berhasil membuat soal",
@@ -1254,26 +1685,23 @@ export class PMBService {
   }
   async updateAdmissionTest(payload: TUpdateQuestionRequest): Promise<TGeneralResponse> {
     try {
-      const existingQuestion = await this.prisma.questions.findFirst({
-        where: {
-          id: Number(payload.id),
-        },
-      });
+      const existingQuestion = await this.drizzle
+        .select({ id: schema.admissionTest.id })
+        .from(schema.admissionTest)
+        .where(eq(schema.admissionTest.id, payload.id));
 
       if (!existingQuestion) {
         throw new NotFoundException("Soal tidak ditemukan");
       }
 
-      const updateQuestion = await this.prisma.questions.update({
-        where: {
-          id: Number(payload.id),
-        },
-        data: {
+      const updateQuestion = await this.drizzle
+        .update(schema.admissionTest)
+        .set({
           question: payload.question,
-          correct_answer: payload.correct_answer,
-          ...(payload.answers && { answers: Object.values(payload.answers) }),
-        },
-      });
+          correctAnswer: payload.correctAnswer,
+          answers: Object.values(payload.answers),
+        })
+        .where(eq(schema.admissionTest.id, payload.id));
 
       if (!updateQuestion) {
         throw new BadRequestException("Gagal mengubah soal");
@@ -1286,14 +1714,11 @@ export class PMBService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteAdmissionTest(payload: { id: number }): Promise<TDeleteQuestionResponse> {
+  async deleteAdmissionTest(payload: { id: string }): Promise<TDeleteQuestionResponse> {
     try {
-      const deletedQuestion = await this.prisma.questions.delete({
-        where: {
-          id: Number(payload.id),
-        },
-      });
-
+      const deletedQuestion = await this.drizzle
+        .delete(schema.admissionTest)
+        .where(eq(schema.admissionTest.id, payload.id));
       if (!deletedQuestion) {
         throw new BadRequestException("Soal tidak tersedia");
       }

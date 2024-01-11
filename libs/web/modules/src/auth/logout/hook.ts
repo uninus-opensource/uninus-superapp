@@ -11,7 +11,7 @@ export const useLogout = (): UseMutationResult<
 > => {
   return useMutation({
     mutationKey: ["logout-request"],
-    mutationFn: async (params) => logoutRequest({ refresh_token: params }),
+    mutationFn: async (params) => logoutRequest({ refreshToken: params }),
     onSuccess: async () => await signOut({ callbackUrl: "/auth/login" }),
   });
 };
@@ -24,7 +24,7 @@ export const useLogoutToRoot = (): UseMutationResult<
 > => {
   return useMutation({
     mutationKey: ["logout-request"],
-    mutationFn: async (params) => logoutRequest({ refresh_token: params }),
+    mutationFn: async (params) => logoutRequest({ refreshToken: params }),
     onSuccess: async () => await signOut({ callbackUrl: "/" }),
   });
 };

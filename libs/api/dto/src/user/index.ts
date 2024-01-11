@@ -5,10 +5,10 @@ export class CreateUserDto {
   public email!: string;
 
   @ApiProperty()
-  public phone_number!: string;
+  public phoneNumber!: string;
 
-  @ApiProperty()
-  public role_id!: number;
+  @ApiProperty({ type: "string", format: "uuid" })
+  public roleIdd!: string;
 
   @ApiProperty()
   public fullname!: string;
@@ -39,6 +39,6 @@ export class CreateNotificationDto {
   @ApiProperty({ required: true })
   public detail!: string;
 
-  @ApiProperty({ required: false })
-  public user_id!: string;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public userId!: string;
 }

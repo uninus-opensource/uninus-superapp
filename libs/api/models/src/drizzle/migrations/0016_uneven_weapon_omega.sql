@@ -1,0 +1,1 @@
+ALTER TABLE "app_education_major" DROP CONSTRAINT "app_education_major_name_unique";

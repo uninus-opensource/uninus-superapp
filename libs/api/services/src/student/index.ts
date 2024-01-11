@@ -82,14 +82,14 @@ export class StudentService {
     const updateStudent = await this.updateDataStudent(payload);
 
     const html =
-      payload?.registration_status_id &&
+      payload?.registrationStatusId &&
       emailTemplateSelection(
         updateStudent.fullname as string,
-        updateStudent?.registration_status as string,
+        updateStudent?.registrationStatus as string,
       );
 
     const sendEmail =
-      payload?.registration_status_id &&
+      payload?.registrationStatusId &&
       (await firstValueFrom(
         this.client
           .send("send_email", {
@@ -100,10 +100,10 @@ export class StudentService {
           .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
       ));
 
-    if (payload?.registration_status_id && !sendEmail) {
+    if (payload?.registrationStatusId && !sendEmail) {
       throw new BadRequestException("Gagal mengirimkan email");
     }
-    return payload?.registration_status_id
+    return payload?.registrationStatusId
       ? { message: "Berhasil mengirimkan email" }
       : updateStudent;
   }

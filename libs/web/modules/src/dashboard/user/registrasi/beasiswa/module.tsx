@@ -28,7 +28,7 @@ export const beasiswaBreadcrumb = [
 
 export const BeasiswaDashboardModule: FC = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [scholarshipId, setScholarshipId] = useState<number | null | undefined>(undefined);
+  const [scholarshipId, setScholarshipId] = useState<number | null | string | undefined>(undefined);
 
   const { getStudent } = useStudentData();
   const { getDashboardControlState, setDashboardControlState } = useDashboardStateControl();

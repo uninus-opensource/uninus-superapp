@@ -1,7 +1,5 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-
-import { PrismaService } from "@uninus/api/services";
 import { errorMappings } from "@uninus/api/utilities";
 import {
   TDepartmentResponse,
@@ -16,58 +14,51 @@ import {
   TUpdateFacultyRequest,
   TUpdateDepartmentRequest,
 } from "@uninus/entities";
-
+import * as schema from "@uninus/api/models";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { and, eq, ilike } from "drizzle-orm";
 @Injectable()
 export class CollegeService {
-  constructor(private prisma: PrismaService) {}
+  constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
 
   async getDegreeProgram(payload: ISelectRequest): Promise<TDegreeProgramResponse> {
     try {
       const { search } = payload;
-      const degreeProgram = await this.prisma.degreeProgram.findMany({
-        where: {
-          name: {
-            ...(search && { contains: search }),
-            mode: "insensitive",
-          },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const degreeProgram = await this.drizzle
+        .select()
+        .from(schema.degreeProgram)
+        .where(ilike(schema.degreeProgram.name, `%${search || ""}%`));
 
       if (!degreeProgram) {
         throw new NotFoundException("Data Program Pendidikan Tidak Ditemukan!");
       }
 
-      return { degree_program: degreeProgram };
+      return degreeProgram;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getFaculty(payload: ISelectFacultyRequest): Promise<TFacultyResponse> {
     try {
-      const { search, degree_program_id } = payload;
-      const faculty = await this.prisma.faculty.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-
-          ...(degree_program_id && {
-            degree_program_id: Number(degree_program_id),
-          }),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const { search, degreeProgramId } = payload;
+      const faculty = await this.drizzle
+        .select({
+          id: schema.faculty.id,
+          name: schema.faculty.name,
+        })
+        .from(schema.faculty)
+        .where(
+          and(
+            ...(search ? [ilike(schema.faculty.name, `%${search}%`)] : []),
+            ...(degreeProgramId ? [eq(schema.faculty.degreeProgramId, `${degreeProgramId}`)] : []),
+          ),
+        );
 
       if (!faculty) {
         throw new NotFoundException("Data Fakultas Tidak Ditemukan!");
       }
 
-      return { faculty };
+      return faculty;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -75,17 +66,10 @@ export class CollegeService {
 
   async createFaculty(payload: TCreateFacultyRequest): Promise<TGeneralResponse> {
     try {
-      const newFaculty = await this.prisma.faculty.create({
-        data: {
-          name: payload.name,
-          degreeProgram: {
-            connect: {
-              id: payload.degree_program_id,
-            },
-          },
-        },
+      const newFaculty = await this.drizzle.insert(schema.faculty).values({
+        name: payload.name,
+        degreeProgramId: payload.degreeProgramId,
       });
-
       if (!newFaculty) {
         throw new BadRequestException("Gagal menambahkan fakultas baru");
       }
@@ -99,15 +83,13 @@ export class CollegeService {
   }
   async updateFaculty(payload: TUpdateFacultyRequest): Promise<TGeneralResponse> {
     try {
-      const updatedFaculty = await this.prisma.faculty.update({
-        where: {
-          id: Number(payload.id),
-        },
-        data: {
+      const updatedFaculty = await this.drizzle
+        .update(schema.faculty)
+        .set({
           name: payload.name,
-          degree_program_id: payload.degree_program_id,
-        },
-      });
+          degreeProgramId: payload.degreeProgramId,
+        })
+        .where(eq(schema.faculty.id, payload.id));
 
       if (!updatedFaculty) {
         throw new BadRequestException(`Gagal memperbarui fakultas dengan ID ${payload.id}`);
@@ -122,11 +104,9 @@ export class CollegeService {
   }
   async deleteFaculty(payload: { id: number }): Promise<TGeneralResponse> {
     try {
-      const deletedFaculty = await this.prisma.faculty.delete({
-        where: {
-          id: Number(payload.id),
-        },
-      });
+      const deletedFaculty = await this.drizzle
+        .delete(schema.faculty)
+        .where(ilike(schema.educations.id, String(payload.id)));
 
       if (!deletedFaculty) {
         throw new BadRequestException(`Gagal menghapus fakultas`);
@@ -142,44 +122,38 @@ export class CollegeService {
 
   async getDepartment(payload: ISelectDepartmentRequest): Promise<TDepartmentResponse> {
     try {
-      const { search, faculty_id, degree_program_id } = payload;
-      const department = await this.prisma.department.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          ...(faculty_id && { faculty_id: Number(faculty_id) }),
-          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const { search, facultyId, degreeProgramId } = payload;
+      const department = await this.drizzle
+        .select({
+          id: schema.department.id,
+          name: schema.department.name,
+        })
+        .from(schema.department)
+        .where(
+          and(
+            ...(search ? [ilike(schema.department.name, `%${search}%`)] : []),
+            ...(facultyId ? [eq(schema.department.facultyId, `${facultyId}`)] : []),
+            ...(degreeProgramId
+              ? [eq(schema.department.degreeProgramId, `${degreeProgramId}`)]
+              : []),
+          ),
+        );
 
       if (!department) {
         throw new NotFoundException("Data Program Studi Tidak Ditemukan!");
       }
 
-      return { department };
+      return department;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async createDepartment(payload: TCreateDepartmentRequest): Promise<TGeneralResponse> {
     try {
-      const newDepartment = await this.prisma.department.create({
-        data: {
-          name: payload.name,
-          Faculty: {
-            connect: {
-              id: payload.faculty_id,
-            },
-          },
-          degreeProgram: {
-            connect: {
-              id: payload.degree_program_id,
-            },
-          },
-        },
+      const newDepartment = await this.drizzle.insert(schema.department).values({
+        name: payload.name,
+        facultyId: payload.facultyId,
+        degreeProgramId: payload.degreeProgramId,
       });
 
       if (!newDepartment) {
@@ -194,16 +168,14 @@ export class CollegeService {
   }
   async updateDepartment(payload: TUpdateDepartmentRequest): Promise<TGeneralResponse> {
     try {
-      const updatedDepartment = await this.prisma.department.update({
-        where: {
-          id: Number(payload.id),
-        },
-        data: {
+      const updatedDepartment = await this.drizzle
+        .update(schema.department)
+        .set({
           name: payload.name,
-          faculty_id: payload.faculty_id,
-          degree_program_id: payload.degree_program_id,
-        },
-      });
+          facultyId: payload.facultyId,
+          degreeProgramId: payload.degreeProgramId,
+        })
+        .where(eq(schema.department.id, payload.id));
 
       if (!updatedDepartment) {
         throw new BadRequestException("Gagal memperbarui program studi");
@@ -216,14 +188,11 @@ export class CollegeService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async deleteDepartment(payload: { id: number }): Promise<TGeneralResponse> {
+  async deleteDepartment(payload: { id: string }): Promise<TGeneralResponse> {
     try {
-      const deleteDepartment = await this.prisma.department.delete({
-        where: {
-          id: Number(payload.id),
-        },
-      });
-
+      const deleteDepartment = await this.drizzle
+        .delete(schema.department)
+        .where(eq(schema.department.id, payload.id));
       if (!deleteDepartment) {
         throw new BadRequestException(`Gagal menghapus program studi`);
       }

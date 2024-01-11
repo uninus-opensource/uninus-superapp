@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Request, UseGuards, UsePipes } from "@nestjs/common";
+import { Body, Controller, Post, Request, UseGuards } from "@nestjs/common";
 import {
   TReqToken,
   VSRegister,
@@ -8,7 +8,6 @@ import {
   VSForgotPassword,
   VSNewPassword,
   VSLogout,
-  TVSHeaders,
   TRegisterRequest,
   TLoginRequest,
   TLogoutRequest,
@@ -16,7 +15,6 @@ import {
   TResendOtpRequest,
   TForgotPasswordRequest,
   TResetPasswordRequest,
-  VSHeaders,
 } from "@uninus/entities";
 import { RtGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/pipes";
@@ -31,8 +29,7 @@ import {
   VerifyOtpDto,
   RefreshTokenDto,
 } from "@uninus/api/dto";
-import { ApiTags, ApiBody, ApiOperation, ApiHeader } from "@nestjs/swagger";
-import { RequestHeaders } from "@uninus/api/decorators";
+import { ApiTags, ApiBody, ApiOperation } from "@nestjs/swagger";
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -51,26 +48,9 @@ export class AuthController {
 
   @ApiOperation({ summary: "Login" })
   @ApiBody({ type: LoginDto })
-  @ApiHeader({
-    name: "app-origin",
-    description: "Application Origin",
-    required: true,
-  })
   @Post("login")
-  async login(
-    @RequestHeaders(new ZodValidationPipe(VSHeaders)) headers: TVSHeaders,
-    @Body(new ZodValidationPipe(VSLogin)) payload: TLoginRequest,
-  ) {
-    const app_origin = headers["app-origin"];
-    return await this.appService.login({ app_origin, ...payload });
-  }
-
-  @ApiOperation({ summary: "Logout" })
-  @ApiBody({ type: LogoutDto })
-  @UsePipes(new ZodValidationPipe(VSLogout))
-  @Post("logout")
-  async logout(@Body(new ZodValidationPipe(VSLogout)) payload: TLogoutRequest) {
-    return await this.appService.logout(payload);
+  async login(@Body(new ZodValidationPipe(VSLogin)) payload: TLoginRequest) {
+    return await this.appService.login(payload);
   }
 
   @ApiOperation({ summary: "Refresh Token" })
@@ -79,6 +59,13 @@ export class AuthController {
   @UseGuards(RtGuard)
   async refresh(@Request() { user }: TReqToken) {
     return this.appService.refreshToken({ user });
+  }
+
+  @ApiOperation({ summary: "Logout" })
+  @ApiBody({ type: LogoutDto })
+  @Post("logout")
+  async logout(@Body(new ZodValidationPipe(VSLogout)) payload: TLogoutRequest) {
+    return await this.appService.logout(payload);
   }
 
   @ApiOperation({ summary: "Verify OTP" })

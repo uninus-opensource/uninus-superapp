@@ -1,6 +1,5 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { RpcException } from "@nestjs/microservices";
-import { PrismaService } from "@uninus/api/services";
 import { errorMappings } from "@uninus/api/utilities";
 import {
   TCitizenshipResponse,
@@ -31,152 +30,148 @@ import {
   TUpdateEducationRequest,
   TDeleteEducationRequest,
 } from "@uninus/entities";
+import * as schema from "@uninus/api/models";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { and, eq, ilike, or } from "drizzle-orm";
 
 @Injectable()
 export class PersonalService {
-  constructor(private prisma: PrismaService) {}
-  async getCountry(payload: ICountryRequest): Promise<TCountryResponse> {
+  constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
+  async getCountry({ search, citizenshipId }: ICountryRequest): Promise<TCountryResponse> {
     try {
-      const country = await this.prisma.country.findMany({
-        where: {
-          name: { ...(payload?.search && { contains: payload?.search }), mode: "insensitive" },
-          ...(payload?.citizenship_id && { citizenship_id: Number(payload?.citizenship_id) }),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
+      const country = await this.drizzle
+        .select({
+          name: schema.country.name,
+          id: schema.country.id,
+        })
+        .from(schema.country)
+        .where(
+          and(
+            ...(search ? [ilike(schema.country.name, `%${search}%`)] : []),
+            ...(citizenshipId ? [eq(schema.country.citizenshipId, `${citizenshipId}`)] : []),
+          ),
+        );
       if (!country) {
         throw new NotFoundException("Data tidak ditemukan");
       }
 
-      return { country };
+      return country;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getProvince({ search }: ISelectRequest): Promise<TProvinceResponse> {
     try {
-      const province = await this.prisma.province.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const province = await this.drizzle
+        .select({
+          name: schema.province.name,
+          id: schema.province.id,
+        })
+        .from(schema.province)
+        .where(ilike(schema.province.name, `%${search || ""}%`));
       if (!province) {
         throw new NotFoundException("Data tidak ditemukan");
       }
-      return {
-        province,
-      };
+      return province;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
 
-  async getCity({ province_id, search }: ICityRequest): Promise<TCityResponse> {
+  async getCity({ provinceId, search }: ICityRequest): Promise<TCityResponse> {
+    console.log(search, provinceId);
     try {
-      const city = await this.prisma.city.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          ...(province_id && { province_id: Number(province_id) }),
-        },
-      });
+      const city = await this.drizzle
+        .select({
+          name: schema.city.name,
+          id: schema.city.id,
+        })
+        .from(schema.city)
+        .where(
+          and(
+            ...(search ? [ilike(schema.city.name, `%${search}%`)] : []),
+            ...(provinceId ? [eq(schema.city.provinceId, `${provinceId}`)] : []),
+          ),
+        );
       if (!city) {
         throw new NotFoundException("Data tidak ditemukan");
       }
-      return {
-        city,
-      };
+      return city;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getSubDistrict({ city_id, search }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
+  async getSubDistrict({ cityId, search }: ISubDistrictRequest): Promise<TSubDistrictResponse> {
     try {
-      const subDistrict = await this.prisma.subDistrict.findMany({
-        where: {
-          name: {
-            ...(search && { contains: search, mode: "insensitive" }),
-          },
-          ...(city_id && { city_id: Number(city_id) }),
-        },
-      });
-      if (!subDistrict) {
+      const subdistrict = await this.drizzle
+        .select({
+          name: schema.subdistrict.name,
+          id: schema.subdistrict.id,
+        })
+        .from(schema.subdistrict)
+        .where(
+          and(
+            ...(search ? [ilike(schema.subdistrict.name, `%${search}%`)] : []),
+            ...(cityId ? [eq(schema.subdistrict.cityId, `${cityId}`)] : []),
+          ),
+        );
+      if (!subdistrict) {
         throw new NotFoundException("Data tidak ditemukan");
       }
-      return {
-        subdistrict: subDistrict,
-      };
+      return subdistrict;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getReligion({ search }: ISelectRequest): Promise<TReligionResponse> {
     try {
-      const religion = await this.prisma.religion.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const religion = await this.drizzle
+        .select()
+        .from(schema.religion)
+        .where(ilike(schema.religion.name, `%${search || ""}%`));
 
       if (!religion) {
         throw new NotFoundException("Data Agama Tidak Ditemukan!");
       }
 
-      return { religion };
+      return religion;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getMaritalStatus({ search }: ISelectRequest): Promise<TMaritalStatusResponse> {
     try {
-      const maritalStatus = await this.prisma.maritalStatus.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const maritalStatus = await this.drizzle
+        .select()
+        .from(schema.maritalStatus)
+        .where(ilike(schema.maritalStatus.name, `%${search || ""}%`));
 
       if (!maritalStatus) {
         throw new NotFoundException("Data Status Pernikahan Tidak Ditemukan!");
       }
 
-      return { maritalStatus };
+      return maritalStatus;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getGender({ search, id }: ISelectRequest): Promise<TGenderResponse> {
     try {
-      const gender = await this.prisma.gender.findMany({
-        where: {
-          ...(id && { id: Number(id) }),
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const gender = await this.drizzle
+        .select()
+        .from(schema.gender)
+        .where(
+          and(
+            ...(search ? [ilike(schema.gender.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.gender.id, `${id}`)] : []),
+          ),
+        );
 
       if (!gender) {
         throw new NotFoundException("Data Jenis Kelamin Tidak Ditemukan!");
       }
 
-      return { gender };
+      return gender;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -184,80 +179,62 @@ export class PersonalService {
 
   async getCitizenship({ search }: ISelectRequest): Promise<TCitizenshipResponse> {
     try {
-      const citizenship = await this.prisma.citizenship.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const citizenship = await this.drizzle
+        .select()
+        .from(schema.citizenship)
+        .where(ilike(schema.citizenship.name, `%${search || ""}%`));
 
       if (!citizenship) {
         throw new NotFoundException("Data Kewarganegaraan Tidak Ditemukan!");
       }
 
-      return { citizenship };
+      return citizenship;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getSalary({ search }: ISelectRequest): Promise<TSalaryResponse> {
     try {
-      const salary = await this.prisma.salary.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const salary = await this.drizzle
+        .select()
+        .from(schema.salary)
+        .where(ilike(schema.salary.name, `%${search || ""}%`));
 
       if (!salary) {
         throw new NotFoundException("Data Gaji Tidak Ditemukan!");
       }
 
-      return { salary };
+      return salary;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getOccupation({ search }: ISelectRequest): Promise<TOccupationResponse> {
     try {
-      const occupation = await this.prisma.occupation.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const occupation = await this.drizzle
+        .select()
+        .from(schema.occupation)
+        .where(ilike(schema.occupation.name, `%${search || ""}%`));
       if (!occupation) {
         throw new NotFoundException("Data Pekerjaan Tidak Ditemukan!");
       }
 
-      return { occupation };
+      return occupation;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getDisabilites({ search }: ISelectRequest): Promise<TDisabilitiesResponse> {
     try {
-      const disabilities = await this.prisma.disabilities.findMany({
-        where: { name: { ...(search && { contains: search }), mode: "insensitive" } },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const disabilities = await this.drizzle
+        .select()
+        .from(schema.disabilities)
+        .where(ilike(schema.disabilities.name, `%${search || ""}%`));
       if (!disabilities) {
         throw new NotFoundException("Data Disabilitas Tidak Ditemukan!");
       }
 
-      return { disabilities };
+      return disabilities;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -265,21 +242,15 @@ export class PersonalService {
 
   async getParentStatus({ search }: ISelectRequest): Promise<TParentStatusResponse> {
     try {
-      const parentStatus = await this.prisma.parentStatus.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
+      const parentStatus = await this.drizzle
+        .select()
+        .from(schema.parentStatus)
+        .where(ilike(schema.parentStatus.name, `%${search || ""}%`));
       if (!parentStatus) {
         throw new NotFoundException("Data Status Orang Tua Tidak Ditemukan!");
       }
 
-      return { parent_status: parentStatus };
+      return parentStatus;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -287,21 +258,16 @@ export class PersonalService {
 
   async getParentEducation({ search }: ISelectRequest): Promise<TParentEducationResponse> {
     try {
-      const parentEducation = await this.prisma.parentEducation.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const parentEducation = await this.drizzle
+        .select()
+        .from(schema.parentEducation)
+        .where(ilike(schema.parentEducation.name, `%${search || ""}%`));
 
       if (!parentEducation) {
         throw new NotFoundException("Data Pendidikan Orang Tua Tidak Ditemukan!");
       }
 
-      return { parent_education: parentEducation };
+      return parentEducation;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -311,98 +277,92 @@ export class PersonalService {
     npsn,
   }: ISelectEducationHistoryRequest): Promise<TEducationHistoryResponse> {
     try {
-      const education = await this.prisma.education.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          npsn: { ...(npsn && { contains: npsn }) },
-        },
-        select: {
-          id: true,
-          npsn: true,
-          name: true,
-          province: true,
-          sub_district: true,
-          district_city: true,
-          street_address: true,
-        },
-      });
+      const education = await this.drizzle
+        .select()
+        .from(schema.educations)
+        .where(
+          and(
+            ...(search ? [ilike(schema.educations.name, `%${search}%`)] : []),
+            ...(npsn ? [eq(schema.educations.npsn, `${npsn}`)] : []),
+          ),
+        );
 
       if (!education || education.length === 0) {
         throw new NotFoundException("Data Pendidikan Tidak Ditemukan!");
       }
 
-      return { education: education };
+      return education;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getLastEducationType({
     search,
-
-    degree_program_id,
+    degreeProgramId,
   }: IEducationTypeRequest): Promise<TSchoolTypeResponse> {
     try {
-      const educationTypes = await this.prisma.educationTypes.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          ...(degree_program_id && { degree_program_id: Number(degree_program_id) }),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
-
+      const educationTypes = await this.drizzle
+        .select({
+          id: schema.educationType.id,
+          name: schema.educationType.name,
+        })
+        .from(schema.educationType)
+        .where(
+          and(
+            ...(search ? [ilike(schema.educationType.name, `%${search}%`)] : []),
+            ...(degreeProgramId
+              ? [eq(schema.educationType.degreeProgramId, `${degreeProgramId}`)]
+              : []),
+          ),
+        );
       if (!educationTypes) {
         throw new NotFoundException("Data Jenis Sekola Tidak Ditemukan!");
       }
 
-      return { school_type: educationTypes };
+      return educationTypes;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async getLastEducationMajor({
     search,
-    education_type_id,
+    educationTypeId,
   }: IEducationMajorRequest): Promise<TEducationMajorResponse> {
     try {
-      const schoolMajorTypes = await this.prisma.educationMajor.findMany({
-        where: {
-          name: { ...(search && { contains: search }), mode: "insensitive" },
-          ...(education_type_id && { education_type_id: Number(education_type_id) }),
-        },
-        select: {
-          id: true,
-          name: true,
-        },
-      });
+      const schoolMajorTypes = await this.drizzle
+        .select({
+          id: schema.educationMajor.id,
+          name: schema.educationMajor.name,
+        })
+        .from(schema.educationMajor)
+        .where(
+          and(
+            ...(search ? [ilike(schema.educationMajor.name, `%${search}%`)] : []),
+            ...(educationTypeId
+              ? [eq(schema.educationMajor.educationTypeId, `${educationTypeId}`)]
+              : []),
+          ),
+        );
 
       if (!schoolMajorTypes) {
         throw new NotFoundException("Data Jurusan Sekolah Tidak Ditemukan!");
       }
 
-      return { education_major: schoolMajorTypes };
+      return schoolMajorTypes;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
   async createLastEducation(payload: TCreateEducationRequest): Promise<TGeneralResponse> {
     try {
-      const newEducation = await this.prisma.education.create({
-        data: {
-          name: payload.name,
-          npsn: payload.npsn,
-          district_city: payload.district_city,
-          sub_district: payload.sub_district,
-          province: payload.province,
-          street_address: payload.street_address,
-          education_type: {
-            connect: {
-              id: payload.education_type_id,
-            },
-          },
-        },
+      const newEducation = await this.drizzle.insert(schema.educations).values({
+        npsn: payload.npsn,
+        name: payload.name,
+        province: payload.province,
+        city: payload.city,
+        subdistrict: payload.subdistrict,
+        streetAddress: payload.streetAddress,
+        educationTypeId: payload.educationTypeId,
       });
 
       if (!newEducation) {
@@ -418,20 +378,18 @@ export class PersonalService {
   }
   async updateLastEducation(payload: TUpdateEducationRequest): Promise<TGeneralResponse> {
     try {
-      const updatedEducation = await this.prisma.education.update({
-        where: {
-          id: Number(payload.id),
-        },
-        data: {
-          name: payload.name,
+      const updatedEducation = await this.drizzle
+        .update(schema.educations)
+        .set({
           npsn: payload.npsn,
-          district_city: payload.district_city,
-          sub_district: payload.sub_district,
+          name: payload.name,
           province: payload.province,
-          street_address: payload.street_address,
-          education_type_id: payload.education_type_id,
-        },
-      });
+          city: payload.city,
+          subdistrict: payload.subdistrict,
+          streetAddress: payload.streetAddress,
+          educationTypeId: payload.educationTypeId,
+        })
+        .where(eq(schema.educations.id, payload.id));
 
       if (!updatedEducation) {
         throw new BadRequestException("Gagal memperbarui data sekolah");
@@ -446,12 +404,14 @@ export class PersonalService {
   }
   async deleteLastEducation(payload: TDeleteEducationRequest): Promise<TGeneralResponse> {
     try {
-      const deleteEducation = await this.prisma.education.delete({
-        where: {
-          id: Number(payload.id),
-          npsn: payload.npsn,
-        },
-      });
+      const deleteEducation = await this.drizzle
+        .delete(schema.educations)
+        .where(
+          or(
+            ...(payload.id ? [eq(schema.educations.id, `${payload.id}`)] : []),
+            ...(payload.npsn ? [eq(schema.educations.npsn, `${payload.npsn}`)] : []),
+          ),
+        );
 
       if (!deleteEducation) {
         throw new BadRequestException(`Gagal menghapus data sekolah`);

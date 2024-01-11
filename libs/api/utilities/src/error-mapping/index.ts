@@ -1,10 +1,6 @@
-import { BadRequestException, HttpException, InternalServerErrorException } from "@nestjs/common";
-import { Prisma } from "@uninus/api/services";
+import { HttpException, InternalServerErrorException } from "@nestjs/common";
 
 export const errorMappings = (error: Error) => {
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    return new BadRequestException(error?.meta?.["cause"]);
-  }
   if (error instanceof HttpException) {
     return error;
   }

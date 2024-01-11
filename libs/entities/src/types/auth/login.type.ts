@@ -9,15 +9,4 @@ export type TLoginResponse = {
   token: TToken;
 };
 
-export type TLoginRequest =
-  | {
-      email?: string;
-      password?: string;
-    }
-  | TVSLogin;
-
-export type TLoginAuth = {
-  user: {
-    email: string;
-  };
-};
+export type TLoginRequest = TVSLogin;

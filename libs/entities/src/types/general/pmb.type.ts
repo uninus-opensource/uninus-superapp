@@ -1,33 +1,36 @@
+import * as schema from "@uninus/api/models";
+import { InferSelectModel, InferInsertModel } from "drizzle-orm";
+
 export type TTotalRegistransResponse = {
-  total_registrans: number;
-  total_interest: number;
-  paids_ukt: number;
-  paids_form: number;
-  accepted_registrans: number;
+  totalRegistrans: number;
+  totalInterest: number;
+  paidsUkt: number;
+  paidsForm: number;
+  acceptedRegistrans: number;
 };
 
 export type TTotalRegistransRes = {
   data: Array<{
     label: string;
-    total_interest: number;
-    total_registrans: number;
-    paids_form: number;
-    accepted_registrans: number;
-    paids_ukt: number;
+    totalInterest: number;
+    totalRegistrans: number;
+    paidsForm: number;
+    acceptedRegistrans: number;
+    paidsUkt: number;
   }>;
   summary: {
-    total_registrans: number;
-    total_interest: number;
-    paids_form: number;
-    accepted_registrans: number;
-    paids_ukt: number;
+    totalRegistrans: number;
+    totalInterest: number;
+    paidsForm: number;
+    acceptedRegistrans: number;
+    paidsUkt: number;
   };
 };
 
 export interface IRegistransRequest {
-  filter_type?: string;
-  start_date?: string;
-  end_date?: string;
+  filterType?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export type TInterestEducationPrograms = {
@@ -38,7 +41,7 @@ export type TInterestEducationPrograms = {
 };
 
 export interface IInterestEducationPrograms {
-  filter_type?: string;
+  filterType?: string;
 }
 
 export type TInterestDepartmentResponse = {
@@ -70,46 +73,43 @@ export type TInterestDepartmentResponse = {
 };
 
 export interface IInterestDepartment {
-  filter_type?: string;
-  degree_program_id?: string;
+  filterType?: string;
+  degreeProgramId?: string;
 }
 
-export type TRegistrationStatusResponse = {
-  registration_status: Array<{
-    id: number;
-    name: string;
-  }>;
+export type TRegistrationStatusResponse = Array<InferSelectModel<typeof schema.registrationStatus>>;
+
+export type TQuestionResponse = Array<TUpdateQuestionRequest>;
+export type TCreateQuestionRequest = Omit<TUpdateQuestionRequest, "id">;
+export type TUpdateQuestionRequest = Pick<
+  InferSelectModel<typeof schema.admissionTest>,
+  "question"
+> & {
+  id?: string;
+  correctAnswer: string;
+  answers: { [key: string]: string };
 };
 
-export type TQuestionResponse = {
-  id: number;
-  question: string;
-  correct_answer: string;
-  answers: { [key: string]: string };
+export type TDeleteQuestionResponse = {
+  message: string;
 };
 
 export interface ISelectRequest {
   search?: string;
-  id?: number;
+  id?: number | string;
 }
 
 export interface ISelectionRequest extends ISelectRequest {
-  degree_program_id: string;
+  degreeProgramId: string;
 }
 
-export type TSelectionResponse = {
-  selection: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TSelectionResponse = Array<
+  Omit<InferSelectModel<typeof schema.selectionPath>, "degreeProgramId">
+>;
 
-export type TRegistrationPathResponse = {
-  registration_path: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TRegistrationPathResponse = Array<
+  Omit<InferSelectModel<typeof schema.registrationPath>, "degreeProgramId">
+>;
 
 export type TGeneralResponse = {
   message: string;
@@ -119,28 +119,26 @@ export interface IScholarshipRequest {
   search: string;
 }
 
-export type TScholarshipResponse = {
-  scholarship: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TScholarshipResponse = Array<InferSelectModel<typeof schema.scholarship>>;
 
-export type TCreateScholarshipRequest = {
-  name: string;
-};
+export type TCreateScholarshipRequest = Pick<
+  InferSelectModel<typeof schema.scholarship>,
+  "name" | "discount"
+>;
 
-export type TUpdateScholarshipRequest = {
-  id?: number;
-  name: string;
+export type TUpdateScholarshipRequest = Pick<
+  InferSelectModel<typeof schema.scholarship>,
+  "name"
+> & {
+  id?: string;
 };
 export type TUpdateSelectionPathRequest = {
-  id?: number;
-  name: string;
-  degree_program_id?: number;
-};
+  id?: string;
+} & TCreateSelectionPathRequest;
 
-export type TCreateSelectionPathRequest = {
-  name: string;
-  degree_program_id: number;
+export type TCreateSelectionPathRequest = Pick<
+  InferInsertModel<typeof schema.selectionPath>,
+  "name"
+> & {
+  degreeProgramId: string;
 };

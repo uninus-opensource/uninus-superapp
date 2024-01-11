@@ -294,6 +294,7 @@ const Table: FC = (): ReactElement => {
           createScholarship(
             {
               name: data.scholarship,
+              discount: Number(data.discount),
             },
             {
               onSuccess: () => {
@@ -308,8 +309,8 @@ const Table: FC = (): ReactElement => {
           createDepartment(
             {
               name: data.department,
-              degree_program_id: Number(data.degree_program_id),
-              faculty_id: Number(data.faculty_id),
+              degree_program_id: data.degree_program_id,
+              faculty_id: data.faculty_id,
             },
             {
               onSuccess: () => {
@@ -336,7 +337,7 @@ const Table: FC = (): ReactElement => {
           createSelection(
             {
               name: data.selection_path,
-              degree_program_id: Number(data.degree_program_id),
+              degree_program_id: data.degree_program_id,
             },
             {
               onSuccess: () => {
@@ -351,7 +352,7 @@ const Table: FC = (): ReactElement => {
           createFaculty(
             {
               name: data.faculty,
-              degree_program_id: Number(data.degree_program_id),
+              degree_program_id: data.degree_program_id,
             },
             {
               onSuccess: () => {
@@ -433,8 +434,8 @@ const Table: FC = (): ReactElement => {
             {
               id: data.id,
               name: data.department,
-              degree_program_id: Number(data.degree_program_id),
-              faculty_id: Number(data.faculty_id),
+              degree_program_id: data.degree_program_id,
+              faculty_id: data.faculty_id,
             },
             {
               onSuccess: () => {
@@ -450,7 +451,7 @@ const Table: FC = (): ReactElement => {
             {
               id: data.id,
               name: data.faculty,
-              degree_program_id: Number(data.degree_program_id),
+              degree_program_id: data.degree_program_id,
             },
             {
               onSuccess: () => {
@@ -466,7 +467,7 @@ const Table: FC = (): ReactElement => {
             {
               id: data.id,
               name: data.selection_path,
-              degree_program_id: Number(data.degree_program_id),
+              degree_program_id: data.degree_program_id,
             },
             {
               onSuccess: () => {
@@ -933,14 +934,14 @@ const Table: FC = (): ReactElement => {
                   activeItem?.name === "Fakultas"
                     ? faculty || []
                     : activeItem?.name === "Program Studi"
-                    ? prodi || []
-                    : activeItem?.name === "Jalur Seleksi"
-                    ? seleksi || []
-                    : activeItem?.name === "Data Sekolah"
-                    ? education || []
-                    : activeItem?.name === "Beasiswa"
-                    ? beasiswa || []
-                    : options
+                      ? prodi || []
+                      : activeItem?.name === "Jalur Seleksi"
+                        ? seleksi || []
+                        : activeItem?.name === "Data Sekolah"
+                          ? education || []
+                          : activeItem?.name === "Beasiswa"
+                            ? beasiswa || []
+                            : options
                 }
                 control={updateControl}
                 isClearable
@@ -1268,14 +1269,14 @@ const Table: FC = (): ReactElement => {
                 activeItem?.name === "Fakultas"
                   ? faculty || []
                   : activeItem?.name === "Program Studi"
-                  ? prodi || []
-                  : activeItem?.name === "Jalur Seleksi"
-                  ? seleksi || []
-                  : activeItem?.name === "Data Sekolah"
-                  ? education || []
-                  : activeItem?.name === "Beasiswa"
-                  ? beasiswa || []
-                  : options
+                    ? prodi || []
+                    : activeItem?.name === "Jalur Seleksi"
+                      ? seleksi || []
+                      : activeItem?.name === "Data Sekolah"
+                        ? education || []
+                        : activeItem?.name === "Beasiswa"
+                          ? beasiswa || []
+                          : options
               }
               control={deleteControl}
               isClearable

@@ -1,142 +1,79 @@
 import { ISelectRequest } from "./pmb.type";
+import * as schema from "@uninus/api/models";
+import { InferSelectModel, InferInsertModel } from "drizzle-orm";
 
-export type TCreateEducationRequest = {
-  id: number;
-  npsn: string;
-  name: string;
-  province: string;
-  district_city: string;
-  sub_district: string;
-  street_address: string;
-  education_type_id: number;
-};
-
-export type TUpdateEducationRequest = {
-  id?: number;
-  npsn: string;
-  name: string;
-  province: string;
-  district_city: string;
-  sub_district: string;
-  street_address: string;
-  education_type_id: number;
-};
-
+export type TCreateEducationRequest = InferInsertModel<typeof schema.educations>;
+export type TUpdateEducationRequest = TCreateEducationRequest & Pick<TDeleteEducationRequest, "id">;
 export type TDeleteEducationRequest = {
-  id?: number;
-  npsn: string;
+  id?: number | string;
+  npsn?: string;
 };
 
 export interface IYearGraduationRequest {
   search: string;
 }
 
-export type TYearGraduationResponse = {
-  year: Array<{
-    id: number;
-    name: number;
-  }>;
-};
+export type TYearGraduationResponse = Array<{
+  id: number;
+  name: number;
+}>;
 
-export type TSchoolTypeResponse = {
-  school_type: Array<{
-    id: number;
-    name: string;
-  }>;
-};
-
+export type TSchoolTypeResponse = Array<
+  Omit<InferSelectModel<typeof schema.educationType>, "degreeProgramId">
+>;
 export interface IParentStatusRequest {
   search: string;
 }
 
-export type TParentStatusResponse = {
-  parent_status: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TParentStatusResponse = Array<InferSelectModel<typeof schema.parentStatus>>;
 
 export interface IParentEducationRequest {
   search: string;
 }
 
-export type TParentEducationResponse = {
-  parent_education: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TParentEducationResponse = Array<InferSelectModel<typeof schema.parentEducation>>;
 
 export interface ISalaryRequest {
   search: string;
 }
 
-export type TSalaryResponse = {
-  salary: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TSalaryResponse = Array<InferSelectModel<typeof schema.salary>>;
 
-export type TEducationHistoryResponse = {
-  education: Array<{
-    id: number;
-    npsn: string;
-    name: string;
-    province: string;
-    district_city: string;
-    sub_district: string;
-    street_address: string;
-  }>;
-};
+export type TEducationHistoryResponse = Array<InferSelectModel<typeof schema.educations>>;
 
 export interface IEducationTypeRequest extends ISelectRequest {
-  degree_program_id: string;
+  degreeProgramId: string;
 }
 
-export type TEducationTypeResponse = {
-  school_type: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TEducationTypeResponse = Array<{
+  id: number;
+  name: string;
+}>;
 
 export interface IEducationMajorRequest extends ISelectRequest {
   search: string;
-  education_type_id: string;
+  educationTypeId: string;
 }
 
-export type TEducationMajorResponse = {
-  education_major: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TEducationMajorResponse = Array<
+  Omit<InferSelectModel<typeof schema.educationMajor>, "educationTypeId">
+>;
 
 export interface ICountryRequest extends ISelectRequest {
-  citizenship_id: string;
+  citizenshipId: string;
 }
 
-export type TCountryResponse = {
-  country: Array<{
-    id: number;
-    name: string;
-  }>;
-};
-
+export type TCountryResponse = Array<
+  Omit<InferSelectModel<typeof schema.country>, "citizenshipId">
+>;
 export interface IOccupationRequest {
   search: string;
 }
 
-export type TOccupationResponse = {
-  occupation: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TOccupationResponse = Array<InferSelectModel<typeof schema.occupation>>;
 
 export interface IOccupationPositionRequest extends ISelectRequest {
-  occupation_id: string;
+  occupationId: string;
 }
 
 export type TOccupationPositionResponse = {
@@ -150,85 +87,47 @@ export interface IDisabilitiesRequest {
   search: string;
 }
 
-export type TDisabilitiesResponse = {
-  disabilities: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TDisabilitiesResponse = Array<InferSelectModel<typeof schema.disabilities>>;
 
 export interface IReligionRequest {
   search: string;
 }
 
-export type TReligionResponse = {
-  religion: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TReligionResponse = Array<InferSelectModel<typeof schema.religion>>;
 
 export interface IMaritalStatusRequest {
   search: string;
 }
 
-export type TMaritalStatusResponse = {
-  maritalStatus: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TMaritalStatusResponse = Array<InferSelectModel<typeof schema.maritalStatus>>;
 
 export interface IGenderRequest {
   search: string;
 }
 
-export type TGenderResponse = {
-  gender: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TGenderResponse = Array<InferSelectModel<typeof schema.gender>>;
 
 export interface ICitizenshipRequest {
   search: string;
 }
 
-export type TCitizenshipResponse = {
-  citizenship: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TCitizenshipResponse = Array<InferSelectModel<typeof schema.citizenship>>;
 
-export type TProvinceResponse = {
-  province: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TProvinceResponse = Array<InferSelectModel<typeof schema.religion>>;
 
 export interface ICityRequest extends ISelectRequest {
-  province_id: string;
+  provinceId: string;
 }
 
-export type TCityResponse = {
-  city: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TCityResponse = Array<Omit<InferSelectModel<typeof schema.city>, "provinceId">>;
 
 export interface ISubDistrictRequest extends ISelectRequest {
-  city_id: string;
+  cityId: string;
 }
 
-export type TSubDistrictResponse = {
-  subdistrict: Array<{
-    id: number;
-    name: string;
-  }>;
-};
+export type TSubDistrictResponse = Array<
+  Omit<InferSelectModel<typeof schema.subdistrict>, "cityId">
+>;
 
 export interface ISelectEducationHistoryRequest extends ISelectRequest {
   npsn: string;

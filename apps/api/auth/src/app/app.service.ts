@@ -1,8 +1,7 @@
 import {
-  BadGatewayException,
   BadRequestException,
   ConflictException,
-  ForbiddenException,
+  Inject,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -22,9 +21,7 @@ import {
   TUserEmail,
   TUserEmailResponse,
   TRegisterResponse,
-  THeaderRequest,
 } from "@uninus/entities";
-import { PrismaService } from "@uninus/api/services";
 import {
   comparePassword,
   encryptPassword,
@@ -34,197 +31,243 @@ import {
   errorMappings,
 } from "@uninus/api/utilities";
 import { RpcException } from "@nestjs/microservices";
-
+import * as schema from "@uninus/api/models";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { and, desc, eq, ilike, lte } from "drizzle-orm";
 @Injectable()
 export class AppService {
-  constructor(private prisma: PrismaService) {}
+  constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
 
   async register(payload: TRegisterRequest): Promise<TRegisterResponse> {
     try {
-      const isUserExist = await this.prisma.users.findMany({
-        where: {
-          OR: [
-            {
-              email: payload.email,
-            },
-            {
-              students: {
-                phone_number: `62${payload.phone_number}`,
-              },
-            },
-          ],
-        },
-      });
-
-      if (isUserExist.length) {
+      const [isEmailExist, isPhoneNumberExist, lastRegistrationNumber] = await Promise.all([
+        this.drizzle
+          .select({
+            email: schema.users.email,
+          })
+          .from(schema.users)
+          .where(eq(schema.users.email, payload.email))
+          .limit(1)
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            phoneNumber: schema.students.phoneNumber,
+          })
+          .from(schema.students)
+          .where(eq(schema.students.phoneNumber, `62${payload.phoneNumber}`))
+          .limit(1)
+          .then((res) => res.length),
+        this.drizzle
+          .select({
+            registrationNumber: schema.admission.registrationNumber,
+          })
+          .from(schema.admission)
+          .orderBy(desc(schema.admission.registrationNumber))
+          .limit(1)
+          .then((res) => res.at(0)),
+      ]);
+      if (isEmailExist || isPhoneNumberExist) {
         throw new ConflictException("Email atau nomor telepon sudah terdaftar");
       }
+      const [password, { token, expiredAt }, registrationNumber, roles] = await Promise.all([
+        encryptPassword(payload.password),
+        generateOtp(),
+        (() => {
+          const date = new Date();
+          let registrationCounter = 1;
+          if (lastRegistrationNumber?.registrationNumber) {
+            registrationCounter =
+              parseInt(lastRegistrationNumber?.registrationNumber.substring(8)) + 1;
+          }
+          const formattedCounter = registrationCounter.toString().padStart(6, "0");
+          return `${date.getFullYear().toString()}${(date.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}${formattedCounter}`;
+        })(),
+        this.drizzle
+          .select({
+            id: schema.roles.id,
+          })
+          .from(schema.roles)
+          .where(ilike(schema.roles.name, "%Mahasiswa Baru%"))
+          .limit(1)
+          .then((res) => res.at(0)),
+      ]);
 
-      const password = await encryptPassword(payload.password);
-      const now = new Date();
-      const year = now.getFullYear().toString();
-      const month = (now.getMonth() + 1).toString().padStart(2, "0");
-      const day = now.getDate().toString().padStart(2, "0");
-
-      const lastRegistration = await this.prisma.pMB.findFirst({
-        orderBy: { registration_number: "desc" },
-      });
-
-      let registrationCounter = 1;
-      if (lastRegistration) {
-        registrationCounter = parseInt(lastRegistration.registration_number.substring(8)) + 1;
-      }
-
-      const formattedCounter = registrationCounter.toString().padStart(6, "0");
-
-      const registrationNumber = `${year}${month}${day}${formattedCounter}`;
-      const { token, expiredAt } = await generateOtp();
-      const createUser = await this.prisma.users.create({
-        data: {
+      const insertUser = await this.drizzle
+        .insert(schema.users)
+        .values({
           fullname: payload.fullname,
-          email: payload.email.toLowerCase(),
+          email: payload.email,
           password,
-          otp: {
-            create: {
-              token,
-              expiredAt,
-            },
-          },
           avatar: "https://uninus-demo.s3.ap-southeast-1.amazonaws.com/avatar-default.png",
-          students: {
-            create: {
-              phone_number: `62${payload.phone_number}`,
-              pmb: {
-                create: {
-                  registration_number: registrationNumber,
-                  registration_status_id: 1,
-                  student_grade: {
-                    createMany: {
-                      data: [
-                        {
-                          subject: "indonesia",
-                          semester: "1",
-                        },
-                        {
-                          subject: "indonesia",
-                          semester: "2",
-                        },
-                        {
-                          subject: "indonesia",
-                          semester: "3",
-                        },
-                        {
-                          subject: "indonesia",
-                          semester: "4",
-                        },
-                        {
-                          subject: "matematika",
-                          semester: "1",
-                        },
-                        {
-                          subject: "matematika",
-                          semester: "2",
-                        },
-                        {
-                          subject: "matematika",
-                          semester: "3",
-                        },
-                        {
-                          subject: "matematika",
-                          semester: "4",
-                        },
-                        {
-                          subject: "inggris",
-                          semester: "1",
-                        },
-                        {
-                          subject: "inggris",
-                          semester: "2",
-                        },
-                        {
-                          subject: "inggris",
-                          semester: "3",
-                        },
-                        {
-                          subject: "inggris",
-                          semester: "4",
-                        },
-                      ],
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-        select: {
-          fullname: true,
-          otp: {
-            select: {
-              token: true,
-            },
-          },
-        },
-      });
+          roleId: roles?.id,
+          updatedAt: new Date(),
+        })
+        .returning({ id: schema.users.id, fullname: schema.users.fullname })
+        .then((res) => res.at(0));
 
-      if (!createUser) {
+      const [insertOtp, insertStudent, getRegistrationStatus] = await Promise.all([
+        this.drizzle
+          .insert(schema.otp)
+          .values({
+            token,
+            expiredAt,
+            userId: insertUser.id,
+          })
+          .returning({ token: schema.otp.token, id: schema.otp.id })
+          .then((res) => res.at(0)),
+        this.drizzle
+          .insert(schema.students)
+          .values({
+            phoneNumber: `62${payload.phoneNumber}`,
+            userId: insertUser.id,
+          })
+          .returning({ id: schema.students.id })
+          .then((res) => res.at(0)),
+        this.drizzle
+          .select({ id: schema.registrationStatus.id })
+          .from(schema.registrationStatus)
+          .where(ilike(schema.registrationStatus.name, "%Belum Mendaftar%"))
+          .limit(1)
+          .then((res) => res.at(0)),
+      ]);
+
+      const [insertAdmission] = await this.drizzle
+        .insert(schema.admission)
+        .values({
+          registrationNumber,
+          registrationStatusId: getRegistrationStatus.id,
+          studentId: insertStudent.id,
+        })
+        .returning({ id: schema.admission.id });
+
+      const insertStudentGrade = await this.drizzle.insert(schema.studentGrade).values([
+        {
+          admissionId: insertAdmission.id,
+          subject: "indonesia",
+          semester: "1",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "indonesia",
+          semester: "2",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "indonesia",
+          semester: "3",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "indonesia",
+          semester: "4",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "matematika",
+          semester: "1",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "matematika",
+          semester: "2",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "matematika",
+          semester: "3",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "matematika",
+          semester: "4",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "inggris",
+          semester: "1",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "inggris",
+          semester: "2",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "inggris",
+          semester: "3",
+        },
+        {
+          admissionId: insertAdmission.id,
+          subject: "inggris",
+          semester: "4",
+        },
+      ]);
+
+      if (
+        !insertUser ||
+        !insertOtp ||
+        !insertStudent ||
+        !getRegistrationStatus ||
+        !insertAdmission ||
+        !insertStudentGrade
+      ) {
         throw new BadRequestException("Gagal membuat akun");
       }
 
       return {
-        fullname: createUser.fullname,
-        otp: createUser.otp.token,
+        fullname: insertUser.fullname,
+        otp: insertOtp.token,
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
   }
 
-  async login(payload: TLoginRequest & THeaderRequest): Promise<TLoginResponse> {
+  async login(payload: TLoginRequest): Promise<TLoginResponse> {
     try {
-      const user = await this.prisma.users.findUnique({
-        where: {
-          email: payload.email,
-        },
-        select: {
-          id: true,
-          email: true,
-          fullname: true,
-          password: true,
-          refresh_token: true,
-          role_id: true,
-          createdAt: true,
-          avatar: true,
-          isVerified: true,
+      const user = await this.drizzle
+        .selectDistinct({
+          id: schema.users.id,
+          email: schema.users.email,
+          fullname: schema.users.fullname,
+          password: schema.users.password,
+          roleId: schema.users.roleId,
+          avatar: schema.users.avatar,
+          isVerified: schema.users.isVerified,
           role: {
-            include: {
-              appsOrigin: true,
-            },
+            name: schema.roles.name,
+            permissions: schema.roles.permissions,
           },
-        },
-      });
+        })
+        .from(schema.users)
+        .leftJoin(schema.roles, eq(schema.users.roleId, schema.roles.id))
+        .where(eq(schema.users.email, payload.email))
+        .limit(1)
+        .then((res) => res.at(0));
 
       const isMatch = user && (await comparePassword(payload.password as string, user.password));
 
       if (!user || !isMatch) {
         throw new UnauthorizedException("Email atau password tidak valid");
       }
-      const userPermission = user?.role?.appsOrigin.map((el) => el.name);
-      const isHashPermission = userPermission.includes(payload.app_origin);
-
-      if (!isHashPermission) {
-        throw new ForbiddenException("Anda tidak memiliki akses ke aplikasi ini");
-      }
 
       if (!user.isVerified) {
         throw new UnauthorizedException("Email belum terverifikasi");
       }
 
-      const { access_token, refresh_token } = await generateToken({
+      const { accessToken, refreshToken } = await generateToken({
         sub: user.id,
         email: user.email,
-        role: user?.role?.name,
+        role: user?.role,
       });
+
+      await this.drizzle
+        .update(schema.users)
+        .set({ refreshToken: refreshToken })
+        .where(eq(schema.users.id, user.id));
+
       const expiresIn = 15 * 60 * 1000;
       const now = Date.now();
       const expirationTime = now + expiresIn;
@@ -232,19 +275,18 @@ export class AppService {
       return {
         message: "Berhasil Login",
         token: {
-          access_token,
+          accessToken,
           exp: expirationTime,
-          refresh_token,
+          refreshToken,
         },
         id: user.id,
         user: {
           id: user.id,
           email: user.email,
           fullname: user.fullname,
-          role: user?.role?.name,
-          createdAt: user.createdAt,
           avatar: user.avatar,
           isVerified: user.isVerified,
+          role: user.role.name,
         },
       };
     } catch (error) {
@@ -254,15 +296,12 @@ export class AppService {
 
   async logout(payload: TLogoutRequest): Promise<TLogoutResponse> {
     try {
-      const result = await this.prisma.users.updateMany({
-        where: {
-          refresh_token: payload.refresh_token,
-        },
-        data: {
-          refresh_token: null,
-        },
-      });
-
+      const result = await this.drizzle
+        .update(schema.users)
+        .set({ refreshToken: null })
+        .where(eq(schema.users.refreshToken, payload.refreshToken))
+        .returning({ id: schema.users.id })
+        .then((res) => res.at(0));
       if (!result) {
         throw new UnauthorizedException("Gagal Logout");
       }
@@ -278,13 +317,13 @@ export class AppService {
   async refreshToken({ user }: TReqToken): Promise<TResRefreshToken> {
     try {
       const expiresIn = 15 * 60 * 1000;
-      const access_token = await generateAccessToken(user);
+      const accessToken = await generateAccessToken(user);
 
       const now = Date.now();
       const expirationTime = now + expiresIn;
 
       return {
-        access_token,
+        accessToken,
         exp: expirationTime,
       };
     } catch (error) {
@@ -295,41 +334,23 @@ export class AppService {
   async createOtpUser(payload: TUserEmail) {
     try {
       await this.clearOtp();
-      await this.getUserByEmail(payload);
+      const user = await this.finduserByEmail({ email: payload.email });
       const { token, expiredAt } = await generateOtp();
-      const createOtp = await this.prisma.users.update({
-        where: {
-          email: payload.email,
-        },
-        data: {
-          otp: {
-            upsert: {
-              update: {
-                token,
-                expiredAt,
-              },
-              create: {
-                token,
-                expiredAt,
-              },
-            },
-          },
-        },
-        select: {
-          fullname: true,
-          otp: {
-            select: {
-              token: true,
-            },
-          },
-        },
-      });
+      const createOtp = await this.drizzle
+        .insert(schema.otp)
+        .values({
+          token,
+          expiredAt,
+          userId: user.id,
+        })
+        .returning({ token: schema.otp.token })
+        .then((res) => res.at(0));
       if (!createOtp) {
         throw new BadRequestException("Gagal saat generate OTP");
       }
       return {
-        fullname: createOtp.fullname,
-        otp: createOtp.otp?.token,
+        fullname: user.fullname,
+        otp: createOtp.token,
       };
     } catch (error) {
       throw new RpcException(errorMappings(error));
@@ -338,16 +359,7 @@ export class AppService {
 
   async clearOtp() {
     try {
-      const clearOtp = await this.prisma.oTP.deleteMany({
-        where: {
-          expiredAt: {
-            lte: new Date().getTime(),
-          },
-        },
-      });
-      if (!clearOtp) {
-        throw new BadGatewayException("Gagal menghapus OTP");
-      }
+      await this.drizzle.delete(schema.otp).where(lte(schema.otp.expiredAt, new Date()));
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }
@@ -356,20 +368,24 @@ export class AppService {
   async verifyOtp(payload: TVerifyOtpRequest): Promise<TVerifyOtpResponse> {
     try {
       await this.clearOtp();
-      const user = await this.getUserByEmail({ email: payload?.email });
-      const isVerified = user.email === payload.email && user.otp === payload.otp;
+      const user = await this.finduserByEmail({ email: payload?.email });
+      const otp = await this.drizzle
+        .select({
+          token: schema.otp.token,
+        })
+        .from(schema.otp)
+        .leftJoin(schema.users, eq(schema.otp.userId, schema.users.id))
+        .where(and(eq(schema.otp.token, payload?.otp), eq(schema.users.id, user.id)));
+
+      const isVerified = user && otp.length;
       if (!isVerified) {
         throw new UnauthorizedException("Email atau OTP tidak valid");
       }
 
-      const updateUser = await this.prisma.users.update({
-        where: {
-          email: payload.email,
-        },
-        data: {
-          isVerified: true,
-        },
-      });
+      const updateUser = await this.drizzle
+        .update(schema.users)
+        .set({ isVerified: true })
+        .where(eq(schema.users.id, user.id));
 
       if (!updateUser) {
         throw new BadRequestException("Gagal verifikasi OTP");
@@ -386,16 +402,12 @@ export class AppService {
     try {
       const newPassword = await encryptPassword(payload.password);
 
-      await this.getUserByEmail({ email: payload?.email });
+      await this.finduserByEmail({ email: payload?.email });
 
-      const user = await this.prisma.users.update({
-        where: {
-          email: payload.email,
-        },
-        data: {
-          password: newPassword,
-        },
-      });
+      const user = await this.drizzle
+        .update(schema.users)
+        .set({ password: newPassword })
+        .where(eq(schema.users.email, payload.email));
 
       if (!user) {
         throw new BadRequestException("Gagal mengganti password");
@@ -407,26 +419,21 @@ export class AppService {
       throw new RpcException(errorMappings(error));
     }
   }
-  async getUserByEmail(payload: TUserEmail): Promise<TUserEmailResponse> {
-    const user = await this.prisma.users.findUnique({
-      where: {
-        email: payload.email,
-      },
-      select: {
-        id: true,
-        email: true,
-        fullname: true,
-        otp: {
-          select: {
-            token: true,
-          },
-        },
-      },
-    });
+  async finduserByEmail(payload: TUserEmail): Promise<TUserEmailResponse> {
+    const user = await this.drizzle
+      .select({
+        id: schema.users.id,
+        email: schema.users.email,
+        fullname: schema.users.fullname,
+      })
+      .from(schema.users)
+      .where(eq(schema.users.email, payload.email))
+      .limit(1)
+      .then((res) => res.at(0));
     if (!user) {
       throw new NotFoundException("Email tidak ditemukan");
     }
 
-    return { id: user.id, email: user.email, otp: user.otp?.token };
+    return { id: user.id, email: user.email, fullname: user.fullname };
   }
 }

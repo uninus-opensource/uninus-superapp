@@ -24,11 +24,11 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { mutate } = useLogout();
   const { data: session } = useSession();
 
-  const [formStatus, setFormStatus] = useState<number | null | undefined>(null);
+  const [formStatus, setFormStatus] = useState<number | null | string | undefined>(null);
   const [biodataStatus, setBiodataStatus] = useState<boolean | null | undefined>(null);
 
   const handleLogout = async () => {
-    mutate(session?.user?.refresh_token);
+    mutate(session?.user?.refreshToken);
   };
 
   const { data: student, isLoading, refetch } = useGetBiodata();

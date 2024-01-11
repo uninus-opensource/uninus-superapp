@@ -47,7 +47,7 @@ export class PMBService {
     return response;
   }
 
-  async deleteScholarship(payload: { id: number }) {
+  async deleteScholarship(payload: { id: string }) {
     const response = await firstValueFrom(
       this.client
         .send("delete_scholarship", payload)
@@ -83,7 +83,7 @@ export class PMBService {
     return response;
   }
 
-  async deleteSelectionpath(payload: { id: number }) {
+  async deleteSelectionpath(payload: { id: string }) {
     const response = await firstValueFrom(
       this.client
         .send("delete_selection_path", payload)
@@ -167,7 +167,7 @@ export class PMBService {
     return response;
   }
 
-  async deleteAdmissionTest(payload: { id: number }) {
+  async deleteAdmissionTest(payload: { id: string }) {
     const response = await firstValueFrom(
       this.client
         .send("delete_admission_test", payload)

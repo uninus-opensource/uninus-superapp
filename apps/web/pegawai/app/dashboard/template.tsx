@@ -13,7 +13,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
   const { data: session } = useSession();
 
   const handleLogout = async () => {
-    mutate(session?.user?.refresh_token);
+    mutate(session?.user?.refreshToken);
   };
 
   const sideLists = [

@@ -16,11 +16,8 @@ export class GetSelectionPathDto {
     required: false,
   })
   public search!: string;
-  @ApiProperty({
-    type: "string",
-    required: false,
-  })
-  public degree_program_id!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public degreeProgramId!: string;
 }
 
 export class CreateSelectionPathDto {
@@ -29,11 +26,8 @@ export class CreateSelectionPathDto {
     required: false,
   })
   public name!: string;
-  @ApiProperty({
-    type: "string",
-    required: false,
-  })
-  public degree_program_id!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public degreeProgramId!: string;
 }
 
 export class UpdateSelectionPathDto {
@@ -42,11 +36,8 @@ export class UpdateSelectionPathDto {
     required: false,
   })
   public name!: string;
-  @ApiProperty({
-    type: "string",
-    required: false,
-  })
-  public degree_program_id!: number;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public degreeProgramId!: string;
 }
 
 export class GetRegistransDto {
@@ -54,17 +45,17 @@ export class GetRegistransDto {
     type: "string",
     required: false,
   })
-  public filter_type!: string;
+  public filterType!: string;
   @ApiProperty({
     type: "string",
     required: false,
   })
-  public start_date!: string;
+  public startDate!: string;
   @ApiProperty({
     type: "string",
     required: false,
   })
-  public end_date!: string;
+  public endDate!: string;
 }
 
 export class GetInterestProgramsDto {
@@ -72,15 +63,12 @@ export class GetInterestProgramsDto {
     type: "string",
     required: false,
   })
-  public filter_type!: string;
+  public filterType!: string;
 }
 
 export class GetInterestDepartmentDto extends GetInterestProgramsDto {
-  @ApiProperty({
-    type: "string",
-    required: false,
-  })
-  public degree_program_id!: string;
+  @ApiProperty({ required: false, type: "string", format: "uuid" })
+  public degreeProgramId!: string;
 }
 
 export class CreateAdmissionDto {
@@ -94,7 +82,7 @@ export class CreateAdmissionDto {
     example: "1945",
     type: "string",
   })
-  public correct_answer!: string;
+  public correctAnswer!: string;
 
   @ApiProperty({
     example: {

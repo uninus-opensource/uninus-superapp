@@ -17,7 +17,6 @@ import {
   TLogoutRequest,
   TLogoutResponse,
   TLoginRequest,
-  THeaderRequest,
 } from "@uninus/entities";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
@@ -37,7 +36,7 @@ export class AuthService {
 
     const html = emailTemplate(createdUser.fullname, createdUser.otp, msg);
 
-    const sendEmail = await firstValueFrom(
+    await firstValueFrom(
       this.client
         .send("send_email", {
           email: payload.email,
@@ -47,19 +46,15 @@ export class AuthService {
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
 
-    if (!sendEmail) {
-      throw new BadRequestException("Gagal mengirimkan kode verifikasi");
-    }
-
     return {
       message: "Akun Berhasil dibuat!, check email untuk verifikasi",
     };
   }
 
-  async login({ app_origin, ...payload }: TLoginRequest & THeaderRequest): Promise<TLoginResponse> {
+  async login(payload: TLoginRequest): Promise<TLoginResponse> {
     const response = await firstValueFrom(
       this.client
-        .send("login", { app_origin, ...payload })
+        .send("login", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
