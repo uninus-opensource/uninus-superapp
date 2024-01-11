@@ -245,7 +245,7 @@ export const educationTypeRelations = relations(educationType, ({ many, one }) =
 
 export const educationMajor = pgTable("app_education_major", {
   id: uuid("id").defaultRandom().primaryKey(),
-  name: text("name").notNull().unique(),
+  name: text("name").notNull(),
   educationTypeId: uuid("education_type_id").references(() => educationType.id),
 });
 

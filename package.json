@@ -65,7 +65,7 @@
     "api:db:push": "dotenv -e ./apps/api/.env -- yarn prisma db push",
     "api:db:pull": "dotenv -e ./apps/api/.env -- yarn prisma db pull",
     "api:serve:prod": "dotenv -e ./apps/api/.env -- node dist/apps/api/main.js",
-    "apps:build": "yarn nx run-many --targets=build --projects=api,api-auth,api-email,api-employee,api-finance,api-general,api-student,api-user,web-akreditasi,web-evaluasi,web-lms,web-neo-feeder,web-pegawai,web-pmb-user,web-pmb-admin,web-psu,web-siakad,web-smart-dashboard,web-tata-usaha,web-tracer-alumni,web-sisfo-akuntansi,web-sisfo-aset,web-sisfo-bendahara,web-sisfo-keuangan && yarn prisma generate",
+    "apps:build": "bunx nx run-many --target=build ---all",
     "prepare": "yarn husky install",
     "storybook:dev": "storybook dev -p 6006",
     "storybook:build": "storybook build",

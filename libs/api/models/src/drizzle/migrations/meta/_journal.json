@@ -113,6 +113,13 @@
       "when": 1704975799874,
       "tag": "0015_gigantic_juggernaut",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "5",
+      "when": 1704979656199,
+      "tag": "0016_uneven_weapon_omega",
+      "breakpoints": true
     }
   ]
 }

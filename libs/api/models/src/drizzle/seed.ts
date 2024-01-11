@@ -81,7 +81,6 @@ const seedEducationMajor = async () => {
     { name: "Bisnis dan Manajemen", educationTypeId: smkId },
     { name: "Pariwisata", educationTypeId: smkId },
     { name: "Seni dan Industri Kreatif", educationTypeId: smkId },
-    { name: "Seni dan Industri Kreatif", educationTypeId: smkId },
     { name: "IPA", educationTypeId: maId },
     { name: "IPS", educationTypeId: maId },
     { name: "Bahasa", educationTypeId: maId },
@@ -163,10 +162,9 @@ const seedRegistrationPath = async () => {
     console.log("Failed seeding registration path");
     return;
   }
-
-  const s1Id = degreeProgram.filter((el) => el.name.includes("S!"))[0].id;
-  const s2Id = degreeProgram.filter((el) => el.name.includes("S2"))[0].id;
-  const s3Id = degreeProgram.filter((el) => el.name.includes("S3"))[0].id;
+  const s1Id = degreeProgram.filter((el) => el.name.includes("S1") && el)[0].id;
+  const s2Id = degreeProgram.filter((el) => el.name.includes("S2") && el)[0].id;
+  const s3Id = degreeProgram.filter((el) => el.name.includes("S3") && el)[0].id;
 
   console.log("Seeding registration path... 🚀");
   await db.insert(schema.registrationPath).values([
@@ -272,7 +270,7 @@ const seedSelectionPath = async () => {
     return;
   }
 
-  const s1Id = degreeProgram.filter((el) => el.name.includes("S!"))[0].id;
+  const s1Id = degreeProgram.filter((el) => el.name.includes("S1"))[0].id;
   const s2Id = degreeProgram.filter((el) => el.name.includes("S2"))[0].id;
   const s3Id = degreeProgram.filter((el) => el.name.includes("S3"))[0].id;
 
@@ -416,7 +414,7 @@ const seedFaculty = async () => {
     return;
   }
 
-  const s1Id = degreeProgram.filter((el) => el.name.includes("S!"))[0].id;
+  const s1Id = degreeProgram.filter((el) => el.name.includes("S1"))[0].id;
   const s2Id = degreeProgram.filter((el) => el.name.includes("S2"))[0].id;
   const s3Id = degreeProgram.filter((el) => el.name.includes("S3"))[0].id;
 
@@ -485,7 +483,7 @@ const seedDepartment = async () => {
     return;
   }
 
-  const s1Id = degreeProgram.filter((el) => el.name.includes("S!"))[0].id;
+  const s1Id = degreeProgram.filter((el) => el.name.includes("S1"))[0].id;
   const s2Id = degreeProgram.filter((el) => el.name.includes("S2"))[0].id;
   const s3Id = degreeProgram.filter((el) => el.name.includes("S3"))[0].id;
 
