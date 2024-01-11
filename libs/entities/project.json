@@ -4,17 +4,6 @@
   "sourceRoot": "libs/entities/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/entities",
-        "main": "libs/entities/src/index.ts",
-        "tsConfig": "libs/entities/tsconfig.lib.json",
-        "assets": ["libs/entities/*.md"],
-        "updateBuildableProjectDepsInPackageJson": true
-      }
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
