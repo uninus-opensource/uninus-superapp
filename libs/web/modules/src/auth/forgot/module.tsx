@@ -1,14 +1,18 @@
 "use client";
 import { Button, TextField } from "@uninus/web/components";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useForgot } from "./hook";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TVSForgotPassword, VSForgotPassword } from "@uninus/entities";
 import { useUserEmail } from "@uninus/web/services";
 
 export const ForgotModule: FC = (): ReactElement => {
+  const searchParams = useSearchParams();
+
+  const content = searchParams.get("content");
+
   const {
     control,
     handleSubmit,
@@ -35,11 +39,17 @@ export const ForgotModule: FC = (): ReactElement => {
       {
         onSuccess: () => {
           setEmail(data?.email);
-          router.push(`/auth/verifikasi-forget`);
+          router.push(`/auth/${content === "verifikasi" ? "verifikasi-otp" : "verifikasi-forget"}`);
         },
       },
     );
   });
+
+  useEffect(() => {
+    if (!content) {
+      router.push("/auth/login");
+    }
+  }, [content, router]);
 
   return (
     <form
@@ -48,8 +58,8 @@ export const ForgotModule: FC = (): ReactElement => {
       onSubmit={onSubmit}
     >
       <div className="w-full flex flex-col gap-6">
-        <h1 className="text-2xl font-bold text-primary-black font-bebasNeue w-50%">
-          LUPA PASSWORD ?
+        <h1 className="text-2xl font-bold text-primary-black font-bebasNeue w-50% uppercase">
+          {content === "verifikasi" ? "Verifikasi Akun" : "Lupa Password ?"}
         </h1>
         <p className="text-grayscale-5 text-sm">Masukkan email yang didaftarkan pada akun anda</p>
         <TextField

@@ -123,7 +123,7 @@ export const LoginUserModule: FC = (): ReactElement => {
         <div className="flex flex-col xl:gap-y-6 lg:gap-y-2 gap-y-5">
           <div className="flex justify-between md:justify-around lg:justify-end">
             <Link
-              href="/auth/forgot-password"
+              href="/auth/confirm-password?content=forget"
               className="text-grayscale-4 hover:text-grayscale-6 duration-300 text-[12px]"
             >
               Lupa password ?

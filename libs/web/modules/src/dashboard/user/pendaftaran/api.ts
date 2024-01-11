@@ -36,7 +36,7 @@ export const SelectionGet = async (params: ISelectionRequest): Promise<TSelectio
   const { data } = await api<TSelectionResponse>({
     method: "GET",
     params,
-    url: "/selection-path",
+    url: "/path/selection",
   });
   return data;
 };
@@ -49,7 +49,7 @@ export const StudentUpdate = async (payload: IStudentData): Promise<IStudentData
 export const RegistrationsPath = async (): Promise<TRegistrationPathResponse> => {
   const { data } = await api<TRegistrationPathResponse>({
     method: "GET",
-    url: "/registration-path",
+    url: "/path/registration",
   });
 
   return data;

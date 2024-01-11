@@ -27,7 +27,7 @@ export const educationTypeGet = async (
   const { data } = await api<TEducationTypeResponse>({
     method: "GET",
     params,
-    url: "/education-type",
+    url: "/education/type",
   });
   return data;
 };
@@ -49,7 +49,7 @@ export const educationMajorGet = async (
   const { data } = await api<TEducationMajorResponse>({
     method: "GET",
     params,
-    url: "/education-major",
+    url: "/education/major",
   });
   return data;
 };

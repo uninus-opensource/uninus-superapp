@@ -179,11 +179,23 @@ export const RegisterModule: FC = (): ReactElement => {
             </Button>
           </div>
         </div>
-        <div className="flex gap-2">
-          <p className="text-grayscale-4 text-[12px]">Sudah memiliki akun ?</p>
-          <Link href="/auth/login" className="text-primary-green text-[12px]">
-            Login
-          </Link>
+        <div className="flex flex-col gap-2 mt-2">
+          <div className="flex gap-2">
+            <p className="text-grayscale-4 text-[12px]">Sudah memiliki akun ?</p>
+            <Link href="/auth/login" className="text-primary-green text-[12px]">
+              Login
+            </Link>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:gap-2">
+            <p className="text-grayscale-4 text-[12px]">Sudah daftar tapi lupa verifikasi ?</p>
+            <Link
+              href="/auth/confirm-password?content=verifikasi"
+              className="text-primary-green text-[12px]"
+            >
+              Verifikasi sekarang
+            </Link>
+          </div>
         </div>
       </div>
     </form>

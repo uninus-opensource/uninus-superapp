@@ -23,6 +23,12 @@ export const VerifForgetModule: FC = (): ReactElement => {
     return () => clearInterval(intervalRef.current);
   }, []);
 
+  useEffect(() => {
+    if (!getEmail) {
+      push("/auth/login");
+    }
+  }, [getEmail, push]);
+
   const handleSubmit = () => {
     if (otp.length === 6) {
       verify(
@@ -64,7 +70,7 @@ export const VerifForgetModule: FC = (): ReactElement => {
     >
       <div className="w-full flex flex-col gap-y-6 ">
         <span className="text-3xl font-bold text-primary-black font-bebasNeue w-30%">
-          <h1>LUPA</h1>
+          <h1>Konfirmasi</h1>
           <span>PASSWORD?</span>
         </span>
 

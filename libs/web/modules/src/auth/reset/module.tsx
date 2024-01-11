@@ -1,6 +1,6 @@
 "use client";
 import { Button, TextField } from "@uninus/web/components";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useReset } from "./hook";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,8 @@ import { useUserEmail } from "@uninus/web/services";
 
 export const ResetModule: FC = (): ReactElement => {
   const { getEmail } = useUserEmail();
+
+  const { push } = useRouter();
 
   const {
     control,
@@ -39,6 +41,12 @@ export const ResetModule: FC = (): ReactElement => {
       },
     );
   });
+
+  useEffect(() => {
+    if (!getEmail) {
+      push("/auth/login");
+    }
+  }, [getEmail, push]);
 
   return (
     <form

@@ -36,7 +36,7 @@ export const UpdateAverage = async (
   return data;
 };
 export const StudentGradeGet = async (): Promise<IUpdateStudentGradeResponse> => {
-  const { data } = await api.get<IUpdateStudentGradeResponse>("/student");
+  const { data } = await api.get<IUpdateStudentGradeResponse>("/student/me");
   return data;
 };
 

@@ -58,6 +58,7 @@ export const Button: FC<IButtonProps> = ({
         role="button"
         aria-label="button-component-link"
         data-testid="button"
+        disabled={props?.disabled}
         {...props}
         className={className}
       >
@@ -69,6 +70,7 @@ export const Button: FC<IButtonProps> = ({
       role="button"
       aria-label="button-component"
       data-testid="button"
+      disabled={props?.disabled}
       {...props}
       className={className}
     >

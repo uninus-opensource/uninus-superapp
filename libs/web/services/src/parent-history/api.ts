@@ -12,7 +12,7 @@ export const ParentStatusGet = async (
   const { data } = await api<TParentStatusResponse>({
     method: "GET",
     params,
-    url: "/parent-status",
+    url: "/parent/status",
   });
   return data;
 };
@@ -23,7 +23,7 @@ export const ParentEducationGet = async (
   const { data } = await api<TParentEducationResponse>({
     method: "GET",
     params,
-    url: "/parent-education",
+    url: "/parent/education",
   });
   return data;
 };

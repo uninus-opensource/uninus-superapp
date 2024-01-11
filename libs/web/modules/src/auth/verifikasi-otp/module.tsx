@@ -17,6 +17,12 @@ export const VerifEmailModule: FC = (): ReactElement => {
   const [timer, setTimer] = useState(120);
   const intervalRef = useRef<NodeJS.Timeout>();
 
+  useEffect(() => {
+    if (!getEmail) {
+      push("/auth/login");
+    }
+  }, [getEmail, push]);
+
   const countDownTimer = () => setTimer((prev) => prev - 1);
   useEffect(() => {
     intervalRef.current = setInterval(countDownTimer, 1000);
@@ -36,7 +42,6 @@ export const VerifEmailModule: FC = (): ReactElement => {
           },
           onError: () => {
             setOtp("");
-            setTimer(120);
             setIsError(true);
           },
         },

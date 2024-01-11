@@ -305,8 +305,6 @@ export const DataOrtuSection: FC = (): ReactElement => {
         father: false,
       });
     }
-
-    console.log(positionState.father);
   }, [watch("father_occupation_id")]);
 
   useEffect(() => {
@@ -328,7 +326,6 @@ export const DataOrtuSection: FC = (): ReactElement => {
         mother: false,
       });
     }
-    console.log(positionState.mother);
   }, [watch("mother_occupation_id")]);
 
   useEffect(() => {
@@ -350,7 +347,6 @@ export const DataOrtuSection: FC = (): ReactElement => {
         guardian: false,
       });
     }
-    console.log(positionState.guardian);
   }, [watch("guardian_occupation_id")]);
 
   const { mutate } = useBiodataUpdate();
@@ -445,7 +441,7 @@ export const DataOrtuSection: FC = (): ReactElement => {
         },
       );
     } catch (error) {
-      console.error(error);
+      Promise.reject(error);
     }
   });
 
