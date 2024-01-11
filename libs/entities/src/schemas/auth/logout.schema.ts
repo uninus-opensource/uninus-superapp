@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { createInsertSchema } from "drizzle-zod";
-import * as schema from "@uninus/api/models";
+import { users } from "@uninus/api/models";
 export const VSUser = z.object({
   sub: z.string(),
 });
 
-export const VSLogout = createInsertSchema(schema.users, {
+export const VSLogout = createInsertSchema(users, {
   refreshToken: z.string().nonempty({
     message: "Refresh token tidak boleh kosong",
   }),

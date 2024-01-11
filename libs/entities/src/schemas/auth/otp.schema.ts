@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { createInsertSchema } from "drizzle-zod";
-import * as schema from "@uninus/api/models";
+import { users } from "@uninus/api/models";
 
-export const VSResendOtp = createInsertSchema(schema.users, {
+export const VSResendOtp = createInsertSchema(users, {
   email: z
     .string()
     .email({

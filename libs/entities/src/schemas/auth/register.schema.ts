@@ -1,15 +1,15 @@
 import { createInsertSchema } from "drizzle-zod";
-import * as schema from "@uninus/api/models";
+import {users, students} from "@uninus/api/models";
 
 import { z } from "zod";
 
 export const VSRegister = z.object({
-  ...createInsertSchema(schema.users).pick({
+  ...createInsertSchema(users).pick({
     email: true,
     fullname: true,
     password: true,
   }).shape,
-  ...createInsertSchema(schema.students, {
+  ...createInsertSchema(students, {
     phoneNumber: z
       .string()
       .nonempty({ message: "Nomor telepon harus diisi" })
