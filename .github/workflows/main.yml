@@ -10,6 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
       - run: bun install
       - run: bun nx run-many --target=lint ---all
 
@@ -18,6 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
       - run: bun install
       - run: bun nx run-many --target=build ---all
 
@@ -26,5 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
       - run: bun install
       - run: bun nx run-many --target=test ---all
