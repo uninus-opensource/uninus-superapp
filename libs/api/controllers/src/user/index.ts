@@ -81,6 +81,11 @@ export class UserController {
     description: "Application Origin",
     required: true,
   })
+  @ApiQuery({ name: "page", required: false })
+  @ApiQuery({ name: "perPage", required: false })
+  @ApiQuery({ name: "orderBy", enum: EOrderByPagination, required: false })
+  @ApiQuery({ name: "filterBy", required: false })
+  @ApiQuery({ name: "search", required: false })
   @Get()
   async getDataUsers(
     @Query("page") page: number,

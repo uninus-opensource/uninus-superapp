@@ -17,7 +17,7 @@ export class GetEmployeesDto {
   @ApiProperty({ required: false })
   public search?: string;
 
-  @ApiProperty({ required: true })
+  @ApiProperty({ required: false })
   public type!: number;
 }
 
