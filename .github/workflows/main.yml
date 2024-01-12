@@ -15,16 +15,6 @@ jobs:
       - run: bun install
       - run: bun nx run-many --target=lint ---all
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
-      - run: bun install
-      - run: bun nx run-many --target=build ---all
-
   unit-test:
     runs-on: ubuntu-latest
     steps:
@@ -34,3 +24,13 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun nx run-many --target=test ---all
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun nx run-many --target=build ---all
