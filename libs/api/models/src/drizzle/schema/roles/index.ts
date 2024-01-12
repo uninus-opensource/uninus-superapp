@@ -8,7 +8,7 @@ export const roles = pgTable("app_roles", {
   description: text("description"),
   permissions: text("permissions").array(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }),
 });
 
 export const rolesRelations = relations(roles, ({ many }) => ({

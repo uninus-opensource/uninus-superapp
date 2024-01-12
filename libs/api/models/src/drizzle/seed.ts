@@ -275,7 +275,7 @@ const seedSelectionPath = async () => {
   const s3Id = degreeProgram.filter((el) => el.name.includes("S3"))[0].id;
 
   console.log("Seeding selection path... 🚀");
-  await db.insert(schema.registrationPath).values([
+  await db.insert(schema.selectionPath).values([
     { name: "Seleksi Prestasi Akademik(SPA)", degreeProgramId: s1Id },
     { name: "Seleksi Prestasi Non Akademik (SPNA)", degreeProgramId: s1Id },
     { name: "Seleksi Test", degreeProgramId: s1Id },
@@ -626,6 +626,35 @@ const seedDepartment = async () => {
   ]);
 };
 
+const seedRole = async () => {
+  const roleExist = await db.select({ id: schema.roles.id }).from(schema.roles);
+
+  if (roleExist.length) {
+    return;
+  }
+
+  console.log("Seeding roles... 🚀");
+  await db.insert(schema.roles).values([
+    {
+      name: "Super Admin PMB",
+    },
+    {
+      name: "Admin PMB",
+    },
+    { name: "Super Admin KEUANGAN" },
+    { name: "Admin Keuangan" },
+    { name: "Mahasiswa" },
+    { name: "Mahasiswa Baru" },
+    { name: "Super Admin Pegawai" },
+    { name: "Admin Pegawai" },
+    { name: "Super Admin TU" },
+    { name: "Admin TU" },
+    { name: "Super Admin SIAKAD" },
+    { name: "Admin SIAKAD" },
+  ]);
+  console.log("Seeding roles! 🎊");
+};
+
 async function main() {
   try {
     await seedRegistrationStatus();
@@ -646,6 +675,7 @@ async function main() {
     await seedSalary();
     await seedFaculty();
     await seedDepartment();
+    await seedRole();
   } catch (error) {
     console.error(error);
   }
