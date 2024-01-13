@@ -56,6 +56,11 @@ export class StudentController {
   }
 
   @ApiOperation({ summary: "Get Data Student Pagination" })
+  @ApiQuery({ name: "page", required: false })
+  @ApiQuery({ name: "perPage", required: false })
+  @ApiQuery({ name: "orderBy", enum: EOrderByPagination, required: false })
+  @ApiQuery({ name: "filterBy", required: false })
+  @ApiQuery({ name: "search", required: false })
   @Get()
   async getDataStudents(
     @Query("page") page: number,

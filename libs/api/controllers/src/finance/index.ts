@@ -38,8 +38,8 @@ export class FinanceController {
   @Get("/payment/sumary")
   async financeSummary(
     @Query("filter") filter: EFilterGraph,
-    @Query("start_date") startDate: string,
-    @Query("end_date") endDate: string,
+    @Query("startDate") startDate: string,
+    @Query("endDate") endDate: string,
   ) {
     return await this.appService.financeSummary({ filter, startDate, endDate });
   }

@@ -1,6 +1,7 @@
 import { TVSCreateUser, TVSUpdateUser } from "../../schemas";
 import { roles, users } from "@uninus/api/models";
 import { InferSelectModel } from "drizzle-orm";
+import { EOrderByPagination, EUserFilterBy } from "../../enum";
 export type TProfileRequest = {
   email: string;
 };
@@ -55,11 +56,15 @@ export interface IUserResponse extends IUser {
 
 export type TUsersPaginationArgs = {
   search?: string;
-  orderBy?: string;
+  orderBy?: EOrderByPagination.ASC | EOrderByPagination.DESC;
   page?: number;
   perPage?: number;
   app_origin?: string;
-  filterBy?: string;
+  filterBy?:
+    | EUserFilterBy.EMAIL
+    | EUserFilterBy.FULLNAME
+    | EUserFilterBy.REGISTRATION_STATUS
+    | EUserFilterBy.CREATED_AT;
 };
 
 export type TUsersPaginatonResponse = {

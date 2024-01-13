@@ -547,7 +547,7 @@ export class AppService {
 
   async getAcademicStaffTypes({ search, id }: ISelectRequest) {
     try {
-      const academicStaffTypes = await await this.drizzle
+      const academicStaffTypes = await this.drizzle
         .select({
           id: schema.academicStaffType.id,
           name: schema.academicStaffType.name,
@@ -570,7 +570,7 @@ export class AppService {
 
   async getAcademicStaffPositions({ search, id }: ISelectRequest) {
     try {
-      const academicStaffPositions = await await this.drizzle
+      const academicStaffPositions = await this.drizzle
         .select({
           id: schema.academicStaffPosition.id,
           name: schema.academicStaffPosition.name,
