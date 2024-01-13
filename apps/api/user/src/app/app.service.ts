@@ -40,7 +40,15 @@ export class AppService {
     try {
       const orderByFunction = orderBy == EOrderByPagination.DESC ? desc : asc;
       const filterByFunction =
-        filterBy == EUserFilterBy.EMAIL ? schema.users.email : schema.users.createdAt;
+        filterBy == EUserFilterBy.FULLNAME
+          ? schema.users.fullname
+          : filterBy == EUserFilterBy.EMAIL
+            ? schema.users.email
+            : filterBy == EUserFilterBy.CREATED_AT
+              ? schema.users.createdAt
+              : filterBy == EUserFilterBy.REGISTRATION_STATUS
+                ? schema.registrationStatus.name
+                : schema.users.createdAt;
       const [data, count] = await Promise.all([
         this.drizzle
           .select({

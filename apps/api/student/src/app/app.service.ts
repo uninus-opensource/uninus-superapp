@@ -12,12 +12,14 @@ import {
   TPaymentObligationsRequest,
   TStudentsPaginationArgs,
   TStudentsPaginatonResponse,
+  EOrderByPagination,
+  EStudentFilterBy,
 } from "@uninus/entities";
 import { RpcException } from "@nestjs/microservices";
 import { convertNumberToWords, errorMappings } from "@uninus/api/utilities";
 import * as schema from "@uninus/api/models";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { and, asc, eq, ilike } from "drizzle-orm";
+import { and, asc, desc, eq, ilike } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 
 @Injectable()
@@ -100,14 +102,33 @@ export class AppService {
 
   async getDataStudents({
     search,
-    // orderBy,
+    orderBy,
+    filterBy,
     page = 1,
     perPage = 10,
   }: TStudentsPaginationArgs): Promise<TStudentsPaginatonResponse> {
     try {
       const firstDepartment = alias(schema.department, "first_department");
       const secondDepartment = alias(schema.department, "second_department");
-
+      const orderByFunction = orderBy == EOrderByPagination.DESC ? desc : asc;
+      const filterByFunction =
+        filterBy == EStudentFilterBy.FULLNAME
+          ? schema.users.fullname
+          : filterBy == EStudentFilterBy.EMAIL
+            ? schema.users.email
+            : filterBy == EStudentFilterBy.CREATED_AT
+              ? schema.users.createdAt
+              : filterBy == EStudentFilterBy.REGISTRATION_STATUS
+                ? schema.registrationStatus.name
+                : filterBy == EStudentFilterBy.ACADEMIC_YEAR
+                  ? schema.students.academicYear
+                  : filterBy == EStudentFilterBy.GUARDIAN_LECTURER
+                    ? schema.lecturers.name
+                    : filterBy == EStudentFilterBy.NIM
+                      ? schema.students.nim
+                      : filterBy == EStudentFilterBy.STUDENT_STATUS
+                        ? schema.studentStatus.name
+                        : schema.users.createdAt;
       const [data, count] = await Promise.all([
         this.drizzle
           .select({
@@ -136,10 +157,23 @@ export class AppService {
               id: schema.registrationStatus.id,
               name: schema.registrationStatus.name,
             },
+            guardianLecturer: {
+              id: schema.lecturers.id,
+              name: schema.lecturers.name,
+            },
+            studentStatus: {
+              id: schema.studentStatus.id,
+              name: schema.studentStatus.name,
+            },
             createdAt: schema.students.createdAt,
           })
           .from(schema.students)
           .leftJoin(schema.users, eq(schema.users.id, schema.students.userId))
+          .leftJoin(schema.lecturers, eq(schema.lecturers.id, schema.students.guardianLecturerId))
+          .leftJoin(
+            schema.studentStatus,
+            eq(schema.studentStatus.id, schema.students.studentStatusId),
+          )
           .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
           .leftJoin(
             schema.selectionPath,
@@ -163,7 +197,7 @@ export class AppService {
           )
           .limit(perPage)
           .offset((page - 1) * perPage)
-          .orderBy(schema.students.createdAt, asc(schema.students.createdAt)),
+          .orderBy(orderByFunction(filterByFunction)),
 
         this.drizzle
           .select({ id: schema.students.id })
