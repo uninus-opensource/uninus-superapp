@@ -6,6 +6,7 @@ import {
   Inject,
 } from "@nestjs/common";
 import {
+  EOrderByPagination,
   // EAppsOrigin,
   ISelectRequest,
   IUserRequest,
@@ -17,7 +18,8 @@ import {
   TIdUser,
   TRolesResponse,
   TUsersPaginationArgs,
-  // TUsersPaginatonResponse,
+  EUserFilterBy,
+  TUsersPaginatonResponse,
 } from "@uninus/entities";
 import { encryptPassword, errorMappings, generateOtp } from "@uninus/api/utilities";
 import { RpcException } from "@nestjs/microservices";
@@ -28,14 +30,17 @@ import { desc, eq, ilike, not, or, and, asc } from "drizzle-orm";
 export class AppService {
   constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
   async getDataUsers({
-    // filterBy,
+    filterBy,
     search,
-    // orderBy,
+    orderBy,
     // app_origin,
     page = 1,
     perPage = 10,
-  }: TUsersPaginationArgs) {
+  }: TUsersPaginationArgs): Promise<TUsersPaginatonResponse> {
     try {
+      const orderByFunction = orderBy == EOrderByPagination.DESC ? desc : asc;
+      const filterByFunction =
+        filterBy == EUserFilterBy.EMAIL ? schema.users.email : schema.users.createdAt;
       const [data, count] = await Promise.all([
         this.drizzle
           .select({
@@ -46,7 +51,10 @@ export class AppService {
             isVerified: schema.users.isVerified,
             createdAt: schema.users.createdAt,
             phoneNumber: schema.students.phoneNumber,
-            registrationStatus: schema.registrationStatus.name,
+            registrationStatus: {
+              id: schema.registrationStatus.id,
+              name: schema.registrationStatus.name,
+            },
             role: {
               id: schema.roles.id,
               name: schema.roles.name,
@@ -62,14 +70,14 @@ export class AppService {
           )
           .where(
             and(
-              ilike(schema.users.fullname, `%${search || ""}%`),
-              ilike(schema.users.email, `%${search || ""}%`),
+              ...(search ? [ilike(schema.users.fullname, `%${search}%`)] : []),
+              ...(search ? [ilike(schema.users.email, `%${search}%`)] : []),
               not(or(ilike(schema.roles.name, "%admin%"), eq(schema.roles.name, "Mahasiswa"))),
             ),
           )
           .limit(perPage)
           .offset((page - 1) * perPage)
-          .orderBy(schema.users.createdAt, asc(schema.users.createdAt)),
+          .orderBy(orderByFunction(filterByFunction)),
 
         this.drizzle
           .select({ id: schema.users.id })
@@ -77,8 +85,8 @@ export class AppService {
           .leftJoin(schema.roles, eq(schema.roles.id, schema.users.roleId))
           .where(
             and(
-              ilike(schema.users.fullname, `%${search || ""}%`),
-              ilike(schema.users.email, `%${search || ""}%`),
+              ...(search ? [ilike(schema.users.fullname, `%${search}%`)] : []),
+              ...(search ? [ilike(schema.users.email, `%${search}%`)] : []),
               not(or(ilike(schema.roles.name, "%admin%"), eq(schema.roles.name, "Mahasiswa"))),
             ),
           )

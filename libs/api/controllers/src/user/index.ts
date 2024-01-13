@@ -19,6 +19,8 @@ import {
   VSUpdateUser,
   VSCreateUser,
   TCreateNotificationRequest,
+  EUserFilterBy,
+  TUsersPaginationArgs,
 } from "@uninus/entities";
 import { JwtAuthGuard } from "@uninus/api/guard";
 import { CreateNotificationDto, CreateUserDto, UpdateUserDto } from "@uninus/api/dto";
@@ -84,16 +86,17 @@ export class UserController {
   @ApiQuery({ name: "page", required: false })
   @ApiQuery({ name: "perPage", required: false })
   @ApiQuery({ name: "orderBy", enum: EOrderByPagination, required: false })
-  @ApiQuery({ name: "filterBy", required: false })
+  @ApiQuery({ name: "filterBy", enum: EUserFilterBy, required: false })
   @ApiQuery({ name: "search", required: false })
   @Get()
   async getDataUsers(
-    @Query("page") page: number,
-    @Query("perPage") perPage: number,
-    @Query("orderBy") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
-    @Query("filterBy") filterBy: string,
-    @Query("search") search: string,
-    @Headers("app-origin") app_origin: string,
+    @Query("page") page: TUsersPaginationArgs["page"],
+    @Query("perPage") perPage: TUsersPaginationArgs["perPage"],
+    @Query("orderBy") orderBy: TUsersPaginationArgs["orderBy"],
+    @Query("filterBy")
+    filterBy: TUsersPaginationArgs["filterBy"],
+    @Query("search") search: TUsersPaginationArgs["search"],
+    @Headers("app-origin") app_origin: TUsersPaginationArgs["app_origin"],
   ) {
     return await this.appService.getDataUsers({
       page,
