@@ -1,1 +1,0 @@
-ALTER TABLE "app_otp" ALTER COLUMN "expired_at" SET DATA TYPE timestamp;

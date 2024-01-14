@@ -13,9 +13,7 @@ import {
   country,
   educations,
   lecturers,
-  lecturerPosition,
   academicStaff,
-  academicStaffPosition,
 } from "..";
 
 export const employees = pgTable("app_employees", {
@@ -38,6 +36,7 @@ export const employees = pgTable("app_employees", {
   maritalStatusId: uuid("marital_status_id").references(() => maritalStatus.id),
   employeeStatusId: uuid("employee_status_id").references(() => employeeStatus.id),
   employeeTypeId: uuid("employee_type_id").references(() => employeeType.id),
+  employeePositionId: uuid("employee_position_id").references(() => employeePosition.id),
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id),
@@ -129,6 +128,7 @@ export const employeeCategories = pgTable("app_employee_categories", {
 
 export const employeeCategoriesRelations = relations(employeeCategories, ({ many }) => ({
   employeeOnEmployeeCategories: many(employeeOnEmployeeCategories),
+  employeePosition: many(employeePosition),
 }));
 
 export const employeeOnEmployeeCategories = pgTable(
@@ -241,6 +241,28 @@ export const civilServiceLevel = pgTable("app_civil_service_level", {
 });
 
 export const civilServiceLevelRelations = relations(civilServiceLevel, ({ many }) => ({
-  lecturerPosition: many(lecturerPosition),
-  academicStaffPosition: many(academicStaffPosition),
+  employeePosition: many(employeePosition),
+}));
+
+export const employeePosition = pgTable("app_lecturer_Position", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: text("name").notNull(),
+  employeeCategoryId: uuid("employee_category_id")
+    .references(() => employeeCategories.id)
+    .notNull(),
+  civilServiceLevelId: uuid("civil_service_level_id")
+    .references(() => civilServiceLevel.id)
+    .notNull(),
+});
+
+export const employeePositionRelations = relations(employeePosition, ({ many, one }) => ({
+  employees: many(employees),
+  employeeCategories: one(employeeCategories, {
+    fields: [employeePosition.employeeCategoryId],
+    references: [employeeCategories.id],
+  }),
+  civilServiceLevel: one(civilServiceLevel, {
+    fields: [employeePosition.civilServiceLevelId],
+    references: [civilServiceLevel.id],
+  }),
 }));

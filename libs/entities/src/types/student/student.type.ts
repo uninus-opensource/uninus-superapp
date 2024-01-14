@@ -1,4 +1,4 @@
-import { EStudentFilterBy } from "../../enum";
+import { EOrderByPagination, EStudentFilterBy } from "../../enum";
 import { TFIle } from "../file";
 
 export interface IGetStudentRequest {
@@ -207,7 +207,7 @@ export type TStudentsPaginatonResponse = {
 
 export type TStudentsPaginationArgs = {
   search?: string;
-  orderBy?: string;
+  orderBy?: EOrderByPagination.ASC | EOrderByPagination.DESC;
   page?: number;
   perPage?: number;
   filterBy?:

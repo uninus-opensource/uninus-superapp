@@ -1,6 +1,10 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
-import { ISelectRequest, TEmployeePaginationArgs } from "@uninus/entities";
+import {
+  ISelectRequest,
+  TEmployeePaginationArgs,
+  TGetEmployeePositionRequest,
+} from "@uninus/entities";
 import { catchError, firstValueFrom, throwError } from "rxjs";
 
 @Injectable()
@@ -26,7 +30,7 @@ export class EmployeeService {
     return response;
   }
 
-  async getEmployee(payload: { id: string }) {
+  async getLecturer(payload: { id: string }) {
     const response = await firstValueFrom(
       this.client
         .send("get_lecturer", payload)
@@ -80,28 +84,10 @@ export class EmployeeService {
     return response;
   }
 
-  async getLecturerPositions(payload: ISelectRequest) {
+  async getEmployeePositions(payload: TGetEmployeePositionRequest) {
     const response = await firstValueFrom(
       this.client
-        .send("get_lecturer_positions", payload)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
-  }
-
-  async getAcademicStaffTypes(payload: ISelectRequest) {
-    const response = await firstValueFrom(
-      this.client
-        .send("get_academic_staff_types", payload)
-        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
-    );
-    return response;
-  }
-
-  async getAcademicStaffPositions(payload: ISelectRequest) {
-    const response = await firstValueFrom(
-      this.client
-        .send("get_academic_staff_positions", payload)
+        .send("get_employee_positions", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;

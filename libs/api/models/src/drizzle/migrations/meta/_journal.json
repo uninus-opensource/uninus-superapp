@@ -5,120 +5,15 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1703308321014,
-      "tag": "0000_fine_black_tom",
+      "when": 1705243845824,
+      "tag": "0000_pink_lightspeed",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "5",
-      "when": 1703310250300,
-      "tag": "0001_volatile_thunderbolts",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1703310355940,
-      "tag": "0002_cheerful_roulette",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1703311847729,
-      "tag": "0003_short_puma",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1703311882250,
-      "tag": "0004_superb_tiger_shark",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1703668278325,
-      "tag": "0005_chilly_red_shift",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "5",
-      "when": 1703681778219,
-      "tag": "0006_purple_smasher",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "5",
-      "when": 1703684740968,
-      "tag": "0007_steep_micromacro",
-      "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "5",
-      "when": 1703689922630,
-      "tag": "0008_previous_electro",
-      "breakpoints": true
-    },
-    {
-      "idx": 9,
-      "version": "5",
-      "when": 1703691282933,
-      "tag": "0009_narrow_moonstone",
-      "breakpoints": true
-    },
-    {
-      "idx": 10,
-      "version": "5",
-      "when": 1703738405968,
-      "tag": "0010_typical_ogun",
-      "breakpoints": true
-    },
-    {
-      "idx": 11,
-      "version": "5",
-      "when": 1704703006380,
-      "tag": "0011_brave_wither",
-      "breakpoints": true
-    },
-    {
-      "idx": 12,
-      "version": "5",
-      "when": 1704710082342,
-      "tag": "0012_fearless_golden_guardian",
-      "breakpoints": true
-    },
-    {
-      "idx": 13,
-      "version": "5",
-      "when": 1704710863012,
-      "tag": "0013_elite_phantom_reporter",
-      "breakpoints": true
-    },
-    {
-      "idx": 14,
-      "version": "5",
-      "when": 1704711265956,
-      "tag": "0014_mean_star_brand",
-      "breakpoints": true
-    },
-    {
-      "idx": 15,
-      "version": "5",
-      "when": 1704975799874,
-      "tag": "0015_gigantic_juggernaut",
-      "breakpoints": true
-    },
-    {
-      "idx": 16,
-      "version": "5",
-      "when": 1704979656199,
-      "tag": "0016_uneven_weapon_omega",
+      "when": 1705248854870,
+      "tag": "0001_opposite_boomerang",
       "breakpoints": true
     }
   ]

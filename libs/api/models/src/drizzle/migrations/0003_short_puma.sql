@@ -1,1 +1,0 @@
-ALTER TABLE "app_city" ALTER COLUMN "province_id" SET DATA TYPE text;

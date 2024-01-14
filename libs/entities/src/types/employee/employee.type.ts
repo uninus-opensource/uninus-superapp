@@ -1,3 +1,6 @@
+import { EOrderByPagination } from "../../enum";
+import { ISelectRequest } from "../..";
+
 export type TTotalEmployeesResponse = {
   totalEmployees?: number;
   totalLecturer?: number;
@@ -25,10 +28,14 @@ export type TEmployeesResponse = {
 };
 
 export type TEmployeePaginationArgs = {
-  type: number;
-  orderBy?: string;
+  employeeCategoriesId: string;
+  orderBy?: EOrderByPagination.ASC | EOrderByPagination.DESC;
   page?: number;
   perPage?: number;
   filterBy?: string;
   search?: string;
+};
+
+export type TGetEmployeePositionRequest = ISelectRequest & {
+  employeeCategoryId?: string;
 };

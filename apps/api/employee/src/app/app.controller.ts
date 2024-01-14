@@ -2,7 +2,11 @@ import { Controller } from "@nestjs/common";
 
 import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
-import { ISelectRequest, TEmployeePaginationArgs } from "@uninus/entities";
+import {
+  ISelectRequest,
+  TEmployeePaginationArgs,
+  TGetEmployeePositionRequest,
+} from "@uninus/entities";
 
 @Controller()
 export class AppController {
@@ -48,19 +52,9 @@ export class AppController {
     return await this.appService.getLecturerTypes(payload);
   }
 
-  @MessagePattern("get_lecturer_positions")
-  async getLecturerPosition(payload: ISelectRequest) {
-    return await this.appService.getLecturerPositions(payload);
-  }
-
-  @MessagePattern("get_academic_staff_types")
-  async getAcademicStaffTypes(payload: ISelectRequest) {
-    return await this.appService.getAcademicStaffTypes(payload);
-  }
-
-  @MessagePattern("get_academic_staff_positions")
-  async getAcademicStaffPositions(payload: ISelectRequest) {
-    return await this.appService.getAcademicStaffPositions(payload);
+  @MessagePattern("get_employee_positions")
+  async getEmployeePositions(payload: TGetEmployeePositionRequest) {
+    return await this.appService.getEmployeePositions(payload);
   }
 
   @MessagePattern("get_work_unit_categories")
