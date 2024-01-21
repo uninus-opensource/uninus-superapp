@@ -12,6 +12,7 @@ import {
 } from "@nestjs/common";
 import {
   EOrderByPagination,
+  EStudentFilterBy,
   IUpdateStudentRequest,
   TGraduationStatusRequest,
   VSGraduationStatus,
@@ -59,14 +60,23 @@ export class StudentController {
   @ApiQuery({ name: "page", required: false })
   @ApiQuery({ name: "perPage", required: false })
   @ApiQuery({ name: "orderBy", enum: EOrderByPagination, required: false })
-  @ApiQuery({ name: "filterBy", required: false })
+  @ApiQuery({ name: "filterBy", enum: EStudentFilterBy, required: false })
   @ApiQuery({ name: "search", required: false })
   @Get()
   async getDataStudents(
     @Query("page") page: number,
     @Query("perPage") perPage: number,
     @Query("orderBy") orderBy: EOrderByPagination.ASC | EOrderByPagination.DESC,
-    @Query("filterBy") filterBy: string,
+    @Query("filterBy")
+    filterBy:
+      | EStudentFilterBy.FULLNAME
+      | EStudentFilterBy.EMAIL
+      | EStudentFilterBy.REGISTRATION_STATUS
+      | EStudentFilterBy.ACADEMIC_YEAR
+      | EStudentFilterBy.GUARDIAN_LECTURER
+      | EStudentFilterBy.NIM
+      | EStudentFilterBy.STUDENT_STATUS
+      | EStudentFilterBy.CREATED_AT,
     @Query("search") search: string,
   ) {
     return await this.appService.getDataStudents({

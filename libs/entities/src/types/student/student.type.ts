@@ -1,3 +1,4 @@
+import { EStudentFilterBy } from "../../enum";
 import { TFIle } from "../file";
 
 export interface IGetStudentRequest {
@@ -209,5 +210,13 @@ export type TStudentsPaginationArgs = {
   orderBy?: string;
   page?: number;
   perPage?: number;
-  filterBy?: string;
+  filterBy?:
+    | EStudentFilterBy.FULLNAME
+    | EStudentFilterBy.EMAIL
+    | EStudentFilterBy.REGISTRATION_STATUS
+    | EStudentFilterBy.ACADEMIC_YEAR
+    | EStudentFilterBy.GUARDIAN_LECTURER
+    | EStudentFilterBy.NIM
+    | EStudentFilterBy.STUDENT_STATUS
+    | EStudentFilterBy.CREATED_AT;
 };
