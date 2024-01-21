@@ -17,7 +17,7 @@ export const NeoTypography: FC<TTypography> = (props): ReactElement => {
     .with("caption", () => "text-[10px]")
     .otherwise(() => "text-[16px]");
 
-  const type = clsx(size, props.className, {
+  const type = clsx(size, props.color, {
     "font-bold": props.variant === "bold",
     "font-semibold": props.variant === "semi-bold",
     "font-medium": props.variant === "medium",
