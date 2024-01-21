@@ -1,5 +1,6 @@
 "use client";
 import { Button, TextField } from "@uninus/web/components";
+import { NeoTypography } from "@uninus/ui-atoms";
 import { signIn } from "next-auth/react";
 import { FC, ReactElement, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -86,9 +87,10 @@ export const LoginUserModule: FC = (): ReactElement => {
           />
         )}
         <div className="flex flex-col 2xl:gap-y-2 ">
-          <h1 className="font-bold text-xl xl:text-2xl 2xl:text-4xl text-center lg:text-start">
+          <NeoTypography size="body-1" variant="bold">
             Login
-          </h1>
+          </NeoTypography>
+
           <p className="text-grayscale-5 w-full text-xs lg:w-[35vw] 2xl:text-md lg:mb-1 text-center lg:text-left">
             Selamat Datang Calon Nusantara Muda
           </p>
