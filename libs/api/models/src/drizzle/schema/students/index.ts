@@ -23,7 +23,6 @@ import {
   disabilities,
   faculty,
   department,
-  lecturers,
   admission,
 } from "..";
 
@@ -33,7 +32,7 @@ export const students = pgTable("app_students", {
   nisn: text("nisn"),
   kk: text("kk"),
   nim: text("nim"),
-  guardianLecturerId: uuid("guardian_lecturer_id").references(() => lecturers.id),
+  guardianLecturerId: uuid("guardian_lecturer_id").references(() => users.id),
   genderId: uuid("gender_id").references(() => gender.id),
   religionId: uuid("religion_id").references(() => religion.id),
   birthPlace: text("birth_place"),
@@ -101,9 +100,9 @@ export const studentsRelations = relations(students, ({ one, many }) => ({
     fields: [students.workingStatusId],
     references: [workingStatus.id],
   }),
-  guardianLecturer: one(lecturers, {
+  guardianLecturer: one(users, {
     fields: [students.guardianLecturerId],
-    references: [lecturers.id],
+    references: [users.id],
   }),
   gender: one(gender, {
     fields: [students.genderId],

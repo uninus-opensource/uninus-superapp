@@ -4,7 +4,7 @@ export type TAcademicStaffResponse = {
   nip: string;
   nik: string;
   gender: string;
-  academicStaffType: string;
+  employeeType: string;
   workUnits: Array<object>;
   documents: Array<object>;
 };

@@ -3,6 +3,7 @@ import { RpcException } from "@nestjs/microservices";
 
 import { errorMappings } from "@uninus/api/utilities";
 import {
+  EOrderByPagination,
   ISelectRequest,
   TAcademicStaffResponse,
   TEmployeePaginationArgs,
@@ -10,10 +11,11 @@ import {
   TEmployeesResponse,
   TLecturerResponse,
   TTotalEmployeesResponse,
+  TGetEmployeePositionRequest,
 } from "@uninus/entities";
 import * as schema from "@uninus/api/models";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { and, asc, eq, ilike, notIlike } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, notIlike } from "drizzle-orm";
 
 @Injectable()
 export class AppService {
@@ -21,12 +23,14 @@ export class AppService {
   async getEmployees({
     search,
     // filterBy,
-    type,
-    // orderBy,
+    employeeCategoriesId,
+    orderBy,
     page = 1,
     perPage = 10,
   }: TEmployeePaginationArgs): Promise<TEmployeesResponse> {
     try {
+      const orderByFunction = orderBy == EOrderByPagination.DESC ? desc : asc;
+
       const data = await this.drizzle
         .select({
           id: schema.employees.id,
@@ -81,13 +85,15 @@ export class AppService {
 
         .where(
           and(
-            ilike(schema.users.fullname, `%${search || ""}%`),
-            eq(schema.employeeCategories.id, String(type)),
+            ...(search ? [ilike(schema.users.fullname, `%${search}%`)] : []),
+            ...(employeeCategoriesId
+              ? [eq(schema.employeeCategories.id, employeeCategoriesId)]
+              : []),
           ),
         )
         .limit(perPage)
         .offset((page - 1) * perPage)
-        .orderBy(schema.employees.createdAt, asc(schema.employees.createdAt));
+        .orderBy(orderByFunction(schema.employees.createdAt));
 
       const lastPage = Math.ceil(data.length / perPage);
 
@@ -228,22 +234,26 @@ export class AppService {
             id: schema.academicStaff.id,
           })
           .from(schema.academicStaff)
+          .leftJoin(schema.employees, eq(schema.employees.id, schema.academicStaff.employeeId))
+
           .leftJoin(
-            schema.academicStaffType,
-            eq(schema.academicStaffType.id, schema.academicStaff.academicStaffTypeId),
+            schema.employeeType,
+            eq(schema.employeeType.id, schema.employees.employeeTypeId),
           )
-          .where(ilike(schema.academicStaffType.name, "tetap"))
+          .where(ilike(schema.employeeType.name, "tetap"))
           .then((res) => res.length),
         this.drizzle
           .select({
             id: schema.academicStaff.id,
           })
           .from(schema.academicStaff)
+          .leftJoin(schema.employees, eq(schema.employees.id, schema.academicStaff.employeeId))
+
           .leftJoin(
-            schema.academicStaffType,
-            eq(schema.academicStaffType.id, schema.academicStaff.academicStaffTypeId),
+            schema.employeeType,
+            eq(schema.employeeType.id, schema.employees.employeeTypeId),
           )
-          .where(ilike(schema.academicStaffType.name, "kontrak"))
+          .where(ilike(schema.employeeType.name, "kontrak"))
           .then((res) => res.length),
       ]);
       return {
@@ -279,7 +289,7 @@ export class AppService {
           gender: schema.gender.name,
           lecturerCertification: schema.lecturers.lecturerCertification,
           lecturerType: schema.lecturerType.name,
-          lecturerPosition: schema.lecturerPosition.name,
+          employeePosition: schema.employeePosition.name,
           civilServiceLevel: schema.civilServiceLevel.name,
           employeeId: schema.lecturers.employeeId,
         })
@@ -289,12 +299,12 @@ export class AppService {
         .leftJoin(schema.gender, eq(schema.gender.id, schema.employees.genderId))
         .leftJoin(schema.lecturerType, eq(schema.lecturerType.id, schema.lecturers.lecturerTypeId))
         .leftJoin(
-          schema.lecturerPosition,
-          eq(schema.lecturerPosition.id, schema.lecturers.lecturerPositionId),
+          schema.employeePosition,
+          eq(schema.employeePosition.id, schema.employees.employeePositionId),
         )
         .leftJoin(
           schema.civilServiceLevel,
-          eq(schema.civilServiceLevel.id, schema.lecturerPosition.civilServiceLevelId),
+          eq(schema.civilServiceLevel.id, schema.employeePosition.civilServiceLevelId),
         )
         .where(eq(schema.lecturers.id, id))
         .limit(1)
@@ -353,7 +363,7 @@ export class AppService {
         gender: lecturer.gender,
         additionTask: lecturer.additionTask,
         lecturerType: lecturer.lecturerType,
-        lecturerPosition: lecturer.lecturerPosition,
+        employeePosition: lecturer.employeePosition,
         civilServiceLevel: lecturer.civilServiceLevel,
         workUnits: workUnits,
         faculty,
@@ -375,17 +385,14 @@ export class AppService {
           nip: schema.employees.nip,
           nik: schema.employees.nik,
           gender: schema.gender.name,
-          academicStaffType: schema.academicStaffType.name,
+          employeeType: schema.employeeType.name,
           employeeId: schema.academicStaff.employeeId,
         })
         .from(schema.academicStaff)
         .leftJoin(schema.employees, eq(schema.employees.id, schema.academicStaff.employeeId))
         .leftJoin(schema.users, eq(schema.users.id, schema.employees.userId))
         .leftJoin(schema.gender, eq(schema.gender.id, schema.employees.genderId))
-        .leftJoin(
-          schema.academicStaffType,
-          eq(schema.academicStaffType.id, schema.academicStaff.academicStaffTypeId),
-        )
+        .leftJoin(schema.employeeType, eq(schema.employeeType.id, schema.employees.employeeTypeId))
         .where(eq(schema.academicStaff.id, id))
         .limit(1)
         .then((res) => res.at(0));
@@ -421,7 +428,7 @@ export class AppService {
         nip: academicStaff.nip,
         nik: academicStaff.nik,
         gender: academicStaff.gender,
-        academicStaffType: academicStaff.academicStaffType,
+        employeeType: academicStaff.employeeType,
         workUnits,
         documents,
       };
@@ -522,70 +529,27 @@ export class AppService {
     }
   }
 
-  async getLecturerPositions({ search, id }: ISelectRequest) {
+  async getEmployeePositions({ search, id, employeeCategoryId }: TGetEmployeePositionRequest) {
     try {
-      const lecturerPositions = await this.drizzle
+      const employeePosition = await this.drizzle
         .select({
-          id: schema.lecturerPosition.id,
-          name: schema.lecturerPosition.name,
+          id: schema.employeePosition.id,
+          name: schema.employeePosition.name,
         })
-        .from(schema.lecturerPosition)
+        .from(schema.employeePosition)
         .where(
           and(
-            ...(search ? [ilike(schema.lecturerPosition.name, `%${search}%`)] : []),
-            ...(id ? [eq(schema.lecturerPosition.id, `${id}`)] : []),
+            ...(search ? [ilike(schema.employeePosition.name, `%${search}%`)] : []),
+            ...(id ? [eq(schema.employeePosition.id, `${id}`)] : []),
+            ...(employeeCategoryId
+              ? [eq(schema.employeePosition.employeeCategoryId, `${employeeCategoryId}`)]
+              : []),
           ),
         );
-      if (!lecturerPositions) {
+      if (!employeePosition) {
         throw new NotFoundException("Data tidak ditemukan");
       }
-      return lecturerPositions;
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getAcademicStaffTypes({ search, id }: ISelectRequest) {
-    try {
-      const academicStaffTypes = await this.drizzle
-        .select({
-          id: schema.academicStaffType.id,
-          name: schema.academicStaffType.name,
-        })
-        .from(schema.academicStaffType)
-        .where(
-          and(
-            ...(search ? [ilike(schema.academicStaffType.name, `%${search}%`)] : []),
-            ...(id ? [eq(schema.academicStaffType.id, `${id}`)] : []),
-          ),
-        );
-      if (!academicStaffTypes) {
-        throw new NotFoundException("Data tidak ditemukan");
-      }
-      return academicStaffTypes;
-    } catch (error) {
-      throw new RpcException(errorMappings(error));
-    }
-  }
-
-  async getAcademicStaffPositions({ search, id }: ISelectRequest) {
-    try {
-      const academicStaffPositions = await this.drizzle
-        .select({
-          id: schema.academicStaffPosition.id,
-          name: schema.academicStaffPosition.name,
-        })
-        .from(schema.academicStaffPosition)
-        .where(
-          and(
-            ...(search ? [ilike(schema.academicStaffPosition.name, `%${search}%`)] : []),
-            ...(id ? [eq(schema.academicStaffPosition.id, `${id}`)] : []),
-          ),
-        );
-      if (!academicStaffPositions) {
-        throw new NotFoundException("Data tidak ditemukan");
-      }
-      return academicStaffPositions;
+      return employeePosition;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }

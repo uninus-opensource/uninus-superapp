@@ -1,1 +1,0 @@
-ALTER TABLE "app_country" ALTER COLUMN "citizenship_id" SET DATA TYPE text;

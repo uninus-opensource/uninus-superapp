@@ -1,15 +1,31 @@
 import { Controller, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { CreateEmployeeDto, GetEmployeeParamsDto, GetEmployeesDto } from "@uninus/api/dto";
+import {
+  CreateEmployeeDto,
+  GetEmployeeParamsDto,
+  GetEmployeePositionParamsDto,
+  GetEmployeesDto,
+} from "@uninus/api/dto";
 import { JwtAuthGuard } from "@uninus/api/guard";
 import { EmployeeService } from "@uninus/api/services";
-import { ISelectRequest, TEmployeePaginationArgs } from "@uninus/entities";
+import {
+  ISelectRequest,
+  TEmployeePaginationArgs,
+  TGetEmployeePositionRequest,
+} from "@uninus/entities";
 @ApiTags("Employee")
 @ApiBearerAuth("bearer")
 @Controller("employee")
 @UseGuards(JwtAuthGuard)
 export class EmployeeController {
   constructor(private readonly appService: EmployeeService) {}
+
+  @ApiOperation({ summary: "Create Employee" })
+  @ApiQuery({ type: CreateEmployeeDto })
+  @Post()
+  async createEmployee() {
+    return await this.appService.createEmployee();
+  }
 
   @ApiOperation({ summary: "Pagination List Employees" })
   @ApiQuery({ type: GetEmployeesDto })
@@ -24,18 +40,18 @@ export class EmployeeController {
     return await this.appService.getTotalEmployees();
   }
 
-  @ApiOperation({ summary: "Get Employees" })
-  @ApiParam({ name: "id", type: "string", required: true })
-  @Get("/lecturer/:id")
-  async getEmployee(@Param("id") id: string) {
-    return await this.appService.getEmployee({ id });
-  }
-
   @ApiOperation({ summary: "Get Academic Staff" })
-  @ApiParam({ name: "id", type: "string", required: true })
+  @ApiParam({ name: "id", type: "string", format: "uuid", required: true })
   @Get("/academic-staff/:id")
   async getAcademicStaff(@Param("id") id: string) {
     return await this.appService.getAcademicStaff({ id });
+  }
+
+  @ApiOperation({ summary: "Get Lecturer" })
+  @ApiParam({ name: "id", type: "string", format: "uuid", required: true })
+  @Get("/lecturer/:id")
+  async getLecturer(@Param("id") id: string) {
+    return await this.appService.getLecturer({ id });
   }
 
   @ApiOperation({ summary: "Get Employee Categories" })
@@ -61,30 +77,16 @@ export class EmployeeController {
 
   @ApiOperation({ summary: "Get Lecturer Types" })
   @ApiQuery({ type: GetEmployeeParamsDto })
-  @Get("/lecturer/types")
+  @Get("types/lecturer/")
   async getLecturerTypes(@Query() query: ISelectRequest) {
     return await this.appService.getLecturerTypes(query);
   }
 
-  @ApiOperation({ summary: "Get Lecturer Position" })
-  @ApiQuery({ type: GetEmployeeParamsDto })
-  @Get("/lecturer/positions")
-  async getLecturerPositions(@Query() query: ISelectRequest) {
-    return await this.appService.getLecturerPositions(query);
-  }
-
-  @ApiOperation({ summary: "Get Academic Staff Types" })
-  @ApiQuery({ type: GetEmployeeParamsDto })
-  @Get("/academic-staff/types")
-  async getAcademicStaffTypes(@Query() query: ISelectRequest) {
-    return await this.appService.getAcademicStaffTypes(query);
-  }
-
-  @ApiOperation({ summary: "Get Academic Staff Position" })
-  @ApiQuery({ type: GetEmployeeParamsDto })
-  @Get("/academic-staff/positions")
-  async getAcademicStaffPositions(@Query() query: ISelectRequest) {
-    return await this.appService.getAcademicStaffPositions(query);
+  @ApiOperation({ summary: "Get Employee Position" })
+  @ApiQuery({ type: GetEmployeePositionParamsDto })
+  @Get("/positions")
+  async getEmployeePositions(@Query() query: TGetEmployeePositionRequest) {
+    return await this.appService.getEmployeePositions(query);
   }
 
   @ApiOperation({ summary: "Get Work Unit Categorys" })
@@ -99,12 +101,5 @@ export class EmployeeController {
   @Get("/work-unit")
   async getWorkUnit(@Query() query: ISelectRequest) {
     return await this.appService.getWorkUnit(query);
-  }
-
-  @ApiOperation({ summary: "Create Employee" })
-  @ApiQuery({ type: CreateEmployeeDto })
-  @Post("/")
-  async createEmployee() {
-    return await this.appService.createEmployee();
   }
 }

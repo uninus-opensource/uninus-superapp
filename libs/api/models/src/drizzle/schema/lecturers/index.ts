@@ -1,13 +1,11 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, uuid, boolean, primaryKey, timestamp } from "drizzle-orm/pg-core";
-import { civilServiceLevel, department, employees, faculty, students } from "..";
+import { department, employees, faculty, students } from "..";
 
 export const lecturers = pgTable("app_lecturers", {
   id: uuid("id").defaultRandom().primaryKey(),
-  name: text("name").notNull(),
   lecturerCertification: boolean("lecturer_certification"),
   lecturerTypeId: uuid("lecturer_type_id").references(() => lecturerType.id),
-  lecturerPositionId: uuid("lecturer_position_id").references(() => lecturerPosition.id),
   employeeId: uuid("employee_id")
     .notNull()
     .references(() => employees.id),
@@ -22,10 +20,6 @@ export const lecturersRelations = relations(lecturers, ({ many, one }) => ({
     fields: [lecturers.lecturerTypeId],
     references: [lecturerType.id],
   }),
-  lecturerPosition: one(lecturerPosition, {
-    fields: [lecturers.lecturerPositionId],
-    references: [lecturerPosition.id],
-  }),
 }));
 
 export const lecturerType = pgTable("app_lecturer_type", {
@@ -35,22 +29,6 @@ export const lecturerType = pgTable("app_lecturer_type", {
 
 export const lecturerTypeRelations = relations(lecturerType, ({ many }) => ({
   lecturers: many(lecturers),
-}));
-
-export const lecturerPosition = pgTable("app_lecturer_Position", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  name: text("name").notNull(),
-  civilServiceLevelId: uuid("civil_service_level_id")
-    .references(() => civilServiceLevel.id)
-    .notNull(),
-});
-
-export const lecturerPositionRelations = relations(lecturerPosition, ({ many, one }) => ({
-  lecturers: many(lecturers),
-  civilServiceLevel: one(civilServiceLevel, {
-    fields: [lecturerPosition.civilServiceLevelId],
-    references: [civilServiceLevel.id],
-  }),
 }));
 
 export const lecturerOnDepartment = pgTable(

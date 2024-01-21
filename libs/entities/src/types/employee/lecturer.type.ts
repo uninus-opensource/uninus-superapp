@@ -6,7 +6,7 @@ export type TLecturerResponse = {
   nik: string;
   additionTask: string;
   lecturerType: string;
-  lecturerPosition: string;
+  employeePosition: string;
   civilServiceLevel: string;
   gender: string;
   workUnits: Array<object>;
