@@ -227,7 +227,7 @@
     "babel-preset": "^1.1.7",
     "crypto": "^1.0.1",
     "css-loader": "^6.8.1",
-    "cypress": "^13.6.0",
+    "cypress": "^13.6.3",
     "detox": "^20.13.1",
     "dlx": "^0.2.1",
     "dotenv": "^16.3.1",
