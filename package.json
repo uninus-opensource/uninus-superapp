@@ -193,7 +193,7 @@
     "@react-native/metro-config": "^0.74.0",
     "@storybook/addon-console": "^2.0.0",
     "@storybook/addon-essentials": "^7.5.3",
-    "@storybook/addon-interactions": "^7.5.3",
+    "@storybook/addon-interactions": "^7.6.10",
     "@storybook/addon-links": "^7.5.3",
     "@storybook/addon-onboarding": "^1.0.8",
     "@storybook/blocks": "^7.6.2",
