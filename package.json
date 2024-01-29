@@ -195,7 +195,7 @@
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-interactions": "^7.5.3",
     "@storybook/addon-links": "^7.5.3",
-    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/addon-onboarding": "^1.0.11",
     "@storybook/blocks": "^7.6.2",
     "@storybook/core-server": "^7.5.3",
     "@storybook/jest": "^0.2.3",
