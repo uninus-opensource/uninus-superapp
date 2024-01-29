@@ -180,7 +180,7 @@
     "@nx/js": "17.2.8",
     "@nx/linter": "17.2.8",
     "@nx/nest": "17.2.8",
-    "@nx/next": "17.2.8",
+    "@nx/next": "latest",
     "@nx/node": "17.2.8",
     "@nx/react": "17.2.8",
     "@nx/react-native": "17.2.8",

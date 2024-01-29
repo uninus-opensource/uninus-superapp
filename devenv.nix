@@ -1,9 +1,43 @@
 { pkgs, ... }:
 
 {
-  env.GREET = "Welcome To UNINUS-DevEnv!";
-  packages = with pkgs; [ nodejs bun ];
-  scripts.hello.exec = "echo $GREET";
+  packages = with pkgs; [
+    bun
+    nodejs
+
+    (writeScriptBin "helpme" ''
+      __usage="
+      👋 Welcome to UNINUS Development Environment. 🚀
+      If you see this message, it means your are inside the Nix shell ❄️.
+
+      [Info]===============================================================>
+
+      Command available:
+        - pmb-user-dev:     start pmb user project
+        - pmb-user-build:   build pmb user project
+        - helpme:           show this messages
+
+      Repository:
+        - https://github.com/maulanasdqn/ipos
+      [Info]===============================================================>
+      "
+      echo "$__usage"
+    '')
+
+    (writeScriptBin "pmb-user-dev" ''
+      bun web:pmb:user:serve
+    '')
+
+    (writeScriptBin "pmb-user-build" ''
+      bun web:pmb:user:build
+    '')
+
+  ];
+
+  enterShell = ''
+    helpme
+  '';
+
   languages.typescript.enable = true;
 
   services.postgres = with pkgs; {
@@ -12,7 +46,4 @@
     initialDatabases = [{ name = "uninus-db"; }];
   };
 
-  enterShell = ''
-    hello
-  '';
 }
