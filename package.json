@@ -95,7 +95,7 @@
     "@nestjs/microservices": "^10.2.8",
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^10.2.7",
-    "@nestjs/swagger": "^7.1.16",
+    "@nestjs/swagger": "^7.2.0",
     "@react-pdf/renderer": "^3.1.13",
     "@swc/helpers": "0.5.3",
     "@tailwindcss/forms": "^0.5.6",
