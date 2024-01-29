@@ -216,7 +216,7 @@
     "@types/jest": "^29.5.7",
     "@types/node": "20.9.3",
     "@types/pg": "^8.10.9",
-    "@types/react": "18.2.37",
+    "@types/react": "18.2.48",
     "@types/react-datepicker": "^4.19.3",
     "@types/react-dom": "18.2.14",
     "@types/react-table": "^7.7.17",
