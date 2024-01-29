@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { VSRegister, TVSRegister } from "@uninus/entities";
 import { ToastContainer, toast } from "react-toastify";
 import { useUserEmail } from "@uninus/web/services";
+import { NeoTypography } from "@uninus/ui-atoms";
 
 export const RegisterModule: FC = (): ReactElement => {
   const [getError, setError] = useState<string | undefined>(undefined);
@@ -91,7 +92,9 @@ export const RegisterModule: FC = (): ReactElement => {
           />
         )}
         <div className="flex flex-col justify-end lg:gap-y-1 py-2">
-          <h1 className="font-bold text-base lg:text-xl 2xl:text-3xl">Registrasi</h1>
+          <NeoTypography size="title-5" variant="bold">
+            Register
+          </NeoTypography>
           <div className="border-2 border-primary-green w-2/3 rounded-md"></div>
         </div>
       </div>

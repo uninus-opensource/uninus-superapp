@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FC, ReactElement } from "react";
 import { TNews } from "./type";
 import Link from "next/link";
+import { NeoTypography } from "@uninus/ui-atoms";
 
 export const NewsSection: FC = (): ReactElement => {
   const CardNews: TNews[] = [
@@ -36,20 +37,36 @@ export const NewsSection: FC = (): ReactElement => {
 
   return (
     <section className="my-16 h-full w-full gap-3 lg:px-14 px-4 py-2 flex flex-col pt-20 xl:px-32">
-      <h1 className=" text-2xl text-center lg:text-4xl text-secondary-green-4 font-bold">
-        Berita <span className="text-primary-green">Terkini</span>
-      </h1>
-      <h1 className="text-secondary-green-4  md:text-2xl text-md text-center">
+      <NeoTypography
+        size="subtitle-1"
+        color="text-green-500"
+        variant="bold"
+        sizeResponsiveLG="title-5"
+      >
+        Berita <span className="text-green-500">Terkini</span>
+      </NeoTypography>
+
+      <NeoTypography
+        textPosisition="center"
+        color="text-green-pea-500"
+        sizeResponsiveMD="subtitle-1"
+      >
         Cari tahu informasi terbaru dari Uninus disini
-      </h1>
+      </NeoTypography>
+
       <Link
         href="https://uninus.ac.id/category/berita/"
         target="_blank"
-        className="flex justify-end items-end place-content-end lg:mr-[6.5vw]"
+        className="flex justify-end items-end place-content-end lg:mr-[6.5vw] pr-8 lg:pr-0"
       >
-        <h1 className="text-secondary-green-4 md:text-lg text-md pr-8 lg:pr-0 text-right font-bold ">
+        <NeoTypography
+          textPosisition="right"
+          variant="bold"
+          color="text-green-pea-500"
+          sizeResponsiveMD="body-1"
+        >
           Lihat Semua
-        </h1>
+        </NeoTypography>
       </Link>
 
       <div className="flex flex-col md:flex-row  mx-[5vw] md:mx-0 justify-between xl:justify-evenly">
@@ -70,18 +87,19 @@ export const NewsSection: FC = (): ReactElement => {
               </figure>
               <figcaption>
                 <div className="testimonial p-4 text-left md:text-md text-sm md:my-5 my-2 text-primary-black font-medium gap-3 flex flex-col mr-5">
-                  <p className="md:text-2xl text-xl font-bold">
+                  <NeoTypography size="subtitle-2" variant="bold" sizeResponsiveMD="subtitle-2">
                     Uninus Masuk 4 Besar Kampus Islam Terbaik di Bandung
-                  </p>
-                  <p className="text-base line-clamp-2 md:line-clamp-4">
+                  </NeoTypography>
+                  <NeoTypography>
                     Universitas Islam Nusantara (Uninus) meraih peringkat empat Universitas Islam
                     terbaik di Jawa Barat Versi UniRank.
-                  </p>
+                  </NeoTypography>
+
                   <Link
                     href="https://uninus.ac.id/uninus-masuk-4-besar-kampus-islam-terbaik-di-jawa-barat/"
                     target="_blank"
                   >
-                    <p className="text-[#175349]">selengkapnya....</p>
+                    <NeoTypography color="text-green-pea-500">selengkapnya....</NeoTypography>
                   </Link>
                 </div>
               </figcaption>
@@ -98,7 +116,7 @@ export const NewsSection: FC = (): ReactElement => {
                 <figcaption>
                   {" "}
                   <div className="testimonial p-4 text-left  text-primary-black text-xs font-bold">
-                    <p>{x.heading}</p>
+                    <NeoTypography>{x.heading}</NeoTypography>
                   </div>
                 </figcaption>
               </CardImage>
@@ -118,10 +136,11 @@ export const NewsSection: FC = (): ReactElement => {
                 />
               </figure>
               <figcaption className="w1/2 h-1/2  md:h-0">
-                {" "}
                 <div className="testimonial p-4 md:p-2 text-xl md:text-base text-left my-2 text-primary-black text-[9px] md:font-semibold flex flex-col md:flex-row gap-2">
-                  <p className="font-bold text-xl">{x.heading}</p>
-                  <p className="text-base ">{x.desc}</p>
+                  <NeoTypography size="subtitle-2" variant="bold">
+                    {x.heading}
+                  </NeoTypography>
+                  <NeoTypography>{x.desc}</NeoTypography>
                 </div>
               </figcaption>
             </CardImage>

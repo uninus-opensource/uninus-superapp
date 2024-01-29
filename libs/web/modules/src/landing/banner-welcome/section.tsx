@@ -1,6 +1,7 @@
 import { FC, Fragment, ReactElement } from "react";
 import Image from "next/image";
 import { Ellipse, Reveal, HalfEllipseYellow, HalfEllipseGreen } from "@uninus/web/components";
+import { NeoTypography } from "@uninus/ui-atoms";
 
 export const WelcomeSection: FC = (): ReactElement => {
   return (
@@ -20,19 +21,30 @@ export const WelcomeSection: FC = (): ReactElement => {
             height={400}
             className="rounded-lg bg-primary-white w-72 mr-4 md:mr-0 lg:w-96 h-auto"
           />
-          <div className="flex flex-col lg:w-7/12 w-full px-6 leading-normal lg:pl-6">
-            <h1 className="lg:text-4xl text-2xl text-center lg:text-left font-semibold text-secondary-green-4 mt-6">
+          <div className="flex flex-col lg:w-7/12 w-full px-6 leading-normal lg:pl-6 gap-12">
+            <NeoTypography
+              size="title-5"
+              variant="bold"
+              textPosisition="center"
+              color="text-secondary-green-4"
+              sizeResponsiveLG="title-5"
+              responsiveClassName="lg:text-left"
+            >
               Selamat Datang
               <br />
               Calon Nusantara Muda
-            </h1>
-            <p className=" text-base xl:text-lg xl:font-normal lg:leading-6 text-grayscale-9 lg:mt-6 mt-8 w-full text-justify px-4 lg:px-0">
+            </NeoTypography>
+            <NeoTypography
+              size="body-1"
+              textPosisition="justify"
+              responsiveClassName="xl:font-normal lg:leading-6"
+            >
               Selamat datang <span className="font-bold">Calon Nusantara Muda</span> di Universitas
               Islam Nusantara. Kami sangat senang Anda bergabung dengan kami dan yakin Anda akan
               menemukan banyak peluang belajar, berkembang, dan berkontribusi. Kami memiliki
               fasilitas pendidikan terbaik, dosen berkualitas, dan komunitas mahasiswa inklusif.
               Kami sangat menantikan kerjasama kita dan membantu mencapai impian Anda.
-            </p>
+            </NeoTypography>
           </div>
         </section>
       </Reveal>

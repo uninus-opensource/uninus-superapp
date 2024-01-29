@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import OtpInput from "react-otp-input";
 import { Button } from "@uninus/web/components";
 import { useUserEmail } from "@uninus/web/services";
+import { NeoTypography } from "@uninus/ui-atoms";
 
 export const VerifForgetModule: FC = (): ReactElement => {
   const [isError, setIsError] = useState(false);
@@ -63,14 +64,16 @@ export const VerifForgetModule: FC = (): ReactElement => {
       className="w-full h-full p-12 lg:px-12 lg:py-4 flex flex-col  justify-center items-center"
     >
       <div className="w-full flex flex-col gap-y-6 ">
-        <span className="text-3xl font-bold text-primary-black font-bebasNeue w-30%">
-          <h1>LUPA</h1>
-          <span>PASSWORD?</span>
-        </span>
+        <NeoTypography size="title-5" variant="bold">
+          LUPA <br />
+          PASSWORD?
+        </NeoTypography>
 
-        <p className="text-grayscale-5 lg:text-sm w-40%">
-          {`Masukkan kode OTP yang sudah dikirimkan melalui email ${getEmail}`}
-        </p>
+        <NeoTypography
+          size="body-2"
+          variant="reguler"
+          color="text-grayscale-5"
+        >{`Masukkan kode OTP yang sudah dikirimkan melalui email ${getEmail}`}</NeoTypography>
 
         <div className="flex w-full">
           <OtpInput

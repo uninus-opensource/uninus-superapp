@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TVSForgotPassword, VSForgotPassword } from "@uninus/entities";
 import { useUserEmail } from "@uninus/web/services";
+import { NeoTypography } from "@uninus/ui-atoms";
 
 export const ForgotModule: FC = (): ReactElement => {
   const {
@@ -48,10 +49,12 @@ export const ForgotModule: FC = (): ReactElement => {
       onSubmit={onSubmit}
     >
       <div className="w-full flex flex-col gap-6">
-        <h1 className="text-2xl font-bold text-primary-black font-bebasNeue w-50%">
+        <NeoTypography size="title-5" variant="bold">
           LUPA PASSWORD ?
-        </h1>
-        <p className="text-grayscale-5 text-sm">Masukkan email yang didaftarkan pada akun anda</p>
+        </NeoTypography>
+        <NeoTypography size="body-2">
+          <p className="text-grayscale-5">Masukkan email yang didaftarkan pada akun anda</p>
+        </NeoTypography>
         <TextField
           name="email"
           type="email"

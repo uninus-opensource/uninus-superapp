@@ -7,6 +7,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 import { TTestimonial } from "./type";
 import "./style.css";
 import Image from "next/image";
+import { NeoTypography } from "@uninus/ui-atoms";
 
 const CardTestimonial: TTestimonial[] = [
   {
@@ -59,14 +60,16 @@ export const TestimonialSection: FC = (): ReactElement => {
               />
             </figure>
             <figcaption className="absolute p-2 w-full text-lg md:text-xs lg:text-md bg-primary-black bg-opacity-20 text-primary-white">
-              <p className="font-extrabold ">{x.name}</p>
-              <p className="font-medium">{x.job}</p>
-              <p className="font-medium">{x.faculty}</p>
+              <NeoTypography variant="bold">{x.name}</NeoTypography>
+              <NeoTypography variant="medium">{x.job}</NeoTypography>
+              <NeoTypography variant="medium">{x.faculty}</NeoTypography>
             </figcaption>
           </div>
           <div className="testimonial p-4 text-center mt-3 text-secondary-green-4 font-medium h-[14rem]">
-            <p className="text-4xl  text-primary-green font-bold">”</p>
-            <p>{x.testimonial}</p>
+            <NeoTypography size="title-5" variant="bold" color="text-green-500">
+              “
+            </NeoTypography>
+            <NeoTypography>{x.testimonial}</NeoTypography>
           </div>
         </CardImage>
       </div>
