@@ -11,6 +11,7 @@ import { FaCircleUser } from "react-icons/fa6";
 import { useCheckRegistration } from "./hook";
 import { KartuKelulusan } from "./pdf";
 import { AiOutlineCarryOut, AiOutlinePhone } from "react-icons/ai";
+import { NeoTypography } from "@uninus/ui-atoms";
 
 const PDFDownloadLink = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
@@ -33,7 +34,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
     mode: "all",
     resolver: zodResolver(VSNoPesertaUser),
     defaultValues: {
-      registration_number: "",
+      registrationNumber: "",
     },
   });
 
@@ -102,7 +103,7 @@ export const ModalAndButtons: FC = (): ReactElement => {
         bodyClassName="py-4"
         footerColor="green"
         modalTitle={
-          data?.registration_status === "Lulus" ? (
+          data?.registrationStatus === "Lulus" ? (
             <div className="flex items-center gap-4 md:w-[70%]">
               <Image
                 alt="logo-uninus"
@@ -112,11 +113,11 @@ export const ModalAndButtons: FC = (): ReactElement => {
                 height={300}
                 className="w-16 h-16"
               />
-              <p className="text-xs text-primary-white">
+              <NeoTypography size="body-2" variant="reguler" color="text-white">
                 SELAMAT! ANDA DINYATAKAN LULUS SELEKSI PMB UNINUS 2023
-              </p>
+              </NeoTypography>
             </div>
-          ) : data?.registration_status === "Tidak Lulus" ? (
+          ) : data?.registrationStatus === "Tidak Lulus" ? (
             <div className="flex items-center gap-4 md:w-[70%]">
               <Image
                 alt="logo-uninus"
@@ -126,9 +127,9 @@ export const ModalAndButtons: FC = (): ReactElement => {
                 height={300}
                 className="w-16 h-16"
               />
-              <p className="text-xs text-primary-white">
+              <NeoTypography size="body-2" variant="reguler" color="text-white">
                 MAAF ANDA DINYATAKAN TIDAK LULUS SELEKSI PMB UNINUS 2023
-              </p>
+              </NeoTypography>
             </div>
           ) : (
             <Image
@@ -148,26 +149,30 @@ export const ModalAndButtons: FC = (): ReactElement => {
             : "bg-primary-green max-w-2xl xl:max-w-3xl"
         }  rounded-lg duration-150 ease-in-out`}
         headerColor={`${
-          data?.registration_status === "Lulus"
+          data?.registrationStatus === "Lulus"
             ? "secondary-green"
-            : data?.registration_status === "Tidak Lulus"
-            ? "red"
-            : data?.message
-            ? "orange"
-            : "green"
+            : data?.registrationStatus === "Tidak Lulus"
+              ? "red"
+              : data?.message
+                ? "orange"
+                : "green"
         }`}
       >
         {/* Input nomor pendaftaran modal */}
         {!data && (
           <section className="flex w-full flex-col md:flex-row gap-10 h-[40vh] px-12 items-center md:items-start font-extrabold md:justify-between pt-2 md:pt-12">
-            <div className="w-full text-center md:text-left md:w-[60%] text-primary-white">
-              <h1 className="uppercase text-lg">pengumuman kelulusan</h1>
-              <h2 className="text-xs">Calon Mahasiswa Baru 2023/2024</h2>
+            <div className="w-full text-center md:text-left md:w-[60%] text-white">
+              <NeoTypography size="subtitle-1" textType="uppercase">
+                pengumuman kelulusan
+              </NeoTypography>
+              <NeoTypography size="body-2" variant="reguler">
+                Calon Mahasiswa Baru 2023/2024
+              </NeoTypography>
             </div>
             <form onSubmit={onCheckRegistration} className="w-full md:w-[40%]">
               <TextField
                 type="number"
-                name="registration_number"
+                name="registrationNumber"
                 label="Masukan No Peserta"
                 labelclassname="font-semibold text-primary-white"
                 placeholder="Masukan Nomor Pendaftaran"
@@ -175,9 +180,9 @@ export const ModalAndButtons: FC = (): ReactElement => {
                 control={control}
                 inputHeight="h-8"
                 inputBackground="bg-primary-white"
-                status={errors?.registration_number ? "error" : isError ? "error" : undefined}
+                status={errors?.registrationNumber ? "error" : isError ? "error" : undefined}
                 message={
-                  isError ? error?.response?.data?.message : errors?.registration_number?.message
+                  isError ? error?.response?.data?.message : errors?.registrationNumber?.message
                 }
                 messageClassName="text-red-3"
               />
@@ -192,55 +197,76 @@ export const ModalAndButtons: FC = (): ReactElement => {
         {data && (
           <section
             className={`flex flex-col w-full h-[25em] md:h-[20em] px-4 md:px-10 items-center 
-          ${data?.registration_status === "Tidak Lulus" ? "" : "justify-center lg:h-[22em]"}`}
+          ${data?.registrationStatus === "Tidak Lulus" ? "" : "justify-center lg:h-[22em]"}`}
           >
-            {data?.registration_number && (
-              <section className="flex flex-col gap-2 w-full font-semibold py-2 px-4 md:px-0">
-                <h4 className="text-[10px] md:text-xs text-grayscale-9">
-                  No Registrasi : {data?.registration_number}
-                </h4>
-                <h2 className="text-secondary-green-4 font-extrabold md:text-xl">
+            {data?.registrationNumber && (
+              <section className="flex flex-col gap-2 w-full font-semibold py-2 px-4 md:px-0 text-xl">
+                <NeoTypography size="caption" sizeResponsiveMD="body-2" color="text-grey-950">
+                  No Registrasi : {data?.registrationNumber}
+                </NeoTypography>
+                <NeoTypography
+                  variant="bold"
+                  color="text-green-pea-500"
+                  sizeResponsiveMD="subtitle-2"
+                >
                   {data?.fullname}
-                </h2>
+                </NeoTypography>
               </section>
             )}
 
             {/* Ketika Lulus */}
-            {data?.registration_status === "Lulus" && (
+            {data?.registrationStatus === "Lulus" && (
               <Fragment>
                 <section className="flex flex-col w-full items-center text-center md:items-start md:text-left">
-                  <div className="flex flex-col gap-5 md:gap-1">
-                    <p className="text-xs sm:text-sm w-full font-medium text-grayscale-9 pt-6">
+                  <div className="flex flex-col gap-5 md:gap-1 pb-6">
+                    <NeoTypography
+                      size="body-2"
+                      variant="medium"
+                      color="text-grey-950"
+                      sizeResponsiveMD="body-2"
+                    >
                       Selamat! Anda dinyatakan{" "}
                       <span className="text-primary-green font-semibold">lulus</span> seleksi PMB
                       Uninus
-                    </p>
+                    </NeoTypography>
+
                     <div className="flex flex-col md:flex-row gap-6 lg:gap-16 mt-2">
                       {dataPeserta.map((peserta, idx) => (
                         <div key={idx} className="flex flex-col gap-1">
-                          <h1 className="text-base md:text-sm font-bold text-secondary-green-4">
+                          <NeoTypography
+                            variant="bold"
+                            color="text-green-pea-500"
+                            sizeResponsiveMD="body-2"
+                          >
                             {peserta.label}
-                          </h1>
-                          <p className="text-grayscale-9 text-xs md:text-[10px] lg:text-sm font-semibold">
+                          </NeoTypography>
+                          <NeoTypography
+                            size="body-2"
+                            variant="bold"
+                            sizeResponsiveMD="caption"
+                            sizeResponsiveLG="body-2"
+                            color="text-grey-950"
+                          >
                             {peserta.item}
-                          </p>
+                          </NeoTypography>
                         </div>
                       ))}
                     </div>
                   </div>
                 </section>
-                <div className="flex w-[90%] md:w-full flex-col gap-4 lg:gap-8 items-center text-center mt-12   ">
-                  <p className="text-[10px] lg:text-xs font-semibold w-[90%] sm:w-[75%] lg:w-[70%]">
+                <div className="flex w-[90%] md:w-full flex-col gap-4 lg:gap-8 items-center text-center mt-12">
+                  <NeoTypography size="caption" variant="semi-bold" sizeResponsiveLG="body-2">
                     Silahkan melakukan tahapan berikutnya dengan mengunduh bukti kelulusan di bawah
                     ini
-                  </p>
+                  </NeoTypography>
+
                   <PDFDownloadLink
                     document={<KartuKelulusan />}
                     fileName="4103700434832748_Kartu Kelulusan.pdf"
                   >
                     {({ loading }) =>
                       loading ? (
-                        <p className="text-primary-green">hampir selesai...</p>
+                        <NeoTypography color="text-green-500">hampir selesai...</NeoTypography>
                       ) : (
                         <Button variant="filled" width="w-full" height="md:h-8 lg:h-6">
                           <div className="flex justify-center items-center gap-2">
@@ -253,33 +279,38 @@ export const ModalAndButtons: FC = (): ReactElement => {
                 </div>
               </Fragment>
             )}
-
             {/* Ketika tidak lulus */}
-            {data?.registration_status === "Tidak Lulus" && (
-              <section className="flex flex-col w-full gap-12 md:gap-6 items-center text-center  mt-2">
-                <p className="text-sm w-full sm:w-[70%] md:w-full lg:w-[80%] font-medium text-grayscale-9 pt-6">
+            {data?.registrationStatus === "Tidak Lulus" && (
+              <section className="flex flex-col w-full gap-12 md:gap-6 items-center text-center mt-2 pb-6">
+                <NeoTypography size="body-2" variant="medium" color="text-grey-950">
                   Anda dinyatakan <span className="text-red-6 font-semibold">tidak lulus</span>{" "}
                   seleksi penerimaan mahasiswa baru Universitas Islam Nusantara
-                </p>
-                <div className="flex flex-col rounded-md p-6 gap-4 shadow-md sm:w-[90%] md:w-full lg:w-[90%] ">
-                  <h1 className="text-lg lg:text-base text-secondary-green-4 font-black">
+                </NeoTypography>
+
+                <div className="flex flex-col rounded-md p-6 gap-4 shadow-md sm:w-[90%] md:w-full lg:w-[90%]">
+                  <NeoTypography size="body-1" variant="bold" color="text-green-500">
                     JANGAN PUTUS ASA DAN TETAP SEMANGAT!
-                  </h1>
-                  <h2 className="text-xs font-semibold">
+                  </NeoTypography>
+
+                  <NeoTypography size="body-2" variant="semi-bold">
                     Masih ada kesempatan untuk mendaftar melalui jalur beasiswa unggul dan jalur
                     reguler gelombang 3
-                  </h2>
+                  </NeoTypography>
                 </div>
               </section>
             )}
-
             {/* Ketika sedang dalam proses selesi */}
-            {!data?.registration_status && (
+            {!data?.registrationStatus && (
               <section className="flex flex-col w-full items-center text-center">
-                <p className="text-xl md:text-3xl w-full text-secondary-green-1 font-medium">
+                <NeoTypography
+                  size="subtitle-2"
+                  variant="medium"
+                  color="text-green-400"
+                  sizeResponsiveMD="title-5"
+                >
                   Sedang dalam proses{" "}
                   <span className="text-primary-yellow font-semibold">seleksi</span>{" "}
-                </p>
+                </NeoTypography>
               </section>
             )}
           </section>
@@ -312,13 +343,18 @@ export const ModalAndButtons: FC = (): ReactElement => {
         animate={{
           x: isVisible ? [0, 500] : [500, 0],
         }}
-        className={`fixed flex flex-col gap-1 items-center justify-center transition-transform bottom-6 right-6 xl:right-8 z-50 group bg-primary-green rounded-full h-16 w-16 md:h-20 md:w-20 active:bg-secondary-green-1`}
+        className={`fixed flex flex-col items-center justify-center transition-transform bottom-6 right-6 xl:right-8 z-50 group bg-primary-green rounded-full h-16 w-16 md:h-20 md:w-20 active:bg-secondary-green-1`}
         onClick={() => setIsModal(true)}
       >
         <AiOutlineCarryOut className="text-primary-white text-2xl md:text-4xl" />
-        <span className="text-[8px] md:text-[10px] font-semibold text-primary-white leading-none md:mb-1">
+        <NeoTypography
+          size="caption"
+          variant="semi-bold"
+          textPosisition="center"
+          color="text-white"
+        >
           Cek <br /> Kelulusan
-        </span>
+        </NeoTypography>
       </motion.button>
 
       {/* PopUp CallCenter */}
@@ -329,15 +365,17 @@ export const ModalAndButtons: FC = (): ReactElement => {
         header={
           <div className="flex w-full h-full justify-start gap-4 text-primary-white items-center px-5">
             <FaCircleUser className="h-6 w-6" />
-            <p className="font-semibold text-xs sm:text-sm md:text-lg">Call Center PMB UNINUS</p>
+            <NeoTypography size="body-2" variant="semi-bold" sizeResponsiveLG="body-1">
+              Call Center PMB UNINUS
+            </NeoTypography>
           </div>
         }
       >
         <div className="border-2 border-primary-green rounded-lg w-[60vw] sm:w-[18em] lg:w-[19em] h-[4.5em] flex justify-center items-center p-4">
-          <p className="text-[9px] sm:text-[10px] md:text-xs text-secondary-green-1 ">
+          <NeoTypography size="caption" sizeResponsiveMD="body-2" color="text-green-400">
             {`"`}Ingin informasi cepat tentang pendaftaran, program studi, atau fasilitas kampus?
             Call center kami, siap membantumu!{`"`}
-          </p>
+          </NeoTypography>
         </div>
         <Button size="sm" height="h-5" styling="text-xs" onClick={callCenter}>
           Hubungi Kami

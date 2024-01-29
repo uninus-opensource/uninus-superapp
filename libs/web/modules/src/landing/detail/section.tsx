@@ -1,6 +1,7 @@
 import { Button } from "@uninus/web/components";
 import { FC, ReactElement } from "react";
 import Image from "next/image";
+import { NeoTypography } from "@uninus/ui-atoms";
 
 export const DetailSection: FC = (): ReactElement => {
   const detailUninus = () => {
@@ -23,20 +24,26 @@ export const DetailSection: FC = (): ReactElement => {
       </section>
       {/* sesi text */}
       <section className="flex flex-col lg:w-2/4 w-full px-12 gap-4 xl:gap-8">
-        <h1 className="uppercase text-primary-green text-left text-2xl lg:text-4xl font-bold ">
-          tentang <span className="text-secondary-green-4">uninus</span>
-        </h1>
+        <NeoTypography
+          size="subtitle-1"
+          variant="bold"
+          color="text-green-500"
+          sizeResponsiveLG="title-5"
+          textType="uppercase"
+        >
+          tentang <span className="text-green-pea-500">uninus</span>
+        </NeoTypography>
         <div className="flex flex-col gap-4 font-medium">
-          <p className="text-justify">
+          <NeoTypography textPosisition="justify">
             Universitas Islam Nusantara adalah Perguruan tinggi Islam Ahlussunnah Wal Jama`ah
             An-Nahdliyah di Kota Bandung. Universitas ini memiliki fasilitas pendidikan yang modern
             dan menawarkan berbagai program studi di bidang ilmu sosial, teknologi, bisnis, dan
             keislaman.
-          </p>
-          <p className="text-justify">
+          </NeoTypography>
+          <NeoTypography textPosisition="justify">
             Universitas Islam Nusantara juga memiliki komunitas mahasiswa yang aktif dan beragam,
             yang membantu membentuk lingkungan belajar yang berkualitas dan inklusif.
-          </p>
+          </NeoTypography>
         </div>
         <div>
           <Button

@@ -71,7 +71,7 @@ export const Modal: FC<ModalProps> = ({
     createPortal(
       <div className={modalPositions}>
         <div data-testid="modal-landing" className={modalWidth}>
-          <div className="relative bg-white rounded-lg shadow w-full">
+          <div className="relative rounded-lg shadow w-full">
             <div className={modalHeaderColors}>
               <div className={titleColors}>{modalTitle}</div>
               {iconClose ? (

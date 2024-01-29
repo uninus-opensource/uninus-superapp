@@ -87,13 +87,13 @@ export const LoginUserModule: FC = (): ReactElement => {
           />
         )}
         <div className="flex flex-col 2xl:gap-y-2 ">
-          <NeoTypography size="body-1" variant="bold">
+          <NeoTypography size="title-5" variant="bold">
             Login
           </NeoTypography>
 
-          <p className="text-grayscale-5 w-full text-xs lg:w-[35vw] 2xl:text-md lg:mb-1 text-center lg:text-left">
-            Selamat Datang Calon Nusantara Muda
-          </p>
+          <NeoTypography size="body-1" variant="reguler" color="text-grayscale-5">
+            Selamat datang ! Silahkan masukkan akun anda
+          </NeoTypography>
         </div>
 
         <div className="flex flex-col w-full justify-center items-center mt-6 md:mt-0">

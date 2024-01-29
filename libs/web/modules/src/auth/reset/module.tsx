@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TVSReset, VSReset } from "./schema";
 import { useUserEmail } from "@uninus/web/services";
+import { NeoTypography } from "@uninus/ui-atoms";
 
 export const ResetModule: FC = (): ReactElement => {
   const { getEmail } = useUserEmail();
@@ -47,10 +48,14 @@ export const ResetModule: FC = (): ReactElement => {
       onSubmit={onSubmit}
     >
       <div className="w-full flex flex-col gap-y-6 ">
-        <h1 className="text-2xl font-bold text-primary-black font-bebasNeue w-50%">
+        <NeoTypography size="title-1" variant="bold">
           LUPA PASSWORD ?
-        </h1>
-        <p className="text-grayscale-5 text-sm">Silahkan mengatur ulang password akun anda</p>
+        </NeoTypography>
+
+        <NeoTypography size="body-2" variant="reguler" color="text-grayscale-5">
+          Silahkan mengatur ulang password akun anda
+        </NeoTypography>
+
         <div className="flex flex-col">
           <TextField
             name="email"
