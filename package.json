@@ -144,7 +144,7 @@
     "react-alice-carousel": "^2.8.0",
     "react-chartjs-2": "^5.2.0",
     "react-data-table-component": "^7.5.4",
-    "react-datepicker": "^4.24.0",
+    "react-datepicker": "^5.0.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.47.0",
