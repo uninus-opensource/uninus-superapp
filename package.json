@@ -226,7 +226,7 @@
     "babel-jest": "^29.6.4",
     "babel-preset": "^1.1.7",
     "crypto": "^1.0.1",
-    "css-loader": "^6.8.1",
+    "css-loader": "^6.9.1",
     "cypress": "^13.6.0",
     "detox": "^20.13.1",
     "dlx": "^0.2.1",
