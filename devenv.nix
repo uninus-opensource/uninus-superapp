@@ -13,9 +13,9 @@
       [Info]===============================================================>
 
       Command available:
-        - pmb-user-dev:     start pmb user project
-        - pmb-user-build:   build pmb user project
-        - helpme:           show this messages
+        - pmbuserdev:     start pmb user project
+        - pmbuserbuild:   build pmb user project
+        - helpme:         show this messages
 
       Repository:
         - https://github.com/maulanasdqn/ipos

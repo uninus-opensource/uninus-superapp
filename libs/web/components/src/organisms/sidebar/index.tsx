@@ -50,7 +50,7 @@ export const SideBar: FC<TSideBarProps> = ({
   }, [getUser]);
 
   const userStatus = useMemo(() => {
-    const userStatus = getUser?.registration_status;
+    const userStatus = getUser?.registrationStatus;
     return userStatus;
   }, [getUser]);
 
@@ -74,7 +74,7 @@ export const SideBar: FC<TSideBarProps> = ({
 
   useEffect(() => {
     setUser(data);
-  }, [data]);
+  }, [data, setUser]);
 
   useEffect(() => {
     setAvatar(userAvatar);
@@ -400,7 +400,7 @@ export const SideBar: FC<TSideBarProps> = ({
                         </Link>
                       </li>
                     ))}
-                  {/* 
+                  {/*
                   {process.env.NEXT_PUBLIC_WORKSPACE === "admin" &&
                     sideList?.map((sideList, idx) => (
                       <li key={idx} className="flex flex-col gap-y-6">

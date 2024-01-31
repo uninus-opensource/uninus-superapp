@@ -48,20 +48,20 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
 
   useEffect(() => {
     const pmbPayment = getStudent?.payment?.find((payment) => payment.name === "PMB");
-    if (getUser?.registration_status === "Belum Membayar" && pmbPayment?.order_id) {
+    if (getUser?.registrationStatus === "Belum Membayar" && pmbPayment?.orderId) {
       statusPayment({
-        order_id: pmbPayment?.order_id as string,
+        orderId: pmbPayment?.orderId as string,
       });
     }
-  }, [getStudent?.payment]);
+  }, [getStudent?.payment, getUser?.registrationStatus, statusPayment]);
 
   useEffect(() => {
     if (
-      (getStudent?.nik && getStudent?.education_type_id && getStudent?.father_name) ||
+      (getStudent?.nik && getStudent?.educationTypeId && getStudent?.fatherName) ||
       (getStudent?.nik &&
-        getStudent?.education_type_id &&
-        getStudent?.average_utbk &&
-        getStudent?.father_name)
+        getStudent?.educationTypeId &&
+        getStudent?.utbkAverage &&
+        getStudent?.fatherName)
     ) {
       setBiodataStatus(true);
     }
@@ -69,8 +69,8 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
     refetch().then((newData) => {
       setStudent(newData?.data);
     });
-    setFormStatus(getStudent?.degree_program_id);
-  }, [getStudent, getDashboardControlState]);
+    setFormStatus(getStudent?.degreeProgramId);
+  }, [getStudent, getDashboardControlState, refetch, setStudent]);
 
   const sideLists = [
     { label: "Beranda", link: "/dashboard", icon: <HomeOutlined />, disabledStatus: false },

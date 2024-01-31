@@ -1,5 +1,14 @@
 "use client";
-import { FC, ReactElement, useState, useEffect, SetStateAction, useMemo, Fragment } from "react";
+import {
+  FC,
+  ReactElement,
+  useState,
+  useEffect,
+  SetStateAction,
+  useMemo,
+  Fragment,
+  useCallback,
+} from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { TDataAkun } from "./types";
 import {
@@ -70,17 +79,17 @@ const Table: FC = (): ReactElement => {
     mode: "all",
   });
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsShowModal(!isShowModal);
-  };
+  }, [isShowModal]);
 
   const handleModalAdd = () => {
     setModalAdd(!ModalAdd);
   };
 
-  const handleDeleteModal = () => {
+  const handleDeleteModal = useCallback(() => {
     setIsDeleteModalShow(!isDeleteModalShow);
-  };
+  }, [isDeleteModalShow]);
   const handleDeleteAkun = (): void => {
     deleteUser(currentId, {
       onSuccess: () => {
@@ -143,8 +152,8 @@ const Table: FC = (): ReactElement => {
           fullname: data?.fullname,
           email: data?.email,
           password: data?.password,
-          role_id: data?.role.id,
-          phone_number: data?.phone_number,
+          roleId: data?.role.id,
+          phoneNumber: data?.phone_number,
         },
         {
           onSuccess: () => {
@@ -179,7 +188,7 @@ const Table: FC = (): ReactElement => {
     () => [
       {
         name: <div className="pl-4">No</div>,
-        cell: (row, rowIndex) => <div className="pl-5">{rowIndex + 1}</div>,
+        cell: (_row, rowIndex) => <div className="pl-5">{rowIndex + 1}</div>,
         width: "80px",
       },
       {
@@ -235,7 +244,7 @@ const Table: FC = (): ReactElement => {
         ),
       },
     ],
-    [updateReset],
+    [handleCloseModal, handleDeleteModal, updateReset],
   );
 
   const customStyles = {

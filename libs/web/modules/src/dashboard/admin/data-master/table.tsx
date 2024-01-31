@@ -591,7 +591,20 @@ const Table: FC = (): ReactElement => {
         ),
       },
     ],
-    [addReset, faculty, prodi, seleksi, education, beasiswa, deleteReset, handleOpenModalDetail],
+    [
+      faculty,
+      prodi,
+      seleksi,
+      education,
+      beasiswa,
+      handleOpenModalAdd,
+      addReset,
+      handleOpenModalDetail,
+      handleOpenModal,
+      updateReset,
+      handleDeleteModal,
+      deleteReset,
+    ],
   );
 
   const customStyles = {
@@ -633,7 +646,7 @@ const Table: FC = (): ReactElement => {
       setPending(false);
     }, 1500);
     return () => clearTimeout(timeout);
-  }, [tableMaster]);
+  }, [columns, tableMaster]);
 
   const filteredDataMaster = dataMaster.filter((item) => {
     const nameMatches = item.name.toLowerCase().includes(searchQuery.toLowerCase());
