@@ -8,9 +8,9 @@ export const inputClassName = ({
   append,
 }: Pick<TCommonForm, "size" | "status" | "append" | "preppend">): string =>
   clsx(
-    "rounded-lg border-none outline-none w-full focus:outline-none focus:ring-0 ring-0",
-    "disabled:bg-gray-100 disabled:placeholder:text-gray-300 disabled:border-gray-200",
-    "disable:cursor-not-allowed disable:opacity-50 disable:select-none disabled:text-gray-300",
+    "rounded-lg border outline-none w-full focus:outline-none focus:ring-0 ring-0",
+    "disabled:bg-gray-100 disabled:placeholder:text-grey-300 disabled:border-gray-200",
+    "disable:cursor-not-allowed disabled:bg-grey-100  disabled:select-none disabled:text-gray-300",
     {
       "text-sm placeholder:text-xs pl-2 pr-3 py-2": size === "sm" && !preppend && !append,
       "text-sm placeholder:text-xs pl-8 pr-3 py-2": size === "sm" && preppend && !append,
@@ -27,11 +27,12 @@ export const inputClassName = ({
       "text-lg placeholder:text-base pl-4 pr-5 py-4": size === "lg" && !preppend && !append,
     },
     {
-      "bg-grayscale-2 placeholder:text-grayscale-3 focus:ring-0 focus:border-grayscale-2 ":
+      "bg-white placeholder:text-grey-300 placeholder:text-[16px] focus:ring-0 focus:border-grey-400 border-grey-300 ":
         status === "none" || !status,
-      "border-green-300 placeholder:text-green-300 text-green-400 bg-green-50":
+      "border-green-400 placeholder:text-green-300 text-green-400 bg-green-50":
         status === "success",
-      "placeholder:text-red-4 text-red-4 bg-red-1 focus:border-red-4": status === "error",
+      "placeholder:text-red-400 text-red-400 bg-red-100 border-red-400 focus:border-red-400":
+        status === "error",
       "border-yellow-400 placeholder:text-yellow-400 text-yellow-400 bg-yellow-50":
         status === "warning",
     },

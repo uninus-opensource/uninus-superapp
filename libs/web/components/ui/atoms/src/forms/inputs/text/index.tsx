@@ -2,7 +2,7 @@ import { forwardRef, ReactElement } from "react";
 import { inputClassName } from "../class-name";
 import { TInputText } from "./type";
 
-export const NeoInputText = forwardRef<HTMLInputElement, TInputText>(
+export const InputText = forwardRef<HTMLInputElement, TInputText>(
   ({ size, ...props }, ref): ReactElement => {
     return (
       <input
@@ -16,4 +16,4 @@ export const NeoInputText = forwardRef<HTMLInputElement, TInputText>(
   },
 );
 
-NeoInputText.displayName = "NeoInputText";
+InputText.displayName = "InputText";

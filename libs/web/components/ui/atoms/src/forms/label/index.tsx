@@ -2,7 +2,7 @@ import { FC, ReactElement } from "react";
 import { TLabel } from "./type";
 import clsx from "clsx";
 
-export const NeoLabel: FC<TLabel> = (props): ReactElement => {
+export const Label: FC<TLabel> = (props): ReactElement => {
   const className = clsx(
     "flex gap-x-1 text-grey-500 select-none font-medium",
     {
@@ -11,7 +11,7 @@ export const NeoLabel: FC<TLabel> = (props): ReactElement => {
       "text-lg": props.size === "lg",
     },
     {
-      "text-gray-400 cursor-not-allowed opacity-50": props.disabled,
+      "text-grey-400 cursor-not-allowed opacity-50": props.disabled,
     },
     props.className,
   );

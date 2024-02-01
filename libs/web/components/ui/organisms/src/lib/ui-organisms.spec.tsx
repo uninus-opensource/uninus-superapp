@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 
-import UiOraganisms from "./ui-oraganisms";
+import UiOrganisms from "./ui-organisms";
 
-describe("UiOraganisms", () => {
+describe("UiOrganisms", () => {
   it("should render successfully", () => {
-    const { baseElement } = render(<UiOraganisms />);
+    const { baseElement } = render(<UiOrganisms />);
     expect(baseElement).toBeTruthy();
   });
 });
