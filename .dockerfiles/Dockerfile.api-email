@@ -2,7 +2,10 @@ FROM node:18.17.1-alpine3.17 AS Builder
 WORKDIR /app
 COPY . .
 RUN rm -f yarn.lock
+RUN apk --no-cache add python3 make g++
 RUN yarn install --frozen-lockfile --ignore-scripts
+RUN npm -g install node-pre-gyp --unsafe-perm
+RUN node-pre-gyp rebuild -C ./node_modules/argon2
 RUN yarn nx build api-email
 FROM node:18.17.1-alpine3.17 AS Service
 WORKDIR /app/
