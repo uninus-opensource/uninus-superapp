@@ -7,13 +7,13 @@ export const NeoButton: FC<TButton> = (props): ReactElement => {
   const { isLoading = false, variant = "primary", size = "md" } = props;
 
   const className = clsx(
-    "rounded-lg border hover:opacity-80",
-    "disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-white active:opacity-100",
+    "rounded-lg border hover:opacity-80 w-full",
+    "disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-grey-400 disabled:text-white active:opacity-100",
     {
-      "bg-green-500 text-white": variant === "primary",
+      "bg-green-400 text-white": variant === "primary",
       "bg-white text-blue-500 border-blue-500": variant === "secondary",
       "bg-red-500 text-white": variant === "error",
-      "bg-white text-gray-600 border-gray-600": variant === "cancel",
+      "bg-white text-grey-600 border-grey-600": variant === "cancel",
       "bg-yellow-500 text-white": variant === "warning",
       "bg-green-500 text-white": variant === "success",
     },

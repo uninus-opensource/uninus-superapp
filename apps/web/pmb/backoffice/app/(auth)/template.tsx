@@ -15,7 +15,9 @@ const LoginTemplate: FC<PropsWithChildren> = ({ children }): ReactElement => {
             height={490}
           />
         </div>
-        <div className="flex p-8 w-full bg-white md:w-1/2">{children}</div>
+        <div className="flex p-8 w-full bg-white rounded-tr-xl rounded-br-xl items-center justify-center md:w-1/2">
+          {children}
+        </div>
       </section>
     </main>
   );

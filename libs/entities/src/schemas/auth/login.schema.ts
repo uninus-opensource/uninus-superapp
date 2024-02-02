@@ -2,14 +2,14 @@ import { z } from "zod";
 
 export const VSLogin = z.object({
   email: z
-    .string()
+    .string({ required_error: "Email tidak boleh kosong" })
     .email({
       message: "Email tidak valid",
     })
     .min(1, {
       message: "Email tidak boleh kosong",
     }),
-  password: z.string().min(1, {
+  password: z.string({ required_error: "Password tidak boleh kosong" }).min(1, {
     message: "Password tidak boleh kosong",
   }),
 });

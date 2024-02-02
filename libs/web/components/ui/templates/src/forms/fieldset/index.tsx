@@ -46,7 +46,7 @@ export const Fieldset: FC<TFieldSet> = (props): ReactElement => {
     ))
 
     .otherwise(() => (
-      <section className="relative flex flex-col gap-y-2">
+      <section className="relative flex flex-col gap-y-1">
         {props?.label && (
           <Label
             htmlFor={props.name}

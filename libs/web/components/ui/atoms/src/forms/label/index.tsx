@@ -6,9 +6,9 @@ export const Label: FC<TLabel> = (props): ReactElement => {
   const className = clsx(
     "flex gap-x-1 text-grey-500 select-none font-medium",
     {
-      "text-sm": props.size === "sm",
+      "text-sm": props.size === "sm" || !props.size,
       "text-base": props.size === "md",
-      "text-lg": props.size === "lg",
+      "text-md": props.size === "lg",
     },
     {
       "text-grey-400 cursor-not-allowed opacity-50": props.disabled,

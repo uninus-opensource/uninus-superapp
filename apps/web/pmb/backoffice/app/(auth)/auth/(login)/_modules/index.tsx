@@ -5,6 +5,7 @@ import { ControlledFieldCheckbox, ControlledFieldText } from "@uninus/ui-organis
 import { FC, ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
 export const LoginModule: FC = (): ReactElement => {
   const {
@@ -15,17 +16,17 @@ export const LoginModule: FC = (): ReactElement => {
     mode: "all",
   });
   return (
-    <div className="flex flex-col h-full justify-start gap-y-6">
+    <form className="flex flex-col h-full justify-center gap-y-4">
       <div className="flex flex-col">
         <NeoTypography color="text-grey-800" variant="bold" size="title-5">
           Masuk
         </NeoTypography>
-        <NeoTypography color="text-grey-400" variant="medium" size="body-1">
+        <NeoTypography color="text-grey-400" variant="reguler" size="body-1">
           Selamat datang, Silahkan masuk dengan kredensial yang sudah terdaftar
         </NeoTypography>
       </div>
 
-      <div className="flex flex-col gap-y-2">
+      <div className="flex flex-col gap-y-1">
         <ControlledFieldText
           label="Email"
           placeholder="Masukkan Email"
@@ -35,6 +36,7 @@ export const LoginModule: FC = (): ReactElement => {
           status={errors.email?.message ? "error" : "none"}
         />
         <ControlledFieldText
+          type="password"
           label="Password"
           placeholder="Masukkan Password"
           control={control}
@@ -46,14 +48,21 @@ export const LoginModule: FC = (): ReactElement => {
 
       <div className="flex justify-between items-center w-full">
         <ControlledFieldCheckbox size="sm" name="remember" control={control} text="Ingat Saya" />
-        <NeoTypography color="text-grey-500" size="body-2">
+        <Link href="/auth/forgot-password" className="text-green-500 text-sm">
           Lupa Password?
-        </NeoTypography>
+        </Link>
       </div>
 
       <NeoButton disabled={!isValid} variant="primary">
         Masuk Sekarang
       </NeoButton>
-    </div>
+
+      <NeoTypography color="text-grey-500" size="body-2">
+        Belum punya akun?{"  "}
+        <Link href="/auth/register" className="text-green-500">
+          Daftar Sekarang
+        </Link>
+      </NeoTypography>
+    </form>
   );
 };
