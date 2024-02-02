@@ -1,7 +1,6 @@
 FROM oven/bun AS Builder
 WORKDIR /app
 COPY . .
-RUN apk --no-cache add python3 make g++
 RUN bun install --frozen-lockfile --ignore-scripts
 RUN bun install -g node-pre-gyp --unsafe-perm
 RUN node-pre-gyp rebuild -C ./node_modules/argon2
