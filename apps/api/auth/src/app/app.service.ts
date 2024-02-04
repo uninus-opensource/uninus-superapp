@@ -34,6 +34,7 @@ import { RpcException } from "@nestjs/microservices";
 import * as schema from "@uninus/api/models";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { and, desc, eq, ilike, lte } from "drizzle-orm";
+
 @Injectable()
 export class AppService {
   constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
@@ -228,7 +229,7 @@ export class AppService {
   async login(payload: TLoginRequest): Promise<TLoginResponse> {
     try {
       const user = await this.drizzle
-        .selectDistinct({
+        .select({
           id: schema.users.id,
           email: schema.users.email,
           fullname: schema.users.fullname,
@@ -285,8 +286,7 @@ export class AppService {
           email: user.email,
           fullname: user.fullname,
           avatar: user.avatar,
-          isVerified: user.isVerified,
-          role: user.role.name,
+          role: user.role,
         },
       };
     } catch (error) {
