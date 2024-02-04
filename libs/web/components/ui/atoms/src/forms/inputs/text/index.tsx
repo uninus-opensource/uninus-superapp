@@ -1,5 +1,5 @@
 import { forwardRef, ReactElement } from "react";
-import { inputClassName } from "../class-name";
+import { inputClassName } from "@uninus/web/utilities";
 import { TInputText } from "./type";
 
 export const InputText = forwardRef<HTMLInputElement, TInputText>(

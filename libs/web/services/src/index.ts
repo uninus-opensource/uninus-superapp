@@ -14,3 +14,4 @@ export * from "./selection-path";
 export * from "./scholarship";
 export * from "./department";
 export * from "./degree-program";
+export * from "./auth";

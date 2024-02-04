@@ -6,17 +6,25 @@ import { FC, ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { AuthLogin } from "../_actions";
 
 export const LoginModule: FC = (): ReactElement => {
   const {
     control,
+    handleSubmit,
     formState: { errors, isValid },
   } = useForm<TVSLogin & { remember?: boolean }>({
     resolver: zodResolver(VSLogin),
     mode: "all",
   });
+
+  const onSubmit = handleSubmit(async (data) => {
+    const res = await AuthLogin(data);
+    console.log(res);
+  });
+
   return (
-    <form className="flex flex-col h-full justify-center gap-y-4">
+    <form onSubmit={onSubmit} className="flex flex-col h-full justify-center gap-y-3 w-full">
       <div className="flex flex-col">
         <NeoTypography color="text-grey-800" variant="bold" size="title-5">
           Masuk
@@ -48,7 +56,7 @@ export const LoginModule: FC = (): ReactElement => {
 
       <div className="flex justify-between items-center w-full">
         <ControlledFieldCheckbox size="sm" name="remember" control={control} text="Ingat Saya" />
-        <Link href="/auth/forgot-password" className="text-green-500 text-sm">
+        <Link href="/auth/forgot-password" className="text-green-500 text-sm w-full text-end">
           Lupa Password?
         </Link>
       </div>

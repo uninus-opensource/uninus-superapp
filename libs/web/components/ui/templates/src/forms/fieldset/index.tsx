@@ -68,7 +68,7 @@ export const Fieldset: FC<TFieldSet> = (props): ReactElement => {
     ));
 
   return (
-    <fieldset className="flex flex-col gap-y-2">
+    <fieldset className="flex flex-col gap-y-2 w-full">
       {inputType}
       <div className="flex flex-col">
         {props.message && status !== "none" && <Message {...props}>{props.message}</Message>}
