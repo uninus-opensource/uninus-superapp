@@ -322,24 +322,27 @@ export class AppService {
           avatar: schema.users.avatar,
           isNotificationRead: schema.users.isNotificationRead,
           registrationStatus: schema.registrationStatus.name,
+          role: {
+            name: schema.roles.name,
+            permissions: schema.roles.permissions,
+          },
         })
         .from(schema.users)
+        .leftJoin(schema.roles, eq(schema.roles.id, schema.users.roleId))
         .leftJoin(schema.students, eq(schema.students.userId, schema.users.id))
         .leftJoin(schema.admission, eq(schema.admission.studentId, schema.students.id))
         .leftJoin(
           schema.registrationStatus,
           eq(schema.registrationStatus.id, schema.admission.registrationStatusId),
         )
-        .where(eq(schema.users.id, id));
+        .where(eq(schema.users.id, id))
+        .then((res) => res.at(0));
 
       if (!user) {
         throw new NotFoundException("User tidak ditemukan");
       }
-      const { registrationStatus, ...rest } = user[0];
-      return {
-        registration_status: registrationStatus,
-        ...rest,
-      };
+
+      return user;
     } catch (error) {
       throw new RpcException(errorMappings(error));
     }

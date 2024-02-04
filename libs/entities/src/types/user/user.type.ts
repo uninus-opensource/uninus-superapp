@@ -12,9 +12,12 @@ export type TIdUser = {
 
 export type TProfileResponse = Pick<
   InferSelectModel<typeof users>,
-  "id" | "email" | "fullname" | "avatar" | "isVerified"
+  "id" | "email" | "fullname" | "avatar"
 > & {
-  role: string;
+  role: {
+    name: string;
+    permissions: string[];
+  };
 };
 
 export type TUser = TProfileResponse & {
