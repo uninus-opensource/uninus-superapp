@@ -1,6 +1,6 @@
 "use client";
 import { TVSRegister, VSRegister } from "@uninus/entities";
-import { NeoButton, NeoTypography } from "@uninus/ui-atoms";
+import { Button, NeoTypography } from "@uninus/ui-atoms";
 import { ControlledFieldCheckbox, ControlledFieldText } from "@uninus/ui-organisms";
 import { FC, ReactElement } from "react";
 import { useForm } from "react-hook-form";
@@ -85,9 +85,9 @@ export const RegisterModule: FC = (): ReactElement => {
         text="Setujui Syarat & Ketentuan"
       />
 
-      <NeoButton type="submit" disabled={!isValid} variant="primary">
+      <Button size="md" type="submit" disabled={!isValid} variant="primary">
         Daftar Sekarang
-      </NeoButton>
+      </Button>
 
       <NeoTypography color="text-grey-500" size="body-2">
         Sudah punya akun?{"  "}
