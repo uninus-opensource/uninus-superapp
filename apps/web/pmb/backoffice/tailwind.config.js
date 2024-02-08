@@ -1,6 +1,6 @@
 const { createGlobPatternsForDependencies } = require("@nx/react/tailwind");
 const { join } = require("path");
-const { colors } = require("./design-token");
+const { colors } = require("@uninus/web/utilities");
 
 module.exports = {
   content: [
