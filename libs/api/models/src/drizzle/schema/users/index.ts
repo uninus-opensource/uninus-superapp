@@ -15,7 +15,7 @@ export const users = pgTable("app_users", {
     .references(() => roles.id)
     .notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
 
 export const usersRelations = relations(users, ({ one, many }) => ({
