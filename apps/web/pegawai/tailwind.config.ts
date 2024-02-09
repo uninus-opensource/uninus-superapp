@@ -1,8 +1,9 @@
-const { createGlobPatternsForDependencies } = require("@nx/react/tailwind");
-const { join } = require("path");
-const { colors } = require("@uninus/web/utilities");
+import { createGlobPatternsForDependencies } from "@nx/react/tailwind";
+import { join } from "path";
+import { colors } from "./design-token";
+import type { Config } from "tailwindcss";
 
-module.exports = {
+const config: Config = {
   content: [
     join(__dirname, "{src,pages,components,app}/**/*!(*.stories|*.spec).{ts,tsx,html}"),
     ...createGlobPatternsForDependencies(__dirname),
@@ -12,3 +13,5 @@ module.exports = {
   },
   plugins: [require("@tailwindcss/forms")],
 };
+
+export default config;
