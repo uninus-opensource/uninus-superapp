@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
 import {
   TReqToken,
   VSRegister,
@@ -15,8 +15,9 @@ import {
   TResendOtpRequest,
   TForgotPasswordRequest,
   TResetPasswordRequest,
+  TGoogleAuth,
 } from "@uninus/entities";
-import { RtGuard } from "@uninus/api/guard";
+import { GoogleGuard, RtGuard } from "@uninus/api/guard";
 import { ZodValidationPipe } from "@uninus/api/pipes";
 import { AuthService } from "@uninus/api/services";
 import {
@@ -103,5 +104,12 @@ export class AuthController {
     payload: TResetPasswordRequest,
   ) {
     return this.appService.resetPassword(payload);
+  }
+
+  @ApiOperation({ summary: "OAuth Google" })
+  @UseGuards(GoogleGuard)
+  @Get("/google")
+  async googleAuth(@Request() request: TReqToken) {
+    return this.appService.googleAuth(request.user as TGoogleAuth);
   }
 }

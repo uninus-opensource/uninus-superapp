@@ -17,6 +17,7 @@ import {
   TLogoutRequest,
   TLogoutResponse,
   TLoginRequest,
+  TGoogleAuth,
 } from "@uninus/entities";
 import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { catchError, firstValueFrom, throwError } from "rxjs";
@@ -151,6 +152,15 @@ export class AuthService {
     const response = await firstValueFrom(
       this.client
         .send("reset_password", payload)
+        .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
+    );
+    return response;
+  }
+
+  async googleAuth(payload: TGoogleAuth) {
+    const response = await firstValueFrom(
+      this.client
+        .send("google_auth", payload)
         .pipe(catchError((error) => throwError(() => new RpcException(error.response)))),
     );
     return response;
