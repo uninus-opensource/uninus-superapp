@@ -2,7 +2,6 @@ import { Controller } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { MessagePattern } from "@nestjs/microservices";
 import {
-  TGoogleAuth,
   TLoginRequest,
   TLogoutRequest,
   TRegisterRequest,
@@ -14,11 +13,6 @@ import {
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-  @MessagePattern("google_auth")
-  async googleAuth(payload: TGoogleAuth) {
-    return await this.appService.googleAuth(payload);
-  }
-
   @MessagePattern("login")
   async login(payload: TLoginRequest) {
     return await this.appService.login(payload);

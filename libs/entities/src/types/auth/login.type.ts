@@ -10,9 +10,3 @@ export type TLoginResponse = {
 };
 
 export type TLoginRequest = TVSLogin;
-
-export type TGoogleAuth = {
-  email: string;
-  fullname?: string;
-  avatar: string;
-};

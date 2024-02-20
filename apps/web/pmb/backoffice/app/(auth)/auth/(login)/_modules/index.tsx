@@ -1,6 +1,6 @@
 "use client";
 import { TVSLogin, VSLogin } from "@uninus/entities";
-import { Button, NeoTypography } from "@uninus/ui-atoms";
+import { NeoButton, NeoTypography } from "@uninus/ui-atoms";
 import { ControlledFieldCheckbox, ControlledFieldText } from "@uninus/ui-organisms";
 import { FC, ReactElement } from "react";
 import { useForm } from "react-hook-form";
@@ -56,18 +56,18 @@ export const LoginModule: FC = (): ReactElement => {
 
       <div className="flex justify-between items-center w-full">
         <ControlledFieldCheckbox size="sm" name="remember" control={control} text="Ingat Saya" />
-        <Link href="/auth/forgot-password" className="text-primary text-sm w-full text-end">
+        <Link href="/auth/forgot-password" className="text-green-500 text-sm w-full text-end">
           Lupa Password?
         </Link>
       </div>
 
-      <Button size="md" disabled={!isValid} variant="primary">
+      <NeoButton disabled={!isValid} variant="primary">
         Masuk Sekarang
-      </Button>
+      </NeoButton>
 
       <NeoTypography color="text-grey-500" size="body-2">
         Belum punya akun?{"  "}
-        <Link href="/auth/register" className="text-primary">
+        <Link href="/auth/register" className="text-green-500">
           Daftar Sekarang
         </Link>
       </NeoTypography>

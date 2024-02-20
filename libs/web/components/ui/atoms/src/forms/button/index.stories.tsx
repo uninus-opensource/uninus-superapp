@@ -1,29 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Button } from "./index";
+import { Buttons } from "./index";
 
-const meta: Meta<typeof Button> = {
-  component: Button,
+const meta: Meta<typeof Buttons> = {
+  component: Buttons,
   tags: ["autodocs"],
-  title: "components/ui/atoms/button",
+  title: "Components/Atoms/Forms/Button",
   argTypes: {
     variant: {
-      options: ["primary", "secondary", "error", "warning", "success"],
+      options: ["primary", "secondary", "error", "cancel", "warning", "success"],
       control: { type: "radio" },
     },
     size: {
       options: ["sm", "md", "lg"],
       control: { type: "radio" },
     },
-    variantType: {
-      options: ["solid", "outline"],
-      defaultValue: "solid",
-      control: { type: "radio" },
-    },
-    state: {
-      options: ["default", "loading"],
-      defaultValue: "default",
-      control: { type: "radio" },
+    isLoading: {
+      control: { type: "boolean" },
     },
     disabled: {
       control: { type: "boolean" },
@@ -32,13 +25,13 @@ const meta: Meta<typeof Button> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof Buttons>;
 
 export const Primary: Story = {
   args: {
     variant: "primary",
     size: "sm",
     children: "Button",
-    state: "default",
+    isLoading: false,
   },
 };

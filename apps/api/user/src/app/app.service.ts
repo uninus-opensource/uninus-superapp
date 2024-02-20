@@ -29,7 +29,6 @@ import { desc, eq, ilike, not, or, and, asc } from "drizzle-orm";
 @Injectable()
 export class AppService {
   constructor(@Inject("drizzle") private drizzle: NodePgDatabase<typeof schema>) {}
-
   async getDataUsers({
     filterBy,
     search,

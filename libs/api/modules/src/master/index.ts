@@ -6,7 +6,7 @@ import { GeneralModule } from "../general";
 import { FileModule } from "../file";
 import { EmployeeModule } from "../employee";
 import { FinanceModule } from "../finance";
-import { GoogleStrategy, JwtStrategy, RtStrategy } from "@uninus/api/strategies";
+import { JwtStrategy, RtStrategy } from "@uninus/api/strategies";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 
@@ -28,6 +28,6 @@ import { PassportModule } from "@nestjs/passport";
     FinanceModule,
   ],
   controllers: [],
-  providers: [JwtStrategy, RtStrategy, GoogleStrategy],
+  providers: [JwtStrategy, RtStrategy],
 })
 export class MasterApi {}

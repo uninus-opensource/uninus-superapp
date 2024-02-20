@@ -11,8 +11,6 @@ export type TToken = {
 
 export type TReqToken = {
   user: {
-    fullname?: string;
-    avatar?: string;
     sub: string;
     email: string;
     role: {

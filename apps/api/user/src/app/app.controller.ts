@@ -13,7 +13,6 @@ import {
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
   @MessagePattern("get_user")
   async getDatauser(payload: TIdUser) {
     return await this.appService.getDatauser(payload);

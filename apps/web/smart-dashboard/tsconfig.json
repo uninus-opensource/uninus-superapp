@@ -13,10 +13,10 @@
     "incremental": true,
     "plugins": [
       {
-        "name": "next",
-      },
+        "name": "next"
+      }
     ],
-    "types": ["jest", "node"],
+    "types": ["jest", "node"]
   },
   "include": [
     "**/*.ts",
@@ -25,7 +25,7 @@
     "**/*.jsx",
     "../../../apps/web/smart-dashboard/.next/types/**/*.ts",
     "../../../dist/apps/web/smart-dashboard/.next/types/**/*.ts",
-    "next-env.d.ts",
+    "next-env.d.ts"
   ],
-  "exclude": ["node_modules", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
+  "exclude": ["node_modules", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

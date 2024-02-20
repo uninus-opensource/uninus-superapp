@@ -1,13 +1,11 @@
-import { TSize, TState, TVariant, TVariantType } from "@uninus/entities";
-import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import { DetailedHTMLProps, ButtonHTMLAttributes } from "react";
 
 export type TButton = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 > & {
-  variant?: TVariant;
-  size?: TSize;
-  variantType?: TVariantType;
+  variant?: "success" | "warning" | "error" | "cancel" | "primary" | "secondary";
+  size?: "sm" | "md" | "lg";
+  isLoading?: boolean;
   href?: string;
-  state?: TState;
 };

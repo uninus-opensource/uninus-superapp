@@ -49,8 +49,8 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }): ReactElement => {
       icon: <AiOutlineBook />,
     },
     {
-      name: "Kuisioner",
-      link: "/kuisioner",
+      name: "Kuesioner",
+      link: "/dashboard/kuesioner",
       icon: <AiOutlineForm />,
     },
     {
